@@ -25,6 +25,8 @@ namespace My_Seen
             throw new UnintentionalCodeFirstException();
         }
     
-        public virtual DbSet<UsersSet> Users { get; set; }
+        public virtual DbSet<Users> UsersSet { get; set; }
+        public virtual DbSet<Films> FilmsSet { get; set; }
+        public virtual DbSet<Serials> SerialsSet { get; set; }
     }
 }

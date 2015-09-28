@@ -38,21 +38,19 @@ namespace My_Seen
                 return;
             }
 
-
-
             ModelContainer mc = new ModelContainer();
-            if(mc.Users.Count(u=>u.Name==textBox1.Text)!=0)
+            if(mc.UsersSet.Count(u=>u.Name==textBox1.Text)!=0)
             {
                 MessageBox.Show("User already exists");
                 return;
             }
-            UsersSet us = new UsersSet();
+            Users us = new Users();
             us.Name = textBox1.Text;
             us.Password = DesktopTools.GetMd5Hash(textBox2.Text);
             us.CreationDate = DateTime.Now;
             us.Email = textBox4.Text;
 
-            mc.Users.Add(us);
+            mc.UsersSet.Add(us);
             mc.SaveChanges();
 
             MessageBox.Show("User created");

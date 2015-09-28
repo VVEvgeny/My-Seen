@@ -2,7 +2,7 @@
 -- --------------------------------------------------
 -- Entity Designer DDL Script for SQL Server 2005, 2008, 2012 and Azure
 -- --------------------------------------------------
--- Date Created: 09/28/2015 17:06:57
+-- Date Created: 09/28/2015 17:45:10
 -- Generated from EDMX file: D:\Work_vve\workspace_sharp_git\vvevgeny_myseen\My Seen\My Seen\Model.edmx
 -- --------------------------------------------------
 
@@ -30,8 +30,8 @@ GO
 -- Creating all tables
 -- --------------------------------------------------
 
--- Creating table 'Users'
-CREATE TABLE [dbo].[Users] (
+-- Creating table 'UsersSet'
+CREATE TABLE [dbo].[UsersSet] (
     [Id] int IDENTITY(1,1) NOT NULL,
     [Name] nvarchar(max)  NOT NULL,
     [Password] nvarchar(max)  NOT NULL,
@@ -41,19 +41,82 @@ CREATE TABLE [dbo].[Users] (
 );
 GO
 
+-- Creating table 'FilmsSet'
+CREATE TABLE [dbo].[FilmsSet] (
+    [Id] bigint IDENTITY(1,1) NOT NULL,
+    [UsersId] int  NOT NULL,
+    [Name] nvarchar(max)  NOT NULL,
+    [DateSee] datetime  NOT NULL,
+    [Rate] int  NOT NULL
+);
+GO
+
+-- Creating table 'SerialsSet'
+CREATE TABLE [dbo].[SerialsSet] (
+    [Id] bigint IDENTITY(1,1) NOT NULL,
+    [UsersId] int  NOT NULL,
+    [Name] nvarchar(max)  NOT NULL,
+    [DateBegin] datetime  NOT NULL,
+    [DateLast] datetime  NOT NULL,
+    [Rate] int  NOT NULL
+);
+GO
+
 -- --------------------------------------------------
 -- Creating all PRIMARY KEY constraints
 -- --------------------------------------------------
 
--- Creating primary key on [Id] in table 'Users'
-ALTER TABLE [dbo].[Users]
-ADD CONSTRAINT [PK_Users]
+-- Creating primary key on [Id] in table 'UsersSet'
+ALTER TABLE [dbo].[UsersSet]
+ADD CONSTRAINT [PK_UsersSet]
+    PRIMARY KEY CLUSTERED ([Id] ASC);
+GO
+
+-- Creating primary key on [Id] in table 'FilmsSet'
+ALTER TABLE [dbo].[FilmsSet]
+ADD CONSTRAINT [PK_FilmsSet]
+    PRIMARY KEY CLUSTERED ([Id] ASC);
+GO
+
+-- Creating primary key on [Id] in table 'SerialsSet'
+ALTER TABLE [dbo].[SerialsSet]
+ADD CONSTRAINT [PK_SerialsSet]
     PRIMARY KEY CLUSTERED ([Id] ASC);
 GO
 
 -- --------------------------------------------------
 -- Creating all FOREIGN KEY constraints
 -- --------------------------------------------------
+
+-- Creating foreign key on [UsersId] in table 'FilmsSet'
+ALTER TABLE [dbo].[FilmsSet]
+ADD CONSTRAINT [FK_UsersFilms]
+    FOREIGN KEY ([UsersId])
+    REFERENCES [dbo].[UsersSet]
+        ([Id])
+    ON DELETE NO ACTION ON UPDATE NO ACTION;
+GO
+
+-- Creating non-clustered index for FOREIGN KEY 'FK_UsersFilms'
+CREATE INDEX [IX_FK_UsersFilms]
+ON [dbo].[FilmsSet]
+    ([UsersId]);
+GO
+
+-- Creating foreign key on [UsersId] in table 'SerialsSet'
+ALTER TABLE [dbo].[SerialsSet]
+ADD CONSTRAINT [FK_UsersSerials]
+    FOREIGN KEY ([UsersId])
+    REFERENCES [dbo].[UsersSet]
+        ([Id])
+    ON DELETE NO ACTION ON UPDATE NO ACTION;
+GO
+
+-- Creating non-clustered index for FOREIGN KEY 'FK_UsersSerials'
+CREATE INDEX [IX_FK_UsersSerials]
+ON [dbo].[SerialsSet]
+    ([UsersId]);
+GO
 
 -- --------------------------------------------------
 -- Script has ended

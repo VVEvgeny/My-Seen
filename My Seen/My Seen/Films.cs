@@ -12,19 +12,14 @@ namespace My_Seen
     using System;
     using System.Collections.Generic;
     
-    public partial class UsersSet
+    public partial class Films
     {
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public UsersSet()
-        {
-            this.EmailConfirmed = false;
-        }
-    
-        public int Id { get; set; }
+        public long Id { get; set; }
+        public int UsersId { get; set; }
         public string Name { get; set; }
-        public string Password { get; set; }
-        public System.DateTime CreationDate { get; set; }
-        public string Email { get; set; }
-        public bool EmailConfirmed { get; set; }
+        public System.DateTime DateSee { get; set; }
+        public int Rate { get; set; }
+    
+        public virtual Users Users { get; set; }
     }
 }
