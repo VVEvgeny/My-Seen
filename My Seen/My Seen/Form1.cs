@@ -16,5 +16,11 @@ namespace My_Seen
         {
             InitializeComponent();
         }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            CreateUser form = new CreateUser();
+            form.ShowDialog();
+        }
     }
 }
