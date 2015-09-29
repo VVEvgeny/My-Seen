@@ -34,7 +34,7 @@ namespace My_Seen
         {
             if(textBox2.Text.Length!=0)
             {
-                if(DesktopTools.GetMd5Hash(textBox2.Text)!=User.Password)
+                if(MD5Tools.GetMd5Hash(textBox2.Text)!=User.Password)
                 {
                     MessageBox.Show("Wrong Old Password");
                     return;
@@ -45,14 +45,14 @@ namespace My_Seen
                     MessageBox.Show(msg);
                     return;
                 }
-                User.Password = DesktopTools.GetMd5Hash(textBox2.Text);
+                User.Password = MD5Tools.GetMd5Hash(textBox2.Text);
             }
             ModelContainer mc = new ModelContainer();
             Users update_user = mc.UsersSet.First(u => u.Id == User.Id);
             User.NameRemote = textBox5.Text;
             if (textBox6.Text.Length != 0)
             {
-                User.PasswordRemote = DesktopTools.GetMd5Hash(textBox6.Text);
+                User.PasswordRemote = MD5Tools.GetMd5Hash(textBox6.Text);
                 update_user.PasswordRemote = User.PasswordRemote;
             }
             update_user.Password = User.Password;

@@ -59,7 +59,7 @@ namespace My_Seen
                 MessageBox.Show("User not exists");
                 return;
             }
-            if(!DesktopTools.VerifyMd5Hash(textBox2.Text,user.Password))
+            if(!MD5Tools.VerifyMd5Hash(textBox2.Text,user.Password))
             {
                 MessageBox.Show("Wrong password");
                 return;

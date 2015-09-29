@@ -58,6 +58,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Add Film.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Add Film.Designer.cs">
+      <DependentUpon>Add Film.cs</DependentUpon>
+    </Compile>
     <Compile Include="Config.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -118,6 +124,9 @@
     <Compile Include="Users.cs">
       <DependentUpon>Model.tt</DependentUpon>
     </Compile>
+    <EmbeddedResource Include="Add Film.resx">
+      <DependentUpon>Add Film.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Config.resx">
       <DependentUpon>Config.cs</DependentUpon>
     </EmbeddedResource>

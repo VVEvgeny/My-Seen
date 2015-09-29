@@ -41,7 +41,7 @@ namespace My_Seen
             }
             Users us = new Users();
             us.Name = textBox1.Text;
-            us.Password = DesktopTools.GetMd5Hash(textBox2.Text);
+            us.Password = MD5Tools.GetMd5Hash(textBox2.Text);
             us.CreationDate = DateTime.Now;
 
             mc.UsersSet.Add(us);
