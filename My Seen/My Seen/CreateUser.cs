@@ -32,11 +32,6 @@ namespace My_Seen
                 MessageBox.Show(msg);
                 return;
             }
-            if (!LibTools.ValidateEmail(ref msg, textBox4.Text))
-            {
-                MessageBox.Show(msg);
-                return;
-            }
 
             ModelContainer mc = new ModelContainer();
             if(mc.UsersSet.Count(u=>u.Name==textBox1.Text)!=0)
@@ -48,7 +43,6 @@ namespace My_Seen
             us.Name = textBox1.Text;
             us.Password = DesktopTools.GetMd5Hash(textBox2.Text);
             us.CreationDate = DateTime.Now;
-            us.Email = textBox4.Text;
 
             mc.UsersSet.Add(us);
             mc.SaveChanges();
