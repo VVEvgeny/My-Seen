@@ -2,6 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Resources;
+using System.Globalization;
+using System.Threading;
 
 namespace MySeenLib
 {
@@ -13,7 +16,7 @@ namespace MySeenLib
             {
                 if (userName.Length < 5)
                 {
-                    message = "Too Short UserName";
+                    message = Resource.ShortUserName;
                     return false;
                 }
                 return true;
@@ -22,7 +25,7 @@ namespace MySeenLib
             {
                 if (!email.Contains("@") || !email.Contains("."))
                 {
-                    message = "Email incorrect";
+                    message = Resource.EmailIncorrect;
                     return false;
                 }
                 return true;
@@ -31,12 +34,12 @@ namespace MySeenLib
             {
                 if (password != passwordConfirm)
                 {
-                    message = "Password and repeat not equal";
+                    message = Resource.PasswordsNotEqual;
                     return false;
                 }
                 if (password.Length < 6)
                 {
-                    message = "Password Length < 6";
+                    message = Resource.PasswordLength;
                     return false;
                 }
                 if (password.Contains("0") || password.Contains("1") || password.Contains("2") || password.Contains("3") || password.Contains("4") || password.Contains("5") || password.Contains("6") || password.Contains("7") || password.Contains("8") || password.Contains("9"))
@@ -45,7 +48,7 @@ namespace MySeenLib
                 }
                 else
                 {
-                    message = "Password NOT Contains Digit";
+                    message = Resource.PasswordNOTContainsDigit;
                     return false;
                 }
                 return true;

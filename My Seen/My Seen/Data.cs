@@ -15,6 +15,8 @@ namespace My_Seen
         public Data()
         {
             InitializeComponent();
+            toolStripComboBox1.Items.Add(Resource.Films);
+            toolStripComboBox1.Items.Add(Resource.Serials);
         }
         private Users user;
         public Users User
@@ -49,32 +51,43 @@ namespace My_Seen
             cl_id.Width = 0;
             listView1.Columns.Add(cl_id);
 
-            ColumnHeader cl_name = new ColumnHeader();
-            cl_name.Text = "Name";
-            listView1.Columns.Add(cl_name);
-
             if (films)
             {
+                ColumnHeader cl_name = new ColumnHeader();
+                cl_name.Text = Resource.Name;
+                cl_name.Width = 510;
+                listView1.Columns.Add(cl_name);
+
                 ColumnHeader cl_date = new ColumnHeader();
-                cl_date.Text = "Date";
+                cl_date.Text = Resource.Date;
+                cl_date.Width = 120;
                 listView1.Columns.Add(cl_date);
             }
             else
             {
+                ColumnHeader cl_name = new ColumnHeader();
+                cl_name.Text = Resource.Name;
+                cl_name.Width = 340;
+                listView1.Columns.Add(cl_name);
+
                 ColumnHeader cl_last_ep = new ColumnHeader();
-                cl_last_ep.Text = "Last episode";
+                cl_last_ep.Text = Resource.LastEpisode;
+                cl_last_ep.Width = 50;
                 listView1.Columns.Add(cl_last_ep);
 
                 ColumnHeader cl_date_last = new ColumnHeader();
-                cl_date_last.Text = "Date Last";
+                cl_date_last.Text = Resource.DateLast;
+                cl_date_last.Width = 120;
                 listView1.Columns.Add(cl_date_last);
 
                 ColumnHeader cl_date_begin = new ColumnHeader();
-                cl_date_begin.Text = "Date Begin";
+                cl_date_begin.Text = Resource.DateBegin;
+                cl_date_begin.Width = 120;
                 listView1.Columns.Add(cl_date_begin);
             }
             ColumnHeader cl_rate = new ColumnHeader();
-            cl_rate.Text = "Rate";
+            cl_rate.Text = Resource.Rate;
+            cl_rate.Width = 35;
             listView1.Columns.Add(cl_rate);
         }
         private void LoadSerials()
@@ -152,7 +165,7 @@ namespace My_Seen
         {
             if (listView1.SelectedItems.Count == 0) return;
 
-            if (toolStripComboBox1.Text == "Films")
+            if (toolStripComboBox1.Text == Resource.Films)
             {
                 ListViewItem lvi = listView1.SelectedItems[0];
 
@@ -233,7 +246,7 @@ namespace My_Seen
         }
         private void Add()
         {
-            if (toolStripComboBox1.Text == "Films")
+            if (toolStripComboBox1.Text == Resource.Films)
             {
                 Add_Film form = new Add_Film();
                 form.ShowDialog();
@@ -266,10 +279,32 @@ namespace My_Seen
             }
         }
 
+        private void ChangeMenus(bool film)
+        {
+            if (toolStripComboBox1.Text == Resource.Films)
+            {
+                toolStripSeparator1.Visible = false;
+                AddSeasonToolStripMenuItem.Visible = false;
+                AddSeriesToolStripMenuItem.Visible = false;
+                toolStripSeparator2.Visible = false;
+                addSeasonToolStripMenuItem1.Visible = false;
+                addSeriesToolStripMenuItem1.Visible = false;
+            }
+            else
+            {
+                toolStripSeparator1.Visible = true;
+                AddSeasonToolStripMenuItem.Visible = true;
+                AddSeriesToolStripMenuItem.Visible = true;
+                toolStripSeparator2.Visible = true;
+                addSeasonToolStripMenuItem1.Visible = true;
+                addSeriesToolStripMenuItem1.Visible = true;
+            }
+        }
         private void toolStripComboBox1_SelectedIndexChanged(object sender, EventArgs e)
         {
-            UpdateListViewColumns(toolStripComboBox1.Text == "Films");
-            LoadItemsToListView(toolStripComboBox1.Text == "Films");
+            UpdateListViewColumns(toolStripComboBox1.Text == Resource.Films);
+            LoadItemsToListView(toolStripComboBox1.Text == Resource.Films);
+            ChangeMenus(toolStripComboBox1.Text == Resource.Films);
         }
 
         private bool FastFind = false;
@@ -293,10 +328,15 @@ namespace My_Seen
 
         private void toolStripComboBox2_TextChanged(object sender, EventArgs e)
         {
-            if (toolStripComboBox1.Text == "Films")
+            if (toolStripComboBox1.Text == Resource.Films)
             {
                 listView1.Items.Clear();
                 LoadFilms(toolStripComboBox2.Text);
+            }
+            else
+            {
+                listView1.Items.Clear();
+                LoadSerials(toolStripComboBox2.Text);
             }
         }
 
@@ -314,10 +354,14 @@ namespace My_Seen
         {
             Add();
         }
-
         private void editToolStripMenuItem1_Click(object sender, EventArgs e)
         {
             Edit();
+        }
+
+        private void exitToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Close();
         }
     }
 }

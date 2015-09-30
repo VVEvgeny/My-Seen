@@ -117,4 +117,19 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="EmailIncorrect" xml:space="preserve">
+    <value>Неверный почтоый ящик</value>
+  </data>
+  <data name="PasswordLength" xml:space="preserve">
+    <value>Пароль должен быть не меньше 6 символов</value>
+  </data>
+  <data name="PasswordNOTContainsDigit" xml:space="preserve">
+    <value>Пароль должен содержать цифру</value>
+  </data>
+  <data name="PasswordsNotEqual" xml:space="preserve">
+    <value>Пароль не совпадает с подтверждением</value>
+  </data>
+  <data name="ShortUserName" xml:space="preserve">
+    <value>Короткое имя пользователя</value>
+  </data>
 </root>

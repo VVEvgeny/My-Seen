@@ -10,21 +10,19 @@ using System.Windows.Forms;
 
 namespace My_Seen
 {
-    public partial class Form1 : Form
+    public partial class Main_Form : Form
     {
-        public Form1()
+        public Main_Form()
         {
             InitializeComponent();
+            isRestart = false;
         }
-
         private void button1_Click(object sender, EventArgs e)
         {
             CreateUser form = new CreateUser();
             form.ShowDialog();
             Load_Users();
         }
-
-
         private void Load_Users()
         {
             comboBox1.Items.Clear();
@@ -33,6 +31,9 @@ namespace My_Seen
         }
         private void Form1_Load(object sender, EventArgs e)
         {
+            if (CultureInfoTool.GetCulture() == CultureInfoTool.Cultures.English) comboBox2.Text = comboBox2.Items[0].ToString();
+            else comboBox2.Text = comboBox2.Items[1].ToString();
+
             Load_Users();
         }
 
@@ -40,12 +41,12 @@ namespace My_Seen
         {
             if (comboBox1.Text.Length == 0)
             {
-                MessageBox.Show("Enter usename");
+                MessageBox.Show(Resource.EnterUsename);
                 return;
             }
             if(textBox2.Text.Length==0)
             {
-                MessageBox.Show("Enter password");
+                MessageBox.Show(Resource.EnterPassword);
                 return;
             }
             Users user = null;
@@ -56,12 +57,12 @@ namespace My_Seen
             }
             catch
             {
-                MessageBox.Show("User not exists");
+                MessageBox.Show(Resource.UserNotExists);
                 return;
             }
             if(!MD5Tools.VerifyMd5Hash(textBox2.Text,user.Password))
             {
-                MessageBox.Show("Wrong password");
+                MessageBox.Show(Resource.WrongPassword);
                 return;
             }
             Hide();
@@ -69,6 +70,32 @@ namespace My_Seen
             form.User = user;
             form.ShowDialog();
             Close();
+        }
+
+        public bool isRestart;
+        private void comboBox2_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            
+            if (comboBox2.Text == "ENG")
+            {
+                if (CultureInfoTool.SetCulture(CultureInfoTool.Cultures.English))
+                {
+                    Properties.Settings.Default.LastLanguage = CultureInfoTool.Cultures.English;
+                    Properties.Settings.Default.Save();
+                    isRestart = true;
+                    Hide();
+                }
+            }
+            else
+            {
+                if (CultureInfoTool.SetCulture(CultureInfoTool.Cultures.Russian))
+                {
+                    Properties.Settings.Default.LastLanguage = CultureInfoTool.Cultures.Russian;
+                    Properties.Settings.Default.Save();
+                    isRestart = true;
+                    Hide();
+                }
+            }
         }
     }
 }

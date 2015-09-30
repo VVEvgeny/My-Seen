@@ -16,7 +16,27 @@ namespace My_Seen
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new Form1());
+            //Application.Run(new Main_Form());
+
+            CultureInfoTool.SetCulture(Properties.Settings.Default.LastLanguage);
+
+            for (; ; )
+            {
+                Main_Form form = new Main_Form();
+                form.ShowDialog();
+                try
+                {
+                    if (form.isRestart)
+                    {
+                        continue;
+                    }
+                }
+                catch
+                {
+                    break;
+                }
+                break;
+            }
         }
     }
 }

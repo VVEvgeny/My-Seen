@@ -117,4 +117,19 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="EmailIncorrect" xml:space="preserve">
+    <value>Email Incorrect</value>
+  </data>
+  <data name="PasswordLength" xml:space="preserve">
+    <value>Password Length &lt; 6</value>
+  </data>
+  <data name="PasswordNOTContainsDigit" xml:space="preserve">
+    <value>Password NOT Contains Digit</value>
+  </data>
+  <data name="PasswordsNotEqual" xml:space="preserve">
+    <value>Password and repeat not equal</value>
+  </data>
+  <data name="ShortUserName" xml:space="preserve">
+    <value>Too Short User Name</value>
+  </data>
 </root>

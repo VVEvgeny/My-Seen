@@ -30,7 +30,7 @@ namespace My_Seen
         }
         private void Add_Serial_Load(object sender, EventArgs e)
         {
-            if (Text != "Edit")
+            if (Text != Resource.Edit)
             {
                 comboBox1.Text = comboBox1.Items[comboBox1.Items.Count - 1].ToString();
                 dateTimePicker1.Value = DateTime.Now;
@@ -41,14 +41,14 @@ namespace My_Seen
         private int EditId;
         public void EditData(string id, string _name, string _seeDate, string _rate,string _season,string _series)
         {
-            Text = "Edit";
+            Text = Resource.Edit;
             EditId = Convert.ToInt32(id);
             textBox1.Text = _name;
             dateTimePicker1.Value = DateTime.Parse(_seeDate);
             dateTimePicker1.Enabled = false;
             textBox2.Text = _season;
             textBox3.Text = _series;
-            button1.Text = "Edit";
+            button1.Text = Resource.Edit;
 
             comboBox1.Text = _rate.ToString();
         }
@@ -57,10 +57,10 @@ namespace My_Seen
         {
             if (textBox1.Text.Length == 0)
             {
-                MessageBox.Show("Enter serial name");
+                MessageBox.Show(Resource.EnterSerialName);
                 return;
             }
-            newFilm = new SerialsResult(Text == "Edit" ? EditId : 0, textBox1.Text, dateTimePicker1.Value, comboBox1.Text,textBox2.Text,textBox3.Text);
+            newFilm = new SerialsResult(Text == Resource.Edit ? EditId : 0, textBox1.Text, dateTimePicker1.Value, comboBox1.Text, textBox2.Text, textBox3.Text);
             Hide();
         }
     }

@@ -18,7 +18,6 @@ namespace My_Seen
         {
             InitializeComponent();
         }
-
         private void button1_Click(object sender, EventArgs e)
         {
             string msg = "";
@@ -36,7 +35,7 @@ namespace My_Seen
             ModelContainer mc = new ModelContainer();
             if(mc.UsersSet.Count(u=>u.Name==textBox1.Text)!=0)
             {
-                MessageBox.Show("User already exists");
+                MessageBox.Show(Resource.UserAlreadyExists);
                 return;
             }
             Users us = new Users();
@@ -47,7 +46,7 @@ namespace My_Seen
             mc.UsersSet.Add(us);
             mc.SaveChanges();
 
-            MessageBox.Show("User created");
+            MessageBox.Show(Resource.UserCreated);
             Close();
         }
     }

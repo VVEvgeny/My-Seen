@@ -36,7 +36,7 @@ namespace My_Seen
             {
                 if(MD5Tools.GetMd5Hash(textBox2.Text)!=User.Password)
                 {
-                    MessageBox.Show("Wrong Old Password");
+                    MessageBox.Show(Resource.WrongPassword);
                     return;
                 }
                 string msg = "";
