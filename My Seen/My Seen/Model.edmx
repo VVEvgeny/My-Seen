@@ -53,6 +53,7 @@
     <Property Name="Name" Type="nvarchar(max)" Nullable="false" />
     <Property Name="DateSee" Type="datetime" Nullable="false" />
     <Property Name="Rate" Type="int" Nullable="false" />
+    <Property Name="DateChange" Type="datetime" Nullable="false" />
   </EntityType>
   <EntityType Name="SerialsSet">
     <Key>
@@ -61,9 +62,12 @@
     <Property Name="Id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="UsersId" Type="int" Nullable="false" />
     <Property Name="Name" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="LastSeason" Type="int" Nullable="false" />
+    <Property Name="LastSeries" Type="int" Nullable="false" />
     <Property Name="DateBegin" Type="datetime" Nullable="false" />
     <Property Name="DateLast" Type="datetime" Nullable="false" />
     <Property Name="Rate" Type="int" Nullable="false" />
+    <Property Name="DateChange" Type="datetime" Nullable="false" />
   </EntityType>
   <EntityType Name="Films_NewSet">
     <Key>
@@ -82,6 +86,8 @@
     <Property Name="Id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="UsersId" Type="int" Nullable="false" />
     <Property Name="Name" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="LastSeason" Type="int" Nullable="false" />
+    <Property Name="LastSeries" Type="int" Nullable="false" />
     <Property Name="DateBegin" Type="datetime" Nullable="false" />
     <Property Name="DateLast" Type="datetime" Nullable="false" />
     <Property Name="Rate" Type="int" Nullable="false" />
@@ -90,7 +96,7 @@
     <Key>
       <PropertyRef Name="Id" />
     </Key>
-    <Property Name="Id" Type="nvarchar(max)" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="UsersId" Type="int" Nullable="false" />
     <Property Name="Date" Type="datetime" Nullable="false" />
   </EntityType>
@@ -212,6 +218,7 @@
           <Property Name="DateSee" Type="DateTime" Nullable="false" />
           <Property Name="Rate" Type="Int32" Nullable="false" />
           <NavigationProperty Name="Users" Relationship="Model.UsersFilms" FromRole="Films" ToRole="Users" />
+          <Property Name="DateChange" Type="DateTime" Nullable="false" />
         </EntityType>
         <EntityType Name="Serials">
           <Key>
@@ -221,9 +228,12 @@
           <Property Name="UsersId" Type="Int32" Nullable="false" />
           <Property Name="Name" Type="String" Nullable="false" />
           <NavigationProperty Name="Users" Relationship="Model.UsersSerials" FromRole="Serials" ToRole="Users" />
+          <Property Name="LastSeason" Type="Int32" Nullable="false" />
+          <Property Name="LastSeries" Type="Int32" Nullable="false" />
           <Property Name="DateBegin" Type="DateTime" Nullable="false" />
           <Property Name="DateLast" Type="DateTime" Nullable="false" />
           <Property Name="Rate" Type="Int32" Nullable="false" />
+          <Property Name="DateChange" Type="DateTime" Nullable="false" />
         </EntityType>
         <Association Name="UsersFilms">
           <End Type="Model.Users" Role="Users" Multiplicity="1" />
@@ -279,6 +289,8 @@
           <Property Name="Id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="UsersId" Type="Int32" Nullable="false" />
           <Property Name="Name" Type="String" Nullable="false" />
+          <Property Name="LastSeason" Type="Int32" Nullable="false" />
+          <Property Name="LastSeries" Type="Int32" Nullable="false" />
           <Property Name="DateBegin" Type="DateTime" Nullable="false" />
           <Property Name="DateLast" Type="DateTime" Nullable="false" />
           <Property Name="Rate" Type="Int32" Nullable="false" />
@@ -300,7 +312,7 @@
           <Key>
             <PropertyRef Name="Id" />
           </Key>
-          <Property Name="Id" Type="String" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="UsersId" Type="Int32" Nullable="false" />
           <NavigationProperty Name="Users" Relationship="Model.UsersSync" FromRole="Sync" ToRole="Users" />
           <Property Name="Date" Type="DateTime" Nullable="false" />
@@ -343,6 +355,7 @@
           <ScalarProperty Name="Name" ColumnName="Name" />
           <ScalarProperty Name="DateSee" ColumnName="DateSee" />
           <ScalarProperty Name="Rate" ColumnName="Rate" />
+          <ScalarProperty Name="DateChange" ColumnName="DateChange" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -352,9 +365,12 @@
           <ScalarProperty Name="Id" ColumnName="Id" />
           <ScalarProperty Name="UsersId" ColumnName="UsersId" />
           <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="LastSeason" ColumnName="LastSeason" />
+          <ScalarProperty Name="LastSeries" ColumnName="LastSeries" />
           <ScalarProperty Name="DateBegin" ColumnName="DateBegin" />
           <ScalarProperty Name="DateLast" ColumnName="DateLast" />
           <ScalarProperty Name="Rate" ColumnName="Rate" />
+          <ScalarProperty Name="DateChange" ColumnName="DateChange" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -375,6 +391,8 @@
           <ScalarProperty Name="Id" ColumnName="Id" />
           <ScalarProperty Name="UsersId" ColumnName="UsersId" />
           <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="LastSeason" ColumnName="LastSeason" />
+          <ScalarProperty Name="LastSeries" ColumnName="LastSeries" />
           <ScalarProperty Name="DateBegin" ColumnName="DateBegin" />
           <ScalarProperty Name="DateLast" ColumnName="DateLast" />
           <ScalarProperty Name="Rate" ColumnName="Rate" />

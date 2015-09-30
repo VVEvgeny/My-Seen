@@ -2,7 +2,7 @@
 -- --------------------------------------------------
 -- Entity Designer DDL Script for SQL Server 2005, 2008, 2012 and Azure
 -- --------------------------------------------------
--- Date Created: 09/29/2015 12:43:41
+-- Date Created: 09/30/2015 11:25:10
 -- Generated from EDMX file: D:\Work_vve\workspace_sharp_git\vvevgeny_myseen\My Seen\My Seen\Model.edmx
 -- --------------------------------------------------
 
@@ -77,7 +77,8 @@ CREATE TABLE [dbo].[FilmsSet] (
     [UsersId] int  NOT NULL,
     [Name] nvarchar(max)  NOT NULL,
     [DateSee] datetime  NOT NULL,
-    [Rate] int  NOT NULL
+    [Rate] int  NOT NULL,
+    [DateChange] datetime  NOT NULL
 );
 GO
 
@@ -86,9 +87,12 @@ CREATE TABLE [dbo].[SerialsSet] (
     [Id] bigint IDENTITY(1,1) NOT NULL,
     [UsersId] int  NOT NULL,
     [Name] nvarchar(max)  NOT NULL,
+    [LastSeason] int  NOT NULL,
+    [LastSeries] int  NOT NULL,
     [DateBegin] datetime  NOT NULL,
     [DateLast] datetime  NOT NULL,
-    [Rate] int  NOT NULL
+    [Rate] int  NOT NULL,
+    [DateChange] datetime  NOT NULL
 );
 GO
 
@@ -107,6 +111,8 @@ CREATE TABLE [dbo].[Serials_NewSet] (
     [Id] bigint IDENTITY(1,1) NOT NULL,
     [UsersId] int  NOT NULL,
     [Name] nvarchar(max)  NOT NULL,
+    [LastSeason] int  NOT NULL,
+    [LastSeries] int  NOT NULL,
     [DateBegin] datetime  NOT NULL,
     [DateLast] datetime  NOT NULL,
     [Rate] int  NOT NULL
@@ -115,7 +121,7 @@ GO
 
 -- Creating table 'SyncSet'
 CREATE TABLE [dbo].[SyncSet] (
-    [Id] nvarchar(max)  NOT NULL,
+    [Id] int IDENTITY(1,1) NOT NULL,
     [UsersId] int  NOT NULL,
     [Date] datetime  NOT NULL
 );

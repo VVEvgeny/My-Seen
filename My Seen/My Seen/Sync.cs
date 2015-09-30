@@ -14,7 +14,7 @@ namespace My_Seen
     
     public partial class Sync
     {
-        public string Id { get; set; }
+        public int Id { get; set; }
         public int UsersId { get; set; }
         public System.DateTime Date { get; set; }
     

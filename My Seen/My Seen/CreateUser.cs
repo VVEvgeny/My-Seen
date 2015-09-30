@@ -22,12 +22,12 @@ namespace My_Seen
         private void button1_Click(object sender, EventArgs e)
         {
             string msg = "";
-            if (!LibTools.ValidateUserName(ref msg, textBox1.Text))
+            if (!LibTools.Validation.ValidateUserName(ref msg, textBox1.Text))
             {
                 MessageBox.Show(msg);
                 return;
             }
-            if (!LibTools.ValidatePassword(ref msg,textBox2.Text,textBox3.Text))
+            if (!LibTools.Validation.ValidatePassword(ref msg,textBox2.Text,textBox3.Text))
             {
                 MessageBox.Show(msg);
                 return;

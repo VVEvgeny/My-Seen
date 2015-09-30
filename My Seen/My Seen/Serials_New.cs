@@ -17,6 +17,8 @@ namespace My_Seen
         public long Id { get; set; }
         public int UsersId { get; set; }
         public string Name { get; set; }
+        public int LastSeason { get; set; }
+        public int LastSeries { get; set; }
         public System.DateTime DateBegin { get; set; }
         public System.DateTime DateLast { get; set; }
         public int Rate { get; set; }

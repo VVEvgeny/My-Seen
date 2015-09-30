@@ -40,7 +40,7 @@ namespace My_Seen
                     return;
                 }
                 string msg = "";
-                if (!LibTools.ValidatePassword(ref msg, textBox3.Text, textBox4.Text))
+                if (!LibTools.Validation.ValidatePassword(ref msg, textBox3.Text, textBox4.Text))
                 {
                     MessageBox.Show(msg);
                     return;

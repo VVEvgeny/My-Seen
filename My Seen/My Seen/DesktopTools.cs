@@ -7,19 +7,72 @@ using System.Collections.Generic;
 
 namespace My_Seen
 {
+    #region UnionResults
+    public class SerialsResult : Serials
+    {
+        public SerialsResult()
+        {
+
+        }
+        public SerialsResult(Serials s)
+        {
+            Id = s.Id;
+            UsersId = s.UsersId;
+            Name = s.Name;
+            LastSeason = s.LastSeason;
+            LastSeries = s.LastSeries;
+            DateBegin = s.DateBegin;
+            DateLast = s.DateLast;
+            Rate = s.Rate;
+        }
+        public SerialsResult(Serials_New s)
+        {
+            Id = s.Id;
+            UsersId = s.UsersId;
+            Name = s.Name;
+            LastSeason = s.LastSeason;
+            LastSeries = s.LastSeries;
+            DateBegin = s.DateBegin;
+            DateLast = s.DateLast;
+            Rate = s.Rate;
+        }
+        public SerialsResult(int _id, string _name, DateTime _dateBegin, string _rate,string _season,string _series)
+        {
+            Id = _id;
+            Name = _name;
+            DateBegin = _dateBegin;
+            DateLast = DateTime.Now;
+            try
+            {
+                Rate = Convert.ToInt32(_rate);
+            }
+            catch
+            {
+                Rate = 0;
+            }
+            try
+            {
+                LastSeason = Convert.ToInt32(_season);
+            }
+            catch
+            {
+                LastSeason = 1;
+            }
+            try
+            {
+                LastSeries = Convert.ToInt32(_series);
+            }
+            catch
+            {
+                LastSeries = 1;
+            }
+        }
+    }
     public class FilmsResult : Films
     {
         public FilmsResult()
         {
 
-        }
-        public FilmsResult(Films_New f)
-        {
-            Id = f.Id;
-            UsersId = f.UsersId;
-            Name = f.Name;
-            DateSee = f.DateSee;
-            Rate = f.Rate;
         }
         public FilmsResult(Films f)
         {
@@ -29,18 +82,13 @@ namespace My_Seen
             DateSee = f.DateSee;
             Rate = f.Rate;
         }
-        public FilmsResult(string _name, DateTime _dateSee, string _rate)
+        public FilmsResult(Films_New f)
         {
-            Name = _name;
-            DateSee = _dateSee;
-            try
-            {
-                Rate = Convert.ToInt32(_rate);
-            }
-            catch
-            {
-                Rate = 0;
-            }
+            Id = f.Id;
+            UsersId = f.UsersId;
+            Name = f.Name;
+            DateSee = f.DateSee;
+            Rate = f.Rate;
         }
         public FilmsResult(int _id, string _name, DateTime _dateSee, string _rate)
         {
@@ -57,6 +105,9 @@ namespace My_Seen
             }
         }
     }
+    #endregion
+
+    #region MD5Tools
     public static class MD5Tools
     {
         public static string GetMd5Hash(string input)
@@ -84,4 +135,5 @@ namespace My_Seen
             }
         }
     }
+    #endregion
 }

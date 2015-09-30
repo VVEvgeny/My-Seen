@@ -64,6 +64,12 @@
     <Compile Include="Add Film.Designer.cs">
       <DependentUpon>Add Film.cs</DependentUpon>
     </Compile>
+    <Compile Include="Add Serial.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Add Serial.Designer.cs">
+      <DependentUpon>Add Serial.cs</DependentUpon>
+    </Compile>
     <Compile Include="Config.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -126,6 +132,9 @@
     </Compile>
     <EmbeddedResource Include="Add Film.resx">
       <DependentUpon>Add Film.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Add Serial.resx">
+      <DependentUpon>Add Serial.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Config.resx">
       <DependentUpon>Config.cs</DependentUpon>

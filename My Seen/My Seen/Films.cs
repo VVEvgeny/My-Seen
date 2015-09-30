@@ -19,6 +19,7 @@ namespace My_Seen
         public string Name { get; set; }
         public System.DateTime DateSee { get; set; }
         public int Rate { get; set; }
+        public System.DateTime DateChange { get; set; }
     
         public virtual Users Users { get; set; }
     }
