@@ -9,9 +9,6 @@
     <EntitySet Name="UsersSet" EntityType="Model.Store.UsersSet" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="FilmsSet" EntityType="Model.Store.FilmsSet" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="SerialsSet" EntityType="Model.Store.SerialsSet" store:Type="Tables" Schema="dbo" />
-    <EntitySet Name="Films_NewSet" EntityType="Model.Store.Films_NewSet" store:Type="Tables" Schema="dbo" />
-    <EntitySet Name="Serials_NewSet" EntityType="Model.Store.Serials_NewSet" store:Type="Tables" Schema="dbo" />
-    <EntitySet Name="SyncSet" EntityType="Model.Store.SyncSet" store:Type="Tables" Schema="dbo" />
     <AssociationSet Name="UsersFilms" Association="Model.Store.UsersFilms">
       <End Role="Users" EntitySet="UsersSet" />
       <End Role="Films" EntitySet="FilmsSet" />
@@ -19,18 +16,6 @@
     <AssociationSet Name="UsersSerials" Association="Model.Store.UsersSerials">
       <End Role="Users" EntitySet="UsersSet" />
       <End Role="Serials" EntitySet="SerialsSet" />
-    </AssociationSet>
-    <AssociationSet Name="UsersFilms_New" Association="Model.Store.UsersFilms_New">
-      <End Role="Users" EntitySet="UsersSet" />
-      <End Role="Films_New" EntitySet="Films_NewSet" />
-    </AssociationSet>
-    <AssociationSet Name="UsersSerials_New" Association="Model.Store.UsersSerials_New">
-      <End Role="Users" EntitySet="UsersSet" />
-      <End Role="Serials_New" EntitySet="Serials_NewSet" />
-    </AssociationSet>
-    <AssociationSet Name="UsersSync" Association="Model.Store.UsersSync">
-      <End Role="Users" EntitySet="UsersSet" />
-      <End Role="Sync" EntitySet="SyncSet" />
     </AssociationSet>
   </EntityContainer>
   <EntityType Name="UsersSet">
@@ -43,6 +28,7 @@
     <Property Name="CreationDate" Type="datetime" Nullable="false" />
     <Property Name="NameRemote" Type="nvarchar(max)" Nullable="true" />
     <Property Name="PasswordRemote" Type="nvarchar(max)" Nullable="true" />
+    <Property Name="DateLastSync" Type="datetime" Nullable="false" />
   </EntityType>
   <EntityType Name="FilmsSet">
     <Key>
@@ -69,37 +55,6 @@
     <Property Name="Rate" Type="int" Nullable="false" />
     <Property Name="DateChange" Type="datetime" Nullable="false" />
   </EntityType>
-  <EntityType Name="Films_NewSet">
-    <Key>
-      <PropertyRef Name="Id" />
-    </Key>
-    <Property Name="Id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
-    <Property Name="UsersId" Type="int" Nullable="false" />
-    <Property Name="Name" Type="nvarchar(max)" Nullable="false" />
-    <Property Name="DateSee" Type="datetime" Nullable="false" />
-    <Property Name="Rate" Type="int" Nullable="false" />
-  </EntityType>
-  <EntityType Name="Serials_NewSet">
-    <Key>
-      <PropertyRef Name="Id" />
-    </Key>
-    <Property Name="Id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
-    <Property Name="UsersId" Type="int" Nullable="false" />
-    <Property Name="Name" Type="nvarchar(max)" Nullable="false" />
-    <Property Name="LastSeason" Type="int" Nullable="false" />
-    <Property Name="LastSeries" Type="int" Nullable="false" />
-    <Property Name="DateBegin" Type="datetime" Nullable="false" />
-    <Property Name="DateLast" Type="datetime" Nullable="false" />
-    <Property Name="Rate" Type="int" Nullable="false" />
-  </EntityType>
-  <EntityType Name="SyncSet">
-    <Key>
-      <PropertyRef Name="Id" />
-    </Key>
-    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-    <Property Name="UsersId" Type="int" Nullable="false" />
-    <Property Name="Date" Type="datetime" Nullable="false" />
-  </EntityType>
   <Association Name="UsersFilms">
     <End Role="Users" Type="Model.Store.UsersSet" Multiplicity="1" />
     <End Role="Films" Type="Model.Store.FilmsSet" Multiplicity="*" />
@@ -124,42 +79,6 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="UsersFilms_New">
-    <End Role="Users" Type="Model.Store.UsersSet" Multiplicity="1" />
-    <End Role="Films_New" Type="Model.Store.Films_NewSet" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="Users">
-        <PropertyRef Name="Id" />
-      </Principal>
-      <Dependent Role="Films_New">
-        <PropertyRef Name="UsersId" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="UsersSerials_New">
-    <End Role="Users" Type="Model.Store.UsersSet" Multiplicity="1" />
-    <End Role="Serials_New" Type="Model.Store.Serials_NewSet" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="Users">
-        <PropertyRef Name="Id" />
-      </Principal>
-      <Dependent Role="Serials_New">
-        <PropertyRef Name="UsersId" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="UsersSync">
-    <End Role="Users" Type="Model.Store.UsersSet" Multiplicity="1" />
-    <End Role="Sync" Type="Model.Store.SyncSet" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="Users">
-        <PropertyRef Name="Id" />
-      </Principal>
-      <Dependent Role="Sync">
-        <PropertyRef Name="UsersId" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
 </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
@@ -176,21 +95,6 @@
             <End Role="Users" EntitySet="UsersSet" />
             <End Role="Serials" EntitySet="SerialsSet" />
           </AssociationSet>
-          <EntitySet Name="Films_NewSet" EntityType="Model.Films_New" />
-          <AssociationSet Name="UsersFilms_New" Association="Model.UsersFilms_New">
-            <End Role="Users" EntitySet="UsersSet" />
-            <End Role="Films_New" EntitySet="Films_NewSet" />
-          </AssociationSet>
-          <EntitySet Name="Serials_NewSet" EntityType="Model.Serials_New" />
-          <AssociationSet Name="UsersSerials_New" Association="Model.UsersSerials_New">
-            <End Role="Users" EntitySet="UsersSet" />
-            <End Role="Serials_New" EntitySet="Serials_NewSet" />
-          </AssociationSet>
-          <EntitySet Name="SyncSet" EntityType="Model.Sync" />
-          <AssociationSet Name="UsersSync" Association="Model.UsersSync">
-            <End Role="Users" EntitySet="UsersSet" />
-            <End Role="Sync" EntitySet="SyncSet" />
-          </AssociationSet>
         </EntityContainer>
         <EntityType Name="Users">
           <Key>
@@ -202,11 +106,9 @@
           <Property Name="CreationDate" Type="DateTime" Nullable="false" />
           <NavigationProperty Name="Films" Relationship="Model.UsersFilms" FromRole="Users" ToRole="Films" />
           <NavigationProperty Name="Serials" Relationship="Model.UsersSerials" FromRole="Users" ToRole="Serials" />
-          <NavigationProperty Name="Films_New" Relationship="Model.UsersFilms_New" FromRole="Users" ToRole="Films_New" />
-          <NavigationProperty Name="Serials_New" Relationship="Model.UsersSerials_New" FromRole="Users" ToRole="Serials_New" />
-          <NavigationProperty Name="Sync" Relationship="Model.UsersSync" FromRole="Users" ToRole="Sync" />
           <Property Name="NameRemote" Type="String" />
           <Property Name="PasswordRemote" Type="String" />
+          <Property Name="DateLastSync" Type="DateTime" Nullable="false" />
         </EntityType>
         <EntityType Name="Films">
           <Key>
@@ -259,76 +161,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <EntityType Name="Films_New">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="UsersId" Type="Int32" Nullable="false" />
-          <Property Name="Name" Type="String" Nullable="false" />
-          <Property Name="DateSee" Type="DateTime" Nullable="false" />
-          <Property Name="Rate" Type="Int32" Nullable="false" />
-          <NavigationProperty Name="Users" Relationship="Model.UsersFilms_New" FromRole="Films_New" ToRole="Users" />
-        </EntityType>
-        <Association Name="UsersFilms_New">
-          <End Type="Model.Users" Role="Users" Multiplicity="1" />
-          <End Type="Model.Films_New" Role="Films_New" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Users">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="Films_New">
-              <PropertyRef Name="UsersId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <EntityType Name="Serials_New">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="UsersId" Type="Int32" Nullable="false" />
-          <Property Name="Name" Type="String" Nullable="false" />
-          <Property Name="LastSeason" Type="Int32" Nullable="false" />
-          <Property Name="LastSeries" Type="Int32" Nullable="false" />
-          <Property Name="DateBegin" Type="DateTime" Nullable="false" />
-          <Property Name="DateLast" Type="DateTime" Nullable="false" />
-          <Property Name="Rate" Type="Int32" Nullable="false" />
-          <NavigationProperty Name="Users" Relationship="Model.UsersSerials_New" FromRole="Serials_New" ToRole="Users" />
-        </EntityType>
-        <Association Name="UsersSerials_New">
-          <End Type="Model.Users" Role="Users" Multiplicity="1" />
-          <End Type="Model.Serials_New" Role="Serials_New" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Users">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="Serials_New">
-              <PropertyRef Name="UsersId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <EntityType Name="Sync">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="UsersId" Type="Int32" Nullable="false" />
-          <NavigationProperty Name="Users" Relationship="Model.UsersSync" FromRole="Sync" ToRole="Users" />
-          <Property Name="Date" Type="DateTime" Nullable="false" />
-        </EntityType>
-        <Association Name="UsersSync">
-          <End Type="Model.Users" Role="Users" Multiplicity="1" />
-          <End Type="Model.Sync" Role="Sync" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Users">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="Sync">
-              <PropertyRef Name="UsersId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -344,6 +176,7 @@
           <ScalarProperty Name="CreationDate" ColumnName="CreationDate" />
           <ScalarProperty Name="NameRemote" ColumnName="NameRemote" />
           <ScalarProperty Name="PasswordRemote" ColumnName="PasswordRemote" />
+          <ScalarProperty Name="DateLastSync" ColumnName="DateLastSync" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -371,40 +204,6 @@
           <ScalarProperty Name="DateLast" ColumnName="DateLast" />
           <ScalarProperty Name="Rate" ColumnName="Rate" />
           <ScalarProperty Name="DateChange" ColumnName="DateChange" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
-    <EntitySetMapping Name="Films_NewSet">
-      <EntityTypeMapping TypeName="IsTypeOf(Model.Films_New)">
-        <MappingFragment StoreEntitySet="Films_NewSet">
-          <ScalarProperty Name="Id" ColumnName="Id" />
-          <ScalarProperty Name="UsersId" ColumnName="UsersId" />
-          <ScalarProperty Name="Name" ColumnName="Name" />
-          <ScalarProperty Name="DateSee" ColumnName="DateSee" />
-          <ScalarProperty Name="Rate" ColumnName="Rate" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
-    <EntitySetMapping Name="Serials_NewSet">
-      <EntityTypeMapping TypeName="IsTypeOf(Model.Serials_New)">
-        <MappingFragment StoreEntitySet="Serials_NewSet">
-          <ScalarProperty Name="Id" ColumnName="Id" />
-          <ScalarProperty Name="UsersId" ColumnName="UsersId" />
-          <ScalarProperty Name="Name" ColumnName="Name" />
-          <ScalarProperty Name="LastSeason" ColumnName="LastSeason" />
-          <ScalarProperty Name="LastSeries" ColumnName="LastSeries" />
-          <ScalarProperty Name="DateBegin" ColumnName="DateBegin" />
-          <ScalarProperty Name="DateLast" ColumnName="DateLast" />
-          <ScalarProperty Name="Rate" ColumnName="Rate" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
-    <EntitySetMapping Name="SyncSet">
-      <EntityTypeMapping TypeName="IsTypeOf(Model.Sync)">
-        <MappingFragment StoreEntitySet="SyncSet">
-          <ScalarProperty Name="Id" ColumnName="Id" />
-          <ScalarProperty Name="UsersId" ColumnName="UsersId" />
-          <ScalarProperty Name="Date" ColumnName="Date" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>

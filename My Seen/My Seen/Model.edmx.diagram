@@ -10,12 +10,6 @@
         <EntityTypeShape EntityType="Model.Serials" Width="1.5" PointX="6.25" PointY="0.5" />
         <AssociationConnector Association="Model.UsersFilms" />
         <AssociationConnector Association="Model.UsersSerials" />
-        <EntityTypeShape EntityType="Model.Films_New" Width="1.5" PointX="8" PointY="3.875" />
-        <AssociationConnector Association="Model.UsersFilms_New" />
-        <EntityTypeShape EntityType="Model.Serials_New" Width="1.5" PointX="8" PointY="0.875" />
-        <AssociationConnector Association="Model.UsersSerials_New" />
-        <EntityTypeShape EntityType="Model.Sync" Width="1.5" PointX="0.5" PointY="2.625" />
-        <AssociationConnector Association="Model.UsersSync" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

@@ -19,9 +19,6 @@ namespace My_Seen
         {
             this.Films = new HashSet<Films>();
             this.Serials = new HashSet<Serials>();
-            this.Films_New = new HashSet<Films_New>();
-            this.Serials_New = new HashSet<Serials_New>();
-            this.Sync = new HashSet<Sync>();
         }
     
         public int Id { get; set; }
@@ -30,16 +27,11 @@ namespace My_Seen
         public System.DateTime CreationDate { get; set; }
         public string NameRemote { get; set; }
         public string PasswordRemote { get; set; }
+        public System.DateTime DateLastSync { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Films> Films { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Serials> Serials { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Films_New> Films_New { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Serials_New> Serials_New { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Sync> Sync { get; set; }
     }
 }

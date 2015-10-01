@@ -16,8 +16,8 @@ namespace My_Seen
         {
             InitializeComponent();
         }
-        private SerialsResult newFilm;
-        public SerialsResult NewFilm
+        private Serials newFilm;
+        public Serials NewFilm
         {
             get
             {
@@ -60,7 +60,8 @@ namespace My_Seen
                 MessageBox.Show(Resource.EnterSerialName);
                 return;
             }
-            newFilm = new SerialsResult(Text == Resource.Edit ? EditId : 0, textBox1.Text, dateTimePicker1.Value, comboBox1.Text, textBox2.Text, textBox3.Text);
+            newFilm = new Serials() { Id=EditId,Name= textBox1.Text,DateBegin=dateTimePicker1.Value
+                ,Rate=Convert.ToInt32(comboBox1.Text), LastSeason=Convert.ToInt32(textBox2.Text),LastSeries=Convert.ToInt32(textBox3.Text) };
             Hide();
         }
     }

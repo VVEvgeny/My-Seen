@@ -42,6 +42,7 @@ namespace My_Seen
             us.Name = textBox1.Text;
             us.Password = MD5Tools.GetMd5Hash(textBox2.Text);
             us.CreationDate = DateTime.Now;
+            us.DateLastSync = DateTime.Now;
 
             mc.UsersSet.Add(us);
             mc.SaveChanges();

@@ -12,12 +12,15 @@ namespace My_Seen
 {
     public partial class Data : Form
     {
-        public Data()
+        private enum DBMode
         {
-            InitializeComponent();
-            toolStripComboBox1.Items.Add(Resource.Films);
-            toolStripComboBox1.Items.Add(Resource.Serials);
+            Films,
+            Serials
         }
+        private DBMode CurrentDB = DBMode.Films;
+
+        private bool FastFind = false;
+
         private Users user;
         public Users User
         {
@@ -31,8 +34,16 @@ namespace My_Seen
             }
         }
 
+        public Data()
+        {
+            InitializeComponent();
+            toolStripComboBox1.Items.Add(Resource.Films);
+            toolStripComboBox1.Items.Add(Resource.Serials);
+        }
+
         private void Data_Load(object sender, EventArgs e)
         {
+            CurrentDB = DBMode.Films;
             toolStripComboBox1.Text = toolStripComboBox1.Items[0].ToString();
         }
 
@@ -42,7 +53,7 @@ namespace My_Seen
             form.User = User;
             form.ShowDialog();
         }
-        private void UpdateListViewColumns(bool films)
+        private void UpdateListViewColumns()
         {
             listView1.Columns.Clear();
 
@@ -51,7 +62,7 @@ namespace My_Seen
             cl_id.Width = 0;
             listView1.Columns.Add(cl_id);
 
-            if (films)
+            if (CurrentDB == DBMode.Films)
             {
                 ColumnHeader cl_name = new ColumnHeader();
                 cl_name.Text = Resource.Name;
@@ -97,13 +108,7 @@ namespace My_Seen
         private void LoadSerials(string filter)
         {
             ModelContainer mc = new ModelContainer();
-            foreach (SerialsResult film in
-                mc.SerialsSet.Select(f => new SerialsResult() { Id = -f.Id, Name = f.Name, DateBegin = f.DateBegin,LastSeason=f.LastSeason,LastSeries=f.LastSeries, DateLast=f.DateLast, Rate = f.Rate, UsersId = f.UsersId }).Where(
-                    f => f.UsersId == User.Id && filter == string.Empty ? 1 == 1 : f.Name.Contains(filter)
-                ).Union(
-                mc.Serials_NewSet.Select(f => new SerialsResult() { Id = f.Id, Name = f.Name, DateBegin = f.DateBegin, LastSeason = f.LastSeason, LastSeries = f.LastSeries, DateLast = f.DateLast, Rate = f.Rate, UsersId = f.UsersId }).Where(
-                    f => f.UsersId == User.Id && filter == string.Empty ? 1 == 1 : f.Name.Contains(filter))
-                ).OrderByDescending(t => t.DateLast))
+            foreach (Serials film in mc.SerialsSet.Where(f => f.UsersId == User.Id && filter == string.Empty ? 1 == 1 : f.Name.Contains(filter)).OrderByDescending(t => t.DateLast))
             {
                 LoadItemsToListView(film);
             }
@@ -115,21 +120,15 @@ namespace My_Seen
         private void LoadFilms(string filter)
         {
             ModelContainer mc = new ModelContainer();
-            foreach (FilmsResult film in 
-                mc.FilmsSet.Select(f => new FilmsResult() { Id = -f.Id, Name = f.Name, DateSee = f.DateSee, Rate = f.Rate, UsersId = f.UsersId }).Where(
-                    f => f.UsersId == User.Id && filter == string.Empty ? 1 == 1 : f.Name.Contains(filter)
-                ).Union(
-                mc.Films_NewSet.Select(f => new FilmsResult() { Id = f.Id, Name = f.Name, DateSee = f.DateSee, Rate = f.Rate, UsersId = f.UsersId }).Where(
-                    f => f.UsersId == User.Id && filter == string.Empty ? 1 == 1 : f.Name.Contains(filter))
-                ).OrderByDescending(t => t.DateSee))
+            foreach (Films film in mc.FilmsSet.Where(f => f.UsersId == User.Id && filter == string.Empty ? 1 == 1 : f.Name.Contains(filter)).OrderByDescending(t => t.DateSee))
             {
                 LoadItemsToListView(film);
             }
         }
-        private void LoadItemsToListView(bool films)
+        private void LoadItemsToListView()
         {
             listView1.Items.Clear();
-            if (films)
+            if (CurrentDB == DBMode.Films)
             {
                 LoadFilms();
             }
@@ -138,22 +137,22 @@ namespace My_Seen
                 LoadSerials();
             }
         }
-        private void LoadItemsToListView(SerialsResult film)
+        private void LoadItemsToListView(Serials film)
         {
             LoadItemsToListView(film, false);
         }
-        private void LoadItemsToListView(FilmsResult film)
+        private void LoadItemsToListView(Films film)
         {
             LoadItemsToListView(film, false);
         }
-        private void LoadItemsToListView(SerialsResult film, bool oneToTop)
+        private void LoadItemsToListView(Serials film, bool oneToTop)
         {
             if (oneToTop) listView1.Items.Insert(0, new ListViewItem(new string[] { film.Id.ToString(), film.Name, film.LastSeason.ToString()+"-"+film.LastSeries.ToString(),film.DateLast.ToString(),film.DateBegin.ToString(), film.Rate.ToString() }));
             else listView1.Items.Add(new ListViewItem(new string[] { film.Id.ToString(), film.Name, film.LastSeason.ToString() + "-" + film.LastSeries.ToString(), film.DateLast.ToString(), film.DateBegin.ToString(), film.Rate.ToString() }));
 
             toolStripStatusLabel2.Text = listView1.Items.Count.ToString();
         }
-        private void LoadItemsToListView(FilmsResult film, bool oneToTop)
+        private void LoadItemsToListView(Films film, bool oneToTop)
         {
             if (oneToTop) listView1.Items.Insert(0, new ListViewItem(new string[] { film.Id.ToString(), film.Name, film.DateSee.ToString(), film.Rate.ToString() }));
             else listView1.Items.Add(new ListViewItem(new string[] { film.Id.ToString(), film.Name, film.DateSee.ToString(), film.Rate.ToString() }));
@@ -165,34 +164,23 @@ namespace My_Seen
         {
             if (listView1.SelectedItems.Count == 0) return;
 
-            if (toolStripComboBox1.Text == Resource.Films)
-            {
-                ListViewItem lvi = listView1.SelectedItems[0];
+            ListViewItem lvi = listView1.SelectedItems[0];
 
+            if (CurrentDB == DBMode.Films)
+            {
                 Add_Film form = new Add_Film();
                 form.EditData(lvi.SubItems[0].Text, lvi.SubItems[1].Text, lvi.SubItems[2].Text, lvi.SubItems[3].Text);
                 form.ShowDialog();
                 if (form.NewFilm != null)
                 {
                     ModelContainer mc = new ModelContainer();
-                    int f_id=Convert.ToInt32(lvi.SubItems[0].Text);
-                    if(f_id>0)
-                    {
-                        Films_New film = mc.Films_NewSet.First(f => f.Id == f_id);
-                        film.UsersId = User.Id;
-                        film.Name = form.NewFilm.Name;
-                        film.DateSee = form.NewFilm.DateSee;
-                        film.Rate = form.NewFilm.Rate;
-                    }
-                    else
-                    {
-                        Films film = mc.FilmsSet.First(f => f.Id == -f_id);
-                        film.UsersId = User.Id;
-                        film.Name = form.NewFilm.Name;
-                        film.DateSee = form.NewFilm.DateSee;
-                        film.Rate = form.NewFilm.Rate;
-                        film.DateChange = DateTime.Now;
-                    }
+                    int f_id = Convert.ToInt32(lvi.SubItems[0].Text);
+                    Films film = mc.FilmsSet.First(f => f.Id == f_id);
+                    film.UsersId = User.Id;
+                    film.Name = form.NewFilm.Name;
+                    film.DateSee = form.NewFilm.DateSee;
+                    film.Rate = form.NewFilm.Rate;
+                    film.DateChange = form.NewFilm.DateChange;
                     lvi.SubItems[1].Text = form.NewFilm.Name;
                     lvi.SubItems[2].Text = form.NewFilm.DateSee.ToString();
                     lvi.SubItems[3].Text = form.NewFilm.Rate.ToString();
@@ -202,8 +190,6 @@ namespace My_Seen
             }
             else
             {
-                ListViewItem lvi = listView1.SelectedItems[0];
-
                 Add_Serial form = new Add_Serial();
                 form.EditData(lvi.SubItems[0].Text, lvi.SubItems[1].Text, lvi.SubItems[4].Text, lvi.SubItems[5].Text, lvi.SubItems[2].Text.Split('-')[0], lvi.SubItems[2].Text.Split('-')[1]);
                 form.ShowDialog();
@@ -211,29 +197,15 @@ namespace My_Seen
                 {
                     ModelContainer mc = new ModelContainer();
                     int f_id = Convert.ToInt32(lvi.SubItems[0].Text);
-                    if (f_id > 0)
-                    {
-                        Serials_New film = mc.Serials_NewSet.First(f => f.Id == f_id);
-                        film.UsersId = User.Id;
-                        film.Name = form.NewFilm.Name;
-                        film.LastSeason = form.NewFilm.LastSeason;
-                        film.LastSeries = form.NewFilm.LastSeries;
-                        film.DateBegin = form.NewFilm.DateBegin;
-                        film.DateLast = form.NewFilm.DateLast;
-                        film.Rate = form.NewFilm.Rate;
-                    }
-                    else
-                    {
-                        Serials film = mc.SerialsSet.First(f => f.Id == -f_id);
-                        film.UsersId = User.Id;
-                        film.Name = form.NewFilm.Name;
-                        film.LastSeason = form.NewFilm.LastSeason;
-                        film.LastSeries = form.NewFilm.LastSeries;
-                        film.DateBegin = form.NewFilm.DateBegin;
-                        film.DateLast = form.NewFilm.DateLast;
-                        film.Rate = form.NewFilm.Rate;
-                        film.DateChange = DateTime.Now;
-                    }
+                    Serials film = mc.SerialsSet.First(f => f.Id == f_id);
+                    film.UsersId = User.Id;
+                    film.Name = form.NewFilm.Name;
+                    film.LastSeason = form.NewFilm.LastSeason;
+                    film.LastSeries = form.NewFilm.LastSeries;
+                    film.DateBegin = form.NewFilm.DateBegin;
+                    film.DateLast = form.NewFilm.DateLast;
+                    film.Rate = form.NewFilm.Rate;
+                    film.DateChange = form.NewFilm.DateChange;
                     lvi.SubItems[1].Text = form.NewFilm.Name;
                     lvi.SubItems[2].Text = form.NewFilm.LastSeason.ToString() + "-" + form.NewFilm.LastSeries.ToString();
                     lvi.SubItems[3].Text = form.NewFilm.DateBegin.ToString();
@@ -246,17 +218,16 @@ namespace My_Seen
         }
         private void Add()
         {
-            if (toolStripComboBox1.Text == Resource.Films)
+            if (CurrentDB == DBMode.Films)
             {
                 Add_Film form = new Add_Film();
                 form.ShowDialog();
                 if (form.NewFilm != null)
                 {
                     ModelContainer mc = new ModelContainer();
-                    Films_New film = new Films_New() { UsersId = User.Id, Name = form.NewFilm.Name, DateSee = form.NewFilm.DateSee, Rate = form.NewFilm.Rate };
-                    mc.Films_NewSet.Add(film);
+                    mc.FilmsSet.Add(form.NewFilm);
                     mc.SaveChanges();
-                    LoadItemsToListView(new FilmsResult(film), true);
+                    LoadItemsToListView(form.NewFilm, true);
                 }
                 form.Close();
             }
@@ -267,21 +238,17 @@ namespace My_Seen
                 if (form.NewFilm != null)
                 {
                     ModelContainer mc = new ModelContainer();
-                    Serials_New film = new Serials_New() { UsersId = User.Id, Name = form.NewFilm.Name, DateLast=form.NewFilm.DateLast, DateBegin=form.NewFilm.DateBegin,LastSeason=form.NewFilm.LastSeason,LastSeries=form.NewFilm.LastSeries, Rate = form.NewFilm.Rate };
-                    mc.Serials_NewSet.Add(film);
-                    //test only
-                    //Serials film = new Serials() { UsersId = User.Id, Name = form.NewFilm.Name, DateLast = form.NewFilm.DateLast, DateBegin = form.NewFilm.DateBegin, LastSeason = form.NewFilm.LastSeason, LastSeries = form.NewFilm.LastSeries, Rate = form.NewFilm.Rate,DateChange=DateTime.Now };
-                    //mc.SerialsSet.Add(film);
+                    mc.SerialsSet.Add(form.NewFilm);
                     mc.SaveChanges();
-                    LoadItemsToListView(new SerialsResult(film), true);
+                    LoadItemsToListView(form.NewFilm, true);
                 }
                 form.Close();
             }
         }
 
-        private void ChangeMenus(bool film)
+        private void ChangeMenus()
         {
-            if (toolStripComboBox1.Text == Resource.Films)
+            if (CurrentDB == DBMode.Films)
             {
                 toolStripSeparator1.Visible = false;
                 AddSeasonToolStripMenuItem.Visible = false;
@@ -302,12 +269,10 @@ namespace My_Seen
         }
         private void toolStripComboBox1_SelectedIndexChanged(object sender, EventArgs e)
         {
-            UpdateListViewColumns(toolStripComboBox1.Text == Resource.Films);
-            LoadItemsToListView(toolStripComboBox1.Text == Resource.Films);
-            ChangeMenus(toolStripComboBox1.Text == Resource.Films);
+            UpdateListViewColumns();
+            LoadItemsToListView();
+            ChangeMenus();
         }
-
-        private bool FastFind = false;
         private void fastFindToolStripMenuItem_Click(object sender, EventArgs e)
         {
             if(!FastFind)
@@ -328,7 +293,7 @@ namespace My_Seen
 
         private void toolStripComboBox2_TextChanged(object sender, EventArgs e)
         {
-            if (toolStripComboBox1.Text == Resource.Films)
+            if (CurrentDB == DBMode.Films)
             {
                 listView1.Items.Clear();
                 LoadFilms(toolStripComboBox2.Text);

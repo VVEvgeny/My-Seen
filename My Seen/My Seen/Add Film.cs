@@ -27,8 +27,8 @@ namespace My_Seen
             dateTimePicker1.MaxDate = DateTime.Now.AddDays(1);
             dateTimePicker1.MinDate = new DateTime(1988, 10, 2);
         }
-        private FilmsResult newFilm;
-        public FilmsResult NewFilm
+        private Films newFilm;
+        public Films NewFilm
         {
             get
             {
@@ -59,7 +59,7 @@ namespace My_Seen
                 MessageBox.Show(Resource.EnterFilmName);
                 return;
             }
-            newFilm = new FilmsResult(Text == Resource.Edit ? EditId : 0, textBox1.Text, dateTimePicker1.Value, comboBox1.Text);
+            newFilm = new Films() { Id = EditId, Name = textBox1.Text, DateSee=dateTimePicker1.Value,DateChange=DateTime.Now, Rate= Convert.ToInt32(comboBox1.Text) };
             Hide();
         }
     }
