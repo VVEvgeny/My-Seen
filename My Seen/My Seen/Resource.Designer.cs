@@ -88,6 +88,24 @@ namespace My_Seen {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Base Clear.
+        /// </summary>
+        internal static string DBDeleted {
+            get {
+                return ResourceManager.GetString("DBDeleted", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to User &amp; User data deleted.
+        /// </summary>
+        internal static string DBUserDeleted {
+            get {
+                return ResourceManager.GetString("DBUserDeleted", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Edit.
         /// </summary>
         internal static string Edit {

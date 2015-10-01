@@ -9,6 +9,16 @@ using System.Threading;
 
 namespace My_Seen
 {
+    public delegate void MySeenEventHandler();
+    public class MySeenEvent
+    {
+        public event MySeenEventHandler Event;
+        public void Exec()
+        {
+            if (Event != null) Event();
+        }
+    }
+
     #region CultureTool
     public static class CultureInfoTool
     {

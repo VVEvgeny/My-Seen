@@ -28,6 +28,7 @@ namespace My_Seen
             comboBox1.Items.Clear();
             ModelContainer mc = new ModelContainer();
             comboBox1.Items.AddRange(mc.UsersSet.OrderByDescending(u => u.CreationDate).Select(u => u.Name).ToArray());
+            if (comboBox1.Items.Count != 0) comboBox1.Text = comboBox1.Items[0].ToString();
         }
         private void Form1_Load(object sender, EventArgs e)
         {
@@ -37,6 +38,14 @@ namespace My_Seen
             Load_Users();
         }
 
+        private bool no_close = false;
+        private void ReloadAfterUserDelete()
+        {
+            textBox2.Text = "";
+            comboBox1.Text = "";
+            no_close = true;
+            Load_Users();
+        }
         private void button2_Click(object sender, EventArgs e)
         {
             if (comboBox1.Text.Length == 0)
@@ -68,14 +77,23 @@ namespace My_Seen
             Hide();
             Data form = new Data();
             form.User = user;
+            no_close = false;
+            form.NeedRestartAppEventAfterDelUser.Event += new MySeenEventHandler(ReloadAfterUserDelete);
             form.ShowDialog();
-            Close();
+            form.Close();
+            if (!no_close)
+            {
+                Close();
+            }
+            else
+            {
+                Show();
+            }
         }
 
         public bool isRestart;
         private void comboBox2_SelectedIndexChanged(object sender, EventArgs e)
         {
-            
             if (comboBox2.Text == "ENG")
             {
                 if (CultureInfoTool.SetCulture(CultureInfoTool.Cultures.English))

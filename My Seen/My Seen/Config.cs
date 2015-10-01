@@ -13,10 +13,15 @@ namespace My_Seen
 {
     public partial class Config : Form
     {
+        public MySeenEvent DBUserDeleted = null;
+        public MySeenEvent DBCleared = null;
         public Config()
         {
             InitializeComponent();
+            DBCleared = new MySeenEvent();
+            DBUserDeleted = new MySeenEvent();
         }
+       
         private Users user;
         public Users User
         {
@@ -29,7 +34,6 @@ namespace My_Seen
                 user = value;
             }
         }
-
         private void button1_Click(object sender, EventArgs e)
         {
             if(textBox2.Text.Length!=0)
@@ -70,6 +74,34 @@ namespace My_Seen
         private void button2_Click(object sender, EventArgs e)
         {
             MessageBox.Show("In progress");
+        }
+
+        private void DeleteData()
+        {
+            ModelContainer mc = new ModelContainer();
+            mc.FilmsSet.RemoveRange(mc.FilmsSet);
+            mc.SerialsSet.RemoveRange(mc.SerialsSet);
+            mc.SaveChanges();
+            DBCleared.Exec();
+        }
+        private void button3_Click(object sender, EventArgs e)
+        {
+            DeleteData();
+            MessageBox.Show(Resource.DBDeleted);
+        }
+        private void DeleteUser()
+        {
+            ModelContainer mc = new ModelContainer();
+            mc.UsersSet.Remove(mc.UsersSet.First(u=>u.Id==user.Id));
+            mc.SaveChanges();
+            MessageBox.Show(Resource.DBUserDeleted);
+            DBUserDeleted.Exec();
+            Close();
+        }
+        private void button4_Click(object sender, EventArgs e)
+        {
+            DeleteData();
+            DeleteUser();
         }
     }
 }

@@ -178,6 +178,12 @@
   <data name="groupBox2.Text" xml:space="preserve">
     <value>Смена пароля</value>
   </data>
+  <data name="button3.Text" xml:space="preserve">
+    <value>Удалить данные</value>
+  </data>
+  <data name="button4.Text" xml:space="preserve">
+    <value>Удалить пользователя</value>
+  </data>
   <data name="$this.Text" xml:space="preserve">
     <value>Настройки</value>
   </data>

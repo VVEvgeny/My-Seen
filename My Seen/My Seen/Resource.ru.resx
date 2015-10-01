@@ -126,6 +126,9 @@
   <data name="DateLast" xml:space="preserve">
     <value>Последний раз</value>
   </data>
+  <data name="DBDeleted" xml:space="preserve">
+    <value>Данные удалены</value>
+  </data>
   <data name="Edit" xml:space="preserve">
     <value>Редактировать</value>
   </data>
@@ -167,5 +170,8 @@
   </data>
   <data name="WrongPassword" xml:space="preserve">
     <value>Неверный пароль</value>
+  </data>
+  <data name="DBUserDeleted" xml:space="preserve">
+    <value>Пользователь и данные удалены</value>
   </data>
 </root>

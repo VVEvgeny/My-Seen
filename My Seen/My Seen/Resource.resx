@@ -126,6 +126,9 @@
   <data name="DateLast" xml:space="preserve">
     <value>Date Last</value>
   </data>
+  <data name="DBDeleted" xml:space="preserve">
+    <value>Base Clear</value>
+  </data>
   <data name="Edit" xml:space="preserve">
     <value>Edit</value>
   </data>
@@ -167,5 +170,8 @@
   </data>
   <data name="WrongPassword" xml:space="preserve">
     <value>Wrong password</value>
+  </data>
+  <data name="DBUserDeleted" xml:space="preserve">
+    <value>User &amp; User data deleted</value>
   </data>
 </root>

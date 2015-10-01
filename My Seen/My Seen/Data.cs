@@ -33,12 +33,13 @@ namespace My_Seen
                 user = value;
             }
         }
-
+        public MySeenEvent NeedRestartAppEventAfterDelUser = null;
         public Data()
         {
             InitializeComponent();
             toolStripComboBox1.Items.Add(Resource.Films);
             toolStripComboBox1.Items.Add(Resource.Serials);
+            NeedRestartAppEventAfterDelUser = new MySeenEvent();
         }
 
         private void Data_Load(object sender, EventArgs e)
@@ -47,10 +48,22 @@ namespace My_Seen
             toolStripComboBox1.Text = toolStripComboBox1.Items[0].ToString();
         }
 
+        private void ClearListView()
+        {
+            listView1.Items.Clear();
+            toolStripStatusLabel2.Text = "0";
+        }
+        private void RestartProgram()
+        {
+            NeedRestartAppEventAfterDelUser.Exec();
+            Close();
+        }
         private void configToolStripMenuItem_Click(object sender, EventArgs e)
         {
             Config form = new Config();
             form.User = User;
+            form.DBCleared.Event += new MySeenEventHandler(ClearListView);
+            form.DBUserDeleted.Event += new MySeenEventHandler(RestartProgram);
             form.ShowDialog();
         }
         private void UpdateListViewColumns()
