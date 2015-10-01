@@ -12,9 +12,22 @@ namespace My_Seen
 {
     public partial class Add_Film : Form
     {
+        private Users user;
+        public Users User
+        {
+            get
+            {
+                return user;
+            }
+            set
+            {
+                user = value;
+            }
+        }
         public Add_Film()
         {
             InitializeComponent();
+            EditId = 0;
         }
 
         private void Add_Film_Load(object sender, EventArgs e)
@@ -59,7 +72,8 @@ namespace My_Seen
                 MessageBox.Show(Resource.EnterFilmName);
                 return;
             }
-            newFilm = new Films() { Id = EditId, Name = textBox1.Text, DateSee=dateTimePicker1.Value,DateChange=DateTime.Now, Rate= Convert.ToInt32(comboBox1.Text) };
+            if (EditId != 0) newFilm = new Films() { Id = EditId, UsersId = user.Id, Name = textBox1.Text, DateSee = dateTimePicker1.Value, DateChange = DateTime.Now, Rate = Convert.ToInt32(comboBox1.Text) };
+            else newFilm = new Films() { UsersId = user.Id, Name = textBox1.Text, DateSee = dateTimePicker1.Value, DateChange = DateTime.Now, Rate = Convert.ToInt32(comboBox1.Text) };
             Hide();
         }
     }

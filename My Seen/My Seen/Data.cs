@@ -169,6 +169,7 @@ namespace My_Seen
             if (CurrentDB == DBMode.Films)
             {
                 Add_Film form = new Add_Film();
+                form.User = user;
                 form.EditData(lvi.SubItems[0].Text, lvi.SubItems[1].Text, lvi.SubItems[2].Text, lvi.SubItems[3].Text);
                 form.ShowDialog();
                 if (form.NewFilm != null)
@@ -191,6 +192,7 @@ namespace My_Seen
             else
             {
                 Add_Serial form = new Add_Serial();
+                form.User = user;
                 form.EditData(lvi.SubItems[0].Text, lvi.SubItems[1].Text, lvi.SubItems[4].Text, lvi.SubItems[5].Text, lvi.SubItems[2].Text.Split('-')[0], lvi.SubItems[2].Text.Split('-')[1]);
                 form.ShowDialog();
                 if (form.NewFilm != null)
@@ -208,8 +210,8 @@ namespace My_Seen
                     film.DateChange = form.NewFilm.DateChange;
                     lvi.SubItems[1].Text = form.NewFilm.Name;
                     lvi.SubItems[2].Text = form.NewFilm.LastSeason.ToString() + "-" + form.NewFilm.LastSeries.ToString();
-                    lvi.SubItems[3].Text = form.NewFilm.DateBegin.ToString();
-                    lvi.SubItems[4].Text = form.NewFilm.DateLast.ToString();
+                    lvi.SubItems[3].Text = form.NewFilm.DateLast.ToString();
+                    lvi.SubItems[4].Text = form.NewFilm.DateBegin.ToString();
                     lvi.SubItems[5].Text = form.NewFilm.Rate.ToString();
                     mc.SaveChanges();
                 }
@@ -221,6 +223,7 @@ namespace My_Seen
             if (CurrentDB == DBMode.Films)
             {
                 Add_Film form = new Add_Film();
+                form.User = user;
                 form.ShowDialog();
                 if (form.NewFilm != null)
                 {
@@ -234,6 +237,7 @@ namespace My_Seen
             else
             {
                 Add_Serial form = new Add_Serial();
+                form.User = user;
                 form.ShowDialog();
                 if (form.NewFilm != null)
                 {
@@ -269,6 +273,9 @@ namespace My_Seen
         }
         private void toolStripComboBox1_SelectedIndexChanged(object sender, EventArgs e)
         {
+            if (toolStripComboBox1.Text == Resource.Films) CurrentDB = DBMode.Films;
+            else CurrentDB = DBMode.Serials;
+
             UpdateListViewColumns();
             LoadItemsToListView();
             ChangeMenus();
@@ -309,12 +316,10 @@ namespace My_Seen
         {
             Add();
         }
-
         private void editToolStripMenuItem_Click(object sender, EventArgs e)
         {
             Edit();
         }
-
         private void addToolStripMenuItem2_Click(object sender, EventArgs e)
         {
             Add();
@@ -327,6 +332,47 @@ namespace My_Seen
         private void exitToolStripMenuItem_Click(object sender, EventArgs e)
         {
             Close();
+        }
+        private enum eFastUpdateSerial
+        {
+            Season,
+            Series
+        }
+        private void FastUpdateSerial(eFastUpdateSerial m)
+        {
+            if (listView1.SelectedItems.Count == 0) return;
+            ModelContainer mc = new ModelContainer();
+            foreach (ListViewItem lvi in listView1.SelectedItems)
+            {
+                int id = Convert.ToInt32(lvi.SubItems[0].Text);
+                Serials film = mc.SerialsSet.First(f => f.Id == id);
+                switch (m)
+                {
+                    case eFastUpdateSerial.Season: film.LastSeason += 1; break;
+                    case eFastUpdateSerial.Series: film.LastSeries += 1; break;
+                }
+                film.DateChange = DateTime.Now;
+                film.DateLast = DateTime.Now;
+                lvi.SubItems[2].Text = film.LastSeason.ToString() + "-" + film.LastSeries.ToString();
+                lvi.SubItems[3].Text = film.DateLast.ToString();
+            }
+            mc.SaveChanges();
+        }
+        private void addSeasonToolStripMenuItem1_Click(object sender, EventArgs e)
+        {
+            FastUpdateSerial(eFastUpdateSerial.Season);
+        }
+        private void addSeriesToolStripMenuItem1_Click(object sender, EventArgs e)
+        {
+            FastUpdateSerial(eFastUpdateSerial.Series);
+        }
+        private void AddSeasonToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            FastUpdateSerial(eFastUpdateSerial.Season);
+        }
+        private void AddSeriesToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            FastUpdateSerial(eFastUpdateSerial.Series);
         }
     }
 }

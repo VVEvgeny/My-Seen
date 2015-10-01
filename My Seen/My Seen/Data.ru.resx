@@ -179,25 +179,34 @@
     <value>Всего:</value>
   </data>
   <data name="addToolStripMenuItem1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>136, 22</value>
+    <value>165, 22</value>
   </data>
   <data name="addToolStripMenuItem1.Text" xml:space="preserve">
     <value>Добавить</value>
   </data>
   <data name="editToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>136, 22</value>
+    <value>165, 22</value>
   </data>
   <data name="editToolStripMenuItem.Text" xml:space="preserve">
     <value>Изменить</value>
   </data>
   <data name="toolStripSeparator1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>133, 6</value>
+    <value>162, 6</value>
   </data>
   <data name="AddSeasonToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>136, 22</value>
+    <value>165, 22</value>
+  </data>
+  <data name="AddSeasonToolStripMenuItem.Text" xml:space="preserve">
+    <value>Добавить сезон</value>
   </data>
   <data name="AddSeriesToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>136, 22</value>
+    <value>165, 22</value>
+  </data>
+  <data name="AddSeriesToolStripMenuItem.Text" xml:space="preserve">
+    <value>Добавить серию</value>
+  </data>
+  <data name="contextMenuStrip1.Size" type="System.Drawing.Size, System.Drawing">
+    <value>166, 98</value>
   </data>
   <data name="$this.Text" xml:space="preserve">
     <value>Просмотренное</value>

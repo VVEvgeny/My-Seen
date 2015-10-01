@@ -12,9 +12,22 @@ namespace My_Seen
 {
     public partial class Add_Serial : Form
     {
+        private Users user;
+        public Users User
+        {
+            get
+            {
+                return user;
+            }
+            set
+            {
+                user = value;
+            }
+        }
         public Add_Serial()
         {
             InitializeComponent();
+            EditId = 0;
         }
         private Serials newFilm;
         public Serials NewFilm
@@ -60,8 +73,8 @@ namespace My_Seen
                 MessageBox.Show(Resource.EnterSerialName);
                 return;
             }
-            newFilm = new Serials() { Id=EditId,Name= textBox1.Text,DateBegin=dateTimePicker1.Value
-                ,Rate=Convert.ToInt32(comboBox1.Text), LastSeason=Convert.ToInt32(textBox2.Text),LastSeries=Convert.ToInt32(textBox3.Text) };
+            if (EditId != 0) newFilm = new Serials() { Id = EditId, UsersId = user.Id, Name = textBox1.Text, DateBegin = dateTimePicker1.Value, DateLast = DateTime.Now, DateChange = DateTime.Now, Rate = Convert.ToInt32(comboBox1.Text), LastSeason = Convert.ToInt32(textBox2.Text), LastSeries = Convert.ToInt32(textBox3.Text) };
+            else newFilm = new Serials() { UsersId = user.Id, Name = textBox1.Text, DateBegin = dateTimePicker1.Value, DateLast = DateTime.Now, DateChange = DateTime.Now, Rate = Convert.ToInt32(comboBox1.Text), LastSeason = Convert.ToInt32(textBox2.Text), LastSeries = Convert.ToInt32(textBox3.Text) };
             Hide();
         }
     }
