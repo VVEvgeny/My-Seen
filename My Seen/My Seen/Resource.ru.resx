@@ -174,4 +174,16 @@
   <data name="DBUserDeleted" xml:space="preserve">
     <value>Пользователь и данные удалены</value>
   </data>
+  <data name="EnterSeasonNumber" xml:space="preserve">
+    <value>Введите номер сезона</value>
+  </data>
+  <data name="EnterSerionNumber" xml:space="preserve">
+    <value>Введите номер серии</value>
+  </data>
+  <data name="FilmNameAlreadyExists" xml:space="preserve">
+    <value>Такой фильм уже есть в базе</value>
+  </data>
+  <data name="SerialNameAlreadyExists" xml:space="preserve">
+    <value>Такой сериал уже есть в базе</value>
+  </data>
 </root>

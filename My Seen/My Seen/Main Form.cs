@@ -48,15 +48,14 @@ namespace My_Seen
         }
         private void button2_Click(object sender, EventArgs e)
         {
+            errorProvider.Clear();
             if (comboBox1.Text.Length == 0)
             {
-                MessageBox.Show(Resource.EnterUsename);
-                return;
+                errorProvider.SetError(comboBox1, Resource.EnterUsename);
             }
             if(textBox2.Text.Length==0)
             {
-                MessageBox.Show(Resource.EnterPassword);
-                return;
+                errorProvider.SetError(textBox2, Resource.EnterPassword);
             }
             Users user = null;
             try
@@ -66,14 +65,14 @@ namespace My_Seen
             }
             catch
             {
-                MessageBox.Show(Resource.UserNotExists);
-                return;
+                if (errorProvider.GetError(comboBox1) == string.Empty) errorProvider.SetError(comboBox1, Resource.UserNotExists);
             }
-            if(!MD5Tools.VerifyMd5Hash(textBox2.Text,user.Password))
+            if(user!=null && !MD5Tools.VerifyMd5Hash(textBox2.Text,user.Password))
             {
-                MessageBox.Show(Resource.WrongPassword);
-                return;
+                if (errorProvider.GetError(textBox2) == string.Empty) errorProvider.SetError(textBox2, Resource.WrongPassword);
             }
+            if (!ErrorProviderTools.isValid(errorProvider)) return;
+
             Hide();
             Data form = new Data();
             form.User = user;

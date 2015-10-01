@@ -174,4 +174,16 @@
   <data name="DBUserDeleted" xml:space="preserve">
     <value>User &amp; User data deleted</value>
   </data>
+  <data name="EnterSeasonNumber" xml:space="preserve">
+    <value>Enter season number</value>
+  </data>
+  <data name="EnterSerionNumber" xml:space="preserve">
+    <value>Enter serion number</value>
+  </data>
+  <data name="FilmNameAlreadyExists" xml:space="preserve">
+    <value>Film name already exists</value>
+  </data>
+  <data name="SerialNameAlreadyExists" xml:space="preserve">
+    <value>Serial name already exists</value>
+  </data>
 </root>

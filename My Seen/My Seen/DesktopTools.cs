@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Threading;
+using System.Windows.Forms;
 
 namespace My_Seen
 {
@@ -16,6 +17,16 @@ namespace My_Seen
         public void Exec()
         {
             if (Event != null) Event();
+        }
+    }
+    public static class ErrorProviderTools
+    {
+        public static bool isValid(ErrorProvider errorProvider)
+        {
+          foreach (Control c in errorProvider.ContainerControl.Controls)
+                if (errorProvider.GetError(c) != "")
+                    return false;
+            return true;
         }
     }
 

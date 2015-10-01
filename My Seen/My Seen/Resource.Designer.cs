@@ -133,6 +133,15 @@ namespace My_Seen {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Enter season number.
+        /// </summary>
+        internal static string EnterSeasonNumber {
+            get {
+                return ResourceManager.GetString("EnterSeasonNumber", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Enter serial name.
         /// </summary>
         internal static string EnterSerialName {
@@ -142,11 +151,29 @@ namespace My_Seen {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Enter serion number.
+        /// </summary>
+        internal static string EnterSerionNumber {
+            get {
+                return ResourceManager.GetString("EnterSerionNumber", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Enter Usename.
         /// </summary>
         internal static string EnterUsename {
             get {
                 return ResourceManager.GetString("EnterUsename", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Film name already exists.
+        /// </summary>
+        internal static string FilmNameAlreadyExists {
+            get {
+                return ResourceManager.GetString("FilmNameAlreadyExists", resourceCulture);
             }
         }
         
@@ -183,6 +210,15 @@ namespace My_Seen {
         internal static string Rate {
             get {
                 return ResourceManager.GetString("Rate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Serial name already exists.
+        /// </summary>
+        internal static string SerialNameAlreadyExists {
+            get {
+                return ResourceManager.GetString("SerialNameAlreadyExists", resourceCulture);
             }
         }
         

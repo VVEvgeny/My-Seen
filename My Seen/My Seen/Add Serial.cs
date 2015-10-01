@@ -68,11 +68,39 @@ namespace My_Seen
 
         private void button1_Click(object sender, EventArgs e)
         {
+            errorProvider.Clear();
             if (textBox1.Text.Length == 0)
             {
-                MessageBox.Show(Resource.EnterSerialName);
-                return;
+                errorProvider.SetError(textBox1, Resource.EnterSerialName);
             }
+            if (textBox2.Text == string.Empty && EditId == 0) textBox2.Text = "1";
+            try
+            {
+                Convert.ToInt32(textBox2.Text);
+            }
+            catch
+            {
+                errorProvider.SetError(textBox2, Resource.EnterSeasonNumber);
+            }
+            if (textBox3.Text == string.Empty && EditId == 0) textBox3.Text = "1";
+            try
+            {
+                Convert.ToInt32(textBox3.Text);
+            }
+            catch
+            {
+                errorProvider.SetError(textBox3, Resource.EnterSerionNumber);
+            }
+            if (errorProvider.GetError(textBox1) == string.Empty)
+            {
+                ModelContainer mc = new ModelContainer();
+                if (mc.SerialsSet.Count(f => f.Name == textBox1.Text && (EditId != 0 ? f.Id != EditId : 1 == 1)) != 0)//айди проверяем только для редактируемых, чтобы не налететь по названию на чужой
+                {
+                    errorProvider.SetError(textBox1, Resource.SerialNameAlreadyExists);
+                }
+            }
+            if (!ErrorProviderTools.isValid(errorProvider)) return;
+
             if (EditId != 0) newFilm = new Serials() { Id = EditId, UsersId = user.Id, Name = textBox1.Text, DateBegin = dateTimePicker1.Value, DateLast = DateTime.Now, DateChange = DateTime.Now, Rate = Convert.ToInt32(comboBox1.Text), LastSeason = Convert.ToInt32(textBox2.Text), LastSeries = Convert.ToInt32(textBox3.Text) };
             else newFilm = new Serials() { UsersId = user.Id, Name = textBox1.Text, DateBegin = dateTimePicker1.Value, DateLast = DateTime.Now, DateChange = DateTime.Now, Rate = Convert.ToInt32(comboBox1.Text), LastSeason = Convert.ToInt32(textBox2.Text), LastSeries = Convert.ToInt32(textBox3.Text) };
             Hide();

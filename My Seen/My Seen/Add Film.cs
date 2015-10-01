@@ -67,11 +67,21 @@ namespace My_Seen
         }
         private void button1_Click(object sender, EventArgs e)
         {
+            errorProvider.Clear();
             if(textBox1.Text.Length==0)
             {
-                MessageBox.Show(Resource.EnterFilmName);
-                return;
+                errorProvider.SetError(textBox1, Resource.EnterFilmName);
             }
+            if (errorProvider.GetError(textBox1) == string.Empty)
+            {
+                ModelContainer mc = new ModelContainer();
+                if (mc.FilmsSet.Count(f => f.Name == textBox1.Text && (EditId!=0 ? f.Id != EditId : 1==1)) != 0)//айди проверяем только для редактируемых, чтобы не налететь по названию на чужой
+                {
+                    errorProvider.SetError(textBox1, Resource.FilmNameAlreadyExists);
+                }
+            }
+            if (!ErrorProviderTools.isValid(errorProvider)) return;
+
             if (EditId != 0) newFilm = new Films() { Id = EditId, UsersId = user.Id, Name = textBox1.Text, DateSee = dateTimePicker1.Value, DateChange = DateTime.Now, Rate = Convert.ToInt32(comboBox1.Text) };
             else newFilm = new Films() { UsersId = user.Id, Name = textBox1.Text, DateSee = dateTimePicker1.Value, DateChange = DateTime.Now, Rate = Convert.ToInt32(comboBox1.Text) };
             Hide();
