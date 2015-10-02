@@ -33,13 +33,13 @@ namespace My_Seen
                 user = value;
             }
         }
-        public MySeenEvent NeedRestartAppEventAfterDelUser = null;
+        public MySeenEvent NeedRestartAppAfterDeleteUserEvent = null;
         public Data()
         {
             InitializeComponent();
             toolStripComboBox1.Items.Add(Resource.Films);
             toolStripComboBox1.Items.Add(Resource.Serials);
-            NeedRestartAppEventAfterDelUser = new MySeenEvent();
+            NeedRestartAppAfterDeleteUserEvent = new MySeenEvent();
         }
 
         private void Data_Load(object sender, EventArgs e)
@@ -55,7 +55,7 @@ namespace My_Seen
         }
         private void RestartProgram()
         {
-            NeedRestartAppEventAfterDelUser.Exec();
+            NeedRestartAppAfterDeleteUserEvent.Exec();
             Close();
         }
         private void configToolStripMenuItem_Click(object sender, EventArgs e)

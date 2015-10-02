@@ -77,7 +77,7 @@ namespace My_Seen
             Data form = new Data();
             form.User = user;
             no_close = false;
-            form.NeedRestartAppEventAfterDelUser.Event += new MySeenEventHandler(ReloadAfterUserDelete);
+            form.NeedRestartAppAfterDeleteUserEvent.Event += new MySeenEventHandler(ReloadAfterUserDelete);
             form.ShowDialog();
             form.Close();
             if (!no_close)

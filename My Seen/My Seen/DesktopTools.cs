@@ -24,7 +24,7 @@ namespace My_Seen
         public static bool isValid(ErrorProvider errorProvider)
         {
           foreach (Control c in errorProvider.ContainerControl.Controls)
-                if (errorProvider.GetError(c) != "")
+                if (errorProvider.GetError(c) != string.Empty)
                     return false;
             return true;
         }

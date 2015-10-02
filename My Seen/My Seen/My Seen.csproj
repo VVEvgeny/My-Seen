@@ -112,6 +112,7 @@
     <Compile Include="Main Form.Designer.cs">
       <DependentUpon>Main Form.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Model.Context.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
