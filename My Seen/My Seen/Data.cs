@@ -387,5 +387,10 @@ namespace My_Seen
         {
             FastUpdateSerial(eFastUpdateSerial.Series);
         }
+        private void listView1_KeyUp(object sender, KeyEventArgs e)
+        {
+            if (e.Shift && e.KeyCode == Keys.Add) FastUpdateSerial(eFastUpdateSerial.Season);
+            else  if (e.KeyCode == Keys.Add) FastUpdateSerial(eFastUpdateSerial.Series);
+        }
     }
 }

@@ -97,6 +97,7 @@
             // 
             // Add_Film
             // 
+            this.AcceptButton = this.button1;
             resources.ApplyResources(this, "$this");
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.Controls.Add(this.dateTimePicker1);

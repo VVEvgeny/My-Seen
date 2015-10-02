@@ -221,6 +221,9 @@
   <data name="textBox2.Location" type="System.Drawing.Point, System.Drawing">
     <value>75, 33</value>
   </data>
+  <data name="textBox2.PasswordChar" type="System.Char, mscorlib" xml:space="preserve">
+    <value>*</value>
+  </data>
   <data name="textBox2.Size" type="System.Drawing.Size, System.Drawing">
     <value>100, 20</value>
   </data>
@@ -241,6 +244,9 @@
   </data>
   <data name="textBox3.Location" type="System.Drawing.Point, System.Drawing">
     <value>75, 59</value>
+  </data>
+  <data name="textBox3.PasswordChar" type="System.Char, mscorlib" xml:space="preserve">
+    <value>*</value>
   </data>
   <data name="textBox3.Size" type="System.Drawing.Size, System.Drawing">
     <value>100, 20</value>
@@ -298,10 +304,6 @@
   </data>
   <data name="$this.ClientSize" type="System.Drawing.Size, System.Drawing">
     <value>193, 114</value>
-  </data>
-  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
-  <data name="$this.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
   </data>
   <data name="$this.MinimumSize" type="System.Drawing.Size, System.Drawing">
     <value>209, 153</value>

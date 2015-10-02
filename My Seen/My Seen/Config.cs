@@ -79,8 +79,8 @@ namespace My_Seen
         private void DeleteData()
         {
             ModelContainer mc = new ModelContainer();
-            mc.FilmsSet.RemoveRange(mc.FilmsSet);
-            mc.SerialsSet.RemoveRange(mc.SerialsSet);
+            mc.FilmsSet.RemoveRange(mc.FilmsSet.Where(f=>f.UsersId==user.Id));
+            mc.SerialsSet.RemoveRange(mc.SerialsSet.Where(f => f.UsersId == user.Id));
             mc.SaveChanges();
             DBCleared.Exec();
         }

@@ -114,5 +114,9 @@ namespace My_Seen
                 }
             }
         }
+        private void label2_Click(object sender, EventArgs e)
+        {
+            textBox2.Text = comboBox1.Text;
+        }
     }
 }
