@@ -151,7 +151,7 @@ namespace MySeenWeb.Controllers
         {
             if (ModelState.IsValid)
             {
-                var user = new ApplicationUser { UserName = model.Email, Email = model.Email };
+                var user = new ApplicationUser { UserName = model.Email, Email = model.Email, UniqueKey = MD5Tools.GetMd5Hash(model.Email) };
                 var result = await UserManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
                 {
@@ -340,6 +340,28 @@ namespace MySeenWeb.Controllers
                     return RedirectToAction("SendCode", new { ReturnUrl = returnUrl, RememberMe = false });
                 case SignInStatus.Failure:
                 default:
+                    //Это кусок кода взят ниже, убираю линее действие по подтверждению
+                    if (ModelState.IsValid && loginInfo.Email!=null && loginInfo.Email != string.Empty)
+                    {
+                        // Get the information about the user from the external login provider
+                        var info = await AuthenticationManager.GetExternalLoginInfoAsync();
+                        if (info == null)
+                        {
+                            return View("ExternalLoginFailure");
+                        }
+                        var user = new ApplicationUser { UserName = loginInfo.Email, Email = loginInfo.Email, UniqueKey = MD5Tools.GetMd5Hash(loginInfo.Email) };
+                        var result2 = await UserManager.CreateAsync(user);
+                        if (result2.Succeeded)
+                        {
+                            result2 = await UserManager.AddLoginAsync(user.Id, info.Login);
+                            if (result2.Succeeded)
+                            {
+                                await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
+                                return RedirectToLocal(returnUrl);
+                            }
+                        }
+                        AddErrors(result2);
+                    }
                     // If the user does not have an account, then prompt the user to create an account
                     ViewBag.ReturnUrl = returnUrl;
                     ViewBag.LoginProvider = loginInfo.Login.LoginProvider;
@@ -367,7 +389,7 @@ namespace MySeenWeb.Controllers
                 {
                     return View("ExternalLoginFailure");
                 }
-                var user = new ApplicationUser { UserName = model.Email, Email = model.Email };
+                var user = new ApplicationUser { UserName = model.Email, Email = model.Email, UniqueKey = MD5Tools.GetMd5Hash(model.Email) };
                 var result = await UserManager.CreateAsync(user);
                 if (result.Succeeded)
                 {
