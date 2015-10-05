@@ -55,7 +55,9 @@
     <Property Name="DateChange" Type="datetime" Nullable="false" />
   </EntityType>
   <Association Name="UsersFilms">
-    <End Role="Users" Type="Model.Store.UsersSet" Multiplicity="1" />
+    <End Role="Users" Type="Model.Store.UsersSet" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
     <End Role="Films" Type="Model.Store.FilmsSet" Multiplicity="*" />
     <ReferentialConstraint>
       <Principal Role="Users">
@@ -67,7 +69,9 @@
     </ReferentialConstraint>
   </Association>
   <Association Name="UsersSerials">
-    <End Role="Users" Type="Model.Store.UsersSet" Multiplicity="1" />
+    <End Role="Users" Type="Model.Store.UsersSet" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
     <End Role="Serials" Type="Model.Store.SerialsSet" Multiplicity="*" />
     <ReferentialConstraint>
       <Principal Role="Users">
@@ -136,8 +140,11 @@
           <Property Name="DateChange" Type="DateTime" Nullable="false" />
         </EntityType>
         <Association Name="UsersFilms">
-          <End Type="Model.Users" Role="Users" Multiplicity="1" />
-          <End Type="Model.Films" Role="Films" Multiplicity="*" />
+          <End Type="Model.Users" Role="Users" Multiplicity="1" >
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="Model.Films" Role="Films" Multiplicity="*" >
+          </End>
           <ReferentialConstraint>
             <Principal Role="Users">
               <PropertyRef Name="Id" />
@@ -148,8 +155,11 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="UsersSerials">
-          <End Type="Model.Users" Role="Users" Multiplicity="1" />
-          <End Type="Model.Serials" Role="Serials" Multiplicity="*" />
+          <End Type="Model.Users" Role="Users" Multiplicity="1" >
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="Model.Serials" Role="Serials" Multiplicity="*" >
+          </End>
           <ReferentialConstraint>
             <Principal Role="Users">
               <PropertyRef Name="Id" />

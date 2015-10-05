@@ -2,7 +2,7 @@
 -- --------------------------------------------------
 -- Entity Designer DDL Script for SQL Server 2005, 2008, 2012 and Azure
 -- --------------------------------------------------
--- Date Created: 10/05/2015 10:33:14
+-- Date Created: 10/05/2015 10:50:18
 -- Generated from EDMX file: D:\Work_vve\workspace_sharp_git\vvevgeny_myseen\My Seen\MySeenWeb\Models\Model.edmx
 -- --------------------------------------------------
 
@@ -35,6 +35,9 @@ GO
 IF OBJECT_ID(N'[dbo].[FK_AspNetUsersSerials]', 'F') IS NOT NULL
     ALTER TABLE [dbo].[SerialsSet] DROP CONSTRAINT [FK_AspNetUsersSerials];
 GO
+IF OBJECT_ID(N'[dbo].[FK_UserSyncAspNetUsers]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[UserSyncSet] DROP CONSTRAINT [FK_UserSyncAspNetUsers];
+GO
 
 -- --------------------------------------------------
 -- Dropping existing tables
@@ -57,6 +60,9 @@ IF OBJECT_ID(N'[dbo].[FilmsSet]', 'U') IS NOT NULL
 GO
 IF OBJECT_ID(N'[dbo].[SerialsSet]', 'U') IS NOT NULL
     DROP TABLE [dbo].[SerialsSet];
+GO
+IF OBJECT_ID(N'[dbo].[UserSyncSet]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[UserSyncSet];
 GO
 IF OBJECT_ID(N'[dbo].[AspNetUserRoles]', 'U') IS NOT NULL
     DROP TABLE [dbo].[AspNetUserRoles];

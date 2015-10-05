@@ -121,7 +121,7 @@ namespace My_Seen
         private void LoadSerials(string filter)
         {
             ModelContainer mc = new ModelContainer();
-            foreach (Serials film in mc.SerialsSet.Where(f => f.UsersId == User.Id && filter == string.Empty ? 1 == 1 : f.Name.Contains(filter)).OrderByDescending(t => t.DateLast))
+            foreach (Serials film in mc.SerialsSet.Where(f => f.UsersId == User.Id && (filter == string.Empty ? 1 == 1 : f.Name.Contains(filter))).OrderByDescending(t => t.DateLast))
             {
                 LoadItemsToListView(film);
             }
@@ -133,7 +133,7 @@ namespace My_Seen
         private void LoadFilms(string filter)
         {
             ModelContainer mc = new ModelContainer();
-            foreach (Films film in mc.FilmsSet.Where(f => f.UsersId == User.Id && filter == string.Empty ? 1 == 1 : f.Name.Contains(filter)).OrderByDescending(t => t.DateSee))
+            foreach (Films film in mc.FilmsSet.Where(f => f.UsersId == User.Id && (filter == string.Empty ? 1 == 1 : f.Name.Contains(filter))).OrderByDescending(t => t.DateSee))
             {
                 LoadItemsToListView(film);
             }

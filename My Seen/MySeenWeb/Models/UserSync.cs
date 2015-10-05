@@ -18,6 +18,6 @@ namespace MySeenWeb.Models
         public string UsersId { get; set; }
         public string UniqKey { get; set; }
     
-        public virtual AspNetUsers UserId { get; set; }
+        public virtual AspNetUsers AspNetUsers { get; set; }
     }
 }

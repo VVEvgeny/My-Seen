@@ -94,7 +94,6 @@ namespace My_Seen
         }
         private void button4_Click(object sender, EventArgs e)
         {
-            DeleteData();
             DeleteUser();
         }
     }

@@ -24,6 +24,6 @@ namespace MySeenWeb.Models
         public int Rate { get; set; }
         public System.DateTime DateChange { get; set; }
     
-        public virtual AspNetUsers UserId { get; set; }
+        public virtual AspNetUsers AspNetUsers { get; set; }
     }
 }

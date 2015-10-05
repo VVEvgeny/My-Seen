@@ -2,7 +2,7 @@
 -- --------------------------------------------------
 -- Entity Designer DDL Script for SQL Server 2005, 2008, 2012 and Azure
 -- --------------------------------------------------
--- Date Created: 10/05/2015 10:34:24
+-- Date Created: 10/05/2015 10:58:20
 -- Generated from EDMX file: D:\Work_vve\workspace_sharp_git\vvevgeny_myseen\My Seen\My Seen\Model.edmx
 -- --------------------------------------------------
 
@@ -110,7 +110,7 @@ ADD CONSTRAINT [FK_UsersFilms]
     FOREIGN KEY ([UsersId])
     REFERENCES [dbo].[UsersSet]
         ([Id])
-    ON DELETE NO ACTION ON UPDATE NO ACTION;
+    ON DELETE CASCADE ON UPDATE NO ACTION;
 GO
 
 -- Creating non-clustered index for FOREIGN KEY 'FK_UsersFilms'
@@ -125,7 +125,7 @@ ADD CONSTRAINT [FK_UsersSerials]
     FOREIGN KEY ([UsersId])
     REFERENCES [dbo].[UsersSet]
         ([Id])
-    ON DELETE NO ACTION ON UPDATE NO ACTION;
+    ON DELETE CASCADE ON UPDATE NO ACTION;
 GO
 
 -- Creating non-clustered index for FOREIGN KEY 'FK_UsersSerials'

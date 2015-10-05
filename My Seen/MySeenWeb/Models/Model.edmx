@@ -300,8 +300,8 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="AspNetUserRoles">
-          <End Role="AspNetRoles" Type="Self.AspNetRoles" Multiplicity="*" />
-          <End Role="AspNetUsers" Type="Self.AspNetUsers" Multiplicity="*" />
+          <End Type="Self.AspNetRoles" Multiplicity="*" Role="AspNetRoles" />
+          <End Type="Self.AspNetUsers" Multiplicity="*" Role="AspNetUsers" />
         </Association>
         <EntityContainer Name="Entities" annotation:LazyLoadingEnabled="true">
           <EntitySet Name="AspNetRoles" EntityType="Self.AspNetRoles" />
@@ -317,8 +317,8 @@
             <End Role="AspNetUserLogins" EntitySet="AspNetUserLogins" />
           </AssociationSet>
           <AssociationSet Name="AspNetUserRoles" Association="Self.AspNetUserRoles">
-            <End Role="AspNetRoles" EntitySet="AspNetRoles" />
-            <End Role="AspNetUsers" EntitySet="AspNetUsers" />
+            <End EntitySet="AspNetRoles" Role="AspNetRoles" />
+            <End EntitySet="AspNetUsers" Role="AspNetUsers" />
           </AssociationSet>
           <EntitySet Name="FilmsSet" EntityType="Model.Films" />
           <EntitySet Name="SerialsSet" EntityType="Model.Serials" />
@@ -346,14 +346,14 @@
           <Property Name="DateSee" Type="DateTime" Nullable="false" />
           <Property Name="Rate" Type="Int32" Nullable="false" />
           <Property Name="DateChange" Type="DateTime" Nullable="false" />
-          <NavigationProperty Name="UserId" Relationship="Model.FilmsAspNetUsers" FromRole="Films" ToRole="AspNetUsers" />
+          <NavigationProperty Name="AspNetUsers" Relationship="Model.FilmsAspNetUsers" FromRole="Films" ToRole="AspNetUsers" />
         </EntityType>
         <EntityType Name="Serials">
           <Key>
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <NavigationProperty Name="UserId" Relationship="Model.AspNetUsersSerials" FromRole="Serials" ToRole="AspNetUsers" />
+          <NavigationProperty Name="AspNetUsers" Relationship="Model.AspNetUsersSerials" FromRole="Serials" ToRole="AspNetUsers" />
           <Property Name="UsersId" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
           <Property Name="Name" Type="String" Nullable="false" />
           <Property Name="LastSeason" Type="Int32" Nullable="false" />
@@ -392,7 +392,7 @@
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <NavigationProperty Name="UserId" Relationship="Model.UserSyncAspNetUsers" FromRole="UserSync" ToRole="AspNetUsers" />
+          <NavigationProperty Name="AspNetUsers" Relationship="Model.UserSyncAspNetUsers" FromRole="UserSync" ToRole="AspNetUsers" />
           <Property Name="UsersId" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
           <Property Name="UniqKey" Type="String" Nullable="false" />
         </EntityType>
