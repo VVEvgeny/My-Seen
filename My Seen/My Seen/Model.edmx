@@ -26,8 +26,7 @@
     <Property Name="Name" Type="nvarchar(max)" Nullable="false" />
     <Property Name="Password" Type="nvarchar(max)" Nullable="false" />
     <Property Name="CreationDate" Type="datetime" Nullable="false" />
-    <Property Name="NameRemote" Type="nvarchar(max)" Nullable="true" />
-    <Property Name="PasswordRemote" Type="nvarchar(max)" Nullable="true" />
+    <Property Name="RemoteUniqKey" Type="nvarchar(max)" Nullable="true" />
     <Property Name="DateLastSync" Type="datetime" Nullable="false" />
   </EntityType>
   <EntityType Name="FilmsSet">
@@ -106,8 +105,7 @@
           <Property Name="CreationDate" Type="DateTime" Nullable="false" />
           <NavigationProperty Name="Films" Relationship="Model.UsersFilms" FromRole="Users" ToRole="Films" />
           <NavigationProperty Name="Serials" Relationship="Model.UsersSerials" FromRole="Users" ToRole="Serials" />
-          <Property Name="NameRemote" Type="String" />
-          <Property Name="PasswordRemote" Type="String" />
+          <Property Name="RemoteUniqKey" Type="String" />
           <Property Name="DateLastSync" Type="DateTime" Nullable="false" />
         </EntityType>
         <EntityType Name="Films">
@@ -174,8 +172,7 @@
           <ScalarProperty Name="Name" ColumnName="Name" />
           <ScalarProperty Name="Password" ColumnName="Password" />
           <ScalarProperty Name="CreationDate" ColumnName="CreationDate" />
-          <ScalarProperty Name="NameRemote" ColumnName="NameRemote" />
-          <ScalarProperty Name="PasswordRemote" ColumnName="PasswordRemote" />
+          <ScalarProperty Name="RemoteUniqKey" ColumnName="RemoteUniqKey" />
           <ScalarProperty Name="DateLastSync" ColumnName="DateLastSync" />
         </MappingFragment>
       </EntityTypeMapping>

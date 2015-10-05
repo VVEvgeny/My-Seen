@@ -53,14 +53,8 @@ namespace My_Seen
             }
             ModelContainer mc = new ModelContainer();
             Users update_user = mc.UsersSet.First(u => u.Id == User.Id);
-            User.NameRemote = textBox5.Text;
-            if (textBox6.Text.Length != 0)
-            {
-                User.PasswordRemote = MD5Tools.GetMd5Hash(textBox6.Text);
-                update_user.PasswordRemote = User.PasswordRemote;
-            }
+            user.RemoteUniqKey = textBox5.Text;
             update_user.Password = User.Password;
-            update_user.NameRemote = User.NameRemote;
             mc.SaveChanges();
             Close();
         }
@@ -68,7 +62,7 @@ namespace My_Seen
         private void Config_Load(object sender, EventArgs e)
         {
             textBox1.Text = User.Name;
-            textBox5.Text = User.NameRemote;
+            textBox5.Text = User.RemoteUniqKey;
         }
 
         private void button2_Click(object sender, EventArgs e)
