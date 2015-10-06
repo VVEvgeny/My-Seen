@@ -7,65 +7,65 @@
 @{
     ViewBag.Title = "Home Page";
 }
-        <div>
-            @if (User.Identity.IsAuthenticated)
-            {
+<div>
+    @if (User.Identity.IsAuthenticated)
+    {
         @*@Html.DropDownListFor(model => model.Selected, Model.selectList, new { id = "lstSelected", onchange = "onChange()" })*@
         @Html.DropDownListFor(model => model.Selected, Model.selectList, new { id = "lstSelected" })
-                
-                if (Model.isSelectedFilm())
-                {
-                <table>
-                    <thead>
+
+        if (Model.isSelectedFilm())
+        {
+            <table>
+                <thead>
+                    <tr>
+                        <th width="2%"></th>
+                        <th width="78%">Name</th>
+                        <th width="20%">Date</th>
+                        <th width="10%">Rate</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (Films film in Model.Films)
+                    {
                         <tr>
-                            <th width="2%"></th>
-                            <th width="78%">Name</th>
-                            <th width="20%">Date</th>
-                            <th width="10%">Rate</th>
+                            <td align="center"></td>
+                            <td align="left">@film.Name</td>
+                            <td align="center">@film.DateSee</td>
+                            <td align="center">@film.Rate</td>
                         </tr>
-                    </thead>
-                    <tbody>
-                        @foreach (Films film in Model.Films)
-                        {
-                            <tr>
-                                <td align="center"></td>
-                                <td align="left">@film.Name</td>
-                                <td align="center">@film.DateSee</td>
-                                <td align="center">@film.Rate</td>
-                            </tr>
-                        }
-                    </tbody>
-                </table>
-                }
-                else
-                {
-                    <table>
-                        <thead>
-                            <tr>
-                                <th width="2%"></th>
-                                <th width="58%">Name</th>
-                                <th width="10%">Last Ep</th>
-                                <th width="20%">Date Last</th>
-                                <th width="20%">Date Begin</th>
-                                <th width="10%">Rate</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach (Serials film in Model.Serials)
-                            {
-                                <tr>
-                                    <td align="center"></td>
-                                    <td align="left">@film.Name</td>
-                                    <td align="center">@film.DateLast</td>
-                                    <td align="center">@film.DateBegin</td>
-                                    <td align="center">@film.Rate</td>
-                                </tr>
-                            }
-                        </tbody>
-                    </table>
-                }
-            }
-        </div>
+                    }
+                </tbody>
+            </table>
+        }
+        else
+        {
+            <table>
+                <thead>
+                    <tr>
+                        <th width="2%"></th>
+                        <th width="58%">Name</th>
+                        <th width="10%">Last Ep</th>
+                        <th width="20%">Date Last</th>
+                        <th width="20%">Date Begin</th>
+                        <th width="10%">Rate</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (Serials film in Model.Serials)
+                    {
+                        <tr>
+                            <td align="center"></td>
+                            <td align="left">@film.Name</td>
+                            <td align="center">@film.DateLast</td>
+                            <td align="center">@film.DateBegin</td>
+                            <td align="center">@film.Rate</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        }
+    }
+</div>
 
 <script language="javascript" type="text/javascript">
     //function onChange()
@@ -93,20 +93,20 @@
             $select.on('change', function () {
                 var value = $(this).val();
 
-        $.ajax({
-            type: 'POST',
-            url: '/Home/ChangeCookies',
-            data: {
+                $.ajax({
+                    type: 'POST',
+                    url: '/Home/ChangeCookies',
+                    data: {
                         selected: value
-            },
-            dataType: "json",
-            success: function () {
-                window.location.href = '/';
-            },
-            error: function () {
-                alert('Error');
-            }
-        });
+                    },
+                    dataType: "json",
+                    success: function () {
+                        window.location.href = '/';
+                    },
+                    error: function () {
+                        alert('Error');
+                    }
+                });
             });
         });
     })(jQuery);
