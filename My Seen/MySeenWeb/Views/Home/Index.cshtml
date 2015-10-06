@@ -2,7 +2,7 @@
 
 @model HomeViewModel
 
-@Scripts.Render("~/bundles/jquery")
+@Scripts.Render("~/bundles/jquery", "~/bundles/bootstrap")
 
 @{
     ViewBag.Title = "Home Page";
@@ -16,7 +16,7 @@
         <label for="lstSelected" style="display: block;">Select the category:</label>
         @Html.DropDownListFor(model => model.Selected, Model.selectList, new { @class = "form-control", @id = "lstSelected", @style = "width: 200px;" })
 
-        <button type="button" class="btn btn-primary" data-toggle="modal" data-target=".modal-window">
+        <button type="button" class="btn btn-primary" id="addButton">
             <span class="glyphicon glyphicon-plus"></span>
             Add New
         </button>
@@ -93,7 +93,7 @@
                 </h4>
             </div>
             <div class="modal-body">
-                <form class="form-horizontal">
+                <div class="form-horizontal">
                     @if (isSelectedFilm)
                     {
                         <div class="form-group">
@@ -160,7 +160,7 @@
                             </div>
                         </div>
                     }
-                </form>
+                </div>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">
@@ -180,7 +180,9 @@
     (function ($) {
         $(function () {
             var $select = $('#lstSelected');
+            var $addButton = $('#addButton');
             var $saveButton = $('#saveButton');
+            var $modal = $('.modal-window');
             var isSelectedFilm = '@Model.IsSelectedFilm' === 'True';
 
             $select.on('change', function () {
@@ -204,10 +206,16 @@
                 return false;
             });
 
-            $saveButton.on('click', function() {
+            $addButton.on('click', function () {
+                $modal.modal('show');
+
+                return false;
+            });
+
+            $saveButton.on('click', function () {
                 var url = '';
-                var data = {};                
-                
+                var data = {};
+
                 if (isSelectedFilm) {
                     url = '/Home/AddFilm';
                     data = {
@@ -230,14 +238,30 @@
                     data: data,
                     dataType: "json",
                     success: function () {
+                        $modal.modal('hide');
+
                         window.location.href = '/';
                     },
                     error: function () {
                         alert('Error');
+
+                        $modal.modal('hide');
                     }
                 });
 
                 return false;
+            });
+
+            $modal.on('hidden.bs.modal', function () {
+                var $body = $(this).find('.modal-body');
+
+                var $inputs = $body.find(':input');
+
+                $inputs.each(function (index, element) {
+                    var $element = $(element);
+
+                    $element.val('');
+                });
             });
         });
     })(jQuery);
