@@ -340,7 +340,7 @@ namespace MySeenWeb.Controllers
                     return RedirectToAction("SendCode", new { ReturnUrl = returnUrl, RememberMe = false });
                 case SignInStatus.Failure:
                 default:
-                    //Это кусок кода взят ниже, убираю линее действие по подтверждению
+                    //Это кусок кода взят ниже, убираю лишнее действие по подтверждению
                     if (ModelState.IsValid && loginInfo.Email!=null && loginInfo.Email != string.Empty)
                     {
                         // Get the information about the user from the external login provider

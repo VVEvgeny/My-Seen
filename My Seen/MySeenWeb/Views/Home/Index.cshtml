@@ -1,7 +1,36 @@
-﻿@{
+﻿@using Microsoft.AspNet.Identity
+@model MySeenWeb.Models.AllFilms
+
+@{
     ViewBag.Title = "Home Page";
 }
-
-<div class="jumbotron">
-    <h1>Main page</h1>
+<div>
+    @Html.DropDownListFor(model => model.Selected, Model.selectTypesList)
 </div>
+        <div>
+            @if (User.Identity.IsAuthenticated)
+            {
+                <table>
+                    <thead>
+                        <tr>
+                            <th width="2%"></th>
+                            <th width="75%">Name</th>
+                            <th width="20%">Date</th>
+                            <th width="10%">Rate</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (MySeenWeb.Models.Film film in Model.Films)
+                        {
+                            <tr>
+                                <td align="center"></td>
+                                <td align="left">@film.Name</td>
+                                <td align="center">@film.DateSee</td>
+                                <td align="center">@film.Rate</td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            }
+        </div>
+

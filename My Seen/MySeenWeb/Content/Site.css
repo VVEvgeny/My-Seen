@@ -22,3 +22,27 @@ select,
 textarea {
     max-width: 280px;
 }
+
+/* TABLE ----------------------------------------------------------*/
+table 
+{
+  border: solid 1px #e8eef4;
+  border-collapse: collapse;
+}
+table td 
+{
+  padding: 5px;   
+  border: solid 1px #e8eef4;
+  vertical-align: inherit;
+}
+table th
+{
+  padding: 6px 5px;
+  text-align: center;
+  background-color: #e8eef4; 
+  border: solid 1px #e8eef4;   
+  vertical-align: inherit;
+  font-weight: bold;
+}
+
+

@@ -5,7 +5,27 @@ using System.Web;
 using System.Text;
 using System.Security.Cryptography;
 
+public static class CookieStore
+{
+    public static void SetCookie(string key, string value)
+    {
+        HttpContext.Current.Request.Cookies.Remove(key);
+        HttpCookie cookie = new HttpCookie(key);
+        cookie.Expires = DateTime.Now.AddDays(1);
+        cookie.Value = value;
+        HttpContext.Current.Request.Cookies.Add(cookie);
+    }
+    public static string GetCookie(string key)
+    {
+        HttpCookie cookie = HttpContext.Current.Request.Cookies[key];
+        if (cookie != null)
+        {
+            return cookie.Value;
+        }
+        return string.Empty;
+    }
 
+}
     #region MD5Tools
     public static class MD5Tools
     {
