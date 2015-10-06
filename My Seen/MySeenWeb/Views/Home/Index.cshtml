@@ -1,4 +1,5 @@
 ﻿@using Microsoft.AspNet.Identity
+@using MySeenWeb.Models;
 @model MySeenWeb.Models.HomeViewModel
 
 
@@ -16,13 +17,13 @@
                     <thead>
                         <tr>
                             <th width="2%"></th>
-                            <th width="75%">Name</th>
+                            <th width="78%">Name</th>
                             <th width="20%">Date</th>
                             <th width="10%">Rate</th>
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach (MySeenWeb.Models.FilmViewModel film in Model.Films)
+                        @foreach (Films film in Model.Films)
                         {
                             <tr>
                                 <td align="center"></td>
@@ -40,15 +41,15 @@
                         <thead>
                             <tr>
                                 <th width="2%"></th>
-                                <th width="65%">Name</th>
-                                <th width="20%">Last Ep</th>
+                                <th width="58%">Name</th>
+                                <th width="10%">Last Ep</th>
                                 <th width="20%">Date Last</th>
                                 <th width="20%">Date Begin</th>
                                 <th width="10%">Rate</th>
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach (MySeenWeb.Models.SerialViewModel film in Model.Serials)
+                            @foreach (Serials film in Model.Serials)
                             {
                                 <tr>
                                     <td align="center"></td>

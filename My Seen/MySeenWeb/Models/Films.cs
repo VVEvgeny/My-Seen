@@ -9,7 +9,7 @@ using System.Web.Mvc;
 
 namespace MySeenWeb.Models
 {
-    public class FilmViewModel
+    public class Films
     {
         [Key]
         public int Id { get; set; }

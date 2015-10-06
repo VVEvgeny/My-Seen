@@ -27,8 +27,8 @@ namespace MySeenWeb.Models
         {
         }
 
-        public DbSet<FilmViewModel> Films { get; set; }
-        public DbSet<SerialViewModel> Serials { get; set; }
+        public DbSet<Films> Films { get; set; }
+        public DbSet<Serials> Serials { get; set; }
 
         public static ApplicationDbContext Create()
         {

@@ -33,8 +33,8 @@ namespace MySeenWeb.Models
         {
             Selected = eSelected.Films;
         }
-        public IEnumerable<FilmViewModel> Films;
-        public IEnumerable<SerialViewModel> Serials;
+        public IEnumerable<Films> Films;
+        public IEnumerable<Serials> Serials;
         public void LoadSelectList()
         {
             List<SelectListItem> listItems = new List<SelectListItem>();
