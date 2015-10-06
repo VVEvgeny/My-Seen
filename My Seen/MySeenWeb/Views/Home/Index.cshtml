@@ -9,7 +9,8 @@
         <div>
             @if (User.Identity.IsAuthenticated)
             {
-                @Html.DropDownListFor(model => model.Selected, Model.selectList, new { id = "lstSelected", onchange = "onChange()" })
+        @*@Html.DropDownListFor(model => model.Selected, Model.selectList, new { id = "lstSelected", onchange = "onChange()" })*@
+        @Html.DropDownListFor(model => model.Selected, Model.selectList, new { id = "lstSelected" })
                 
                 if (Model.isSelectedFilm())
                 {
@@ -66,13 +67,36 @@
         </div>
 
 <script language="javascript" type="text/javascript">
-    function onChange() 
-    {
+    //function onChange()
+    //{
+    //    $.ajax({
+    //        type: 'POST',
+    //        url: '/Home/ChangeCookies',
+    //        data: {
+    //            selected: $("#lstSelected").val()
+    //        },
+    //        dataType: "json",
+    //        success: function () {
+    //            window.location.href = '/';
+    //        },
+    //        error: function () {
+    //            alert('Error');
+    //        }
+    //    });
+    //};
+
+    (function ($) {
+        $(function () {
+            var $select = $('#lstSelected');
+
+            $select.on('change', function () {
+                var value = $(this).val();
+
         $.ajax({
             type: 'POST',
             url: '/Home/ChangeCookies',
             data: {
-                selected: $("#lstSelected").val()
+                        selected: value
             },
             dataType: "json",
             success: function () {
@@ -82,5 +106,7 @@
                 alert('Error');
             }
         });
-    };
+            });
+        });
+    })(jQuery);
 </script>
