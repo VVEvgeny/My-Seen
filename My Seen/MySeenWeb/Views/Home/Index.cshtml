@@ -2,70 +2,180 @@
 @using MySeenWeb.Models;
 @model MySeenWeb.Models.HomeViewModel
 
-@Scripts.Render("~/bundles/jquery");
+@Scripts.Render("~/bundles/jquery")
 
 @{
     ViewBag.Title = "Home Page";
 }
-<div>
-    @if (User.Identity.IsAuthenticated)
-    {
-        @*@Html.DropDownListFor(model => model.Selected, Model.selectList, new { id = "lstSelected", onchange = "onChange()" })*@
-        @Html.DropDownListFor(model => model.Selected, Model.selectList, new { id = "lstSelected" })
 
-        if (Model.isSelectedFilm())
+<div class="form-group">
+    <br/>
+    
+    <label for="lstSelected">Select the category:</label>
+    @Html.DropDownListFor(model => model.Selected, Model.selectList, new { id = "lstSelected", @class = "form-control" })
+
+    <br />
+
+    <table class="table table-striped">
+        @if (Model.IsSelectedFilm)
         {
-            <table>
-                <thead>
+            <thead>
+                <tr>
+                    <th width="2%"></th>
+                    <th width="78%">Name</th>
+                    <th width="20%">Date</th>
+                    <th width="10%">Rate</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (Films film in Model.Films)
+                {
                     <tr>
-                        <th width="2%"></th>
-                        <th width="78%">Name</th>
-                        <th width="20%">Date</th>
-                        <th width="10%">Rate</th>
+                        <td align="center"></td>
+                        <td align="left">@film.Name</td>
+                        <td align="center">@film.DateSee</td>
+                        <td align="center">@film.Rate</td>
                     </tr>
-                </thead>
-                <tbody>
-                    @foreach (Films film in Model.Films)
-                    {
-                        <tr>
-                            <td align="center"></td>
-                            <td align="left">@film.Name</td>
-                            <td align="center">@film.DateSee</td>
-                            <td align="center">@film.Rate</td>
-                        </tr>
-                    }
-                </tbody>
-            </table>
+                }
+            </tbody>
         }
         else
         {
-            <table>
-                <thead>
+            <thead>
+                <tr>
+                    <th width="2%"></th>
+                    <th width="58%">Name</th>
+                    <th width="10%">Last Ep</th>
+                    <th width="20%">Date Last</th>
+                    <th width="20%">Date Begin</th>
+                    <th width="10%">Rate</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (Serials film in Model.Serials)
+                {
                     <tr>
-                        <th width="2%"></th>
-                        <th width="58%">Name</th>
-                        <th width="10%">Last Ep</th>
-                        <th width="20%">Date Last</th>
-                        <th width="20%">Date Begin</th>
-                        <th width="10%">Rate</th>
+                        <td align="center"></td>
+                        <td align="left">@film.Name</td>
+                        <td align="center">@film.DateLast</td>
+                        <td align="center">@film.DateBegin</td>
+                        <td align="center">@film.Rate</td>
                     </tr>
-                </thead>
-                <tbody>
-                    @foreach (Serials film in Model.Serials)
-                    {
-                        <tr>
-                            <td align="center"></td>
-                            <td align="left">@film.Name</td>
-                            <td align="center">@film.DateLast</td>
-                            <td align="center">@film.DateBegin</td>
-                            <td align="center">@film.Rate</td>
-                        </tr>
-                    }
-                </tbody>
-            </table>
+                }
+            </tbody>
         }
-    }
+    </table>
+
+    <button type="button" class="btn btn-primary" data-toggle="modal" data-target=".modal-window">
+        <span class="glyphicon glyphicon-plus"></span>
+        Add New
+    </button>    
+
+    <div class="modal fade modal-window" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title">Add New Element</h4>
+                </div>
+                <div class="modal-body">
+                    <form class="form-horizontal">
+                        <div class="form-group">
+                            <label for="filmGengre" class="col-sm-2 control-label">Genre</label>
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control" id="filmGengre" placeholder="Genre">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="filmName" class="col-sm-2 control-label">Name</label>
+                            <div class="col-sm-10">
+                                <input type="password" class="form-control" id="filmName" placeholder="Name">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-sm-offset-2 col-sm-10">
+                                <div class="checkbox">
+                                    <label>
+                                        <input type="checkbox"> Interesting?
+                                    </label>
+                                </div>
+                            </div>
+                        </div>                        
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">
+                        <span class="glyphicon glyphicon-remove"></span>
+                        Close
+                    </button>
+                    <button type="button" class="btn btn-primary">
+                        <span class="glyphicon glyphicon-ok"></span>
+                        Save changes
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
+
+@*<div>
+        @if (User.Identity.IsAuthenticated)
+        {
+            @Html.DropDownListFor(model => model.Selected, Model.selectList, new { id = "lstSelected", onchange = "onChange()" })
+
+            if (Model.isSelectedFilm())
+            {
+                <table>
+                    <thead>
+                        <tr>
+                            <th width="2%"></th>
+                            <th width="78%">Name</th>
+                            <th width="20%">Date</th>
+                            <th width="10%">Rate</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (Films film in Model.Films)
+                        {
+                            <tr>
+                                <td align="center"></td>
+                                <td align="left">@film.Name</td>
+                                <td align="center">@film.DateSee</td>
+                                <td align="center">@film.Rate</td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            }
+            else
+            {
+                <table>
+                    <thead>
+                        <tr>
+                            <th width="2%"></th>
+                            <th width="58%">Name</th>
+                            <th width="10%">Last Ep</th>
+                            <th width="20%">Date Last</th>
+                            <th width="20%">Date Begin</th>
+                            <th width="10%">Rate</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (Serials film in Model.Serials)
+                        {
+                            <tr>
+                                <td align="center"></td>
+                                <td align="left">@film.Name</td>
+                                <td align="center">@film.DateLast</td>
+                                <td align="center">@film.DateBegin</td>
+                                <td align="center">@film.Rate</td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            }
+        }
+    </div>*@
 
 <script language="javascript" type="text/javascript">
     //function onChange()

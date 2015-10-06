@@ -23,11 +23,18 @@ namespace MySeenWeb.Models
             Serials
         }
         public eSelected Selected;
-        public bool isSelectedFilm()
+
+        //public bool isSelectedFilm()
+        //{
+        //    if (Selected == eSelected.Films) return true;
+        //    return false;
+        //}
+
+        public bool IsSelectedFilm
         {
-            if (Selected == eSelected.Films) return true;
-            return false;
+            get { return Selected == eSelected.Films; }            
         }
+
         public IEnumerable<SelectListItem> selectList { get; set; }
         public HomeViewModel()
         {
@@ -42,17 +49,17 @@ namespace MySeenWeb.Models
             {
                 listItems.Add(new SelectListItem { Text = sel.ToString(), Value = sel.ToString(), Selected = (Selected == sel) });
             }
-            selectList = listItems.AsEnumerable();
+            selectList = listItems;
         }
         public void LoadFilms(string userId)
         {
             ApplicationDbContext ac= new ApplicationDbContext();
-            Films = ac.Films.Where(f => f.UserId == userId).OrderByDescending(f => f.DateSee).AsEnumerable();
+            Films = ac.Films.Where(f => f.UserId == userId).OrderByDescending(f => f.DateSee);
         }
         public void LoadSerials(string userId)
         {
             ApplicationDbContext ac = new ApplicationDbContext();
-            Serials = ac.Serials.Where(f => f.UserId == userId).OrderByDescending(f => f.DateLast).AsEnumerable();
+            Serials = ac.Serials.Where(f => f.UserId == userId).OrderByDescending(f => f.DateLast);
         }
     }
 }
