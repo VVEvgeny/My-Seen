@@ -5,81 +5,107 @@
 @{
     ViewBag.Title = "Home Page";
 }
-        <div>
-            @if (User.Identity.IsAuthenticated)
-            {
-                @Html.DropDownListFor(model => model.Selected, Model.selectList, new { id = "lstSelected", onchange = "onChange()" })
-                
-                if (Model.isSelectedFilm())
-                {
-                <table>
-                    <thead>
+<div>
+    @if (User.Identity.IsAuthenticated)
+    {
+        @*@Html.DropDownListFor(model => model.Selected, Model.selectList, new { id = "lstSelected", onchange = "onChange()" })*@
+        @Html.DropDownListFor(model => model.Selected, Model.selectList, new { id = "lstSelected" })
+
+        if (Model.isSelectedFilm())
+        {
+            <table>
+                <thead>
+                    <tr>
+                        <th width="2%"></th>
+                        <th width="75%">Name</th>
+                        <th width="20%">Date</th>
+                        <th width="10%">Rate</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (MySeenWeb.Models.FilmViewModel film in Model.Films)
+                    {
                         <tr>
-                            <th width="2%"></th>
-                            <th width="75%">Name</th>
-                            <th width="20%">Date</th>
-                            <th width="10%">Rate</th>
+                            <td align="center"></td>
+                            <td align="left">@film.Name</td>
+                            <td align="center">@film.DateSee</td>
+                            <td align="center">@film.Rate</td>
                         </tr>
-                    </thead>
-                    <tbody>
-                        @foreach (MySeenWeb.Models.FilmViewModel film in Model.Films)
-                        {
-                            <tr>
-                                <td align="center"></td>
-                                <td align="left">@film.Name</td>
-                                <td align="center">@film.DateSee</td>
-                                <td align="center">@film.Rate</td>
-                            </tr>
-                        }
-                    </tbody>
-                </table>
-                }
-                else
-                {
-                    <table>
-                        <thead>
-                            <tr>
-                                <th width="2%"></th>
-                                <th width="65%">Name</th>
-                                <th width="20%">Last Ep</th>
-                                <th width="20%">Date Last</th>
-                                <th width="20%">Date Begin</th>
-                                <th width="10%">Rate</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach (MySeenWeb.Models.SerialViewModel film in Model.Serials)
-                            {
-                                <tr>
-                                    <td align="center"></td>
-                                    <td align="left">@film.Name</td>
-                                    <td align="center">@film.DateLast</td>
-                                    <td align="center">@film.DateBegin</td>
-                                    <td align="center">@film.Rate</td>
-                                </tr>
-                            }
-                        </tbody>
-                    </table>
-                }
-            }
-        </div>
+                    }
+                </tbody>
+            </table>
+        }
+        else
+        {
+            <table>
+                <thead>
+                    <tr>
+                        <th width="2%"></th>
+                        <th width="65%">Name</th>
+                        <th width="20%">Last Ep</th>
+                        <th width="20%">Date Last</th>
+                        <th width="20%">Date Begin</th>
+                        <th width="10%">Rate</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (MySeenWeb.Models.SerialViewModel film in Model.Serials)
+                    {
+                        <tr>
+                            <td align="center"></td>
+                            <td align="left">@film.Name</td>
+                            <td align="center">@film.DateLast</td>
+                            <td align="center">@film.DateBegin</td>
+                            <td align="center">@film.Rate</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        }
+    }
+</div>
 
 <script language="javascript" type="text/javascript">
-    function onChange() 
-    {
-        $.ajax({
-            type: 'POST',
-            url: '/Home/ChangeCookies',
-            data: {
-                selected: $("#lstSelected").val()
-            },
-            dataType: "json",
-            success: function () {
-                window.location.href = '/';
-            },
-            error: function () {
-                alert('Error');
-            }
+    //function onChange()
+    //{
+    //    $.ajax({
+    //        type: 'POST',
+    //        url: '/Home/ChangeCookies',
+    //        data: {
+    //            selected: $("#lstSelected").val()
+    //        },
+    //        dataType: "json",
+    //        success: function () {
+    //            window.location.href = '/';
+    //        },
+    //        error: function () {
+    //            alert('Error');
+    //        }
+    //    });
+    //};
+
+    (function ($) {
+        $(function () {
+            var $select = $('#lstSelected');
+
+            $select.on('change', function () {
+                var value = $(this).val();
+
+                $.ajax({
+                    type: 'POST',
+                    url: '/Home/ChangeCookies',
+                    data: {
+                        selected: value
+                    },
+                    dataType: "json",
+                    success: function () {
+                        window.location.href = '/';
+                    },
+                    error: function () {
+                        alert('Error');
+                    }
+                });
+            });
         });
-    };
+    })(jQuery);
 </script>
