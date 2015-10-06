@@ -23,6 +23,7 @@ namespace My_Seen
         public System.DateTime DateLast { get; set; }
         public int Rate { get; set; }
         public System.DateTime DateChange { get; set; }
+        public int Genre { get; set; }
     
         public virtual Users Users { get; set; }
     }

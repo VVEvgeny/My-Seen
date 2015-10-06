@@ -8,6 +8,40 @@ using System.Threading;
 
 namespace MySeenLib
 {
+    public static class Genres
+    {
+        private static List<string> All;
+        
+        public static int GetGenreId(string _genre)
+        {
+            if (All == null) GetAll();
+            return All.IndexOf(_genre);
+        }
+        public static string GetGenreById(int _id)
+        {
+            if (All == null) GetAll();
+            if (_id >= All.Count) return "";
+            return All[_id];
+        }
+
+        public static List<string> GetAll()
+        {
+            if(All==null)
+            {
+                All = new List<string>();
+                All.Add(Resource.GenreThriller);
+                All.Add(Resource.GenreDocumentary);
+                All.Add(Resource.GenreDrama);
+                All.Add(Resource.GenreComedy);
+                All.Add(Resource.GenreConcert);
+                All.Add(Resource.GenreCartoon);
+                All.Add(Resource.GenreHorror);
+                All.Add(Resource.GenreFantastic);
+            }
+            return All;
+        }
+
+    }
     public static class LibTools
     {
         public static class Validation

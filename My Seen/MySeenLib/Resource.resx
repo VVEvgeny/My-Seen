@@ -120,6 +120,30 @@
   <data name="EmailIncorrect" xml:space="preserve">
     <value>Email Incorrect</value>
   </data>
+  <data name="GenreCartoon" xml:space="preserve">
+    <value>Cartoon</value>
+  </data>
+  <data name="GenreComedy" xml:space="preserve">
+    <value>Comedy</value>
+  </data>
+  <data name="GenreConcert" xml:space="preserve">
+    <value>Concert</value>
+  </data>
+  <data name="GenreDocumentary" xml:space="preserve">
+    <value>Documentary</value>
+  </data>
+  <data name="GenreDrama" xml:space="preserve">
+    <value>Drama</value>
+  </data>
+  <data name="GenreFantastic" xml:space="preserve">
+    <value>Fantastic</value>
+  </data>
+  <data name="GenreHorror" xml:space="preserve">
+    <value>Horror</value>
+  </data>
+  <data name="GenreThriller" xml:space="preserve">
+    <value>Thriller</value>
+  </data>
   <data name="PasswordLength" xml:space="preserve">
     <value>Password Length &lt; 6</value>
   </data>

@@ -2,7 +2,7 @@
 -- --------------------------------------------------
 -- Entity Designer DDL Script for SQL Server 2005, 2008, 2012 and Azure
 -- --------------------------------------------------
--- Date Created: 10/05/2015 10:58:20
+-- Date Created: 10/06/2015 17:47:13
 -- Generated from EDMX file: D:\Work_vve\workspace_sharp_git\vvevgeny_myseen\My Seen\My Seen\Model.edmx
 -- --------------------------------------------------
 
@@ -60,7 +60,8 @@ CREATE TABLE [dbo].[FilmsSet] (
     [Name] nvarchar(max)  NOT NULL,
     [DateSee] datetime  NOT NULL,
     [Rate] int  NOT NULL,
-    [DateChange] datetime  NOT NULL
+    [DateChange] datetime  NOT NULL,
+    [Genre] int  NOT NULL
 );
 GO
 
@@ -74,7 +75,8 @@ CREATE TABLE [dbo].[SerialsSet] (
     [DateBegin] datetime  NOT NULL,
     [DateLast] datetime  NOT NULL,
     [Rate] int  NOT NULL,
-    [DateChange] datetime  NOT NULL
+    [DateChange] datetime  NOT NULL,
+    [Genre] int  NOT NULL
 );
 GO
 

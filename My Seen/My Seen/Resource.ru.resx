@@ -186,4 +186,7 @@
   <data name="SerialNameAlreadyExists" xml:space="preserve">
     <value>Такой сериал уже есть в базе</value>
   </data>
+  <data name="Genre" xml:space="preserve">
+    <value>Жанр</value>
+  </data>
 </root>

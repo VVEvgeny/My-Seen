@@ -186,4 +186,7 @@
   <data name="SerialNameAlreadyExists" xml:space="preserve">
     <value>Serial name already exists</value>
   </data>
+  <data name="Genre" xml:space="preserve">
+    <value>Genre</value>
+  </data>
 </root>

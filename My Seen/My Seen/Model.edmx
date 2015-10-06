@@ -39,6 +39,7 @@
     <Property Name="DateSee" Type="datetime" Nullable="false" />
     <Property Name="Rate" Type="int" Nullable="false" />
     <Property Name="DateChange" Type="datetime" Nullable="false" />
+    <Property Name="Genre" Type="int" Nullable="false" />
   </EntityType>
   <EntityType Name="SerialsSet">
     <Key>
@@ -53,6 +54,7 @@
     <Property Name="DateLast" Type="datetime" Nullable="false" />
     <Property Name="Rate" Type="int" Nullable="false" />
     <Property Name="DateChange" Type="datetime" Nullable="false" />
+    <Property Name="Genre" Type="int" Nullable="false" />
   </EntityType>
   <Association Name="UsersFilms">
     <End Role="Users" Type="Model.Store.UsersSet" Multiplicity="1">
@@ -123,6 +125,7 @@
           <Property Name="Rate" Type="Int32" Nullable="false" />
           <NavigationProperty Name="Users" Relationship="Model.UsersFilms" FromRole="Films" ToRole="Users" />
           <Property Name="DateChange" Type="DateTime" Nullable="false" />
+          <Property Name="Genre" Type="Int32" Nullable="false" />
         </EntityType>
         <EntityType Name="Serials">
           <Key>
@@ -138,6 +141,7 @@
           <Property Name="DateLast" Type="DateTime" Nullable="false" />
           <Property Name="Rate" Type="Int32" Nullable="false" />
           <Property Name="DateChange" Type="DateTime" Nullable="false" />
+          <Property Name="Genre" Type="Int32" Nullable="false" />
         </EntityType>
         <Association Name="UsersFilms">
           <End Type="Model.Users" Role="Users" Multiplicity="1" >
@@ -196,6 +200,7 @@
           <ScalarProperty Name="DateSee" ColumnName="DateSee" />
           <ScalarProperty Name="Rate" ColumnName="Rate" />
           <ScalarProperty Name="DateChange" ColumnName="DateChange" />
+          <ScalarProperty Name="Genre" ColumnName="Genre" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -211,6 +216,7 @@
           <ScalarProperty Name="DateLast" ColumnName="DateLast" />
           <ScalarProperty Name="Rate" ColumnName="Rate" />
           <ScalarProperty Name="DateChange" ColumnName="DateChange" />
+          <ScalarProperty Name="Genre" ColumnName="Genre" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>

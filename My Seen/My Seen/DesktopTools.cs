@@ -30,6 +30,7 @@ namespace My_Seen
         }
     }
 
+
     #region CultureTool
     public static class CultureInfoTool
     {

@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using MySeenLib;
 
 namespace My_Seen
 {
@@ -79,8 +80,13 @@ namespace My_Seen
             {
                 ColumnHeader cl_name = new ColumnHeader();
                 cl_name.Text = Resource.Name;
-                cl_name.Width = 510;
+                cl_name.Width = 460;
                 listView1.Columns.Add(cl_name);
+
+                ColumnHeader cl_genre = new ColumnHeader();
+                cl_genre.Text = Resource.Genre;
+                cl_genre.Width = 50;
+                listView1.Columns.Add(cl_genre);
 
                 ColumnHeader cl_date = new ColumnHeader();
                 cl_date.Text = Resource.Date;
@@ -91,13 +97,18 @@ namespace My_Seen
             {
                 ColumnHeader cl_name = new ColumnHeader();
                 cl_name.Text = Resource.Name;
-                cl_name.Width = 340;
+                cl_name.Width = 290;
                 listView1.Columns.Add(cl_name);
 
                 ColumnHeader cl_last_ep = new ColumnHeader();
                 cl_last_ep.Text = Resource.LastEpisode;
                 cl_last_ep.Width = 50;
                 listView1.Columns.Add(cl_last_ep);
+
+                ColumnHeader cl_genre = new ColumnHeader();
+                cl_genre.Text = Resource.Genre;
+                cl_genre.Width = 50;
+                listView1.Columns.Add(cl_genre);
 
                 ColumnHeader cl_date_last = new ColumnHeader();
                 cl_date_last.Text = Resource.DateLast;
@@ -160,15 +171,15 @@ namespace My_Seen
         }
         private void LoadItemsToListView(Serials film, bool oneToTop)
         {
-            if (oneToTop) listView1.Items.Insert(0, new ListViewItem(new string[] { film.Id.ToString(), film.Name, film.LastSeason.ToString()+"-"+film.LastSeries.ToString(),film.DateLast.ToString(),film.DateBegin.ToString(), film.Rate.ToString() }));
-            else listView1.Items.Add(new ListViewItem(new string[] { film.Id.ToString(), film.Name, film.LastSeason.ToString() + "-" + film.LastSeries.ToString(), film.DateLast.ToString(), film.DateBegin.ToString(), film.Rate.ToString() }));
+            if (oneToTop) listView1.Items.Insert(0, new ListViewItem(new string[] { film.Id.ToString(), film.Name, film.LastSeason.ToString() + "-" + film.LastSeries.ToString(), Genres.GetGenreById(film.Genre), film.DateLast.ToString(), film.DateBegin.ToString(), film.Rate.ToString() }));
+            else listView1.Items.Add(new ListViewItem(new string[] { film.Id.ToString(), film.Name, film.LastSeason.ToString() + "-" + film.LastSeries.ToString(), Genres.GetGenreById(film.Genre), film.DateLast.ToString(), film.DateBegin.ToString(), film.Rate.ToString() }));
 
             toolStripStatusLabel2.Text = listView1.Items.Count.ToString();
         }
         private void LoadItemsToListView(Films film, bool oneToTop)
         {
-            if (oneToTop) listView1.Items.Insert(0, new ListViewItem(new string[] { film.Id.ToString(), film.Name, film.DateSee.ToString(), film.Rate.ToString() }));
-            else listView1.Items.Add(new ListViewItem(new string[] { film.Id.ToString(), film.Name, film.DateSee.ToString(), film.Rate.ToString() }));
+            if (oneToTop) listView1.Items.Insert(0, new ListViewItem(new string[] { film.Id.ToString(), film.Name, Genres.GetGenreById(film.Genre), film.DateSee.ToString(), film.Rate.ToString() }));
+            else listView1.Items.Add(new ListViewItem(new string[] { film.Id.ToString(), film.Name, Genres.GetGenreById(film.Genre), film.DateSee.ToString(), film.Rate.ToString() }));
             
             toolStripStatusLabel2.Text = listView1.Items.Count.ToString();
         }
@@ -183,7 +194,7 @@ namespace My_Seen
             {
                 Add_Film form = new Add_Film();
                 form.User = user;
-                form.EditData(lvi.SubItems[0].Text, lvi.SubItems[1].Text, lvi.SubItems[2].Text, lvi.SubItems[3].Text);
+                form.EditData(lvi.SubItems[0].Text, lvi.SubItems[1].Text, lvi.SubItems[2].Text, lvi.SubItems[3].Text, lvi.SubItems[4].Text);
                 form.ShowDialog();
                 if (form.NewFilm != null)
                 {
@@ -196,8 +207,9 @@ namespace My_Seen
                     film.Rate = form.NewFilm.Rate;
                     film.DateChange = form.NewFilm.DateChange;
                     lvi.SubItems[1].Text = form.NewFilm.Name;
-                    lvi.SubItems[2].Text = form.NewFilm.DateSee.ToString();
-                    lvi.SubItems[3].Text = form.NewFilm.Rate.ToString();
+                    lvi.SubItems[2].Text = Genres.GetGenreById(form.NewFilm.Genre);
+                    lvi.SubItems[3].Text = form.NewFilm.DateSee.ToString();
+                    lvi.SubItems[4].Text = form.NewFilm.Rate.ToString();
                     mc.SaveChanges();
                 }
                 form.Close();
@@ -206,7 +218,7 @@ namespace My_Seen
             {
                 Add_Serial form = new Add_Serial();
                 form.User = user;
-                form.EditData(lvi.SubItems[0].Text, lvi.SubItems[1].Text, lvi.SubItems[4].Text, lvi.SubItems[5].Text, lvi.SubItems[2].Text.Split('-')[0], lvi.SubItems[2].Text.Split('-')[1]);
+                form.EditData(lvi.SubItems[0].Text, lvi.SubItems[1].Text, lvi.SubItems[5].Text, lvi.SubItems[6].Text, lvi.SubItems[2].Text.Split('-')[0], lvi.SubItems[2].Text.Split('-')[1], lvi.SubItems[3].Text);
                 form.ShowDialog();
                 if (form.NewFilm != null)
                 {
@@ -223,9 +235,10 @@ namespace My_Seen
                     film.DateChange = form.NewFilm.DateChange;
                     lvi.SubItems[1].Text = form.NewFilm.Name;
                     lvi.SubItems[2].Text = form.NewFilm.LastSeason.ToString() + "-" + form.NewFilm.LastSeries.ToString();
-                    lvi.SubItems[3].Text = form.NewFilm.DateLast.ToString();
-                    lvi.SubItems[4].Text = form.NewFilm.DateBegin.ToString();
-                    lvi.SubItems[5].Text = form.NewFilm.Rate.ToString();
+                    lvi.SubItems[3].Text = Genres.GetGenreById(form.NewFilm.Genre);
+                    lvi.SubItems[4].Text = form.NewFilm.DateLast.ToString();
+                    lvi.SubItems[5].Text = form.NewFilm.DateBegin.ToString();
+                    lvi.SubItems[6].Text = form.NewFilm.Rate.ToString();
                     mc.SaveChanges();
                 }
                 form.Close();

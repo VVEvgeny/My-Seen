@@ -117,24 +117,24 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="button1.Text" xml:space="preserve">
+    <value>Добавить</value>
+  </data>
   <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
-  <data name="label1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>57, 13</value>
+  <data name="$this.ClientSize" type="System.Drawing.Size, System.Drawing">
+    <value>227, 168</value>
   </data>
-  <data name="label1.Text" xml:space="preserve">
-    <value>Название</value>
+  <data name="label6.Text" xml:space="preserve">
+    <value>Жанр</value>
   </data>
-  <data name="label2.Size" type="System.Drawing.Size, System.Drawing">
-    <value>38, 13</value>
+  <data name="label5.Location" type="System.Drawing.Point, System.Drawing">
+    <value>23, 116</value>
   </data>
-  <data name="label2.Text" xml:space="preserve">
-    <value>Сезон</value>
+  <data name="label5.Size" type="System.Drawing.Size, System.Drawing">
+    <value>48, 13</value>
   </data>
-  <data name="label3.Size" type="System.Drawing.Size, System.Drawing">
-    <value>38, 13</value>
-  </data>
-  <data name="label3.Text" xml:space="preserve">
-    <value>Серия</value>
+  <data name="label5.Text" xml:space="preserve">
+    <value>Рейтинг</value>
   </data>
   <data name="label4.Location" type="System.Drawing.Point, System.Drawing">
     <value>4, 64</value>
@@ -145,22 +145,25 @@
   <data name="label4.Text" xml:space="preserve">
     <value>Дата начала</value>
   </data>
-  <data name="label5.Location" type="System.Drawing.Point, System.Drawing">
-    <value>23, 89</value>
+  <data name="label3.Size" type="System.Drawing.Size, System.Drawing">
+    <value>38, 13</value>
   </data>
-  <data name="label5.Size" type="System.Drawing.Size, System.Drawing">
-    <value>48, 13</value>
+  <data name="label3.Text" xml:space="preserve">
+    <value>Серия</value>
   </data>
-  <data name="label5.Text" xml:space="preserve">
-    <value>Рейтинг</value>
+  <data name="label2.Size" type="System.Drawing.Size, System.Drawing">
+    <value>38, 13</value>
   </data>
-  <data name="button1.Text" xml:space="preserve">
-    <value>Добавить</value>
-  </data>
-  <data name="$this.ClientSize" type="System.Drawing.Size, System.Drawing">
-    <value>227, 143</value>
+  <data name="label2.Text" xml:space="preserve">
+    <value>Сезон</value>
   </data>
   <data name="$this.Text" xml:space="preserve">
     <value>Добавить Сериал</value>
+  </data>
+  <data name="label1.Size" type="System.Drawing.Size, System.Drawing">
+    <value>57, 13</value>
+  </data>
+  <data name="label1.Text" xml:space="preserve">
+    <value>Название</value>
   </data>
 </root>

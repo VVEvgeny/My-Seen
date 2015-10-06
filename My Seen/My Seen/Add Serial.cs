@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using MySeenLib;
 
 namespace My_Seen
 {
@@ -50,9 +51,12 @@ namespace My_Seen
             }
             dateTimePicker1.MaxDate = DateTime.Now.AddDays(1);
             dateTimePicker1.MinDate = new DateTime(1988, 10, 2);
+            comboBox2.Items.Clear();
+            comboBox2.Items.AddRange(Genres.GetAll().ToArray());
+            if (comboBox2.Items.Count != 0) comboBox2.Text = comboBox2.Items[0].ToString();
         }
         private int EditId;
-        public void EditData(string id, string _name, string _seeDate, string _rate,string _season,string _series)
+        public void EditData(string id, string _name, string _seeDate, string _rate, string _season, string _series, string _genre)
         {
             Text = Resource.Edit;
             EditId = Convert.ToInt32(id);
@@ -63,7 +67,8 @@ namespace My_Seen
             textBox3.Text = _series;
             button1.Text = Resource.Edit;
 
-            comboBox1.Text = _rate.ToString();
+            comboBox1.Text = _rate;
+            comboBox2.Text = _genre;
         }
 
         private void button1_Click(object sender, EventArgs e)
@@ -101,8 +106,8 @@ namespace My_Seen
             }
             if (!ErrorProviderTools.isValid(errorProvider)) return;
 
-            if (EditId != 0) newFilm = new Serials() { Id = EditId, UsersId = user.Id, Name = textBox1.Text, DateBegin = dateTimePicker1.Value, DateLast = DateTime.Now, DateChange = DateTime.Now, Rate = Convert.ToInt32(comboBox1.Text), LastSeason = Convert.ToInt32(textBox2.Text), LastSeries = Convert.ToInt32(textBox3.Text) };
-            else newFilm = new Serials() { UsersId = user.Id, Name = textBox1.Text, DateBegin = dateTimePicker1.Value, DateLast = DateTime.Now, DateChange = DateTime.Now, Rate = Convert.ToInt32(comboBox1.Text), LastSeason = Convert.ToInt32(textBox2.Text), LastSeries = Convert.ToInt32(textBox3.Text) };
+            if (EditId != 0) newFilm = new Serials() { Id = EditId, UsersId = user.Id, Name = textBox1.Text, DateBegin = dateTimePicker1.Value, DateLast = DateTime.Now, DateChange = DateTime.Now, Rate = Convert.ToInt32(comboBox1.Text), LastSeason = Convert.ToInt32(textBox2.Text), LastSeries = Convert.ToInt32(textBox3.Text), Genre = Genres.GetGenreId(comboBox2.Text) };
+            else newFilm = new Serials() { UsersId = user.Id, Name = textBox1.Text, DateBegin = dateTimePicker1.Value, DateLast = DateTime.Now, DateChange = DateTime.Now, Rate = Convert.ToInt32(comboBox1.Text), LastSeason = Convert.ToInt32(textBox2.Text), LastSeries = Convert.ToInt32(textBox3.Text), Genre = Genres.GetGenreId(comboBox2.Text) };
             Hide();
         }
     }

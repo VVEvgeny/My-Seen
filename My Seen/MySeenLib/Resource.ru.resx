@@ -118,7 +118,31 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="EmailIncorrect" xml:space="preserve">
-    <value>Неверный почтоый ящик</value>
+    <value>Неверный почтовый ящик</value>
+  </data>
+  <data name="GenreCartoon" xml:space="preserve">
+    <value>Мультфильм</value>
+  </data>
+  <data name="GenreComedy" xml:space="preserve">
+    <value>Комедия</value>
+  </data>
+  <data name="GenreConcert" xml:space="preserve">
+    <value>Концерт</value>
+  </data>
+  <data name="GenreDocumentary" xml:space="preserve">
+    <value>Документальный</value>
+  </data>
+  <data name="GenreDrama" xml:space="preserve">
+    <value>Драма</value>
+  </data>
+  <data name="GenreFantastic" xml:space="preserve">
+    <value>Фантастика</value>
+  </data>
+  <data name="GenreHorror" xml:space="preserve">
+    <value>Ужас</value>
+  </data>
+  <data name="GenreThriller" xml:space="preserve">
+    <value>Боевик</value>
   </data>
   <data name="PasswordLength" xml:space="preserve">
     <value>Пароль должен быть не меньше 6 символов</value>
