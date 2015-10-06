@@ -181,7 +181,7 @@
         $(function () {
             var $select = $('#lstSelected');
             var $saveButton = $('#saveButton');
-            var isSelectedFilm = @Model.IsSelectedFilm;
+            var isSelectedFilm = '@Model.IsSelectedFilm' === 'True';
 
             $select.on('change', function () {
                 var value = $(this).val();
