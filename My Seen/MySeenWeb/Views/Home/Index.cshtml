@@ -1,87 +1,101 @@
-﻿@using Microsoft.AspNet.Identity
-@using MySeenWeb.Models;
-@model MySeenWeb.Models.HomeViewModel
+﻿@using MySeenWeb.Models;
+
+@model HomeViewModel
 
 @Scripts.Render("~/bundles/jquery")
 
 @{
     ViewBag.Title = "Home Page";
+    var isSelectedFilm = Model.IsSelectedFilm;
 }
 
-<div class="form-group">
-    <br/>
-    
-    <label for="lstSelected">Select the category:</label>
-    @Html.DropDownListFor(model => model.Selected, Model.selectList, new { id = "lstSelected", @class = "form-control" })
+<br />
 
-    <button type="button" class="btn btn-primary" data-toggle="modal" data-target=".modal-window">
-        <span class="glyphicon glyphicon-plus"></span>
-        Add New
-    </button>  
+<div class="form-inline">
+    <div class="form-group">
+        <label for="lstSelected" style="display: block;">Select the category:</label>
+        @Html.DropDownListFor(model => model.Selected, Model.selectList, new { @class = "form-control", @id = "lstSelected", @style = "width: 200px;" })
 
-    <br />
+        <button type="button" class="btn btn-primary" data-toggle="modal" data-target=".modal-window">
+            <span class="glyphicon glyphicon-plus"></span>
+            Add New
+        </button>
+    </div>
+</div>
 
-    <table class="table table-striped">
-        @if (Model.IsSelectedFilm)
-        {
-            <thead>
+<br />
+
+<table class="table table-striped">
+    @if (isSelectedFilm)
+    {
+        <thead>
+            <tr>
+                <th width="2%"></th>
+                <th width="78%">Name</th>
+                <th width="20%">Date</th>
+                <th width="10%">Rate</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (Films film in Model.Films)
+            {
                 <tr>
-                    <th width="2%"></th>
-                    <th width="78%">Name</th>
-                    <th width="20%">Date</th>
-                    <th width="10%">Rate</th>
+                    <td align="center"></td>
+                    <td align="left">@film.Name</td>
+                    <td align="center">@film.DateSee</td>
+                    <td align="center">@film.Rate</td>
                 </tr>
-            </thead>
-            <tbody>
-                @foreach (Films film in Model.Films)
-                {
-                    <tr>
-                        <td align="center"></td>
-                        <td align="left">@film.Name</td>
-                        <td align="center">@film.DateSee</td>
-                        <td align="center">@film.Rate</td>
-                    </tr>
-                }
-            </tbody>
-        }
-        else
-        {
-            <thead>
+            }
+        </tbody>
+    }
+    else
+    {
+        <thead>
+            <tr>
+                <th width="2%"></th>
+                <th width="58%">Name</th>
+                <th width="10%">Last Ep</th>
+                <th width="20%">Date Last</th>
+                <th width="20%">Date Begin</th>
+                <th width="10%">Rate</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (Serials film in Model.Serials)
+            {
                 <tr>
-                    <th width="2%"></th>
-                    <th width="58%">Name</th>
-                    <th width="10%">Last Ep</th>
-                    <th width="20%">Date Last</th>
-                    <th width="20%">Date Begin</th>
-                    <th width="10%">Rate</th>
+                    <td align="center"></td>
+                    <td align="left">@film.Name</td>
+                    <td align="center">@film.DateLast</td>
+                    <td align="center">@film.DateBegin</td>
+                    <td align="center">@film.Rate</td>
                 </tr>
-            </thead>
-            <tbody>
-                @foreach (Serials film in Model.Serials)
-                {
-                    <tr>
-                        <td align="center"></td>
-                        <td align="left">@film.Name</td>
-                        <td align="center">@film.DateLast</td>
-                        <td align="center">@film.DateBegin</td>
-                        <td align="center">@film.Rate</td>
-                    </tr>
-                }
-            </tbody>
-        }
-    </table>
+            }
+        </tbody>
+    }
+</table>
 
-  
-
-    <div class="modal fade modal-window" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                    <h4 class="modal-title">Add New Film</h4>
-                </div>
-                <div class="modal-body">
-                    <form class="form-horizontal">
+<div class="modal fade modal-window" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">
+                    Add New
+                    @if (isSelectedFilm)
+                    {
+                        <text>Film</text>
+                    }
+                    else
+                    {
+                        <text>Serial</text>
+                    }
+                </h4>
+            </div>
+            <div class="modal-body">
+                <form class="form-horizontal">
+                    @if (isSelectedFilm)
+                    {
                         <div class="form-group">
                             <label for="filmName" class="col-sm-2 control-label">Name</label>
                             <div class="col-sm-10">
@@ -89,106 +103,80 @@
                             </div>
                         </div>
                         <div class="form-group">
-                            <label for="rateName" class="col-sm-2 control-label">Rate</label>
+                            <label for="filmRating" class="col-sm-2 control-label">Rating</label>
                             <div class="col-sm-10">
-                                <input type="text" class="form-control" id="rateName" placeholder="Name">
+                                <select class="form-control" id="filmRating">
+                                    <option selected="selected" value="">Select rating</option>
+                                    <option value="1">1</option>
+                                    <option value="2">2</option>
+                                    <option value="3">3</option>
+                                    <option value="4">4</option>
+                                    <option value="5">5</option>
+                                    <option value="6">6</option>
+                                    <option value="7">7</option>
+                                    <option value="8">8</option>
+                                    <option value="9">9</option>
+                                    <option value="10">10</option>
+                                </select>
                             </div>
                         </div>
-                    </form>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-default" data-dismiss="modal">
-                        <span class="glyphicon glyphicon-remove"></span>
-                        Close
-                    </button>
-                    <button type="button" class="btn btn-primary">
-                        <span class="glyphicon glyphicon-ok"></span>
-                        Save changes
-                    </button>
-                </div>
+                    }
+                    else
+                    {
+                        <div class="form-group">
+                            <label for="serialName" class="col-sm-2 control-label">Name</label>
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control" id="serialName" placeholder="Name">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="serialRating" class="col-sm-2 control-label">Rating</label>
+                            <div class="col-sm-10">
+                                <select class="form-control" id="serialRating">
+                                    <option selected="selected" value="">Select rating</option>
+                                    <option value="1">1</option>
+                                    <option value="2">2</option>
+                                    <option value="3">3</option>
+                                    <option value="4">4</option>
+                                    <option value="5">5</option>
+                                    <option value="6">6</option>
+                                    <option value="7">7</option>
+                                    <option value="8">8</option>
+                                    <option value="9">9</option>
+                                    <option value="10">10</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="serialSeason" class="col-sm-2 control-label">Season</label>
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control" id="serialSeason" placeholder="Season">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="serialSeries" class="col-sm-2 control-label">Series</label>
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control" id="serialSeries" placeholder="Series">
+                            </div>
+                        </div>
+                    }
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">
+                    <span class="glyphicon glyphicon-remove"></span>
+                    Close
+                </button>
+                <button type="button" class="btn btn-primary">
+                    <span class="glyphicon glyphicon-ok"></span>
+                    Save changes
+                </button>
             </div>
         </div>
     </div>
 </div>
 
-@*<div>
-        @if (User.Identity.IsAuthenticated)
-        {
-            @Html.DropDownListFor(model => model.Selected, Model.selectList, new { id = "lstSelected", onchange = "onChange()" })
-
-            if (Model.isSelectedFilm())
-            {
-                <table>
-                    <thead>
-                        <tr>
-                            <th width="2%"></th>
-                            <th width="78%">Name</th>
-                            <th width="20%">Date</th>
-                            <th width="10%">Rate</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @foreach (Films film in Model.Films)
-                        {
-                            <tr>
-                                <td align="center"></td>
-                                <td align="left">@film.Name</td>
-                                <td align="center">@film.DateSee</td>
-                                <td align="center">@film.Rate</td>
-                            </tr>
-                        }
-                    </tbody>
-                </table>
-            }
-            else
-            {
-                <table>
-                    <thead>
-                        <tr>
-                            <th width="2%"></th>
-                            <th width="58%">Name</th>
-                            <th width="10%">Last Ep</th>
-                            <th width="20%">Date Last</th>
-                            <th width="20%">Date Begin</th>
-                            <th width="10%">Rate</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @foreach (Serials film in Model.Serials)
-                        {
-                            <tr>
-                                <td align="center"></td>
-                                <td align="left">@film.Name</td>
-                                <td align="center">@film.DateLast</td>
-                                <td align="center">@film.DateBegin</td>
-                                <td align="center">@film.Rate</td>
-                            </tr>
-                        }
-                    </tbody>
-                </table>
-            }
-        }
-    </div>*@
-
 <script language="javascript" type="text/javascript">
-    //function onChange()
-    //{
-    //    $.ajax({
-    //        type: 'POST',
-    //        url: '/Home/ChangeCookies',
-    //        data: {
-    //            selected: $("#lstSelected").val()
-    //        },
-    //        dataType: "json",
-    //        success: function () {
-    //            window.location.href = '/';
-    //        },
-    //        error: function () {
-    //            alert('Error');
-    //        }
-    //    });
-    //};
-
     (function ($) {
         $(function () {
             var $select = $('#lstSelected');
