@@ -15,16 +15,43 @@ namespace MySeenWeb.Controllers
         {
             if (User.Identity.IsAuthenticated)
             {
-                AllFilms af = new AllFilms();
-                if(CookieStore.GetCookie(AllFilms.AFCookies.CoockieSelectedKey)==string.Empty)
+                HomeViewModel af = new HomeViewModel();
+                HttpCookie cookie = ControllerContext.HttpContext.Request.Cookies[HomeViewModel.AFCookies.CoockieSelectedKey];
+                if (cookie == null)
                 {
-                    af.Selected = AllFilms.eSelected.Films;
-                    CookieStore.SetCookie(AllFilms.AFCookies.CoockieSelectedKey, AllFilms.AFCookies.CoockieSelectedValueFilms);
+                    af.Selected = HomeViewModel.eSelected.Films;
+                    cookie = new HttpCookie(HomeViewModel.AFCookies.CoockieSelectedKey);
+                    cookie.Value = HomeViewModel.AFCookies.CoockieSelectedValueFilms;
+                    cookie.Expires = DateTime.Now.AddHours(1);
+                    ControllerContext.HttpContext.Response.Cookies.Add(cookie);
                 }
-                af.LoadFilms(User.Identity.GetUserId());
+                else
+                {
+                    if (cookie.Value == HomeViewModel.AFCookies.CoockieSelectedValueSerials)af.Selected = HomeViewModel.eSelected.Serials;
+                    else af.Selected = HomeViewModel.eSelected.Films;
+                }
+                af.LoadSelectList();
+                if(af.Selected==HomeViewModel.eSelected.Films) af.LoadFilms(User.Identity.GetUserId());
+                else af.LoadSerials(User.Identity.GetUserId());
+
                 return View(af);
             }
             return View();
+        }
+
+        [HttpPost]
+        public JsonResult ChangeCookies(string selected)
+        {
+            HttpCookie cc = ControllerContext.HttpContext.Request.Cookies[HomeViewModel.AFCookies.CoockieSelectedKey];
+            if (cc == null)
+            {
+                cc = new HttpCookie(HomeViewModel.AFCookies.CoockieSelectedKey);
+            }
+            cc.Value = selected;
+            cc.Expires = DateTime.Now.AddHours(1);
+            ControllerContext.HttpContext.Response.Cookies.Add(cc);
+            //RedirectToAction("Index");
+            return Json(new { success = true });
         }
     }
 }

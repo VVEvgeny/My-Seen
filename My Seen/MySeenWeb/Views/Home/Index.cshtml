@@ -1,15 +1,17 @@
 ﻿@using Microsoft.AspNet.Identity
-@model MySeenWeb.Models.AllFilms
+@model MySeenWeb.Models.HomeViewModel
+
 
 @{
     ViewBag.Title = "Home Page";
 }
-<div>
-    @Html.DropDownListFor(model => model.Selected, Model.selectTypesList)
-</div>
         <div>
             @if (User.Identity.IsAuthenticated)
             {
+                @Html.DropDownListFor(model => model.Selected, Model.selectList, new { id = "lstSelected", onchange = "onChange()" })
+                
+                if (Model.isSelectedFilm())
+                {
                 <table>
                     <thead>
                         <tr>
@@ -20,7 +22,7 @@
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach (MySeenWeb.Models.Film film in Model.Films)
+                        @foreach (MySeenWeb.Models.FilmViewModel film in Model.Films)
                         {
                             <tr>
                                 <td align="center"></td>
@@ -31,6 +33,53 @@
                         }
                     </tbody>
                 </table>
+                }
+                else
+                {
+                    <table>
+                        <thead>
+                            <tr>
+                                <th width="2%"></th>
+                                <th width="65%">Name</th>
+                                <th width="20%">Last Ep</th>
+                                <th width="20%">Date Last</th>
+                                <th width="20%">Date Begin</th>
+                                <th width="10%">Rate</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (MySeenWeb.Models.SerialViewModel film in Model.Serials)
+                            {
+                                <tr>
+                                    <td align="center"></td>
+                                    <td align="left">@film.Name</td>
+                                    <td align="center">@film.DateLast</td>
+                                    <td align="center">@film.DateBegin</td>
+                                    <td align="center">@film.Rate</td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                }
             }
         </div>
 
+<script language="javascript" type="text/javascript">
+    function onChange() 
+    {
+        $.ajax({
+            type: 'POST',
+            url: '/Home/ChangeCookies',
+            data: {
+                selected: $("#lstSelected").val()
+            },
+            dataType: "json",
+            success: function () {
+                window.location.href = '/';
+            },
+            error: function () {
+                alert('Error');
+            }
+        });
+    };
+</script>

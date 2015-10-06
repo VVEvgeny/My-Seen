@@ -7,7 +7,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace MySeenWeb.Models
 {
-    public class Serial
+    public class SerialViewModel
     {
         [Key]
         public int Id { get; set; }
