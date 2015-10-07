@@ -41,8 +41,8 @@ namespace MySeenWeb.Models
             Rating = LibTools.Ratings.GetMaxValue();
             Genre = LibTools.Genres.GetMaxValue();
         }
-        public IEnumerable<Films> Films;
-        public IEnumerable<Serials> Serials;
+        public IEnumerable<FilmsView> Films;
+        public IEnumerable<SerialsView> Serials;
         public void LoadSelectList()
         {
             List<SelectListItem> listItems = new List<SelectListItem>();
@@ -69,12 +69,12 @@ namespace MySeenWeb.Models
         public void LoadFilms(string userId)
         {
             ApplicationDbContext ac= new ApplicationDbContext();
-            Films = ac.Films.Where(f => f.UserId == userId).OrderByDescending(f => f.DateSee);
+            Films = ac.Films.Where(f => f.UserId == userId).OrderByDescending(f => f.DateSee).Select(FilmsView.Map);
         }
         public void LoadSerials(string userId)
         {
             ApplicationDbContext ac = new ApplicationDbContext();
-            Serials = ac.Serials.Where(f => f.UserId == userId).OrderByDescending(f => f.DateLast);
+            Serials = ac.Serials.Where(f => f.UserId == userId).OrderByDescending(f => f.DateLast).Select(SerialsView.Map);
         }
     }
 }

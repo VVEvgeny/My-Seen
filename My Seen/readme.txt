@@ -16,7 +16,7 @@
 -jquery
 -ajax
 -bootstrap
-
+-валидация
 
 
 

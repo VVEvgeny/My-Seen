@@ -182,6 +182,8 @@
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
+    <Compile Include="Models\SerialsView.cs" />
+    <Compile Include="Models\FilmsView.cs" />
     <Compile Include="Models\HomeViewModel.cs" />
     <Compile Include="Models\Films.cs" />
     <Compile Include="Models\IdentityModels.cs" />

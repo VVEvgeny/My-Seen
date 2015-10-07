@@ -5,6 +5,7 @@ using System.Web;
 using System.Web.Mvc;
 using MySeenWeb.Models;
 using Microsoft.AspNet.Identity;
+using MySeenLib;
 
 namespace MySeenWeb.Controllers
 {
@@ -56,19 +57,58 @@ namespace MySeenWeb.Controllers
         public JsonResult AddFilm(string name, string genre, string rating)
         {
             string errorMessage = string.Empty;
-            if (errorMessage==string.Empty)
+            if (errorMessage == string.Empty)
             {
-                if (name.Length == 0) errorMessage = "Enter Name";
+                LibTools.Validation.ValidateName(ref errorMessage, name);
+            }
+            if (errorMessage == string.Empty)
+            {
+                try
+                {
+                    ApplicationDbContext ac = new ApplicationDbContext();
+                    Films f = new Films { Name = name, Genre = Convert.ToInt32(genre), Rate = Convert.ToInt32(rating), DateSee = DateTime.Now, DateChange = DateTime.Now, UserId = User.Identity.GetUserId() };
+                    ac.Films.Add(f);
+                    ac.SaveChanges();
+                }
+                catch (Exception e)
+                {
+                    errorMessage = "Error work with DB=" + e.Message;
+                }
             }
             if (errorMessage != string.Empty)
             {
                 return new JsonResult { Data = new { success = false, error = errorMessage } };
             }
-
-            ApplicationDbContext ac = new ApplicationDbContext();
-            Films f = new Films { Name = name, Genre = Convert.ToInt32(genre), Rate = Convert.ToInt32(rating), DateSee = DateTime.Now, DateChange = DateTime.Now, UserId = User.Identity.GetUserId() };
-            ac.Films.Add(f);
-            ac.SaveChanges();
+            return Json(new { success = true });
+        }
+        [HttpPost]
+        public JsonResult EditFilm(string id,string name, string genre, string rating)
+        {
+            string errorMessage = string.Empty;
+            if (errorMessage == string.Empty)
+            {
+                LibTools.Validation.ValidateName(ref errorMessage, name);
+            }
+            if (errorMessage == string.Empty)
+            {
+                ApplicationDbContext ac = new ApplicationDbContext();
+                try
+                {
+                    Films film = ac.Films.Where(f => f.UserId == User.Identity.GetUserId() && f.Id == (Convert.ToInt32(id))).First();
+                    film.Name = name;
+                    film.Genre = Convert.ToInt32(genre);
+                    film.Rate = Convert.ToInt32(rating);
+                    ac.SaveChanges();
+                }
+                catch (Exception e)
+                {
+                    errorMessage = "Error work with DB=" + e.Message;
+                }
+            }
+            if (errorMessage != string.Empty)
+            {
+                return new JsonResult { Data = new { success = false, error = errorMessage } };
+            }
             return Json(new { success = true });
         }
         [HttpPost]
@@ -77,19 +117,60 @@ namespace MySeenWeb.Controllers
             string errorMessage = string.Empty;
             if (errorMessage == string.Empty)
             {
-                if (name.Length == 0) errorMessage = "Enter Name";
+                LibTools.Validation.ValidateName(ref errorMessage, name);
+            }
+            if (errorMessage == string.Empty)
+            {
+                try
+                {
+                    ApplicationDbContext ac = new ApplicationDbContext();
+                    if (season == string.Empty) season = "1";
+                    if (series == string.Empty) series = "1";
+                    Serials s = new Serials { Name = name, LastSeason = Convert.ToInt32(season), LastSeries = Convert.ToInt32(series), Genre = Convert.ToInt32(genre), Rate = Convert.ToInt32(rating), DateBegin = DateTime.Now, DateLast = DateTime.Now, DateChange = DateTime.Now, UserId = User.Identity.GetUserId() };
+                    ac.Serials.Add(s);
+                    ac.SaveChanges();
+                }
+                catch (Exception e)
+                {
+                    errorMessage = "Error work with DB=" + e.Message;
+                }
             }
             if (errorMessage != string.Empty)
             {
                 return new JsonResult { Data = new { success = false, error = errorMessage } };
             }
-
-            ApplicationDbContext ac = new ApplicationDbContext();
-            if (season == string.Empty) season = "1";
-            if (series == string.Empty) series = "1";
-            Serials s = new Serials { Name = name, LastSeason = Convert.ToInt32(season), LastSeries = Convert.ToInt32(series), Genre = Convert.ToInt32(genre), Rate = Convert.ToInt32(rating), DateBegin = DateTime.Now, DateLast = DateTime.Now, DateChange = DateTime.Now, UserId = User.Identity.GetUserId() };
-            ac.Serials.Add(s);
-            ac.SaveChanges();
+            return Json(new { success = true });
+        }
+        [HttpPost]
+        public JsonResult EditSerial(string id, string name, string season, string series, string genre, string rating)
+        {
+            string errorMessage = string.Empty;
+            if (errorMessage == string.Empty)
+            {
+                LibTools.Validation.ValidateName(ref errorMessage, name);
+            }
+            if (errorMessage == string.Empty)
+            {
+                ApplicationDbContext ac = new ApplicationDbContext();
+                try
+                {
+                    Serials film = ac.Serials.Where(f => f.UserId == User.Identity.GetUserId() && f.Id == (Convert.ToInt32(id))).First();
+                    film.Name = name;
+                    film.LastSeason = Convert.ToInt32(season);
+                    film.LastSeries = Convert.ToInt32(series);
+                    film.Genre = Convert.ToInt32(genre);
+                    film.Rate = Convert.ToInt32(rating);
+                    ac.SaveChanges();
+                }
+                catch (Exception e)
+                {
+                    errorMessage = "Error work with DB=" + e.Message;
+                }
+            }
+            if (errorMessage != string.Empty)
+            {
+                return new JsonResult { Data = new { success = false, error = errorMessage } };
+            }
             return Json(new { success = true });
         }
     }

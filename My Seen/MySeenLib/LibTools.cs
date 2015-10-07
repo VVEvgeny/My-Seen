@@ -12,6 +12,15 @@ namespace MySeenLib
     {
         public static class Validation
         {
+            public static bool ValidateName(ref string message,string filmName)
+            {
+                if (filmName.Length < 1)
+                {
+                    message = "Short Name";
+                    return false;
+                }
+                return true;
+            }
             public static bool ValidateUserName(ref string message, string userName)
             {
                 if (userName.Length < 5)

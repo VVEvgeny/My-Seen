@@ -41,13 +41,13 @@
                 </tr>
             </thead>
             <tbody>
-                @foreach (Films film in Model.Films)
+                @foreach (FilmsView film in Model.Films)
                 {
                     <tr>
-                        <td align="left">@film.Name</td>
-                        <td align="center">@film.DateSee</td>
-                        <td align="center">@LibTools.Genres.GetById(film.Genre)</td>
-                        <td align="center">@LibTools.Ratings.GetById(film.Rate)</td>
+                        <td class="align-left"><button type="button" class="btn btn-link" id=@("editFilm"+film.Id)><span class="glyphicon glyphicon-pencil"></span>@film.Name</button></td>
+                        <td class="align-center">@film.DateSee</td>
+                        <td class="align-center">@film.GenreText</td>
+                        <td class="align-center">@film.RateText</td>
                     </tr>
                 }
             </tbody>
@@ -67,15 +67,15 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach (Serials film in Model.Serials)
+                    @foreach (SerialsView film in Model.Serials)
             {
                         <tr>
-                            <td align="left">@film.Name</td>
-                            <td align="center">@film.LastSeason-@film.LastSeries</td>
-                            <td align="center">@film.DateLast</td>
-                            <td align="center">@film.DateBegin</td>
-                            <td align="center">@LibTools.Genres.GetById(film.Genre)</td>
-                            <td align="center">@LibTools.Ratings.GetById(film.Rate)</td>
+                            <td class="align-left"><button type="button" class="btn btn-link" id=@("editSerial"+film.Id)><span class="glyphicon glyphicon-pencil"></span>@film.Name</button></td>
+                            <td class="align-center">@film.LastSeason-@film.LastSeries</td>
+                            <td class="align-center">@film.DateLast</td>
+                            <td class="align-center">@film.DateBegin</td>
+                            <td class="align-center">@film.GenreText</td>
+                            <td class="align-center">@film.RateText</td>
                         </tr>
             }
                 </tbody>
