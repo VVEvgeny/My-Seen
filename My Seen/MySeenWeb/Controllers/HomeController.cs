@@ -61,5 +61,16 @@ namespace MySeenWeb.Controllers
             ac.SaveChanges();
             return Json(new { success = true });
         }
+        [HttpPost]
+        public JsonResult AddSerial(string name, string season, string series, string genre, string rating)
+        {
+            ApplicationDbContext ac = new ApplicationDbContext();
+            if (season == string.Empty) season = "1";
+            if (series == string.Empty) series = "1";
+            Serials s = new Serials { Name = name, LastSeason = Convert.ToInt32(season), LastSeries = Convert.ToInt32(series), Genre = Convert.ToInt32(genre), Rate = Convert.ToInt32(rating), DateBegin = DateTime.Now, DateLast = DateTime.Now, DateChange = DateTime.Now, UserId = User.Identity.GetUserId() };
+            ac.Serials.Add(s);
+            ac.SaveChanges();
+            return Json(new { success = true });
+        }
     }
 }
