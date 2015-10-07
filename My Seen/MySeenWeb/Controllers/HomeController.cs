@@ -22,7 +22,7 @@ namespace MySeenWeb.Controllers
                     af.Selected = HomeViewModel.eSelected.Films;
                     cookie = new HttpCookie(HomeViewModel.AFCookies.CoockieSelectedKey);
                     cookie.Value = HomeViewModel.AFCookies.CoockieSelectedValueFilms;
-                    cookie.Expires = DateTime.Now.AddHours(1);
+                    cookie.Expires = DateTime.Now.AddDays(1);
                     ControllerContext.HttpContext.Response.Cookies.Add(cookie);
                 }
                 else
@@ -48,9 +48,17 @@ namespace MySeenWeb.Controllers
                 cc = new HttpCookie(HomeViewModel.AFCookies.CoockieSelectedKey);
             }
             cc.Value = selected;
-            cc.Expires = DateTime.Now.AddHours(1);
+            cc.Expires = DateTime.Now.AddDays(1);
             ControllerContext.HttpContext.Response.Cookies.Add(cc);
-            //RedirectToAction("Index");
+            return Json(new { success = true });
+        }
+        [HttpPost]
+        public JsonResult AddFilm(string name, string genre, string rating)
+        {
+            ApplicationDbContext ac = new ApplicationDbContext();
+            Films f = new Films { Name = name, Genre = Convert.ToInt32(genre), Rate = Convert.ToInt32(rating), DateSee = DateTime.Now, DateChange = DateTime.Now, UserId = User.Identity.GetUserId() };
+            ac.Films.Add(f);
+            ac.SaveChanges();
             return Json(new { success = true });
         }
     }

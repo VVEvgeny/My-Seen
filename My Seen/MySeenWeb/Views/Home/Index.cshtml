@@ -1,4 +1,5 @@
 ﻿@using MySeenWeb.Models;
+@using MySeenLib;
 
 @model HomeViewModel
 
@@ -33,8 +34,9 @@
     {
         <thead>
             <tr>
-                <th width="80%">Name</th>
+                <th width="70%">Name</th>
                 <th width="20%">Date</th>
+                <th width="10%">Genre</th>
                 <th width="10%">Rate</th>
             </tr>
         </thead>
@@ -44,7 +46,8 @@
                 <tr>
                     <td align="left">@film.Name</td>
                     <td align="center">@film.DateSee</td>
-                    <td align="center">@film.Rate</td>
+                    <td align="center">@LibTools.Genres.GetById(film.Genre)</td>
+                    <td align="center">@LibTools.Ratings.GetById(film.Rate)</td>
                 </tr>
             }
         </tbody>
@@ -53,10 +56,11 @@
     {
         <thead>
             <tr>
-                <th width="60%">Name</th>
+                <th width="50%">Name</th>
                 <th width="10%">Last Ep</th>
                 <th width="20%">Date Last</th>
                 <th width="20%">Date Begin</th>
+                <th width="10%">Genre</th>
                 <th width="10%">Rate</th>
             </tr>
         </thead>
@@ -68,7 +72,8 @@
                     <td align="center">@film.LastSeason-@film.LastSeries</td>
                     <td align="center">@film.DateLast</td>
                     <td align="center">@film.DateBegin</td>
-                    <td align="center">@film.Rate</td>
+                    <td align="center">@LibTools.Genres.GetById(film.Genre)</td>
+                    <td align="center">@LibTools.Ratings.GetById(film.Rate)</td>
                 </tr>
             }
         </tbody>
@@ -196,7 +201,6 @@
 
             $addButton.on('click', function () {
                 $modal.modal('show');
-
                 return false;
             });
 
@@ -229,29 +233,15 @@
                     dataType: "json",
                     success: function () {
                         $modal.modal('hide');
-
                         window.location.href = '/';
                     },
                     error: function () {
                         alert('Error');
-
                         $modal.modal('hide');
                     }
                 });
 
                 return false;
-            });
-
-            $modal.on('hidden.bs.modal', function () {
-                var $body = $(this).find('.modal-body');
-
-                var $inputs = $body.find(':input');
-
-                $inputs.each(function (index, element) {
-                    var $element = $(element);
-
-                    $element.val('');
-                });
             });
         });
     })(jQuery);

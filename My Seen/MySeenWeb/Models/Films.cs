@@ -18,8 +18,8 @@ namespace MySeenWeb.Models
         public virtual ApplicationUser User { get; set; }
         public string Name { get; set; }
         public DateTime DateSee { get; set; }
+        public int Genre { get; set; }
         public int Rate { get; set; }
         public DateTime DateChange { get; set; }
-
     }
 }
