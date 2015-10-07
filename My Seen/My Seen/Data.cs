@@ -171,15 +171,15 @@ namespace My_Seen
         }
         private void LoadItemsToListView(Serials film, bool oneToTop)
         {
-            if (oneToTop) listView1.Items.Insert(0, new ListViewItem(new string[] { film.Id.ToString(), film.Name, film.LastSeason.ToString() + "-" + film.LastSeries.ToString(), Genres.GetGenreById(film.Genre), film.DateLast.ToString(), film.DateBegin.ToString(), film.Rate.ToString() }));
-            else listView1.Items.Add(new ListViewItem(new string[] { film.Id.ToString(), film.Name, film.LastSeason.ToString() + "-" + film.LastSeries.ToString(), Genres.GetGenreById(film.Genre), film.DateLast.ToString(), film.DateBegin.ToString(), film.Rate.ToString() }));
+            if (oneToTop) listView1.Items.Insert(0, new ListViewItem(new string[] { film.Id.ToString(), film.Name, film.LastSeason.ToString() + "-" + film.LastSeries.ToString(),LibTools.Genres.GetById(film.Genre), film.DateLast.ToString(), film.DateBegin.ToString(), LibTools.Ratings.GetById(film.Rate) }));
+            else listView1.Items.Add(new ListViewItem(new string[] { film.Id.ToString(), film.Name, film.LastSeason.ToString() + "-" + film.LastSeries.ToString(), LibTools.Genres.GetById(film.Genre), film.DateLast.ToString(), film.DateBegin.ToString(), LibTools.Ratings.GetById(film.Rate) }));
 
             toolStripStatusLabel2.Text = listView1.Items.Count.ToString();
         }
         private void LoadItemsToListView(Films film, bool oneToTop)
         {
-            if (oneToTop) listView1.Items.Insert(0, new ListViewItem(new string[] { film.Id.ToString(), film.Name, Genres.GetGenreById(film.Genre), film.DateSee.ToString(), film.Rate.ToString() }));
-            else listView1.Items.Add(new ListViewItem(new string[] { film.Id.ToString(), film.Name, Genres.GetGenreById(film.Genre), film.DateSee.ToString(), film.Rate.ToString() }));
+            if (oneToTop) listView1.Items.Insert(0, new ListViewItem(new string[] { film.Id.ToString(), film.Name, LibTools.Genres.GetById(film.Genre), film.DateSee.ToString(), LibTools.Ratings.GetById(film.Rate) }));
+            else listView1.Items.Add(new ListViewItem(new string[] { film.Id.ToString(), film.Name, LibTools.Genres.GetById(film.Genre), film.DateSee.ToString(), LibTools.Ratings.GetById(film.Rate) }));
             
             toolStripStatusLabel2.Text = listView1.Items.Count.ToString();
         }
@@ -207,9 +207,9 @@ namespace My_Seen
                     film.Rate = form.NewFilm.Rate;
                     film.DateChange = form.NewFilm.DateChange;
                     lvi.SubItems[1].Text = form.NewFilm.Name;
-                    lvi.SubItems[2].Text = Genres.GetGenreById(form.NewFilm.Genre);
+                    lvi.SubItems[2].Text = LibTools.Genres.GetById(form.NewFilm.Genre);
                     lvi.SubItems[3].Text = form.NewFilm.DateSee.ToString();
-                    lvi.SubItems[4].Text = form.NewFilm.Rate.ToString();
+                    lvi.SubItems[4].Text = LibTools.Ratings.GetById(film.Rate);
                     mc.SaveChanges();
                 }
                 form.Close();
@@ -235,10 +235,10 @@ namespace My_Seen
                     film.DateChange = form.NewFilm.DateChange;
                     lvi.SubItems[1].Text = form.NewFilm.Name;
                     lvi.SubItems[2].Text = form.NewFilm.LastSeason.ToString() + "-" + form.NewFilm.LastSeries.ToString();
-                    lvi.SubItems[3].Text = Genres.GetGenreById(form.NewFilm.Genre);
+                    lvi.SubItems[3].Text = LibTools.Genres.GetById(form.NewFilm.Genre);
                     lvi.SubItems[4].Text = form.NewFilm.DateLast.ToString();
                     lvi.SubItems[5].Text = form.NewFilm.DateBegin.ToString();
-                    lvi.SubItems[6].Text = form.NewFilm.Rate.ToString();
+                    lvi.SubItems[6].Text = LibTools.Ratings.GetById(film.Rate);
                     mc.SaveChanges();
                 }
                 form.Close();

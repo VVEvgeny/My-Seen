@@ -8,40 +8,6 @@ using System.Threading;
 
 namespace MySeenLib
 {
-    public static class Genres
-    {
-        private static List<string> All;
-        
-        public static int GetGenreId(string _genre)
-        {
-            if (All == null) GetAll();
-            return All.IndexOf(_genre);
-        }
-        public static string GetGenreById(int _id)
-        {
-            if (All == null) GetAll();
-            if (_id >= All.Count) return "";
-            return All[_id];
-        }
-
-        public static List<string> GetAll()
-        {
-            if(All==null)
-            {
-                All = new List<string>();
-                All.Add(Resource.GenreThriller);
-                All.Add(Resource.GenreDocumentary);
-                All.Add(Resource.GenreDrama);
-                All.Add(Resource.GenreComedy);
-                All.Add(Resource.GenreConcert);
-                All.Add(Resource.GenreCartoon);
-                All.Add(Resource.GenreHorror);
-                All.Add(Resource.GenreFantastic);
-            }
-            return All;
-        }
-
-    }
     public static class LibTools
     {
         public static class Validation
@@ -88,5 +54,79 @@ namespace MySeenLib
                 return true;
             }
         }
+        public abstract class ListStringBase
+        {
+            public abstract void Load();
+            public List<string> All;
+            public List<string> GetAll()
+            {
+                if (All == null) Load();
+                return All;
+            }
+
+            public int GetId(string _str)
+            {
+                if (All == null) Load();
+                return All.IndexOf(_str);
+            }
+            public string GetById(int _id)
+            {
+                if (All == null) Load();
+                if (_id >= All.Count) return "";
+                return All[_id];
+            }
+            public int GetMaxId()
+            {
+                if (All == null) Load();
+                return All.Count - 1;
+            }
+            public string GetMaxValue()
+            {
+                if (All == null) Load();
+                if (All.Count==0) return "";
+                return All[GetMaxId()];
+            }
+        }
+        public class GenresBase : ListStringBase
+        {
+            public override void Load()
+            {
+                if (All == null)
+                {
+                    All = new List<string>();
+                    All.Add(Resource.GenreThriller);
+                    All.Add(Resource.GenreDocumentary);
+                    All.Add(Resource.GenreDrama);
+                    All.Add(Resource.GenreComedy);
+                    All.Add(Resource.GenreConcert);
+                    All.Add(Resource.GenreCartoon);
+                    All.Add(Resource.GenreHorror);
+                    All.Add(Resource.GenreFantastic);
+                }
+            }
+        }
+        public class RatingsBase : ListStringBase
+        {
+            public override void Load()
+            {
+                if (All == null)
+                {
+                    All = new List<string>();
+                    All.Add("1");
+                    All.Add("2");
+                    All.Add("3");
+                    All.Add("4");
+                    All.Add("5");
+                    All.Add("6");
+                    All.Add("7");
+                    All.Add("8");
+                    All.Add("9");
+                    All.Add("10");
+                }
+            }
+        }
+
+        public static GenresBase Genres = new GenresBase();
+        public static RatingsBase Ratings = new RatingsBase();
     }
 }

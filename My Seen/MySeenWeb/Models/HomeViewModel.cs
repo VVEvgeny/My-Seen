@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using System.ComponentModel.DataAnnotations;
 using System.Security.Principal;
 using System.Web.Mvc;
+using MySeenLib;
 
 namespace MySeenWeb.Models
 {
@@ -23,22 +24,22 @@ namespace MySeenWeb.Models
             Serials
         }
         public eSelected Selected;
-
-        //public bool isSelectedFilm()
-        //{
-        //    if (Selected == eSelected.Films) return true;
-        //    return false;
-        //}
-
         public bool IsSelectedFilm
         {
             get { return Selected == eSelected.Films; }            
         }
 
         public IEnumerable<SelectListItem> selectList { get; set; }
+        public string Rating;
+        public IEnumerable<SelectListItem> ratingList { get; set; }
+        public string Genre;
+        public IEnumerable<SelectListItem> genreList { get; set; }
+
         public HomeViewModel()
         {
             Selected = eSelected.Films;
+            Rating = LibTools.Ratings.GetMaxValue();
+            Genre = LibTools.Genres.GetMaxValue();
         }
         public IEnumerable<Films> Films;
         public IEnumerable<Serials> Serials;
@@ -50,6 +51,20 @@ namespace MySeenWeb.Models
                 listItems.Add(new SelectListItem { Text = sel.ToString(), Value = sel.ToString(), Selected = (Selected == sel) });
             }
             selectList = listItems;
+
+            List<SelectListItem> listItemsRating = new List<SelectListItem>();
+            foreach (string sel in LibTools.Ratings.GetAll())
+            {
+                listItemsRating.Add(new SelectListItem { Text = sel, Value = LibTools.Ratings.GetId(sel).ToString(), Selected = (sel == Rating) });
+            }
+            ratingList = listItemsRating;
+
+            List<SelectListItem> listItemsGenre = new List<SelectListItem>();
+            foreach (string sel in LibTools.Genres.GetAll())
+            {
+                listItemsGenre.Add(new SelectListItem { Text = sel, Value = LibTools.Genres.GetId(sel).ToString(), Selected = (sel == Genre) });
+            }
+            genreList = listItemsGenre;
         }
         public void LoadFilms(string userId)
         {

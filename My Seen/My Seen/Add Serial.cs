@@ -29,6 +29,14 @@ namespace My_Seen
         {
             InitializeComponent();
             EditId = 0;
+
+            comboBox1.Items.Clear();
+            comboBox1.Items.AddRange(LibTools.Ratings.GetAll().ToArray());
+            if (comboBox1.Items.Count != 0) comboBox1.Text = comboBox1.Items[0].ToString();
+
+            comboBox2.Items.Clear();
+            comboBox2.Items.AddRange(LibTools.Genres.GetAll().ToArray());
+            if (comboBox2.Items.Count != 0) comboBox2.Text = comboBox2.Items[0].ToString();
         }
         private Serials newFilm;
         public Serials NewFilm
@@ -46,14 +54,12 @@ namespace My_Seen
         {
             if (Text != Resource.Edit)
             {
-                comboBox1.Text = comboBox1.Items[comboBox1.Items.Count - 1].ToString();
+
+
                 dateTimePicker1.Value = DateTime.Now;
             }
             dateTimePicker1.MaxDate = DateTime.Now.AddDays(1);
             dateTimePicker1.MinDate = new DateTime(1988, 10, 2);
-            comboBox2.Items.Clear();
-            comboBox2.Items.AddRange(Genres.GetAll().ToArray());
-            if (comboBox2.Items.Count != 0) comboBox2.Text = comboBox2.Items[0].ToString();
         }
         private int EditId;
         public void EditData(string id, string _name, string _seeDate, string _rate, string _season, string _series, string _genre)
@@ -106,8 +112,8 @@ namespace My_Seen
             }
             if (!ErrorProviderTools.isValid(errorProvider)) return;
 
-            if (EditId != 0) newFilm = new Serials() { Id = EditId, UsersId = user.Id, Name = textBox1.Text, DateBegin = dateTimePicker1.Value, DateLast = DateTime.Now, DateChange = DateTime.Now, Rate = Convert.ToInt32(comboBox1.Text), LastSeason = Convert.ToInt32(textBox2.Text), LastSeries = Convert.ToInt32(textBox3.Text), Genre = Genres.GetGenreId(comboBox2.Text) };
-            else newFilm = new Serials() { UsersId = user.Id, Name = textBox1.Text, DateBegin = dateTimePicker1.Value, DateLast = DateTime.Now, DateChange = DateTime.Now, Rate = Convert.ToInt32(comboBox1.Text), LastSeason = Convert.ToInt32(textBox2.Text), LastSeries = Convert.ToInt32(textBox3.Text), Genre = Genres.GetGenreId(comboBox2.Text) };
+            if (EditId != 0) newFilm = new Serials() { Id = EditId, UsersId = user.Id, Name = textBox1.Text, DateBegin = dateTimePicker1.Value, DateLast = DateTime.Now, DateChange = DateTime.Now, Rate = LibTools.Ratings.GetId(comboBox1.Text), LastSeason = Convert.ToInt32(textBox2.Text), LastSeries = Convert.ToInt32(textBox3.Text), Genre = LibTools.Genres.GetId(comboBox2.Text) };
+            else newFilm = new Serials() { UsersId = user.Id, Name = textBox1.Text, DateBegin = dateTimePicker1.Value, DateLast = DateTime.Now, DateChange = DateTime.Now, Rate = LibTools.Ratings.GetId(comboBox1.Text), LastSeason = Convert.ToInt32(textBox2.Text), LastSeries = Convert.ToInt32(textBox3.Text), Genre = LibTools.Genres.GetId(comboBox2.Text) };
             Hide();
         }
     }
