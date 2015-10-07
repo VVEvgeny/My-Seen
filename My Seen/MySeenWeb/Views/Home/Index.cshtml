@@ -29,56 +29,58 @@
 
 <br />
 
-<table class="table table-striped">
-    @if (isSelectedFilm)
+    if (isSelectedFilm)
     {
-        <thead>
-            <tr>
-                <th width="70%">Name</th>
-                <th width="20%">Date</th>
-                <th width="10%">Genre</th>
-                <th width="10%">Rate</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (Films film in Model.Films)
-            {
+        <table class="table table-striped">
+            <thead>
                 <tr>
-                    <td align="left">@film.Name</td>
-                    <td align="center">@film.DateSee</td>
-                    <td align="center">@LibTools.Genres.GetById(film.Genre)</td>
-                    <td align="center">@LibTools.Ratings.GetById(film.Rate)</td>
+                    <th width="70%">Name</th>
+                    <th width="20%">Date</th>
+                    <th width="10%">Genre</th>
+                    <th width="10%">Rate</th>
                 </tr>
-            }
-        </tbody>
+            </thead>
+            <tbody>
+                @foreach (Films film in Model.Films)
+                {
+                    <tr>
+                        <td align="left">@film.Name</td>
+                        <td align="center">@film.DateSee</td>
+                        <td align="center">@LibTools.Genres.GetById(film.Genre)</td>
+                        <td align="center">@LibTools.Ratings.GetById(film.Rate)</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
     }
     else
     {
-        <thead>
-            <tr>
-                <th width="50%">Name</th>
-                <th width="10%">Last Ep</th>
-                <th width="20%">Date Last</th>
-                <th width="20%">Date Begin</th>
-                <th width="10%">Genre</th>
-                <th width="10%">Rate</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (Serials film in Model.Serials)
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th width="50%">Name</th>
+                        <th width="10%">Last Ep</th>
+                        <th width="20%">Date Last</th>
+                        <th width="20%">Date Begin</th>
+                        <th width="10%">Genre</th>
+                        <th width="10%">Rate</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (Serials film in Model.Serials)
             {
-                <tr>
-                    <td align="left">@film.Name</td>
-                    <td align="center">@film.LastSeason-@film.LastSeries</td>
-                    <td align="center">@film.DateLast</td>
-                    <td align="center">@film.DateBegin</td>
-                    <td align="center">@LibTools.Genres.GetById(film.Genre)</td>
-                    <td align="center">@LibTools.Ratings.GetById(film.Rate)</td>
-                </tr>
+                        <tr>
+                            <td align="left">@film.Name</td>
+                            <td align="center">@film.LastSeason-@film.LastSeries</td>
+                            <td align="center">@film.DateLast</td>
+                            <td align="center">@film.DateBegin</td>
+                            <td align="center">@LibTools.Genres.GetById(film.Genre)</td>
+                            <td align="center">@LibTools.Ratings.GetById(film.Rate)</td>
+                        </tr>
             }
-        </tbody>
+                </tbody>
+            </table>
     }
-</table>
 
 <div class="modal fade modal-window" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel">
     <div class="modal-dialog">
@@ -231,12 +233,17 @@
                     url: url,
                     data: data,
                     dataType: "json",
-                    success: function () {
+                    success: function (data) {
+                        if (data.error) {
+                            alert(data.error);
+                        }
+                        else {
+                            window.location.href = '/';
+                        }
                         $modal.modal('hide');
-                        window.location.href = '/';
                     },
-                    error: function () {
-                        alert('Error');
+                    error: function (err) {
+                        alert(err);
                         $modal.modal('hide');
                     }
                 });

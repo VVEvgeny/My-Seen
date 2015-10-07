@@ -55,6 +55,16 @@ namespace MySeenWeb.Controllers
         [HttpPost]
         public JsonResult AddFilm(string name, string genre, string rating)
         {
+            string errorMessage = string.Empty;
+            if (errorMessage==string.Empty)
+            {
+                if (name.Length == 0) errorMessage = "Enter Name";
+            }
+            if (errorMessage != string.Empty)
+            {
+                return new JsonResult { Data = new { success = false, error = errorMessage } };
+            }
+
             ApplicationDbContext ac = new ApplicationDbContext();
             Films f = new Films { Name = name, Genre = Convert.ToInt32(genre), Rate = Convert.ToInt32(rating), DateSee = DateTime.Now, DateChange = DateTime.Now, UserId = User.Identity.GetUserId() };
             ac.Films.Add(f);
@@ -64,6 +74,16 @@ namespace MySeenWeb.Controllers
         [HttpPost]
         public JsonResult AddSerial(string name, string season, string series, string genre, string rating)
         {
+            string errorMessage = string.Empty;
+            if (errorMessage == string.Empty)
+            {
+                if (name.Length == 0) errorMessage = "Enter Name";
+            }
+            if (errorMessage != string.Empty)
+            {
+                return new JsonResult { Data = new { success = false, error = errorMessage } };
+            }
+
             ApplicationDbContext ac = new ApplicationDbContext();
             if (season == string.Empty) season = "1";
             if (series == string.Empty) series = "1";
