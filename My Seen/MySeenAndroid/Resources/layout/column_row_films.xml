@@ -4,28 +4,31 @@
     android:layout_height="match_parent">
 
   <TextView
-      android:id="@+id/name"
+      android:id="@+id/f_name"
       android:layout_height="wrap_content"
       android:layout_width="0dp"
-      android:layout_weight="1"
+      android:layout_weight="0.7"
       android:textStyle="bold" />
 
   <TextView
-      android:id="@+id/gender"
+      android:id="@+id/f_genre"
       android:layout_height="wrap_content"
       android:layout_width="0dp"
-      android:layout_weight="1" />
+      android:gravity="center"
+      android:layout_weight="0.1" />
 
   <TextView
-      android:id="@+id/age"
+      android:id="@+id/f_datesee"
       android:layout_height="wrap_content"
       android:layout_width="0dp"
-      android:layout_weight="0.5" />
+      android:gravity="center"
+      android:layout_weight="0.15" />
 
   <TextView
-      android:id="@+id/status"
+      android:id="@+id/f_rate"
       android:layout_height="wrap_content"
       android:layout_width="0dp"
-      android:layout_weight="1" />
+      android:gravity="center"
+      android:layout_weight="0.05" />
 
 </LinearLayout>

@@ -15,12 +15,6 @@ namespace MySeenAndroid
 {
     public class DatabaseHelper
     {
-        public enum States
-        {
-            Films,
-            Serials
-        }
-
         private static string LogTAG = "MySeenAndroid_DATABASE";
         private SQLiteConnection connection;
         private string DBName;
@@ -51,29 +45,33 @@ namespace MySeenAndroid
         }
         public void Add(Films film)
         {
-            Log.Warn(LogTAG, "Add Films begin name=" + film.Name);
+            //Log.Warn(LogTAG, "Add Films begin name=" + film.Name);
             connection.Insert(film);
-            Log.Warn(LogTAG, "Add Films end id=" + film.Id.ToString());
+            //Log.Warn(LogTAG, "Add Films end id=" + film.Id.ToString());
         }
 
+        public int GetSerialsCount()
+        {
+            return connection.Table<Serials>().Count();
+        }
         public int GetFilmsCount()
         {
             return connection.Table<Films>().Count();
         }
         public IEnumerable<Films> GetFilms()
         {
-            Log.Warn(LogTAG, "GetFilms()");
+            //Log.Warn(LogTAG, "GetFilms()");
             return connection.Table<Films>().OrderByDescending(f => f.DateSee);
         }
         public void Add(Serials film)
         {
-            Log.Warn(LogTAG, "Add Serials begin name=" + film.Name);
+            //Log.Warn(LogTAG, "Add Serials begin name=" + film.Name);
             connection.Insert(film);
-            Log.Warn(LogTAG, "Add Serials end id=" + film.Id.ToString());
+            //Log.Warn(LogTAG, "Add Serials end id=" + film.Id.ToString());
         }
         public IEnumerable<Serials> GetSerials()
         {
-            Log.Warn(LogTAG, "GetSerials()");
+            //Log.Warn(LogTAG, "GetSerials()");
             return connection.Table<Serials>().OrderByDescending(f=>f.DateLast);
         }
     }

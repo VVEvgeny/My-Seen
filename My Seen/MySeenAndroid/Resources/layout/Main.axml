@@ -3,11 +3,74 @@
     android:orientation="vertical"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent">
-    <Button
-        android:id="@+id/MyButton"
-        android:layout_width="fill_parent"
+    <TableRow
+        android:minWidth="25px"
+        android:minHeight="25px"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/Test" />
+        android:id="@+id/tableRowButtons">
+        <Button
+            android:id="@+id/SelectorButton"
+            android:layout_height="wrap_content"
+            android:layout_width="0dp"
+            android:layout_weight="0.33"
+            android:text="To Serials" />
+        <Button
+            android:id="@+id/MyButton"
+            android:layout_height="wrap_content"
+            android:layout_width="0dp"
+            android:layout_weight="0.33"
+            android:text="@string/Test" />
+        <Button
+            android:id="@+id/ExitButton"
+            android:layout_height="wrap_content"
+            android:layout_width="0dp"
+            android:layout_weight="0.34"
+            android:text="Exit" />
+    </TableRow>
+    <TableRow
+        android:minWidth="25px"
+        android:minHeight="25px"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/tableRow1">
+        <TextView
+            android:id="@+id/table_name"
+            android:text="Name"
+            android:textColor="@color/green"
+            android:layout_height="wrap_content"
+            android:layout_width="0dp"
+            android:textStyle="bold"
+            android:gravity="center"
+            android:layout_weight="0.70" />
+        <TextView
+            android:id="@+id/table_genre"
+            android:text="Genre"
+            android:textColor="@color/green"
+            android:layout_height="wrap_content"
+            android:layout_width="0dp"
+            android:textStyle="bold"
+            android:gravity="center"
+            android:layout_weight="0.1" />
+        <TextView
+            android:id="@+id/table_datesee"
+            android:text="Date See"
+            android:textColor="@color/green"
+            android:layout_height="wrap_content"
+            android:layout_width="0dp"
+            android:textStyle="bold"
+            android:gravity="center"
+            android:layout_weight="0.15" />
+        <TextView
+            android:id="@+id/table_rate"
+            android:text="Rate"
+            android:textColor="@color/green"
+            android:layout_height="wrap_content"
+            android:layout_width="0dp"
+            android:textStyle="bold"
+            android:gravity="center"
+            android:layout_weight="0.05" />
+    </TableRow>
     <ListView
         android:minWidth="25px"
         android:minHeight="25px"
@@ -15,5 +78,6 @@
         android:layout_height="match_parent"
         android:scrollingCache="false"
         android:cacheColorHint="@android:color/transparent"
-        android:id="@+id/listView1" />
+        android:id="@+id/listView1"
+        android:layout_marginTop="0.0dp" />
 </LinearLayout>

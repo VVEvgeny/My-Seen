@@ -45,12 +45,12 @@ namespace MySeenAndroid
 
             if (convertView == null)
             {
-                convertView = inflater.Inflate(Resource.Layout.colmn_row, null);
+                convertView = inflater.Inflate(Resource.Layout.column_row_films, null);
 
-                txtFilmName = (TextView)convertView.FindViewById(Resource.Id.name);
-                txtGenre = (TextView)convertView.FindViewById(Resource.Id.gender);
-                txtDateSee = (TextView)convertView.FindViewById(Resource.Id.age);
-                txtRate = (TextView)convertView.FindViewById(Resource.Id.status);
+                txtFilmName = (TextView)convertView.FindViewById(Resource.Id.f_name);
+                txtGenre = (TextView)convertView.FindViewById(Resource.Id.f_genre);
+                txtDateSee = (TextView)convertView.FindViewById(Resource.Id.f_datesee);
+                txtRate = (TextView)convertView.FindViewById(Resource.Id.f_rate);
             }
 
             Serials str = list[position];
