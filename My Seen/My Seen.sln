@@ -3,16 +3,18 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2013
 VisualStudioVersion = 12.0.40629.0
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "My Seen", "My Seen\My Seen.csproj", "{66387E45-307A-4637-83F9-751AAA312AFB}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "My Seen PC Win", "My Seen\My Seen PC Win.csproj", "{66387E45-307A-4637-83F9-751AAA312AFB}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MySeenLib", "MySeenLib\MySeenLib.csproj", "{D7761030-BBF7-467B-A41D-3D215396FD72}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "My Seen Library", "MySeenLib\My Seen Library.csproj", "{D7761030-BBF7-467B-A41D-3D215396FD72}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{632016C7-72D2-4EDD-AC2E-1A41D2B3EDCD}"
 	ProjectSection(SolutionItems) = preProject
 		readme.txt = readme.txt
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MySeenWeb", "MySeenWeb\MySeenWeb.csproj", "{6B454E56-EE36-466F-B202-42291456E8FA}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "My Seen Web", "MySeenWeb\My Seen Web.csproj", "{6B454E56-EE36-466F-B202-42291456E8FA}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "My Seen Android", "MySeenAndroid\My Seen Android.csproj", "{9FF5FC66-5B06-465A-B85B-B06E7D09937F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -32,6 +34,12 @@ Global
 		{6B454E56-EE36-466F-B202-42291456E8FA}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6B454E56-EE36-466F-B202-42291456E8FA}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6B454E56-EE36-466F-B202-42291456E8FA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9FF5FC66-5B06-465A-B85B-B06E7D09937F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9FF5FC66-5B06-465A-B85B-B06E7D09937F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9FF5FC66-5B06-465A-B85B-B06E7D09937F}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
+		{9FF5FC66-5B06-465A-B85B-B06E7D09937F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9FF5FC66-5B06-465A-B85B-B06E7D09937F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9FF5FC66-5B06-465A-B85B-B06E7D09937F}.Release|Any CPU.Deploy.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
