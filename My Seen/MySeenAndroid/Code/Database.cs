@@ -43,13 +43,6 @@ namespace MySeenAndroid
             connection.CreateTable<Films>();
             connection.CreateTable<Serials>();
         }
-        public void Add(Films film)
-        {
-            //Log.Warn(LogTAG, "Add Films begin name=" + film.Name);
-            connection.Insert(film);
-            //Log.Warn(LogTAG, "Add Films end id=" + film.Id.ToString());
-        }
-
         public int GetSerialsCount()
         {
             return connection.Table<Serials>().Count();
@@ -58,16 +51,22 @@ namespace MySeenAndroid
         {
             return connection.Table<Films>().Count();
         }
-        public IEnumerable<Films> GetFilms()
+        public void Add(Films film)
         {
-            //Log.Warn(LogTAG, "GetFilms()");
-            return connection.Table<Films>().OrderByDescending(f => f.DateSee);
+            //Log.Warn(LogTAG, "Add Films begin name=" + film.Name);
+            connection.Insert(film);
+            //Log.Warn(LogTAG, "Add Films end id=" + film.Id.ToString());
         }
         public void Add(Serials film)
         {
             //Log.Warn(LogTAG, "Add Serials begin name=" + film.Name);
             connection.Insert(film);
             //Log.Warn(LogTAG, "Add Serials end id=" + film.Id.ToString());
+        }
+        public IEnumerable<Films> GetFilms()
+        {
+            //Log.Warn(LogTAG, "GetFilms()");
+            return connection.Table<Films>().OrderByDescending(f => f.DateSee);
         }
         public IEnumerable<Serials> GetSerials()
         {

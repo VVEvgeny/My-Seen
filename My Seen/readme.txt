@@ -53,3 +53,4 @@
 -- для вконтакта http://vk.com/dev
 
 ==АНДРОЕД
+-не работает кал бек у OnActivityResult

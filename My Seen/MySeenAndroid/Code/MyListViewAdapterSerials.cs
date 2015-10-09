@@ -16,8 +16,10 @@ namespace MySeenAndroid
         public List<Serials> list;
         Activity activity;
         TextView txtFilmName;
+        TextView txtLastSeasonSeries;
         TextView txtGenre;
-        TextView txtDateSee;
+        TextView txtDateLast;
+        TextView txtDateBegin;
         TextView txtRate;
         public MyListViewAdapterSerials(Activity activity, List<Serials> _list)
         {
@@ -45,19 +47,23 @@ namespace MySeenAndroid
 
             if (convertView == null)
             {
-                convertView = inflater.Inflate(Resource.Layout.column_row_films, null);
+                convertView = inflater.Inflate(Resource.Layout.column_row_serials, null);
 
-                txtFilmName = (TextView)convertView.FindViewById(Resource.Id.f_name);
-                txtGenre = (TextView)convertView.FindViewById(Resource.Id.f_genre);
-                txtDateSee = (TextView)convertView.FindViewById(Resource.Id.f_datesee);
-                txtRate = (TextView)convertView.FindViewById(Resource.Id.f_rate);
+                txtFilmName = (TextView)convertView.FindViewById(Resource.Id.s_name);
+                txtLastSeasonSeries = (TextView)convertView.FindViewById(Resource.Id.s_seasonseries);
+                txtGenre = (TextView)convertView.FindViewById(Resource.Id.s_genre);
+                txtDateLast = (TextView)convertView.FindViewById(Resource.Id.s_datelast);
+                txtDateBegin = (TextView)convertView.FindViewById(Resource.Id.s_datebegin);
+                txtRate = (TextView)convertView.FindViewById(Resource.Id.s_rate);
             }
 
             Serials str = list[position];
 
             txtFilmName.SetText(str.Name, TextView.BufferType.Normal);
+            txtLastSeasonSeries.SetText(str.LastSeason.ToString() + "-" + str.LastSeries.ToString(), TextView.BufferType.Normal);
             txtGenre.SetText(LibTools.Genres.GetById(str.Genre), TextView.BufferType.Normal);
-            txtDateSee.SetText(str.DateLast.ToShortDateString(), TextView.BufferType.Normal);
+            txtDateLast.SetText(str.DateLast.ToShortDateString(), TextView.BufferType.Normal);
+            txtDateBegin.SetText(str.DateBegin.ToShortDateString(), TextView.BufferType.Normal);
             txtRate.SetText(LibTools.Ratings.GetById(str.Rate), TextView.BufferType.Normal);
 
             return convertView;
