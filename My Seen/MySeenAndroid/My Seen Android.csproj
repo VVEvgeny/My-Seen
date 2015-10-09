@@ -52,12 +52,14 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Code\Activities\SerialAddActivity.cs" />
     <Compile Include="Code\Activities\FilmsAddActivity.cs" />
+    <Compile Include="Code\Database\TablesVersion.cs" />
     <Compile Include="Code\Tools.cs" />
     <Compile Include="Code\MyListViewAdapterSerials.cs" />
-    <Compile Include="Code\Serials.cs" />
-    <Compile Include="Code\Films.cs" />
-    <Compile Include="Code\Database.cs" />
+    <Compile Include="Code\Database\Serials.cs" />
+    <Compile Include="Code\Database\Films.cs" />
+    <Compile Include="Code\Database\Database.cs" />
     <Compile Include="Code\MyListViewAdapterFilms.cs" />
     <Compile Include="Code\Activities\MainActivity.cs" />
     <Compile Include="Resources\Resource.Designer.cs" />
@@ -74,6 +76,7 @@
     <AndroidResource Include="Resources\layout\comboboxitem.xml">
       <SubType>AndroidResource</SubType>
     </AndroidResource>
+    <AndroidResource Include="Resources\layout\SerialsAdd.axml" />
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\layout\Main.axml" />

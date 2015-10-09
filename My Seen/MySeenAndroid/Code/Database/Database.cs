@@ -15,6 +15,9 @@ namespace MySeenAndroid
 {
     public class DatabaseHelper
     {
+        private const int FILMS_VERSION = 1;
+        private const int SERIALS_VERSION = 1;
+
         private static string LogTAG = "MySeenAndroid_DATABASE";
         private SQLiteConnection connection;
         private string DBName;
@@ -33,7 +36,32 @@ namespace MySeenAndroid
             Log.Warn(LogTAG, "needCreateDB=" + needCreateDB.ToString());
 
             connection = new SQLiteConnection(databaseFilePath);
+
             if (needCreateDB) CreateTables();
+            else
+            {
+                TablesVersion tv=connection.Table<TablesVersion>().Where(t => t.TableName == "Films").First();
+                Log.Warn(LogTAG, "table Films version=" + tv.Version.ToString() + " current version=" + FILMS_VERSION.ToString());
+                if (tv.Version < FILMS_VERSION)
+                {
+                    Log.Warn(LogTAG, "table films is OLD RECREAT");
+                    connection.DropTable<Films>();
+                    connection.CreateTable<Films>();
+                    tv.Version = FILMS_VERSION;
+                    connection.Update(tv);
+                }
+                tv = connection.Table<TablesVersion>().Where(t => t.TableName == "Serials").First();
+                Log.Warn(LogTAG, "table Serials version=" + tv.Version.ToString() + " current version=" + SERIALS_VERSION.ToString());
+                if (tv.Version < SERIALS_VERSION)
+                {
+                    Log.Warn(LogTAG, "table Serials is OLD RECREAT");
+                    connection.DropTable<Serials>();
+                    connection.CreateTable<Serials>();
+                    tv.Version = SERIALS_VERSION;
+                    connection.Update(tv);
+                }
+            }
+
             Log.Warn(LogTAG, "END DatabaseHelper()");
         }
 
@@ -42,6 +70,10 @@ namespace MySeenAndroid
             Log.Warn(LogTAG, "CreateTables Create tables begin");
             connection.CreateTable<Films>();
             connection.CreateTable<Serials>();
+
+            connection.CreateTable<TablesVersion>();
+            connection.Insert(new TablesVersion { TableName = "Films", Version = FILMS_VERSION });
+            connection.Insert(new TablesVersion { TableName = "Serials", Version = SERIALS_VERSION });
         }
         public int GetSerialsCount()
         {

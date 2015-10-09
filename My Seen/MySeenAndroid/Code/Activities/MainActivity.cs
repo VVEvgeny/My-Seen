@@ -69,6 +69,9 @@ namespace MySeenAndroid
                 }
                 else
                 {
+                    Intent intent = new Intent(this, typeof(SerialAddActivity));
+                    intent.PutExtra(SerialAddActivity.EXTRA_MODE_KEY, SerialAddActivity.EXTRA_MODE_VALUE_ADD);
+                    StartActivityForResult(intent, 0);
                     //db.Add(new Serials { Name = "Serial Test", DateLast = DateTime.Now, DateBegin = DateTime.Now, Genre = 0, DateChange = DateTime.Now, LastSeason = 1, LastSeries = 2, Rate = 2 });
                 }
                 LoadFromDatabase();
@@ -95,6 +98,23 @@ namespace MySeenAndroid
             {
                 Finish();
             };
+
+            listview.ItemLongClick += listView_ItemLongClick;
+        }
+        void listView_ItemLongClick(object sender, AdapterView.ItemLongClickEventArgs e)
+        {
+            Log.Warn(LogTAG, "listView_ItemLongClick");
+
+            if(State == States.Films)
+            {
+                Films item = this.FilmsAdapter.GetById(e.Position);
+                Log.Warn(LogTAG, "fims name="+item.Name);
+            }
+            else
+            {
+                Serials item = SerialsAdapter.GetById(e.Position);
+                Log.Warn(LogTAG, "Serials name=" + item.Name);
+            }
         }
 
         private void ReloadListHeaders()

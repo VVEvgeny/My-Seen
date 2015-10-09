@@ -35,6 +35,10 @@ namespace MySeenAndroid
         {
             return null;
         }
+        public Serials GetById(int position)
+        {
+            return list[position];
+        }
 
         public override long GetItemId(int position)
         {

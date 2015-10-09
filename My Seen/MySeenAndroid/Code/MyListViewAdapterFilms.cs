@@ -33,6 +33,10 @@ namespace MySeenAndroid
         {
             return null;
         }
+        public Films GetById(int position)
+        {
+            return list[position];
+        }
 
         public override long GetItemId(int position)
         {
