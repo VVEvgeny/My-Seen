@@ -94,7 +94,10 @@ namespace MySeenWeb.Controllers
                 ApplicationDbContext ac = new ApplicationDbContext();
                 try
                 {
-                    Films film = ac.Films.Where(f => f.UserId == User.Identity.GetUserId() && f.Id == (Convert.ToInt32(id))).First();
+                    string user_id = User.Identity.GetUserId();
+                    id = id.Split('_')[1];
+                    int iid = (Convert.ToInt32(id));
+                    Films film = ac.Films.Where(f => f.UserId == user_id && f.Id == iid).First();
                     film.Name = name;
                     film.Genre = Convert.ToInt32(genre);
                     film.Rate = Convert.ToInt32(rating);
@@ -154,7 +157,10 @@ namespace MySeenWeb.Controllers
                 ApplicationDbContext ac = new ApplicationDbContext();
                 try
                 {
-                    Serials film = ac.Serials.Where(f => f.UserId == User.Identity.GetUserId() && f.Id == (Convert.ToInt32(id))).First();
+                    string user_id = User.Identity.GetUserId();
+                    id = id.Split('_')[1];
+                    int iid = (Convert.ToInt32(id));
+                    Serials film = ac.Serials.Where(f => f.UserId == user_id && f.Id == iid).First();
                     film.Name = name;
                     film.LastSeason = Convert.ToInt32(season);
                     film.LastSeries = Convert.ToInt32(series);
