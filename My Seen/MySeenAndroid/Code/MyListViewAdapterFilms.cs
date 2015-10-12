@@ -19,10 +19,10 @@ namespace MySeenAndroid
         TextView txtGenre;
         TextView txtDateSee;
         TextView txtRate;
-        public MyListViewAdapterFilms(Activity activity, List<Films> _list)
+        public MyListViewAdapterFilms(Activity activity)
         {
             this.activity = activity;
-            list = _list;
+            list = new List<Films>();
         }
 
         public override int Count
@@ -31,7 +31,7 @@ namespace MySeenAndroid
         }
         public override Java.Lang.Object GetItem(int position)
         {
-            return null;
+            return ((object)list[position]) as Java.Lang.Object;
         }
         public Films GetById(int position)
         {

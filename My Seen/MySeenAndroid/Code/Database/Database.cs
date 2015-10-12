@@ -85,9 +85,24 @@ namespace MySeenAndroid
         }
         public void Add(Films film)
         {
-            //Log.Warn(LogTAG, "Add Films begin name=" + film.Name);
             connection.Insert(film);
-            //Log.Warn(LogTAG, "Add Films end id=" + film.Id.ToString());
+        }
+        public void Update(Films film)
+        {
+            connection.Update(film);
+        }
+        public bool isFilmExist(string name)
+        {
+            return connection.Table<Films>().Where(f => f.Name == name).Count() != 0;
+        }
+        public bool isFilmExistAndNotSame(string name,int id)
+        {
+            return connection.Table<Films>().Where(f => f.Name == name && f.Id != id).Count() != 0;
+        }
+        
+        public bool isSerialExist(string name)
+        {
+            return connection.Table<Serials>().Where(f => f.Name == name).Count() != 0;
         }
         public void Add(Serials film)
         {
@@ -99,6 +114,10 @@ namespace MySeenAndroid
         {
             //Log.Warn(LogTAG, "GetFilms()");
             return connection.Table<Films>().OrderByDescending(f => f.DateSee);
+        }
+        public Films GetFilmById(int id)
+        {
+            return connection.Table<Films>().Where(f => f.Id == id).First();
         }
         public IEnumerable<Serials> GetSerials()
         {

@@ -47,12 +47,12 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:textSize="32sp"
+                android:textSize="25sp"
                 android:text="Serial Name:" />
             <EditText
                 android:id="@+id/edittext_serial_name"
                 android:layout_width="fill_parent"
-                android:textSize="32sp"
+                android:textSize="25sp"
                 android:layout_height="wrap_content" />
         </TableRow>
         <TableRow
@@ -66,12 +66,12 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:textSize="32sp"
+                android:textSize="25sp"
                 android:text="Last Season:" />
             <EditText
                 android:id="@+id/edittext_season"
                 android:layout_width="fill_parent"
-                android:textSize="32sp"
+                android:textSize="25sp"
                 android:layout_height="wrap_content" />
         </TableRow>
         <TableRow
@@ -85,12 +85,12 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:textSize="32sp"
+                android:textSize="25sp"
                 android:text="Last Series:" />
             <EditText
                 android:id="@+id/edittext_series"
                 android:layout_width="fill_parent"
-                android:textSize="32sp"
+                android:textSize="25sp"
                 android:layout_height="wrap_content" />
         </TableRow>
         <TableRow
@@ -104,7 +104,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:textSize="32sp"
+                android:textSize="25sp"
                 android:text="Genre:" />
             <Spinner
                 android:id="@+id/spinner_genre_s"
@@ -124,7 +124,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:textSize="32sp"
+                android:textSize="25sp"
                 android:text="Rate:" />
             <Spinner
                 android:id="@+id/spinner_rate_s"
@@ -132,6 +132,22 @@
                 android:layout_height="wrap_content"
                 android:background="@android:drawable/btn_dropdown"
                 android:spinnerMode="dropdown" />
+        </TableRow>
+        <TableRow
+            android:minWidth="25px"
+            android:minHeight="25px"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:id="@+id/tableRowTexts_SerialAdd_4">
+            <TextView
+                android:id="@+id/serial_add_error"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:textColor="@color/red"
+                android:textSize="25sp"
+                android:text="ERROR" />
         </TableRow>
     </LinearLayout>
 </RelativeLayout>

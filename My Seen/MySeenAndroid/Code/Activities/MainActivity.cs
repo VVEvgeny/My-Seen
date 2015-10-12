@@ -24,8 +24,6 @@ namespace MySeenAndroid
     {
         private static string LogTAG = "MySeenAndroid";
         private States State;
-        private List<Films> FilmsList;
-        private List<Serials> SerialsList;
         private MyListViewAdapterFilms FilmsAdapter;
         private MyListViewAdapterSerials SerialsAdapter;
         private DatabaseHelper db;
@@ -45,11 +43,8 @@ namespace MySeenAndroid
 
             listview = FindViewById<ListView>(Resource.Id.listView1);
 
-            FilmsList = new List<Films>();
-            SerialsList = new List<Serials>();
-
-            FilmsAdapter = new MyListViewAdapterFilms(this, FilmsList);
-            SerialsAdapter = new MyListViewAdapterSerials(this, SerialsList);
+            FilmsAdapter = new MyListViewAdapterFilms(this);
+            SerialsAdapter = new MyListViewAdapterSerials(this);
 
             listview.Adapter = FilmsAdapter;
             //listview.Adapter = SerialsAdapter;
@@ -64,15 +59,12 @@ namespace MySeenAndroid
                     Intent intent = new Intent(this, typeof(FilmsAddActivity));
                     intent.PutExtra(FilmsAddActivity.EXTRA_MODE_KEY, FilmsAddActivity.EXTRA_MODE_VALUE_ADD);
                     StartActivityForResult(intent, 0);
-                    //StartActivity(typeof(FilmsAddActivity));
-                    //db.Add(new Films { Name = "Film test", DateSee = DateTime.Now, DateChange = DateTime.Now, Genre = 0, Rate = 0 });
                 }
                 else
                 {
                     Intent intent = new Intent(this, typeof(SerialAddActivity));
                     intent.PutExtra(SerialAddActivity.EXTRA_MODE_KEY, SerialAddActivity.EXTRA_MODE_VALUE_ADD);
                     StartActivityForResult(intent, 0);
-                    //db.Add(new Serials { Name = "Serial Test", DateLast = DateTime.Now, DateBegin = DateTime.Now, Genre = 0, DateChange = DateTime.Now, LastSeason = 1, LastSeries = 2, Rate = 2 });
                 }
                 LoadFromDatabase();
             };
@@ -107,13 +99,17 @@ namespace MySeenAndroid
 
             if(State == States.Films)
             {
-                Films item = this.FilmsAdapter.GetById(e.Position);
-                Log.Warn(LogTAG, "fims name="+item.Name);
+                Films item = FilmsAdapter.GetById(e.Position);
+                Log.Warn(LogTAG, "fims name="+item.Name+" id="+item.Id.ToString());
+
+                Intent intent = new Intent(this, typeof(FilmsAddActivity));
+                intent.PutExtra(FilmsAddActivity.EXTRA_EDIT_ID_KEY, item.Id.ToString());
+                StartActivityForResult(intent, 0);
             }
             else
             {
                 Serials item = SerialsAdapter.GetById(e.Position);
-                Log.Warn(LogTAG, "Serials name=" + item.Name);
+                Log.Warn(LogTAG, "Serials name=" + item.Name + " id=" + item.Id.ToString());
             }
         }
 
@@ -134,37 +130,47 @@ namespace MySeenAndroid
         }
         private void LoadFromDatabase()
         {
-            //Log.Warn(LogTAG, "LoadFromDatabase Begin");
             if (State == States.Films)
             {
                 Log.Warn(LogTAG, "LoadFromDatabase films count in db=" + db.GetFilmsCount().ToString());
-
-                FilmsList.Clear();
-
-                foreach (Films film in db.GetFilms())
+                //FilmsList.Clear();
+                FilmsAdapter.list.Clear();
+                //foreach (Films film in db.GetFilms())
                 {
-                    //Log.Warn(LogTAG, "Loaded film ID="+film.Id.ToString());
-                    //FilmsList.Add(new MyListViewItemFilms(film.Id, film.Name, LibTools.Genres.GetById(film.Genre), film.DateSee.ToShortDateString(), LibTools.Ratings.GetById(film.Rate)));
-                    FilmsList.Add(film);
+                    //FilmsList.AddRange(db.GetFilms());
+                    FilmsAdapter.list.AddRange(db.GetFilms());
                 }
                 FilmsAdapter.NotifyDataSetChanged();//В случае если используется базовый то надо пересоздавать...
             }
             else
             {
                 Log.Warn(LogTAG, "LoadFromDatabase serials count in db=" + db.GetSerialsCount().ToString());
-
-                SerialsList.Clear();
-
-                foreach (Serials film in db.GetSerials())
+                //SerialsList.Clear();
+                //foreach (Serials film in db.GetSerials())
                 {
-                    //Log.Warn(LogTAG, "Loaded film ID="+film.Id.ToString());
-                    //FilmsList.Add(new MyListViewItemFilms(film.Id, film.Name, LibTools.Genres.GetById(film.Genre), film.DateSee.ToShortDateString(), LibTools.Ratings.GetById(film.Rate)));
-                    SerialsList.Add(film);
+                    //Log.Warn(LogTAG, "reload list id=" + film.Id.ToString() + " name=" + film.Name);
+                    //SerialsList.AddRange(db.GetSerials());
                 }
-                SerialsAdapter.NotifyDataSetChanged();//В случае если используется базовый то надо пересоздавать...
+                RunOnUiThread(() =>
+                {
+                    MyListViewAdapterSerials adapter = (MyListViewAdapterSerials)listview.Adapter;
+                    adapter.list.Clear();
+                    adapter.list.AddRange(db.GetSerials());
+                    adapter.NotifyDataSetChanged();//В случае если используется базовый то надо пересоздавать...
+                    
+                });
             }
-            //Log.Warn(LogTAG, "LoadFromDatabase End");
             ReloadListHeaders();
+            RunOnUiThread(() =>
+                {
+                    listview.InvalidateViews();
+                    listview.RefreshDrawableState();
+                    listview.RequestLayout();
+                });
+
+            LinearLayout main_l = FindViewById<LinearLayout>(Resource.Layout.Main);
+            //main_l.RefreshDrawableState();
+            //main_l.RequestLayout();
         }
 
         protected override void OnActivityResult(int requestCode, Result resultCode, Intent data)//Не пашет 

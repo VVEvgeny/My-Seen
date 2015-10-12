@@ -21,10 +21,10 @@ namespace MySeenAndroid
         TextView txtDateLast;
         TextView txtDateBegin;
         TextView txtRate;
-        public MyListViewAdapterSerials(Activity activity, List<Serials> _list)
+        public MyListViewAdapterSerials(Activity activity)
         {
             this.activity = activity;
-            list = _list;
+            list = new List<Serials>();
         }
 
         public override int Count
@@ -33,6 +33,7 @@ namespace MySeenAndroid
         }
         public override Java.Lang.Object GetItem(int position)
         {
+            //return ((object)list[position]) as Java.Lang.Object;
             return null;
         }
         public Serials GetById(int position)
@@ -42,15 +43,13 @@ namespace MySeenAndroid
 
         public override long GetItemId(int position)
         {
-            return 0;
+            return list[position].Id;
         }
-
         public override View GetView(int position, View convertView, ViewGroup parent)
         {
-            LayoutInflater inflater = (LayoutInflater)activity.ApplicationContext.GetSystemService(Context.LayoutInflaterService);
-
             if (convertView == null)
             {
+                LayoutInflater inflater = (LayoutInflater)activity.ApplicationContext.GetSystemService(Context.LayoutInflaterService);
                 convertView = inflater.Inflate(Resource.Layout.column_row_serials, null);
 
                 txtFilmName = (TextView)convertView.FindViewById(Resource.Id.s_name);
