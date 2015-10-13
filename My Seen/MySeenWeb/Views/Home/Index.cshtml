@@ -45,14 +45,8 @@
                 @foreach (FilmsView film in Model.Films)
                 {
                     <tr>
-                        @*<td class="align-left">
-                                <button type="button" class="btn btn-link btn-edit" id=@("editFilm" + film.Id)>
-                                    <span class="glyphicon glyphicon-pencil"></span>
-                                    &nbsp;@film.Name
-                                </button>
-                            </td>*@
                         <td class="align-center">
-                            <button type="button" class="btn btn-info btn-edit" id=@("editFilm_" + film.Id)>
+                            <button type="button" class="btn btn-info btn-edit" id=@film.Id>
                                 <span class="glyphicon glyphicon-pencil"></span>
                                 &nbsp;Edit
                             </button>
@@ -82,14 +76,8 @@
                 @foreach (SerialsView serial in Model.Serials)
                 {
                     <tr>
-                        @*<td class="align-left">
-                                <button type="button" class="btn btn-link btn-edit" id=@("editSerial" + serial.Id)>
-                                    <span class="glyphicon glyphicon-pencil"></span>
-                                    &nbsp;@serial.Name
-                                </button>
-                            </td>*@
                         <td class="align-center">
-                            <button type="button" class="btn btn-info btn-edit" id=@("editSerial_" + serial.Id)>
+                            <button type="button" class="btn btn-info btn-edit" id=@serial.Id>
                                 <span class="glyphicon glyphicon-pencil"></span>
                                 &nbsp;Edit
                             </button>

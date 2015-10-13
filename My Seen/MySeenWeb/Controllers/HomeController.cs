@@ -95,12 +95,12 @@ namespace MySeenWeb.Controllers
                 try
                 {
                     string user_id = User.Identity.GetUserId();
-                    id = id.Split('_')[1];
                     int iid = (Convert.ToInt32(id));
                     Films film = ac.Films.Where(f => f.UserId == user_id && f.Id == iid).First();
                     film.Name = name;
                     film.Genre = Convert.ToInt32(genre);
                     film.Rate = Convert.ToInt32(rating);
+                    film.DateChange = DateTime.Now;
                     ac.SaveChanges();
                 }
                 catch (Exception e)
@@ -158,14 +158,18 @@ namespace MySeenWeb.Controllers
                 try
                 {
                     string user_id = User.Identity.GetUserId();
-                    id = id.Split('_')[1];
                     int iid = (Convert.ToInt32(id));
                     Serials film = ac.Serials.Where(f => f.UserId == user_id && f.Id == iid).First();
                     film.Name = name;
+                    if (film.LastSeason != Convert.ToInt32(season) || film.LastSeries != Convert.ToInt32(series))
+                    {
+                        film.DateLast = DateTime.Now;
+                    }
                     film.LastSeason = Convert.ToInt32(season);
                     film.LastSeries = Convert.ToInt32(series);
                     film.Genre = Convert.ToInt32(genre);
                     film.Rate = Convert.ToInt32(rating);
+                    film.DateChange = DateTime.Now;
                     ac.SaveChanges();
                 }
                 catch (Exception e)
