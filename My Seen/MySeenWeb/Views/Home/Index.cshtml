@@ -276,6 +276,7 @@
                     return false;
                 });
 
+                $table.off('click', '.btn-edit');
                 $table.on('click', '.btn-edit', function () {
                     var $button = $(this);
                     var $tr = $button.parent().parent();
@@ -298,10 +299,14 @@
 
                     $movieName.val(name);
                     $movieGenre.find('option')
-                            .filter(function (index) { return $(this).text() === genre; })
-                            .prop('selected', true);
+                        .filter(function (index) {
+                            return $(this).text() === genre;
+                        })
+                        .prop('selected', true);
                     $movieRating.find('option')
-                        .filter(function (index) { return $(this).text() === rating; })
+                        .filter(function (index) {
+                            return $(this).text() === rating;
+                        })
                         .prop('selected', true);
 
                     if (isSelectedFilm) {
