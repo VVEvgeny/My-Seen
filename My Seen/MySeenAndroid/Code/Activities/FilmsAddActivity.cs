@@ -108,7 +108,7 @@ namespace MySeenAndroid
             ArrayAdapter<String> adapter_rate = new ArrayAdapter<String>(this, Resource.Layout.comboboxitem, Resource.Id.spinnerItem, LibTools.Ratings.GetAll().ToArray());
             comboboxrate.Adapter = adapter_rate;
 
-            if(Mode==Modes.Edit)
+            if (Mode == Modes.Edit)
             {
                 name_text.Text = film.Name;
                 comboboxgenre.SetSelection(adapter.GetPosition(LibTools.Genres.GetById(film.Genre)));

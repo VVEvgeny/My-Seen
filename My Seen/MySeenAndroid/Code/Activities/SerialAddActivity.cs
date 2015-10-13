@@ -20,6 +20,7 @@ namespace MySeenAndroid
         public const string EXTRA_MODE_KEY = "Mode";
         public const string EXTRA_MODE_VALUE_ADD = "Add";
         public const string EXTRA_MODE_VALUE_EDIT = "Edit";
+        public const string EXTRA_EDIT_ID_KEY = "EditId";
         private enum Modes
         {
             Add,
@@ -34,7 +35,22 @@ namespace MySeenAndroid
             base.OnCreate(bundle);
             SetContentView(Resource.Layout.SerialsAdd);
 
-            //Log.Warn(LogTAG, "START");
+            Log.Warn(LogTAG, "START");
+
+            DatabaseHelper db = new DatabaseHelper();
+            int edited_id = 0;
+            Serials film = new Serials();
+            if (Intent.GetStringExtra(EXTRA_MODE_KEY) == EXTRA_MODE_VALUE_ADD)//Добавление нового
+            {
+                Mode = Modes.Add;
+            }
+            else
+            {
+                Mode = Modes.Edit;
+                edited_id = Convert.ToInt32(Intent.GetStringExtra(EXTRA_EDIT_ID_KEY));
+                film = db.GetSerialById(edited_id);
+            }
+
             Log.Warn(LogTAG, "START Mode=" + Intent.GetStringExtra(EXTRA_MODE_KEY));
 
             Button button_exit = FindViewById<Button>(Resource.Id.ExitButton_SerialAdd);
@@ -44,67 +60,102 @@ namespace MySeenAndroid
                 SetResult(Result.Ok, intent);
                 Finish();
             };
+
             Button button_save = FindViewById<Button>(Resource.Id.SaveButton_SerialAdd);
             TextView tv_error = FindViewById<TextView>(Resource.Id.serial_add_error);
             tv_error.Visibility = ViewStates.Gone;
 
+            EditText name_text = FindViewById<EditText>(Resource.Id.edittext_serial_name);
+            EditText season = FindViewById<EditText>(Resource.Id.edittext_season);
+            EditText series = FindViewById<EditText>(Resource.Id.edittext_series);
+
             button_save.Click += delegate
             {
-                DatabaseHelper db = new DatabaseHelper();
-                EditText name_text = FindViewById<EditText>(Resource.Id.edittext_serial_name);
-                EditText season = FindViewById<EditText>(Resource.Id.edittext_season);
-                EditText series = FindViewById<EditText>(Resource.Id.edittext_series);
-
-                if (db.isSerialExist(name_text.Text))
+                if (name_text.Text == string.Empty)
                 {
                     tv_error.Visibility = ViewStates.Visible;
-                    tv_error.Text = "Serial already exists";
+                    tv_error.Text = "Need serial name";
                     return;
                 }
-
-                int iseason=0;
+                int iseason = 0;
                 try
                 {
-                    iseason=Convert.ToInt32(season.Text);
+                    iseason = Convert.ToInt32(season.Text);
                 }
                 catch
                 {
-                    iseason=1;
+                    iseason = 1;
                 }
-                int iseries=0;
+                int iseries = 0;
                 try
                 {
-                    iseries=Convert.ToInt32(series.Text);
+                    iseries = Convert.ToInt32(series.Text);
                 }
                 catch
                 {
-                    iseries=1;
+                    iseries = 1;
                 }
+                if (Mode == Modes.Add)
+                {
+                    if (db.isSerialExist(name_text.Text))
+                    {
+                        tv_error.Visibility = ViewStates.Visible;
+                        tv_error.Text = "Serial already exists";
+                        return;
+                    }
 
-                db.Add(new Serials { Name = name_text.Text, DateChange = DateTime.Now, DateLast = DateTime.Now, DateBegin = DateTime.Now, LastSeason = iseason, LastSeries = iseries, Genre = comboboxgenre.SelectedItemPosition, Rate = comboboxrate.SelectedItemPosition });
-
+                    db.Add(new Serials
+                    {
+                        Name = name_text.Text,
+                        DateChange = DateTime.Now,
+                        DateLast = DateTime.Now,
+                        DateBegin = DateTime.Now,
+                        LastSeason = iseason,
+                        LastSeries = iseries,
+                        Genre = comboboxgenre.SelectedItemPosition,
+                        Rate = comboboxrate.SelectedItemPosition
+                    });
+                }
+                else
+                {
+                    if (db.isSerialExistAndNotSame(name_text.Text, edited_id))
+                    {
+                        tv_error.Visibility = ViewStates.Visible;
+                        tv_error.Text = "Serial already exists";
+                        return;
+                    }
+                    db.Update(new Serials
+                    {
+                        Id = film.Id,
+                        Name = name_text.Text,
+                        DateChange = DateTime.Now,
+                        DateLast = ((iseason == film.LastSeason && iseries == film.LastSeries) ? film.DateLast : DateTime.Now),
+                        DateBegin = film.DateBegin,
+                        LastSeason = iseason,
+                        LastSeries = iseries,
+                        Genre = comboboxgenre.SelectedItemPosition,
+                        Rate = comboboxrate.SelectedItemPosition
+                    });
+                }
                 var intent = new Intent(this, typeof(MainActivity));
                 SetResult(Result.Ok, intent);
                 Finish();
             };
-            if (Intent.GetStringExtra(EXTRA_MODE_KEY) == EXTRA_MODE_VALUE_ADD)//Добавление нового
-            {
-                Mode = Modes.Add;
-                EditText season = FindViewById<EditText>(Resource.Id.edittext_season);
-                season.Text = "1";
-                EditText series = FindViewById<EditText>(Resource.Id.edittext_series);
-                series.Text = "1";
-            }
-            else
-            {
-                Mode = Modes.Edit;
-            }
             comboboxgenre = FindViewById<Spinner>(Resource.Id.spinner_genre_s);
             ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, Resource.Layout.comboboxitem, Resource.Id.spinnerItem, LibTools.Genres.GetAll().ToArray());
             comboboxgenre.Adapter = adapter;
             comboboxrate = FindViewById<Spinner>(Resource.Id.spinner_rate_s);
             ArrayAdapter<String> adapter_rate = new ArrayAdapter<String>(this, Resource.Layout.comboboxitem, Resource.Id.spinnerItem, LibTools.Ratings.GetAll().ToArray());
             comboboxrate.Adapter = adapter_rate;
+
+            if (Mode == Modes.Edit)
+            {
+                name_text.Text = film.Name;
+                comboboxgenre.SetSelection(adapter.GetPosition(LibTools.Genres.GetById(film.Genre)));
+                comboboxrate.SetSelection(adapter_rate.GetPosition(LibTools.Ratings.GetById(film.Rate)));
+                season.Text = film.LastSeason.ToString();
+                series.Text = film.LastSeries.ToString();
+            }
         }
     }
 }

@@ -91,6 +91,10 @@ namespace MySeenAndroid
         {
             connection.Update(film);
         }
+        public void Update(Serials film)
+        {
+            connection.Update(film);
+        }
         public bool isFilmExist(string name)
         {
             return connection.Table<Films>().Where(f => f.Name == name).Count() != 0;
@@ -99,10 +103,13 @@ namespace MySeenAndroid
         {
             return connection.Table<Films>().Where(f => f.Name == name && f.Id != id).Count() != 0;
         }
-        
         public bool isSerialExist(string name)
         {
             return connection.Table<Serials>().Where(f => f.Name == name).Count() != 0;
+        }
+        public bool isSerialExistAndNotSame(string name, int id)
+        {
+            return connection.Table<Serials>().Where(f => f.Name == name && f.Id != id).Count() != 0;
         }
         public void Add(Serials film)
         {
@@ -118,6 +125,10 @@ namespace MySeenAndroid
         public Films GetFilmById(int id)
         {
             return connection.Table<Films>().Where(f => f.Id == id).First();
+        }
+        public Serials GetSerialById(int id)
+        {
+            return connection.Table<Serials>().Where(f => f.Id == id).First();
         }
         public IEnumerable<Serials> GetSerials()
         {

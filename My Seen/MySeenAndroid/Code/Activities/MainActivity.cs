@@ -47,7 +47,6 @@ namespace MySeenAndroid
             SerialsAdapter = new MyListViewAdapterSerials(this);
 
             listview.Adapter = FilmsAdapter;
-            //listview.Adapter = SerialsAdapter;
 
             db = new DatabaseHelper();
             LoadFromDatabase();
@@ -66,7 +65,6 @@ namespace MySeenAndroid
                     intent.PutExtra(SerialAddActivity.EXTRA_MODE_KEY, SerialAddActivity.EXTRA_MODE_VALUE_ADD);
                     StartActivityForResult(intent, 0);
                 }
-                LoadFromDatabase();
             };
             
             selectorbutton.Click += delegate
@@ -110,6 +108,10 @@ namespace MySeenAndroid
             {
                 Serials item = SerialsAdapter.GetById(e.Position);
                 Log.Warn(LogTAG, "Serials name=" + item.Name + " id=" + item.Id.ToString());
+
+                Intent intent = new Intent(this, typeof(SerialAddActivity));
+                intent.PutExtra(SerialAddActivity.EXTRA_EDIT_ID_KEY, item.Id.ToString());
+                StartActivityForResult(intent, 0);
             }
         }
 
@@ -133,48 +135,23 @@ namespace MySeenAndroid
             if (State == States.Films)
             {
                 Log.Warn(LogTAG, "LoadFromDatabase films count in db=" + db.GetFilmsCount().ToString());
-                //FilmsList.Clear();
                 FilmsAdapter.list.Clear();
-                //foreach (Films film in db.GetFilms())
-                {
-                    //FilmsList.AddRange(db.GetFilms());
-                    FilmsAdapter.list.AddRange(db.GetFilms());
-                }
-                FilmsAdapter.NotifyDataSetChanged();//В случае если используется базовый то надо пересоздавать...
+                FilmsAdapter.list.AddRange(db.GetFilms());
+                FilmsAdapter.NotifyDataSetChanged();
             }
             else
             {
                 Log.Warn(LogTAG, "LoadFromDatabase serials count in db=" + db.GetSerialsCount().ToString());
-                //SerialsList.Clear();
-                //foreach (Serials film in db.GetSerials())
-                {
-                    //Log.Warn(LogTAG, "reload list id=" + film.Id.ToString() + " name=" + film.Name);
-                    //SerialsList.AddRange(db.GetSerials());
-                }
-                RunOnUiThread(() =>
-                {
-                    MyListViewAdapterSerials adapter = (MyListViewAdapterSerials)listview.Adapter;
-                    adapter.list.Clear();
-                    adapter.list.AddRange(db.GetSerials());
-                    adapter.NotifyDataSetChanged();//В случае если используется базовый то надо пересоздавать...
-                    
-                });
+                SerialsAdapter.list.Clear();
+                SerialsAdapter.list.AddRange(db.GetSerials());
+                SerialsAdapter.NotifyDataSetChanged();
             }
             ReloadListHeaders();
-            RunOnUiThread(() =>
-                {
-                    listview.InvalidateViews();
-                    listview.RefreshDrawableState();
-                    listview.RequestLayout();
-                });
-
-            LinearLayout main_l = FindViewById<LinearLayout>(Resource.Layout.Main);
-            //main_l.RefreshDrawableState();
-            //main_l.RequestLayout();
         }
 
         protected override void OnActivityResult(int requestCode, Result resultCode, Intent data)//Не пашет 
         {
+            Log.Warn(LogTAG, "OnActivityResult");
             LoadFromDatabase();
         }
     }

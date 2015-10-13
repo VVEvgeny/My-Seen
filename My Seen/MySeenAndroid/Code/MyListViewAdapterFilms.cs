@@ -13,16 +13,24 @@ namespace MySeenAndroid
 {
     public class MyListViewAdapterFilms : BaseAdapter
     {
-        public List<Films> list;
-        Activity activity;
-        TextView txtFilmName;
-        TextView txtGenre;
-        TextView txtDateSee;
-        TextView txtRate;
-        public MyListViewAdapterFilms(Activity activity)
+        private class FilmsViewHolder : Java.Lang.Object
         {
-            this.activity = activity;
+            public TextView txtFilmName { get; set; }
+            public TextView txtLastSeasonSeries { get; set; }
+            public TextView txtGenre { get; set; }
+            public TextView txtDateSee { get; set; }
+            public TextView txtRate { get; set; }
+        }
+
+        public List<Films> list;
+        private Activity activity;
+        private LayoutInflater inflater;
+
+        public MyListViewAdapterFilms(Activity _activity)
+        {
             list = new List<Films>();
+            this.activity = _activity;
+            inflater = (LayoutInflater)_activity.ApplicationContext.GetSystemService(Context.LayoutInflaterService);
         }
 
         public override int Count
@@ -31,7 +39,8 @@ namespace MySeenAndroid
         }
         public override Java.Lang.Object GetItem(int position)
         {
-            return ((object)list[position]) as Java.Lang.Object;
+            //return ((object)list[position]) as Java.Lang.Object;
+            return null;
         }
         public Films GetById(int position)
         {
@@ -40,31 +49,33 @@ namespace MySeenAndroid
 
         public override long GetItemId(int position)
         {
-            return 0;
+            return list[position].Id;
         }
 
         public override View GetView(int position, View convertView, ViewGroup parent)
         {
-            LayoutInflater inflater = (LayoutInflater)activity.ApplicationContext.GetSystemService(Context.LayoutInflaterService);
-
-            if (convertView == null)
+            FilmsViewHolder holder = null;
+            var view = convertView;
+            if (view != null) holder = view.Tag as FilmsViewHolder;
+            if (holder == null)
             {
-                convertView = inflater.Inflate(Resource.Layout.column_row_films, null);
-
-                txtFilmName = (TextView)convertView.FindViewById(Resource.Id.f_name);
-                txtGenre = (TextView)convertView.FindViewById(Resource.Id.f_genre);
-                txtDateSee = (TextView)convertView.FindViewById(Resource.Id.f_datesee);
-                txtRate = (TextView)convertView.FindViewById(Resource.Id.f_rate);
+                holder = new FilmsViewHolder();
+                view = activity.LayoutInflater.Inflate(Resource.Layout.column_row_films, null);
+                holder.txtFilmName = (TextView)view.FindViewById(Resource.Id.f_name);
+                holder.txtGenre = (TextView)view.FindViewById(Resource.Id.f_genre);
+                holder.txtDateSee = (TextView)view.FindViewById(Resource.Id.f_datesee);
+                holder.txtRate = (TextView)view.FindViewById(Resource.Id.f_rate);
+                view.Tag = holder;
             }
 
             Films str = list[position];
 
-            txtFilmName.SetText(str.Name, TextView.BufferType.Normal);
-            txtGenre.SetText(LibTools.Genres.GetById(str.Genre), TextView.BufferType.Normal);
-            txtDateSee.SetText(str.DateSee.ToShortDateString(), TextView.BufferType.Normal);
-            txtRate.SetText(LibTools.Ratings.GetById(str.Rate), TextView.BufferType.Normal);
+            holder.txtFilmName.SetText(str.Name, TextView.BufferType.Normal);
+            holder.txtGenre.SetText(LibTools.Genres.GetById(str.Genre), TextView.BufferType.Normal);
+            holder.txtDateSee.SetText(str.DateSee.ToShortDateString(), TextView.BufferType.Normal);
+            holder.txtRate.SetText(LibTools.Ratings.GetById(str.Rate), TextView.BufferType.Normal);
 
-            return convertView;
+            return view;
         }
     }
 }
