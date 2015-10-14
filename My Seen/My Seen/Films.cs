@@ -15,12 +15,14 @@ namespace My_Seen
     public partial class Films
     {
         public long Id { get; set; }
+        public Nullable<int> Id_R { get; set; }
         public int UsersId { get; set; }
         public string Name { get; set; }
         public System.DateTime DateSee { get; set; }
         public int Rate { get; set; }
-        public System.DateTime DateChange { get; set; }
         public int Genre { get; set; }
+        public Nullable<System.DateTime> DateChange { get; set; }
+        public Nullable<bool> isDeleted { get; set; }
     
         public virtual Users Users { get; set; }
     }

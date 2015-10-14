@@ -151,7 +151,7 @@ namespace MySeenWeb.Controllers
         {
             if (ModelState.IsValid)
             {
-                var user = new ApplicationUser { UserName = model.Email, Email = model.Email, UniqueKey = MD5Tools.GetMd5Hash(model.Email) };
+                var user = new ApplicationUser { UserName = model.Email, Email = model.Email, UniqueKey = MD5Tools.GetMd5Hash(model.Email.ToLower()) };
                 var result = await UserManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
                 {

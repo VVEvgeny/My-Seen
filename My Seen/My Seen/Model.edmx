@@ -26,7 +26,7 @@
     <Property Name="Name" Type="nvarchar(max)" Nullable="false" />
     <Property Name="Password" Type="nvarchar(max)" Nullable="false" />
     <Property Name="CreationDate" Type="datetime" Nullable="false" />
-    <Property Name="RemoteUniqKey" Type="nvarchar(max)" Nullable="true" />
+    <Property Name="Email" Type="nvarchar(max)" Nullable="true" />
     <Property Name="DateLastSync" Type="datetime" Nullable="false" />
   </EntityType>
   <EntityType Name="FilmsSet">
@@ -34,18 +34,21 @@
       <PropertyRef Name="Id" />
     </Key>
     <Property Name="Id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Id_R" Type="int" Nullable="true" />
     <Property Name="UsersId" Type="int" Nullable="false" />
     <Property Name="Name" Type="nvarchar(max)" Nullable="false" />
     <Property Name="DateSee" Type="datetime" Nullable="false" />
     <Property Name="Rate" Type="int" Nullable="false" />
-    <Property Name="DateChange" Type="datetime" Nullable="false" />
     <Property Name="Genre" Type="int" Nullable="false" />
+    <Property Name="DateChange" Type="datetime" Nullable="true" />
+    <Property Name="isDeleted" Type="bit" Nullable="true" />
   </EntityType>
   <EntityType Name="SerialsSet">
     <Key>
       <PropertyRef Name="Id" />
     </Key>
     <Property Name="Id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Id_R" Type="int" Nullable="true" />
     <Property Name="UsersId" Type="int" Nullable="false" />
     <Property Name="Name" Type="nvarchar(max)" Nullable="false" />
     <Property Name="LastSeason" Type="int" Nullable="false" />
@@ -53,8 +56,9 @@
     <Property Name="DateBegin" Type="datetime" Nullable="false" />
     <Property Name="DateLast" Type="datetime" Nullable="false" />
     <Property Name="Rate" Type="int" Nullable="false" />
-    <Property Name="DateChange" Type="datetime" Nullable="false" />
     <Property Name="Genre" Type="int" Nullable="false" />
+    <Property Name="DateChange" Type="datetime" Nullable="true" />
+    <Property Name="isDeleted" Type="bit" Nullable="true" />
   </EntityType>
   <Association Name="UsersFilms">
     <End Role="Users" Type="Model.Store.UsersSet" Multiplicity="1">
@@ -111,7 +115,7 @@
           <Property Name="CreationDate" Type="DateTime" Nullable="false" />
           <NavigationProperty Name="Films" Relationship="Model.UsersFilms" FromRole="Users" ToRole="Films" />
           <NavigationProperty Name="Serials" Relationship="Model.UsersSerials" FromRole="Users" ToRole="Serials" />
-          <Property Name="RemoteUniqKey" Type="String" />
+          <Property Name="Email" Type="String" />
           <Property Name="DateLastSync" Type="DateTime" Nullable="false" />
         </EntityType>
         <EntityType Name="Films">
@@ -119,19 +123,22 @@
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Id_R" Type="Int32" Nullable="true" />
           <Property Name="UsersId" Type="Int32" Nullable="false" />
           <Property Name="Name" Type="String" Nullable="false" />
           <Property Name="DateSee" Type="DateTime" Nullable="false" />
           <Property Name="Rate" Type="Int32" Nullable="false" />
           <NavigationProperty Name="Users" Relationship="Model.UsersFilms" FromRole="Films" ToRole="Users" />
-          <Property Name="DateChange" Type="DateTime" Nullable="false" />
           <Property Name="Genre" Type="Int32" Nullable="false" />
+          <Property Name="DateChange" Type="DateTime" Nullable="true" />
+          <Property Name="isDeleted" Type="Boolean" Nullable="true" />
         </EntityType>
         <EntityType Name="Serials">
           <Key>
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Id_R" Type="Int32" Nullable="true" />
           <Property Name="UsersId" Type="Int32" Nullable="false" />
           <Property Name="Name" Type="String" Nullable="false" />
           <NavigationProperty Name="Users" Relationship="Model.UsersSerials" FromRole="Serials" ToRole="Users" />
@@ -140,8 +147,9 @@
           <Property Name="DateBegin" Type="DateTime" Nullable="false" />
           <Property Name="DateLast" Type="DateTime" Nullable="false" />
           <Property Name="Rate" Type="Int32" Nullable="false" />
-          <Property Name="DateChange" Type="DateTime" Nullable="false" />
           <Property Name="Genre" Type="Int32" Nullable="false" />
+          <Property Name="DateChange" Type="DateTime" Nullable="true" />
+          <Property Name="isDeleted" Type="Boolean" Nullable="true" />
         </EntityType>
         <Association Name="UsersFilms">
           <End Type="Model.Users" Role="Users" Multiplicity="1" >
@@ -186,7 +194,7 @@
           <ScalarProperty Name="Name" ColumnName="Name" />
           <ScalarProperty Name="Password" ColumnName="Password" />
           <ScalarProperty Name="CreationDate" ColumnName="CreationDate" />
-          <ScalarProperty Name="RemoteUniqKey" ColumnName="RemoteUniqKey" />
+          <ScalarProperty Name="Email" ColumnName="Email" />
           <ScalarProperty Name="DateLastSync" ColumnName="DateLastSync" />
         </MappingFragment>
       </EntityTypeMapping>
@@ -195,12 +203,14 @@
       <EntityTypeMapping TypeName="IsTypeOf(Model.Films)">
         <MappingFragment StoreEntitySet="FilmsSet">
           <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Id_R" ColumnName="Id_R" />
           <ScalarProperty Name="UsersId" ColumnName="UsersId" />
           <ScalarProperty Name="Name" ColumnName="Name" />
           <ScalarProperty Name="DateSee" ColumnName="DateSee" />
           <ScalarProperty Name="Rate" ColumnName="Rate" />
-          <ScalarProperty Name="DateChange" ColumnName="DateChange" />
           <ScalarProperty Name="Genre" ColumnName="Genre" />
+          <ScalarProperty Name="DateChange" ColumnName="DateChange" />
+          <ScalarProperty Name="isDeleted" ColumnName="isDeleted" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -208,6 +218,7 @@
       <EntityTypeMapping TypeName="IsTypeOf(Model.Serials)">
         <MappingFragment StoreEntitySet="SerialsSet">
           <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Id_R" ColumnName="Id_R" />
           <ScalarProperty Name="UsersId" ColumnName="UsersId" />
           <ScalarProperty Name="Name" ColumnName="Name" />
           <ScalarProperty Name="LastSeason" ColumnName="LastSeason" />
@@ -215,8 +226,9 @@
           <ScalarProperty Name="DateBegin" ColumnName="DateBegin" />
           <ScalarProperty Name="DateLast" ColumnName="DateLast" />
           <ScalarProperty Name="Rate" ColumnName="Rate" />
-          <ScalarProperty Name="DateChange" ColumnName="DateChange" />
           <ScalarProperty Name="Genre" ColumnName="Genre" />
+          <ScalarProperty Name="DateChange" ColumnName="DateChange" />
+          <ScalarProperty Name="isDeleted" ColumnName="isDeleted" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>

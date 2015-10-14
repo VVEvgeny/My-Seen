@@ -2,7 +2,7 @@
 -- --------------------------------------------------
 -- Entity Designer DDL Script for SQL Server 2005, 2008, 2012 and Azure
 -- --------------------------------------------------
--- Date Created: 10/06/2015 17:47:13
+-- Date Created: 10/14/2015 18:04:32
 -- Generated from EDMX file: D:\Work_vve\workspace_sharp_git\vvevgeny_myseen\My Seen\My Seen\Model.edmx
 -- --------------------------------------------------
 
@@ -48,7 +48,7 @@ CREATE TABLE [dbo].[UsersSet] (
     [Name] nvarchar(max)  NOT NULL,
     [Password] nvarchar(max)  NOT NULL,
     [CreationDate] datetime  NOT NULL,
-    [RemoteUniqKey] nvarchar(max)  NULL,
+    [Email] nvarchar(max)  NULL,
     [DateLastSync] datetime  NOT NULL
 );
 GO
@@ -56,18 +56,21 @@ GO
 -- Creating table 'FilmsSet'
 CREATE TABLE [dbo].[FilmsSet] (
     [Id] bigint IDENTITY(1,1) NOT NULL,
+    [Id_R] int  NULL,
     [UsersId] int  NOT NULL,
     [Name] nvarchar(max)  NOT NULL,
     [DateSee] datetime  NOT NULL,
     [Rate] int  NOT NULL,
-    [DateChange] datetime  NOT NULL,
-    [Genre] int  NOT NULL
+    [Genre] int  NOT NULL,
+    [DateChange] datetime  NULL,
+    [isDeleted] bit  NULL
 );
 GO
 
 -- Creating table 'SerialsSet'
 CREATE TABLE [dbo].[SerialsSet] (
     [Id] bigint IDENTITY(1,1) NOT NULL,
+    [Id_R] int  NULL,
     [UsersId] int  NOT NULL,
     [Name] nvarchar(max)  NOT NULL,
     [LastSeason] int  NOT NULL,
@@ -75,8 +78,9 @@ CREATE TABLE [dbo].[SerialsSet] (
     [DateBegin] datetime  NOT NULL,
     [DateLast] datetime  NOT NULL,
     [Rate] int  NOT NULL,
-    [DateChange] datetime  NOT NULL,
-    [Genre] int  NOT NULL
+    [Genre] int  NOT NULL,
+    [DateChange] datetime  NULL,
+    [isDeleted] bit  NULL
 );
 GO
 

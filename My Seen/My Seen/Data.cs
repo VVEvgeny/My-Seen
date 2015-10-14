@@ -48,12 +48,6 @@ namespace My_Seen
             CurrentDB = DBMode.Films;
             toolStripComboBox1.Text = toolStripComboBox1.Items[0].ToString();
         }
-
-        private void ClearListView()
-        {
-            listView1.Items.Clear();
-            toolStripStatusLabel2.Text = "0";
-        }
         private void RestartProgram()
         {
             NeedRestartAppAfterDeleteUserEvent.Exec();
@@ -63,9 +57,15 @@ namespace My_Seen
         {
             Config form = new Config();
             form.User = User;
-            form.DBCleared.Event += new MySeenEventHandler(ClearListView);
+            form.DBDataChanged.Event += new MySeenEventHandler(LoadItemsToListView);
             form.DBUserDeleted.Event += new MySeenEventHandler(RestartProgram);
+            form.DBUpdateUser.Event += new MySeenEventHandler(UpdateUser);
             form.ShowDialog();
+        }
+        private void UpdateUser()
+        {
+            ModelContainer mc = new ModelContainer();
+            user = mc.UsersSet.First(u => u.Id == user.Id);
         }
         private void UpdateListViewColumns()
         {

@@ -1,13 +1,93 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Resources;
 using System.Globalization;
 using System.Threading;
+using Newtonsoft.Json;
 
 namespace MySeenLib
 {
+    public static class API_Data
+    {
+        public static string ApiHost = @"https://localhost:44300";
+        public static string ApiUsers = @"/api/ApiUsers/";
+        public static string ApiSync = @"/api/ApiSync/";
+
+        public enum ModesApiUsers
+        {
+            isUserExists = 1
+        }
+        public enum ModesApiFilms
+        {
+            All = 1,
+            New = 2
+        }
+        public class RequestResponseAnswer
+        {
+            public enum Values
+            {
+                Ok = 1,
+                NoData = 2,
+                BadRequestMode = 3,
+                UserNotExist = 4
+            }
+            [JsonProperty("Value")]
+            public Values Value { get; set; }
+            public override string ToString()
+            {
+                return Value.ToString();
+            }
+        }
+        public class FilmsRequestResponse
+        {
+            [JsonProperty("IsFilm")]
+            public bool IsFilm { get; set; }
+            [JsonProperty("Id")]
+            public int Id { get; set; }
+            [JsonProperty("Name")]
+            public string Name { get; set; }
+            [JsonProperty("Genre")]
+            public int Genre { get; set; }
+            [JsonProperty("Rate")]
+            public int Rate { get; set; }
+            [JsonProperty("DateSee")]
+            public DateTime DateSee { get; set; }
+            [JsonProperty("DateChange")]
+            public DateTime? DateChange { get; set; }
+            [JsonProperty("isDeleted")]
+            public bool isDeleted { get; set; }
+
+            //serials
+            [JsonProperty("LastSeason")]
+            public int LastSeason { get; set; }
+            [JsonProperty("LastSeries")]
+            public int LastSeries { get; set; }
+            [JsonProperty("DateLast")]
+            public DateTime DateLast { get; set; }
+            [JsonProperty("DateBegin")]
+            public DateTime DateBegin { get; set; }
+        }
+        public static IEnumerable<FilmsRequestResponse> GetResponse(string data)
+        {
+            return JsonConvert.DeserializeObject<IEnumerable<FilmsRequestResponse>>(data);
+        }
+        public static RequestResponseAnswer GetResponseAnswer(string data)
+        {
+            RequestResponseAnswer answer = null;
+            try
+            {
+                answer = JsonConvert.DeserializeObject<RequestResponseAnswer>(data);
+            }
+            catch
+            {
+
+            }
+            return answer;
+        }
+    }
     public static class LibTools
     {
         public static class Validation
