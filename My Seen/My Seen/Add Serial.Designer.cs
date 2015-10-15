@@ -44,6 +44,7 @@
             this.errorProvider = new System.Windows.Forms.ErrorProvider(this.components);
             this.label6 = new System.Windows.Forms.Label();
             this.comboBox2 = new System.Windows.Forms.ComboBox();
+            this.button2 = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.errorProvider)).BeginInit();
             this.SuspendLayout();
             // 
@@ -123,11 +124,19 @@
             resources.ApplyResources(this.comboBox2, "comboBox2");
             this.comboBox2.Name = "comboBox2";
             // 
+            // button2
+            // 
+            resources.ApplyResources(this.button2, "button2");
+            this.button2.Name = "button2";
+            this.button2.UseVisualStyleBackColor = true;
+            this.button2.Click += new System.EventHandler(this.button2_Click);
+            // 
             // Add_Serial
             // 
             this.AcceptButton = this.button1;
             resources.ApplyResources(this, "$this");
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.Controls.Add(this.button2);
             this.Controls.Add(this.label6);
             this.Controls.Add(this.comboBox2);
             this.Controls.Add(this.button1);
@@ -169,5 +178,6 @@
         private System.Windows.Forms.ErrorProvider errorProvider;
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.ComboBox comboBox2;
+        private System.Windows.Forms.Button button2;
     }
 }

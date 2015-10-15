@@ -73,6 +73,7 @@ namespace My_Seen
 
             comboBox1.Text = _rate;
             comboBox2.Text = _genre;
+            button2.Visible = true;
         }
         private void button1_Click(object sender, EventArgs e)
         {
@@ -94,6 +95,21 @@ namespace My_Seen
             if (EditId != 0) newFilm = new Films() { Id = EditId, UsersId = user.Id, Name = textBox1.Text, DateSee = dateTimePicker1.Value, DateChange = DateTime.Now, Rate = LibTools.Ratings.GetId(comboBox1.Text), Genre = LibTools.Genres.GetId(comboBox2.Text) };
             else newFilm = new Films() { UsersId = user.Id, Name = textBox1.Text, DateSee = dateTimePicker1.Value, DateChange = DateTime.Now, Rate = LibTools.Ratings.GetId(comboBox1.Text), Genre = LibTools.Genres.GetId(comboBox2.Text) };
             Hide();
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            ModelContainer mc = new ModelContainer();
+            var film = mc.FilmsSet.Where(f => f.UsersId == User.Id && f.Id == EditId).First();
+            if (film.Id_R.GetValueOrDefault(0) == 0)
+            {
+                mc.FilmsSet.Remove(film);
+            }
+            else
+            {
+                film.isDeleted = true;
+            }
+            mc.SaveChanges();
         }
     }
 }

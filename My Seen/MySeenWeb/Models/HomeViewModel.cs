@@ -69,12 +69,12 @@ namespace MySeenWeb.Models
         public void LoadFilms(string userId)
         {
             ApplicationDbContext ac= new ApplicationDbContext();
-            Films = ac.Films.Where(f => f.UserId == userId).OrderByDescending(f => f.DateSee).Select(FilmsView.Map);
+            Films = ac.Films.Where(f => f.UserId == userId && f.isDeleted != true).OrderByDescending(f => f.DateSee).Select(FilmsView.Map);
         }
         public void LoadSerials(string userId)
         {
             ApplicationDbContext ac = new ApplicationDbContext();
-            Serials = ac.Serials.Where(f => f.UserId == userId).OrderByDescending(f => f.DateLast).Select(SerialsView.Map);
+            Serials = ac.Serials.Where(f => f.UserId == userId && f.isDeleted != true).OrderByDescending(f => f.DateLast).Select(SerialsView.Map);
         }
     }
 }

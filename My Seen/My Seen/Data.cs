@@ -59,7 +59,7 @@ namespace My_Seen
         {
             if (!string.IsNullOrEmpty(User.Email))
             {
-                if (WebApi.CheckUser(User.Email) == "User OK")
+                if (WebApi.CheckUser(User.Email) == Resource.UserOK)
                 {
                     toolStripMenuItem1.Visible = true;
                 }
@@ -78,7 +78,11 @@ namespace My_Seen
             form.DBUserDeleted.Event += new MySeenEventHandler(RestartProgram);
             form.DBUpdateUser.Event += new MySeenEventHandler(UpdateUser);
             form.ShowDialog();
-            CheckCanSync();
+            if (thread_sync.ThreadState != ThreadState.Running)
+            {
+                thread_sync = new Thread(new ThreadStart(CheckCanSync));
+                thread_sync.Start();
+            }
         }
         private void UpdateUser()
         {
@@ -150,7 +154,7 @@ namespace My_Seen
         private void LoadSerials(string filter)
         {
             ModelContainer mc = new ModelContainer();
-            foreach (Serials film in mc.SerialsSet.Where(f => f.UsersId == User.Id && (string.IsNullOrEmpty(filter) ? 1 == 1 : f.Name.Contains(filter))).OrderByDescending(t => t.DateLast))
+            foreach (Serials film in mc.SerialsSet.Where(f => f.UsersId == User.Id && f.isDeleted != true && (string.IsNullOrEmpty(filter) ? 1 == 1 : f.Name.Contains(filter))).OrderByDescending(t => t.DateLast))
             {
                 LoadItemsToListView(film);
             }
@@ -162,7 +166,7 @@ namespace My_Seen
         private void LoadFilms(string filter)
         {
             ModelContainer mc = new ModelContainer();
-            foreach (Films film in mc.FilmsSet.Where(f => f.UsersId == User.Id && (string.IsNullOrEmpty(filter) ? 1 == 1 : f.Name.Contains(filter))).OrderByDescending(t => t.DateSee))
+            foreach (Films film in mc.FilmsSet.Where(f => f.UsersId == User.Id && f.isDeleted != true && (string.IsNullOrEmpty(filter) ? 1 == 1 : f.Name.Contains(filter))).OrderByDescending(t => t.DateSee))
             {
                 LoadItemsToListView(film);
             }
