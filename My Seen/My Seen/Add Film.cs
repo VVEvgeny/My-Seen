@@ -37,6 +37,8 @@ namespace My_Seen
             comboBox2.Items.Clear();
             comboBox2.Items.AddRange(LibTools.Genres.GetAll().ToArray());
             if (comboBox2.Items.Count != 0) comboBox2.Text = comboBox2.Items[0].ToString();
+
+            DelRecord = false;
         }
 
         private void Add_Film_Load(object sender, EventArgs e)
@@ -62,6 +64,7 @@ namespace My_Seen
         }
 
         private int EditId;
+        public bool DelRecord;
         public void EditData(string id, string _name, string _genre, string _seeDate, string _rate)
         {
             Text = Resource.Edit;
@@ -110,6 +113,8 @@ namespace My_Seen
                 film.isDeleted = true;
             }
             mc.SaveChanges();
+            DelRecord = true;
+            Hide();
         }
     }
 }

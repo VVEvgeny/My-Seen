@@ -16,6 +16,10 @@ namespace MySeenWeb.Controllers
         {
             if (User.Identity.IsAuthenticated)
             {
+                ApplicationDbContext ac = new ApplicationDbContext();
+                string user_id = User.Identity.GetUserId();
+                CultureInfoTool.SetCulture(ac.Users.Where(u => u.Id == user_id).First().Culture);
+
                 HomeViewModel af = new HomeViewModel();
                 HttpCookie cookie = ControllerContext.HttpContext.Request.Cookies[HomeViewModel.AFCookies.CoockieSelectedKey];
                 if (cookie == null)

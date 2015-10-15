@@ -9,6 +9,7 @@ using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using MySeenWeb.Models;
+using MySeenLib;
 
 namespace MySeenWeb.Controllers
 {
@@ -151,7 +152,7 @@ namespace MySeenWeb.Controllers
         {
             if (ModelState.IsValid)
             {
-                var user = new ApplicationUser { UserName = model.Email, Email = model.Email, UniqueKey = MD5Tools.GetMd5Hash(model.Email.ToLower()) };
+                var user = new ApplicationUser { UserName = model.Email, Email = model.Email, UniqueKey = MD5Tools.GetMd5Hash(model.Email.ToLower()), Culture = CultureInfoTool.Cultures.English };
                 var result = await UserManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
                 {
@@ -349,7 +350,7 @@ namespace MySeenWeb.Controllers
                         {
                             return View("ExternalLoginFailure");
                         }
-                        var user = new ApplicationUser { UserName = loginInfo.Email, Email = loginInfo.Email, UniqueKey = MD5Tools.GetMd5Hash(loginInfo.Email) };
+                        var user = new ApplicationUser { UserName = loginInfo.Email, Email = loginInfo.Email, UniqueKey = MD5Tools.GetMd5Hash(loginInfo.Email), Culture = CultureInfoTool.Cultures.English };
                         var result2 = await UserManager.CreateAsync(user);
                         if (result2.Succeeded)
                         {
@@ -389,7 +390,7 @@ namespace MySeenWeb.Controllers
                 {
                     return View("ExternalLoginFailure");
                 }
-                var user = new ApplicationUser { UserName = model.Email, Email = model.Email, UniqueKey = MD5Tools.GetMd5Hash(model.Email) };
+                var user = new ApplicationUser { UserName = model.Email, Email = model.Email, UniqueKey = MD5Tools.GetMd5Hash(model.Email), Culture = CultureInfoTool.Cultures.English };
                 var result = await UserManager.CreateAsync(user);
                 if (result.Succeeded)
                 {

@@ -6,7 +6,7 @@
 @Scripts.Render("~/bundles/jquery", "~/bundles/bootstrap")
 
 @{
-    ViewBag.Title = "Home Page";
+    ViewBag.Title = Resource.AppName;
 }
 
 <br />
@@ -22,7 +22,7 @@
 
             <button type="button" class="btn btn-primary" id="addButton">
                 <span class="glyphicon glyphicon-plus"></span>
-                &nbsp;Add New
+                &nbsp;@Resource.AddNew
             </button>
         </div>
     </div>
@@ -35,10 +35,10 @@
             <thead>
                 <tr>
                     <th width="10%"></th>
-                    <th width="60%">Name</th>
-                    <th width="20%">Date</th>
-                    <th width="10%">Genre</th>
-                    <th width="10%">Rating</th>
+                    <th width="60%">@Resource.Name</th>
+                    <th width="20%">@Resource.Date</th>
+                    <th width="10%">@Resource.Genre</th>
+                    <th width="10%">@Resource.Rate</th>
                 </tr>
             </thead>
             <tbody>
@@ -64,12 +64,12 @@
             <thead>
                 <tr>
                     <th width="10%"></th>
-                    <th width="40%">Name</th>
-                    <th width="10%">Last Ep</th>
-                    <th width="20%">Date Last</th>
-                    <th width="20%">Date Begin</th>
-                    <th width="10%">Genre</th>
-                    <th width="10%">Rating</th>
+                    <th width="40%">@Resource.Name</th>
+                    <th width="10%">@Resource.LastEpisode</th>
+                    <th width="20%">@Resource.DateLast</th>
+                    <th width="20%">@Resource.DateBegin</th>
+                    <th width="10%">@Resource.Genre</th>
+                    <th width="10%">@Resource.Rate</th>
                 </tr>
             </thead>
             <tbody>
@@ -103,11 +103,11 @@
                         Add New
                         @if (isSelectedFilm)
                         {
-                            <text>Film</text>
+                            <text>@Resource.Film</text>
                         }
                         else
                         {
-                            <text>Serial</text>
+                            <text>@Resource.Serial</text>
                         }
                     </h4>
                 </div>
@@ -172,15 +172,15 @@
                 <div class="modal-footer">
                     <button type="button" class="btn btn-default" data-dismiss="modal">
                         <span class="glyphicon glyphicon-remove"></span>
-                        &nbsp;Close
+                        &nbsp;@Resource.Close
                     </button>
                     <button type="button" class="btn btn-success" id="submitAddButton">
                         <span class="glyphicon glyphicon-ok"></span>
-                        &nbsp;Add
+                        &nbsp;@Resource.Add
                     </button>
                     <button type="button" class="btn btn-success" id="saveButton" style="display: none;">
                         <span class="glyphicon glyphicon-ok"></span>
-                        &nbsp;Save changes
+                        &nbsp;@Resource.SaveСhanges
                     </button>
                 </div>
             </div>

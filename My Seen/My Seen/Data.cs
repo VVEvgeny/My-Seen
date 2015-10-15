@@ -218,7 +218,11 @@ namespace My_Seen
                 form.User = user;
                 form.EditData(lvi.SubItems[0].Text, lvi.SubItems[1].Text, lvi.SubItems[2].Text, lvi.SubItems[3].Text, lvi.SubItems[4].Text);
                 form.ShowDialog();
-                if (form.NewFilm != null)
+                if (form.DelRecord)
+                {
+                    listView1.Items.Remove(lvi);
+                }
+                else if (form.NewFilm != null)
                 {
                     ModelContainer mc = new ModelContainer();
                     int f_id = Convert.ToInt32(lvi.SubItems[0].Text);
@@ -242,7 +246,11 @@ namespace My_Seen
                 form.User = user;
                 form.EditData(lvi.SubItems[0].Text, lvi.SubItems[1].Text, lvi.SubItems[5].Text, lvi.SubItems[6].Text, lvi.SubItems[2].Text.Split('-')[0], lvi.SubItems[2].Text.Split('-')[1], lvi.SubItems[3].Text);
                 form.ShowDialog();
-                if (form.NewFilm != null)
+                if (form.DelRecord)
+                {
+                    listView1.Items.Remove(lvi);
+                }
+                else if (form.NewFilm != null)
                 {
                     ModelContainer mc = new ModelContainer();
                     int f_id = Convert.ToInt32(lvi.SubItems[0].Text);

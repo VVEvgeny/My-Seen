@@ -25,6 +25,7 @@ namespace My_Seen
                 user = value;
             }
         }
+        public bool DelRecord;
         public Add_Serial()
         {
             InitializeComponent();
@@ -37,6 +38,8 @@ namespace My_Seen
             comboBox2.Items.Clear();
             comboBox2.Items.AddRange(LibTools.Genres.GetAll().ToArray());
             if (comboBox2.Items.Count != 0) comboBox2.Text = comboBox2.Items[0].ToString();
+
+            DelRecord = false;
         }
         private Serials newFilm;
         public Serials NewFilm
@@ -129,6 +132,8 @@ namespace My_Seen
                 film.isDeleted = true;
             }
             mc.SaveChanges();
+            DelRecord = true;
+            Hide();
         }
     }
 }

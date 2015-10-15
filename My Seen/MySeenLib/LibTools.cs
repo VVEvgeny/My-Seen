@@ -10,6 +10,45 @@ using Newtonsoft.Json;
 
 namespace MySeenLib
 {
+    #region CultureTool
+    public static class CultureInfoTool
+    {
+        public static string CoockieCultureKey = "_culture";
+        public static class Cultures
+        {
+            private static string eng = "en";
+            private static string rus = "ru";
+            public static string English
+            {
+                get
+                {
+                    return eng;
+                }
+            }
+            public static string Russian
+            {
+                get
+                {
+                    return rus;
+                }
+            }
+        }
+        public static string GetCulture()
+        {
+            return Thread.CurrentThread.CurrentUICulture.ToString();
+        }
+        public static bool SetCulture(string cult)
+        {
+            if (GetCulture() != cult)
+            {
+                Thread.CurrentThread.CurrentUICulture = new CultureInfo(cult);
+                return true;
+            }
+            return false;
+        }
+
+    }
+    #endregion
     public static class API_Data
     {
         public static string ApiHost = @"https://localhost:44300";

@@ -246,4 +246,37 @@
   <data name="WrongPassword" xml:space="preserve">
     <value>Неверный пароль</value>
   </data>
+  <data name="Hello" xml:space="preserve">
+    <value>Привет</value>
+  </data>
+  <data name="AppName" xml:space="preserve">
+    <value>Просмотренное</value>
+  </data>
+  <data name="Login" xml:space="preserve">
+    <value>Вход</value>
+  </data>
+  <data name="LogOff" xml:space="preserve">
+    <value>Выйти</value>
+  </data>
+  <data name="Register" xml:space="preserve">
+    <value>Регистрация</value>
+  </data>
+  <data name="Add" xml:space="preserve">
+    <value>Добавить</value>
+  </data>
+  <data name="AddNew" xml:space="preserve">
+    <value>Добавить</value>
+  </data>
+  <data name="Close" xml:space="preserve">
+    <value>Закрыть</value>
+  </data>
+  <data name="Film" xml:space="preserve">
+    <value>Фильм</value>
+  </data>
+  <data name="SaveСhanges" xml:space="preserve">
+    <value>Сохранить</value>
+  </data>
+  <data name="Serial" xml:space="preserve">
+    <value>Сериал</value>
+  </data>
 </root>
