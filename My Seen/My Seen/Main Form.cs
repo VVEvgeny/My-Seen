@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using MySeenLib;
 
 namespace My_Seen
 {
@@ -65,11 +66,11 @@ namespace My_Seen
             }
             catch
             {
-                if (errorProvider.GetError(comboBox1) == string.Empty) errorProvider.SetError(comboBox1, Resource.UserNotExist);
+                if (string.IsNullOrEmpty(errorProvider.GetError(comboBox1))) errorProvider.SetError(comboBox1, Resource.UserNotExist);
             }
             if(user!=null && !MD5Tools.VerifyMd5Hash(textBox2.Text,user.Password))
             {
-                if (errorProvider.GetError(textBox2) == string.Empty) errorProvider.SetError(textBox2, Resource.WrongPassword);
+                if (string.IsNullOrEmpty(errorProvider.GetError(textBox2))) errorProvider.SetError(textBox2, Resource.WrongPassword);
             }
             if (!ErrorProviderTools.isValid(errorProvider)) return;
 

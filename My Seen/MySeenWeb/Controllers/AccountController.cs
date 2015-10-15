@@ -341,7 +341,7 @@ namespace MySeenWeb.Controllers
                 case SignInStatus.Failure:
                 default:
                     //Это кусок кода взят ниже, убираю лишнее действие по подтверждению
-                    if (ModelState.IsValid && loginInfo.Email!=null && loginInfo.Email != string.Empty)
+                    if (ModelState.IsValid && !string.IsNullOrEmpty(loginInfo.Email))
                     {
                         // Get the information about the user from the external login provider
                         var info = await AuthenticationManager.GetExternalLoginInfoAsync();

@@ -60,7 +60,7 @@ namespace My_Seen
         public static bool isValid(ErrorProvider errorProvider)
         {
           foreach (Control c in errorProvider.ContainerControl.Controls)
-                if (errorProvider.GetError(c) != string.Empty)
+                if (!string.IsNullOrEmpty(errorProvider.GetError(c)))
                     return false;
             return true;
         }

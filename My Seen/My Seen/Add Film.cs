@@ -81,7 +81,7 @@ namespace My_Seen
             {
                 errorProvider.SetError(textBox1, Resource.EnterFilmName);
             }
-            if (errorProvider.GetError(textBox1) == string.Empty)
+            if (string.IsNullOrEmpty(errorProvider.GetError(textBox1)))
             {
                 ModelContainer mc = new ModelContainer();
                 if (mc.FilmsSet.Count(f => f.Name == textBox1.Text && f.UsersId==User.Id && (EditId!=0 ? f.Id != EditId : 1==1)) != 0)//айди проверяем только для редактируемых, чтобы не налететь по названию на чужой

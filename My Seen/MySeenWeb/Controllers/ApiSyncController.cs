@@ -94,7 +94,7 @@ namespace MySeenWeb.Controllers
         {
             ApplicationDbContext ac = new ApplicationDbContext();
             string user_id = GetUserId(user_key);
-            if (user_id == string.Empty)
+            if (string.IsNullOrEmpty(user_id))
             {
                 return Ok(new API_Data.RequestResponseAnswer { Value = API_Data.RequestResponseAnswer.Values.UserNotExist });
             }
@@ -160,7 +160,7 @@ namespace MySeenWeb.Controllers
                 return Ok(new API_Data.RequestResponseAnswer { Value = API_Data.RequestResponseAnswer.Values.BadRequestMode });
             }
             string user_id = GetUserId(user_key);
-            if (user_id == string.Empty)
+            if (string.IsNullOrEmpty(user_id))
             {
                 return Ok(new API_Data.RequestResponseAnswer { Value = API_Data.RequestResponseAnswer.Values.UserNotExist });
             }

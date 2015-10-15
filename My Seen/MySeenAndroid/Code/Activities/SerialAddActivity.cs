@@ -71,7 +71,7 @@ namespace MySeenAndroid
 
             button_save.Click += delegate
             {
-                if (name_text.Text == string.Empty)
+                if (string.IsNullOrEmpty(name_text.Text))
                 {
                     tv_error.Visibility = ViewStates.Visible;
                     tv_error.Text = "Need serial name";

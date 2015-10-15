@@ -117,8 +117,62 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="ApiError" xml:space="preserve">
+    <value>Ошибка работы с удаленным сервером</value>
+  </data>
+  <data name="BadRequestMode" xml:space="preserve">
+    <value>Ошибочный запрос на сервер</value>
+  </data>
+  <data name="Date" xml:space="preserve">
+    <value>Дата просмотра</value>
+  </data>
+  <data name="DateBegin" xml:space="preserve">
+    <value>Дата начала</value>
+  </data>
+  <data name="DateLast" xml:space="preserve">
+    <value>Последний раз</value>
+  </data>
+  <data name="DBDeleted" xml:space="preserve">
+    <value>Данные удалены</value>
+  </data>
+  <data name="DBUserDeleted" xml:space="preserve">
+    <value>Пользователь и данные удалены</value>
+  </data>
+  <data name="Edit" xml:space="preserve">
+    <value>Редактировать</value>
+  </data>
   <data name="EmailIncorrect" xml:space="preserve">
     <value>Неверный почтовый ящик</value>
+  </data>
+  <data name="EnterEmail" xml:space="preserve">
+    <value>Введите почту</value>
+  </data>
+  <data name="EnterFilmName" xml:space="preserve">
+    <value>Введите название фильма</value>
+  </data>
+  <data name="EnterPassword" xml:space="preserve">
+    <value>Введите пароль пользователя</value>
+  </data>
+  <data name="EnterSeasonNumber" xml:space="preserve">
+    <value>Введите номер сезона</value>
+  </data>
+  <data name="EnterSerialName" xml:space="preserve">
+    <value>Введите название сериала</value>
+  </data>
+  <data name="EnterSerionNumber" xml:space="preserve">
+    <value>Введите номер серии</value>
+  </data>
+  <data name="EnterUsename" xml:space="preserve">
+    <value>Введите имя пользователя</value>
+  </data>
+  <data name="FilmNameAlreadyExists" xml:space="preserve">
+    <value>Такой фильм уже есть в базе</value>
+  </data>
+  <data name="Films" xml:space="preserve">
+    <value>Фильмы</value>
+  </data>
+  <data name="Genre" xml:space="preserve">
+    <value>Жанр</value>
   </data>
   <data name="GenreCartoon" xml:space="preserve">
     <value>Мультфильм</value>
@@ -144,6 +198,15 @@
   <data name="GenreThriller" xml:space="preserve">
     <value>Боевик</value>
   </data>
+  <data name="LastEpisode" xml:space="preserve">
+    <value>Последняя</value>
+  </data>
+  <data name="Name" xml:space="preserve">
+    <value>Название</value>
+  </data>
+  <data name="NoData" xml:space="preserve">
+    <value>Нет данных</value>
+  </data>
   <data name="PasswordLength" xml:space="preserve">
     <value>Пароль должен быть не меньше 6 символов</value>
   </data>
@@ -153,7 +216,34 @@
   <data name="PasswordsNotEqual" xml:space="preserve">
     <value>Пароль не совпадает с подтверждением</value>
   </data>
+  <data name="Rate" xml:space="preserve">
+    <value>Оценка</value>
+  </data>
+  <data name="SerialNameAlreadyExists" xml:space="preserve">
+    <value>Такой сериал уже есть в базе</value>
+  </data>
+  <data name="Serials" xml:space="preserve">
+    <value>Сериалы</value>
+  </data>
   <data name="ShortUserName" xml:space="preserve">
     <value>Короткое имя пользователя</value>
+  </data>
+  <data name="SyncOK" xml:space="preserve">
+    <value>Синхронизация успешно произведена</value>
+  </data>
+  <data name="UserAlreadyExists" xml:space="preserve">
+    <value>Пользователь уже существует</value>
+  </data>
+  <data name="UserCreated" xml:space="preserve">
+    <value>Пользователь создан</value>
+  </data>
+  <data name="UserNotExist" xml:space="preserve">
+    <value>Пользователя не существует</value>
+  </data>
+  <data name="UserOK" xml:space="preserve">
+    <value>Пользователь прошел проверку</value>
+  </data>
+  <data name="WrongPassword" xml:space="preserve">
+    <value>Неверный пароль</value>
   </data>
 </root>

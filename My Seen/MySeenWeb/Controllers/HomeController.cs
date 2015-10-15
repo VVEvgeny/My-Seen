@@ -57,11 +57,11 @@ namespace MySeenWeb.Controllers
         public JsonResult AddFilm(string name, string genre, string rating)
         {
             string errorMessage = string.Empty;
-            if (errorMessage == string.Empty)
+            if (string.IsNullOrEmpty(errorMessage))
             {
                 LibTools.Validation.ValidateName(ref errorMessage, name);
             }
-            if (errorMessage == string.Empty)
+            if (string.IsNullOrEmpty(errorMessage))
             {
                 try
                 {
@@ -75,7 +75,7 @@ namespace MySeenWeb.Controllers
                     errorMessage = "Error work with DB=" + e.Message;
                 }
             }
-            if (errorMessage != string.Empty)
+            if (!string.IsNullOrEmpty(errorMessage))
             {
                 return new JsonResult { Data = new { success = false, error = errorMessage } };
             }
@@ -85,11 +85,11 @@ namespace MySeenWeb.Controllers
         public JsonResult EditFilm(string id,string name, string genre, string rating)
         {
             string errorMessage = string.Empty;
-            if (errorMessage == string.Empty)
+            if (string.IsNullOrEmpty(errorMessage))
             {
                 LibTools.Validation.ValidateName(ref errorMessage, name);
             }
-            if (errorMessage == string.Empty)
+            if (string.IsNullOrEmpty(errorMessage))
             {
                 ApplicationDbContext ac = new ApplicationDbContext();
                 try
@@ -108,7 +108,7 @@ namespace MySeenWeb.Controllers
                     errorMessage = "Error work with DB=" + e.Message;
                 }
             }
-            if (errorMessage != string.Empty)
+            if (!string.IsNullOrEmpty(errorMessage))
             {
                 return new JsonResult { Data = new { success = false, error = errorMessage } };
             }
@@ -118,17 +118,17 @@ namespace MySeenWeb.Controllers
         public JsonResult AddSerial(string name, string season, string series, string genre, string rating)
         {
             string errorMessage = string.Empty;
-            if (errorMessage == string.Empty)
+            if (string.IsNullOrEmpty(errorMessage))
             {
                 LibTools.Validation.ValidateName(ref errorMessage, name);
             }
-            if (errorMessage == string.Empty)
+            if (string.IsNullOrEmpty(errorMessage))
             {
                 try
                 {
                     ApplicationDbContext ac = new ApplicationDbContext();
-                    if (season == string.Empty) season = "1";
-                    if (series == string.Empty) series = "1";
+                    if (string.IsNullOrEmpty(season)) season = "1";
+                    if (string.IsNullOrEmpty(series)) series = "1";
                     Serials s = new Serials { Name = name, LastSeason = Convert.ToInt32(season), LastSeries = Convert.ToInt32(series), Genre = Convert.ToInt32(genre), Rate = Convert.ToInt32(rating), DateBegin = DateTime.Now, DateLast = DateTime.Now, DateChange = DateTime.Now, UserId = User.Identity.GetUserId() };
                     ac.Serials.Add(s);
                     ac.SaveChanges();
@@ -138,7 +138,7 @@ namespace MySeenWeb.Controllers
                     errorMessage = "Error work with DB=" + e.Message;
                 }
             }
-            if (errorMessage != string.Empty)
+            if (!string.IsNullOrEmpty(errorMessage))
             {
                 return new JsonResult { Data = new { success = false, error = errorMessage } };
             }
@@ -148,11 +148,11 @@ namespace MySeenWeb.Controllers
         public JsonResult EditSerial(string id, string name, string season, string series, string genre, string rating)
         {
             string errorMessage = string.Empty;
-            if (errorMessage == string.Empty)
+            if (string.IsNullOrEmpty(errorMessage))
             {
                 LibTools.Validation.ValidateName(ref errorMessage, name);
             }
-            if (errorMessage == string.Empty)
+            if (string.IsNullOrEmpty(errorMessage))
             {
                 ApplicationDbContext ac = new ApplicationDbContext();
                 try
@@ -177,7 +177,7 @@ namespace MySeenWeb.Controllers
                     errorMessage = "Error work with DB=" + e.Message;
                 }
             }
-            if (errorMessage != string.Empty)
+            if (!string.IsNullOrEmpty(errorMessage))
             {
                 return new JsonResult { Data = new { success = false, error = errorMessage } };
             }

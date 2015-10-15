@@ -84,7 +84,7 @@ namespace My_Seen
             {
                 errorProvider.SetError(textBox1, Resource.EnterSerialName);
             }
-            if (textBox2.Text == string.Empty && EditId == 0) textBox2.Text = "1";
+            if (string.IsNullOrEmpty(textBox2.Text) && EditId == 0) textBox2.Text = "1";
             try
             {
                 Convert.ToInt32(textBox2.Text);
@@ -93,7 +93,7 @@ namespace My_Seen
             {
                 errorProvider.SetError(textBox2, Resource.EnterSeasonNumber);
             }
-            if (textBox3.Text == string.Empty && EditId == 0) textBox3.Text = "1";
+            if (string.IsNullOrEmpty(textBox3.Text) && EditId == 0) textBox3.Text = "1";
             try
             {
                 Convert.ToInt32(textBox3.Text);
@@ -102,7 +102,7 @@ namespace My_Seen
             {
                 errorProvider.SetError(textBox3, Resource.EnterSerionNumber);
             }
-            if (errorProvider.GetError(textBox1) == string.Empty)
+            if (string.IsNullOrEmpty(errorProvider.GetError(textBox1)))
             {
                 ModelContainer mc = new ModelContainer();
                 if (mc.SerialsSet.Count(f => f.Name == textBox1.Text && f.UsersId == User.Id && (EditId != 0 ? f.Id != EditId : 1 == 1)) != 0)//айди проверяем только для редактируемых, чтобы не налететь по названию на чужой
