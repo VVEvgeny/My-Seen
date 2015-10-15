@@ -97,32 +97,7 @@ namespace My_Seen
         }
         private void button2_Click(object sender, EventArgs e)
         {
-            if (textBox5.Text.Length == 0)
-            {
-                MessageBox.Show("Enter Email");
-                return;
-            }
-            WebRequest req = WebRequest.Create(API_Data.ApiHost + API_Data.ApiUsers + MD5Tools.GetMd5Hash(textBox5.Text.ToLower()) + "/" + ((int)API_Data.ModesApiUsers.isUserExists).ToString());
-            WebResponse res = req.GetResponse();
-            Stream stream = res.GetResponseStream();
-            StreamReader sr = new StreamReader(stream);
-            string data = sr.ReadToEnd();
-            API_Data.RequestResponseAnswer answer = API_Data.GetResponseAnswer(data);
-            if (answer != null)
-            {
-                if (answer.Value == API_Data.RequestResponseAnswer.Values.UserNotExist)
-                {
-                    MessageBox.Show("User Not Exist");
-                }
-                else
-                {
-                    MessageBox.Show("All OK");
-                }
-            }
-            else
-            {
-                MessageBox.Show("ERROR WORK WITH API");
-            }
+            MessageBox.Show(WebApi.CheckUser(textBox5.Text));
         }
         public Films Map_FilmsRequestResponse_To_Films(API_Data.FilmsRequestResponse model)
         {
@@ -161,11 +136,10 @@ namespace My_Seen
         {
             if (textBox5.Text.Length == 0)
             {
-                MessageBox.Show("Enter Email");
+                MessageBox.Show(Resource.EnterEmail);
                 return;
             }
-            WebRequest req = WebRequest.Create(API_Data.ApiHost + API_Data.ApiSync + MD5Tools.GetMd5Hash(textBox5.Text.ToLower()) + "/" + ((int)API_Data.ModesApiFilms.All).ToString());
-            DeleteData();
+            WebRequest req = WebRequest.Create(API_Data.ApiHost + API_Data.ApiSync + MD5Tools.GetMd5Hash(textBox5.Text.ToLower()) + "/" + ((int)API_Data.ModesApiFilms.GetAll).ToString());
 
             WebResponse res = req.GetResponse();
             Stream stream = res.GetResponseStream();
@@ -177,19 +151,20 @@ namespace My_Seen
             {
                 if (answer.Value == API_Data.RequestResponseAnswer.Values.UserNotExist)
                 {
-                    MessageBox.Show("User Not Exist");
+                    MessageBox.Show(Resource.UserNotExist);
                 }
                 else if (answer.Value == API_Data.RequestResponseAnswer.Values.NoData)
                 {
-                    MessageBox.Show("No Data");
+                    MessageBox.Show(Resource.NoData);
                 }
                 else if (answer.Value == API_Data.RequestResponseAnswer.Values.BadRequestMode)
                 {
-                    MessageBox.Show("Bad Request Mode");
+                    MessageBox.Show(Resource.BadRequestMode);
                 }
             }
             else
             {
+                DeleteData();
                 ModelContainer mc = new ModelContainer();
                 foreach(API_Data.FilmsRequestResponse film in API_Data.GetResponse(data))
                 {
@@ -204,8 +179,9 @@ namespace My_Seen
                 }
                 mc.SaveChanges();
                 DBDataChanged.Exec();
-                MessageBox.Show("Sync OK");
+                MessageBox.Show(Resource.SyncOK);
             }
         }
+
     }
 }

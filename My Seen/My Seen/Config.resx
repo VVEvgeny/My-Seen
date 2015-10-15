@@ -340,16 +340,16 @@
     <value>NoControl</value>
   </data>
   <data name="button5.Location" type="System.Drawing.Point, System.Drawing">
-    <value>95, 58</value>
+    <value>9, 73</value>
   </data>
   <data name="button5.Size" type="System.Drawing.Size, System.Drawing">
-    <value>92, 23</value>
+    <value>178, 23</value>
   </data>
   <data name="button5.TabIndex" type="System.Int32, mscorlib">
     <value>12</value>
   </data>
   <data name="button5.Text" xml:space="preserve">
-    <value>Sync All</value>
+    <value>Get All From WEB</value>
   </data>
   <data name="&gt;&gt;button5.Name" xml:space="preserve">
     <value>button5</value>
@@ -364,10 +364,10 @@
     <value>0</value>
   </data>
   <data name="button2.Location" type="System.Drawing.Point, System.Drawing">
-    <value>9, 58</value>
+    <value>87, 16</value>
   </data>
   <data name="button2.Size" type="System.Drawing.Size, System.Drawing">
-    <value>80, 23</value>
+    <value>100, 23</value>
   </data>
   <data name="button2.TabIndex" type="System.Int32, mscorlib">
     <value>10</value>
@@ -388,7 +388,7 @@
     <value>1</value>
   </data>
   <data name="textBox5.Location" type="System.Drawing.Point, System.Drawing">
-    <value>6, 32</value>
+    <value>6, 45</value>
   </data>
   <data name="textBox5.Size" type="System.Drawing.Size, System.Drawing">
     <value>181, 20</value>
@@ -412,16 +412,16 @@
     <value>True</value>
   </data>
   <data name="label5.Location" type="System.Drawing.Point, System.Drawing">
-    <value>6, 16</value>
+    <value>6, 23</value>
   </data>
   <data name="label5.Size" type="System.Drawing.Size, System.Drawing">
-    <value>57, 13</value>
+    <value>32, 13</value>
   </data>
   <data name="label5.TabIndex" type="System.Int32, mscorlib">
     <value>10</value>
   </data>
   <data name="label5.Text" xml:space="preserve">
-    <value>User Email</value>
+    <value>Email</value>
   </data>
   <data name="&gt;&gt;label5.Name" xml:space="preserve">
     <value>label5</value>

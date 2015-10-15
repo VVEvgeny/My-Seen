@@ -7,9 +7,45 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Threading;
 using System.Windows.Forms;
+using System.Net;
+using MySeenLib;
+using System.IO;
 
 namespace My_Seen
 {
+    public static class WebApi
+    {
+        public static string CheckUser(string email)
+        {
+            if (email.Length == 0)
+            {
+                return Resource.EnterEmail;
+            }
+            try
+            {
+                WebRequest req = WebRequest.Create(API_Data.ApiHost + API_Data.ApiUsers + MD5Tools.GetMd5Hash(email.ToLower()) + "/" + ((int)API_Data.ModesApiUsers.isUserExists).ToString());
+                API_Data.RequestResponseAnswer answer = API_Data.GetResponseAnswer((new StreamReader(req.GetResponse().GetResponseStream())).ReadToEnd());
+                if (answer != null)
+                {
+                    if (answer.Value == API_Data.RequestResponseAnswer.Values.UserNotExist)
+                    {
+                        return Resource.UserNotExist;
+                    }
+                    else
+                    {
+                        return Resource.UserOK;
+                    }
+                }
+                req.GetResponse().Close();
+            }
+            catch (Exception e)
+            {
+                return e.Message;
+            }
+            return Resource.ApiError;
+        }
+    }
+
     public delegate void MySeenEventHandler();
     public class MySeenEvent
     {
@@ -75,14 +111,22 @@ namespace My_Seen
     {
         public static string GetMd5Hash(string input)
         {
-            MD5 md5Hash = MD5.Create();
-            byte[] data = md5Hash.ComputeHash(Encoding.UTF8.GetBytes(input));
-            StringBuilder sBuilder = new StringBuilder();
-            for (int i = 0; i < data.Length; i++)
+            try
             {
-                sBuilder.Append(data[i].ToString("x2"));
+                MD5 md5Hash = MD5.Create();
+                byte[] data = md5Hash.ComputeHash(Encoding.UTF8.GetBytes(input));
+                StringBuilder sBuilder = new StringBuilder();
+                for (int i = 0; i < data.Length; i++)
+                {
+                    sBuilder.Append(data[i].ToString("x2"));
+                }
+                return sBuilder.ToString();
             }
-            return sBuilder.ToString();
+            catch
+            {
+
+            }
+            return string.Empty;
         }
         public static bool VerifyMd5Hash(string input, string hash)
         {

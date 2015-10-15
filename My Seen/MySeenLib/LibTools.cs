@@ -22,8 +22,10 @@ namespace MySeenLib
         }
         public enum ModesApiFilms
         {
-            All = 1,
-            New = 2
+            GetAll = 1,
+            GetNew = 2,
+            PostNewUpdatedDeleted = 3,
+            GetNewUpdatedDeleted = 4
         }
         public class RequestResponseAnswer
         {
@@ -32,7 +34,8 @@ namespace MySeenLib
                 Ok = 1,
                 NoData = 2,
                 BadRequestMode = 3,
-                UserNotExist = 4
+                UserNotExist = 4,
+                NewDataRecieved = 5
             }
             [JsonProperty("Value")]
             public Values Value { get; set; }
@@ -46,7 +49,7 @@ namespace MySeenLib
             [JsonProperty("IsFilm")]
             public bool IsFilm { get; set; }
             [JsonProperty("Id")]
-            public int Id { get; set; }
+            public int? Id { get; set; }
             [JsonProperty("Name")]
             public string Name { get; set; }
             [JsonProperty("Genre")]
@@ -58,7 +61,7 @@ namespace MySeenLib
             [JsonProperty("DateChange")]
             public DateTime? DateChange { get; set; }
             [JsonProperty("isDeleted")]
-            public bool isDeleted { get; set; }
+            public bool? isDeleted { get; set; }
 
             //serials
             [JsonProperty("LastSeason")]
@@ -73,6 +76,10 @@ namespace MySeenLib
         public static IEnumerable<FilmsRequestResponse> GetResponse(string data)
         {
             return JsonConvert.DeserializeObject<IEnumerable<FilmsRequestResponse>>(data);
+        }
+        public static string SetResponse(IEnumerable<FilmsRequestResponse> data)
+        {
+            return JsonConvert.SerializeObject(data);
         }
         public static RequestResponseAnswer GetResponseAnswer(string data)
         {
@@ -96,7 +103,7 @@ namespace MySeenLib
             {
                 if (filmName.Length < 1)
                 {
-                    message = "Short Name";
+                    message = Resource.ShortUserName;
                     return false;
                 }
                 return true;

@@ -22,7 +22,7 @@ namespace MySeenLib {
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "4.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    internal class Resource {
+    public class Resource {
         
         private static global::System.Resources.ResourceManager resourceMan;
         
@@ -36,7 +36,7 @@ namespace MySeenLib {
         ///   Returns the cached ResourceManager instance used by this class.
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        internal static global::System.Resources.ResourceManager ResourceManager {
+        public static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
                     global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("MySeenLib.Resource", typeof(Resource).Assembly);
@@ -51,7 +51,7 @@ namespace MySeenLib {
         ///   resource lookups using this strongly typed resource class.
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        internal static global::System.Globalization.CultureInfo Culture {
+        public static global::System.Globalization.CultureInfo Culture {
             get {
                 return resourceCulture;
             }
@@ -63,7 +63,7 @@ namespace MySeenLib {
         /// <summary>
         ///   Looks up a localized string similar to Email Incorrect.
         /// </summary>
-        internal static string EmailIncorrect {
+        public static string EmailIncorrect {
             get {
                 return ResourceManager.GetString("EmailIncorrect", resourceCulture);
             }
@@ -72,7 +72,7 @@ namespace MySeenLib {
         /// <summary>
         ///   Looks up a localized string similar to Cartoon.
         /// </summary>
-        internal static string GenreCartoon {
+        public static string GenreCartoon {
             get {
                 return ResourceManager.GetString("GenreCartoon", resourceCulture);
             }
@@ -81,7 +81,7 @@ namespace MySeenLib {
         /// <summary>
         ///   Looks up a localized string similar to Comedy.
         /// </summary>
-        internal static string GenreComedy {
+        public static string GenreComedy {
             get {
                 return ResourceManager.GetString("GenreComedy", resourceCulture);
             }
@@ -90,7 +90,7 @@ namespace MySeenLib {
         /// <summary>
         ///   Looks up a localized string similar to Concert.
         /// </summary>
-        internal static string GenreConcert {
+        public static string GenreConcert {
             get {
                 return ResourceManager.GetString("GenreConcert", resourceCulture);
             }
@@ -99,7 +99,7 @@ namespace MySeenLib {
         /// <summary>
         ///   Looks up a localized string similar to Documentary.
         /// </summary>
-        internal static string GenreDocumentary {
+        public static string GenreDocumentary {
             get {
                 return ResourceManager.GetString("GenreDocumentary", resourceCulture);
             }
@@ -108,7 +108,7 @@ namespace MySeenLib {
         /// <summary>
         ///   Looks up a localized string similar to Drama.
         /// </summary>
-        internal static string GenreDrama {
+        public static string GenreDrama {
             get {
                 return ResourceManager.GetString("GenreDrama", resourceCulture);
             }
@@ -117,7 +117,7 @@ namespace MySeenLib {
         /// <summary>
         ///   Looks up a localized string similar to Fantastic.
         /// </summary>
-        internal static string GenreFantastic {
+        public static string GenreFantastic {
             get {
                 return ResourceManager.GetString("GenreFantastic", resourceCulture);
             }
@@ -126,7 +126,7 @@ namespace MySeenLib {
         /// <summary>
         ///   Looks up a localized string similar to Horror.
         /// </summary>
-        internal static string GenreHorror {
+        public static string GenreHorror {
             get {
                 return ResourceManager.GetString("GenreHorror", resourceCulture);
             }
@@ -135,7 +135,7 @@ namespace MySeenLib {
         /// <summary>
         ///   Looks up a localized string similar to Thriller.
         /// </summary>
-        internal static string GenreThriller {
+        public static string GenreThriller {
             get {
                 return ResourceManager.GetString("GenreThriller", resourceCulture);
             }
@@ -144,7 +144,7 @@ namespace MySeenLib {
         /// <summary>
         ///   Looks up a localized string similar to Password Length &lt; 6.
         /// </summary>
-        internal static string PasswordLength {
+        public static string PasswordLength {
             get {
                 return ResourceManager.GetString("PasswordLength", resourceCulture);
             }
@@ -153,7 +153,7 @@ namespace MySeenLib {
         /// <summary>
         ///   Looks up a localized string similar to Password NOT Contains Digit.
         /// </summary>
-        internal static string PasswordNOTContainsDigit {
+        public static string PasswordNOTContainsDigit {
             get {
                 return ResourceManager.GetString("PasswordNOTContainsDigit", resourceCulture);
             }
@@ -162,7 +162,7 @@ namespace MySeenLib {
         /// <summary>
         ///   Looks up a localized string similar to Password and repeat not equal.
         /// </summary>
-        internal static string PasswordsNotEqual {
+        public static string PasswordsNotEqual {
             get {
                 return ResourceManager.GetString("PasswordsNotEqual", resourceCulture);
             }
@@ -171,7 +171,7 @@ namespace MySeenLib {
         /// <summary>
         ///   Looks up a localized string similar to Too Short User Name.
         /// </summary>
-        internal static string ShortUserName {
+        public static string ShortUserName {
             get {
                 return ResourceManager.GetString("ShortUserName", resourceCulture);
             }

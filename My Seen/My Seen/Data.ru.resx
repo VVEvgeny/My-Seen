@@ -136,6 +136,12 @@
   <data name="fastFindToolStripMenuItem.Text" xml:space="preserve">
     <value>Быстрый поиск</value>
   </data>
+  <data name="toolStripMenuItem1.Size" type="System.Drawing.Size, System.Drawing">
+    <value>105, 23</value>
+  </data>
+  <data name="toolStripMenuItem1.Text" xml:space="preserve">
+    <value>Синхронизация</value>
+  </data>
   <data name="addToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
     <value>165, 22</value>
   </data>
@@ -178,6 +184,9 @@
   <data name="toolStripStatusLabel1.Text" xml:space="preserve">
     <value>Всего:</value>
   </data>
+  <data name="contextMenuStrip1.Size" type="System.Drawing.Size, System.Drawing">
+    <value>166, 98</value>
+  </data>
   <data name="addToolStripMenuItem1.Size" type="System.Drawing.Size, System.Drawing">
     <value>165, 22</value>
   </data>
@@ -204,9 +213,6 @@
   </data>
   <data name="AddSeriesToolStripMenuItem.Text" xml:space="preserve">
     <value>Добавить серию</value>
-  </data>
-  <data name="contextMenuStrip1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>166, 98</value>
   </data>
   <data name="$this.Text" xml:space="preserve">
     <value>Просмотренное</value>

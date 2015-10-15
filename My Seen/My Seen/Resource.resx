@@ -165,9 +165,6 @@
   <data name="UserCreated" xml:space="preserve">
     <value>User created</value>
   </data>
-  <data name="UserNotExists" xml:space="preserve">
-    <value>User not exists</value>
-  </data>
   <data name="WrongPassword" xml:space="preserve">
     <value>Wrong password</value>
   </data>
@@ -188,5 +185,26 @@
   </data>
   <data name="Genre" xml:space="preserve">
     <value>Genre</value>
+  </data>
+  <data name="ApiError" xml:space="preserve">
+    <value>Web Api Work Error</value>
+  </data>
+  <data name="BadRequestMode" xml:space="preserve">
+    <value>Bad Request Mode</value>
+  </data>
+  <data name="EnterEmail" xml:space="preserve">
+    <value>Enter Email</value>
+  </data>
+  <data name="NoData" xml:space="preserve">
+    <value>No Data</value>
+  </data>
+  <data name="SyncOK" xml:space="preserve">
+    <value>Sync OK</value>
+  </data>
+  <data name="UserNotExist" xml:space="preserve">
+    <value>User Not Exist</value>
+  </data>
+  <data name="UserOK" xml:space="preserve">
+    <value>User successfull</value>
   </data>
 </root>

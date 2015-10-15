@@ -154,17 +154,20 @@
   <data name="groupBox1.Text" xml:space="preserve">
     <value>Синзронизация</value>
   </data>
+  <data name="button5.Text" xml:space="preserve">
+    <value>Забрать из Инета</value>
+  </data>
   <data name="button2.Text" xml:space="preserve">
     <value>Проверить</value>
   </data>
   <data name="label5.Location" type="System.Drawing.Point, System.Drawing">
-    <value>25, 26</value>
+    <value>21, 21</value>
   </data>
   <data name="label5.Size" type="System.Drawing.Size, System.Drawing">
-    <value>99, 13</value>
+    <value>37, 13</value>
   </data>
   <data name="label5.Text" xml:space="preserve">
-    <value>Уникальный ключ</value>
+    <value>Почта</value>
   </data>
   <data name="groupBox2.Text" xml:space="preserve">
     <value>Смена пароля</value>

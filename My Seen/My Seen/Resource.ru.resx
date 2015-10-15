@@ -165,9 +165,6 @@
   <data name="UserCreated" xml:space="preserve">
     <value>Пользователь создан</value>
   </data>
-  <data name="UserNotExists" xml:space="preserve">
-    <value>Пользователя не существует</value>
-  </data>
   <data name="WrongPassword" xml:space="preserve">
     <value>Неверный пароль</value>
   </data>
@@ -188,5 +185,26 @@
   </data>
   <data name="Genre" xml:space="preserve">
     <value>Жанр</value>
+  </data>
+  <data name="ApiError" xml:space="preserve">
+    <value>Ошибка работы с удаленным сервером</value>
+  </data>
+  <data name="BadRequestMode" xml:space="preserve">
+    <value>Ошибочный запрос на сервер</value>
+  </data>
+  <data name="EnterEmail" xml:space="preserve">
+    <value>Введите почту</value>
+  </data>
+  <data name="NoData" xml:space="preserve">
+    <value>Нет данных</value>
+  </data>
+  <data name="SyncOK" xml:space="preserve">
+    <value>Синхронизация успешно произведена</value>
+  </data>
+  <data name="UserNotExist" xml:space="preserve">
+    <value>Пользователя не существует</value>
+  </data>
+  <data name="UserOK" xml:space="preserve">
+    <value>Пользователь прошел проверку</value>
   </data>
 </root>

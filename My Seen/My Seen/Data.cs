@@ -8,6 +8,10 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using MySeenLib;
+using System.Threading;
+using System.Net;
+using System.IO;
+using System.Web;
 
 namespace My_Seen
 {
@@ -43,10 +47,23 @@ namespace My_Seen
             NeedRestartAppAfterDeleteUserEvent = new MySeenEvent();
         }
 
+        private Thread thread_sync;
         private void Data_Load(object sender, EventArgs e)
         {
             CurrentDB = DBMode.Films;
             toolStripComboBox1.Text = toolStripComboBox1.Items[0].ToString();
+            thread_sync = new Thread(new ThreadStart(CheckCanSync));
+            thread_sync.Start();
+        }
+        private void CheckCanSync()
+        {
+            if(User.Email !=string.Empty)
+            {
+                if (WebApi.CheckUser(User.Email) == "User OK")
+                {
+                    toolStripMenuItem1.Visible = true;
+                }
+            }
         }
         private void RestartProgram()
         {
@@ -61,6 +78,7 @@ namespace My_Seen
             form.DBUserDeleted.Event += new MySeenEventHandler(RestartProgram);
             form.DBUpdateUser.Event += new MySeenEventHandler(UpdateUser);
             form.ShowDialog();
+            CheckCanSync();
         }
         private void UpdateUser()
         {
@@ -404,6 +422,200 @@ namespace My_Seen
         {
             if (e.Shift && e.KeyCode == Keys.Add) FastUpdateSerial(eFastUpdateSerial.Season);
             else  if (e.KeyCode == Keys.Add) FastUpdateSerial(eFastUpdateSerial.Series);
+        }
+        public static API_Data.FilmsRequestResponse Map(Films model)
+        {
+            if (model == null) return new API_Data.FilmsRequestResponse();
+
+            return new API_Data.FilmsRequestResponse
+            {
+                IsFilm = true,
+                Id = model.Id_R,
+                Name = model.Name,
+                DateChange = model.DateChange,
+                DateSee = model.DateSee,
+                Genre = model.Genre,
+                Rate = model.Rate,
+                isDeleted = model.isDeleted
+            };
+        }
+        public static API_Data.FilmsRequestResponse Map(Serials model)
+        {
+            if (model == null) return new API_Data.FilmsRequestResponse();
+
+            return new API_Data.FilmsRequestResponse
+            {
+                IsFilm = false,
+                Id = model.Id_R,
+                Name = model.Name,
+                DateChange = model.DateChange,
+                Genre = model.Genre,
+                Rate = model.Rate,
+                DateBegin = model.DateBegin,
+                DateLast = model.DateLast,
+                LastSeason = model.LastSeason,
+                LastSeries = model.LastSeries,
+                isDeleted = model.isDeleted
+            };
+        }
+        public static Films MapToFilm(API_Data.FilmsRequestResponse model, int user_id)
+        {
+            if (model == null) return new Films();
+
+            return new Films
+            {
+                Id_R = model.Id,
+                Name = model.Name,
+                DateChange = model.DateChange,
+                DateSee = model.DateSee,
+                Genre = model.Genre,
+                Rate = model.Rate,
+                isDeleted = model.isDeleted,
+                UsersId = user_id
+            };
+        }
+        public static Serials MapToSerial(API_Data.FilmsRequestResponse model, int user_id)
+        {
+            if (model == null) return new Serials();
+
+            return new Serials
+            {
+                Id_R = model.Id,
+                Name = model.Name,
+                DateChange = model.DateChange,
+                Genre = model.Genre,
+                Rate = model.Rate,
+                DateBegin = model.DateBegin,
+                DateLast = model.DateLast,
+                LastSeason = model.LastSeason,
+                LastSeries = model.LastSeries,
+                isDeleted = model.isDeleted,
+                UsersId = user_id
+            };
+        }
+        private void toolStripMenuItem1_Click(object sender, EventArgs e)
+        {
+            List<API_Data.FilmsRequestResponse> films = new List<API_Data.FilmsRequestResponse>();
+            ModelContainer mc = new ModelContainer();
+
+            //PUT NEW + UPDATED + DELETED
+            films.AddRange(mc.FilmsSet.Where(f => f.UsersId == User.Id && f.DateChange != null).Select(Map));
+            films.AddRange(mc.SerialsSet.Where(f => f.UsersId == User.Id && f.DateChange != null).Select(Map));
+            WebRequest req;
+            API_Data.RequestResponseAnswer answer;
+            if (films.Count() != 0)
+            {
+                req = WebRequest.Create(API_Data.ApiHost + API_Data.ApiSync + MD5Tools.GetMd5Hash(User.Email.ToLower()) + "/" + ((int)API_Data.ModesApiFilms.PostNewUpdatedDeleted).ToString());
+                req.Method = "POST";
+                req.Credentials = CredentialCache.DefaultCredentials;
+                ((HttpWebRequest)req).UserAgent = "MySeen";
+                req.ContentType = "application/json";
+                string postData = API_Data.SetResponse(films);
+                byte[] byteArray = Encoding.UTF8.GetBytes(postData);
+                req.ContentLength = byteArray.Length;
+                Stream dataStream = req.GetRequestStream();
+                dataStream.Write(byteArray, 0, byteArray.Length);
+                dataStream.Close();
+
+                answer = API_Data.GetResponseAnswer((new StreamReader(req.GetResponse().GetResponseStream())).ReadToEnd());
+                req.GetResponse().Close();
+                if (answer == null)
+                {
+                    MessageBox.Show(Resource.ApiError);
+                    return;
+                }
+                //MessageBox.Show(answer.ToString());
+
+                //DEL NEW
+                mc.FilmsSet.RemoveRange(mc.FilmsSet.Where(f => f.UsersId == User.Id && f.Id_R == null));
+                mc.SerialsSet.RemoveRange(mc.SerialsSet.Where(f => f.UsersId == User.Id && f.Id_R == null));
+            }
+
+            //GET NEW + UPDATED + DELETED
+
+            req = WebRequest.Create(API_Data.ApiHost + API_Data.ApiSync + MD5Tools.GetMd5Hash(User.Email.ToLower()) + "/" + ((int)API_Data.ModesApiFilms.GetNewUpdatedDeleted).ToString());
+
+            string data = (new StreamReader(req.GetResponse().GetResponseStream())).ReadToEnd();
+            req.GetResponse().Close();
+            //MessageBox.Show("data2=" + data);
+            answer = API_Data.GetResponseAnswer(data);
+
+            if (answer != null)
+            {
+                if (answer.Value == API_Data.RequestResponseAnswer.Values.UserNotExist)
+                {
+                    MessageBox.Show(Resource.UserNotExist);
+                }
+                else if (answer.Value == API_Data.RequestResponseAnswer.Values.BadRequestMode)
+                {
+                    MessageBox.Show(Resource.BadRequestMode);
+                }
+            }
+            else
+            {
+                foreach (API_Data.FilmsRequestResponse film in API_Data.GetResponse(data))
+                {
+                    if (film.IsFilm)
+                    {
+                        if (mc.FilmsSet.Where(f => f.Id_R == film.Id && f.UsersId == User.Id).Count() != 0)//с таким ID есть в БД, обновим
+                        {
+                            var filmBD = mc.FilmsSet.Where(f => f.Id_R == film.Id && f.UsersId == User.Id).First();
+                            if (filmBD.DateChange == null || filmBD.DateChange < film.DateChange)//есть не изменненый или изменен ранее чем обновляем
+                            {
+                                filmBD.DateChange = null;//на клиенте он актуальный, не будем отправлять ему
+                                filmBD.DateSee = film.DateSee;
+                                filmBD.Genre = film.Genre;
+                                filmBD.isDeleted = film.isDeleted;
+                                filmBD.Rate = film.Rate;
+                                filmBD.Name = film.Name;
+                            }
+                        }
+                        else //новый
+                        {
+                            mc.FilmsSet.Add(MapToFilm(film, User.Id));
+                        }
+                    }
+                    else
+                    {
+                        if (mc.SerialsSet.Where(f => f.Id_R == film.Id && f.UsersId == User.Id).Count() != 0)//с таким ID есть в БД, обновим
+                        {
+                            var filmBD = mc.SerialsSet.Where(f => f.Id_R == film.Id && f.UsersId == User.Id).First();
+                            if (filmBD.DateChange == null || filmBD.DateChange < film.DateChange)//есть не изменненый или изменен ранее чем обновляем
+                            {
+                                filmBD.DateChange = null;//на клиенте он актуальный, не будем отправлять ему
+                                filmBD.Genre = film.Genre;
+                                filmBD.isDeleted = film.isDeleted;
+                                filmBD.Rate = film.Rate;
+                                filmBD.DateBegin = film.DateBegin;
+                                filmBD.DateLast = film.DateLast;
+                                filmBD.LastSeason = film.LastSeason;
+                                filmBD.LastSeries = film.LastSeries;
+                                filmBD.Name = film.Name;
+                            }
+                        }
+                        else
+                        {
+                            mc.SerialsSet.Add(MapToSerial(film, User.Id));
+                        }
+                    }
+                }
+            }
+            mc.SaveChanges();
+            //DEL DELETED
+            mc.FilmsSet.RemoveRange(mc.FilmsSet.Where(f => f.UsersId == User.Id && f.isDeleted == true));
+            mc.SerialsSet.RemoveRange(mc.SerialsSet.Where(f => f.UsersId == User.Id && f.isDeleted == true));
+            //SET DC=NULL
+            foreach (Films f in mc.FilmsSet.Where(f => f.UsersId == User.Id && f.DateChange != null))
+            {
+                f.DateChange = null;
+            }
+            foreach (Serials f in mc.SerialsSet.Where(f => f.UsersId == User.Id && f.DateChange != null))
+            {
+                f.DateChange = null;
+            }
+            mc.SaveChanges();
+            LoadItemsToListView();
+            MessageBox.Show(Resource.SyncOK);
         }
     }
 }

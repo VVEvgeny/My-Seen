@@ -61,6 +61,24 @@ namespace My_Seen {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Web Api Work Error.
+        /// </summary>
+        internal static string ApiError {
+            get {
+                return ResourceManager.GetString("ApiError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Bad Request Mode.
+        /// </summary>
+        internal static string BadRequestMode {
+            get {
+                return ResourceManager.GetString("BadRequestMode", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Date.
         /// </summary>
         internal static string Date {
@@ -111,6 +129,15 @@ namespace My_Seen {
         internal static string Edit {
             get {
                 return ResourceManager.GetString("Edit", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Enter Email.
+        /// </summary>
+        internal static string EnterEmail {
+            get {
+                return ResourceManager.GetString("EnterEmail", resourceCulture);
             }
         }
         
@@ -214,6 +241,15 @@ namespace My_Seen {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to No Data.
+        /// </summary>
+        internal static string NoData {
+            get {
+                return ResourceManager.GetString("NoData", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Rate.
         /// </summary>
         internal static string Rate {
@@ -241,6 +277,15 @@ namespace My_Seen {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Sync OK.
+        /// </summary>
+        internal static string SyncOK {
+            get {
+                return ResourceManager.GetString("SyncOK", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to User already exists.
         /// </summary>
         internal static string UserAlreadyExists {
@@ -259,11 +304,20 @@ namespace My_Seen {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to User not exists.
+        ///   Looks up a localized string similar to User Not Exist.
         /// </summary>
-        internal static string UserNotExists {
+        internal static string UserNotExist {
             get {
-                return ResourceManager.GetString("UserNotExists", resourceCulture);
+                return ResourceManager.GetString("UserNotExist", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to User successfull.
+        /// </summary>
+        internal static string UserOK {
+            get {
+                return ResourceManager.GetString("UserOK", resourceCulture);
             }
         }
         

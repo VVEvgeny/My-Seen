@@ -65,7 +65,7 @@ namespace My_Seen
             }
             catch
             {
-                if (errorProvider.GetError(comboBox1) == string.Empty) errorProvider.SetError(comboBox1, Resource.UserNotExists);
+                if (errorProvider.GetError(comboBox1) == string.Empty) errorProvider.SetError(comboBox1, Resource.UserNotExist);
             }
             if(user!=null && !MD5Tools.VerifyMd5Hash(textBox2.Text,user.Password))
             {
