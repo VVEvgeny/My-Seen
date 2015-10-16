@@ -260,8 +260,24 @@ namespace MySeenLib
                 }
             }
         }
+        public class CategoryBase : ListStringBase
+        {
+            public static int FilmIndex = 0;
+            public static int SerialIndex = 1;
+            public override void Load()
+            {
+                if (All == null)
+                {
+                    All = new List<string>();
+                    All.Add(Resource.Films);
+                    All.Add(Resource.Serials);
+                }
+            }
+        }
 
         public static GenresBase Genres = new GenresBase();
         public static RatingsBase Ratings = new RatingsBase();
+        public static CategoryBase Categories = new CategoryBase();
+
     }
 }

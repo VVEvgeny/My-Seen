@@ -24,7 +24,7 @@ namespace MySeenWeb.Controllers
                 HttpCookie cookie = ControllerContext.HttpContext.Request.Cookies[HomeViewModel.AFCookies.CoockieSelectedKey];
                 if (cookie == null)
                 {
-                    af.Selected = HomeViewModel.eSelected.Films;
+                    af.Selected = LibTools.Categories.GetById(LibTools.CategoryBase.FilmIndex);
                     cookie = new HttpCookie(HomeViewModel.AFCookies.CoockieSelectedKey);
                     cookie.Value = HomeViewModel.AFCookies.CoockieSelectedValueFilms;
                     cookie.Expires = DateTime.Now.AddDays(1);
@@ -32,11 +32,11 @@ namespace MySeenWeb.Controllers
                 }
                 else
                 {
-                    if (cookie.Value == HomeViewModel.AFCookies.CoockieSelectedValueSerials)af.Selected = HomeViewModel.eSelected.Serials;
-                    else af.Selected = HomeViewModel.eSelected.Films;
+                    if (cookie.Value == HomeViewModel.AFCookies.CoockieSelectedValueSerials) af.Selected = LibTools.Categories.GetById(LibTools.CategoryBase.SerialIndex);
+                    else af.Selected = LibTools.Categories.GetById(LibTools.CategoryBase.FilmIndex);
                 }
                 af.LoadSelectList();
-                if(af.Selected==HomeViewModel.eSelected.Films) af.LoadFilms(User.Identity.GetUserId());
+                if (af.Selected == LibTools.Categories.GetById(LibTools.CategoryBase.FilmIndex)) af.LoadFilms(User.Identity.GetUserId());
                 else af.LoadSerials(User.Identity.GetUserId());
 
                 return View(af);

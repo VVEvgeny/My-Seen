@@ -15,18 +15,14 @@ namespace MySeenWeb.Models
         public static class AFCookies
         {
             public static string CoockieSelectedKey = "eSelected";
-            public static string CoockieSelectedValueFilms = eSelected.Films.ToString();
-            public static string CoockieSelectedValueSerials = eSelected.Serials.ToString();
+            public static string CoockieSelectedValueFilms = LibTools.Categories.GetById(LibTools.CategoryBase.FilmIndex);
+            public static string CoockieSelectedValueSerials = LibTools.Categories.GetById(LibTools.CategoryBase.SerialIndex);
         }
-        public enum eSelected
-        {
-            Films,
-            Serials
-        }
-        public eSelected Selected;
+       
+        public string Selected;
         public bool IsSelectedFilm
         {
-            get { return Selected == eSelected.Films; }            
+            get { return Selected == LibTools.Categories.GetById(LibTools.CategoryBase.FilmIndex); }            
         }
 
         public IEnumerable<SelectListItem> selectList { get; set; }
@@ -37,7 +33,7 @@ namespace MySeenWeb.Models
 
         public HomeViewModel()
         {
-            Selected = eSelected.Films;
+            Selected = LibTools.Categories.GetById(LibTools.CategoryBase.FilmIndex);
             Rating = LibTools.Ratings.GetMaxValue();
             Genre = LibTools.Genres.GetMaxValue();
         }
@@ -46,9 +42,10 @@ namespace MySeenWeb.Models
         public void LoadSelectList()
         {
             List<SelectListItem> listItems = new List<SelectListItem>();
-            foreach (eSelected sel in Enum.GetValues(typeof(eSelected)).Cast<eSelected>())
+            //foreach (eSelected sel in Enum.GetValues(typeof(eSelected)).Cast<eSelected>())
+            foreach (string sel in LibTools.Categories.GetAll())
             {
-                listItems.Add(new SelectListItem { Text = sel.ToString(), Value = sel.ToString(), Selected = (Selected == sel) });
+                listItems.Add(new SelectListItem { Text = sel, Value = sel, Selected = (sel == Selected) });
             }
             selectList = listItems;
 
