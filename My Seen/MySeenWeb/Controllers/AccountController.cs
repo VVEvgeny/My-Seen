@@ -14,7 +14,7 @@ using MySeenLib;
 namespace MySeenWeb.Controllers
 {
     [Authorize]
-    public class AccountController : Controller
+    public class AccountController : BaseController
     {
         private ApplicationSignInManager _signInManager;
         private ApplicationUserManager _userManager;

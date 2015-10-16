@@ -13,6 +13,19 @@ namespace MySeenWeb.Models
         public string PhoneNumber { get; set; }
         public bool TwoFactor { get; set; }
         public bool BrowserRemembered { get; set; }
+
+        public int Lang;
+        public IEnumerable<System.Web.Mvc.SelectListItem> LangList { get; set; }
+
+        public void LoadSelectList()
+        {
+            List<System.Web.Mvc.SelectListItem> listItems = new List<System.Web.Mvc.SelectListItem>();
+            foreach (string sel in Defaults.Languages.GetAll())
+            {
+                listItems.Add(new System.Web.Mvc.SelectListItem { Text = sel, Value = Defaults.Languages.GetId(sel).ToString(), Selected = (Defaults.Languages.GetId(sel) == Lang) });
+            }
+            LangList = listItems;
+        }
     }
 
     public class ManageLoginsViewModel
@@ -35,7 +48,7 @@ namespace MySeenWeb.Models
         public string NewPassword { get; set; }
 
         [DataType(DataType.Password)]
-        [Display(Name = "Confirm new password", ResourceType = typeof(Resource))]
+        [Display(Name = "ConfirmPassword", ResourceType = typeof(Resource))]
         [Compare("NewPassword", ErrorMessageResourceName = "ThePasswordAndConfirmationPasswordDoNotMatch", ErrorMessageResourceType = typeof(Resource))]
         public string ConfirmPassword { get; set; }
     }

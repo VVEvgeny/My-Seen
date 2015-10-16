@@ -15,19 +15,19 @@ namespace MySeenWeb.Controllers
         public IHttpActionResult Get(string user_key, int mode)
         {
             ApplicationDbContext ac = new ApplicationDbContext();
-            if ((API_Data.ModesApiUsers)mode == API_Data.ModesApiUsers.isUserExists)
+            if ((MySeenWebApi.SyncModesApiUsers)mode == MySeenWebApi.SyncModesApiUsers.isUserExists)
             {
                 string user_id = string.Empty;
                 if(ac.Users.Where(u=>u.UniqueKey == user_key).Count()==0)
                 {
-                    return Ok(new API_Data.RequestResponseAnswer { Value = API_Data.RequestResponseAnswer.Values.UserNotExist });
+                    return Ok(new MySeenWebApi.SyncJsonAnswer { Value = MySeenWebApi.SyncJsonAnswer.Values.UserNotExist });
                 }
                 else
                 {
-                    return Ok(new API_Data.RequestResponseAnswer { Value = API_Data.RequestResponseAnswer.Values.Ok });
+                    return Ok(new MySeenWebApi.SyncJsonAnswer { Value = MySeenWebApi.SyncJsonAnswer.Values.Ok });
                 }
             }
-            return Ok(new API_Data.RequestResponseAnswer { Value = API_Data.RequestResponseAnswer.Values.BadRequestMode });
+            return Ok(new MySeenWebApi.SyncJsonAnswer { Value = MySeenWebApi.SyncJsonAnswer.Values.BadRequestMode });
         }
     }
 }

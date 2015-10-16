@@ -48,7 +48,7 @@ namespace My_Seen
                     return;
                 }
                 string msg = "";
-                if (!LibTools.Validation.ValidatePassword(ref msg, textBox3.Text, textBox4.Text))
+                if (!Validations.ValidatePassword(ref msg, textBox3.Text, textBox4.Text))
                 {
                     MessageBox.Show(msg);
                     return;
@@ -99,7 +99,7 @@ namespace My_Seen
         {
             MessageBox.Show(WebApi.CheckUser(textBox5.Text));
         }
-        public Films Map_FilmsRequestResponse_To_Films(API_Data.FilmsRequestResponse model)
+        public Films Map_FilmsRequestResponse_To_Films(MySeenWebApi.SyncJsonData model)
         {
             if (model == null) return new Films();
 
@@ -114,7 +114,7 @@ namespace My_Seen
                 UsersId = User.Id
             };
         }
-        public Serials Map_FilmsRequestResponse_To_Serials(API_Data.FilmsRequestResponse model)
+        public Serials Map_FilmsRequestResponse_To_Serials(MySeenWebApi.SyncJsonData model)
         {
             if (model == null) return new Serials();
 
@@ -139,25 +139,25 @@ namespace My_Seen
                 MessageBox.Show(Resource.EnterEmail);
                 return;
             }
-            WebRequest req = WebRequest.Create(API_Data.ApiHost + API_Data.ApiSync + MD5Tools.GetMd5Hash(textBox5.Text.ToLower()) + "/" + ((int)API_Data.ModesApiFilms.GetAll).ToString());
+            WebRequest req = WebRequest.Create(MySeenWebApi.ApiHost + MySeenWebApi.ApiSync + MD5Tools.GetMd5Hash(textBox5.Text.ToLower()) + "/" + ((int)MySeenWebApi.SyncModesApiData.GetAll).ToString());
 
             WebResponse res = req.GetResponse();
             Stream stream = res.GetResponseStream();
             StreamReader sr = new StreamReader(stream);
             string data = sr.ReadToEnd();
 
-            API_Data.RequestResponseAnswer answer = API_Data.GetResponseAnswer(data);
+            MySeenWebApi.SyncJsonAnswer answer = MySeenWebApi.GetResponseAnswer(data);
             if (answer != null)
             {
-                if (answer.Value == API_Data.RequestResponseAnswer.Values.UserNotExist)
+                if (answer.Value == MySeenWebApi.SyncJsonAnswer.Values.UserNotExist)
                 {
                     MessageBox.Show(Resource.UserNotExist);
                 }
-                else if (answer.Value == API_Data.RequestResponseAnswer.Values.NoData)
+                else if (answer.Value == MySeenWebApi.SyncJsonAnswer.Values.NoData)
                 {
                     MessageBox.Show(Resource.NoData);
                 }
-                else if (answer.Value == API_Data.RequestResponseAnswer.Values.BadRequestMode)
+                else if (answer.Value == MySeenWebApi.SyncJsonAnswer.Values.BadRequestMode)
                 {
                     MessageBox.Show(Resource.BadRequestMode);
                 }
@@ -166,7 +166,7 @@ namespace My_Seen
             {
                 DeleteData();
                 ModelContainer mc = new ModelContainer();
-                foreach(API_Data.FilmsRequestResponse film in API_Data.GetResponse(data))
+                foreach (MySeenWebApi.SyncJsonData film in MySeenWebApi.GetResponse(data))
                 {
                     if(film.IsFilm)
                     {

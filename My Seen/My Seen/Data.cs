@@ -193,15 +193,15 @@ namespace My_Seen
         }
         private void LoadItemsToListView(Serials film, bool oneToTop)
         {
-            if (oneToTop) listView1.Items.Insert(0, new ListViewItem(new string[] { film.Id.ToString(), film.Name, film.LastSeason.ToString() + "-" + film.LastSeries.ToString(),LibTools.Genres.GetById(film.Genre), film.DateLast.ToString(), film.DateBegin.ToString(), LibTools.Ratings.GetById(film.Rate) }));
-            else listView1.Items.Add(new ListViewItem(new string[] { film.Id.ToString(), film.Name, film.LastSeason.ToString() + "-" + film.LastSeries.ToString(), LibTools.Genres.GetById(film.Genre), film.DateLast.ToString(), film.DateBegin.ToString(), LibTools.Ratings.GetById(film.Rate) }));
+            if (oneToTop) listView1.Items.Insert(0, new ListViewItem(new string[] { film.Id.ToString(), film.Name, film.LastSeason.ToString() + "-" + film.LastSeries.ToString(), Defaults.Genres.GetById(film.Genre), film.DateLast.ToString(), film.DateBegin.ToString(), Defaults.Ratings.GetById(film.Rate) }));
+            else listView1.Items.Add(new ListViewItem(new string[] { film.Id.ToString(), film.Name, film.LastSeason.ToString() + "-" + film.LastSeries.ToString(), Defaults.Genres.GetById(film.Genre), film.DateLast.ToString(), film.DateBegin.ToString(), Defaults.Ratings.GetById(film.Rate) }));
 
             toolStripStatusLabel2.Text = listView1.Items.Count.ToString();
         }
         private void LoadItemsToListView(Films film, bool oneToTop)
         {
-            if (oneToTop) listView1.Items.Insert(0, new ListViewItem(new string[] { film.Id.ToString(), film.Name, LibTools.Genres.GetById(film.Genre), film.DateSee.ToString(), LibTools.Ratings.GetById(film.Rate) }));
-            else listView1.Items.Add(new ListViewItem(new string[] { film.Id.ToString(), film.Name, LibTools.Genres.GetById(film.Genre), film.DateSee.ToString(), LibTools.Ratings.GetById(film.Rate) }));
+            if (oneToTop) listView1.Items.Insert(0, new ListViewItem(new string[] { film.Id.ToString(), film.Name, Defaults.Genres.GetById(film.Genre), film.DateSee.ToString(), Defaults.Ratings.GetById(film.Rate) }));
+            else listView1.Items.Add(new ListViewItem(new string[] { film.Id.ToString(), film.Name, Defaults.Genres.GetById(film.Genre), film.DateSee.ToString(), Defaults.Ratings.GetById(film.Rate) }));
             
             toolStripStatusLabel2.Text = listView1.Items.Count.ToString();
         }
@@ -233,9 +233,9 @@ namespace My_Seen
                     film.Rate = form.NewFilm.Rate;
                     film.DateChange = form.NewFilm.DateChange;
                     lvi.SubItems[1].Text = form.NewFilm.Name;
-                    lvi.SubItems[2].Text = LibTools.Genres.GetById(form.NewFilm.Genre);
+                    lvi.SubItems[2].Text = Defaults.Genres.GetById(form.NewFilm.Genre);
                     lvi.SubItems[3].Text = form.NewFilm.DateSee.ToString();
-                    lvi.SubItems[4].Text = LibTools.Ratings.GetById(film.Rate);
+                    lvi.SubItems[4].Text = Defaults.Ratings.GetById(film.Rate);
                     mc.SaveChanges();
                 }
                 form.Close();
@@ -265,10 +265,10 @@ namespace My_Seen
                     film.DateChange = form.NewFilm.DateChange;
                     lvi.SubItems[1].Text = form.NewFilm.Name;
                     lvi.SubItems[2].Text = form.NewFilm.LastSeason.ToString() + "-" + form.NewFilm.LastSeries.ToString();
-                    lvi.SubItems[3].Text = LibTools.Genres.GetById(form.NewFilm.Genre);
+                    lvi.SubItems[3].Text = Defaults.Genres.GetById(form.NewFilm.Genre);
                     lvi.SubItems[4].Text = form.NewFilm.DateLast.ToString();
                     lvi.SubItems[5].Text = form.NewFilm.DateBegin.ToString();
-                    lvi.SubItems[6].Text = LibTools.Ratings.GetById(film.Rate);
+                    lvi.SubItems[6].Text = Defaults.Ratings.GetById(film.Rate);
                     mc.SaveChanges();
                 }
                 form.Close();
@@ -435,11 +435,11 @@ namespace My_Seen
             if (e.Shift && e.KeyCode == Keys.Add) FastUpdateSerial(eFastUpdateSerial.Season);
             else  if (e.KeyCode == Keys.Add) FastUpdateSerial(eFastUpdateSerial.Series);
         }
-        public static API_Data.FilmsRequestResponse Map(Films model)
+        public static MySeenWebApi.SyncJsonData Map(Films model)
         {
-            if (model == null) return new API_Data.FilmsRequestResponse();
+            if (model == null) return new MySeenWebApi.SyncJsonData();
 
-            return new API_Data.FilmsRequestResponse
+            return new MySeenWebApi.SyncJsonData
             {
                 IsFilm = true,
                 Id = model.Id_R,
@@ -451,11 +451,11 @@ namespace My_Seen
                 isDeleted = model.isDeleted
             };
         }
-        public static API_Data.FilmsRequestResponse Map(Serials model)
+        public static MySeenWebApi.SyncJsonData Map(Serials model)
         {
-            if (model == null) return new API_Data.FilmsRequestResponse();
+            if (model == null) return new MySeenWebApi.SyncJsonData();
 
-            return new API_Data.FilmsRequestResponse
+            return new MySeenWebApi.SyncJsonData
             {
                 IsFilm = false,
                 Id = model.Id_R,
@@ -470,7 +470,7 @@ namespace My_Seen
                 isDeleted = model.isDeleted
             };
         }
-        public static Films MapToFilm(API_Data.FilmsRequestResponse model, int user_id)
+        public static Films MapToFilm(MySeenWebApi.SyncJsonData model, int user_id)
         {
             if (model == null) return new Films();
 
@@ -486,7 +486,7 @@ namespace My_Seen
                 UsersId = user_id
             };
         }
-        public static Serials MapToSerial(API_Data.FilmsRequestResponse model, int user_id)
+        public static Serials MapToSerial(MySeenWebApi.SyncJsonData model, int user_id)
         {
             if (model == null) return new Serials();
 
@@ -507,29 +507,29 @@ namespace My_Seen
         }
         private void toolStripMenuItem1_Click(object sender, EventArgs e)
         {
-            List<API_Data.FilmsRequestResponse> films = new List<API_Data.FilmsRequestResponse>();
+            List<MySeenWebApi.SyncJsonData> films = new List<MySeenWebApi.SyncJsonData>();
             ModelContainer mc = new ModelContainer();
 
             //PUT NEW + UPDATED + DELETED
             films.AddRange(mc.FilmsSet.Where(f => f.UsersId == User.Id && f.DateChange != null).Select(Map));
             films.AddRange(mc.SerialsSet.Where(f => f.UsersId == User.Id && f.DateChange != null).Select(Map));
             WebRequest req;
-            API_Data.RequestResponseAnswer answer;
+            MySeenWebApi.SyncJsonAnswer answer;
             if (films.Count() != 0)
             {
-                req = WebRequest.Create(API_Data.ApiHost + API_Data.ApiSync + MD5Tools.GetMd5Hash(User.Email.ToLower()) + "/" + ((int)API_Data.ModesApiFilms.PostNewUpdatedDeleted).ToString());
+                req = WebRequest.Create(MySeenWebApi.ApiHost + MySeenWebApi.ApiSync + MD5Tools.GetMd5Hash(User.Email.ToLower()) + "/" + ((int)MySeenWebApi.SyncModesApiData.PostNewUpdatedDeleted).ToString());
                 req.Method = "POST";
                 req.Credentials = CredentialCache.DefaultCredentials;
                 ((HttpWebRequest)req).UserAgent = "MySeen";
                 req.ContentType = "application/json";
-                string postData = API_Data.SetResponse(films);
+                string postData = MySeenWebApi.SetResponse(films);
                 byte[] byteArray = Encoding.UTF8.GetBytes(postData);
                 req.ContentLength = byteArray.Length;
                 Stream dataStream = req.GetRequestStream();
                 dataStream.Write(byteArray, 0, byteArray.Length);
                 dataStream.Close();
 
-                answer = API_Data.GetResponseAnswer((new StreamReader(req.GetResponse().GetResponseStream())).ReadToEnd());
+                answer = MySeenWebApi.GetResponseAnswer((new StreamReader(req.GetResponse().GetResponseStream())).ReadToEnd());
                 req.GetResponse().Close();
                 if (answer == null)
                 {
@@ -545,27 +545,27 @@ namespace My_Seen
 
             //GET NEW + UPDATED + DELETED
 
-            req = WebRequest.Create(API_Data.ApiHost + API_Data.ApiSync + MD5Tools.GetMd5Hash(User.Email.ToLower()) + "/" + ((int)API_Data.ModesApiFilms.GetNewUpdatedDeleted).ToString());
+            req = WebRequest.Create(MySeenWebApi.ApiHost + MySeenWebApi.ApiSync + MD5Tools.GetMd5Hash(User.Email.ToLower()) + "/" + ((int)MySeenWebApi.SyncModesApiData.GetNewUpdatedDeleted).ToString());
 
             string data = (new StreamReader(req.GetResponse().GetResponseStream())).ReadToEnd();
             req.GetResponse().Close();
             //MessageBox.Show("data2=" + data);
-            answer = API_Data.GetResponseAnswer(data);
+            answer = MySeenWebApi.GetResponseAnswer(data);
 
             if (answer != null)
             {
-                if (answer.Value == API_Data.RequestResponseAnswer.Values.UserNotExist)
+                if (answer.Value == MySeenWebApi.SyncJsonAnswer.Values.UserNotExist)
                 {
                     MessageBox.Show(Resource.UserNotExist);
                 }
-                else if (answer.Value == API_Data.RequestResponseAnswer.Values.BadRequestMode)
+                else if (answer.Value == MySeenWebApi.SyncJsonAnswer.Values.BadRequestMode)
                 {
                     MessageBox.Show(Resource.BadRequestMode);
                 }
             }
             else
             {
-                foreach (API_Data.FilmsRequestResponse film in API_Data.GetResponse(data))
+                foreach (MySeenWebApi.SyncJsonData film in MySeenWebApi.GetResponse(data))
                 {
                     if (film.IsFilm)
                     {

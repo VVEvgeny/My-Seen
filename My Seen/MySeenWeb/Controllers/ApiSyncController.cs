@@ -13,11 +13,11 @@ namespace MySeenWeb.Controllers
 {
     public class ApiSyncController : ApiController
     {
-        public static API_Data.FilmsRequestResponse Map(Films model)
+        public static MySeenWebApi.SyncJsonData Map(Films model)
         {
-            if (model == null) return new API_Data.FilmsRequestResponse();
+            if (model == null) return new MySeenWebApi.SyncJsonData();
 
-            return new API_Data.FilmsRequestResponse
+            return new MySeenWebApi.SyncJsonData
             {
                 IsFilm = true,
                 Id = model.Id,
@@ -29,7 +29,7 @@ namespace MySeenWeb.Controllers
                 isDeleted = model.isDeleted
             };
         }
-        public static Films MapToFilm(API_Data.FilmsRequestResponse model, string user_id)
+        public static Films MapToFilm(MySeenWebApi.SyncJsonData model, string user_id)
         {
             if (model == null) return new Films();
 
@@ -44,11 +44,11 @@ namespace MySeenWeb.Controllers
                 UserId = user_id
             };
         }
-        public static API_Data.FilmsRequestResponse Map(Serials model)
+        public static MySeenWebApi.SyncJsonData Map(Serials model)
         {
-            if (model == null) return new API_Data.FilmsRequestResponse();
+            if (model == null) return new MySeenWebApi.SyncJsonData();
 
-            return new API_Data.FilmsRequestResponse
+            return new MySeenWebApi.SyncJsonData
             {
                 IsFilm = false,
                 Id = model.Id,
@@ -63,7 +63,7 @@ namespace MySeenWeb.Controllers
                 isDeleted = model.isDeleted
             };
         }
-        public static Serials MapToSerial(API_Data.FilmsRequestResponse model, string user_id)
+        public static Serials MapToSerial(MySeenWebApi.SyncJsonData model, string user_id)
         {
             if (model == null) return new Serials();
 
@@ -96,14 +96,14 @@ namespace MySeenWeb.Controllers
             string user_id = GetUserId(user_key);
             if (string.IsNullOrEmpty(user_id))
             {
-                return Ok(new API_Data.RequestResponseAnswer { Value = API_Data.RequestResponseAnswer.Values.UserNotExist });
+                return Ok(new MySeenWebApi.SyncJsonAnswer { Value = MySeenWebApi.SyncJsonAnswer.Values.UserNotExist });
             }
-            if ((API_Data.ModesApiFilms)mode == API_Data.ModesApiFilms.GetAll)
+            if ((MySeenWebApi.SyncModesApiData)mode == MySeenWebApi.SyncModesApiData.GetAll)
             {
                 ac.Films.RemoveRange(ac.Films.Where(f => f.UserId == user_id && f.isDeleted == true));
                 ac.Serials.RemoveRange(ac.Serials.Where(f => f.UserId == user_id && f.isDeleted == true));
 
-                List<API_Data.FilmsRequestResponse> film = new List<API_Data.FilmsRequestResponse>();
+                List<MySeenWebApi.SyncJsonData> film = new List<MySeenWebApi.SyncJsonData>();
                 film.AddRange(ac.Films.Where(f => f.UserId == user_id).Select(Map));
                 film.AddRange(ac.Serials.Where(f => f.UserId == user_id).Select(Map));
 
@@ -121,11 +121,11 @@ namespace MySeenWeb.Controllers
                 {
                     return Ok(film.AsEnumerable());
                 }
-                return Ok(new API_Data.RequestResponseAnswer { Value = API_Data.RequestResponseAnswer.Values.NoData });
+                return Ok(new MySeenWebApi.SyncJsonAnswer { Value = MySeenWebApi.SyncJsonAnswer.Values.NoData });
             }
-            if ((API_Data.ModesApiFilms)mode == API_Data.ModesApiFilms.GetNewUpdatedDeleted)
+            if ((MySeenWebApi.SyncModesApiData)mode == MySeenWebApi.SyncModesApiData.GetNewUpdatedDeleted)
             {
-                List<API_Data.FilmsRequestResponse> film = new List<API_Data.FilmsRequestResponse>();
+                List<MySeenWebApi.SyncJsonData> film = new List<MySeenWebApi.SyncJsonData>();
                 film.AddRange(ac.Films.Where(f => f.UserId == user_id && f.DateChange != null).Select(Map));
                 film.AddRange(ac.Serials.Where(f => f.UserId == user_id && f.DateChange != null).Select(Map));
 
@@ -148,26 +148,26 @@ namespace MySeenWeb.Controllers
                 {
                     return Ok(film.AsEnumerable());
                 }
-                return Ok(new API_Data.RequestResponseAnswer { Value = API_Data.RequestResponseAnswer.Values.NoData });
+                return Ok(new MySeenWebApi.SyncJsonAnswer { Value = MySeenWebApi.SyncJsonAnswer.Values.NoData });
             }
-            return Ok(new API_Data.RequestResponseAnswer { Value = API_Data.RequestResponseAnswer.Values.BadRequestMode });
+            return Ok(new MySeenWebApi.SyncJsonAnswer { Value = MySeenWebApi.SyncJsonAnswer.Values.BadRequestMode });
         }
         [HttpPost]
-        public IHttpActionResult Post([FromUri]string user_key, [FromUri]int mode, [FromBody] IEnumerable<API_Data.FilmsRequestResponse> data)
+        public IHttpActionResult Post([FromUri]string user_key, [FromUri]int mode, [FromBody] IEnumerable<MySeenWebApi.SyncJsonData> data)
         {
-            if (data == null || (API_Data.ModesApiFilms)mode != API_Data.ModesApiFilms.PostNewUpdatedDeleted)
+            if (data == null || (MySeenWebApi.SyncModesApiData)mode != MySeenWebApi.SyncModesApiData.PostNewUpdatedDeleted)
             {
-                return Ok(new API_Data.RequestResponseAnswer { Value = API_Data.RequestResponseAnswer.Values.BadRequestMode });
+                return Ok(new MySeenWebApi.SyncJsonAnswer { Value = MySeenWebApi.SyncJsonAnswer.Values.BadRequestMode });
             }
             string user_id = GetUserId(user_key);
             if (string.IsNullOrEmpty(user_id))
             {
-                return Ok(new API_Data.RequestResponseAnswer { Value = API_Data.RequestResponseAnswer.Values.UserNotExist });
+                return Ok(new MySeenWebApi.SyncJsonAnswer { Value = MySeenWebApi.SyncJsonAnswer.Values.UserNotExist });
             }
             if (data.Count() > 0)
             {
                 ApplicationDbContext ac = new ApplicationDbContext();
-                foreach(API_Data.FilmsRequestResponse film in data)
+                foreach (MySeenWebApi.SyncJsonData film in data)
                 {
                     if (film.IsFilm)
                     {
@@ -253,9 +253,9 @@ namespace MySeenWeb.Controllers
                     }
                 }
                 ac.SaveChanges();
-                return Ok(new API_Data.RequestResponseAnswer { Value = API_Data.RequestResponseAnswer.Values.NewDataRecieved });
+                return Ok(new MySeenWebApi.SyncJsonAnswer { Value = MySeenWebApi.SyncJsonAnswer.Values.NewDataRecieved });
             }
-            return Ok(new API_Data.RequestResponseAnswer { Value = API_Data.RequestResponseAnswer.Values.BadRequestMode });
+            return Ok(new MySeenWebApi.SyncJsonAnswer { Value = MySeenWebApi.SyncJsonAnswer.Values.BadRequestMode });
         }
     }
 }

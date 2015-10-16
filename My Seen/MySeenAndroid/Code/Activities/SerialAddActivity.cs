@@ -9,7 +9,6 @@ using Android.Util;
 using System.Collections.Generic;
 using MySeenLib;
 using Android.Content.PM;
-using MySeenLib;
 
 namespace MySeenAndroid
 {
@@ -142,17 +141,17 @@ namespace MySeenAndroid
                 Finish();
             };
             comboboxgenre = FindViewById<Spinner>(Resource.Id.spinner_genre_s);
-            ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, Resource.Layout.comboboxitem, Resource.Id.spinnerItem, LibTools.Genres.GetAll().ToArray());
+            ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, Resource.Layout.comboboxitem, Resource.Id.spinnerItem, Defaults.Genres.GetAll().ToArray());
             comboboxgenre.Adapter = adapter;
             comboboxrate = FindViewById<Spinner>(Resource.Id.spinner_rate_s);
-            ArrayAdapter<String> adapter_rate = new ArrayAdapter<String>(this, Resource.Layout.comboboxitem, Resource.Id.spinnerItem, LibTools.Ratings.GetAll().ToArray());
+            ArrayAdapter<String> adapter_rate = new ArrayAdapter<String>(this, Resource.Layout.comboboxitem, Resource.Id.spinnerItem, Defaults.Ratings.GetAll().ToArray());
             comboboxrate.Adapter = adapter_rate;
 
             if (Mode == Modes.Edit)
             {
                 name_text.Text = film.Name;
-                comboboxgenre.SetSelection(adapter.GetPosition(LibTools.Genres.GetById(film.Genre)));
-                comboboxrate.SetSelection(adapter_rate.GetPosition(LibTools.Ratings.GetById(film.Rate)));
+                comboboxgenre.SetSelection(adapter.GetPosition(Defaults.Genres.GetById(film.Genre)));
+                comboboxrate.SetSelection(adapter_rate.GetPosition(Defaults.Ratings.GetById(film.Rate)));
                 season.Text = film.LastSeason.ToString();
                 series.Text = film.LastSeries.ToString();
             }

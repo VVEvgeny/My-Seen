@@ -31,11 +31,11 @@ namespace My_Seen
             EditId = 0;
 
             comboBox1.Items.Clear();
-            comboBox1.Items.AddRange(LibTools.Ratings.GetAll().ToArray());
+            comboBox1.Items.AddRange(Defaults.Ratings.GetAll().ToArray());
             if (comboBox1.Items.Count != 0) comboBox1.Text = comboBox1.Items[0].ToString();
 
             comboBox2.Items.Clear();
-            comboBox2.Items.AddRange(LibTools.Genres.GetAll().ToArray());
+            comboBox2.Items.AddRange(Defaults.Genres.GetAll().ToArray());
             if (comboBox2.Items.Count != 0) comboBox2.Text = comboBox2.Items[0].ToString();
 
             DelRecord = false;
@@ -95,8 +95,8 @@ namespace My_Seen
             }
             if (!ErrorProviderTools.isValid(errorProvider)) return;
 
-            if (EditId != 0) newFilm = new Films() { Id = EditId, UsersId = user.Id, Name = textBox1.Text, DateSee = dateTimePicker1.Value, DateChange = DateTime.Now, Rate = LibTools.Ratings.GetId(comboBox1.Text), Genre = LibTools.Genres.GetId(comboBox2.Text) };
-            else newFilm = new Films() { UsersId = user.Id, Name = textBox1.Text, DateSee = dateTimePicker1.Value, DateChange = DateTime.Now, Rate = LibTools.Ratings.GetId(comboBox1.Text), Genre = LibTools.Genres.GetId(comboBox2.Text) };
+            if (EditId != 0) newFilm = new Films() { Id = EditId, UsersId = user.Id, Name = textBox1.Text, DateSee = dateTimePicker1.Value, DateChange = DateTime.Now, Rate = Defaults.Ratings.GetId(comboBox1.Text), Genre = Defaults.Genres.GetId(comboBox2.Text) };
+            else newFilm = new Films() { UsersId = user.Id, Name = textBox1.Text, DateSee = dateTimePicker1.Value, DateChange = DateTime.Now, Rate = Defaults.Ratings.GetId(comboBox1.Text), Genre = Defaults.Genres.GetId(comboBox2.Text) };
             Hide();
         }
 

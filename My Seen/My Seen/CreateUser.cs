@@ -22,11 +22,11 @@ namespace My_Seen
         {
             errorProvider.Clear();
             string msg = "";
-            if (!LibTools.Validation.ValidateUserName(ref msg, textBox1.Text))
+            if (!Validations.ValidateUserName(ref msg, textBox1.Text))
             {
                 errorProvider.SetError(textBox1, msg);
             }
-            if (!LibTools.Validation.ValidatePassword(ref msg,textBox2.Text,textBox3.Text))
+            if (!Validations.ValidatePassword(ref msg, textBox2.Text, textBox3.Text))
             {
                 errorProvider.SetError(textBox2, msg);
                 errorProvider.SetError(textBox3, msg);

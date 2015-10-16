@@ -139,7 +139,7 @@
     <value>Пользователь и данные удалены</value>
   </data>
   <data name="Edit" xml:space="preserve">
-    <value>Редактировать</value>
+    <value>Изменить</value>
   </data>
   <data name="EmailIncorrect" xml:space="preserve">
     <value>Неверный почтовый ящик</value>
@@ -332,5 +332,56 @@
   </data>
   <data name="UseAnotherServiceToLogIn" xml:space="preserve">
     <value>Используйте сторонний сервис для входа</value>
+  </data>
+  <data name="AnErrorHasOccurred" xml:space="preserve">
+    <value>Непредвиденная ошибка</value>
+  </data>
+  <data name="ChangeYourAccountSettings" xml:space="preserve">
+    <value>Изменение настроек пользователя</value>
+  </data>
+  <data name="ChangeYourPassword" xml:space="preserve">
+    <value>Изменение пароля</value>
+  </data>
+  <data name="Create" xml:space="preserve">
+    <value>Создать</value>
+  </data>
+  <data name="CreateLocalLogin" xml:space="preserve">
+    <value>Создание локального входа</value>
+  </data>
+  <data name="CreatePassword" xml:space="preserve">
+    <value>Создать пароль</value>
+  </data>
+  <data name="CreatePasswordText1" xml:space="preserve">
+    <value>У Вас нет пароля</value>
+  </data>
+  <data name="ExternalLogins" xml:space="preserve">
+    <value>Сторонние сервисы</value>
+  </data>
+  <data name="Manage" xml:space="preserve">
+    <value>Управление</value>
+  </data>
+  <data name="ManageYourExternalLogins" xml:space="preserve">
+    <value>Управление сторонними сервисами</value>
+  </data>
+  <data name="RegisteredLogins" xml:space="preserve">
+    <value>Зарегестрированные сервисы</value>
+  </data>
+  <data name="Remove" xml:space="preserve">
+    <value>Удалить</value>
+  </data>
+  <data name="SetPassword" xml:space="preserve">
+    <value>Задать пароль</value>
+  </data>
+  <data name="TheExternalLoginWasRemoved" xml:space="preserve">
+    <value>Сторонний сервис удален</value>
+  </data>
+  <data name="English" xml:space="preserve">
+    <value>Английский</value>
+  </data>
+  <data name="Russian" xml:space="preserve">
+    <value>Русский</value>
+  </data>
+  <data name="SelectLanguage" xml:space="preserve">
+    <value>Выберите язык</value>
   </data>
 </root>

@@ -71,9 +71,9 @@ namespace MySeenAndroid
             Films str = list[position];
 
             holder.txtFilmName.SetText(str.Name, TextView.BufferType.Normal);
-            holder.txtGenre.SetText(LibTools.Genres.GetById(str.Genre), TextView.BufferType.Normal);
+            holder.txtGenre.SetText(Defaults.Genres.GetById(str.Genre), TextView.BufferType.Normal);
             holder.txtDateSee.SetText(str.DateSee.ToShortDateString(), TextView.BufferType.Normal);
-            holder.txtRate.SetText(LibTools.Ratings.GetById(str.Rate), TextView.BufferType.Normal);
+            holder.txtRate.SetText(Defaults.Ratings.GetById(str.Rate), TextView.BufferType.Normal);
 
             return view;
         }

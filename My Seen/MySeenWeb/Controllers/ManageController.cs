@@ -7,11 +7,12 @@ using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using MySeenWeb.Models;
+using MySeenLib;
 
 namespace MySeenWeb.Controllers
 {
     [Authorize]
-    public class ManageController : Controller
+    public class ManageController : BaseController
     {
         private ApplicationSignInManager _signInManager;
         private ApplicationUserManager _userManager;
@@ -72,6 +73,14 @@ namespace MySeenWeb.Controllers
                 Logins = await UserManager.GetLoginsAsync(userId),
                 BrowserRemembered = await AuthenticationManager.TwoFactorBrowserRememberedAsync(userId)
             };
+
+            if (User.Identity.IsAuthenticated)
+            {
+                ApplicationDbContext ac = new ApplicationDbContext();
+                string user_id = User.Identity.GetUserId();
+                model.Lang = Defaults.Languages.GetIdDB(ac.Users.Where(u => u.Id == userId).First().Culture);
+                model.LoadSelectList();
+            }
             return View(model);
         }
 
@@ -97,6 +106,17 @@ namespace MySeenWeb.Controllers
                 message = ManageMessageId.Error;
             }
             return RedirectToAction("ManageLogins", new { Message = message });
+        }
+        [HttpPost]
+        public JsonResult ChangeLanguage(string selected)
+        {
+            ApplicationDbContext ac = new ApplicationDbContext();
+            var userId = User.Identity.GetUserId();
+            ac.Users.Where(u => u.Id == userId).First().Culture = Defaults.Languages.GetValDB(Convert.ToInt32(selected));
+            ac.SaveChanges();
+            CultureInfoTool.SetCulture(Defaults.Languages.GetValDB(Convert.ToInt32(selected)));
+            Defaults.ReloadResources();
+            return Json(new { success = true });
         }
 
         //
@@ -279,8 +299,8 @@ namespace MySeenWeb.Controllers
         public async Task<ActionResult> ManageLogins(ManageMessageId? message)
         {
             ViewBag.StatusMessage =
-                message == ManageMessageId.RemoveLoginSuccess ? "The external login was removed."
-                : message == ManageMessageId.Error ? "An error has occurred."
+                message == ManageMessageId.RemoveLoginSuccess ? Resource.TheExternalLoginWasRemoved
+                : message == ManageMessageId.Error ? Resource.AnErrorHasOccurred
                 : "";
             var user = await UserManager.FindByIdAsync(User.Identity.GetUserId());
             if (user == null)

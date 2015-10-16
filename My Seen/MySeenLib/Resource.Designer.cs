@@ -88,6 +88,15 @@ namespace MySeenLib {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to An error has occurred.
+        /// </summary>
+        public static string AnErrorHasOccurred {
+            get {
+                return ResourceManager.GetString("AnErrorHasOccurred", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Web Api Work Error.
         /// </summary>
         public static string ApiError {
@@ -111,6 +120,24 @@ namespace MySeenLib {
         public static string BadRequestMode {
             get {
                 return ResourceManager.GetString("BadRequestMode", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Change your account settings.
+        /// </summary>
+        public static string ChangeYourAccountSettings {
+            get {
+                return ResourceManager.GetString("ChangeYourAccountSettings", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Change your password.
+        /// </summary>
+        public static string ChangeYourPassword {
+            get {
+                return ResourceManager.GetString("ChangeYourPassword", resourceCulture);
             }
         }
         
@@ -142,11 +169,47 @@ namespace MySeenLib {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Create.
+        /// </summary>
+        public static string Create {
+            get {
+                return ResourceManager.GetString("Create", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Create a new account..
         /// </summary>
         public static string CreateANewAccount {
             get {
                 return ResourceManager.GetString("CreateANewAccount", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Create Local Login.
+        /// </summary>
+        public static string CreateLocalLogin {
+            get {
+                return ResourceManager.GetString("CreateLocalLogin", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Create Password.
+        /// </summary>
+        public static string CreatePassword {
+            get {
+                return ResourceManager.GetString("CreatePassword", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to You do not have a local username/password for this site. Add a local account so you can log in without an external login..
+        /// </summary>
+        public static string CreatePasswordText1 {
+            get {
+                return ResourceManager.GetString("CreatePasswordText1", resourceCulture);
             }
         }
         
@@ -232,6 +295,15 @@ namespace MySeenLib {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to English.
+        /// </summary>
+        public static string English {
+            get {
+                return ResourceManager.GetString("English", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Enter Email.
         /// </summary>
         public static string EnterEmail {
@@ -291,6 +363,15 @@ namespace MySeenLib {
         public static string EnterUsename {
             get {
                 return ResourceManager.GetString("EnterUsename", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to External Logins.
+        /// </summary>
+        public static string ExternalLogins {
+            get {
+                return ResourceManager.GetString("ExternalLogins", resourceCulture);
             }
         }
         
@@ -448,6 +529,24 @@ namespace MySeenLib {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Manage.
+        /// </summary>
+        public static string Manage {
+            get {
+                return ResourceManager.GetString("Manage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Manage your external logins.
+        /// </summary>
+        public static string ManageYourExternalLogins {
+            get {
+                return ResourceManager.GetString("ManageYourExternalLogins", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Name.
         /// </summary>
         public static string Name {
@@ -529,11 +628,38 @@ namespace MySeenLib {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Registered Logins.
+        /// </summary>
+        public static string RegisteredLogins {
+            get {
+                return ResourceManager.GetString("RegisteredLogins", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Remember me?.
         /// </summary>
         public static string Remember {
             get {
                 return ResourceManager.GetString("Remember", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Remove.
+        /// </summary>
+        public static string Remove {
+            get {
+                return ResourceManager.GetString("Remove", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Russian.
+        /// </summary>
+        public static string Russian {
+            get {
+                return ResourceManager.GetString("Russian", resourceCulture);
             }
         }
         
@@ -552,6 +678,15 @@ namespace MySeenLib {
         public static string Season {
             get {
                 return ResourceManager.GetString("Season", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Select The Language.
+        /// </summary>
+        public static string SelectLanguage {
+            get {
+                return ResourceManager.GetString("SelectLanguage", resourceCulture);
             }
         }
         
@@ -601,6 +736,15 @@ namespace MySeenLib {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Set Password.
+        /// </summary>
+        public static string SetPassword {
+            get {
+                return ResourceManager.GetString("SetPassword", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Too Short User Name.
         /// </summary>
         public static string ShortUserName {
@@ -615,6 +759,15 @@ namespace MySeenLib {
         public static string SyncOK {
             get {
                 return ResourceManager.GetString("SyncOK", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The external login was removed.
+        /// </summary>
+        public static string TheExternalLoginWasRemoved {
+            get {
+                return ResourceManager.GetString("TheExternalLoginWasRemoved", resourceCulture);
             }
         }
         

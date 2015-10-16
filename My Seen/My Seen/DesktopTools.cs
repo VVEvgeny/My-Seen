@@ -23,11 +23,11 @@ namespace My_Seen
             }
             try
             {
-                WebRequest req = WebRequest.Create(API_Data.ApiHost + API_Data.ApiUsers + MD5Tools.GetMd5Hash(email.ToLower()) + "/" + ((int)API_Data.ModesApiUsers.isUserExists).ToString());
-                API_Data.RequestResponseAnswer answer = API_Data.GetResponseAnswer((new StreamReader(req.GetResponse().GetResponseStream())).ReadToEnd());
+                WebRequest req = WebRequest.Create(MySeenWebApi.ApiHost + MySeenWebApi.ApiUsers + MD5Tools.GetMd5Hash(email.ToLower()) + "/" + ((int)MySeenWebApi.SyncModesApiUsers.isUserExists).ToString());
+                MySeenWebApi.SyncJsonAnswer answer = MySeenWebApi.GetResponseAnswer((new StreamReader(req.GetResponse().GetResponseStream())).ReadToEnd());
                 if (answer != null)
                 {
-                    if (answer.Value == API_Data.RequestResponseAnswer.Values.UserNotExist)
+                    if (answer.Value == MySeenWebApi.SyncJsonAnswer.Values.UserNotExist)
                     {
                         return Resource.UserNotExist;
                     }

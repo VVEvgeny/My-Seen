@@ -10,21 +10,17 @@ using MySeenLib;
 namespace MySeenWeb.Controllers
 {
     [RequireHttps]
-    public class HomeController : Controller
+    public class HomeController : BaseController
     {
         public ActionResult Index()
         {
             if (User.Identity.IsAuthenticated)
             {
-                ApplicationDbContext ac = new ApplicationDbContext();
-                string user_id = User.Identity.GetUserId();
-                CultureInfoTool.SetCulture(ac.Users.Where(u => u.Id == user_id).First().Culture);
-
                 HomeViewModel af = new HomeViewModel();
                 HttpCookie cookie = ControllerContext.HttpContext.Request.Cookies[HomeViewModel.AFCookies.CoockieSelectedKey];
                 if (cookie == null)
                 {
-                    af.Selected = LibTools.Categories.GetById(LibTools.CategoryBase.FilmIndex);
+                    af.Selected = Defaults.Categories.GetById(Defaults.CategoryBase.FilmIndex);
                     cookie = new HttpCookie(HomeViewModel.AFCookies.CoockieSelectedKey);
                     cookie.Value = HomeViewModel.AFCookies.CoockieSelectedValueFilms;
                     cookie.Expires = DateTime.Now.AddDays(1);
@@ -32,11 +28,11 @@ namespace MySeenWeb.Controllers
                 }
                 else
                 {
-                    if (cookie.Value == HomeViewModel.AFCookies.CoockieSelectedValueSerials) af.Selected = LibTools.Categories.GetById(LibTools.CategoryBase.SerialIndex);
-                    else af.Selected = LibTools.Categories.GetById(LibTools.CategoryBase.FilmIndex);
+                    if (cookie.Value == HomeViewModel.AFCookies.CoockieSelectedValueSerials) af.Selected = Defaults.Categories.GetById(Defaults.CategoryBase.SerialIndex);
+                    else af.Selected = Defaults.Categories.GetById(Defaults.CategoryBase.FilmIndex);
                 }
                 af.LoadSelectList();
-                if (af.Selected == LibTools.Categories.GetById(LibTools.CategoryBase.FilmIndex)) af.LoadFilms(User.Identity.GetUserId());
+                if (af.Selected == Defaults.Categories.GetById(Defaults.CategoryBase.FilmIndex)) af.LoadFilms(User.Identity.GetUserId());
                 else af.LoadSerials(User.Identity.GetUserId());
 
                 return View(af);
@@ -63,7 +59,7 @@ namespace MySeenWeb.Controllers
             string errorMessage = string.Empty;
             if (string.IsNullOrEmpty(errorMessage))
             {
-                LibTools.Validation.ValidateName(ref errorMessage, name);
+                Validations.ValidateName(ref errorMessage, name);
             }
             if (string.IsNullOrEmpty(errorMessage))
             {
@@ -91,7 +87,7 @@ namespace MySeenWeb.Controllers
             string errorMessage = string.Empty;
             if (string.IsNullOrEmpty(errorMessage))
             {
-                LibTools.Validation.ValidateName(ref errorMessage, name);
+                Validations.ValidateName(ref errorMessage, name);
             }
             if (string.IsNullOrEmpty(errorMessage))
             {
@@ -124,7 +120,7 @@ namespace MySeenWeb.Controllers
             string errorMessage = string.Empty;
             if (string.IsNullOrEmpty(errorMessage))
             {
-                LibTools.Validation.ValidateName(ref errorMessage, name);
+                Validations.ValidateName(ref errorMessage, name);
             }
             if (string.IsNullOrEmpty(errorMessage))
             {
@@ -154,7 +150,7 @@ namespace MySeenWeb.Controllers
             string errorMessage = string.Empty;
             if (string.IsNullOrEmpty(errorMessage))
             {
-                LibTools.Validation.ValidateName(ref errorMessage, name);
+                Validations.ValidateName(ref errorMessage, name);
             }
             if (string.IsNullOrEmpty(errorMessage))
             {

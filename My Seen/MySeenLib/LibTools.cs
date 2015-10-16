@@ -10,7 +10,6 @@ using Newtonsoft.Json;
 
 namespace MySeenLib
 {
-    #region CultureTool
     public static class CultureInfoTool
     {
         public static string CoockieCultureKey = "_culture";
@@ -41,6 +40,7 @@ namespace MySeenLib
         {
             if (GetCulture() != cult)
             {
+                //Thread.CurrentThread.CurrentCulture = new CultureInfo(cult);
                 Thread.CurrentThread.CurrentUICulture = new CultureInfo(cult);
                 return true;
             }
@@ -48,25 +48,24 @@ namespace MySeenLib
         }
 
     }
-    #endregion
-    public static class API_Data
+    public static class MySeenWebApi
     {
         public static string ApiHost = @"https://localhost:44300";
         public static string ApiUsers = @"/api/ApiUsers/";
         public static string ApiSync = @"/api/ApiSync/";
 
-        public enum ModesApiUsers
+        public enum SyncModesApiUsers
         {
             isUserExists = 1
         }
-        public enum ModesApiFilms
+        public enum SyncModesApiData
         {
             GetAll = 1,
             GetNew = 2,
             PostNewUpdatedDeleted = 3,
             GetNewUpdatedDeleted = 4
         }
-        public class RequestResponseAnswer
+        public class SyncJsonAnswer
         {
             public enum Values
             {
@@ -83,7 +82,7 @@ namespace MySeenLib
                 return Value.ToString();
             }
         }
-        public class FilmsRequestResponse
+        public class SyncJsonData
         {
             [JsonProperty("IsFilm")]
             public bool IsFilm { get; set; }
@@ -112,20 +111,20 @@ namespace MySeenLib
             [JsonProperty("DateBegin")]
             public DateTime DateBegin { get; set; }
         }
-        public static IEnumerable<FilmsRequestResponse> GetResponse(string data)
+        public static IEnumerable<SyncJsonData> GetResponse(string data)
         {
-            return JsonConvert.DeserializeObject<IEnumerable<FilmsRequestResponse>>(data);
+            return JsonConvert.DeserializeObject<IEnumerable<SyncJsonData>>(data);
         }
-        public static string SetResponse(IEnumerable<FilmsRequestResponse> data)
+        public static string SetResponse(IEnumerable<SyncJsonData> data)
         {
             return JsonConvert.SerializeObject(data);
         }
-        public static RequestResponseAnswer GetResponseAnswer(string data)
+        public static SyncJsonAnswer GetResponseAnswer(string data)
         {
-            RequestResponseAnswer answer = null;
+            SyncJsonAnswer answer = null;
             try
             {
-                answer = JsonConvert.DeserializeObject<RequestResponseAnswer>(data);
+                answer = JsonConvert.DeserializeObject<SyncJsonAnswer>(data);
             }
             catch
             {
@@ -134,61 +133,8 @@ namespace MySeenLib
             return answer;
         }
     }
-    public static class LibTools
+    public static class Defaults
     {
-        public static class Validation
-        {
-            public static bool ValidateName(ref string message,string filmName)
-            {
-                if (filmName.Length < 1)
-                {
-                    message = Resource.ShortUserName;
-                    return false;
-                }
-                return true;
-            }
-            public static bool ValidateUserName(ref string message, string userName)
-            {
-                if (userName.Length < 5)
-                {
-                    message = Resource.ShortUserName;
-                    return false;
-                }
-                return true;
-            }
-            public static bool ValidateEmail(ref string message, string email)
-            {
-                if (!email.Contains("@") || !email.Contains("."))
-                {
-                    message = Resource.EmailIncorrect;
-                    return false;
-                }
-                return true;
-            }
-            public static bool ValidatePassword(ref string message, string password, string passwordConfirm)
-            {
-                if (password != passwordConfirm)
-                {
-                    message = Resource.PasswordsNotEqual;
-                    return false;
-                }
-                if (password.Length < 6)
-                {
-                    message = Resource.PasswordLength;
-                    return false;
-                }
-                if (password.Contains("0") || password.Contains("1") || password.Contains("2") || password.Contains("3") || password.Contains("4") || password.Contains("5") || password.Contains("6") || password.Contains("7") || password.Contains("8") || password.Contains("9"))
-                {
-                    //Потом мож какие другие контроли
-                }
-                else
-                {
-                    message = Resource.PasswordNOTContainsDigit;
-                    return false;
-                }
-                return true;
-            }
-        }
         public abstract class ListStringBase
         {
             public abstract void Load();
@@ -218,7 +164,7 @@ namespace MySeenLib
             public string GetMaxValue()
             {
                 if (All == null) Load();
-                if (All.Count==0) return "";
+                if (All.Count == 0) return "";
                 return All[GetMaxId()];
             }
         }
@@ -274,10 +220,97 @@ namespace MySeenLib
                 }
             }
         }
+        public class LanguagesBase : ListStringBase
+        {
+            public override void Load()
+            {
+                if (All == null)
+                {
+                    All = new List<string>();
+                    All.Add(Resource.English);
+                    All.Add(Resource.Russian);
+                }
+            }
+            public int GetIdDB(string s)
+            {
+                if (s == CultureInfoTool.Cultures.English) return All.IndexOf(Resource.English);
+                return All.IndexOf(Resource.Russian);
+            }
+            public string GetValDB(int i)
+            {
+                if (All[i] == Resource.English) return CultureInfoTool.Cultures.English;
+                return CultureInfoTool.Cultures.Russian;
+            }
+        }
 
         public static GenresBase Genres = new GenresBase();
         public static RatingsBase Ratings = new RatingsBase();
         public static CategoryBase Categories = new CategoryBase();
+        public static LanguagesBase Languages = new LanguagesBase();
 
+        public static void ReloadResources()
+        {
+            Genres.All = null;
+            Genres.Load();
+            Ratings.All = null;
+            Ratings.Load();
+            Categories.All = null;
+            Categories.Load();
+            Languages.All = null;
+            Languages.Load();
+        }
+    }
+    public static class Validations
+    {
+        public static bool ValidateName(ref string message, string filmName)
+        {
+            if (filmName.Length < 1)
+            {
+                message = Resource.ShortUserName;
+                return false;
+            }
+            return true;
+        }
+        public static bool ValidateUserName(ref string message, string userName)
+        {
+            if (userName.Length < 5)
+            {
+                message = Resource.ShortUserName;
+                return false;
+            }
+            return true;
+        }
+        public static bool ValidateEmail(ref string message, string email)
+        {
+            if (!email.Contains("@") || !email.Contains("."))
+            {
+                message = Resource.EmailIncorrect;
+                return false;
+            }
+            return true;
+        }
+        public static bool ValidatePassword(ref string message, string password, string passwordConfirm)
+        {
+            if (password != passwordConfirm)
+            {
+                message = Resource.PasswordsNotEqual;
+                return false;
+            }
+            if (password.Length < 6)
+            {
+                message = Resource.PasswordLength;
+                return false;
+            }
+            if (password.Contains("0") || password.Contains("1") || password.Contains("2") || password.Contains("3") || password.Contains("4") || password.Contains("5") || password.Contains("6") || password.Contains("7") || password.Contains("8") || password.Contains("9"))
+            {
+                //Потом мож какие другие контроли
+            }
+            else
+            {
+                message = Resource.PasswordNOTContainsDigit;
+                return false;
+            }
+            return true;
+        }
     }
 }

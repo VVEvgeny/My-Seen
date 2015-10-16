@@ -15,14 +15,14 @@ namespace MySeenWeb.Models
         public static class AFCookies
         {
             public static string CoockieSelectedKey = "eSelected";
-            public static string CoockieSelectedValueFilms = LibTools.Categories.GetById(LibTools.CategoryBase.FilmIndex);
-            public static string CoockieSelectedValueSerials = LibTools.Categories.GetById(LibTools.CategoryBase.SerialIndex);
+            public static string CoockieSelectedValueFilms = Defaults.Categories.GetById(Defaults.CategoryBase.FilmIndex);
+            public static string CoockieSelectedValueSerials = Defaults.Categories.GetById(Defaults.CategoryBase.SerialIndex);
         }
        
         public string Selected;
         public bool IsSelectedFilm
         {
-            get { return Selected == LibTools.Categories.GetById(LibTools.CategoryBase.FilmIndex); }            
+            get { return Selected == Defaults.Categories.GetById(Defaults.CategoryBase.FilmIndex); }            
         }
 
         public IEnumerable<SelectListItem> selectList { get; set; }
@@ -33,9 +33,9 @@ namespace MySeenWeb.Models
 
         public HomeViewModel()
         {
-            Selected = LibTools.Categories.GetById(LibTools.CategoryBase.FilmIndex);
-            Rating = LibTools.Ratings.GetMaxValue();
-            Genre = LibTools.Genres.GetMaxValue();
+            Selected = Defaults.Categories.GetById(Defaults.CategoryBase.FilmIndex);
+            Rating = Defaults.Ratings.GetMaxValue();
+            Genre = Defaults.Genres.GetMaxValue();
         }
         public IEnumerable<FilmsView> Films;
         public IEnumerable<SerialsView> Serials;
@@ -43,23 +43,23 @@ namespace MySeenWeb.Models
         {
             List<SelectListItem> listItems = new List<SelectListItem>();
             //foreach (eSelected sel in Enum.GetValues(typeof(eSelected)).Cast<eSelected>())
-            foreach (string sel in LibTools.Categories.GetAll())
+            foreach (string sel in Defaults.Categories.GetAll())
             {
                 listItems.Add(new SelectListItem { Text = sel, Value = sel, Selected = (sel == Selected) });
             }
             selectList = listItems;
 
             List<SelectListItem> listItemsRating = new List<SelectListItem>();
-            foreach (string sel in LibTools.Ratings.GetAll())
+            foreach (string sel in Defaults.Ratings.GetAll())
             {
-                listItemsRating.Add(new SelectListItem { Text = sel, Value = LibTools.Ratings.GetId(sel).ToString(), Selected = (sel == Rating) });
+                listItemsRating.Add(new SelectListItem { Text = sel, Value = Defaults.Ratings.GetId(sel).ToString(), Selected = (sel == Rating) });
             }
             ratingList = listItemsRating;
 
             List<SelectListItem> listItemsGenre = new List<SelectListItem>();
-            foreach (string sel in LibTools.Genres.GetAll())
+            foreach (string sel in Defaults.Genres.GetAll())
             {
-                listItemsGenre.Add(new SelectListItem { Text = sel, Value = LibTools.Genres.GetId(sel).ToString(), Selected = (sel == Genre) });
+                listItemsGenre.Add(new SelectListItem { Text = sel, Value = Defaults.Genres.GetId(sel).ToString(), Selected = (sel == Genre) });
             }
             genreList = listItemsGenre;
         }

@@ -31,14 +31,14 @@ namespace MySeenWeb.Models
         {
             get
             {
-                return LibTools.Genres.GetById(Genre);
+                return Defaults.Genres.GetById(Genre);
             }
         }
         public string RateText
         {
             get
             {
-                return LibTools.Ratings.GetById(Rate);
+                return Defaults.Ratings.GetById(Rate);
             }
         }
     }
