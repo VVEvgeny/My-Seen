@@ -22,13 +22,14 @@ namespace MySeenWeb.Controllers
                 {
                     af.Selected = Defaults.Categories.GetById(Defaults.CategoryBase.FilmIndex);
                     cookie = new HttpCookie(HomeViewModel.AFCookies.CoockieSelectedKey);
-                    cookie.Value = HomeViewModel.AFCookies.CoockieSelectedValueFilms;
+                    //cookie.Value = HomeViewModel.AFCookies.CoockieSelectedValueFilms;
+                    cookie.Value = Defaults.CategoryBase.FilmIndex.ToString();
                     cookie.Expires = DateTime.Now.AddDays(1);
                     ControllerContext.HttpContext.Response.Cookies.Add(cookie);
                 }
                 else
                 {
-                    if (cookie.Value == HomeViewModel.AFCookies.CoockieSelectedValueSerials) af.Selected = Defaults.Categories.GetById(Defaults.CategoryBase.SerialIndex);
+                    if (cookie.Value == Defaults.CategoryBase.SerialIndex.ToString()) af.Selected = Defaults.Categories.GetById(Defaults.CategoryBase.SerialIndex);
                     else af.Selected = Defaults.Categories.GetById(Defaults.CategoryBase.FilmIndex);
                 }
                 af.LoadSelectList();
@@ -48,7 +49,8 @@ namespace MySeenWeb.Controllers
             {
                 cc = new HttpCookie(HomeViewModel.AFCookies.CoockieSelectedKey);
             }
-            cc.Value = selected;
+            cc.Value = Defaults.Categories.GetId(selected).ToString();
+
             cc.Expires = DateTime.Now.AddDays(1);
             ControllerContext.HttpContext.Response.Cookies.Add(cc);
             return Json(new { success = true });

@@ -362,6 +362,7 @@ namespace My_Seen
 
         private void toolStripComboBox2_TextChanged(object sender, EventArgs e)
         {
+            toolStripStatusLabel2.Text = "0";
             if (CurrentDB == DBMode.Films)
             {
                 listView1.Items.Clear();
@@ -548,8 +549,9 @@ namespace My_Seen
                 //MessageBox.Show(answer.ToString());
 
                 //DEL NEW
-                mc.FilmsSet.RemoveRange(mc.FilmsSet.Where(f => f.UsersId == User.Id && f.Id_R == null));
-                mc.SerialsSet.RemoveRange(mc.SerialsSet.Where(f => f.UsersId == User.Id && f.Id_R == null));
+                //Для 2х БД алгоритм хороший, но тут есть 3 БД, надо между всеми...
+                //mc.FilmsSet.RemoveRange(mc.FilmsSet.Where(f => f.UsersId == User.Id && f.Id_R == null));
+                //mc.SerialsSet.RemoveRange(mc.SerialsSet.Where(f => f.UsersId == User.Id && f.Id_R == null));
             }
 
             //GET NEW + UPDATED + DELETED
@@ -576,6 +578,10 @@ namespace My_Seen
             }
             else
             {
+                //Для 2х БД алгоритм хороший, но тут есть 3 БД, надо между всеми...
+                mc.FilmsSet.RemoveRange(mc.FilmsSet.Where(f => f.UsersId == User.Id));
+                mc.SerialsSet.RemoveRange(mc.SerialsSet.Where(f => f.UsersId == User.Id));
+                mc.SaveChanges();
                 foreach (MySeenWebApi.SyncJsonData film in MySeenWebApi.GetResponse(data))
                 {
                     if (film.IsFilm)

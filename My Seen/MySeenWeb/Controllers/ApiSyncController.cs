@@ -171,7 +171,7 @@ namespace MySeenWeb.Controllers
                 {
                     if (film.IsFilm)
                     {
-                        if (film.Id == null)//Новый 
+                        if (film.Id == null || ac.Films.Where(f => f.Id == film.Id && f.UserId == user_id).Count() == 0)//Новый или его нет в БД (нет базы в вебе)
                         {
                             if (ac.Films.Where(f => f.Name == film.Name && f.UserId==user_id).Count() != 0)//с таким именем у нас уже есть
                             {
@@ -209,7 +209,7 @@ namespace MySeenWeb.Controllers
                     }
                     else
                     {
-                        if (film.Id == null)//Новый 
+                        if (film.Id == null || ac.Serials.Where(f => f.Id == film.Id && f.UserId == user_id).Count() == 0)//Новый 
                         {
                             if (ac.Serials.Where(f => f.Name == film.Name && f.UserId == user_id).Count() != 0)//с таким именем у нас уже есть
                             {
