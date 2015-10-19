@@ -176,7 +176,8 @@ namespace MySeenWeb.Controllers
                             if (ac.Films.Where(f => f.Name == film.Name && f.UserId==user_id).Count() != 0)//с таким именем у нас уже есть
                             {
                                 var filmBD = ac.Films.Where(f => f.Name == film.Name && f.UserId == user_id).First();
-                                if(filmBD.DateChange == null || filmBD.DateChange < film.DateChange)//есть не изменненый или изменен ранее чем обновляем
+                                if(//filmBD.DateChange == null || 
+                                    filmBD.DateChange < film.DateChange)//есть не изменненый или изменен ранее чем обновляем
                                 {
                                     filmBD.DateChange = film.DateChange;
                                     filmBD.DateSee = film.DateSee;
@@ -195,7 +196,8 @@ namespace MySeenWeb.Controllers
                             if (ac.Films.Where(f => f.Id == film.Id && f.UserId == user_id).Count() != 0)//с таким ID есть в БД, обновим
                             {
                                 var filmBD = ac.Films.Where(f => f.Id == film.Id && f.UserId == user_id).First();
-                                if (filmBD.DateChange == null || filmBD.DateChange < film.DateChange)//есть не изменненый или изменен ранее чем обновляем
+                                if (//filmBD.DateChange == null || 
+                                    filmBD.DateChange < film.DateChange)//есть не изменненый или изменен ранее чем обновляем
                                 {
                                     filmBD.DateChange = null;//на клиенте он актуальный, не будем отправлять ему
                                     filmBD.DateSee = film.DateSee;
@@ -214,7 +216,8 @@ namespace MySeenWeb.Controllers
                             if (ac.Serials.Where(f => f.Name == film.Name && f.UserId == user_id).Count() != 0)//с таким именем у нас уже есть
                             {
                                 var filmBD = ac.Serials.Where(f => f.Name == film.Name && f.UserId == user_id).First();
-                                if (filmBD.DateChange == null || filmBD.DateChange < film.DateChange)//есть не изменненый или изменен ранее чем обновляем
+                                if (//filmBD.DateChange == null || 
+                                    filmBD.DateChange < film.DateChange)//есть не изменненый или изменен ранее чем обновляем
                                 {
                                     filmBD.DateChange = film.DateChange;
                                     filmBD.Genre = film.Genre;
@@ -236,7 +239,8 @@ namespace MySeenWeb.Controllers
                             if (ac.Serials.Where(f => f.Id == film.Id && f.UserId == user_id).Count() != 0)//с таким ID есть в БД, обновим
                             {
                                 var filmBD = ac.Serials.Where(f => f.Id == film.Id && f.UserId == user_id).First();
-                                if (filmBD.DateChange == null || filmBD.DateChange < film.DateChange)//есть не изменненый или изменен ранее чем обновляем
+                                if (//filmBD.DateChange == null || 
+                                    filmBD.DateChange < film.DateChange)//есть не изменненый или изменен ранее чем обновляем
                                 {
                                     filmBD.DateChange = null;//на клиенте он актуальный, не будем отправлять ему
                                     filmBD.Genre = film.Genre;

@@ -74,8 +74,8 @@ namespace MySeenAndroid
             holder.txtFilmName.SetText(str.Name, TextView.BufferType.Normal);
             holder.txtLastSeasonSeries.SetText(str.LastSeason.ToString() + "-" + str.LastSeries.ToString(), TextView.BufferType.Normal);
             holder.txtGenre.SetText(Defaults.Genres.GetById(str.Genre), TextView.BufferType.Normal);
-            holder.txtDateLast.SetText(str.DateLast.ToShortDateString(), TextView.BufferType.Normal);
-            holder.txtDateBegin.SetText(str.DateBegin.ToShortDateString(), TextView.BufferType.Normal);
+            holder.txtDateLast.SetText(UMTTime.From(str.DateLast).ToShortDateString(), TextView.BufferType.Normal);
+            holder.txtDateBegin.SetText(UMTTime.From(str.DateBegin).ToShortDateString(), TextView.BufferType.Normal);
             holder.txtRate.SetText(Defaults.Ratings.GetById(str.Rate), TextView.BufferType.Normal);
 
             return view;

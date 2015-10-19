@@ -2,4 +2,13 @@
 <resources>
     <string name="Test">Test</string>
     <string name="ApplicationName">My Seen</string>
+    <string name="AddNew">Add New</string>
+    <string name="Exit">Exit</string>
+    <string name="Name">Name</string>
+    <string name="Genre">Genre</string>
+  <string name="Rate">Rate</string>
+  <string name="LastSeries">Last Series</string>
+  <string name="DateLast">Date Last</string>
+  <string name="DateSee">Date See</string>
+  <string name="DateBegin">Date Begin</string>
 </resources>

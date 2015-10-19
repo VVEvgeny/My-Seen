@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="Test">Test</string>
+    <string name="ApplicationName">Просмотренное</string>
+    <string name="Add">Добавить</string>
+    <string name="Exit">Выход</string>
+    <string name="Name">Название</string>
+    <string name="Genre">Жанр</string>
+    <string name="Rate">Оценка</string>
+  <string name="LastSeries">Последняя</string>
+  <string name="DateLast">Дата последней</string>
+  <string name="DateSee">Дата просмотра</string>
+  <string name="DateBegin">Дата начала</string>
+</resources>

@@ -10,23 +10,24 @@
         android:layout_height="wrap_content"
         android:id="@+id/tableRowButtons">
         <Button
-            android:id="@+id/SelectorButton"
-            android:layout_height="wrap_content"
-            android:layout_width="0dp"
-            android:layout_weight="0.33"
-            android:text="To Serials" />
-        <Button
             android:id="@+id/AddButton"
             android:layout_height="wrap_content"
             android:layout_width="0dp"
             android:layout_weight="0.33"
-            android:text="Add" />
+            android:text="@string/AddNew" />
+        <Spinner
+            android:id="@+id/selectorSpinner"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.33"
+            android:background="@android:drawable/btn_dropdown"
+            android:spinnerMode="dropdown" />
         <Button
             android:id="@+id/ExitButton"
             android:layout_height="wrap_content"
             android:layout_width="0dp"
             android:layout_weight="0.34"
-            android:text="Exit" />
+            android:text="@string/Exit" />
     </TableRow>
     <TableRow
         android:minWidth="25px"
@@ -36,7 +37,7 @@
         android:id="@+id/tableRow_films">
         <TextView
             android:id="@+id/table_name_f"
-            android:text="Name"
+            android:text="@string/Name"
             android:textColor="@color/green"
             android:layout_height="wrap_content"
             android:layout_width="0dp"
@@ -45,7 +46,7 @@
             android:layout_weight="0.70" />
         <TextView
             android:id="@+id/table_genre_f"
-            android:text="Genre"
+            android:text="@string/Genre"
             android:textColor="@color/green"
             android:layout_height="wrap_content"
             android:layout_width="0dp"
@@ -54,7 +55,7 @@
             android:layout_weight="0.1" />
         <TextView
             android:id="@+id/table_datesee_f"
-            android:text="Date See"
+            android:text="@string/DateSee"
             android:textColor="@color/green"
             android:layout_height="wrap_content"
             android:layout_width="0dp"
@@ -63,7 +64,7 @@
             android:layout_weight="0.15" />
         <TextView
             android:id="@+id/table_rate_f"
-            android:text="Rate"
+            android:text="@string/Rate"
             android:textColor="@color/green"
             android:layout_height="wrap_content"
             android:layout_width="0dp"
@@ -79,7 +80,7 @@
         android:id="@+id/tableRow_serials">
         <TextView
             android:id="@+id/table_name_s"
-            android:text="Name"
+            android:text="@string/Name"
             android:textColor="@color/green"
             android:layout_height="wrap_content"
             android:layout_width="0dp"
@@ -88,7 +89,7 @@
             android:layout_weight="0.45" />
         <TextView
             android:id="@+id/table_seasonseries_s"
-            android:text="Last Series"
+            android:text="@string/LastSeries"
             android:textColor="@color/green"
             android:layout_height="wrap_content"
             android:layout_width="0dp"
@@ -97,7 +98,7 @@
             android:layout_weight="0.13" />
         <TextView
             android:id="@+id/stable_genre"
-            android:text="Genre"
+            android:text="@string/Genre"
             android:textColor="@color/green"
             android:layout_height="wrap_content"
             android:layout_width="0dp"
@@ -106,7 +107,7 @@
             android:layout_weight="0.07" />
         <TextView
             android:id="@+id/table_datelast_s"
-            android:text="Date Last"
+            android:text="@string/DateLast"
             android:textColor="@color/green"
             android:layout_height="wrap_content"
             android:layout_width="0dp"
@@ -115,7 +116,7 @@
             android:layout_weight="0.15" />
         <TextView
             android:id="@+id/table_datebegin_s"
-            android:text="Date Begin"
+            android:text="@string/DateBegin"
             android:textColor="@color/green"
             android:layout_height="wrap_content"
             android:layout_width="0dp"
@@ -124,7 +125,7 @@
             android:layout_weight="0.15" />
         <TextView
             android:id="@+id/table_rate"
-            android:text="Rate"
+            android:text="@string/Rate"
             android:textColor="@color/green"
             android:layout_height="wrap_content"
             android:layout_width="0dp"

@@ -67,7 +67,6 @@ namespace MySeenLib
             }
             return false;
         }
-
     }
     public static class MySeenWebApi
     {

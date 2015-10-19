@@ -393,4 +393,7 @@
   <data name="DeleteUser" xml:space="preserve">
     <value>Удалить пользователя</value>
   </data>
+  <data name="Delete" xml:space="preserve">
+    <value>Удалить</value>
+  </data>
 </root>

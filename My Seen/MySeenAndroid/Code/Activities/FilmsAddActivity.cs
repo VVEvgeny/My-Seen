@@ -82,7 +82,7 @@ namespace MySeenAndroid
                         return;
                     }
 
-                    db.Add(new Films { Name = name_text.Text, DateChange = DateTime.Now, DateSee = DateTime.Now, Genre = comboboxgenre.SelectedItemPosition, Rate = comboboxrate.SelectedItemPosition });
+                    db.Add(new Films { Name = name_text.Text, DateChange = UMTTime.To(DateTime.Now), DateSee = UMTTime.To(DateTime.Now), Genre = comboboxgenre.SelectedItemPosition, Rate = comboboxrate.SelectedItemPosition });
                 }
                 else
                 {
@@ -92,7 +92,7 @@ namespace MySeenAndroid
                         tv_error.Text = "Film already exists";
                         return;
                     }
-                    db.Update(new Films { Id = film.Id, Name = name_text.Text, DateChange = DateTime.Now, DateSee = film.DateSee, Genre = comboboxgenre.SelectedItemPosition, Rate = comboboxrate.SelectedItemPosition });
+                    db.Update(new Films { Id = film.Id, Name = name_text.Text, DateChange = UMTTime.To(DateTime.Now), DateSee = film.DateSee, Genre = comboboxgenre.SelectedItemPosition, Rate = comboboxrate.SelectedItemPosition });
                 }
                 var intent = new Intent(this, typeof(MainActivity));
                 SetResult(Result.Ok, intent);

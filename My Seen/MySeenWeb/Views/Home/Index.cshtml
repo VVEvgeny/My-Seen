@@ -79,7 +79,7 @@
                         <td class="align-center">
                             <button type="button" class="btn btn-info btn-edit" id=@serial.Id>
                                 <span class="glyphicon glyphicon-pencil"></span>
-                                &nbsp;Edit
+                                &nbsp;@Resource.Edit
                             </button>
                         </td>
                         <td class="align-center">@serial.Name</td>
@@ -170,6 +170,10 @@
                     </div>
                 </div>
                 <div class="modal-footer">
+                    <button type="button" class="btn btn-danger" id="deleteButton" style="display: none;">
+                        <span class="glyphicon glyphicon-trash"></span>
+                        &nbsp;@Resource.Delete
+                    </button>
                     <button type="button" class="btn btn-default" data-dismiss="modal">
                         <span class="glyphicon glyphicon-remove"></span>
                         &nbsp;@Resource.Close
@@ -289,6 +293,7 @@
                     var $serialSeason = $('#serialSeason') || $('<input id="serialSeason" value="" />');
                     var $serialSeries = $('#serialSeries') || $('<input id="serialSeries" value="" />');
                     var $saveButton = $('#saveButton');
+                    var $deleteButton = $('#deleteButton');
                     var defaultModalTitle = $modalTitle.text();
                     var defaultModalGenre = $movieGenre.find('option:selected').text();
                     var defaultModalRating = $movieRating.find('option:selected').text();
@@ -329,6 +334,7 @@
 
                     $submitAddButton.hide();
                     $saveButton.show();
+                    $deleteButton.show();
                     $modal.modal('show');
 
                     $modal.on('hidden.bs.modal', function (e) {
@@ -339,6 +345,7 @@
                         $movieGenre.find('option:contains("' + defaultModalGenre + '")').prop('selected', true);
                         $movieRating.find('option:contains("' + defaultModalRating + '")').prop('selected', true);
                         $saveButton.hide();
+                        $deleteButton.hide();
                         $submitAddButton.show();
 
                         return false;
@@ -366,6 +373,23 @@
                             };
                         }
 
+                        sendRequest(url, data);
+
+                        return false;
+                    });
+                    $deleteButton.off('click');
+                    $deleteButton.on('click', function () {
+                        if (isSelectedFilm) {
+                            url = '/Home/DeleteFilm';
+                            data = {
+                                id: id
+                            };
+                        } else {
+                            url = '/Home/Deleteserial';
+                            data = {
+                                id: id
+                            };
+                        }
                         sendRequest(url, data);
 
                         return false;

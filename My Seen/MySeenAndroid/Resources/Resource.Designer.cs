@@ -82,8 +82,8 @@ namespace MySeenAndroid
 		public partial class Id
 		{
 			
-			// aapt resource value: 0x7f06001d
-			public const int AddButton = 2131099677;
+			// aapt resource value: 0x7f06001c
+			public const int AddButton = 2131099676;
 			
 			// aapt resource value: 0x7f06001e
 			public const int ExitButton = 2131099678;
@@ -99,9 +99,6 @@ namespace MySeenAndroid
 			
 			// aapt resource value: 0x7f06002e
 			public const int SaveButton_SerialAdd = 2131099694;
-			
-			// aapt resource value: 0x7f06001c
-			public const int SelectorButton = 2131099676;
 			
 			// aapt resource value: 0x7f06000b
 			public const int content0 = 2131099659;
@@ -186,6 +183,9 @@ namespace MySeenAndroid
 			
 			// aapt resource value: 0x7f060038
 			public const int s_series = 2131099704;
+			
+			// aapt resource value: 0x7f06001d
+			public const int selectorSpinner = 2131099677;
 			
 			// aapt resource value: 0x7f060041
 			public const int serial_add_error = 2131099713;
@@ -324,8 +324,38 @@ namespace MySeenAndroid
 		public partial class String
 		{
 			
+			// aapt resource value: 0x7f05000b
+			public const int Add = 2131034123;
+			
+			// aapt resource value: 0x7f050002
+			public const int AddNew = 2131034114;
+			
 			// aapt resource value: 0x7f050001
 			public const int ApplicationName = 2131034113;
+			
+			// aapt resource value: 0x7f05000a
+			public const int DateBegin = 2131034122;
+			
+			// aapt resource value: 0x7f050008
+			public const int DateLast = 2131034120;
+			
+			// aapt resource value: 0x7f050009
+			public const int DateSee = 2131034121;
+			
+			// aapt resource value: 0x7f050003
+			public const int Exit = 2131034115;
+			
+			// aapt resource value: 0x7f050005
+			public const int Genre = 2131034117;
+			
+			// aapt resource value: 0x7f050007
+			public const int LastSeries = 2131034119;
+			
+			// aapt resource value: 0x7f050004
+			public const int Name = 2131034116;
+			
+			// aapt resource value: 0x7f050006
+			public const int Rate = 2131034118;
 			
 			// aapt resource value: 0x7f050000
 			public const int Test = 2131034112;

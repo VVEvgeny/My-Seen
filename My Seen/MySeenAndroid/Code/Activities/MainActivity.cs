@@ -12,7 +12,7 @@ using Android.Content.PM;
 
 namespace MySeenAndroid
 {
-    [Activity(Label = "MySeenAndroid"
+    [Activity(Label = "@string/ApplicationName"
         , MainLauncher = true
         , Icon = "@drawable/icon"
         , NoHistory = false //для второго интента чтобы можно было вернуться назад
@@ -28,6 +28,7 @@ namespace MySeenAndroid
         private MyListViewAdapterSerials SerialsAdapter;
         private DatabaseHelper db;
         private ListView listview;
+        private Spinner comboboxSelector;
 
         protected override void OnCreate(Bundle bundle)
         {
@@ -35,10 +36,33 @@ namespace MySeenAndroid
             SetContentView(Resource.Layout.Main);
             State = States.Films;
 
+
+            
+            /*
+            MySeenLib.Resource.Culture = new System.Globalization.CultureInfo("ru-RU");
+            CultureInfoTool.SetCulture("ru-RU");
+            System.Threading.Thread.CurrentThread.CurrentCulture = new System.Globalization.CultureInfo("ru-RU");
+
+            Android.Content.Res.Configuration conf = this.Resources.Configuration;
+            conf.Locale = new Java.Util.Locale("ru");
+            DisplayMetrics dm = this.Resources.DisplayMetrics;
+            this.Resources.UpdateConfiguration(conf, dm);
+            */
+
+
+            
+
+            Log.Warn(LogTAG, "test1=" + MySeenLib.Resource.ResourceManager.GetString(MySeenLib.Resource.CreatePasswordText1, new System.Globalization.CultureInfo("ru-RU")));
+            Log.Warn(LogTAG, "test2=" + MySeenLib.Resource.CreatePasswordText1);
+
+
+
+
+
+
             Log.Warn(LogTAG,"START");
 
             Button button_add = FindViewById<Button>(Resource.Id.AddButton);
-            Button selectorbutton = FindViewById<Button>(Resource.Id.SelectorButton);
             Button exitbutton = FindViewById<Button>(Resource.Id.ExitButton);
 
             listview = FindViewById<ListView>(Resource.Id.listView1);
@@ -49,7 +73,7 @@ namespace MySeenAndroid
             listview.Adapter = FilmsAdapter;
 
             db = new DatabaseHelper();
-            LoadFromDatabase();
+            //LoadFromDatabase();
 
             button_add.Click += delegate 
             {
@@ -66,23 +90,6 @@ namespace MySeenAndroid
                     StartActivityForResult(intent, 0);
                 }
             };
-            
-            selectorbutton.Click += delegate
-            {
-                if(State == States.Films)
-                {
-                    selectorbutton.Text = "To Films";
-                    State = States.Serials;
-                    listview.Adapter = SerialsAdapter;
-                }
-                else
-                {
-                    selectorbutton.Text = "To Serials";
-                    State = States.Films;
-                    listview.Adapter = FilmsAdapter;
-                }
-                LoadFromDatabase();
-            };
 
             exitbutton.Click += delegate
             {
@@ -90,6 +97,28 @@ namespace MySeenAndroid
             };
 
             listview.ItemLongClick += listView_ItemLongClick;
+
+            comboboxSelector = FindViewById<Spinner>(Resource.Id.selectorSpinner);
+            ArrayAdapter<String> adapter_selector = new ArrayAdapter<String>(this, Resource.Layout.comboboxitem, Resource.Id.spinnerItem, Defaults.Categories.GetAll().ToArray());
+            comboboxSelector.Adapter = adapter_selector;
+            comboboxSelector.ItemSelected += new EventHandler<AdapterView.ItemSelectedEventArgs>(spinner_ItemSelected);
+
+        }
+        private void spinner_ItemSelected(object sender, AdapterView.ItemSelectedEventArgs e)
+        {
+            Log.Warn(LogTAG, "spinner item selected item=" + e.Position.ToString());
+            Spinner spinner = (Spinner)sender;
+            if (Defaults.CategoryBase.FilmIndex == e.Position)
+            {
+                State = States.Films;
+                listview.Adapter = FilmsAdapter;
+            }
+            else
+            {
+                State = States.Serials;
+                listview.Adapter = SerialsAdapter;
+            }
+            LoadFromDatabase();
         }
         void listView_ItemLongClick(object sender, AdapterView.ItemLongClickEventArgs e)
         {

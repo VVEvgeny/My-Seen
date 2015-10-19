@@ -209,5 +209,59 @@ namespace MySeenWeb.Controllers
             }
             return Json(new { success = true });
         }
+        [HttpPost]
+        public JsonResult DeleteFilm(string id)
+        {
+            string errorMessage = string.Empty;
+            string user_id = User.Identity.GetUserId();
+            ApplicationDbContext ac = new ApplicationDbContext();
+            int iid = (Convert.ToInt32(id));
+
+            if (string.IsNullOrEmpty(errorMessage))
+            {
+                try
+                {
+                    Films film = ac.Films.Where(f => f.UserId == user_id && f.Id == iid).First();
+                    film.isDeleted = true;
+                    ac.SaveChanges();
+                }
+                catch (Exception e)
+                {
+                    errorMessage = Resource.ErrorWorkWithDB + "=" + e.Message;
+                }
+            }
+            if (!string.IsNullOrEmpty(errorMessage))
+            {
+                return new JsonResult { Data = new { success = false, error = errorMessage } };
+            }
+            return Json(new { success = true });
+        }
+        [HttpPost]
+        public JsonResult DeleteSerial(string id)
+        {
+            string errorMessage = string.Empty;
+            string user_id = User.Identity.GetUserId();
+            ApplicationDbContext ac = new ApplicationDbContext();
+            int iid = (Convert.ToInt32(id));
+
+            if (string.IsNullOrEmpty(errorMessage))
+            {
+                try
+                {
+                    Serials film = ac.Serials.Where(f => f.UserId == user_id && f.Id == iid).First();
+                    film.isDeleted = true;
+                    ac.SaveChanges();
+                }
+                catch (Exception e)
+                {
+                    errorMessage = Resource.ErrorWorkWithDB + "=" + e.Message;
+                }
+            }
+            if (!string.IsNullOrEmpty(errorMessage))
+            {
+                return new JsonResult { Data = new { success = false, error = errorMessage } };
+            }
+            return Json(new { success = true });
+        }
     }
 }
