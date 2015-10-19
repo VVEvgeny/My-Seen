@@ -21,11 +21,11 @@ namespace MySeenWeb.Models
                 Id = model.Id,
                 Name = model.Name,
                 UserId = model.UserId,
-                DateChange = model.DateChange,
+                DateChange = UMTTime.From(model.DateChange),
                 Genre = model.Genre,
                 Rate = model.Rate,
-                DateBegin=model.DateBegin,
-                DateLast=model.DateLast,
+                DateBegin=UMTTime.From(model.DateBegin),
+                DateLast=UMTTime.From(model.DateLast),
                 LastSeason=model.LastSeason,
                 LastSeries=model.LastSeries
             };

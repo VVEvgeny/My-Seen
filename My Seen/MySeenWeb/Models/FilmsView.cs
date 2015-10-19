@@ -21,8 +21,8 @@ namespace MySeenWeb.Models
                 Id = model.Id,
                 Name = model.Name,
                 UserId = model.UserId,
-                DateChange = model.DateChange,
-                DateSee = model.DateSee,
+                DateChange = UMTTime.From(model.DateChange),
+                DateSee = UMTTime.From(model.DateSee),
                 Genre = model.Genre,
                 Rate = model.Rate
             };

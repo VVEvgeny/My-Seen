@@ -10,6 +10,27 @@ using Newtonsoft.Json;
 
 namespace MySeenLib
 {
+    public static class UMTTime
+    {
+        public static DateTime To(DateTime _datetime)
+        {
+            return _datetime.ToUniversalTime();
+        }
+        public static DateTime? To(DateTime? _datetime)
+        {
+            if (!_datetime.HasValue) return null;
+            return _datetime.Value.ToUniversalTime();
+        }
+        public static DateTime From(DateTime _datetime)
+        {
+            return _datetime.ToLocalTime();
+        }
+        public static DateTime? From(DateTime? _datetime)
+        {
+            if (!_datetime.HasValue) return null;
+            return _datetime.Value.ToLocalTime();
+        }
+    }
     public static class CultureInfoTool
     {
         public static string CoockieCultureKey = "_culture";
@@ -233,11 +254,13 @@ namespace MySeenLib
             }
             public int GetIdDB(string s)
             {
+                Load();
                 if (s == CultureInfoTool.Cultures.English) return All.IndexOf(Resource.English);
                 return All.IndexOf(Resource.Russian);
             }
             public string GetValDB(int i)
             {
+                Load();
                 if (All[i] == Resource.English) return CultureInfoTool.Cultures.English;
                 return CultureInfoTool.Cultures.Russian;
             }

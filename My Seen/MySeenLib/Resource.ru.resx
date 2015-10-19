@@ -384,4 +384,13 @@
   <data name="SelectLanguage" xml:space="preserve">
     <value>Выберите язык</value>
   </data>
+  <data name="ErrorWorkWithDB" xml:space="preserve">
+    <value>Ошибка работы с Базой Данных</value>
+  </data>
+  <data name="DeleteData" xml:space="preserve">
+    <value>Удалить данные</value>
+  </data>
+  <data name="DeleteUser" xml:space="preserve">
+    <value>Удалить пользователя</value>
+  </data>
 </root>

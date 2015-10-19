@@ -57,22 +57,30 @@ namespace MySeenWeb.Controllers
         public JsonResult AddFilm(string name, string genre, string rating)
         {
             string errorMessage = string.Empty;
+            string user_id = User.Identity.GetUserId();
             if (string.IsNullOrEmpty(errorMessage))
             {
                 Validations.ValidateName(ref errorMessage, name);
+            }
+            ApplicationDbContext ac = new ApplicationDbContext();
+            if (string.IsNullOrEmpty(errorMessage))
+            {
+                if (ac.Films.Count(f => f.Name == name && f.UserId == user_id) != 0)//айди проверяем только для редактируемых, чтобы не налететь по названию на чужой
+                {
+                    errorMessage = Resource.FilmNameAlreadyExists;
+                }
             }
             if (string.IsNullOrEmpty(errorMessage))
             {
                 try
                 {
-                    ApplicationDbContext ac = new ApplicationDbContext();
-                    Films f = new Films { Name = name, Genre = Convert.ToInt32(genre), Rate = Convert.ToInt32(rating), DateSee = DateTime.Now, DateChange = DateTime.Now, UserId = User.Identity.GetUserId() };
+                    Films f = new Films { Name = name, Genre = Convert.ToInt32(genre), Rate = Convert.ToInt32(rating), DateSee = UMTTime.To(DateTime.Now), DateChange = UMTTime.To(DateTime.Now), UserId = user_id };
                     ac.Films.Add(f);
                     ac.SaveChanges();
                 }
                 catch (Exception e)
                 {
-                    errorMessage = "Error work with DB=" + e.Message;
+                    errorMessage = Resource.ErrorWorkWithDB +"="+ e.Message;
                 }
             }
             if (!string.IsNullOrEmpty(errorMessage))
@@ -85,27 +93,31 @@ namespace MySeenWeb.Controllers
         public JsonResult EditFilm(string id,string name, string genre, string rating)
         {
             string errorMessage = string.Empty;
+            string user_id = User.Identity.GetUserId();
             if (string.IsNullOrEmpty(errorMessage))
             {
                 Validations.ValidateName(ref errorMessage, name);
             }
+            ApplicationDbContext ac = new ApplicationDbContext();
+            int iid = (Convert.ToInt32(id));
+            if (ac.Films.Count(f => f.Name == name && f.UserId == user_id && f.Id != iid) != 0)//айди проверяем только для редактируемых, чтобы не налететь по названию на чужой
+            {
+                errorMessage = Resource.FilmNameAlreadyExists;
+            }
             if (string.IsNullOrEmpty(errorMessage))
             {
-                ApplicationDbContext ac = new ApplicationDbContext();
                 try
                 {
-                    string user_id = User.Identity.GetUserId();
-                    int iid = (Convert.ToInt32(id));
                     Films film = ac.Films.Where(f => f.UserId == user_id && f.Id == iid).First();
                     film.Name = name;
                     film.Genre = Convert.ToInt32(genre);
                     film.Rate = Convert.ToInt32(rating);
-                    film.DateChange = DateTime.Now;
+                    film.DateChange = UMTTime.To(DateTime.Now);
                     ac.SaveChanges();
                 }
                 catch (Exception e)
                 {
-                    errorMessage = "Error work with DB=" + e.Message;
+                    errorMessage = Resource.ErrorWorkWithDB + "=" + e.Message;
                 }
             }
             if (!string.IsNullOrEmpty(errorMessage))
@@ -118,24 +130,32 @@ namespace MySeenWeb.Controllers
         public JsonResult AddSerial(string name, string season, string series, string genre, string rating)
         {
             string errorMessage = string.Empty;
+            string user_id = User.Identity.GetUserId();
             if (string.IsNullOrEmpty(errorMessage))
             {
                 Validations.ValidateName(ref errorMessage, name);
+            }
+            ApplicationDbContext ac = new ApplicationDbContext();
+            if (string.IsNullOrEmpty(errorMessage))
+            {
+                if (ac.Serials.Count(f => f.Name == name && f.UserId == user_id) != 0)//айди проверяем только для редактируемых, чтобы не налететь по названию на чужой
+                {
+                    errorMessage = Resource.SerialNameAlreadyExists;
+                }
             }
             if (string.IsNullOrEmpty(errorMessage))
             {
                 try
                 {
-                    ApplicationDbContext ac = new ApplicationDbContext();
                     if (string.IsNullOrEmpty(season)) season = "1";
                     if (string.IsNullOrEmpty(series)) series = "1";
-                    Serials s = new Serials { Name = name, LastSeason = Convert.ToInt32(season), LastSeries = Convert.ToInt32(series), Genre = Convert.ToInt32(genre), Rate = Convert.ToInt32(rating), DateBegin = DateTime.Now, DateLast = DateTime.Now, DateChange = DateTime.Now, UserId = User.Identity.GetUserId() };
+                    Serials s = new Serials { Name = name, LastSeason = Convert.ToInt32(season), LastSeries = Convert.ToInt32(series), Genre = Convert.ToInt32(genre), Rate = Convert.ToInt32(rating), DateBegin = UMTTime.To(DateTime.Now), DateLast = UMTTime.To(DateTime.Now), DateChange = UMTTime.To(DateTime.Now), UserId = user_id };
                     ac.Serials.Add(s);
                     ac.SaveChanges();
                 }
                 catch (Exception e)
                 {
-                    errorMessage = "Error work with DB=" + e.Message;
+                    errorMessage = Resource.ErrorWorkWithDB + "=" + e.Message;
                 }
             }
             if (!string.IsNullOrEmpty(errorMessage))
@@ -148,33 +168,37 @@ namespace MySeenWeb.Controllers
         public JsonResult EditSerial(string id, string name, string season, string series, string genre, string rating)
         {
             string errorMessage = string.Empty;
+            string user_id = User.Identity.GetUserId();
             if (string.IsNullOrEmpty(errorMessage))
             {
                 Validations.ValidateName(ref errorMessage, name);
             }
+            ApplicationDbContext ac = new ApplicationDbContext();
+            int iid = (Convert.ToInt32(id));
+            if (ac.Serials.Count(f => f.Name == name && f.UserId == user_id && f.Id != iid) != 0)//айди проверяем только для редактируемых, чтобы не налететь по названию на чужой
+            {
+                errorMessage = Resource.FilmNameAlreadyExists;
+            }
             if (string.IsNullOrEmpty(errorMessage))
             {
-                ApplicationDbContext ac = new ApplicationDbContext();
                 try
                 {
-                    string user_id = User.Identity.GetUserId();
-                    int iid = (Convert.ToInt32(id));
                     Serials film = ac.Serials.Where(f => f.UserId == user_id && f.Id == iid).First();
                     film.Name = name;
                     if (film.LastSeason != Convert.ToInt32(season) || film.LastSeries != Convert.ToInt32(series))
                     {
-                        film.DateLast = DateTime.Now;
+                        film.DateLast = UMTTime.To(DateTime.Now);
                     }
                     film.LastSeason = Convert.ToInt32(season);
                     film.LastSeries = Convert.ToInt32(series);
                     film.Genre = Convert.ToInt32(genre);
                     film.Rate = Convert.ToInt32(rating);
-                    film.DateChange = DateTime.Now;
+                    film.DateChange = UMTTime.To(DateTime.Now);
                     ac.SaveChanges();
                 }
                 catch (Exception e)
                 {
-                    errorMessage = "Error work with DB=" + e.Message;
+                    errorMessage = Resource.ErrorWorkWithDB + "=" + e.Message;
                 }
             }
             if (!string.IsNullOrEmpty(errorMessage))

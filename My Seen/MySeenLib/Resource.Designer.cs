@@ -268,6 +268,24 @@ namespace MySeenLib {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Delete Data.
+        /// </summary>
+        public static string DeleteData {
+            get {
+                return ResourceManager.GetString("DeleteData", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Delete User.
+        /// </summary>
+        public static string DeleteUser {
+            get {
+                return ResourceManager.GetString("DeleteUser", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Edit.
         /// </summary>
         public static string Edit {
@@ -363,6 +381,15 @@ namespace MySeenLib {
         public static string EnterUsename {
             get {
                 return ResourceManager.GetString("EnterUsename", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Error work with DB.
+        /// </summary>
+        public static string ErrorWorkWithDB {
+            get {
+                return ResourceManager.GetString("ErrorWorkWithDB", resourceCulture);
             }
         }
         

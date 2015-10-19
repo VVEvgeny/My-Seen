@@ -17,6 +17,8 @@ namespace MySeenWeb.Models
         public int Lang;
         public IEnumerable<System.Web.Mvc.SelectListItem> LangList { get; set; }
 
+        public bool havedata { get; set; }
+
         public void LoadSelectList()
         {
             List<System.Web.Mvc.SelectListItem> listItems = new List<System.Web.Mvc.SelectListItem>();

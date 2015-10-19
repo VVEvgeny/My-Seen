@@ -384,4 +384,13 @@
   <data name="SelectLanguage" xml:space="preserve">
     <value>Select The Language</value>
   </data>
+  <data name="ErrorWorkWithDB" xml:space="preserve">
+    <value>Error work with DB</value>
+  </data>
+  <data name="DeleteData" xml:space="preserve">
+    <value>Delete Data</value>
+  </data>
+  <data name="DeleteUser" xml:space="preserve">
+    <value>Delete User</value>
+  </data>
 </root>

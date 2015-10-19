@@ -193,15 +193,15 @@ namespace My_Seen
         }
         private void LoadItemsToListView(Serials film, bool oneToTop)
         {
-            if (oneToTop) listView1.Items.Insert(0, new ListViewItem(new string[] { film.Id.ToString(), film.Name, film.LastSeason.ToString() + "-" + film.LastSeries.ToString(), Defaults.Genres.GetById(film.Genre), film.DateLast.ToString(), film.DateBegin.ToString(), Defaults.Ratings.GetById(film.Rate) }));
-            else listView1.Items.Add(new ListViewItem(new string[] { film.Id.ToString(), film.Name, film.LastSeason.ToString() + "-" + film.LastSeries.ToString(), Defaults.Genres.GetById(film.Genre), film.DateLast.ToString(), film.DateBegin.ToString(), Defaults.Ratings.GetById(film.Rate) }));
+            if (oneToTop) listView1.Items.Insert(0, new ListViewItem(new string[] { film.Id.ToString(), film.Name, film.LastSeason.ToString() + "-" + film.LastSeries.ToString(), Defaults.Genres.GetById(film.Genre), UMTTime.From(film.DateLast).ToString(), UMTTime.From(film.DateBegin).ToString(), Defaults.Ratings.GetById(film.Rate) }));
+            else listView1.Items.Add(new ListViewItem(new string[] { film.Id.ToString(), film.Name, film.LastSeason.ToString() + "-" + film.LastSeries.ToString(), Defaults.Genres.GetById(film.Genre), UMTTime.From(film.DateLast).ToString(), UMTTime.From(film.DateBegin).ToString(), Defaults.Ratings.GetById(film.Rate) }));
 
             toolStripStatusLabel2.Text = listView1.Items.Count.ToString();
         }
         private void LoadItemsToListView(Films film, bool oneToTop)
         {
-            if (oneToTop) listView1.Items.Insert(0, new ListViewItem(new string[] { film.Id.ToString(), film.Name, Defaults.Genres.GetById(film.Genre), film.DateSee.ToString(), Defaults.Ratings.GetById(film.Rate) }));
-            else listView1.Items.Add(new ListViewItem(new string[] { film.Id.ToString(), film.Name, Defaults.Genres.GetById(film.Genre), film.DateSee.ToString(), Defaults.Ratings.GetById(film.Rate) }));
+            if (oneToTop) listView1.Items.Insert(0, new ListViewItem(new string[] { film.Id.ToString(), film.Name, Defaults.Genres.GetById(film.Genre), UMTTime.From(film.DateSee).ToString(), Defaults.Ratings.GetById(film.Rate) }));
+            else listView1.Items.Add(new ListViewItem(new string[] { film.Id.ToString(), film.Name, Defaults.Genres.GetById(film.Genre), UMTTime.From(film.DateSee).ToString(), Defaults.Ratings.GetById(film.Rate) }));
             
             toolStripStatusLabel2.Text = listView1.Items.Count.ToString();
         }
@@ -229,9 +229,10 @@ namespace My_Seen
                     Films film = mc.FilmsSet.First(f => f.Id == f_id);
                     film.UsersId = User.Id;
                     film.Name = form.NewFilm.Name;
-                    film.DateSee = form.NewFilm.DateSee;
+                    film.DateSee = UMTTime.To(form.NewFilm.DateSee);
                     film.Rate = form.NewFilm.Rate;
-                    film.DateChange = form.NewFilm.DateChange;
+                    film.DateChange = UMTTime.To(form.NewFilm.DateChange);
+
                     lvi.SubItems[1].Text = form.NewFilm.Name;
                     lvi.SubItems[2].Text = Defaults.Genres.GetById(form.NewFilm.Genre);
                     lvi.SubItems[3].Text = form.NewFilm.DateSee.ToString();
@@ -259,10 +260,10 @@ namespace My_Seen
                     film.Name = form.NewFilm.Name;
                     film.LastSeason = form.NewFilm.LastSeason;
                     film.LastSeries = form.NewFilm.LastSeries;
-                    film.DateBegin = form.NewFilm.DateBegin;
-                    film.DateLast = form.NewFilm.DateLast;
+                    film.DateBegin = UMTTime.To(form.NewFilm.DateBegin);
+                    film.DateLast = UMTTime.To(form.NewFilm.DateLast);
                     film.Rate = form.NewFilm.Rate;
-                    film.DateChange = form.NewFilm.DateChange;
+                    film.DateChange = UMTTime.To(form.NewFilm.DateChange);
                     lvi.SubItems[1].Text = form.NewFilm.Name;
                     lvi.SubItems[2].Text = form.NewFilm.LastSeason.ToString() + "-" + form.NewFilm.LastSeries.ToString();
                     lvi.SubItems[3].Text = Defaults.Genres.GetById(form.NewFilm.Genre);
@@ -284,6 +285,8 @@ namespace My_Seen
                 if (form.NewFilm != null)
                 {
                     ModelContainer mc = new ModelContainer();
+                    form.NewFilm.DateSee = UMTTime.To(form.NewFilm.DateSee);
+                    form.NewFilm.DateChange = UMTTime.To(form.NewFilm.DateChange);
                     mc.FilmsSet.Add(form.NewFilm);
                     mc.SaveChanges();
                     LoadItemsToListView(form.NewFilm, true);
@@ -298,6 +301,9 @@ namespace My_Seen
                 if (form.NewFilm != null)
                 {
                     ModelContainer mc = new ModelContainer();
+                    form.NewFilm.DateChange = UMTTime.To(form.NewFilm.DateChange);
+                    form.NewFilm.DateBegin = UMTTime.To(form.NewFilm.DateBegin);
+                    form.NewFilm.DateLast = UMTTime.To(form.NewFilm.DateLast);
                     mc.SerialsSet.Add(form.NewFilm);
                     mc.SaveChanges();
                     LoadItemsToListView(form.NewFilm, true);
@@ -511,8 +517,11 @@ namespace My_Seen
             ModelContainer mc = new ModelContainer();
 
             //PUT NEW + UPDATED + DELETED
-            films.AddRange(mc.FilmsSet.Where(f => f.UsersId == User.Id && f.DateChange != null).Select(Map));
-            films.AddRange(mc.SerialsSet.Where(f => f.UsersId == User.Id && f.DateChange != null).Select(Map));
+            //Буду отдавать ему ВСЁ, так надежнее
+            //films.AddRange(mc.FilmsSet.Where(f => f.UsersId == User.Id && f.DateChange != null).Select(Map));
+            //films.AddRange(mc.SerialsSet.Where(f => f.UsersId == User.Id && f.DateChange != null).Select(Map));
+            films.AddRange(mc.FilmsSet.Where(f => f.UsersId == User.Id).Select(Map));
+            films.AddRange(mc.SerialsSet.Where(f => f.UsersId == User.Id).Select(Map));
             WebRequest req;
             MySeenWebApi.SyncJsonAnswer answer;
             if (films.Count() != 0)
@@ -545,7 +554,9 @@ namespace My_Seen
 
             //GET NEW + UPDATED + DELETED
 
-            req = WebRequest.Create(MySeenWebApi.ApiHost + MySeenWebApi.ApiSync + MD5Tools.GetMd5Hash(User.Email.ToLower()) + "/" + ((int)MySeenWebApi.SyncModesApiData.GetNewUpdatedDeleted).ToString());
+            //Для 2х БД алгоритм хороший, но тут есть 3 БД, надо между всеми...
+            //req = WebRequest.Create(MySeenWebApi.ApiHost + MySeenWebApi.ApiSync + MD5Tools.GetMd5Hash(User.Email.ToLower()) + "/" + ((int)MySeenWebApi.SyncModesApiData.GetNewUpdatedDeleted).ToString());
+            req = WebRequest.Create(MySeenWebApi.ApiHost + MySeenWebApi.ApiSync + MD5Tools.GetMd5Hash(User.Email.ToLower()) + "/" + ((int)MySeenWebApi.SyncModesApiData.GetAll).ToString());
 
             string data = (new StreamReader(req.GetResponse().GetResponseStream())).ReadToEnd();
             req.GetResponse().Close();

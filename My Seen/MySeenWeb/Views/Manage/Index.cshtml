@@ -34,11 +34,22 @@
         <dd>
             @Html.DropDownListFor(model => model.Lang, Model.LangList, new { @class = "form-control", @id = "lstLang", @style = "width: 200px;" })
         </dd>
+        @if(Model.havedata)
+        { 
+        <dt>@Resource.DeleteData</dt>
+        <dd>
+            <button type="button" class="btn btn-primary" id="delDataButton">
+                <span class="glyphicon glyphicon-trash"></span>
+                &nbsp;@Resource.DeleteData
+            </button>
+        </dd>
+        }
     </dl>
 </div>
 <script language="javascript" type="text/javascript">
         (function ($) {
             $(function () {
+                var $delDataButton = $('#delDataButton');
                 var $select = $('#lstLang');
 
                 $select.on('change', function ()
@@ -51,6 +62,21 @@
                         data: {
                             selected: value
                         },
+                        dataType: 'json',
+                        success: function () {
+                            window.location.href = '/Manage';
+                        },
+                        error: function () {
+                            alert('Error');
+                        }
+                    });
+                    return false;
+                });
+
+                $delDataButton.on('click', function () {
+                    $.ajax({
+                        type: 'POST',
+                        url: '/Manage/DeleteData',
                         dataType: 'json',
                         success: function () {
                             window.location.href = '/Manage';

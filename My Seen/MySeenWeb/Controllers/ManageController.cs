@@ -77,9 +77,10 @@ namespace MySeenWeb.Controllers
             if (User.Identity.IsAuthenticated)
             {
                 ApplicationDbContext ac = new ApplicationDbContext();
-                string user_id = User.Identity.GetUserId();
                 model.Lang = Defaults.Languages.GetIdDB(ac.Users.Where(u => u.Id == userId).First().Culture);
                 model.LoadSelectList();
+
+                model.havedata = (ac.Films.Where(f => f.UserId == userId).Count() != 0 || ac.Serials.Where(f => f.UserId == userId).Count() != 0);
             }
             return View(model);
         }
@@ -118,7 +119,20 @@ namespace MySeenWeb.Controllers
             Defaults.ReloadResources();
             return Json(new { success = true });
         }
-
+        private void DeleteUserData()
+        {
+            ApplicationDbContext ac = new ApplicationDbContext();
+            var userId = User.Identity.GetUserId();
+            ac.Films.RemoveRange(ac.Films.Where(f => f.UserId == userId));
+            ac.Serials.RemoveRange(ac.Serials.Where(f => f.UserId == userId));
+            ac.SaveChanges();
+        }
+        [HttpPost]
+        public JsonResult DeleteData()
+        {
+            DeleteUserData();
+            return Json(new { success = true });
+        }
         //
         // GET: /Manage/AddPhoneNumber
         public ActionResult AddPhoneNumber()
