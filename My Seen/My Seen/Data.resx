@@ -137,8 +137,8 @@
   <data name="&gt;&gt;statusStrip1.Parent" xml:space="preserve">
     <value>$this</value>
   </data>
-  <data name="&gt;&gt;fastFindToolStripMenuItem.Name" xml:space="preserve">
-    <value>fastFindToolStripMenuItem</value>
+  <data name="&gt;&gt;quickSearchToolStripMenuItem.Name" xml:space="preserve">
+    <value>quickSearchToolStripMenuItem</value>
   </data>
   <data name="toolStripSeparator3.Size" type="System.Drawing.Size, System.Drawing">
     <value>133, 6</value>
@@ -209,7 +209,7 @@
   <data name="editToolStripMenuItem1.Text" xml:space="preserve">
     <value>Edit</value>
   </data>
-  <data name="fastFindToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+  <data name="quickSearchToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
     <value>66, 23</value>
   </data>
   <data name="addSeriesToolStripMenuItem1.Text" xml:space="preserve">
@@ -335,7 +335,7 @@
   <data name="&gt;&gt;toolStripComboBox1.Type" xml:space="preserve">
     <value>System.Windows.Forms.ToolStripComboBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="&gt;&gt;fastFindToolStripMenuItem.Type" xml:space="preserve">
+  <data name="&gt;&gt;quickSearchToolStripMenuItem.Type" xml:space="preserve">
     <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;addToolStripMenuItem1.Type" xml:space="preserve">
@@ -450,7 +450,7 @@
   <data name="&gt;&gt;listView1.ZOrder" xml:space="preserve">
     <value>1</value>
   </data>
-  <data name="fastFindToolStripMenuItem.Text" xml:space="preserve">
+  <data name="quickSearchToolStripMenuItem.Text" xml:space="preserve">
     <value>Fast Find</value>
   </data>
   <data name="listView1.TabIndex" type="System.Int32, mscorlib">

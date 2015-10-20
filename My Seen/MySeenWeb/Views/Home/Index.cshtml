@@ -24,10 +24,10 @@
                 <span class="glyphicon glyphicon-plus"></span>
                 &nbsp;@Resource.AddNew
             </button>
-
+            &nbsp;
             <div class="form-group">
-                <label for="fastFind">@Resource.FastFind:</label>
-                <input type="text" class="form-control" id="fastFind">
+                <label for="quickSearch">@Resource.QuickSearch <span class="glyphicon glyphicon-search"></span> :</label>
+                <input type="text" class="form-control" id="quickSearch">
             </div>
         </div>
     </div>
@@ -204,6 +204,7 @@
                 var $submitAddButton = $('#submitAddButton');
                 var $table = $('.table.table-striped');
                 var $modal = $('.modal-window');
+                var $quickSearch = $('#quickSearch');
                 var isSelectedFilm = '@Model.IsSelectedFilm' === 'True';
                 var url = '';
                 var data = {};
@@ -347,8 +348,16 @@
                         $movieName.val('');
                         $serialSeason.val('');
                         $serialSeries.val('');
-                        $movieGenre.find('option:contains("' + defaultModalGenre + '")').prop('selected', true);
-                        $movieRating.find('option:contains("' + defaultModalRating + '")').prop('selected', true);
+                        $movieGenre.find('option')
+                            .filter(function (index) {
+                                return $(this).text() === defaultModalGenre;
+                            })
+                            .prop('selected', true);
+                        $movieRating.find('option')
+                            .filter(function (index) {
+                                return $(this).text() === defaultModalRating;
+                            })
+                            .prop('selected', true);
                         $saveButton.hide();
                         $deleteButton.hide();
                         $submitAddButton.show();
@@ -382,6 +391,7 @@
 
                         return false;
                     });
+
                     $deleteButton.off('click');
                     $deleteButton.on('click', function () {
                         if (isSelectedFilm) {
@@ -395,6 +405,7 @@
                                 id: id
                             };
                         }
+
                         sendRequest(url, data);
 
                         return false;
@@ -403,19 +414,25 @@
                     return false;
                 });
 
-                var $fistFind = $('#fastFind');
-                $fistFind.change(function () {
-                    var rows = document.getElementById('table').rows;
-                    for (var i = 1; i < rows.length; i++) {
-                        if ($fistFind.val() != '' && rows[i].cells[1].innerText.indexOf($fistFind.val()) < 0) {
-                            rows[i].style.display = 'none';
-                        }
-                        else {
-                            rows[i].style.display = '';
-                        }
-                    }
+                $quickSearch.on('input', function () {
+                    var value = $(this).val();
 
-                });
+                    var $rows = $table.find('tbody tr');
+
+                    $rows.each(function (index, element) {
+                        var $row = $(element);
+
+                        var $tds = $row.find('td');
+
+                        if (value !== '' && $tds.eq(1).text().indexOf(value) < 0) {
+                            $row.hide();
+                        } else {
+                            $row.show();
+                        }
+                    });
+
+                    return false;
+                });                
             });
         })(jQuery);
     </script>

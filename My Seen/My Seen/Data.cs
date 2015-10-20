@@ -24,7 +24,7 @@ namespace My_Seen
         }
         private DBMode CurrentDB = DBMode.Films;
 
-        private bool FastFind = false;
+        private bool QuickSearch = false;
 
         private Users user;
         public Users User
@@ -342,11 +342,11 @@ namespace My_Seen
             LoadItemsToListView();
             ChangeMenus();
         }
-        private void fastFindToolStripMenuItem_Click(object sender, EventArgs e)
+        private void quickSearchToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            if(!FastFind)
+            if(!QuickSearch)
             {
-                FastFind = true;
+                QuickSearch = true;
                 toolStripComboBox2.Visible = true;
                 toolStripComboBox2.Text = "";
                 toolStripComboBox2.Items.Clear();
@@ -354,7 +354,7 @@ namespace My_Seen
             }
             else
             {
-                FastFind = false;
+                QuickSearch = false;
                 toolStripComboBox2.Visible = false;
                 toolStripComboBox2.Text = "";
             }
