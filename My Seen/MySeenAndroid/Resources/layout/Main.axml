@@ -9,12 +9,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/tableRowButtons">
-        <Button
-            android:id="@+id/AddButton"
-            android:layout_height="wrap_content"
-            android:layout_width="0dp"
-            android:layout_weight="0.33"
-            android:text="@string/AddNew" />
         <Spinner
             android:id="@+id/selectorSpinner"
             android:layout_width="0dp"
@@ -22,6 +16,18 @@
             android:layout_weight="0.33"
             android:background="@android:drawable/btn_dropdown"
             android:spinnerMode="dropdown" />
+        <Button
+            android:id="@+id/AddButton"
+            android:layout_height="wrap_content"
+            android:layout_width="0dp"
+            android:layout_weight="0.18"
+            android:text="@string/AddNew" />
+        <Button
+            android:id="@+id/ConfigButton"
+            android:layout_height="wrap_content"
+            android:layout_width="0dp"
+            android:layout_weight="0.15"
+            android:text="@string/Config" />
         <Button
             android:id="@+id/ExitButton"
             android:layout_height="wrap_content"

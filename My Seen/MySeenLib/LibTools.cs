@@ -70,7 +70,7 @@ namespace MySeenLib
     }
     public static class MySeenWebApi
     {
-        public static string ApiHost = @"https://localhost:44300";
+        public static string ApiHost = @"https://127.0.0.1:44300";
         public static string ApiUsers = @"/api/ApiUsers/";
         public static string ApiSync = @"/api/ApiSync/";
 

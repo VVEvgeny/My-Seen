@@ -412,7 +412,7 @@ namespace MySeenLib {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Fast find.
+        ///   Looks up a localized string similar to Quick Search.
         /// </summary>
         public static string FastFind {
             get {

@@ -94,6 +94,7 @@ namespace MySeenAndroid
 
             Button button_add = FindViewById<Button>(Resource.Id.AddButton);
             Button exitbutton = FindViewById<Button>(Resource.Id.ExitButton);
+            Button button_config = FindViewById<Button>(Resource.Id.ConfigButton);
 
             listview = FindViewById<ListView>(Resource.Id.listView1);
 
@@ -119,6 +120,12 @@ namespace MySeenAndroid
                     intent.PutExtra(SerialAddActivity.EXTRA_MODE_KEY, SerialAddActivity.EXTRA_MODE_VALUE_ADD);
                     StartActivityForResult(intent, 0);
                 }
+            };
+
+            button_config.Click += delegate
+            {
+                Intent intent = new Intent(this, typeof(ConfigActivity));
+                StartActivity(intent);
             };
 
             exitbutton.Click += delegate

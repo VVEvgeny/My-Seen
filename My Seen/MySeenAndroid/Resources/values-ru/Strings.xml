@@ -11,4 +11,5 @@
   <string name="DateLast">Дата последней</string>
   <string name="DateSee">Дата просмотра</string>
   <string name="DateBegin">Дата начала</string>
+  <string name="Config">Настройки</string>
 </resources>

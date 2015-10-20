@@ -216,7 +216,7 @@
   <data name="PasswordsNotEqual" xml:space="preserve">
     <value>Пароль не совпадает с подтверждением</value>
   </data>
-  <data name="Rate" xml:space="preserve">
+  <data name="Rating" xml:space="preserve">
     <value>Оценка</value>
   </data>
   <data name="SerialNameAlreadyExists" xml:space="preserve">
