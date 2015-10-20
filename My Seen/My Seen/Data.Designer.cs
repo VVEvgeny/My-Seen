@@ -41,7 +41,7 @@
             this.exitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.configToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripComboBox1 = new System.Windows.Forms.ToolStripComboBox();
-            this.fastFindToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.quickSearchToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripComboBox2 = new System.Windows.Forms.ToolStripComboBox();
             this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
@@ -66,7 +66,7 @@
             this.menuToolStripMenuItem,
             this.configToolStripMenuItem,
             this.toolStripComboBox1,
-            this.fastFindToolStripMenuItem,
+            this.quickSearchToolStripMenuItem,
             this.toolStripComboBox2,
             this.toolStripMenuItem1});
             this.menuStrip1.Name = "menuStrip1";
@@ -137,11 +137,11 @@
             this.toolStripComboBox1.Name = "toolStripComboBox1";
             this.toolStripComboBox1.SelectedIndexChanged += new System.EventHandler(this.toolStripComboBox1_SelectedIndexChanged);
             // 
-            // fastFindToolStripMenuItem
+            // quickSearchToolStripMenuItem
             // 
-            resources.ApplyResources(this.fastFindToolStripMenuItem, "fastFindToolStripMenuItem");
-            this.fastFindToolStripMenuItem.Name = "fastFindToolStripMenuItem";
-            this.fastFindToolStripMenuItem.Click += new System.EventHandler(this.fastFindToolStripMenuItem_Click);
+            resources.ApplyResources(this.quickSearchToolStripMenuItem, "quickSearchToolStripMenuItem");
+            this.quickSearchToolStripMenuItem.Name = "quickSearchToolStripMenuItem";
+            this.quickSearchToolStripMenuItem.Click += new System.EventHandler(this.quickSearchToolStripMenuItem_Click);
             // 
             // toolStripComboBox2
             // 
@@ -256,7 +256,7 @@
         private System.Windows.Forms.StatusStrip statusStrip1;
         private System.Windows.Forms.ListView listView1;
         private System.Windows.Forms.ToolStripMenuItem menuToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem fastFindToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem quickSearchToolStripMenuItem;
         private System.Windows.Forms.ToolStripComboBox toolStripComboBox2;
         private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel1;
         private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel2;

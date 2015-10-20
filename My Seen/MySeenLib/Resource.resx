@@ -396,7 +396,7 @@
   <data name="Delete" xml:space="preserve">
     <value>Delete</value>
   </data>
-  <data name="FastFind" xml:space="preserve">
+  <data name="QuickSearch" xml:space="preserve">
     <value>Quick Search</value>
   </data>
 </root>

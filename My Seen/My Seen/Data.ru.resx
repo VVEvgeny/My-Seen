@@ -130,10 +130,10 @@
   <data name="configToolStripMenuItem.Text" xml:space="preserve">
     <value>Настройки</value>
   </data>
-  <data name="fastFindToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+  <data name="quickSearchToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
     <value>105, 23</value>
   </data>
-  <data name="fastFindToolStripMenuItem.Text" xml:space="preserve">
+  <data name="quickSearchToolStripMenuItem.Text" xml:space="preserve">
     <value>Быстрый поиск</value>
   </data>
   <data name="toolStripMenuItem1.Size" type="System.Drawing.Size, System.Drawing">
