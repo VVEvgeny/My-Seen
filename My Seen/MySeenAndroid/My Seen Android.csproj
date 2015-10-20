@@ -47,6 +47,7 @@
       <HintPath>..\MySeenLib\bin\Debug\MySeenLib.dll</HintPath>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Xml" />
@@ -68,6 +69,7 @@
     <Compile Include="SQLiteAsync.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="App.config" />
     <None Include="Assets\AboutAssets.txt" />
     <AndroidResource Include="Resources\values\colors.xml">
       <SubType>AndroidResource</SubType>

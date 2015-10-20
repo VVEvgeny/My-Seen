@@ -27,7 +27,6 @@
     <Property Name="Password" Type="nvarchar(max)" Nullable="false" />
     <Property Name="CreationDate" Type="datetime" Nullable="false" />
     <Property Name="Email" Type="nvarchar(max)" Nullable="true" />
-    <Property Name="DateLastSync" Type="datetime" Nullable="false" />
   </EntityType>
   <EntityType Name="FilmsSet">
     <Key>
@@ -38,7 +37,7 @@
     <Property Name="UsersId" Type="int" Nullable="false" />
     <Property Name="Name" Type="nvarchar(max)" Nullable="false" />
     <Property Name="DateSee" Type="datetime" Nullable="false" />
-    <Property Name="Rate" Type="int" Nullable="false" />
+    <Property Name="Rating" Type="int" Nullable="false" />
     <Property Name="Genre" Type="int" Nullable="false" />
     <Property Name="DateChange" Type="datetime" Nullable="true" />
     <Property Name="isDeleted" Type="bit" Nullable="true" />
@@ -55,7 +54,7 @@
     <Property Name="LastSeries" Type="int" Nullable="false" />
     <Property Name="DateBegin" Type="datetime" Nullable="false" />
     <Property Name="DateLast" Type="datetime" Nullable="false" />
-    <Property Name="Rate" Type="int" Nullable="false" />
+    <Property Name="Rating" Type="int" Nullable="false" />
     <Property Name="Genre" Type="int" Nullable="false" />
     <Property Name="DateChange" Type="datetime" Nullable="true" />
     <Property Name="isDeleted" Type="bit" Nullable="true" />
@@ -116,7 +115,6 @@
           <NavigationProperty Name="Films" Relationship="Model.UsersFilms" FromRole="Users" ToRole="Films" />
           <NavigationProperty Name="Serials" Relationship="Model.UsersSerials" FromRole="Users" ToRole="Serials" />
           <Property Name="Email" Type="String" />
-          <Property Name="DateLastSync" Type="DateTime" Nullable="false" />
         </EntityType>
         <EntityType Name="Films">
           <Key>
@@ -127,7 +125,7 @@
           <Property Name="UsersId" Type="Int32" Nullable="false" />
           <Property Name="Name" Type="String" Nullable="false" />
           <Property Name="DateSee" Type="DateTime" Nullable="false" />
-          <Property Name="Rate" Type="Int32" Nullable="false" />
+          <Property Name="Rating" Type="Int32" Nullable="false" />
           <NavigationProperty Name="Users" Relationship="Model.UsersFilms" FromRole="Films" ToRole="Users" />
           <Property Name="Genre" Type="Int32" Nullable="false" />
           <Property Name="DateChange" Type="DateTime" Nullable="true" />
@@ -146,7 +144,7 @@
           <Property Name="LastSeries" Type="Int32" Nullable="false" />
           <Property Name="DateBegin" Type="DateTime" Nullable="false" />
           <Property Name="DateLast" Type="DateTime" Nullable="false" />
-          <Property Name="Rate" Type="Int32" Nullable="false" />
+          <Property Name="Rating" Type="Int32" Nullable="false" />
           <Property Name="Genre" Type="Int32" Nullable="false" />
           <Property Name="DateChange" Type="DateTime" Nullable="true" />
           <Property Name="isDeleted" Type="Boolean" Nullable="true" />
@@ -195,7 +193,6 @@
           <ScalarProperty Name="Password" ColumnName="Password" />
           <ScalarProperty Name="CreationDate" ColumnName="CreationDate" />
           <ScalarProperty Name="Email" ColumnName="Email" />
-          <ScalarProperty Name="DateLastSync" ColumnName="DateLastSync" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -207,7 +204,7 @@
           <ScalarProperty Name="UsersId" ColumnName="UsersId" />
           <ScalarProperty Name="Name" ColumnName="Name" />
           <ScalarProperty Name="DateSee" ColumnName="DateSee" />
-          <ScalarProperty Name="Rate" ColumnName="Rate" />
+          <ScalarProperty Name="Rating" ColumnName="Rating" />
           <ScalarProperty Name="Genre" ColumnName="Genre" />
           <ScalarProperty Name="DateChange" ColumnName="DateChange" />
           <ScalarProperty Name="isDeleted" ColumnName="isDeleted" />
@@ -225,7 +222,7 @@
           <ScalarProperty Name="LastSeries" ColumnName="LastSeries" />
           <ScalarProperty Name="DateBegin" ColumnName="DateBegin" />
           <ScalarProperty Name="DateLast" ColumnName="DateLast" />
-          <ScalarProperty Name="Rate" ColumnName="Rate" />
+          <ScalarProperty Name="Rating" ColumnName="Rating" />
           <ScalarProperty Name="Genre" ColumnName="Genre" />
           <ScalarProperty Name="DateChange" ColumnName="DateChange" />
           <ScalarProperty Name="isDeleted" ColumnName="isDeleted" />

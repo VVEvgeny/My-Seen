@@ -412,6 +412,15 @@ namespace MySeenLib {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Fast find.
+        /// </summary>
+        public static string FastFind {
+            get {
+                return ResourceManager.GetString("FastFind", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Film.
         /// </summary>
         public static string Film {
@@ -646,11 +655,11 @@ namespace MySeenLib {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Rate.
+        ///   Looks up a localized string similar to Rating.
         /// </summary>
-        public static string Rate {
+        public static string Rating {
             get {
-                return ResourceManager.GetString("Rate", resourceCulture);
+                return ResourceManager.GetString("Rating", resourceCulture);
             }
         }
         

@@ -76,7 +76,7 @@ namespace MySeenWeb.Controllers
             {
                 try
                 {
-                    Films f = new Films { Name = name, Genre = Convert.ToInt32(genre), Rate = Convert.ToInt32(rating), DateSee = UMTTime.To(DateTime.Now), DateChange = UMTTime.To(DateTime.Now), UserId = user_id };
+                    Films f = new Films { Name = name, Genre = Convert.ToInt32(genre), Rating = Convert.ToInt32(rating), DateSee = UMTTime.To(DateTime.Now), DateChange = UMTTime.To(DateTime.Now), UserId = user_id };
                     ac.Films.Add(f);
                     ac.SaveChanges();
                 }
@@ -113,7 +113,7 @@ namespace MySeenWeb.Controllers
                     Films film = ac.Films.Where(f => f.UserId == user_id && f.Id == iid).First();
                     film.Name = name;
                     film.Genre = Convert.ToInt32(genre);
-                    film.Rate = Convert.ToInt32(rating);
+                    film.Rating = Convert.ToInt32(rating);
                     film.DateChange = UMTTime.To(DateTime.Now);
                     ac.SaveChanges();
                 }
@@ -151,7 +151,7 @@ namespace MySeenWeb.Controllers
                 {
                     if (string.IsNullOrEmpty(season)) season = "1";
                     if (string.IsNullOrEmpty(series)) series = "1";
-                    Serials s = new Serials { Name = name, LastSeason = Convert.ToInt32(season), LastSeries = Convert.ToInt32(series), Genre = Convert.ToInt32(genre), Rate = Convert.ToInt32(rating), DateBegin = UMTTime.To(DateTime.Now), DateLast = UMTTime.To(DateTime.Now), DateChange = UMTTime.To(DateTime.Now), UserId = user_id };
+                    Serials s = new Serials { Name = name, LastSeason = Convert.ToInt32(season), LastSeries = Convert.ToInt32(series), Genre = Convert.ToInt32(genre), Rating = Convert.ToInt32(rating), DateBegin = UMTTime.To(DateTime.Now), DateLast = UMTTime.To(DateTime.Now), DateChange = UMTTime.To(DateTime.Now), UserId = user_id };
                     ac.Serials.Add(s);
                     ac.SaveChanges();
                 }
@@ -194,7 +194,7 @@ namespace MySeenWeb.Controllers
                     film.LastSeason = Convert.ToInt32(season);
                     film.LastSeries = Convert.ToInt32(series);
                     film.Genre = Convert.ToInt32(genre);
-                    film.Rate = Convert.ToInt32(rating);
+                    film.Rating = Convert.ToInt32(rating);
                     film.DateChange = UMTTime.To(DateTime.Now);
                     ac.SaveChanges();
                 }

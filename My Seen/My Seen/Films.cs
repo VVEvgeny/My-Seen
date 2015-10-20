@@ -19,7 +19,7 @@ namespace My_Seen
         public int UsersId { get; set; }
         public string Name { get; set; }
         public System.DateTime DateSee { get; set; }
-        public int Rate { get; set; }
+        public int Rating { get; set; }
         public int Genre { get; set; }
         public Nullable<System.DateTime> DateChange { get; set; }
         public Nullable<bool> isDeleted { get; set; }

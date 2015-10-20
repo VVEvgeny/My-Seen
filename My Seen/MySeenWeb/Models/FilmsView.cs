@@ -24,7 +24,7 @@ namespace MySeenWeb.Models
                 DateChange = UMTTime.From(model.DateChange),
                 DateSee = UMTTime.From(model.DateSee),
                 Genre = model.Genre,
-                Rate = model.Rate
+                Rating = model.Rating
             };
         }
         public string GenreText
@@ -34,11 +34,11 @@ namespace MySeenWeb.Models
                 return Defaults.Genres.GetById(Genre);
             }
         }
-        public string RateText
+        public string RatingText
         {
             get
             {
-                return Defaults.Ratings.GetById(Rate);
+                return Defaults.Ratings.GetById(Rating);
             }
         }
     }

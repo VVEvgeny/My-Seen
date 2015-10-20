@@ -112,8 +112,8 @@ namespace MySeenLib
             public string Name { get; set; }
             [JsonProperty("Genre")]
             public int Genre { get; set; }
-            [JsonProperty("Rate")]
-            public int Rate { get; set; }
+            [JsonProperty("Rating")]
+            public int Rating { get; set; }
             [JsonProperty("DateSee")]
             public DateTime DateSee { get; set; }
             [JsonProperty("DateChange")]

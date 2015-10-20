@@ -143,7 +143,7 @@ namespace My_Seen
                 listView1.Columns.Add(cl_date_begin);
             }
             ColumnHeader cl_rate = new ColumnHeader();
-            cl_rate.Text = Resource.Rate;
+            cl_rate.Text = Resource.Rating;
             cl_rate.Width = 35;
             listView1.Columns.Add(cl_rate);
         }
@@ -193,15 +193,15 @@ namespace My_Seen
         }
         private void LoadItemsToListView(Serials film, bool oneToTop)
         {
-            if (oneToTop) listView1.Items.Insert(0, new ListViewItem(new string[] { film.Id.ToString(), film.Name, film.LastSeason.ToString() + "-" + film.LastSeries.ToString(), Defaults.Genres.GetById(film.Genre), UMTTime.From(film.DateLast).ToString(), UMTTime.From(film.DateBegin).ToString(), Defaults.Ratings.GetById(film.Rate) }));
-            else listView1.Items.Add(new ListViewItem(new string[] { film.Id.ToString(), film.Name, film.LastSeason.ToString() + "-" + film.LastSeries.ToString(), Defaults.Genres.GetById(film.Genre), UMTTime.From(film.DateLast).ToString(), UMTTime.From(film.DateBegin).ToString(), Defaults.Ratings.GetById(film.Rate) }));
+            if (oneToTop) listView1.Items.Insert(0, new ListViewItem(new string[] { film.Id.ToString(), film.Name, film.LastSeason.ToString() + "-" + film.LastSeries.ToString(), Defaults.Genres.GetById(film.Genre), UMTTime.From(film.DateLast).ToString(), UMTTime.From(film.DateBegin).ToString(), Defaults.Ratings.GetById(film.Rating) }));
+            else listView1.Items.Add(new ListViewItem(new string[] { film.Id.ToString(), film.Name, film.LastSeason.ToString() + "-" + film.LastSeries.ToString(), Defaults.Genres.GetById(film.Genre), UMTTime.From(film.DateLast).ToString(), UMTTime.From(film.DateBegin).ToString(), Defaults.Ratings.GetById(film.Rating) }));
 
             toolStripStatusLabel2.Text = listView1.Items.Count.ToString();
         }
         private void LoadItemsToListView(Films film, bool oneToTop)
         {
-            if (oneToTop) listView1.Items.Insert(0, new ListViewItem(new string[] { film.Id.ToString(), film.Name, Defaults.Genres.GetById(film.Genre), UMTTime.From(film.DateSee).ToString(), Defaults.Ratings.GetById(film.Rate) }));
-            else listView1.Items.Add(new ListViewItem(new string[] { film.Id.ToString(), film.Name, Defaults.Genres.GetById(film.Genre), UMTTime.From(film.DateSee).ToString(), Defaults.Ratings.GetById(film.Rate) }));
+            if (oneToTop) listView1.Items.Insert(0, new ListViewItem(new string[] { film.Id.ToString(), film.Name, Defaults.Genres.GetById(film.Genre), UMTTime.From(film.DateSee).ToString(), Defaults.Ratings.GetById(film.Rating) }));
+            else listView1.Items.Add(new ListViewItem(new string[] { film.Id.ToString(), film.Name, Defaults.Genres.GetById(film.Genre), UMTTime.From(film.DateSee).ToString(), Defaults.Ratings.GetById(film.Rating) }));
             
             toolStripStatusLabel2.Text = listView1.Items.Count.ToString();
         }
@@ -230,13 +230,13 @@ namespace My_Seen
                     film.UsersId = User.Id;
                     film.Name = form.NewFilm.Name;
                     film.DateSee = UMTTime.To(form.NewFilm.DateSee);
-                    film.Rate = form.NewFilm.Rate;
+                    film.Rating = form.NewFilm.Rating;
                     film.DateChange = UMTTime.To(form.NewFilm.DateChange);
 
                     lvi.SubItems[1].Text = form.NewFilm.Name;
                     lvi.SubItems[2].Text = Defaults.Genres.GetById(form.NewFilm.Genre);
                     lvi.SubItems[3].Text = form.NewFilm.DateSee.ToString();
-                    lvi.SubItems[4].Text = Defaults.Ratings.GetById(film.Rate);
+                    lvi.SubItems[4].Text = Defaults.Ratings.GetById(film.Rating);
                     mc.SaveChanges();
                 }
                 form.Close();
@@ -262,14 +262,14 @@ namespace My_Seen
                     film.LastSeries = form.NewFilm.LastSeries;
                     film.DateBegin = UMTTime.To(form.NewFilm.DateBegin);
                     film.DateLast = UMTTime.To(form.NewFilm.DateLast);
-                    film.Rate = form.NewFilm.Rate;
+                    film.Rating = form.NewFilm.Rating;
                     film.DateChange = UMTTime.To(form.NewFilm.DateChange);
                     lvi.SubItems[1].Text = form.NewFilm.Name;
                     lvi.SubItems[2].Text = form.NewFilm.LastSeason.ToString() + "-" + form.NewFilm.LastSeries.ToString();
                     lvi.SubItems[3].Text = Defaults.Genres.GetById(form.NewFilm.Genre);
                     lvi.SubItems[4].Text = form.NewFilm.DateLast.ToString();
                     lvi.SubItems[5].Text = form.NewFilm.DateBegin.ToString();
-                    lvi.SubItems[6].Text = Defaults.Ratings.GetById(film.Rate);
+                    lvi.SubItems[6].Text = Defaults.Ratings.GetById(film.Rating);
                     mc.SaveChanges();
                 }
                 form.Close();
@@ -454,7 +454,7 @@ namespace My_Seen
                 DateChange = model.DateChange,
                 DateSee = model.DateSee,
                 Genre = model.Genre,
-                Rate = model.Rate,
+                Rating = model.Rating,
                 isDeleted = model.isDeleted
             };
         }
@@ -469,7 +469,7 @@ namespace My_Seen
                 Name = model.Name,
                 DateChange = model.DateChange,
                 Genre = model.Genre,
-                Rate = model.Rate,
+                Rating = model.Rating,
                 DateBegin = model.DateBegin,
                 DateLast = model.DateLast,
                 LastSeason = model.LastSeason,
@@ -488,7 +488,7 @@ namespace My_Seen
                 DateChange = model.DateChange,
                 DateSee = model.DateSee,
                 Genre = model.Genre,
-                Rate = model.Rate,
+                Rating = model.Rating,
                 isDeleted = model.isDeleted,
                 UsersId = user_id
             };
@@ -503,7 +503,7 @@ namespace My_Seen
                 Name = model.Name,
                 DateChange = model.DateChange,
                 Genre = model.Genre,
-                Rate = model.Rate,
+                Rating = model.Rating,
                 DateBegin = model.DateBegin,
                 DateLast = model.DateLast,
                 LastSeason = model.LastSeason,
@@ -595,7 +595,7 @@ namespace My_Seen
                                 filmBD.DateSee = film.DateSee;
                                 filmBD.Genre = film.Genre;
                                 filmBD.isDeleted = film.isDeleted;
-                                filmBD.Rate = film.Rate;
+                                filmBD.Rating = film.Rating;
                                 filmBD.Name = film.Name;
                             }
                         }
@@ -614,7 +614,7 @@ namespace My_Seen
                                 filmBD.DateChange = null;//на клиенте он актуальный, не будем отправлять ему
                                 filmBD.Genre = film.Genre;
                                 filmBD.isDeleted = film.isDeleted;
-                                filmBD.Rate = film.Rate;
+                                filmBD.Rating = film.Rating;
                                 filmBD.DateBegin = film.DateBegin;
                                 filmBD.DateLast = film.DateLast;
                                 filmBD.LastSeason = film.LastSeason;

@@ -22,7 +22,7 @@ namespace My_Seen
         public int LastSeries { get; set; }
         public System.DateTime DateBegin { get; set; }
         public System.DateTime DateLast { get; set; }
-        public int Rate { get; set; }
+        public int Rating { get; set; }
         public int Genre { get; set; }
         public Nullable<System.DateTime> DateChange { get; set; }
         public Nullable<bool> isDeleted { get; set; }

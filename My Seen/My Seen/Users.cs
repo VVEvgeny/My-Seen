@@ -26,7 +26,6 @@ namespace My_Seen
         public string Password { get; set; }
         public System.DateTime CreationDate { get; set; }
         public string Email { get; set; }
-        public System.DateTime DateLastSync { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Films> Films { get; set; }

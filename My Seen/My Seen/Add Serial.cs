@@ -114,8 +114,8 @@ namespace My_Seen
             }
             if (!ErrorProviderTools.isValid(errorProvider)) return;
 
-            if (EditId != 0) newFilm = new Serials() { Id = EditId, UsersId = user.Id, Name = textBox1.Text, DateBegin = dateTimePicker1.Value, DateLast = DateTime.Now, DateChange = DateTime.Now, Rate = Defaults.Ratings.GetId(comboBox1.Text), LastSeason = Convert.ToInt32(textBox2.Text), LastSeries = Convert.ToInt32(textBox3.Text), Genre = Defaults.Genres.GetId(comboBox2.Text) };
-            else newFilm = new Serials() { UsersId = user.Id, Name = textBox1.Text, DateBegin = dateTimePicker1.Value, DateLast = DateTime.Now, DateChange = DateTime.Now, Rate = Defaults.Ratings.GetId(comboBox1.Text), LastSeason = Convert.ToInt32(textBox2.Text), LastSeries = Convert.ToInt32(textBox3.Text), Genre = Defaults.Genres.GetId(comboBox2.Text) };
+            if (EditId != 0) newFilm = new Serials() { Id = EditId, UsersId = user.Id, Name = textBox1.Text, DateBegin = dateTimePicker1.Value, DateLast = DateTime.Now, DateChange = DateTime.Now, Rating = Defaults.Ratings.GetId(comboBox1.Text), LastSeason = Convert.ToInt32(textBox2.Text), LastSeries = Convert.ToInt32(textBox3.Text), Genre = Defaults.Genres.GetId(comboBox2.Text) };
+            else newFilm = new Serials() { UsersId = user.Id, Name = textBox1.Text, DateBegin = dateTimePicker1.Value, DateLast = DateTime.Now, DateChange = DateTime.Now, Rating = Defaults.Ratings.GetId(comboBox1.Text), LastSeason = Convert.ToInt32(textBox2.Text), LastSeries = Convert.ToInt32(textBox3.Text), Genre = Defaults.Genres.GetId(comboBox2.Text) };
             Hide();
         }
 

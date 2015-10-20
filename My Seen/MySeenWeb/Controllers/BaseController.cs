@@ -17,7 +17,21 @@ namespace MySeenWeb.Controllers
             {
                 ApplicationDbContext ac = new ApplicationDbContext();
                 string user_id = User.Identity.GetUserId();
-                CultureInfoTool.SetCulture(ac.Users.Where(u => u.Id == user_id).First().Culture);
+                try
+                {
+                    CultureInfoTool.SetCulture(ac.Users.Where(u => u.Id == user_id).First().Culture);
+                }
+                catch
+                {
+                    //когда пересоздаю БД 
+                    HttpCookie cc = ControllerContext.HttpContext.Request.Cookies[".AspNet.ApplicationCookie"];
+                    if (cc != null)
+                    {
+                        cc.Value = string.Empty;
+                        cc.Expires = DateTime.Now.AddMilliseconds(-1);
+                        ControllerContext.HttpContext.Response.Cookies.Add(cc);
+                    }
+                }
             }
         }
         protected override void ExecuteCore()

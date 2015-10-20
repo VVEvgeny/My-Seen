@@ -25,7 +25,7 @@ namespace MySeenWeb.Controllers
                 DateChange = model.DateChange,
                 DateSee = model.DateSee,
                 Genre = model.Genre,
-                Rate = model.Rate,
+                Rating = model.Rating,
                 isDeleted = model.isDeleted
             };
         }
@@ -39,7 +39,7 @@ namespace MySeenWeb.Controllers
                 DateChange = model.DateChange,
                 DateSee = model.DateSee,
                 Genre = model.Genre,
-                Rate = model.Rate,
+                Rating = model.Rating,
                 isDeleted = model.isDeleted,
                 UserId = user_id
             };
@@ -55,7 +55,7 @@ namespace MySeenWeb.Controllers
                 Name = model.Name,
                 DateChange = model.DateChange,
                 Genre = model.Genre,
-                Rate = model.Rate,
+                Rating = model.Rating,
                 DateBegin=model.DateBegin,
                 DateLast=model.DateLast,
                 LastSeason=model.LastSeason,
@@ -72,7 +72,7 @@ namespace MySeenWeb.Controllers
                 Name = model.Name,
                 DateChange = model.DateChange,
                 Genre = model.Genre,
-                Rate = model.Rate,
+                Rating = model.Rating,
                 DateBegin = model.DateBegin,
                 DateLast = model.DateLast,
                 LastSeason = model.LastSeason,
@@ -183,7 +183,7 @@ namespace MySeenWeb.Controllers
                                     filmBD.DateSee = film.DateSee;
                                     filmBD.Genre = film.Genre;
                                     filmBD.isDeleted = film.isDeleted;
-                                    filmBD.Rate = film.Rate;
+                                    filmBD.Rating = film.Rating;
                                 }
                             }
                             else //нету нового с таким именем
@@ -203,7 +203,7 @@ namespace MySeenWeb.Controllers
                                     filmBD.DateSee = film.DateSee;
                                     filmBD.Genre = film.Genre;
                                     filmBD.isDeleted = film.isDeleted;
-                                    filmBD.Rate = film.Rate;
+                                    filmBD.Rating = film.Rating;
                                     filmBD.Name = film.Name;
                                 }
                             }
@@ -222,7 +222,7 @@ namespace MySeenWeb.Controllers
                                     filmBD.DateChange = film.DateChange;
                                     filmBD.Genre = film.Genre;
                                     filmBD.isDeleted = film.isDeleted;
-                                    filmBD.Rate = film.Rate;
+                                    filmBD.Rating = film.Rating;
                                     filmBD.DateBegin = film.DateBegin;
                                     filmBD.DateLast = film.DateLast;
                                     filmBD.LastSeason = film.LastSeason;
@@ -245,7 +245,7 @@ namespace MySeenWeb.Controllers
                                     filmBD.DateChange = null;//на клиенте он актуальный, не будем отправлять ему
                                     filmBD.Genre = film.Genre;
                                     filmBD.isDeleted = film.isDeleted;
-                                    filmBD.Rate = film.Rate;
+                                    filmBD.Rating = film.Rating;
                                     filmBD.DateBegin = film.DateBegin;
                                     filmBD.DateLast = film.DateLast;
                                     filmBD.LastSeason = film.LastSeason;

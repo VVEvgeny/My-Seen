@@ -9,12 +9,14 @@ using Android.Util;
 using System.Collections.Generic;
 using MySeenLib;
 using Android.Content.PM;
+using System.Globalization;
 
 namespace MySeenAndroid
 {
     [Activity(Label = "@string/ApplicationName"
         , MainLauncher = true
         , Icon = "@drawable/icon"
+        , ConfigurationChanges = ConfigChanges.Locale
         , NoHistory = false //для второго интента чтобы можно было вернуться назад
         , LaunchMode = LaunchMode.SingleTask
         , ScreenOrientation = ScreenOrientation.Landscape
@@ -37,28 +39,56 @@ namespace MySeenAndroid
             State = States.Films;
 
 
-            
+
             /*
+             
+             ПРОВАЛЬНЫЕ ПОПЫТКИ ДОСТУЧАТЬСЯ до русского языка в библиотеке
+             
             MySeenLib.Resource.Culture = new System.Globalization.CultureInfo("ru-RU");
             CultureInfoTool.SetCulture("ru-RU");
-            System.Threading.Thread.CurrentThread.CurrentCulture = new System.Globalization.CultureInfo("ru-RU");
+            System.Threading.Thread.CurrentThread.CurrentCulture = new System.Globalization.CultureInfo("ru");
 
             Android.Content.Res.Configuration conf = this.Resources.Configuration;
             conf.Locale = new Java.Util.Locale("ru");
             DisplayMetrics dm = this.Resources.DisplayMetrics;
             this.Resources.UpdateConfiguration(conf, dm);
             */
+            /*
+            var languageIso = "ru";
+            var locale = new Java.Util.Locale(languageIso);
+            Java.Util.Locale.Default = locale;
+            var config = new Android.Content.Res.Configuration { Locale = locale };
+            BaseContext.Resources.UpdateConfiguration(config, BaseContext.Resources.DisplayMetrics);
+            SetContentView(Resource.Layout.Main);
+
+
+            Resources.Configuration.Locale = locale;
+
+            //Log.Warn(LogTAG, "test000=" + MySeenLib.Resource.Culture.ToString());
+            Log.Warn(LogTAG, "test1=" + MySeenLib.Resource.CreatePasswordText1);
+            Log.Warn(LogTAG, "test2=" + MySeenLib.Resource.ResourceManager.GetString(MySeenLib.Resource.CreatePasswordText1, new System.Globalization.CultureInfo("ru-RU")));
+            MySeenLib.Resource.Culture = new System.Globalization.CultureInfo("ru-RU");
+            Log.Warn(LogTAG, "test000=" + MySeenLib.Resource.Culture.ToString());
+            Log.Warn(LogTAG, "test3=" + MySeenLib.Resource.CreatePasswordText1);
+            MySeenLib.Resource.Culture = new System.Globalization.CultureInfo(MySeenLib.CultureInfoTool.Cultures.Russian);
+            Log.Warn(LogTAG, "test000=" + MySeenLib.Resource.Culture.ToString());
+            Log.Warn(LogTAG, "test4=" + MySeenLib.Resource.CreatePasswordText1);
+            System.Threading.Thread.CurrentThread.CurrentCulture = new System.Globalization.CultureInfo(MySeenLib.CultureInfoTool.Cultures.Russian);
+            Log.Warn(LogTAG, "test5=" + MySeenLib.Resource.CreatePasswordText1);
+            System.Threading.Thread.CurrentThread.CurrentUICulture = new System.Globalization.CultureInfo(MySeenLib.CultureInfoTool.Cultures.Russian);
+            Log.Warn(LogTAG, "test000=" + MySeenLib.Resource.Culture.ToString());
+            Log.Warn(LogTAG, "test6=" + MySeenLib.Resource.CreatePasswordText1);
+            Log.Warn(LogTAG, "test7=" + MySeenLib.Resource.ResourceManager.GetString(MySeenLib.Resource.CreatePasswordText1, new System.Globalization.CultureInfo(MySeenLib.CultureInfoTool.Cultures.Russian)));
+            Log.Warn(LogTAG, "test000=" + MySeenLib.Resource.Culture.ToString());
 
 
             
-
-            Log.Warn(LogTAG, "test1=" + MySeenLib.Resource.ResourceManager.GetString(MySeenLib.Resource.CreatePasswordText1, new System.Globalization.CultureInfo("ru-RU")));
-            Log.Warn(LogTAG, "test2=" + MySeenLib.Resource.CreatePasswordText1);
-
-
-
-
-
+            System.Resources.ResourceManager resmgr = new System.Resources.ResourceManager("MySeenLib.Resource", typeof(MySeenLib.Resource).Assembly);
+            CultureInfo ci = new System.Globalization.CultureInfo("ru-RU");
+            Log.Warn(LogTAG, "test10=" + resmgr.GetString(MySeenLib.Resource.CreatePasswordText1, ci));
+            ci = new System.Globalization.CultureInfo("ru");
+            Log.Warn(LogTAG, "test11=" + resmgr.GetString(MySeenLib.Resource.CreatePasswordText1, ci));
+            */
 
             Log.Warn(LogTAG,"START");
 

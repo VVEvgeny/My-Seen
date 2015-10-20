@@ -109,7 +109,7 @@ namespace My_Seen
                 Name = model.Name,
                 DateSee = model.DateSee,
                 Genre = model.Genre,
-                Rate = model.Rate,
+                Rating = model.Rating,
                 isDeleted = model.isDeleted,
                 UsersId = User.Id
             };
@@ -123,7 +123,7 @@ namespace My_Seen
                 Id_R = model.Id,
                 Name = model.Name,
                 Genre = model.Genre,
-                Rate = model.Rate,
+                Rating = model.Rating,
                 isDeleted = model.isDeleted,
                 UsersId = User.Id,
                 DateBegin = model.DateBegin,

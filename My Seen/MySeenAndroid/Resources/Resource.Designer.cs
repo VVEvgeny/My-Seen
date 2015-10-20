@@ -324,9 +324,6 @@ namespace MySeenAndroid
 		public partial class String
 		{
 			
-			// aapt resource value: 0x7f05000b
-			public const int Add = 2131034123;
-			
 			// aapt resource value: 0x7f050002
 			public const int AddNew = 2131034114;
 			

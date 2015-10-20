@@ -2,7 +2,7 @@
 <resources>
     <string name="Test">Test</string>
     <string name="ApplicationName">Просмотренное</string>
-    <string name="Add">Добавить</string>
+    <string name="AddNew">Добавить</string>
     <string name="Exit">Выход</string>
     <string name="Name">Название</string>
     <string name="Genre">Жанр</string>

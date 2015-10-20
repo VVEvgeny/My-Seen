@@ -216,8 +216,8 @@
   <data name="PasswordsNotEqual" xml:space="preserve">
     <value>Password and repeat not equal</value>
   </data>
-  <data name="Rate" xml:space="preserve">
-    <value>Rate</value>
+  <data name="Rating" xml:space="preserve">
+    <value>Rating</value>
   </data>
   <data name="SerialNameAlreadyExists" xml:space="preserve">
     <value>Serial name already exists</value>
@@ -395,5 +395,8 @@
   </data>
   <data name="Delete" xml:space="preserve">
     <value>Delete</value>
+  </data>
+  <data name="FastFind" xml:space="preserve">
+    <value>Fast find</value>
   </data>
 </root>
