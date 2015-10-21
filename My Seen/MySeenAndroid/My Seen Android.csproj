@@ -58,6 +58,7 @@
     <Compile Include="Code\Activities\ConfigActivity.cs" />
     <Compile Include="Code\Activities\SerialAddActivity.cs" />
     <Compile Include="Code\Activities\FilmsAddActivity.cs" />
+    <Compile Include="Code\Database\AddData.cs" />
     <Compile Include="Code\Database\TablesVersion.cs" />
     <Compile Include="Code\Tools.cs" />
     <Compile Include="Code\MyListViewAdapterSerials.cs" />

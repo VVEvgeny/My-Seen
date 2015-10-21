@@ -73,7 +73,7 @@ namespace MySeenAndroid
             holder.txtFilmName.SetText(str.Name, TextView.BufferType.Normal);
             holder.txtGenre.SetText(Defaults.Genres.GetById(str.Genre), TextView.BufferType.Normal);
             holder.txtDateSee.SetText(UMTTime.From(str.DateSee).ToShortDateString(), TextView.BufferType.Normal);
-            holder.txtRate.SetText(Defaults.Ratings.GetById(str.Rate), TextView.BufferType.Normal);
+            holder.txtRate.SetText(Defaults.Ratings.GetById(str.Rating), TextView.BufferType.Normal);
 
             return view;
         }

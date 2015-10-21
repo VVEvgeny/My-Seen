@@ -40,7 +40,8 @@
         android:minHeight="25px"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/tableRow_films">
+        android:id="@+id/tableRow_films"
+        android:visibility="gone">
         <TextView
             android:id="@+id/table_name_f"
             android:text="@string/Name"
@@ -83,7 +84,8 @@
         android:minHeight="25px"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/tableRow_serials">
+        android:id="@+id/tableRow_serials"
+        android:visibility="gone">
         <TextView
             android:id="@+id/table_name_s"
             android:text="@string/Name"

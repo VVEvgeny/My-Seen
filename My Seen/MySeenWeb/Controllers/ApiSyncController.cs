@@ -139,8 +139,8 @@ namespace MySeenWeb.Controllers
                     f.DateChange = null;
                 }
                 //удалим удаленные
-                ac.Films.RemoveRange(ac.Films.Where(f => f.UserId == user_id && f.isDeleted == true));
-                ac.Serials.RemoveRange(ac.Serials.Where(f => f.UserId == user_id && f.isDeleted == true));
+                //ac.Films.RemoveRange(ac.Films.Where(f => f.UserId == user_id && f.isDeleted == true));
+                //ac.Serials.RemoveRange(ac.Serials.Where(f => f.UserId == user_id && f.isDeleted == true));
 
                 ac.SaveChanges();
 

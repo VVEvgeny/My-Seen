@@ -36,7 +36,6 @@ namespace MySeenAndroid
 
             Log.Warn(LogTAG, "START");
 
-            DatabaseHelper db = new DatabaseHelper();
             int edited_id=0;
             Films film = new Films();
             if (Intent.GetStringExtra(EXTRA_MODE_KEY) == EXTRA_MODE_VALUE_ADD)//Добавление нового
@@ -47,7 +46,7 @@ namespace MySeenAndroid
             {
                 Mode = Modes.Edit;
                 edited_id = Convert.ToInt32(Intent.GetStringExtra(EXTRA_EDIT_ID_KEY));
-                film = db.GetFilmById(edited_id);
+                film = DatabaseHelper.Get.GetFilmById(edited_id);
             }
             Log.Warn(LogTAG, "START Mode=" + Mode.ToString());
 
@@ -75,24 +74,25 @@ namespace MySeenAndroid
                 }
                 if (Mode == Modes.Add)
                 {
-                    if (db.isFilmExist(name_text.Text))
+                    if (DatabaseHelper.Get.isFilmExist(name_text.Text))
                     {
                         tv_error.Visibility = ViewStates.Visible;
                         tv_error.Text = "Film already exists";
                         return;
                     }
 
-                    db.Add(new Films { Name = name_text.Text, DateChange = UMTTime.To(DateTime.Now), DateSee = UMTTime.To(DateTime.Now), Genre = comboboxgenre.SelectedItemPosition, Rate = comboboxrate.SelectedItemPosition });
+                    DatabaseHelper.Get.Add(new Films { Name = name_text.Text, DateChange = UMTTime.To(DateTime.Now), DateSee = UMTTime.To(DateTime.Now), Genre = comboboxgenre.SelectedItemPosition, Rating = comboboxrate.SelectedItemPosition });
                 }
                 else
                 {
-                    if (db.isFilmExistAndNotSame(name_text.Text, edited_id))
+                    if (DatabaseHelper.Get.isFilmExistAndNotSame(name_text.Text, edited_id))
                     {
                         tv_error.Visibility = ViewStates.Visible;
                         tv_error.Text = "Film already exists";
                         return;
                     }
-                    db.Update(new Films { Id = film.Id, Name = name_text.Text, DateChange = UMTTime.To(DateTime.Now), DateSee = film.DateSee, Genre = comboboxgenre.SelectedItemPosition, Rate = comboboxrate.SelectedItemPosition });
+                    DatabaseHelper.Get.Update(new Films { Id = film.Id, Name = name_text.Text, DateChange = UMTTime.To(DateTime.Now), DateSee = film.DateSee, Genre = comboboxgenre.SelectedItemPosition, Rating = comboboxrate.SelectedItemPosition, Id_R = film.Id_R, isDeleted = film.isDeleted });
+                    if (film.DateChange.HasValue) Log.Warn(LogTAG, "DateChange=" + film.DateChange.Value);
                 }
                 var intent = new Intent(this, typeof(MainActivity));
                 SetResult(Result.Ok, intent);
@@ -111,7 +111,7 @@ namespace MySeenAndroid
             {
                 name_text.Text = film.Name;
                 comboboxgenre.SetSelection(adapter.GetPosition(Defaults.Genres.GetById(film.Genre)));
-                comboboxrate.SetSelection(adapter_rate.GetPosition(Defaults.Ratings.GetById(film.Rate)));
+                comboboxrate.SetSelection(adapter_rate.GetPosition(Defaults.Ratings.GetById(film.Rating)));
             }
         }
     }

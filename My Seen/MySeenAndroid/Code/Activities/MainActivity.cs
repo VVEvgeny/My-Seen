@@ -28,7 +28,6 @@ namespace MySeenAndroid
         private States State;
         private MyListViewAdapterFilms FilmsAdapter;
         private MyListViewAdapterSerials SerialsAdapter;
-        private DatabaseHelper db;
         private ListView listview;
         private Spinner comboboxSelector;
 
@@ -103,7 +102,6 @@ namespace MySeenAndroid
 
             listview.Adapter = FilmsAdapter;
 
-            db = new DatabaseHelper();
             //LoadFromDatabase();
 
             button_add.Click += delegate 
@@ -125,7 +123,7 @@ namespace MySeenAndroid
             button_config.Click += delegate
             {
                 Intent intent = new Intent(this, typeof(ConfigActivity));
-                StartActivity(intent);
+                StartActivityForResult(intent,0);
             };
 
             exitbutton.Click += delegate
@@ -200,16 +198,22 @@ namespace MySeenAndroid
         {
             if (State == States.Films)
             {
-                Log.Warn(LogTAG, "LoadFromDatabase films count in db=" + db.GetFilmsCount().ToString());
+                Log.Warn(LogTAG, "LoadFromDatabase films count in db=" + DatabaseHelper.Get.GetFilmsCount().ToString());
                 FilmsAdapter.list.Clear();
-                FilmsAdapter.list.AddRange(db.GetFilms());
+
+                foreach (Films f in DatabaseHelper.Get.GetFilms())
+                {
+                    Log.Warn(LogTAG, "film=" + f.Name + " isdeleted=" + (f.isDeleted == null ? "null" : (f.isDeleted.Value ? "+" : "-")));
+                }
+
+                FilmsAdapter.list.AddRange(DatabaseHelper.Get.GetFilms());
                 FilmsAdapter.NotifyDataSetChanged();
             }
             else
             {
-                Log.Warn(LogTAG, "LoadFromDatabase serials count in db=" + db.GetSerialsCount().ToString());
+                Log.Warn(LogTAG, "LoadFromDatabase serials count in db=" + DatabaseHelper.Get.GetSerialsCount().ToString());
                 SerialsAdapter.list.Clear();
-                SerialsAdapter.list.AddRange(db.GetSerials());
+                SerialsAdapter.list.AddRange(DatabaseHelper.Get.GetSerials());
                 SerialsAdapter.NotifyDataSetChanged();
             }
             ReloadListHeaders();

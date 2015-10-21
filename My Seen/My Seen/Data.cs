@@ -586,6 +586,7 @@ namespace My_Seen
                 {
                     if (film.IsFilm)
                     {
+                        /*
                         if (mc.FilmsSet.Where(f => f.Id_R == film.Id && f.UsersId == User.Id).Count() != 0)//с таким ID есть в БД, обновим
                         {
                             var filmBD = mc.FilmsSet.Where(f => f.Id_R == film.Id && f.UsersId == User.Id).First();
@@ -600,12 +601,14 @@ namespace My_Seen
                             }
                         }
                         else //новый
+                            */
                         {
                             mc.FilmsSet.Add(MapToFilm(film, User.Id));
                         }
                     }
                     else
                     {
+                        /*
                         if (mc.SerialsSet.Where(f => f.Id_R == film.Id && f.UsersId == User.Id).Count() != 0)//с таким ID есть в БД, обновим
                         {
                             var filmBD = mc.SerialsSet.Where(f => f.Id_R == film.Id && f.UsersId == User.Id).First();
@@ -623,6 +626,7 @@ namespace My_Seen
                             }
                         }
                         else
+                         * */
                         {
                             mc.SerialsSet.Add(MapToSerial(film, User.Id));
                         }
@@ -634,6 +638,7 @@ namespace My_Seen
             mc.FilmsSet.RemoveRange(mc.FilmsSet.Where(f => f.UsersId == User.Id && f.isDeleted == true));
             mc.SerialsSet.RemoveRange(mc.SerialsSet.Where(f => f.UsersId == User.Id && f.isDeleted == true));
             //SET DC=NULL
+            /*
             foreach (Films f in mc.FilmsSet.Where(f => f.UsersId == User.Id && f.DateChange != null))
             {
                 f.DateChange = null;
@@ -642,6 +647,7 @@ namespace My_Seen
             {
                 f.DateChange = null;
             }
+            */
             mc.SaveChanges();
             LoadItemsToListView();
             MessageBox.Show(Resource.SyncOK);

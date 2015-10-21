@@ -36,7 +36,6 @@ namespace MySeenAndroid
 
             Log.Warn(LogTAG, "START");
 
-            DatabaseHelper db = new DatabaseHelper();
             int edited_id = 0;
             Serials film = new Serials();
             if (Intent.GetStringExtra(EXTRA_MODE_KEY) == EXTRA_MODE_VALUE_ADD)//Добавление нового
@@ -47,7 +46,7 @@ namespace MySeenAndroid
             {
                 Mode = Modes.Edit;
                 edited_id = Convert.ToInt32(Intent.GetStringExtra(EXTRA_EDIT_ID_KEY));
-                film = db.GetSerialById(edited_id);
+                film = DatabaseHelper.Get.GetSerialById(edited_id);
             }
 
             Log.Warn(LogTAG, "START Mode=" + Intent.GetStringExtra(EXTRA_MODE_KEY));
@@ -96,14 +95,14 @@ namespace MySeenAndroid
                 }
                 if (Mode == Modes.Add)
                 {
-                    if (db.isSerialExist(name_text.Text))
+                    if (DatabaseHelper.Get.isSerialExist(name_text.Text))
                     {
                         tv_error.Visibility = ViewStates.Visible;
                         tv_error.Text = "Serial already exists";
                         return;
                     }
 
-                    db.Add(new Serials
+                    DatabaseHelper.Get.Add(new Serials
                     {
                         Name = name_text.Text,
                         DateChange = UMTTime.To(DateTime.Now),
@@ -112,18 +111,18 @@ namespace MySeenAndroid
                         LastSeason = iseason,
                         LastSeries = iseries,
                         Genre = comboboxgenre.SelectedItemPosition,
-                        Rate = comboboxrate.SelectedItemPosition
+                        Rating = comboboxrate.SelectedItemPosition
                     });
                 }
                 else
                 {
-                    if (db.isSerialExistAndNotSame(name_text.Text, edited_id))
+                    if (DatabaseHelper.Get.isSerialExistAndNotSame(name_text.Text, edited_id))
                     {
                         tv_error.Visibility = ViewStates.Visible;
                         tv_error.Text = "Serial already exists";
                         return;
                     }
-                    db.Update(new Serials
+                    DatabaseHelper.Get.Update(new Serials
                     {
                         Id = film.Id,
                         Name = name_text.Text,
@@ -133,7 +132,9 @@ namespace MySeenAndroid
                         LastSeason = iseason,
                         LastSeries = iseries,
                         Genre = comboboxgenre.SelectedItemPosition,
-                        Rate = comboboxrate.SelectedItemPosition
+                        Rating = comboboxrate.SelectedItemPosition,
+                        Id_R = film.Id_R,
+                        isDeleted = film.isDeleted
                     });
                 }
                 var intent = new Intent(this, typeof(MainActivity));
@@ -151,7 +152,7 @@ namespace MySeenAndroid
             {
                 name_text.Text = film.Name;
                 comboboxgenre.SetSelection(adapter.GetPosition(Defaults.Genres.GetById(film.Genre)));
-                comboboxrate.SetSelection(adapter_rate.GetPosition(Defaults.Ratings.GetById(film.Rate)));
+                comboboxrate.SetSelection(adapter_rate.GetPosition(Defaults.Ratings.GetById(film.Rating)));
                 season.Text = film.LastSeason.ToString();
                 series.Text = film.LastSeries.ToString();
             }
