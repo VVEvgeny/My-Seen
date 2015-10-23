@@ -39,10 +39,16 @@ namespace MySeenAndroid
 
 
 
-            /*
-             
-             ПРОВАЛЬНЫЕ ПОПЫТКИ ДОСТУЧАТЬСЯ до русского языка в библиотеке
-             
+
+            
+             /*
+             //ПРОВАЛЬНЫЕ ПОПЫТКИ ДОСТУЧАТЬСЯ до русского языка в библиотеке
+                         
+            {
+                StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().PermitAll().Build();
+                StrictMode.SetThreadPolicy(policy);
+            }
+
             MySeenLib.Resource.Culture = new System.Globalization.CultureInfo("ru-RU");
             CultureInfoTool.SetCulture("ru-RU");
             System.Threading.Thread.CurrentThread.CurrentCulture = new System.Globalization.CultureInfo("ru");
@@ -51,15 +57,13 @@ namespace MySeenAndroid
             conf.Locale = new Java.Util.Locale("ru");
             DisplayMetrics dm = this.Resources.DisplayMetrics;
             this.Resources.UpdateConfiguration(conf, dm);
-            */
-            /*
+
             var languageIso = "ru";
             var locale = new Java.Util.Locale(languageIso);
             Java.Util.Locale.Default = locale;
             var config = new Android.Content.Res.Configuration { Locale = locale };
             BaseContext.Resources.UpdateConfiguration(config, BaseContext.Resources.DisplayMetrics);
             SetContentView(Resource.Layout.Main);
-
 
             Resources.Configuration.Locale = locale;
 
@@ -80,8 +84,6 @@ namespace MySeenAndroid
             Log.Warn(LogTAG, "test7=" + MySeenLib.Resource.ResourceManager.GetString(MySeenLib.Resource.CreatePasswordText1, new System.Globalization.CultureInfo(MySeenLib.CultureInfoTool.Cultures.Russian)));
             Log.Warn(LogTAG, "test000=" + MySeenLib.Resource.Culture.ToString());
 
-
-            
             System.Resources.ResourceManager resmgr = new System.Resources.ResourceManager("MySeenLib.Resource", typeof(MySeenLib.Resource).Assembly);
             CultureInfo ci = new System.Globalization.CultureInfo("ru-RU");
             Log.Warn(LogTAG, "test10=" + resmgr.GetString(MySeenLib.Resource.CreatePasswordText1, ci));

@@ -119,6 +119,8 @@ namespace MySeenAndroid
         }
         private void Sync(string email)
         {
+            Log.Warn(LogTAG, "BEGIN SYNC email=" + email);
+
             TextView tv_error = FindViewById<TextView>(Resource.Id.config_error);
             tv_error.Visibility = ViewStates.Gone;
 
@@ -126,7 +128,7 @@ namespace MySeenAndroid
             tv_info.Visibility = ViewStates.Visible;
 
             string mess = string.Empty;
-            if(!Validations.ValidateEmail(ref mess,email))
+            if (!Validations.ValidateEmail(ref mess, email))
             {
                 tv_error.Visibility = ViewStates.Visible;
                 tv_error.Text = MySeenLib.Resource.EmailIncorrect;
@@ -144,12 +146,13 @@ namespace MySeenAndroid
             foreach (Films film in DatabaseHelper.Get.GetFilmsWithDeleted())
             {
                 films.Add(Map(film));
-                //Log.Warn(LogTAG, "film name=" + film.Name + " id=" + film.Id_R);
             }
             foreach (Serials film in DatabaseHelper.Get.GetSerialsWithDeleted())
             {
                 films.Add(Map(film));
             }
+            Log.Warn(LogTAG, "data for sync=" + films.Count.ToString());
+
             WebRequest req;
             MySeenWebApi.SyncJsonAnswer answer;
             if (films.Count != 0)
@@ -176,64 +179,67 @@ namespace MySeenAndroid
                     tv_info.Visibility = ViewStates.Gone;
                     return;
                 }
-                req = WebRequest.Create(MySeenWebApi.ApiHostAndroid + MySeenWebApi.ApiSync + MD5Tools.GetMd5Hash(email.ToLower()) + "/" + ((int)MySeenWebApi.SyncModesApiData.GetAll).ToString());
-                string data = (new StreamReader(req.GetResponse().GetResponseStream())).ReadToEnd();
-                req.GetResponse().Close();
-                answer = MySeenWebApi.GetResponseAnswer(data);
-                if (answer != null)
-                {
-                    if (answer.Value == MySeenWebApi.SyncJsonAnswer.Values.UserNotExist)
-                    {
-                        tv_error.Visibility = ViewStates.Visible;
-                        tv_error.Text = MySeenLib.Resource.UserNotExist;
-                        Log.Warn(LogTAG, MySeenLib.Resource.UserNotExist);
-                        tv_info.Visibility = ViewStates.Gone;
-                        return;
-                    }
-                    else if (answer.Value == MySeenWebApi.SyncJsonAnswer.Values.BadRequestMode)
-                    {
-                        tv_error.Visibility = ViewStates.Visible;
-                        tv_error.Text = MySeenLib.Resource.BadRequestMode;
-                        Log.Warn(LogTAG, MySeenLib.Resource.BadRequestMode);
-                        tv_info.Visibility = ViewStates.Gone;
-                        return;
-                    }
-                }
-                else
-                {
-                    DatabaseHelper.Get.ClearFilms();
-                    DatabaseHelper.Get.ClearSerials();
-                    foreach (MySeenWebApi.SyncJsonData film in MySeenWebApi.GetResponse(data))
-                    {
-                        if (film.IsFilm)
-                        {
-                            //Log.Warn(LogTAG, "film name=" + film.Name + " id=" + film.Id);
-                            DatabaseHelper.Get.Add(MapToFilm(film));
-                        }
-                        else
-                        {
-                            //Log.Warn(LogTAG, "serial name=" + film.Name);
-                            DatabaseHelper.Get.Add(MapToSerial(film));
-                        }
-                    }
-                }
-                foreach(Films f in DatabaseHelper.Get.GetFilms())
-                {
-                    if (f.isDeleted.GetValueOrDefault(false)) DatabaseHelper.Get.Delete(f);
-                }
-                foreach (Serials f in DatabaseHelper.Get.GetSerials())
-                {
-                    if (f.isDeleted.GetValueOrDefault(false)) DatabaseHelper.Get.Delete(f);
-                }
-
-                tv_info.Text = "Sync OK";
-                AddData ad = new AddData() { Email = email };
-                if (DatabaseHelper.Get.GetAddDataCount() != 0)
-                {
-                    DatabaseHelper.Get.ClearAddData();
-                }
-                DatabaseHelper.Get.Add(ad);
             }
+            req = WebRequest.Create(MySeenWebApi.ApiHostAndroid + MySeenWebApi.ApiSync + MD5Tools.GetMd5Hash(email.ToLower()) + "/" + ((int)MySeenWebApi.SyncModesApiData.GetAll).ToString());
+            string data = (new StreamReader(req.GetResponse().GetResponseStream())).ReadToEnd();
+            req.GetResponse().Close();
+            answer = MySeenWebApi.GetResponseAnswer(data);
+            if (answer != null)
+            {
+                Log.Warn(LogTAG, "GetResponseAnswer=" + answer.Value);
+                if (answer.Value == MySeenWebApi.SyncJsonAnswer.Values.UserNotExist)
+                {
+                    tv_error.Visibility = ViewStates.Visible;
+                    tv_error.Text = MySeenLib.Resource.UserNotExist;
+                    Log.Warn(LogTAG, MySeenLib.Resource.UserNotExist);
+                    tv_info.Visibility = ViewStates.Gone;
+                    return;
+                }
+                else if (answer.Value == MySeenWebApi.SyncJsonAnswer.Values.BadRequestMode)
+                {
+                    tv_error.Visibility = ViewStates.Visible;
+                    tv_error.Text = MySeenLib.Resource.BadRequestMode;
+                    Log.Warn(LogTAG, MySeenLib.Resource.BadRequestMode);
+                    tv_info.Visibility = ViewStates.Gone;
+                    return;
+                }
+            }
+            else
+            {
+                Log.Warn(LogTAG, "save data");
+                DatabaseHelper.Get.ClearFilms();
+                DatabaseHelper.Get.ClearSerials();
+                foreach (MySeenWebApi.SyncJsonData film in MySeenWebApi.GetResponse(data))
+                {
+                    if (film.IsFilm)
+                    {
+                        //Log.Warn(LogTAG, "film name=" + film.Name + " id=" + film.Id);
+                        DatabaseHelper.Get.Add(MapToFilm(film));
+                    }
+                    else
+                    {
+                        //Log.Warn(LogTAG, "serial name=" + film.Name);
+                        DatabaseHelper.Get.Add(MapToSerial(film));
+                    }
+                }
+            }
+            foreach (Films f in DatabaseHelper.Get.GetFilms())
+            {
+                if (f.isDeleted.GetValueOrDefault(false)) DatabaseHelper.Get.Delete(f);
+            }
+            foreach (Serials f in DatabaseHelper.Get.GetSerials())
+            {
+                if (f.isDeleted.GetValueOrDefault(false)) DatabaseHelper.Get.Delete(f);
+            }
+
+            tv_info.Text = "Sync OK";
+            AddData ad = new AddData() { Email = email };
+            if (DatabaseHelper.Get.GetAddDataCount() != 0)
+            {
+                DatabaseHelper.Get.ClearAddData();
+            }
+            DatabaseHelper.Get.Add(ad);
+
 
 
 

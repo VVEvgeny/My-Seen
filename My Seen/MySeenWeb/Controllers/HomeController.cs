@@ -9,7 +9,7 @@ using MySeenLib;
 
 namespace MySeenWeb.Controllers
 {
-    [RequireHttps]
+    //[RequireHttps]
     public class HomeController : BaseController
     {
         public ActionResult Index()

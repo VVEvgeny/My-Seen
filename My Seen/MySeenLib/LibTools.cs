@@ -72,6 +72,8 @@ namespace MySeenLib
     {
         public static string ApiHost = @"https://localhost:44300";
         public static string ApiHostAndroid = @"https://10.0.2.2:443";
+        //public static string ApiHost = @"http://botmen-001-site1.btempurl.com";
+        //public static string ApiHostAndroid = @"http://205.144.171.47";
         public static string ApiUsers = @"/api/ApiUsers/";
         public static string ApiSync = @"/api/ApiSync/";
 
