@@ -27,7 +27,31 @@
 !!!!!!!!!!!!!!!!валидация на стороне клиента
 
 
+Локальный
+https://localhost:44300/
+равзернутый для андроида
+https://vve/api/ApiSync/e290b118702482ec7fd7c1343e02553f/1
 123123123aA=
+
+Удаленный
+Хостинг
+http://member2.mywindowshosting.com/account/account_screen
+ищеьут
+1-8
+
+HTTP://botmen-001-site1.btempurl.com
+
+
+
+FTP-адрес:ftp.mywindowshosting.com
+FTP Имя пользователя:botmen-001
+
+БД
+Data Source=SQL5017.myWindowsHosting.com;Initial Catalog=DB_9DE5D0_botmen;User Id=DB_9DE5D0_botmen_admin;Password=YOUR_DB_PASSWORD;
+Provider=SQLOLEDB;Data Source=SQL5017.myWindowsHosting.com;Initial Catalog=DB_9DE5D0_botmen;User Id=DB_9DE5D0_botmen_admin;Password=YOUR_DB_PASSWORD;
+
+
+
 
 ==АНДРОЕД
 -ListView динамический
