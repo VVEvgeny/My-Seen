@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<manifest xmlns:android="http://schemas.android.com/apk/res/android" package="MySeenAndroid.MySeenAndroid" android:versionCode="1" android:versionName="1.0" android:installLocation="auto">
+<manifest xmlns:android="http://schemas.android.com/apk/res/android" package="com.vve.myseen" android:versionCode="1" android:versionName="1.0" android:installLocation="auto">
 	<uses-sdk android:minSdkVersion="17" android:targetSdkVersion="17" android:launchMode="singleTask" />
-	<application android:label="MySeenAndroid" android:icon="@drawable/Icon"></application>
+	<application android:label="MySeen" android:icon="@drawable/Icon"></application>
 	<uses-permission android:name="android.permission.INTERNET" />
 </manifest>

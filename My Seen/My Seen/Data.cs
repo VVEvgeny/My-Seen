@@ -218,11 +218,8 @@ namespace My_Seen
                 form.User = user;
                 form.EditData(lvi.SubItems[0].Text, lvi.SubItems[1].Text, lvi.SubItems[2].Text, lvi.SubItems[3].Text, lvi.SubItems[4].Text);
                 form.ShowDialog();
-                if (form.DelRecord)
-                {
-                    listView1.Items.Remove(lvi);
-                }
-                else if (form.NewFilm != null)
+
+                if (form.NewFilm != null)
                 {
                     ModelContainer mc = new ModelContainer();
                     int f_id = Convert.ToInt32(lvi.SubItems[0].Text);
@@ -232,11 +229,18 @@ namespace My_Seen
                     film.DateSee = UMTTime.To(form.NewFilm.DateSee);
                     film.Rating = form.NewFilm.Rating;
                     film.DateChange = UMTTime.To(form.NewFilm.DateChange);
-
-                    lvi.SubItems[1].Text = form.NewFilm.Name;
-                    lvi.SubItems[2].Text = Defaults.Genres.GetById(form.NewFilm.Genre);
-                    lvi.SubItems[3].Text = form.NewFilm.DateSee.ToString();
-                    lvi.SubItems[4].Text = Defaults.Ratings.GetById(film.Rating);
+                    if (form.DelRecord)
+                    {
+                        film.isDeleted = true;
+                        listView1.Items.Remove(lvi);
+                    }
+                    else
+                    {
+                        lvi.SubItems[1].Text = form.NewFilm.Name;
+                        lvi.SubItems[2].Text = Defaults.Genres.GetById(form.NewFilm.Genre);
+                        lvi.SubItems[3].Text = form.NewFilm.DateSee.ToString();
+                        lvi.SubItems[4].Text = Defaults.Ratings.GetById(film.Rating);
+                    }
                     mc.SaveChanges();
                 }
                 form.Close();
@@ -247,11 +251,7 @@ namespace My_Seen
                 form.User = user;
                 form.EditData(lvi.SubItems[0].Text, lvi.SubItems[1].Text, lvi.SubItems[5].Text, lvi.SubItems[6].Text, lvi.SubItems[2].Text.Split('-')[0], lvi.SubItems[2].Text.Split('-')[1], lvi.SubItems[3].Text);
                 form.ShowDialog();
-                if (form.DelRecord)
-                {
-                    listView1.Items.Remove(lvi);
-                }
-                else if (form.NewFilm != null)
+                if (form.NewFilm != null)
                 {
                     ModelContainer mc = new ModelContainer();
                     int f_id = Convert.ToInt32(lvi.SubItems[0].Text);
@@ -264,12 +264,20 @@ namespace My_Seen
                     film.DateLast = UMTTime.To(form.NewFilm.DateLast);
                     film.Rating = form.NewFilm.Rating;
                     film.DateChange = UMTTime.To(form.NewFilm.DateChange);
-                    lvi.SubItems[1].Text = form.NewFilm.Name;
-                    lvi.SubItems[2].Text = form.NewFilm.LastSeason.ToString() + "-" + form.NewFilm.LastSeries.ToString();
-                    lvi.SubItems[3].Text = Defaults.Genres.GetById(form.NewFilm.Genre);
-                    lvi.SubItems[4].Text = form.NewFilm.DateLast.ToString();
-                    lvi.SubItems[5].Text = form.NewFilm.DateBegin.ToString();
-                    lvi.SubItems[6].Text = Defaults.Ratings.GetById(film.Rating);
+                    if (form.DelRecord)
+                    {
+                        film.isDeleted = true;
+                        listView1.Items.Remove(lvi);
+                    }
+                    else
+                    {
+                        lvi.SubItems[1].Text = form.NewFilm.Name;
+                        lvi.SubItems[2].Text = form.NewFilm.LastSeason.ToString() + "-" + form.NewFilm.LastSeries.ToString();
+                        lvi.SubItems[3].Text = Defaults.Genres.GetById(form.NewFilm.Genre);
+                        lvi.SubItems[4].Text = form.NewFilm.DateLast.ToString();
+                        lvi.SubItems[5].Text = form.NewFilm.DateBegin.ToString();
+                        lvi.SubItems[6].Text = Defaults.Ratings.GetById(film.Rating);
+                    }
                     mc.SaveChanges();
                 }
                 form.Close();
@@ -521,8 +529,9 @@ namespace My_Seen
             //Буду отдавать ему ВСЁ, так надежнее
             //films.AddRange(mc.FilmsSet.Where(f => f.UsersId == User.Id && f.DateChange != null).Select(Map));
             //films.AddRange(mc.SerialsSet.Where(f => f.UsersId == User.Id && f.DateChange != null).Select(Map));
-            films.AddRange(mc.FilmsSet.Where(f => f.UsersId == User.Id).Select(Map));
-            films.AddRange(mc.SerialsSet.Where(f => f.UsersId == User.Id).Select(Map));
+            films.AddRange(mc.FilmsSet.Where(f => f.UsersId == User.Id).Select(Map).Union(mc.SerialsSet.Where(f => f.UsersId == User.Id).Select(Map)));
+            //films.AddRange(mc.FilmsSet.Where(f => f.UsersId == User.Id).Select(Map));
+            //films.AddRange(mc.SerialsSet.Where(f => f.UsersId == User.Id).Select(Map));
             WebRequest req;
             MySeenWebApi.SyncJsonAnswer answer;
             if (films.Count() != 0)
@@ -546,23 +555,13 @@ namespace My_Seen
                     MessageBox.Show(Resource.ApiError);
                     return;
                 }
-                //MessageBox.Show(answer.ToString());
-
-                //DEL NEW
-                //Для 2х БД алгоритм хороший, но тут есть 3 БД, надо между всеми...
-                //mc.FilmsSet.RemoveRange(mc.FilmsSet.Where(f => f.UsersId == User.Id && f.Id_R == null));
-                //mc.SerialsSet.RemoveRange(mc.SerialsSet.Where(f => f.UsersId == User.Id && f.Id_R == null));
             }
 
-            //GET NEW + UPDATED + DELETED
-
-            //Для 2х БД алгоритм хороший, но тут есть 3 БД, надо между всеми...
-            //req = WebRequest.Create(MySeenWebApi.ApiHost + MySeenWebApi.ApiSync + MD5Tools.GetMd5Hash(User.Email.ToLower()) + "/" + ((int)MySeenWebApi.SyncModesApiData.GetNewUpdatedDeleted).ToString());
             req = WebRequest.Create(MySeenWebApi.ApiHost + MySeenWebApi.ApiSync + MD5Tools.GetMd5Hash(User.Email.ToLower()) + "/" + ((int)MySeenWebApi.SyncModesApiData.GetAll).ToString());
 
             string data = (new StreamReader(req.GetResponse().GetResponseStream())).ReadToEnd();
             req.GetResponse().Close();
-            //MessageBox.Show("data2=" + data);
+
             answer = MySeenWebApi.GetResponseAnswer(data);
 
             if (answer != null)
@@ -586,68 +585,15 @@ namespace My_Seen
                 {
                     if (film.IsFilm)
                     {
-                        /*
-                        if (mc.FilmsSet.Where(f => f.Id_R == film.Id && f.UsersId == User.Id).Count() != 0)//с таким ID есть в БД, обновим
-                        {
-                            var filmBD = mc.FilmsSet.Where(f => f.Id_R == film.Id && f.UsersId == User.Id).First();
-                            if (filmBD.DateChange == null || filmBD.DateChange < film.DateChange)//есть не изменненый или изменен ранее чем обновляем
-                            {
-                                filmBD.DateChange = null;//на клиенте он актуальный, не будем отправлять ему
-                                filmBD.DateSee = film.DateSee;
-                                filmBD.Genre = film.Genre;
-                                filmBD.isDeleted = film.isDeleted;
-                                filmBD.Rating = film.Rating;
-                                filmBD.Name = film.Name;
-                            }
-                        }
-                        else //новый
-                            */
-                        {
-                            mc.FilmsSet.Add(MapToFilm(film, User.Id));
-                        }
+                        mc.FilmsSet.Add(MapToFilm(film, User.Id));
                     }
                     else
                     {
-                        /*
-                        if (mc.SerialsSet.Where(f => f.Id_R == film.Id && f.UsersId == User.Id).Count() != 0)//с таким ID есть в БД, обновим
-                        {
-                            var filmBD = mc.SerialsSet.Where(f => f.Id_R == film.Id && f.UsersId == User.Id).First();
-                            if (filmBD.DateChange == null || filmBD.DateChange < film.DateChange)//есть не изменненый или изменен ранее чем обновляем
-                            {
-                                filmBD.DateChange = null;//на клиенте он актуальный, не будем отправлять ему
-                                filmBD.Genre = film.Genre;
-                                filmBD.isDeleted = film.isDeleted;
-                                filmBD.Rating = film.Rating;
-                                filmBD.DateBegin = film.DateBegin;
-                                filmBD.DateLast = film.DateLast;
-                                filmBD.LastSeason = film.LastSeason;
-                                filmBD.LastSeries = film.LastSeries;
-                                filmBD.Name = film.Name;
-                            }
-                        }
-                        else
-                         * */
-                        {
-                            mc.SerialsSet.Add(MapToSerial(film, User.Id));
-                        }
+                        mc.SerialsSet.Add(MapToSerial(film, User.Id));
                     }
                 }
             }
             mc.SaveChanges();
-            //DEL DELETED
-            mc.FilmsSet.RemoveRange(mc.FilmsSet.Where(f => f.UsersId == User.Id && f.isDeleted == true));
-            mc.SerialsSet.RemoveRange(mc.SerialsSet.Where(f => f.UsersId == User.Id && f.isDeleted == true));
-            //SET DC=NULL
-            /*
-            foreach (Films f in mc.FilmsSet.Where(f => f.UsersId == User.Id && f.DateChange != null))
-            {
-                f.DateChange = null;
-            }
-            foreach (Serials f in mc.SerialsSet.Where(f => f.UsersId == User.Id && f.DateChange != null))
-            {
-                f.DateChange = null;
-            }
-            */
             mc.SaveChanges();
             LoadItemsToListView();
             MessageBox.Show(Resource.SyncOK);

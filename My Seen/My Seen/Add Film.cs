@@ -102,17 +102,7 @@ namespace My_Seen
 
         private void button2_Click(object sender, EventArgs e)
         {
-            ModelContainer mc = new ModelContainer();
-            var film = mc.FilmsSet.Where(f => f.UsersId == User.Id && f.Id == EditId).First();
-            if (film.Id_R.GetValueOrDefault(0) == 0)
-            {
-                mc.FilmsSet.Remove(film);
-            }
-            else
-            {
-                film.isDeleted = true;
-            }
-            mc.SaveChanges();
+            newFilm = new Films() { Id = EditId, UsersId = user.Id, Name = textBox1.Text, DateSee = dateTimePicker1.Value, DateChange = DateTime.Now, Rating = Defaults.Ratings.GetId(comboBox1.Text), Genre = Defaults.Genres.GetId(comboBox2.Text) };
             DelRecord = true;
             Hide();
         }

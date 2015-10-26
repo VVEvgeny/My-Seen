@@ -121,17 +121,7 @@ namespace My_Seen
 
         private void button2_Click(object sender, EventArgs e)
         {
-            ModelContainer mc = new ModelContainer();
-            var film = mc.SerialsSet.Where(f => f.UsersId == User.Id && f.Id == EditId).First();
-            if (film.Id_R.GetValueOrDefault(0) == 0)
-            {
-                mc.SerialsSet.Remove(film);
-            }
-            else
-            {
-                film.isDeleted = true;
-            }
-            mc.SaveChanges();
+            newFilm = new Serials() { Id = EditId, UsersId = user.Id, Name = textBox1.Text, DateBegin = dateTimePicker1.Value, DateLast = DateTime.Now, DateChange = DateTime.Now, Rating = Defaults.Ratings.GetId(comboBox1.Text), LastSeason = Convert.ToInt32(textBox2.Text), LastSeries = Convert.ToInt32(textBox3.Text), Genre = Defaults.Genres.GetId(comboBox2.Text) };
             DelRecord = true;
             Hide();
         }
