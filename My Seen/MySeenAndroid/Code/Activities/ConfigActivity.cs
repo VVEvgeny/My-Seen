@@ -157,7 +157,7 @@ namespace MySeenAndroid
             MySeenWebApi.SyncJsonAnswer answer;
             if (films.Count != 0)
             {
-                req = WebRequest.Create(MySeenWebApi.ApiHostAndroid + MySeenWebApi.ApiSync + MD5Tools.GetMd5Hash(email.ToLower()) + "/" + ((int)MySeenWebApi.SyncModesApiData.PostNewUpdatedDeleted).ToString());
+                req = WebRequest.Create(MySeenWebApi.ApiHostAndroid + MySeenWebApi.ApiSync + MD5Tools.GetMd5Hash(email.ToLower()) + "/" + ((int)MySeenWebApi.SyncModesApiData.PostAll).ToString());
                 req.Method = "POST";
                 req.Credentials = CredentialCache.DefaultCredentials;
                 ((HttpWebRequest)req).UserAgent = "MySeen";
@@ -239,52 +239,6 @@ namespace MySeenAndroid
                 DatabaseHelper.Get.ClearAddData();
             }
             DatabaseHelper.Get.Add(ad);
-
-
-
-
-
-
-            /*
-            Log.Warn(LogTAG, "BEGIN SYNC");
-            try
-            {
-                WebRequest req = WebRequest.Create("https://10.0.2.2:443" + MySeenWebApi.ApiUsers + MD5Tools.GetMd5Hash(email.ToLower()) + "/" + ((int)MySeenWebApi.SyncModesApiUsers.isUserExists).ToString());
-                MySeenWebApi.SyncJsonAnswer answer = MySeenWebApi.GetResponseAnswer((new StreamReader(req.GetResponse().GetResponseStream())).ReadToEnd());
-                if (answer != null)
-                {
-                    if (answer.Value == MySeenWebApi.SyncJsonAnswer.Values.UserNotExist)
-                    {
-                        tv_error.Visibility = ViewStates.Visible;
-                        tv_error.Text = MySeenLib.Resource.UserNotExist;
-                        Log.Warn(LogTAG, MySeenLib.Resource.UserNotExist);
-                        tv_info.Visibility = ViewStates.Gone;
-                    }
-                    else
-                    {
-                        Log.Warn(LogTAG, MySeenLib.Resource.UserOK);
-
-                        AddData ad = new AddData() { Email = email };
-                        if (DatabaseHelper.Get.GetAddDataCount() != 0)
-                        {
-                            DatabaseHelper.Get.ClearAddData();
-                        }
-                        DatabaseHelper.Get.Add(ad);
-                    }
-                }
-                req.GetResponse().Close();
-                tv_info.Text = "Sync OK";
-            }
-            catch (Exception e)
-            {
-                tv_error.Visibility = ViewStates.Visible;
-                tv_error.Text = e.Message;
-                Log.Warn(LogTAG, e.Message);
-                tv_info.Visibility = ViewStates.Gone;
-            }
-            //Log.Warn(LogTAG, MySeenLib.Resource.ApiError);
-            */
-
             Log.Warn(LogTAG, "END SYNC");
         }
     }

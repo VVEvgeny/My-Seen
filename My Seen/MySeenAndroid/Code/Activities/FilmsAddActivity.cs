@@ -92,7 +92,6 @@ namespace MySeenAndroid
                         return;
                     }
                     DatabaseHelper.Get.Update(new Films { Id = film.Id, Name = name_text.Text, DateChange = UMTTime.To(DateTime.Now), DateSee = film.DateSee, Genre = comboboxgenre.SelectedItemPosition, Rating = comboboxrate.SelectedItemPosition, Id_R = film.Id_R, isDeleted = film.isDeleted });
-                    if (film.DateChange.HasValue) Log.Warn(LogTAG, "DateChange=" + film.DateChange.Value);
                 }
                 var intent = new Intent(this, typeof(MainActivity));
                 SetResult(Result.Ok, intent);

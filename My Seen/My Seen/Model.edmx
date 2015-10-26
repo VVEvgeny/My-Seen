@@ -39,7 +39,7 @@
     <Property Name="DateSee" Type="datetime" Nullable="false" />
     <Property Name="Rating" Type="int" Nullable="false" />
     <Property Name="Genre" Type="int" Nullable="false" />
-    <Property Name="DateChange" Type="datetime" Nullable="true" />
+    <Property Name="DateChange" Type="datetime" Nullable="false" />
     <Property Name="isDeleted" Type="bit" Nullable="true" />
   </EntityType>
   <EntityType Name="SerialsSet">
@@ -56,7 +56,7 @@
     <Property Name="DateLast" Type="datetime" Nullable="false" />
     <Property Name="Rating" Type="int" Nullable="false" />
     <Property Name="Genre" Type="int" Nullable="false" />
-    <Property Name="DateChange" Type="datetime" Nullable="true" />
+    <Property Name="DateChange" Type="datetime" Nullable="false" />
     <Property Name="isDeleted" Type="bit" Nullable="true" />
   </EntityType>
   <Association Name="UsersFilms">
@@ -128,7 +128,7 @@
           <Property Name="Rating" Type="Int32" Nullable="false" />
           <NavigationProperty Name="Users" Relationship="Model.UsersFilms" FromRole="Films" ToRole="Users" />
           <Property Name="Genre" Type="Int32" Nullable="false" />
-          <Property Name="DateChange" Type="DateTime" Nullable="true" />
+          <Property Name="DateChange" Type="DateTime" Nullable="false" />
           <Property Name="isDeleted" Type="Boolean" Nullable="true" />
         </EntityType>
         <EntityType Name="Serials">
@@ -146,7 +146,7 @@
           <Property Name="DateLast" Type="DateTime" Nullable="false" />
           <Property Name="Rating" Type="Int32" Nullable="false" />
           <Property Name="Genre" Type="Int32" Nullable="false" />
-          <Property Name="DateChange" Type="DateTime" Nullable="true" />
+          <Property Name="DateChange" Type="DateTime" Nullable="false" />
           <Property Name="isDeleted" Type="Boolean" Nullable="true" />
         </EntityType>
         <Association Name="UsersFilms">

@@ -100,51 +100,12 @@ namespace MySeenWeb.Controllers
             }
             if ((MySeenWebApi.SyncModesApiData)mode == MySeenWebApi.SyncModesApiData.GetAll)
             {
-                ac.Films.RemoveRange(ac.Films.Where(f => f.UserId == user_id && f.isDeleted == true));
-                ac.Serials.RemoveRange(ac.Serials.Where(f => f.UserId == user_id && f.isDeleted == true));
-
                 List<MySeenWebApi.SyncJsonData> film = new List<MySeenWebApi.SyncJsonData>();
-                film.AddRange(ac.Films.Where(f => f.UserId == user_id).Select(Map));
-                film.AddRange(ac.Serials.Where(f => f.UserId == user_id).Select(Map));
-
-                foreach(Films f in ac.Films.Where(f => f.UserId == user_id && f.DateChange != null))
-                {
-                    f.DateChange = null;
-                }
-                foreach (Serials f in ac.Serials.Where(f => f.UserId == user_id && f.DateChange != null))
-                {
-                    f.DateChange = null;
-                }
-                ac.SaveChanges();
+                film.AddRange(ac.Films.Where(f => f.UserId == user_id).Select(Map).Union(ac.Serials.Where(f => f.UserId == user_id).Select(Map)));
+                //film.AddRange(ac.Films.Where(f => f.UserId == user_id).Select(Map));
+                //film.AddRange(ac.Serials.Where(f => f.UserId == user_id).Select(Map));
 
                 if (film != null && film.Count()>0)
-                {
-                    return Ok(film.AsEnumerable());
-                }
-                return Ok(new MySeenWebApi.SyncJsonAnswer { Value = MySeenWebApi.SyncJsonAnswer.Values.NoData });
-            }
-            if ((MySeenWebApi.SyncModesApiData)mode == MySeenWebApi.SyncModesApiData.GetNewUpdatedDeleted)
-            {
-                List<MySeenWebApi.SyncJsonData> film = new List<MySeenWebApi.SyncJsonData>();
-                film.AddRange(ac.Films.Where(f => f.UserId == user_id && f.DateChange != null).Select(Map));
-                film.AddRange(ac.Serials.Where(f => f.UserId == user_id && f.DateChange != null).Select(Map));
-
-                //всем отправленым скинем флаг
-                foreach (Films f in ac.Films.Where(f => f.UserId == user_id && f.DateChange != null))
-                {
-                    f.DateChange = null;
-                }
-                foreach (Serials f in ac.Serials.Where(f => f.UserId == user_id && f.DateChange != null))
-                {
-                    f.DateChange = null;
-                }
-                //удалим удаленные
-                //ac.Films.RemoveRange(ac.Films.Where(f => f.UserId == user_id && f.isDeleted == true));
-                //ac.Serials.RemoveRange(ac.Serials.Where(f => f.UserId == user_id && f.isDeleted == true));
-
-                ac.SaveChanges();
-
-                if (film != null && film.Count() > 0)
                 {
                     return Ok(film.AsEnumerable());
                 }
@@ -155,7 +116,7 @@ namespace MySeenWeb.Controllers
         [HttpPost]
         public IHttpActionResult Post([FromUri]string user_key, [FromUri]int mode, [FromBody] IEnumerable<MySeenWebApi.SyncJsonData> data)
         {
-            if (data == null || (MySeenWebApi.SyncModesApiData)mode != MySeenWebApi.SyncModesApiData.PostNewUpdatedDeleted)
+            if (data == null || (MySeenWebApi.SyncModesApiData)mode != MySeenWebApi.SyncModesApiData.PostAll)
             {
                 return Ok(new MySeenWebApi.SyncJsonAnswer { Value = MySeenWebApi.SyncJsonAnswer.Values.BadRequestMode });
             }
@@ -171,13 +132,12 @@ namespace MySeenWeb.Controllers
                 {
                     if (film.IsFilm)
                     {
-                        if (film.Id == null || ac.Films.Where(f => f.Id == film.Id && f.UserId == user_id).Count() == 0)//Новый или его нет в БД (нет базы в вебе)
+                        if (film.Id == null)
                         {
                             if (ac.Films.Where(f => f.Name == film.Name && f.UserId==user_id).Count() != 0)//с таким именем у нас уже есть
                             {
                                 var filmBD = ac.Films.Where(f => f.Name == film.Name && f.UserId == user_id).First();
-                                if(//filmBD.DateChange == null || 
-                                    filmBD.DateChange < film.DateChange)//есть не изменненый или изменен ранее чем обновляем
+                                if(filmBD.DateChange < film.DateChange)//есть не изменненый или изменен ранее чем обновляем
                                 {
                                     filmBD.DateChange = film.DateChange;
                                     filmBD.DateSee = film.DateSee;
@@ -196,10 +156,9 @@ namespace MySeenWeb.Controllers
                             if (ac.Films.Where(f => f.Id == film.Id && f.UserId == user_id).Count() != 0)//с таким ID есть в БД, обновим
                             {
                                 var filmBD = ac.Films.Where(f => f.Id == film.Id && f.UserId == user_id).First();
-                                if (//filmBD.DateChange == null || 
-                                    filmBD.DateChange < film.DateChange)//есть не изменненый или изменен ранее чем обновляем
+                                if (filmBD.DateChange < film.DateChange)//есть не изменненый или изменен ранее чем обновляем
                                 {
-                                    filmBD.DateChange = null;//на клиенте он актуальный, не будем отправлять ему
+                                    filmBD.DateChange = film.DateChange;
                                     filmBD.DateSee = film.DateSee;
                                     filmBD.Genre = film.Genre;
                                     filmBD.isDeleted = film.isDeleted;
@@ -207,17 +166,20 @@ namespace MySeenWeb.Controllers
                                     filmBD.Name = film.Name;
                                 }
                             }
+                            else
+                            {
+                                ac.Films.Add(MapToFilm(film, user_id));
+                            }
                         }
                     }
                     else
                     {
-                        if (film.Id == null || ac.Serials.Where(f => f.Id == film.Id && f.UserId == user_id).Count() == 0)//Новый 
+                        if (film.Id == null)//Новый 
                         {
                             if (ac.Serials.Where(f => f.Name == film.Name && f.UserId == user_id).Count() != 0)//с таким именем у нас уже есть
                             {
                                 var filmBD = ac.Serials.Where(f => f.Name == film.Name && f.UserId == user_id).First();
-                                if (//filmBD.DateChange == null || 
-                                    filmBD.DateChange < film.DateChange)//есть не изменненый или изменен ранее чем обновляем
+                                if (filmBD.DateChange < film.DateChange)//есть не изменненый или изменен ранее чем обновляем
                                 {
                                     filmBD.DateChange = film.DateChange;
                                     filmBD.Genre = film.Genre;
@@ -239,10 +201,9 @@ namespace MySeenWeb.Controllers
                             if (ac.Serials.Where(f => f.Id == film.Id && f.UserId == user_id).Count() != 0)//с таким ID есть в БД, обновим
                             {
                                 var filmBD = ac.Serials.Where(f => f.Id == film.Id && f.UserId == user_id).First();
-                                if (//filmBD.DateChange == null || 
-                                    filmBD.DateChange < film.DateChange)//есть не изменненый или изменен ранее чем обновляем
+                                if (filmBD.DateChange < film.DateChange)//есть не изменненый или изменен ранее чем обновляем
                                 {
-                                    filmBD.DateChange = null;//на клиенте он актуальный, не будем отправлять ему
+                                    filmBD.DateChange = film.DateChange;
                                     filmBD.Genre = film.Genre;
                                     filmBD.isDeleted = film.isDeleted;
                                     filmBD.Rating = film.Rating;
@@ -252,6 +213,10 @@ namespace MySeenWeb.Controllers
                                     filmBD.LastSeries = film.LastSeries;
                                     filmBD.Name = film.Name;
                                 }
+                            }
+                            else
+                            {
+                                ac.Serials.Add(MapToSerial(film, user_id));
                             }
                         }
                     }

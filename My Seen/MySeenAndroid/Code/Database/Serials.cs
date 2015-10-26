@@ -15,7 +15,7 @@ namespace MySeenAndroid
         public DateTime DateLast { get; set; }
         public int Genre { get; set; }
         public int Rating { get; set; }
-        public DateTime? DateChange { get; set; }
+        public DateTime DateChange { get; set; }
         public bool? isDeleted { get; set; }
     }
 }

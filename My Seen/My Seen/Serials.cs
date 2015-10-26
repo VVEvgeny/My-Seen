@@ -24,7 +24,7 @@ namespace My_Seen
         public System.DateTime DateLast { get; set; }
         public int Rating { get; set; }
         public int Genre { get; set; }
-        public Nullable<System.DateTime> DateChange { get; set; }
+        public System.DateTime DateChange { get; set; }
         public Nullable<bool> isDeleted { get; set; }
     
         public virtual Users Users { get; set; }

@@ -527,7 +527,7 @@ namespace My_Seen
             MySeenWebApi.SyncJsonAnswer answer;
             if (films.Count() != 0)
             {
-                req = WebRequest.Create(MySeenWebApi.ApiHost + MySeenWebApi.ApiSync + MD5Tools.GetMd5Hash(User.Email.ToLower()) + "/" + ((int)MySeenWebApi.SyncModesApiData.PostNewUpdatedDeleted).ToString());
+                req = WebRequest.Create(MySeenWebApi.ApiHost + MySeenWebApi.ApiSync + MD5Tools.GetMd5Hash(User.Email.ToLower()) + "/" + ((int)MySeenWebApi.SyncModesApiData.PostAll).ToString());
                 req.Method = "POST";
                 req.Credentials = CredentialCache.DefaultCredentials;
                 ((HttpWebRequest)req).UserAgent = "MySeen";

@@ -84,9 +84,7 @@ namespace MySeenLib
         public enum SyncModesApiData
         {
             GetAll = 1,
-            GetNew = 2,
-            PostNewUpdatedDeleted = 3,
-            GetNewUpdatedDeleted = 4
+            PostAll = 2
         }
         public class SyncJsonAnswer
         {
@@ -120,7 +118,7 @@ namespace MySeenLib
             [JsonProperty("DateSee")]
             public DateTime DateSee { get; set; }
             [JsonProperty("DateChange")]
-            public DateTime? DateChange { get; set; }
+            public DateTime DateChange { get; set; }
             [JsonProperty("isDeleted")]
             public bool? isDeleted { get; set; }
 
