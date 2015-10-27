@@ -10,6 +10,22 @@ using Newtonsoft.Json;
 
 namespace MySeenLib
 {
+    public static class TEST
+    {
+        private static bool mEnabled = false;
+        public static bool ENABLED
+        {
+            get
+            {
+                return mEnabled;
+            }
+            set
+            {
+                mEnabled = value;
+            }
+        }
+    }
+
     public static class UMTTime
     {
         public static DateTime To(DateTime _datetime)
@@ -70,8 +86,40 @@ namespace MySeenLib
     }
     public static class MySeenWebApi
     {
-        public static string ApiHost = @"http://localhost:44301";
-        public static string ApiHostAndroid = @"https://10.0.2.2:443";
+        public static string ApiHost
+        {
+            get
+            {
+                if (TEST.ENABLED)
+                {
+                    return "http://localhost:44301";
+                }
+                else
+                {
+                    return "http://myseen.by/";
+                }
+            }
+        }
+        public static string ApiHostAndroid
+        {
+            get
+            {
+                if (TEST.ENABLED)
+                {
+                    return "https://10.0.2.2:443";
+                }
+                else
+                {
+                    return ApiHost;
+                }
+            }
+        }
+             
+        //public static string ApiHost = ;
+        //public static string ApiHostAndroid = @"https://10.0.2.2:443";
+
+        //public static string ApiHost = @"http://localhost:44301";
+        //public static string ApiHostAndroid = @"https://10.0.2.2:443";
         //public static string ApiHost = @"http://botmen-001-site1.btempurl.com";
         //public static string ApiHostAndroid = @"http://205.144.171.47";
         public static string ApiUsers = @"/api/ApiUsers/";

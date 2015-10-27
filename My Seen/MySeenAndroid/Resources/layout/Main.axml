@@ -27,8 +27,7 @@
             android:layout_height="wrap_content"
             android:layout_width="0dp"
             android:layout_weight="0.15"
-            android:text="@string/Config"
-            android:visibility="invisible" />
+            android:text="@string/Config" />
         <Button
             android:id="@+id/ExitButton"
             android:layout_height="wrap_content"

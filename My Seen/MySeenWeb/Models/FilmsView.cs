@@ -24,7 +24,8 @@ namespace MySeenWeb.Models
                 DateChange = UMTTime.From(model.DateChange),
                 DateSee = UMTTime.From(model.DateSee),
                 Genre = model.Genre,
-                Rating = model.Rating
+                Rating = model.Rating,
+                isDeleted = model.isDeleted
             };
         }
         public string GenreText

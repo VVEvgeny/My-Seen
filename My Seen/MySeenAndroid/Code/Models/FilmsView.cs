@@ -1,33 +1,25 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
-using System.ComponentModel.DataAnnotations;
-using System.Security.Principal;
-using System.Web.Mvc;
 using MySeenLib;
 
-namespace MySeenWeb.Models
+namespace MySeenAndroid
 {
-    public class SerialsView : Serials
+    public class FilmsView : Films
     {
-        public static SerialsView Map(Serials model)
+        public static FilmsView Map(Films model)
         {
-            if (model == null) return new SerialsView();
+            if (model == null) return new FilmsView();
 
-            return new SerialsView
+            return new FilmsView
             {
                 Id = model.Id,
                 Name = model.Name,
-                UserId = model.UserId,
                 DateChange = UMTTime.From(model.DateChange),
+                DateSee = UMTTime.From(model.DateSee),
                 Genre = model.Genre,
                 Rating = model.Rating,
-                DateBegin=UMTTime.From(model.DateBegin),
-                DateLast=UMTTime.From(model.DateLast),
-                LastSeason=model.LastSeason,
-                LastSeries=model.LastSeries,
                 isDeleted = model.isDeleted
             };
         }
@@ -43,6 +35,15 @@ namespace MySeenWeb.Models
             get
             {
                 return Defaults.Ratings.GetById(Rating);
+            }
+        }
+        public string DateSee10
+        {
+            get
+            {
+                return ((DateSee.Day < 10 ? "0" + DateSee.Day.ToString() : DateSee.Day.ToString()) +"."
+                    + (DateSee.Month < 10 ? "0" + DateSee.Month.ToString() : DateSee.Month.ToString()) + "."
+                    + DateSee.Year.ToString());
             }
         }
     }

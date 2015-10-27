@@ -124,7 +124,8 @@ namespace MySeenAndroid
 
             button_config.Click += delegate
             {
-                Intent intent = new Intent(this, typeof(ConfigActivity));
+                //Intent intent = new Intent(this, typeof(ConfigActivity));
+                Intent intent = new Intent(this, typeof(MainRazorActivity));
                 StartActivityForResult(intent,0);
             };
 

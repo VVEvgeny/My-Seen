@@ -62,6 +62,9 @@
     <Reference Include="MySeenLib">
       <HintPath>..\MySeenLib\bin\Debug\MySeenLib.dll</HintPath>
     </Reference>
+    <Reference Include="PortableRazor">
+      <HintPath>..\..\..\!Others\Portable Razor\bin\Debug\PortableRazor.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
@@ -69,18 +72,29 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Code\Activities\MainRazorActivity.cs" />
     <Compile Include="Code\Activities\ConfigActivity.cs" />
     <Compile Include="Code\Activities\SerialAddActivity.cs" />
     <Compile Include="Code\Activities\FilmsAddActivity.cs" />
+    <Compile Include="Code\Controllers\HomeController.cs" />
     <Compile Include="Code\Database\AddData.cs" />
     <Compile Include="Code\Database\TablesVersion.cs" />
-    <Compile Include="Code\Tools.cs" />
-    <Compile Include="Code\MyListViewAdapterSerials.cs" />
+    <Compile Include="Code\Models\FilmsView.cs" />
+    <Compile Include="Code\Models\Model.cs" />
+    <Compile Include="Code\Models\SerialsView.cs" />
+    <Compile Include="Code\Tools\HybridWebView.cs" />
+    <Compile Include="Code\Tools\Tools.cs" />
+    <Compile Include="Code\Adapters\MyListViewAdapterSerials.cs" />
     <Compile Include="Code\Database\Serials.cs" />
     <Compile Include="Code\Database\Films.cs" />
     <Compile Include="Code\Database\Database.cs" />
-    <Compile Include="Code\MyListViewAdapterFilms.cs" />
+    <Compile Include="Code\Adapters\MyListViewAdapterFilms.cs" />
     <Compile Include="Code\Activities\MainActivity.cs" />
+    <Compile Include="Code\Views\Home.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Home.cshtml</DependentUpon>
+    </Compile>
     <Compile Include="Resources\Resource.Designer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SQLite.cs" />
@@ -88,7 +102,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
-    <None Include="Assets\AboutAssets.txt" />
     <AndroidResource Include="Resources\values\colors.xml">
       <SubType>AndroidResource</SubType>
     </AndroidResource>
@@ -100,6 +113,16 @@
     <AndroidResource Include="Resources\layout\Config.axml">
       <SubType>AndroidResource</SubType>
     </AndroidResource>
+    <AndroidResource Include="Resources\layout\MainRazor.axml">
+      <SubType>AndroidResource</SubType>
+    </AndroidResource>
+    <None Include="Content\bootstrap-theme.css.map" />
+    <None Include="Content\bootstrap.css.map" />
+    <None Include="fonts\glyphicons-halflings-regular.eot" />
+    <None Include="fonts\glyphicons-halflings-regular.ttf" />
+    <None Include="fonts\glyphicons-halflings-regular.woff" />
+    <None Include="fonts\glyphicons-halflings-regular.woff2" />
+    <None Include="Scripts\jquery-1.9.1.min.map" />
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\layout\Main.axml" />
@@ -111,6 +134,10 @@
     <AndroidResource Include="Resources\drawable\Icon.png" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Code\Views\Home.cshtml">
+      <Generator>RazorTemplatePreprocessor</Generator>
+      <LastGenOutput>Home.cs</LastGenOutput>
+    </None>
     <None Include="packages.config" />
     <None Include="Properties\AndroidManifest.xml" />
   </ItemGroup>
@@ -122,6 +149,21 @@
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\values-ru\Strings.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Content\bootstrap-theme.css" />
+    <Content Include="Content\bootstrap-theme.min.css" />
+    <Content Include="Content\bootstrap.css" />
+    <Content Include="Content\bootstrap.min.css" />
+    <Content Include="fonts\glyphicons-halflings-regular.svg" />
+    <Content Include="Scripts\bootstrap.js" />
+    <Content Include="Scripts\bootstrap.min.js" />
+    <Content Include="Scripts\jquery-1.9.1.intellisense.js" />
+    <Content Include="Scripts\jquery-1.9.1.js" />
+    <Content Include="Scripts\jquery-1.9.1.min.js" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Assets\" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />

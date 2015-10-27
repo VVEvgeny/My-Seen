@@ -100,14 +100,14 @@ namespace MySeenAndroid
 			// aapt resource value: 0x7f06001a
 			public const int ExitButton_FilmAdd = 2131099674;
 			
-			// aapt resource value: 0x7f06003b
-			public const int ExitButton_SerialAdd = 2131099707;
+			// aapt resource value: 0x7f06003c
+			public const int ExitButton_SerialAdd = 2131099708;
 			
 			// aapt resource value: 0x7f060019
 			public const int SaveButton_FilmAd = 2131099673;
 			
-			// aapt resource value: 0x7f06003a
-			public const int SaveButton_SerialAdd = 2131099706;
+			// aapt resource value: 0x7f06003b
+			public const int SaveButton_SerialAdd = 2131099707;
 			
 			// aapt resource value: 0x7f060014
 			public const int config_error = 2131099668;
@@ -124,11 +124,11 @@ namespace MySeenAndroid
 			// aapt resource value: 0x7f06000b
 			public const int content_config_0 = 2131099659;
 			
-			// aapt resource value: 0x7f060038
-			public const int content_s_0 = 2131099704;
+			// aapt resource value: 0x7f060039
+			public const int content_s_0 = 2131099705;
 			
-			// aapt resource value: 0x7f06003c
-			public const int content_s_1 = 2131099708;
+			// aapt resource value: 0x7f06003d
+			public const int content_s_1 = 2131099709;
 			
 			// aapt resource value: 0x7f06001f
 			public const int e_film_genre = 2131099679;
@@ -145,14 +145,14 @@ namespace MySeenAndroid
 			// aapt resource value: 0x7f06001d
 			public const int edittext_film_name = 2131099677;
 			
-			// aapt resource value: 0x7f060042
-			public const int edittext_season = 2131099714;
+			// aapt resource value: 0x7f060043
+			public const int edittext_season = 2131099715;
 			
-			// aapt resource value: 0x7f06003f
-			public const int edittext_serial_name = 2131099711;
+			// aapt resource value: 0x7f060040
+			public const int edittext_serial_name = 2131099712;
 			
-			// aapt resource value: 0x7f060045
-			public const int edittext_series = 2131099717;
+			// aapt resource value: 0x7f060046
+			public const int edittext_series = 2131099718;
 			
 			// aapt resource value: 0x7f060002
 			public const int f_datesee = 2131099650;
@@ -178,14 +178,14 @@ namespace MySeenAndroid
 			// aapt resource value: 0x7f060007
 			public const int s_datelast = 2131099655;
 			
-			// aapt resource value: 0x7f060047
-			public const int s_film_genre = 2131099719;
+			// aapt resource value: 0x7f060048
+			public const int s_film_genre = 2131099720;
 			
-			// aapt resource value: 0x7f06003e
-			public const int s_film_name = 2131099710;
+			// aapt resource value: 0x7f06003f
+			public const int s_film_name = 2131099711;
 			
-			// aapt resource value: 0x7f06004a
-			public const int s_film_rate = 2131099722;
+			// aapt resource value: 0x7f06004b
+			public const int s_film_rate = 2131099723;
 			
 			// aapt resource value: 0x7f060006
 			public const int s_genre = 2131099654;
@@ -196,20 +196,20 @@ namespace MySeenAndroid
 			// aapt resource value: 0x7f060009
 			public const int s_rate = 2131099657;
 			
-			// aapt resource value: 0x7f060041
-			public const int s_season = 2131099713;
+			// aapt resource value: 0x7f060042
+			public const int s_season = 2131099714;
 			
 			// aapt resource value: 0x7f060005
 			public const int s_seasonseries = 2131099653;
 			
-			// aapt resource value: 0x7f060044
-			public const int s_series = 2131099716;
+			// aapt resource value: 0x7f060045
+			public const int s_series = 2131099717;
 			
 			// aapt resource value: 0x7f060027
 			public const int selectorSpinner = 2131099687;
 			
-			// aapt resource value: 0x7f06004d
-			public const int serial_add_error = 2131099725;
+			// aapt resource value: 0x7f06004e
+			public const int serial_add_error = 2131099726;
 			
 			// aapt resource value: 0x7f06000a
 			public const int spinnerItem = 2131099658;
@@ -217,14 +217,14 @@ namespace MySeenAndroid
 			// aapt resource value: 0x7f060020
 			public const int spinner_genre = 2131099680;
 			
-			// aapt resource value: 0x7f060048
-			public const int spinner_genre_s = 2131099720;
+			// aapt resource value: 0x7f060049
+			public const int spinner_genre_s = 2131099721;
 			
 			// aapt resource value: 0x7f060023
 			public const int spinner_rate = 2131099683;
 			
-			// aapt resource value: 0x7f06004b
-			public const int spinner_rate_s = 2131099723;
+			// aapt resource value: 0x7f06004c
+			public const int spinner_rate_s = 2131099724;
 			
 			// aapt resource value: 0x7f060033
 			public const int stable_genre = 2131099699;
@@ -238,8 +238,8 @@ namespace MySeenAndroid
 			// aapt resource value: 0x7f060018
 			public const int tableRowButtons_FilmAdd = 2131099672;
 			
-			// aapt resource value: 0x7f060039
-			public const int tableRowButtons_SerialAdd = 2131099705;
+			// aapt resource value: 0x7f06003a
+			public const int tableRowButtons_SerialAdd = 2131099706;
 			
 			// aapt resource value: 0x7f06001b
 			public const int tableRowTexts_FilmAdd_1 = 2131099675;
@@ -253,23 +253,23 @@ namespace MySeenAndroid
 			// aapt resource value: 0x7f060024
 			public const int tableRowTexts_FilmAdd_4 = 2131099684;
 			
-			// aapt resource value: 0x7f06003d
-			public const int tableRowTexts_SerialAdd_1 = 2131099709;
+			// aapt resource value: 0x7f06003e
+			public const int tableRowTexts_SerialAdd_1 = 2131099710;
 			
-			// aapt resource value: 0x7f060046
-			public const int tableRowTexts_SerialAdd_2 = 2131099718;
+			// aapt resource value: 0x7f060047
+			public const int tableRowTexts_SerialAdd_2 = 2131099719;
 			
-			// aapt resource value: 0x7f060049
-			public const int tableRowTexts_SerialAdd_3 = 2131099721;
+			// aapt resource value: 0x7f06004a
+			public const int tableRowTexts_SerialAdd_3 = 2131099722;
 			
-			// aapt resource value: 0x7f06004c
-			public const int tableRowTexts_SerialAdd_4 = 2131099724;
+			// aapt resource value: 0x7f06004d
+			public const int tableRowTexts_SerialAdd_4 = 2131099725;
 			
-			// aapt resource value: 0x7f060040
-			public const int tableRowTexts_SerialAdd_season = 2131099712;
+			// aapt resource value: 0x7f060041
+			public const int tableRowTexts_SerialAdd_season = 2131099713;
 			
-			// aapt resource value: 0x7f060043
-			public const int tableRowTexts_SerialAdd_series = 2131099715;
+			// aapt resource value: 0x7f060044
+			public const int tableRowTexts_SerialAdd_series = 2131099716;
 			
 			// aapt resource value: 0x7f060010
 			public const int tableRowTexts_config_1 = 2131099664;
@@ -316,6 +316,9 @@ namespace MySeenAndroid
 			// aapt resource value: 0x7f060011
 			public const int text_config_email = 2131099665;
 			
+			// aapt resource value: 0x7f060038
+			public const int webView = 2131099704;
+			
 			static Id()
 			{
 				global::Android.Runtime.ResourceIdManager.UpdateIdValues();
@@ -348,7 +351,10 @@ namespace MySeenAndroid
 			public const int Main = 2130903045;
 			
 			// aapt resource value: 0x7f030006
-			public const int SerialsAdd = 2130903046;
+			public const int MainRazor = 2130903046;
+			
+			// aapt resource value: 0x7f030007
+			public const int SerialsAdd = 2130903047;
 			
 			static Layout()
 			{

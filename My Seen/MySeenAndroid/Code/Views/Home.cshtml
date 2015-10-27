@@ -1,0 +1,54 @@
+@using MySeenAndroid
+@inherits PortableRazor.ViewBase
+@using MySeenLib;
+@model HomeViewModel
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <link rel="stylesheet" href="bootstrap.css" />
+    <link rel="stylesheet" href="bootstrap.min.css" />
+
+    <script src="jquery-1.9.1.js"></script>
+    <script src="jquery-1.9.1.min.js"></script>
+
+    <script src="bootstrap.js"></script>
+    <script src="bootstrap.min.js"></script>
+
+</head>
+    <body>
+        <div class="form-inline">
+            <div class="form-group">
+                <button type="button" class="btn btn-primary" id="addButton">
+                    <span class="glyphicon glyphicon-plus"></span>
+                    &nbsp;@MySeenLib.Resource.AddNew
+                </button>
+                <label for="quickSearch">@MySeenLib.Resource.QuickSearch <span class="glyphicon glyphicon-search"></span> :</label>
+            </div>
+        </div>
+        <table class="table table-striped" id="table">
+            <thead>
+                <tr>
+                    <th width="60%">@MySeenLib.Resource.Name</th>
+                    <th width="20%">@MySeenLib.Resource.Date</th>
+                    <th width="10%">@MySeenLib.Resource.Genre</th>
+                    <th width="10%">@MySeenLib.Resource.Rating</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var film in Model.FilmsList)
+                {
+                    <tr>
+                        <td class="align-left">@film.Name</td>
+                        <td class="align-center">@film.DateSee10</td>
+                        <td class="align-center">@film.GenreText</td>
+                        <td class="align-center">@film.RatingText</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+</body>
+</html>

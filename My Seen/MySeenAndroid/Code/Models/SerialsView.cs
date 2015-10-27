@@ -2,13 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
-using System.ComponentModel.DataAnnotations;
-using System.Security.Principal;
-using System.Web.Mvc;
 using MySeenLib;
 
-namespace MySeenWeb.Models
+namespace MySeenAndroid
 {
     public class SerialsView : Serials
     {
@@ -20,7 +16,6 @@ namespace MySeenWeb.Models
             {
                 Id = model.Id,
                 Name = model.Name,
-                UserId = model.UserId,
                 DateChange = UMTTime.From(model.DateChange),
                 Genre = model.Genre,
                 Rating = model.Rating,
