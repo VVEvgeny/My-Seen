@@ -1,4 +1,4 @@
-@using MySeenAndroid
+@using MySeenAndroidLib
 @inherits PortableRazor.ViewBase
 @using MySeenLib;
 @model HomeViewModel
@@ -9,19 +9,20 @@
     <meta content="text/html; charset=utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <link rel="stylesheet" href="bootstrap.css" />
-    <link rel="stylesheet" href="bootstrap.min.css" />
+    <script src="jquery-1.10.2.min.js"></script>
+    <script src="jquery.mobile-1.4.0.min.js"></script>
+    <script src="jquery.lazyloadxt.js"></script>
 
-    <script src="jquery-1.9.1.js"></script>
-    <script src="jquery-1.9.1.min.js"></script>
 
+    <link href="bootstrap.css" rel="stylesheet" />
     <script src="bootstrap.js"></script>
-    <script src="bootstrap.min.js"></script>
 
 </head>
     <body>
         <div class="form-inline">
             <div class="form-group">
+                <label for="lstSelected" style="display: block;">@MySeenLib.Resource.SelectTheCategory</label>
+
                 <button type="button" class="btn btn-primary" id="addButton">
                     <span class="glyphicon glyphicon-plus"></span>
                     &nbsp;@MySeenLib.Resource.AddNew

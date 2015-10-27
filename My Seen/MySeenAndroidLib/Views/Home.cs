@@ -9,7 +9,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace MySeenAndroid.Code.Views
+namespace MySeenAndroidLib.Views
 {
 using System;
 using System.Collections.Generic;
@@ -17,7 +17,7 @@ using System.Linq;
 using System.Text;
 
 #line 1 "Home.cshtml"
-using MySeenAndroid;
+using MySeenAndroidLib;
 
 #line default
 #line hidden
@@ -54,33 +54,27 @@ WriteLiteral(" name=\"viewport\"");
 
 WriteLiteral(" content=\"width=device-width, initial-scale=1\"");
 
-WriteLiteral(" />\r\n\r\n    <link");
+WriteLiteral(" />\r\n\r\n    <script");
 
-WriteLiteral(" rel=\"stylesheet\"");
+WriteLiteral(" src=\"jquery-1.10.2.min.js\"");
+
+WriteLiteral("></script>\r\n    <script");
+
+WriteLiteral(" src=\"jquery.mobile-1.4.0.min.js\"");
+
+WriteLiteral("></script>\r\n    <script");
+
+WriteLiteral(" src=\"jquery.lazyloadxt.js\"");
+
+WriteLiteral("></script>\r\n\r\n\r\n    <link");
 
 WriteLiteral(" href=\"bootstrap.css\"");
 
-WriteLiteral(" />\r\n    <link");
-
 WriteLiteral(" rel=\"stylesheet\"");
 
-WriteLiteral(" href=\"bootstrap.min.css\"");
-
-WriteLiteral(" />\r\n\r\n    <script");
-
-WriteLiteral(" src=\"jquery-1.9.1.js\"");
-
-WriteLiteral("></script>\r\n    <script");
-
-WriteLiteral(" src=\"jquery-1.9.1.min.js\"");
-
-WriteLiteral("></script>\r\n\r\n    <script");
+WriteLiteral(" />\r\n    <script");
 
 WriteLiteral(" src=\"bootstrap.js\"");
-
-WriteLiteral("></script>\r\n    <script");
-
-WriteLiteral(" src=\"bootstrap.min.js\"");
 
 WriteLiteral("></script>\r\n\r\n</head>\r\n    <body>\r\n        <div");
 
@@ -90,7 +84,22 @@ WriteLiteral(">\r\n            <div");
 
 WriteLiteral(" class=\"form-group\"");
 
-WriteLiteral(">\r\n                <button");
+WriteLiteral(">\r\n                <label");
+
+WriteLiteral(" for=\"lstSelected\"");
+
+WriteLiteral(" style=\"display: block;\"");
+
+WriteLiteral(">");
+
+
+#line 24 "Home.cshtml"
+                                                            Write(MySeenLib.Resource.SelectTheCategory);
+
+
+#line default
+#line hidden
+WriteLiteral("</label>\r\n\r\n                <button");
 
 WriteLiteral(" type=\"button\"");
 
@@ -105,7 +114,7 @@ WriteLiteral(" class=\"glyphicon glyphicon-plus\"");
 WriteLiteral("></span>\r\n                    &nbsp;");
 
 
-#line 27 "Home.cshtml"
+#line 28 "Home.cshtml"
                      Write(MySeenLib.Resource.AddNew);
 
 
@@ -118,7 +127,7 @@ WriteLiteral(" for=\"quickSearch\"");
 WriteLiteral(">");
 
 
-#line 29 "Home.cshtml"
+#line 30 "Home.cshtml"
                                     Write(MySeenLib.Resource.QuickSearch);
 
 
@@ -141,7 +150,7 @@ WriteLiteral(" width=\"60%\"");
 WriteLiteral(">");
 
 
-#line 35 "Home.cshtml"
+#line 36 "Home.cshtml"
                                Write(MySeenLib.Resource.Name);
 
 
@@ -154,7 +163,7 @@ WriteLiteral(" width=\"20%\"");
 WriteLiteral(">");
 
 
-#line 36 "Home.cshtml"
+#line 37 "Home.cshtml"
                                Write(MySeenLib.Resource.Date);
 
 
@@ -167,7 +176,7 @@ WriteLiteral(" width=\"10%\"");
 WriteLiteral(">");
 
 
-#line 37 "Home.cshtml"
+#line 38 "Home.cshtml"
                                Write(MySeenLib.Resource.Genre);
 
 
@@ -180,7 +189,7 @@ WriteLiteral(" width=\"10%\"");
 WriteLiteral(">");
 
 
-#line 38 "Home.cshtml"
+#line 39 "Home.cshtml"
                                Write(MySeenLib.Resource.Rating);
 
 
@@ -189,13 +198,13 @@ WriteLiteral(">");
 WriteLiteral("</th>\r\n                </tr>\r\n            </thead>\r\n            <tbody>\r\n");
 
 
-#line 42 "Home.cshtml"
+#line 43 "Home.cshtml"
                 
 
 #line default
 #line hidden
 
-#line 42 "Home.cshtml"
+#line 43 "Home.cshtml"
                  foreach (var film in Model.FilmsList)
                 {
 
@@ -209,7 +218,7 @@ WriteLiteral(" class=\"align-left\"");
 WriteLiteral(">");
 
 
-#line 45 "Home.cshtml"
+#line 46 "Home.cshtml"
                                           Write(film.Name);
 
 
@@ -222,7 +231,7 @@ WriteLiteral(" class=\"align-center\"");
 WriteLiteral(">");
 
 
-#line 46 "Home.cshtml"
+#line 47 "Home.cshtml"
                                             Write(film.DateSee10);
 
 
@@ -235,7 +244,7 @@ WriteLiteral(" class=\"align-center\"");
 WriteLiteral(">");
 
 
-#line 47 "Home.cshtml"
+#line 48 "Home.cshtml"
                                             Write(film.GenreText);
 
 
@@ -248,7 +257,7 @@ WriteLiteral(" class=\"align-center\"");
 WriteLiteral(">");
 
 
-#line 48 "Home.cshtml"
+#line 49 "Home.cshtml"
                                             Write(film.RatingText);
 
 
@@ -257,7 +266,7 @@ WriteLiteral(">");
 WriteLiteral("</td>\r\n                    </tr>\r\n");
 
 
-#line 50 "Home.cshtml"
+#line 51 "Home.cshtml"
                 }
 
 

@@ -11,7 +11,8 @@ using System.Collections;
 using MySeenLib;
 using System.Net;
 using Android.Webkit;
-using MySeenAndroid.Code.Views;
+using MySeenAndroidLib;
+using MySeenAndroid.Code.Database;
 
 namespace MySeenAndroid
 {
@@ -22,12 +23,13 @@ namespace MySeenAndroid
         protected override void OnCreate(Bundle bundle)
         {
             base.OnCreate(bundle);
+
             SetContentView(Resource.Layout.MainRazor);
 
             Log.Warn(LogTAG, "START");
 
             var webView = FindViewById<WebView>(Resource.Id.webView);
-            var homeController = new HomeController(new HybridWebView(webView));
+            var homeController = new HomeController(new HybridWebView(webView), new DataAccess());
             PortableRazor.RouteHandler.RegisterController("Home", homeController);
             homeController.ShowFilmList();
 

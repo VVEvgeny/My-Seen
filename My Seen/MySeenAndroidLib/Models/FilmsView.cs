@@ -4,25 +4,17 @@ using System.Linq;
 using System.Text;
 using MySeenLib;
 
-namespace MySeenAndroid
+namespace MySeenAndroidLib
 {
-    public class FilmsView : Films
+    public class FilmsView
     {
-        public static FilmsView Map(Films model)
-        {
-            if (model == null) return new FilmsView();
+        public int Id { get; set; }
+        public string Name { get; set; }
+        public DateTime DateSee { get; set; }
+        public int Genre { get; set; }
+        public int Rating { get; set; }
+        public DateTime DateChange { get; set; }
 
-            return new FilmsView
-            {
-                Id = model.Id,
-                Name = model.Name,
-                DateChange = UMTTime.From(model.DateChange),
-                DateSee = UMTTime.From(model.DateSee),
-                Genre = model.Genre,
-                Rating = model.Rating,
-                isDeleted = model.isDeleted
-            };
-        }
         public string GenreText
         {
             get
