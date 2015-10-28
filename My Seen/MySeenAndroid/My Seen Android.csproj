@@ -114,6 +114,7 @@
     <AndroidResource Include="Resources\layout\MainRazor.axml">
       <SubType>AndroidResource</SubType>
     </AndroidResource>
+    <None Include="Scripts\jquery-2.1.4.min.map" />
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\layout\Main.axml" />
@@ -125,6 +126,10 @@
     <AndroidResource Include="Resources\drawable\Icon.png" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Fonts\glyphicons-halflings-regular.eot" />
+    <None Include="Fonts\glyphicons-halflings-regular.ttf" />
+    <None Include="Fonts\glyphicons-halflings-regular.woff" />
+    <None Include="Fonts\glyphicons-halflings-regular.woff2" />
     <None Include="packages.config" />
     <None Include="Properties\AndroidManifest.xml" />
   </ItemGroup>
@@ -137,12 +142,22 @@
   <ItemGroup>
     <AndroidResource Include="Resources\values-ru\Strings.xml" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <AndroidAsset Include="Assets\test.html" />
+  </ItemGroup>
   <ItemGroup>
     <AndroidAsset Include="Assets\bootstrap.css" />
   </ItemGroup>
   <ItemGroup>
     <AndroidAsset Include="Assets\bootstrap.js" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Fonts\glyphicons-halflings-regular.svg" />
+    <Content Include="Scripts\bootstrap.js" />
+    <Content Include="Scripts\bootstrap.min.js" />
+    <Content Include="Scripts\jquery-2.1.4.intellisense.js" />
+    <Content Include="Scripts\jquery-2.1.4.js" />
+    <Content Include="Scripts\jquery-2.1.4.min.js" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />

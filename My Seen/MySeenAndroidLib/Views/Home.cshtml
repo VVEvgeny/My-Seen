@@ -1,4 +1,4 @@
-@using MySeenAndroidLib
+@using MySeenMobileWebViewLib
 @inherits PortableRazor.ViewBase
 @using MySeenLib;
 @model HomeViewModel
@@ -13,20 +13,18 @@
     <script src="jquery.mobile-1.4.0.min.js"></script>
     <script src="jquery.lazyloadxt.js"></script>
 
-
     <link href="bootstrap.css" rel="stylesheet" />
     <script src="bootstrap.js"></script>
-
 </head>
     <body>
         <div class="form-inline">
             <div class="form-group">
-                <label for="lstSelected" style="display: block;">@MySeenLib.Resource.SelectTheCategory</label>
-
-                <button type="button" class="btn btn-primary" id="addButton">
-                    <span class="glyphicon glyphicon-plus"></span>
-                    &nbsp;@MySeenLib.Resource.AddNew
-                </button>
+                <label>@MySeenLib.Resource.SelectTheCategory</label>
+                <select name="ComboBox" class="form-control" style="width : 100px">
+                    <option value="1" @(Model.Selected == MySeenLib.Resource.Films ? " selected" : " ")>@MySeenLib.Resource.Films</option>
+                    <option value="2" @(Model.Selected == MySeenLib.Resource.Serials ? " selected" : " ")>@MySeenLib.Resource.Serials</option>
+                </select>
+                <button type="button" class="btn btn-primary" onclick="location.href='@Url.Action("AddFilm")'"><span class="glyphicon glyphicon-plus"></span>&nbsp;@Resource.AddNew</button>
                 <label for="quickSearch">@MySeenLib.Resource.QuickSearch <span class="glyphicon glyphicon-search"></span> :</label>
             </div>
         </div>

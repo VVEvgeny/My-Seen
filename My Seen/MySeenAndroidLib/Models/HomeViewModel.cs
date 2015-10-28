@@ -3,12 +3,18 @@ using MySeenLib;
 using System;
 using System.Linq;
 
-namespace MySeenAndroidLib
+namespace MySeenMobileWebViewLib
 {
     public class HomeViewModel
     {
+        public string Selected;
+        public HomeViewModel()
+        {
+            Selected = Defaults.Categories.GetById(Defaults.CategoryBase.FilmIndex);
+        }
         public IEnumerable<FilmsView> FilmsList;
         public IEnumerable<SerialsView> SerialsList;
+
 
 
     }

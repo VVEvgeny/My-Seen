@@ -11,12 +11,22 @@ using System.Collections;
 using MySeenLib;
 using System.Net;
 using Android.Webkit;
-using MySeenAndroidLib;
+using MySeenMobileWebViewLib;
 using MySeenAndroid.Code.Database;
+using Android.Content.PM;
 
 namespace MySeenAndroid
 {
-    [Activity(Theme = "@android:style/Theme.Black.NoTitleBar.Fullscreen")]
+        [Activity(Label = "@string/ApplicationName"
+        , MainLauncher = true
+        , Icon = "@drawable/icon"
+        , ConfigurationChanges = ConfigChanges.Locale
+        , NoHistory = false //для второго интента чтобы можно было вернуться назад
+        , LaunchMode = LaunchMode.SingleTask
+        , ScreenOrientation = ScreenOrientation.Landscape
+        , Theme = "@android:style/Theme.Black.NoTitleBar.Fullscreen"
+        )]
+    //[Activity(Theme = "@android:style/Theme.Black.NoTitleBar.Fullscreen")]
     public class MainRazorActivity : Activity
     {
         private static string LogTAG = "MainRazorActivity";
@@ -29,10 +39,17 @@ namespace MySeenAndroid
             Log.Warn(LogTAG, "START");
 
             var webView = FindViewById<WebView>(Resource.Id.webView);
+            //test
+            /*
+            webView.Settings.JavaScriptEnabled = true;
+            webView.Settings.DomStorageEnabled = true;
+            webView.LoadUrl("file:///android_asset/test.html");
+            */
+            
             var homeController = new HomeController(new HybridWebView(webView), new DataAccess());
             PortableRazor.RouteHandler.RegisterController("Home", homeController);
             homeController.ShowFilmList();
-
+            
             Log.Warn(LogTAG, "end OnCreate");
         }
     }

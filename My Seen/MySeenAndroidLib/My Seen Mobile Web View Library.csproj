@@ -8,7 +8,7 @@
     <ProjectGuid>{DE72CA4D-8D2B-46DA-9071-FBFB58BB3479}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>MySeenAndroidLib</RootNamespace>
+    <RootNamespace>MySeenMobileWebViewLib</RootNamespace>
     <AssemblyName>MySeenAndroidLib</AssemblyName>
     <DefaultLanguage>en-US</DefaultLanguage>
     <FileAlignment>512</FileAlignment>
@@ -70,20 +70,8 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Content\bootstrap-theme.css" />
-    <Content Include="Content\bootstrap-theme.min.css" />
-    <Content Include="Content\bootstrap.css" />
-    <Content Include="Content\bootstrap.min.css" />
-    <Content Include="fonts\glyphicons-halflings-regular.svg" />
-    <Content Include="fonts\glyphicons-halflings-regular.ttf" />
     <None Include="App.Config" />
-    <None Include="Content\bootstrap-theme.css.map" />
-    <None Include="Content\bootstrap.css.map" />
-    <None Include="fonts\glyphicons-halflings-regular.eot" />
-    <None Include="fonts\glyphicons-halflings-regular.woff" />
-    <None Include="fonts\glyphicons-halflings-regular.woff2" />
     <None Include="packages.config" />
-    <None Include="Scripts\jquery-1.9.1.min.map" />
     <None Include="Views\Home.cshtml">
       <Generator>RazorTemplatePreprocessor</Generator>
       <LastGenOutput>Home.cs</LastGenOutput>
@@ -91,12 +79,7 @@
     <None Include="web.config" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Scripts\bootstrap.js" />
-    <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />
-    <Content Include="Scripts\jquery-1.9.1.intellisense.js" />
-    <Content Include="Scripts\jquery-1.9.1.js" />
-    <Content Include="Scripts\jquery-1.9.1.min.js" />
     <Content Include="Scripts\jquery.lazyloadxt.js" />
     <Content Include="Scripts\jquery.mobile-1.4.0.min.css" />
     <Content Include="Scripts\jquery.mobile-1.4.0.min.js" />

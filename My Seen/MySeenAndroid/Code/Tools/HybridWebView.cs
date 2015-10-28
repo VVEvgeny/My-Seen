@@ -37,8 +37,9 @@ namespace MySeenAndroid
 
         public void LoadHtmlString(string html)
         {
-            var datapath = String.Format("/data/data/{0}/files/", Application.Context.PackageName);
-            var url = "file://" + datapath;
+            //var datapath = String.Format("/data/data/{0}/files/", Application.Context.PackageName);
+            //var url = "file://" + datapath;
+            var url = "file:///android_asset/home.cshtml";
             webView.LoadDataWithBaseURL(url, html, "text/html", "UTF-8", null);
         }
 

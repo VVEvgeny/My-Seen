@@ -24,7 +24,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{6420D0
 		.nuget\NuGet.targets = .nuget\NuGet.targets
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "My Seen Android Library", "MySeenAndroidLib\My Seen Android Library.csproj", "{DE72CA4D-8D2B-46DA-9071-FBFB58BB3479}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "My Seen Mobile Web View Library", "MySeenAndroidLib\My Seen Mobile Web View Library.csproj", "{DE72CA4D-8D2B-46DA-9071-FBFB58BB3479}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

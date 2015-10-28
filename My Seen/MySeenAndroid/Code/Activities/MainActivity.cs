@@ -14,7 +14,7 @@ using System.Globalization;
 namespace MySeenAndroid
 {
     [Activity(Label = "@string/ApplicationName"
-        , MainLauncher = true
+        , MainLauncher = false
         , Icon = "@drawable/icon"
         , ConfigurationChanges = ConfigChanges.Locale
         , NoHistory = false //для второго интента чтобы можно было вернуться назад

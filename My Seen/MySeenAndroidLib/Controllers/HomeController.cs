@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using PortableRazor;
-using MySeenAndroidLib.Views;
+using MySeenMobileWebViewLib.Views;
 
-namespace MySeenAndroidLib
+namespace MySeenMobileWebViewLib
 {
     public class HomeController
     {
@@ -24,6 +24,10 @@ namespace MySeenAndroidLib
             var template = new Home { Model = model };
             var page = template.GenerateString();
             webView.LoadHtmlString(page);
+        }
+        public void AddFilm()
+        {
+            webView.LoadHtmlString("PAGE AddFilm NOT EXIST");
         }
     }
 }
