@@ -3,10 +3,11 @@ using Android.App;
 using Android.Content;
 using Android.Webkit;
 using PortableRazor;
+using Android.Util;
 
 namespace MySeenAndroid
 {
-    class HybridWebView : IHybridWebView
+    public class HybridWebView : IHybridWebView
     {
         private string basePath = string.Empty;
         public string BasePath 
@@ -30,6 +31,8 @@ namespace MySeenAndroid
             webView.Settings.CacheMode = CacheModes.CacheElseNetwork;
             webView.Settings.JavaScriptEnabled = true;
             webView.Settings.DomStorageEnabled = true;
+            webView.Settings.JavaScriptCanOpenWindowsAutomatically = false;
+
             webView.SetWebChromeClient(new HybridWebChromeClient(webView.Context));
         }
 

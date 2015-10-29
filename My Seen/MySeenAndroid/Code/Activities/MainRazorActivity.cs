@@ -20,10 +20,10 @@ namespace MySeenAndroid
         [Activity(Label = "@string/ApplicationName"
         , MainLauncher = true
         , Icon = "@drawable/icon"
-        , ConfigurationChanges = ConfigChanges.Locale
+        , ConfigurationChanges = ConfigChanges.Locale | ConfigChanges.Orientation | ConfigChanges.ScreenSize
         , NoHistory = false //для второго интента чтобы можно было вернуться назад
         , LaunchMode = LaunchMode.SingleTask
-        , ScreenOrientation = ScreenOrientation.Landscape
+        //, ScreenOrientation = ScreenOrientation.Landscape 
         , Theme = "@android:style/Theme.Black.NoTitleBar.Fullscreen"
         )]
     //[Activity(Theme = "@android:style/Theme.Black.NoTitleBar.Fullscreen")]
@@ -48,7 +48,9 @@ namespace MySeenAndroid
             
             var homeController = new HomeController(new HybridWebView(webView), new DataAccess());
             PortableRazor.RouteHandler.RegisterController("Home", homeController);
-            homeController.ShowFilmList();
+            //homeController.ShowFilmList();
+            homeController.AddFilm();
+            Log.Warn(LogTAG, homeController.lastPage);
             
             Log.Warn(LogTAG, "end OnCreate");
         }

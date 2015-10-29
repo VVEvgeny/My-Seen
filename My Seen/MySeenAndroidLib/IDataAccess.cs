@@ -10,5 +10,8 @@ namespace MySeenMobileWebViewLib
     {
         IEnumerable<FilmsView> LoadFilms();
         IEnumerable<SerialsView> LoadSerials();
+
+        bool isFilmNameExist(string Name);
+        void AddFilm(string Name, int Genre, int Rating);
     }
 }

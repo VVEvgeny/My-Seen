@@ -26,5 +26,13 @@ namespace MySeenAndroid.Code.Database
             }
             return li;
         }
+        public bool isFilmNameExist(string Name)
+        {
+            return DatabaseHelper.Get.isFilmExist(Name);
+        }
+        public void AddFilm(string _Name, int _Genre, int _Rating)
+        {
+            DatabaseHelper.Get.Add(new Films { DateChange = DateTime.Now, DateSee = DateTime.Now, Genre = _Genre, Name = _Name, Rating = _Rating });
+        }
     }
 }

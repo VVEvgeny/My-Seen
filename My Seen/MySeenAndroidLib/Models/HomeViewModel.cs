@@ -10,12 +10,9 @@ namespace MySeenMobileWebViewLib
         public string Selected;
         public HomeViewModel()
         {
-            Selected = Defaults.Categories.GetById(Defaults.CategoryBase.FilmIndex);
+            Selected = Defaults.Categories.GetById(Defaults.CategoryBase.SerialIndex);
         }
         public IEnumerable<FilmsView> FilmsList;
         public IEnumerable<SerialsView> SerialsList;
-
-
-
     }
 }

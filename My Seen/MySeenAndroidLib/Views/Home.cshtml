@@ -9,23 +9,29 @@
     <meta content="text/html; charset=utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <script src="jquery-1.10.2.min.js"></script>
-    <script src="jquery.mobile-1.4.0.min.js"></script>
-    <script src="jquery.lazyloadxt.js"></script>
+    <script src="jquery-2.1.4.js"></script>
+    <script src="jquery-2.1.4.min.js"></script>
+    <script src="jquery.mobile-1.4.5.min.js"></script>
 
+    <script src="jquery.lazyloadxt.js"></script>
+    <script src="bootstrap.min.js"></script>
+
+    
+    <link href="jquery.mobile-1.4.5.css" rel="stylesheet" />
     <link href="bootstrap.css" rel="stylesheet" />
-    <script src="bootstrap.js"></script>
+
 </head>
     <body>
         <div class="form-inline">
             <div class="form-group">
-                <label>@MySeenLib.Resource.SelectTheCategory</label>
-                <select name="ComboBox" class="form-control" style="width : 100px">
-                    <option value="1" @(Model.Selected == MySeenLib.Resource.Films ? " selected" : " ")>@MySeenLib.Resource.Films</option>
-                    <option value="2" @(Model.Selected == MySeenLib.Resource.Serials ? " selected" : " ")>@MySeenLib.Resource.Serials</option>
-                </select>
-                <button type="button" class="btn btn-primary" onclick="location.href='@Url.Action("AddFilm")'"><span class="glyphicon glyphicon-plus"></span>&nbsp;@Resource.AddNew</button>
-                <label for="quickSearch">@MySeenLib.Resource.QuickSearch <span class="glyphicon glyphicon-search"></span> :</label>
+                <div class="inline">
+                    <label for="lstSelected" style="display: block;">@MySeenLib.Resource.SelectTheCategory</label>
+                    <select class="form-control" id="lstSelected" name="Selected" style="width : 100px">
+                        <option value="1" @(Model.Selected == MySeenLib.Resource.Films ? " selected" : " ")>@MySeenLib.Resource.Films</option>
+                        <option value="2" @(Model.Selected == MySeenLib.Resource.Serials ? " selected" : " ")>@MySeenLib.Resource.Serials</option>
+                    </select>
+                    <button type="button" class="btn btn-primary" onclick="location.href='@Url.Action(Model.Selected == MySeenLib.Resource.Films ?"AddFilm":"AddSerial")'"><span class="glyphicon glyphicon-plus"></span>&nbsp;@Resource.AddNew</button>
+                </div>
             </div>
         </div>
         <table class="table table-striped" id="table">
@@ -49,5 +55,11 @@
                 }
             </tbody>
         </table>
+        <script type="text/javascript">
+            window.onload = function ()
+            {
+                //alert("test2");
+            };
+        </script>
 </body>
 </html>

@@ -1,0 +1,42 @@
+@using MySeenMobileWebViewLib
+@inherits PortableRazor.ViewBase
+@using MySeenLib;
+@model FilmAddViewModel
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <link rel="stylesheet" href="jquery.mobile-1.4.0.min.css" />
+    <script src="jquery-1.10.2.min.js"></script>
+    <script src="jquery.mobile-1.4.0.min.js"></script>
+
+    <script src="bootstrap.min.js"></script>
+    <link href="bootstrap.css" rel="stylesheet" />
+
+</head>
+    <body>
+        @if (!string.IsNullOrEmpty(Model.Name_Error))
+        { <label for="">@Model.Name_Error</label>}
+        <div class="editor-label">
+            @if (Model.Unknown_Error)
+            { <label for="">UNKNOWN ERROR</label>}
+        </div>
+
+
+
+        @using (@Html.BeginForm("SaveFilm", "Home", new { name = @Model.Name }))
+        {
+            <h4>Name</h4>
+            @Html.TextArea("Name", Model.Name)
+            <input type="submit" value="Save" />
+        }
+        <div data-role="footer" data-id="foo1" data-position="fixed">
+            <div data-role="navbar">
+                <button type="button" class="btn btn-primary" onclick="location.href='@Url.Action("ShowFilmList")'"><span class="glyphicon glyphicon-plus"></span>&nbsp;BAck</button>
+            </div>
+        </div>
+</body>
+</html>

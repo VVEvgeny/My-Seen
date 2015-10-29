@@ -1,0 +1,80 @@
+@using MySeenMobileWebViewLib
+@inherits PortableRazor.ViewBase
+@using MySeenLib;
+@model FilmAddViewModel
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <link rel="stylesheet" href="jquery.mobile-1.4.0.min.css" />
+    <script src="jquery-1.10.2.min.js"></script>
+    <script src="jquery.mobile-1.4.0.min.js"></script>
+
+    <script src="bootstrap.min.js"></script>
+    <link href="bootstrap.css" rel="stylesheet" />
+
+</head>
+    <body>
+        <form>
+            <fieldset>
+                <div  class="form-inline">
+                    @if (Model.Unknown_Error)
+                    { <label for="">UNKNOWN ERROR</label>}
+                </div>
+
+                <div class="editor-label">
+                    <label for="">Film Name</label>
+                    @Html.TextArea("Name", Model.Name)
+
+
+                    @if (!string.IsNullOrEmpty(Model.Name_Error)) 
+                    { <label for="">@Model.Name_Error</label>}
+                </div>
+                <div class="editor-field">
+                    <input id="Name2" name="Name2" type="text" />
+                </div>
+                <div class="editor-label">
+                    <label for="">Genre</label>
+                </div>
+                <div class="editor-field">
+                    <select id="Genre" name="Genre">
+                        <option @(Model.Genre == 0 ? "selected" : "") value="0">1</option>
+                        <option @(Model.Genre == 1 ? "selected" : "") value="1">2</option>
+                        <option @(Model.Genre == 2 ? "selected" : "") value="2">3</option>
+                        <option @(Model.Genre == 3 ? "selected" : "") value="3">4</option>
+                        <option @(Model.Genre == 4 ? "selected" : "") value="4">5</option>
+                        <option @(Model.Genre == 5 ? "selected" : "") value="6">6</option>
+                        <option @(Model.Genre == 6 ? "selected" : "") value="6">7</option>
+                        <option @(Model.Genre == 7 ? "selected" : "") value="7">8</option>
+                        <option @(Model.Genre == 8 ? "selected" : "") value="8">9</option>
+                        <option @(Model.Genre == 9 ? "selected" : "") value="9">10</option>
+                    </select>
+                    <div class="editor-label">
+                        <label for="">Rating</label>
+                    </div>
+                    <div class="editor-field">
+                        <select id="Rating" name="Rating">
+                            <option @(Model.Rating == 0 ? "selected" : "") value="0">1</option>
+                            <option @(Model.Rating == 1 ? "selected" : "") value="1">2</option>
+                            <option @(Model.Rating == 2 ? "selected" : "") value="2">3</option>
+                            <option @(Model.Rating == 3 ? "selected" : "") value="3">4</option>
+                            <option @(Model.Rating == 4 ? "selected" : "") value="4">5</option>
+                            <option @(Model.Rating == 5 ? "selected" : "") value="6">6</option>
+                            <option @(Model.Rating == 6 ? "selected" : "") value="6">7</option>
+                            <option @(Model.Rating == 7 ? "selected" : "") value="7">8</option>
+                            <option @(Model.Rating == 8 ? "selected" : "") value="8">9</option>
+                            <option @(Model.Rating == 9 ? "selected" : "") value="9">10</option>
+                        </select>
+                        <button type="button" class="btn btn-primary" onclick="location.href='@Url.Action("SaveFilm", new { Name = @Model.Name, Genre = @Model.Genre, Rating = @Model.Rating })'"><span class="glyphicon glyphicon-plus"></span>&nbsp;SAVe</button>
+            </fieldset>
+            <div data-role="footer" data-id="foo1" data-position="fixed">
+                <div data-role="navbar">
+                    <button type="button" class="btn btn-primary" onclick="location.href='@Url.Action("ShowFilmList")'"><span class="glyphicon glyphicon-plus"></span>&nbsp;BAck</button>
+                </div>
+            </div>
+        </form>
+</body>
+</html>

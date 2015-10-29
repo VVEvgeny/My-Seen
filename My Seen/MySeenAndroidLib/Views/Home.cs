@@ -56,27 +56,37 @@ WriteLiteral(" content=\"width=device-width, initial-scale=1\"");
 
 WriteLiteral(" />\r\n\r\n    <script");
 
-WriteLiteral(" src=\"jquery-1.10.2.min.js\"");
+WriteLiteral(" src=\"jquery-2.1.4.js\"");
 
 WriteLiteral("></script>\r\n    <script");
 
-WriteLiteral(" src=\"jquery.mobile-1.4.0.min.js\"");
+WriteLiteral(" src=\"jquery-2.1.4.min.js\"");
 
 WriteLiteral("></script>\r\n    <script");
+
+WriteLiteral(" src=\"jquery.mobile-1.4.5.min.js\"");
+
+WriteLiteral("></script>\r\n\r\n    <script");
 
 WriteLiteral(" src=\"jquery.lazyloadxt.js\"");
 
-WriteLiteral("></script>\r\n\r\n    <link");
+WriteLiteral("></script>\r\n    <script");
+
+WriteLiteral(" src=\"bootstrap.min.js\"");
+
+WriteLiteral("></script>\r\n\r\n    \r\n    <link");
+
+WriteLiteral(" href=\"jquery.mobile-1.4.5.css\"");
+
+WriteLiteral(" rel=\"stylesheet\"");
+
+WriteLiteral(" />\r\n    <link");
 
 WriteLiteral(" href=\"bootstrap.css\"");
 
 WriteLiteral(" rel=\"stylesheet\"");
 
-WriteLiteral(" />\r\n    <script");
-
-WriteLiteral(" src=\"bootstrap.js\"");
-
-WriteLiteral("></script>\r\n</head>\r\n    <body>\r\n        <div");
+WriteLiteral(" />\r\n\r\n</head>\r\n    <body>\r\n        <div");
 
 WriteLiteral(" class=\"form-inline\"");
 
@@ -84,32 +94,44 @@ WriteLiteral(">\r\n            <div");
 
 WriteLiteral(" class=\"form-group\"");
 
-WriteLiteral(">\r\n                <label>");
+WriteLiteral(">\r\n                <div");
+
+WriteLiteral(" class=\"inline\"");
+
+WriteLiteral(">\r\n                    <label");
+
+WriteLiteral(" for=\"lstSelected\"");
+
+WriteLiteral(" style=\"display: block;\"");
+
+WriteLiteral(">");
 
 
-#line 22 "Home.cshtml"
-                  Write(MySeenLib.Resource.SelectTheCategory);
+#line 28 "Home.cshtml"
+                                                                Write(MySeenLib.Resource.SelectTheCategory);
 
 
 #line default
 #line hidden
-WriteLiteral("</label>\r\n                <select");
-
-WriteLiteral(" name=\"ComboBox\"");
+WriteLiteral("</label>\r\n                    <select");
 
 WriteLiteral(" class=\"form-control\"");
 
+WriteLiteral(" id=\"lstSelected\"");
+
+WriteLiteral(" name=\"Selected\"");
+
 WriteLiteral(" style=\"width : 100px\"");
 
-WriteLiteral(">\r\n                    <option");
+WriteLiteral(">\r\n                        <option");
 
 WriteLiteral(" value=\"1\"");
 
 WriteLiteral(" ");
 
 
-#line 24 "Home.cshtml"
-                                  Write(Model.Selected == MySeenLib.Resource.Films ? " selected" : " ");
+#line 30 "Home.cshtml"
+                                      Write(Model.Selected == MySeenLib.Resource.Films ? " selected" : " ");
 
 
 #line default
@@ -117,21 +139,21 @@ WriteLiteral(" ");
 WriteLiteral(">");
 
 
-#line 24 "Home.cshtml"
-                                                                                                   Write(MySeenLib.Resource.Films);
+#line 30 "Home.cshtml"
+                                                                                                       Write(MySeenLib.Resource.Films);
 
 
 #line default
 #line hidden
-WriteLiteral("</option>\r\n                    <option");
+WriteLiteral("</option>\r\n                        <option");
 
 WriteLiteral(" value=\"2\"");
 
 WriteLiteral(" ");
 
 
-#line 25 "Home.cshtml"
-                                  Write(Model.Selected == MySeenLib.Resource.Serials ? " selected" : " ");
+#line 31 "Home.cshtml"
+                                      Write(Model.Selected == MySeenLib.Resource.Serials ? " selected" : " ");
 
 
 #line default
@@ -139,13 +161,13 @@ WriteLiteral(" ");
 WriteLiteral(">");
 
 
-#line 25 "Home.cshtml"
-                                                                                                     Write(MySeenLib.Resource.Serials);
+#line 31 "Home.cshtml"
+                                                                                                         Write(MySeenLib.Resource.Serials);
 
 
 #line default
 #line hidden
-WriteLiteral("</option>\r\n                </select>\r\n                <button");
+WriteLiteral("</option>\r\n                    </select>\r\n                    <button");
 
 WriteLiteral(" type=\"button\"");
 
@@ -154,8 +176,8 @@ WriteLiteral(" class=\"btn btn-primary\"");
 WriteAttribute ("onclick", " onclick=\"", "\""
 , Tuple.Create<string,object,bool> ("", "location.href=\'", true)
 
-#line 27 "Home.cshtml"
-                                               , Tuple.Create<string,object,bool> ("", Url.Action("AddFilm")
+#line 33 "Home.cshtml"
+                                                   , Tuple.Create<string,object,bool> ("", Url.Action(Model.Selected == MySeenLib.Resource.Films ?"AddFilm":"AddSerial")
 
 #line default
 #line hidden
@@ -169,30 +191,14 @@ WriteLiteral(" class=\"glyphicon glyphicon-plus\"");
 WriteLiteral("></span>&nbsp;");
 
 
-#line 27 "Home.cshtml"
-                                                                                                                                                              Write(Resource.AddNew);
+#line 33 "Home.cshtml"
+                                                                                                                                                                                                                          Write(Resource.AddNew);
 
 
 #line default
 #line hidden
-WriteLiteral("</button>\r\n                <label");
-
-WriteLiteral(" for=\"quickSearch\"");
-
-WriteLiteral(">");
-
-
-#line 28 "Home.cshtml"
-                                    Write(MySeenLib.Resource.QuickSearch);
-
-
-#line default
-#line hidden
-WriteLiteral(" <span");
-
-WriteLiteral(" class=\"glyphicon glyphicon-search\"");
-
-WriteLiteral("></span> :</label>\r\n            </div>\r\n        </div>\r\n        <table");
+WriteLiteral("</button>\r\n                </div>\r\n            </div>\r\n        </div>\r\n        <t" +
+"able");
 
 WriteLiteral(" class=\"table table-striped\"");
 
@@ -205,7 +211,7 @@ WriteLiteral(" width=\"60%\"");
 WriteLiteral(">");
 
 
-#line 34 "Home.cshtml"
+#line 40 "Home.cshtml"
                                Write(MySeenLib.Resource.Name);
 
 
@@ -218,7 +224,7 @@ WriteLiteral(" width=\"20%\"");
 WriteLiteral(">");
 
 
-#line 35 "Home.cshtml"
+#line 41 "Home.cshtml"
                                Write(MySeenLib.Resource.Date);
 
 
@@ -231,7 +237,7 @@ WriteLiteral(" width=\"10%\"");
 WriteLiteral(">");
 
 
-#line 36 "Home.cshtml"
+#line 42 "Home.cshtml"
                                Write(MySeenLib.Resource.Genre);
 
 
@@ -244,7 +250,7 @@ WriteLiteral(" width=\"10%\"");
 WriteLiteral(">");
 
 
-#line 37 "Home.cshtml"
+#line 43 "Home.cshtml"
                                Write(MySeenLib.Resource.Rating);
 
 
@@ -253,13 +259,13 @@ WriteLiteral(">");
 WriteLiteral("</th>\r\n                </tr>\r\n            </thead>\r\n            <tbody>\r\n");
 
 
-#line 41 "Home.cshtml"
+#line 47 "Home.cshtml"
                 
 
 #line default
 #line hidden
 
-#line 41 "Home.cshtml"
+#line 47 "Home.cshtml"
                  foreach (var film in Model.FilmsList)
                 {
 
@@ -273,7 +279,7 @@ WriteLiteral(" class=\"align-left\"");
 WriteLiteral(">");
 
 
-#line 44 "Home.cshtml"
+#line 50 "Home.cshtml"
                                           Write(film.Name);
 
 
@@ -286,7 +292,7 @@ WriteLiteral(" class=\"align-center\"");
 WriteLiteral(">");
 
 
-#line 45 "Home.cshtml"
+#line 51 "Home.cshtml"
                                             Write(film.DateSee10);
 
 
@@ -299,7 +305,7 @@ WriteLiteral(" class=\"align-center\"");
 WriteLiteral(">");
 
 
-#line 46 "Home.cshtml"
+#line 52 "Home.cshtml"
                                             Write(film.GenreText);
 
 
@@ -312,7 +318,7 @@ WriteLiteral(" class=\"align-center\"");
 WriteLiteral(">");
 
 
-#line 47 "Home.cshtml"
+#line 53 "Home.cshtml"
                                             Write(film.RatingText);
 
 
@@ -321,13 +327,18 @@ WriteLiteral(">");
 WriteLiteral("</td>\r\n                    </tr>\r\n");
 
 
-#line 49 "Home.cshtml"
+#line 55 "Home.cshtml"
                 }
 
 
 #line default
 #line hidden
-WriteLiteral("            </tbody>\r\n        </table>\r\n</body>\r\n</html>\r\n");
+WriteLiteral("            </tbody>\r\n        </table>\r\n        <script");
+
+WriteLiteral(" type=\"text/javascript\"");
+
+WriteLiteral(">\r\n            window.onload = function ()\r\n            {\r\n                //aler" +
+"t(\"test2\");\r\n            };\r\n        </script>\r\n</body>\r\n</html>\r\n");
 
 }
 }
