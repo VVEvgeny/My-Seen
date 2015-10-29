@@ -94,7 +94,7 @@ WriteLiteral(">");
 
 
 #line 23 "AddSerial.cshtml"
-                           Write(Model.Name_Error);
+                           Write(Model.Error);
 
 
 #line default

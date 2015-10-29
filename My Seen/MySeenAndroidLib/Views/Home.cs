@@ -74,7 +74,7 @@ WriteLiteral("></script>\r\n    <script");
 
 WriteLiteral(" src=\"bootstrap.min.js\"");
 
-WriteLiteral("></script>\r\n\r\n    \r\n    <link");
+WriteLiteral("></script>\r\n    \r\n    <link");
 
 WriteLiteral(" href=\"jquery.mobile-1.4.5.css\"");
 
@@ -107,7 +107,7 @@ WriteLiteral(" style=\"display: block;\"");
 WriteLiteral(">");
 
 
-#line 28 "Home.cshtml"
+#line 27 "Home.cshtml"
                                                                 Write(MySeenLib.Resource.SelectTheCategory);
 
 
@@ -123,6 +123,17 @@ WriteLiteral(" name=\"Selected\"");
 
 WriteLiteral(" style=\"width : 100px\"");
 
+WriteAttribute ("onchange", " onchange=\"", "\""
+, Tuple.Create<string,object,bool> ("", "location.href=\'", true)
+
+#line 28 "Home.cshtml"
+                                                                                          , Tuple.Create<string,object,bool> ("", Url.Action("ChangeSelected")
+
+#line default
+#line hidden
+, false)
+, Tuple.Create<string,object,bool> ("", "\'", true)
+);
 WriteLiteral(">\r\n                        <option");
 
 WriteLiteral(" value=\"1\"");
@@ -130,8 +141,8 @@ WriteLiteral(" value=\"1\"");
 WriteLiteral(" ");
 
 
-#line 30 "Home.cshtml"
-                                      Write(Model.Selected == MySeenLib.Resource.Films ? " selected" : " ");
+#line 29 "Home.cshtml"
+                                      Write(Model.isFilm ? " selected" : " ");
 
 
 #line default
@@ -139,8 +150,8 @@ WriteLiteral(" ");
 WriteLiteral(">");
 
 
-#line 30 "Home.cshtml"
-                                                                                                       Write(MySeenLib.Resource.Films);
+#line 29 "Home.cshtml"
+                                                                         Write(MySeenLib.Resource.Films);
 
 
 #line default
@@ -152,8 +163,8 @@ WriteLiteral(" value=\"2\"");
 WriteLiteral(" ");
 
 
-#line 31 "Home.cshtml"
-                                      Write(Model.Selected == MySeenLib.Resource.Serials ? " selected" : " ");
+#line 30 "Home.cshtml"
+                                      Write(!Model.isFilm ? " selected" : " ");
 
 
 #line default
@@ -161,8 +172,8 @@ WriteLiteral(" ");
 WriteLiteral(">");
 
 
-#line 31 "Home.cshtml"
-                                                                                                         Write(MySeenLib.Resource.Serials);
+#line 30 "Home.cshtml"
+                                                                          Write(MySeenLib.Resource.Serials);
 
 
 #line default
@@ -176,8 +187,8 @@ WriteLiteral(" class=\"btn btn-primary\"");
 WriteAttribute ("onclick", " onclick=\"", "\""
 , Tuple.Create<string,object,bool> ("", "location.href=\'", true)
 
-#line 33 "Home.cshtml"
-                                                   , Tuple.Create<string,object,bool> ("", Url.Action(Model.Selected == MySeenLib.Resource.Films ?"AddFilm":"AddSerial")
+#line 32 "Home.cshtml"
+                                                   , Tuple.Create<string,object,bool> ("", Url.Action(Model.isFilm ? "AddFilm" : "AddSerial")
 
 #line default
 #line hidden
@@ -191,8 +202,8 @@ WriteLiteral(" class=\"glyphicon glyphicon-plus\"");
 WriteLiteral("></span>&nbsp;");
 
 
-#line 33 "Home.cshtml"
-                                                                                                                                                                                                                          Write(Resource.AddNew);
+#line 32 "Home.cshtml"
+                                                                                                                                                                                               Write(Resource.AddNew);
 
 
 #line default
@@ -204,136 +215,466 @@ WriteLiteral(" class=\"table table-striped\"");
 
 WriteLiteral(" id=\"table\"");
 
-WriteLiteral(">\r\n            <thead>\r\n                <tr>\r\n                    <th");
+WriteLiteral(">\r\n");
+
+
+#line 37 "Home.cshtml"
+            
+
+#line default
+#line hidden
+
+#line 37 "Home.cshtml"
+             if(Model.isFilm)
+            { 
+
+
+#line default
+#line hidden
+WriteLiteral("                <thead>\r\n                    <tr>\r\n                        <th");
+
+WriteLiteral(" width=\"10%\"");
+
+WriteLiteral(" class=\"align-center\"");
+
+WriteLiteral("></th>\r\n                        <th");
 
 WriteLiteral(" width=\"60%\"");
 
-WriteLiteral(">");
-
-
-#line 40 "Home.cshtml"
-                               Write(MySeenLib.Resource.Name);
-
-
-#line default
-#line hidden
-WriteLiteral("</th>\r\n                    <th");
-
-WriteLiteral(" width=\"20%\"");
-
-WriteLiteral(">");
-
-
-#line 41 "Home.cshtml"
-                               Write(MySeenLib.Resource.Date);
-
-
-#line default
-#line hidden
-WriteLiteral("</th>\r\n                    <th");
-
-WriteLiteral(" width=\"10%\"");
+WriteLiteral(" class=\"align-center\"");
 
 WriteLiteral(">");
 
 
 #line 42 "Home.cshtml"
-                               Write(MySeenLib.Resource.Genre);
+                                                        Write(MySeenLib.Resource.Name);
 
 
 #line default
 #line hidden
-WriteLiteral("</th>\r\n                    <th");
+WriteLiteral("</th>\r\n                        <th");
 
-WriteLiteral(" width=\"10%\"");
+WriteLiteral(" width=\"20%\"");
+
+WriteLiteral(" class=\"align-center\"");
 
 WriteLiteral(">");
 
 
 #line 43 "Home.cshtml"
-                               Write(MySeenLib.Resource.Rating);
+                                                        Write(MySeenLib.Resource.Date);
 
 
 #line default
 #line hidden
-WriteLiteral("</th>\r\n                </tr>\r\n            </thead>\r\n            <tbody>\r\n");
+WriteLiteral("</th>\r\n                        <th");
+
+WriteLiteral(" width=\"10%\"");
+
+WriteLiteral(" class=\"align-center\"");
+
+WriteLiteral(">");
 
 
-#line 47 "Home.cshtml"
-                
+#line 44 "Home.cshtml"
+                                                        Write(MySeenLib.Resource.Genre);
+
+
+#line default
+#line hidden
+WriteLiteral("</th>\r\n                        <th");
+
+WriteLiteral(" width=\"10%\"");
+
+WriteLiteral(" class=\"align-center\"");
+
+WriteLiteral(">");
+
+
+#line 45 "Home.cshtml"
+                                                        Write(MySeenLib.Resource.Rating);
+
+
+#line default
+#line hidden
+WriteLiteral("</th>\r\n                    </tr>\r\n                </thead>\r\n");
+
+WriteLiteral("                <tbody>\r\n");
+
+
+#line 49 "Home.cshtml"
+                    
 
 #line default
 #line hidden
 
-#line 47 "Home.cshtml"
-                 foreach (var film in Model.FilmsList)
-                {
+#line 49 "Home.cshtml"
+                     foreach (var film in Model.FilmsList)
+                    {
 
 
 #line default
 #line hidden
-WriteLiteral("                    <tr>\r\n                        <td");
+WriteLiteral("                        <tr>\r\n                            <td");
+
+WriteLiteral(" class=\"align-center\"");
+
+WriteLiteral("><button");
+
+WriteLiteral(" type=\"button\"");
+
+WriteLiteral(" class=\"btn btn-info btn-edit\"");
+
+WriteAttribute ("onclick", " onclick=\"", "\""
+, Tuple.Create<string,object,bool> ("", "location.href=\'", true)
+
+#line 52 "Home.cshtml"
+                                                                                          , Tuple.Create<string,object,bool> ("", Url.Action("EditFilm", new { id = film.Id })
+
+#line default
+#line hidden
+, false)
+, Tuple.Create<string,object,bool> ("", "\'", true)
+);
+WriteLiteral("><span");
+
+WriteLiteral(" class=\"glyphicon glyphicon-pencil\"");
+
+WriteLiteral("></span>&nbsp;");
+
+
+#line 52 "Home.cshtml"
+                                                                                                                                                                                                                                  Write(Resource.Edit);
+
+
+#line default
+#line hidden
+WriteLiteral("</button></td>\r\n                            <td");
 
 WriteLiteral(" class=\"align-left\"");
 
 WriteLiteral(">");
 
 
-#line 50 "Home.cshtml"
-                                          Write(film.Name);
-
-
-#line default
-#line hidden
-WriteLiteral("</td>\r\n                        <td");
-
-WriteLiteral(" class=\"align-center\"");
-
-WriteLiteral(">");
-
-
-#line 51 "Home.cshtml"
-                                            Write(film.DateSee10);
-
-
-#line default
-#line hidden
-WriteLiteral("</td>\r\n                        <td");
-
-WriteLiteral(" class=\"align-center\"");
-
-WriteLiteral(">");
-
-
-#line 52 "Home.cshtml"
-                                            Write(film.GenreText);
-
-
-#line default
-#line hidden
-WriteLiteral("</td>\r\n                        <td");
-
-WriteLiteral(" class=\"align-center\"");
-
-WriteLiteral(">");
-
-
 #line 53 "Home.cshtml"
-                                            Write(film.RatingText);
+                                              Write(film.Name);
 
 
 #line default
 #line hidden
-WriteLiteral("</td>\r\n                    </tr>\r\n");
+WriteLiteral("</td>\r\n                            <td");
+
+WriteLiteral(" class=\"align-center\"");
+
+WriteLiteral(">");
+
+
+#line 54 "Home.cshtml"
+                                                Write(film.DateSee10);
+
+
+#line default
+#line hidden
+WriteLiteral("</td>\r\n                            <td");
+
+WriteLiteral(" class=\"align-center\"");
+
+WriteLiteral(">");
 
 
 #line 55 "Home.cshtml"
-                }
+                                                Write(film.GenreText);
 
 
 #line default
 #line hidden
-WriteLiteral("            </tbody>\r\n        </table>\r\n        <script");
+WriteLiteral("</td>\r\n                            <td");
+
+WriteLiteral(" class=\"align-center\"");
+
+WriteLiteral(">");
+
+
+#line 56 "Home.cshtml"
+                                                Write(film.RatingText);
+
+
+#line default
+#line hidden
+WriteLiteral("</td>\r\n                        </tr>\r\n");
+
+
+#line 58 "Home.cshtml"
+                    }
+
+
+#line default
+#line hidden
+WriteLiteral("                </tbody>\r\n");
+
+
+#line 60 "Home.cshtml"
+            }
+            else
+            {
+
+
+#line default
+#line hidden
+WriteLiteral("                <thead>\r\n                    <tr>\r\n                        <th");
+
+WriteLiteral(" width=\"10%\"");
+
+WriteLiteral(" class=\"align-center\"");
+
+WriteLiteral("></th>\r\n                        <th");
+
+WriteLiteral(" width=\"40%\"");
+
+WriteLiteral(" class=\"align-center\"");
+
+WriteLiteral(">");
+
+
+#line 66 "Home.cshtml"
+                                                        Write(MySeenLib.Resource.Name);
+
+
+#line default
+#line hidden
+WriteLiteral("</th>\r\n                        <th");
+
+WriteLiteral(" width=\"10%\"");
+
+WriteLiteral(" class=\"align-center\"");
+
+WriteLiteral(">");
+
+
+#line 67 "Home.cshtml"
+                                                        Write(MySeenLib.Resource.LastEpisode);
+
+
+#line default
+#line hidden
+WriteLiteral("</th>\r\n                        <th");
+
+WriteLiteral(" width=\"20%\"");
+
+WriteLiteral(" class=\"align-center\"");
+
+WriteLiteral(">");
+
+
+#line 68 "Home.cshtml"
+                                                        Write(MySeenLib.Resource.DateLast);
+
+
+#line default
+#line hidden
+WriteLiteral("</th>\r\n                        <th");
+
+WriteLiteral(" width=\"20%\"");
+
+WriteLiteral(" class=\"align-center\"");
+
+WriteLiteral(">");
+
+
+#line 69 "Home.cshtml"
+                                                        Write(MySeenLib.Resource.DateBegin);
+
+
+#line default
+#line hidden
+WriteLiteral("</th>\r\n                        <th");
+
+WriteLiteral(" width=\"10%\"");
+
+WriteLiteral(" class=\"align-center\"");
+
+WriteLiteral(">");
+
+
+#line 70 "Home.cshtml"
+                                                        Write(MySeenLib.Resource.Genre);
+
+
+#line default
+#line hidden
+WriteLiteral("</th>\r\n                        <th");
+
+WriteLiteral(" width=\"10%\"");
+
+WriteLiteral(" class=\"align-center\"");
+
+WriteLiteral(">");
+
+
+#line 71 "Home.cshtml"
+                                                        Write(MySeenLib.Resource.Rating);
+
+
+#line default
+#line hidden
+WriteLiteral("</th>\r\n                    </tr>\r\n                </thead>\r\n");
+
+WriteLiteral("                <tbody>\r\n");
+
+
+#line 75 "Home.cshtml"
+                    
+
+#line default
+#line hidden
+
+#line 75 "Home.cshtml"
+                     foreach (var serial in Model.SerialsList)
+                    {
+
+
+#line default
+#line hidden
+WriteLiteral("                        <tr>\r\n                            <td");
+
+WriteLiteral(" class=\"align-center\"");
+
+WriteLiteral("><button");
+
+WriteLiteral(" type=\"button\"");
+
+WriteLiteral(" class=\"btn btn-info btn-edit\"");
+
+WriteAttribute ("onclick", " onclick=\"", "\""
+, Tuple.Create<string,object,bool> ("", "location.href=\'", true)
+
+#line 78 "Home.cshtml"
+                                                                                          , Tuple.Create<string,object,bool> ("", Url.Action("EditSerial", new { id = serial.Id })
+
+#line default
+#line hidden
+, false)
+, Tuple.Create<string,object,bool> ("", "\'", true)
+);
+WriteLiteral("><span");
+
+WriteLiteral(" class=\"glyphicon glyphicon-pencil\"");
+
+WriteLiteral("></span>&nbsp;");
+
+
+#line 78 "Home.cshtml"
+                                                                                                                                                                                                                                      Write(Resource.Edit);
+
+
+#line default
+#line hidden
+WriteLiteral("</button></td>\r\n                            <td");
+
+WriteLiteral(" class=\"align-center\"");
+
+WriteLiteral(">");
+
+
+#line 79 "Home.cshtml"
+                                                Write(serial.Name);
+
+
+#line default
+#line hidden
+WriteLiteral("</td>\r\n                            <td");
+
+WriteLiteral(" class=\"align-center\"");
+
+WriteLiteral(">");
+
+
+#line 80 "Home.cshtml"
+                                                Write(serial.LastSeason);
+
+
+#line default
+#line hidden
+WriteLiteral("-");
+
+
+#line 80 "Home.cshtml"
+                                                                   Write(serial.LastSeries);
+
+
+#line default
+#line hidden
+WriteLiteral("</td>\r\n                            <td");
+
+WriteLiteral(" class=\"align-center\"");
+
+WriteLiteral(">");
+
+
+#line 81 "Home.cshtml"
+                                                Write(serial.DateLast);
+
+
+#line default
+#line hidden
+WriteLiteral("</td>\r\n                            <td");
+
+WriteLiteral(" class=\"align-center\"");
+
+WriteLiteral(">");
+
+
+#line 82 "Home.cshtml"
+                                                Write(serial.DateBegin);
+
+
+#line default
+#line hidden
+WriteLiteral("</td>\r\n                            <td");
+
+WriteLiteral(" class=\"align-center\"");
+
+WriteLiteral(">");
+
+
+#line 83 "Home.cshtml"
+                                                Write(serial.GenreText);
+
+
+#line default
+#line hidden
+WriteLiteral("</td>\r\n                            <td");
+
+WriteLiteral(" class=\"align-center\"");
+
+WriteLiteral(">");
+
+
+#line 84 "Home.cshtml"
+                                                Write(serial.RatingText);
+
+
+#line default
+#line hidden
+WriteLiteral("</td>\r\n                        </tr>\r\n");
+
+
+#line 86 "Home.cshtml"
+                    }
+
+
+#line default
+#line hidden
+WriteLiteral("                </tbody>\r\n");
+
+
+#line 88 "Home.cshtml"
+            }
+
+
+#line default
+#line hidden
+WriteLiteral("        </table>\r\n        <script");
 
 WriteLiteral(" type=\"text/javascript\"");
 

@@ -20,7 +20,7 @@
         <div class="modal-header">
             <h4 class="modal-title text-center">Add Serial</h4>
         </div>
-        <h3 class="text-danger">@Model.Name_Error</h3>
+        <h3 class="text-danger">@Model.Error</h3>
             <div class="modal-body">
                 @using (@Html.BeginForm("SaveSerial", "Home", new { Name = @Model.Name, Season = @Model.Season, Series = @Model.Series }, PortableRazor.Web.Mvc.HtmlHelper.FormMethod.Get, new { @class = "form-horizontal" }))
                 {

@@ -9,34 +9,65 @@
     <meta content="text/html; charset=utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <link rel="stylesheet" href="jquery.mobile-1.4.0.min.css" />
-    <script src="jquery-1.10.2.min.js"></script>
-    <script src="jquery.mobile-1.4.0.min.js"></script>
+    <script src="jquery-2.1.4.js"></script>
+    <script src="jquery-2.1.4.min.js"></script>
+    <script src="jquery.mobile-1.4.5.min.js"></script>
 
+    <script src="jquery.lazyloadxt.js"></script>
     <script src="bootstrap.min.js"></script>
+
+    <link href="jquery.mobile-1.4.5.css" rel="stylesheet" />
     <link href="bootstrap.css" rel="stylesheet" />
 
 </head>
     <body>
-        @if (!string.IsNullOrEmpty(Model.Name_Error))
-        { <label for="">@Model.Name_Error</label>}
-        <div class="editor-label">
-            @if (Model.Unknown_Error)
-            { <label for="">UNKNOWN ERROR</label>}
+        <div class="modal-header">
+            @if (Model.id == -1)
+            { 
+                <h4 class="modal-title text-center">Add Film</h4>
+            }
+            else
+            {
+                <h4 class="modal-title text-center">Edit Film</h4>
+            }            
         </div>
-
-
-
-        @using (@Html.BeginForm("SaveFilm", "Home", new { name = @Model.Name }))
-        {
-            <h4>Name</h4>
-            @Html.TextArea("Name", Model.Name)
-            <input type="submit" value="Save" />
-        }
-        <div data-role="footer" data-id="foo1" data-position="fixed">
-            <div data-role="navbar">
-                <button type="button" class="btn btn-primary" onclick="location.href='@Url.Action("ShowFilmList")'"><span class="glyphicon glyphicon-plus"></span>&nbsp;BAck</button>
+        <h3 class="text-danger">@Model.Error</h3>
+            <div class="modal-body">
+                @using (@Html.BeginForm("SaveFilm", "Home", new { Name = @Model.Name }, PortableRazor.Web.Mvc.HtmlHelper.FormMethod.Get, new { @class = "form-horizontal" }))
+                {
+                    <div class="form-group">
+                        @Html.Label(@MySeenLib.Resource.Name, "Name", new { @class = "col-sm-2 control-label" })
+                        <div class="col-sm-10">
+                            @Html.TextBox("Name", @Model.Name, new { placeholder = @MySeenLib.Resource.Name, @class = "form-control movie-name" })
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        @Html.Label(@MySeenLib.Resource.Genre, "Genre", new { @class = "col-sm-2 control-label" })
+                        <div class="col-sm-10">
+                            <select id="Genre" name="Genre" class="form-control movie-genre">
+                                @foreach (var genre in @MySeenLib.Defaults.Genres.GetAll())
+                                {
+                                    <option @(Model.Genre == MySeenLib.Defaults.Genres.GetId(genre) ? "selected" : "") value="@MySeenLib.Defaults.Genres.GetId(genre)">@genre</option>
+                                }
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        @Html.Label(@MySeenLib.Resource.Rating, "Rating", new { @class = "col-sm-2 control-label" })
+                        <div class="col-sm-10">
+                            <select id="Rating" name="Rating" class="form-control movie-rating">
+                                @foreach (var rating in @MySeenLib.Defaults.Ratings.GetAll())
+                                {
+                                    <option @(Model.Rating == MySeenLib.Defaults.Ratings.GetId(rating) ? "selected" : "") value="@MySeenLib.Defaults.Ratings.GetId(rating)">@rating</option>
+                                }
+                            </select>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-primary glyphicon glyphicon-arrow-left glyphicon-nonescaped" onclick="location.href='@Url.Action("ShowFilmList")'"><span class="glyphicon glyphicon-arrow-left"></span>&nbsp;Back</button>
+                        <button type="submit" class="btn btn-success glyphicon glyphicon-ok glyphicon-nonescaped" id="submitAddButton"><span class="glyphicon glyphicon-ok"></span>&nbsp;@Resource.Add</button>
+                    </div>
+                }
             </div>
-        </div>
 </body>
 </html>

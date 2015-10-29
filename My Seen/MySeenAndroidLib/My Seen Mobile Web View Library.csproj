@@ -45,18 +45,13 @@
     <Compile Include="Models\HomeViewModel.cs" />
     <Compile Include="Models\SerialsView.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Views\AddFilm2.cs">
-      <DependentUpon>AddFilm2.cshtml</DependentUpon>
+    <Compile Include="Views\AddFilm.cs">
+      <DependentUpon>AddFilm.cshtml</DependentUpon>
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
     </Compile>
     <Compile Include="Views\AddSerial.cs">
       <DependentUpon>AddSerial.cshtml</DependentUpon>
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-    </Compile>
-    <Compile Include="Views\AddFilm.cs">
-      <DependentUpon>AddFilm.cshtml</DependentUpon>
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
     </Compile>
@@ -90,17 +85,13 @@
   <ItemGroup>
     <None Include="App.Config" />
     <None Include="packages.config" />
-    <None Include="Views\AddFilm2.cshtml">
+    <None Include="Views\AddFilm.cshtml">
       <Generator>RazorTemplatePreprocessor</Generator>
-      <LastGenOutput>AddFilm2.cs</LastGenOutput>
+      <LastGenOutput>AddFilm.cs</LastGenOutput>
     </None>
     <None Include="Views\AddSerial.cshtml">
       <Generator>RazorTemplatePreprocessor</Generator>
       <LastGenOutput>AddSerial.cs</LastGenOutput>
-    </None>
-    <None Include="Views\AddFilm.cshtml">
-      <Generator>RazorTemplatePreprocessor</Generator>
-      <LastGenOutput>AddFilm.cs</LastGenOutput>
     </None>
     <None Include="Views\Home.cshtml">
       <Generator>RazorTemplatePreprocessor</Generator>

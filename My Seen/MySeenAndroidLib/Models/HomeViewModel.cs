@@ -7,11 +7,7 @@ namespace MySeenMobileWebViewLib
 {
     public class HomeViewModel
     {
-        public string Selected;
-        public HomeViewModel()
-        {
-            Selected = Defaults.Categories.GetById(Defaults.CategoryBase.SerialIndex);
-        }
+        public bool isFilm = true;
         public IEnumerable<FilmsView> FilmsList;
         public IEnumerable<SerialsView> SerialsList;
     }

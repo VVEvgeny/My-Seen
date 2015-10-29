@@ -13,5 +13,9 @@ namespace MySeenMobileWebViewLib
 
         bool isFilmNameExist(string Name);
         void AddFilm(string Name, int Genre, int Rating);
+        void GetFilmById(int id, ref string name, ref int genre, ref int rating);
+
+        bool isSerialNameExist(string Name);
+        void AddSerial(string Name, int Season,int Series, int Genre, int Rating);
     }
 }

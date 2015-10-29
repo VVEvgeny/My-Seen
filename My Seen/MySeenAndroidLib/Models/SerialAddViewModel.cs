@@ -8,12 +8,11 @@ namespace MySeenMobileWebViewLib
     public class SerialAddViewModel
     {
         public string Name = string.Empty;
-        public string Season;
-        public string Series;
+        public int Season = 1;
+        public int Series = 1;
         public int Genre = Defaults.Genres.GetMaxId();
         public int Rating = Defaults.Ratings.GetMaxId();
 
-        public string Name_Error = string.Empty;
-        public bool Unknown_Error = false;
+        public string Error = string.Empty;
     }
 }

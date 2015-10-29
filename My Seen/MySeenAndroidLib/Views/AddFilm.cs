@@ -54,175 +54,330 @@ WriteLiteral(" name=\"viewport\"");
 
 WriteLiteral(" content=\"width=device-width, initial-scale=1\"");
 
-WriteLiteral(" />\r\n\r\n    <link");
+WriteLiteral(" />\r\n\r\n    <script");
 
-WriteLiteral(" rel=\"stylesheet\"");
-
-WriteLiteral(" href=\"jquery.mobile-1.4.0.min.css\"");
-
-WriteLiteral(" />\r\n    <script");
-
-WriteLiteral(" src=\"jquery-1.10.2.min.js\"");
+WriteLiteral(" src=\"jquery-2.1.4.js\"");
 
 WriteLiteral("></script>\r\n    <script");
 
-WriteLiteral(" src=\"jquery.mobile-1.4.0.min.js\"");
+WriteLiteral(" src=\"jquery-2.1.4.min.js\"");
+
+WriteLiteral("></script>\r\n    <script");
+
+WriteLiteral(" src=\"jquery.mobile-1.4.5.min.js\"");
 
 WriteLiteral("></script>\r\n\r\n    <script");
 
+WriteLiteral(" src=\"jquery.lazyloadxt.js\"");
+
+WriteLiteral("></script>\r\n    <script");
+
 WriteLiteral(" src=\"bootstrap.min.js\"");
 
-WriteLiteral("></script>\r\n    <link");
+WriteLiteral("></script>\r\n\r\n    <link");
+
+WriteLiteral(" href=\"jquery.mobile-1.4.5.css\"");
+
+WriteLiteral(" rel=\"stylesheet\"");
+
+WriteLiteral(" />\r\n    <link");
 
 WriteLiteral(" href=\"bootstrap.css\"");
 
 WriteLiteral(" rel=\"stylesheet\"");
 
-WriteLiteral(" />\r\n\r\n</head>\r\n    <body>\r\n");
+WriteLiteral(" />\r\n\r\n</head>\r\n    <body>\r\n        <div");
 
-
-#line 21 "AddFilm.cshtml"
-        
-
-#line default
-#line hidden
-
-#line 21 "AddFilm.cshtml"
-         if (!string.IsNullOrEmpty(Model.Name_Error))
-        {
-
-#line default
-#line hidden
-WriteLiteral(" <label");
-
-WriteLiteral(" for=\"\"");
-
-WriteLiteral(">");
-
-
-#line 22 "AddFilm.cshtml"
-                   Write(Model.Name_Error);
-
-
-#line default
-#line hidden
-WriteLiteral("</label>");
-
-
-#line 22 "AddFilm.cshtml"
-                                                 }
-
-
-#line default
-#line hidden
-WriteLiteral("        <div");
-
-WriteLiteral(" class=\"editor-label\"");
+WriteLiteral(" class=\"modal-header\"");
 
 WriteLiteral(">\r\n");
 
 
-#line 24 "AddFilm.cshtml"
+#line 25 "AddFilm.cshtml"
             
 
 #line default
 #line hidden
-
-#line 24 "AddFilm.cshtml"
-             if (Model.Unknown_Error)
-            {
-
-#line default
-#line hidden
-WriteLiteral(" <label");
-
-WriteLiteral(" for=\"\"");
-
-WriteLiteral(">UNKNOWN ERROR</label>");
-
 
 #line 25 "AddFilm.cshtml"
-                                                 }
+             if (Model.id == -1)
+            { 
 
 
 #line default
 #line hidden
-WriteLiteral("        </div>\r\n\r\n\r\n\r\n");
+WriteLiteral("                <h4");
+
+WriteLiteral(" class=\"modal-title text-center\"");
+
+WriteLiteral(">Add Film</h4>\r\n");
 
 
-#line 30 "AddFilm.cshtml"
-        
-
-#line default
-#line hidden
-
-#line 30 "AddFilm.cshtml"
-         using (@Html.BeginForm("SaveFilm", "Home", new { name = @Model.Name }))
-        {
-
-
-#line default
-#line hidden
-WriteLiteral("            <h4>Name</h4>\r\n");
-
-
-#line 33 "AddFilm.cshtml"
-            
-
-#line default
-#line hidden
-
-#line 33 "AddFilm.cshtml"
-       Write(Html.TextArea("Name", Model.Name));
+#line 28 "AddFilm.cshtml"
+            }
+            else
+            {
 
 
 #line default
 #line hidden
+WriteLiteral("                <h4");
 
-#line 33 "AddFilm.cshtml"
-                                              
+WriteLiteral(" class=\"modal-title text-center\"");
 
-
-#line default
-#line hidden
-WriteLiteral("            <input");
-
-WriteLiteral(" type=\"submit\"");
-
-WriteLiteral(" value=\"Save\"");
-
-WriteLiteral(" />\r\n");
+WriteLiteral(">Edit Film</h4>\r\n");
 
 
-#line 35 "AddFilm.cshtml"
-        }
+#line 32 "AddFilm.cshtml"
+            }            
 
 
 #line default
 #line hidden
-WriteLiteral("        <div");
+WriteLiteral("        </div>\r\n        <h3");
 
-WriteLiteral(" data-role=\"footer\"");
+WriteLiteral(" class=\"text-danger\"");
 
-WriteLiteral(" data-id=\"foo1\"");
+WriteLiteral(">");
 
-WriteLiteral(" data-position=\"fixed\"");
 
-WriteLiteral(">\r\n            <div");
+#line 34 "AddFilm.cshtml"
+                           Write(Model.Error);
 
-WriteLiteral(" data-role=\"navbar\"");
 
-WriteLiteral(">\r\n                <button");
+#line default
+#line hidden
+WriteLiteral("</h3>\r\n            <div");
+
+WriteLiteral(" class=\"modal-body\"");
+
+WriteLiteral(">\r\n");
+
+
+#line 36 "AddFilm.cshtml"
+                
+
+#line default
+#line hidden
+
+#line 36 "AddFilm.cshtml"
+                 using (@Html.BeginForm("SaveFilm", "Home", new { Name = @Model.Name }, PortableRazor.Web.Mvc.HtmlHelper.FormMethod.Get, new { @class = "form-horizontal" }))
+                {
+
+
+#line default
+#line hidden
+WriteLiteral("                    <div");
+
+WriteLiteral(" class=\"form-group\"");
+
+WriteLiteral(">\r\n");
+
+WriteLiteral("                        ");
+
+
+#line 39 "AddFilm.cshtml"
+                   Write(Html.Label(@MySeenLib.Resource.Name, "Name", new { @class = "col-sm-2 control-label" }));
+
+
+#line default
+#line hidden
+WriteLiteral("\r\n                        <div");
+
+WriteLiteral(" class=\"col-sm-10\"");
+
+WriteLiteral(">\r\n");
+
+WriteLiteral("                            ");
+
+
+#line 41 "AddFilm.cshtml"
+                       Write(Html.TextBox("Name", @Model.Name, new { placeholder = @MySeenLib.Resource.Name, @class = "form-control movie-name" }));
+
+
+#line default
+#line hidden
+WriteLiteral("\r\n                        </div>\r\n                    </div>\r\n");
+
+WriteLiteral("                    <div");
+
+WriteLiteral(" class=\"form-group\"");
+
+WriteLiteral(">\r\n");
+
+WriteLiteral("                        ");
+
+
+#line 45 "AddFilm.cshtml"
+                   Write(Html.Label(@MySeenLib.Resource.Genre, "Genre", new { @class = "col-sm-2 control-label" }));
+
+
+#line default
+#line hidden
+WriteLiteral("\r\n                        <div");
+
+WriteLiteral(" class=\"col-sm-10\"");
+
+WriteLiteral(">\r\n                            <select");
+
+WriteLiteral(" id=\"Genre\"");
+
+WriteLiteral(" name=\"Genre\"");
+
+WriteLiteral(" class=\"form-control movie-genre\"");
+
+WriteLiteral(">\r\n");
+
+
+#line 48 "AddFilm.cshtml"
+                                
+
+#line default
+#line hidden
+
+#line 48 "AddFilm.cshtml"
+                                 foreach (var genre in @MySeenLib.Defaults.Genres.GetAll())
+                                {
+
+
+#line default
+#line hidden
+WriteLiteral("                                    <option ");
+
+
+#line 50 "AddFilm.cshtml"
+                                        Write(Model.Genre == MySeenLib.Defaults.Genres.GetId(genre) ? "selected" : "");
+
+
+#line default
+#line hidden
+WriteLiteral(" value=\"");
+
+
+#line 50 "AddFilm.cshtml"
+                                                                                                                         Write(MySeenLib.Defaults.Genres.GetId(genre));
+
+
+#line default
+#line hidden
+WriteLiteral("\">");
+
+
+#line 50 "AddFilm.cshtml"
+                                                                                                                                                                  Write(genre);
+
+
+#line default
+#line hidden
+WriteLiteral("</option>\r\n");
+
+
+#line 51 "AddFilm.cshtml"
+                                }
+
+
+#line default
+#line hidden
+WriteLiteral("                            </select>\r\n                        </div>\r\n          " +
+"          </div>\r\n");
+
+WriteLiteral("                    <div");
+
+WriteLiteral(" class=\"form-group\"");
+
+WriteLiteral(">\r\n");
+
+WriteLiteral("                        ");
+
+
+#line 56 "AddFilm.cshtml"
+                   Write(Html.Label(@MySeenLib.Resource.Rating, "Rating", new { @class = "col-sm-2 control-label" }));
+
+
+#line default
+#line hidden
+WriteLiteral("\r\n                        <div");
+
+WriteLiteral(" class=\"col-sm-10\"");
+
+WriteLiteral(">\r\n                            <select");
+
+WriteLiteral(" id=\"Rating\"");
+
+WriteLiteral(" name=\"Rating\"");
+
+WriteLiteral(" class=\"form-control movie-rating\"");
+
+WriteLiteral(">\r\n");
+
+
+#line 59 "AddFilm.cshtml"
+                                
+
+#line default
+#line hidden
+
+#line 59 "AddFilm.cshtml"
+                                 foreach (var rating in @MySeenLib.Defaults.Ratings.GetAll())
+                                {
+
+
+#line default
+#line hidden
+WriteLiteral("                                    <option ");
+
+
+#line 61 "AddFilm.cshtml"
+                                        Write(Model.Rating == MySeenLib.Defaults.Ratings.GetId(rating) ? "selected" : "");
+
+
+#line default
+#line hidden
+WriteLiteral(" value=\"");
+
+
+#line 61 "AddFilm.cshtml"
+                                                                                                                            Write(MySeenLib.Defaults.Ratings.GetId(rating));
+
+
+#line default
+#line hidden
+WriteLiteral("\">");
+
+
+#line 61 "AddFilm.cshtml"
+                                                                                                                                                                       Write(rating);
+
+
+#line default
+#line hidden
+WriteLiteral("</option>\r\n");
+
+
+#line 62 "AddFilm.cshtml"
+                                }
+
+
+#line default
+#line hidden
+WriteLiteral("                            </select>\r\n                        </div>\r\n          " +
+"          </div>\r\n");
+
+WriteLiteral("                    <div");
+
+WriteLiteral(" class=\"modal-footer\"");
+
+WriteLiteral(">\r\n                        <button");
 
 WriteLiteral(" type=\"button\"");
 
-WriteLiteral(" class=\"btn btn-primary\"");
+WriteLiteral(" class=\"btn btn-primary glyphicon glyphicon-arrow-left glyphicon-nonescaped\"");
 
 WriteAttribute ("onclick", " onclick=\"", "\""
 , Tuple.Create<string,object,bool> ("", "location.href=\'", true)
 
-#line 38 "AddFilm.cshtml"
-                                               , Tuple.Create<string,object,bool> ("", Url.Action("ShowFilmList")
+#line 67 "AddFilm.cshtml"
+                                                                                                           , Tuple.Create<string,object,bool> ("", Url.Action("ShowFilmList")
 
 #line default
 #line hidden
@@ -231,10 +386,39 @@ WriteAttribute ("onclick", " onclick=\"", "\""
 );
 WriteLiteral("><span");
 
-WriteLiteral(" class=\"glyphicon glyphicon-plus\"");
+WriteLiteral(" class=\"glyphicon glyphicon-arrow-left\"");
 
-WriteLiteral("></span>&nbsp;BAck</button>\r\n            </div>\r\n        </div>\r\n</body>\r\n</html>" +
-"\r\n");
+WriteLiteral("></span>&nbsp;Back</button>\r\n                        <button");
+
+WriteLiteral(" type=\"submit\"");
+
+WriteLiteral(" class=\"btn btn-success glyphicon glyphicon-ok glyphicon-nonescaped\"");
+
+WriteLiteral(" id=\"submitAddButton\"");
+
+WriteLiteral("><span");
+
+WriteLiteral(" class=\"glyphicon glyphicon-ok\"");
+
+WriteLiteral("></span>&nbsp;");
+
+
+#line 68 "AddFilm.cshtml"
+                                                                                                                                                                                    Write(Resource.Add);
+
+
+#line default
+#line hidden
+WriteLiteral("</button>\r\n                    </div>\r\n");
+
+
+#line 70 "AddFilm.cshtml"
+                }
+
+
+#line default
+#line hidden
+WriteLiteral("            </div>\r\n</body>\r\n</html>\r\n");
 
 }
 }

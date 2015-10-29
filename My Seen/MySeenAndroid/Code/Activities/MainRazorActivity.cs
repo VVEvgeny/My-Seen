@@ -48,8 +48,8 @@ namespace MySeenAndroid
             
             var homeController = new HomeController(new HybridWebView(webView), new DataAccess());
             PortableRazor.RouteHandler.RegisterController("Home", homeController);
-            //homeController.ShowFilmList();
-            homeController.AddFilm();
+            homeController.ShowFilmList();
+            //homeController.AddFilm();
             Log.Warn(LogTAG, homeController.lastPage);
             
             Log.Warn(LogTAG, "end OnCreate");

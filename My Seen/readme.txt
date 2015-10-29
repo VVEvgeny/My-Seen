@@ -24,4 +24,8 @@
 ==АНДРОЕД
 -ListView динамический
 -sqlite
--Синхронизация с ВЭБ
+-Синхрони
+
+
+-PortableRazor
+-bootstrap

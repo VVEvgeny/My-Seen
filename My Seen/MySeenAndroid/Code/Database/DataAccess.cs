@@ -34,5 +34,24 @@ namespace MySeenAndroid.Code.Database
         {
             DatabaseHelper.Get.Add(new Films { DateChange = DateTime.Now, DateSee = DateTime.Now, Genre = _Genre, Name = _Name, Rating = _Rating });
         }
+        public bool isSerialNameExist(string Name)
+        {
+            return DatabaseHelper.Get.isSerialExist(Name);
+        }
+        public void AddSerial(string _Name, int _Season, int _Series, int _Genre, int _Rating)
+        {
+            DatabaseHelper.Get.Add(new Serials { DateChange = DateTime.Now, Genre = _Genre, Name = _Name, Rating = _Rating, DateBegin = DateTime.Now, DateLast = DateTime.Now, LastSeason = _Season, LastSeries = _Series });
+        }
+
+        public void GetFilmById(int id, ref string name, ref int genre, ref int rating)
+        {
+            Films f = DatabaseHelper.Get.GetFilmById(id);
+            if(f!=null)
+            {
+                name = f.Name;
+                genre = f.Genre;
+                rating = f.Rating;
+            }
+        }
     }
 }
