@@ -14,6 +14,7 @@ namespace MySeenWeb.Controllers
     {
         public ActionResult Index()
         {
+            LogSave.Save(User.Identity.IsAuthenticated?User.Identity.GetUserId():"", Request.UserHostAddress, Request.UserAgent, "Home/Index");
             if (User.Identity.IsAuthenticated)
             {
                 HomeViewModel af = new HomeViewModel();
@@ -58,6 +59,7 @@ namespace MySeenWeb.Controllers
         [HttpPost]
         public JsonResult AddFilm(string name, string genre, string rating)
         {
+            LogSave.Save(User.Identity.IsAuthenticated ? User.Identity.GetUserId() : "", Request.UserHostAddress, Request.UserAgent, "Home/AddFilm",name);
             string errorMessage = string.Empty;
             string user_id = User.Identity.GetUserId();
             if (string.IsNullOrEmpty(errorMessage))
@@ -94,6 +96,7 @@ namespace MySeenWeb.Controllers
         [HttpPost]
         public JsonResult EditFilm(string id,string name, string genre, string rating)
         {
+            LogSave.Save(User.Identity.IsAuthenticated ? User.Identity.GetUserId() : "", Request.UserHostAddress, Request.UserAgent, "Home/EditFilm",id);
             string errorMessage = string.Empty;
             string user_id = User.Identity.GetUserId();
             if (string.IsNullOrEmpty(errorMessage))
@@ -131,6 +134,7 @@ namespace MySeenWeb.Controllers
         [HttpPost]
         public JsonResult AddSerial(string name, string season, string series, string genre, string rating)
         {
+            LogSave.Save(User.Identity.IsAuthenticated ? User.Identity.GetUserId() : "", Request.UserHostAddress, Request.UserAgent, "Home/AddSerial",name);
             string errorMessage = string.Empty;
             string user_id = User.Identity.GetUserId();
             if (string.IsNullOrEmpty(errorMessage))
@@ -169,6 +173,7 @@ namespace MySeenWeb.Controllers
         [HttpPost]
         public JsonResult EditSerial(string id, string name, string season, string series, string genre, string rating)
         {
+            LogSave.Save(User.Identity.IsAuthenticated ? User.Identity.GetUserId() : "", Request.UserHostAddress, Request.UserAgent, "Home/EditSerial",id);
             string errorMessage = string.Empty;
             string user_id = User.Identity.GetUserId();
             if (string.IsNullOrEmpty(errorMessage))
@@ -212,6 +217,7 @@ namespace MySeenWeb.Controllers
         [HttpPost]
         public JsonResult DeleteFilm(string id)
         {
+            LogSave.Save(User.Identity.IsAuthenticated ? User.Identity.GetUserId() : "", Request.UserHostAddress, Request.UserAgent, "Home/DeleteFilm",id);
             string errorMessage = string.Empty;
             string user_id = User.Identity.GetUserId();
             ApplicationDbContext ac = new ApplicationDbContext();
@@ -239,6 +245,7 @@ namespace MySeenWeb.Controllers
         [HttpPost]
         public JsonResult DeleteSerial(string id)
         {
+            LogSave.Save(User.Identity.IsAuthenticated ? User.Identity.GetUserId() : "", Request.UserHostAddress, Request.UserAgent, "Home/DeleteSerial",id);
             string errorMessage = string.Empty;
             string user_id = User.Identity.GetUserId();
             ApplicationDbContext ac = new ApplicationDbContext();

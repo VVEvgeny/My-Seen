@@ -92,6 +92,7 @@ namespace MySeenWeb.Controllers
         }
         public IHttpActionResult Get(string user_key,int mode)
         {
+            LogSave.Save(user_key, string.Empty, string.Empty, "ApiSync/Get", mode.ToString());
             ApplicationDbContext ac = new ApplicationDbContext();
             string user_id = GetUserId(user_key);
             if (string.IsNullOrEmpty(user_id))
@@ -116,6 +117,7 @@ namespace MySeenWeb.Controllers
         [HttpPost]
         public IHttpActionResult Post([FromUri]string user_key, [FromUri]int mode, [FromBody] IEnumerable<MySeenWebApi.SyncJsonData> data)
         {
+            LogSave.Save(user_key, string.Empty, string.Empty, "ApiSync/Post", mode.ToString());
             if (data == null || (MySeenWebApi.SyncModesApiData)mode != MySeenWebApi.SyncModesApiData.PostAll)
             {
                 return Ok(new MySeenWebApi.SyncJsonAnswer { Value = MySeenWebApi.SyncJsonAnswer.Values.BadRequestMode });

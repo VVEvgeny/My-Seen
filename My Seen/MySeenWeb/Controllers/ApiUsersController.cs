@@ -14,6 +14,7 @@ namespace MySeenWeb.Controllers
     {
         public IHttpActionResult Get(string user_key, int mode)
         {
+            LogSave.Save(user_key, string.Empty, string.Empty, "ApiUsers/Get", mode.ToString());
             ApplicationDbContext ac = new ApplicationDbContext();
             if ((MySeenWebApi.SyncModesApiUsers)mode == MySeenWebApi.SyncModesApiUsers.isUserExists)
             {

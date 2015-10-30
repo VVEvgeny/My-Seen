@@ -58,6 +58,7 @@ namespace MySeenWeb.Controllers
         [AllowAnonymous]
         public ActionResult Login(string returnUrl)
         {
+            LogSave.Save(User.Identity.IsAuthenticated ? User.Identity.GetUserId() : "", Request.UserHostAddress, Request.UserAgent, "Account/Login");
             ViewBag.ReturnUrl = returnUrl;
             return View();
         }
@@ -69,6 +70,7 @@ namespace MySeenWeb.Controllers
         //[ValidateAntiForgeryToken]
         public async Task<ActionResult> Login(LoginViewModel model, string returnUrl)
         {
+            LogSave.Save(User.Identity.IsAuthenticated ? User.Identity.GetUserId() : "", Request.UserHostAddress, Request.UserAgent, "Account/LoginAsync");
             if (!ModelState.IsValid)
             {
                 return View(model);
@@ -140,6 +142,7 @@ namespace MySeenWeb.Controllers
         [AllowAnonymous]
         public ActionResult Register()
         {
+            LogSave.Save(User.Identity.IsAuthenticated ? User.Identity.GetUserId() : "", Request.UserHostAddress, Request.UserAgent, "Account/Register");
             return View();
         }
 
@@ -150,6 +153,7 @@ namespace MySeenWeb.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Register(RegisterViewModel model)
         {
+            LogSave.Save(User.Identity.IsAuthenticated ? User.Identity.GetUserId() : "", Request.UserHostAddress, Request.UserAgent, "Account/RegisterAsync");
             if (ModelState.IsValid)
             {
                 var user = new ApplicationUser { UserName = model.Email, Email = model.Email, UniqueKey = MD5Tools.GetMd5Hash(model.Email.ToLower()), Culture = CultureInfoTool.Cultures.English };
@@ -279,6 +283,7 @@ namespace MySeenWeb.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult ExternalLogin(string provider, string returnUrl)
         {
+            LogSave.Save(User.Identity.IsAuthenticated ? User.Identity.GetUserId() : "", Request.UserHostAddress, Request.UserAgent, "Account/ExternalLogin", provider);
             // Request a redirect to the external login provider
             return new ChallengeResult(provider, Url.Action("ExternalLoginCallback", "Account", new { ReturnUrl = returnUrl }));
         }
@@ -414,6 +419,7 @@ namespace MySeenWeb.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult LogOff()
         {
+            LogSave.Save(User.Identity.IsAuthenticated ? User.Identity.GetUserId() : "", Request.UserHostAddress, Request.UserAgent, "Account/LogOff");
             AuthenticationManager.SignOut(DefaultAuthenticationTypes.ApplicationCookie);
             return RedirectToAction("Index", "Home");
         }

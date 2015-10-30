@@ -31,6 +31,8 @@ namespace MySeenWeb.Models
         public DbSet<Films> Films { get; set; }
         public DbSet<Serials> Serials { get; set; }
 
+        public DbSet<Logs> Logs { get; set; }
+
         public static ApplicationDbContext Create()
         {
             return new ApplicationDbContext();

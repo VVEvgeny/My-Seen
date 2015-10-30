@@ -36,11 +36,13 @@ namespace MySeenWeb.Controllers
         }
         protected override void ExecuteCore()
         {
+            LogSave.Save(User.Identity.IsAuthenticated ? User.Identity.GetUserId() : "", Request.UserHostAddress, Request.UserAgent, "Base");
             SetLang();
             base.ExecuteCore();
         }
         protected override IAsyncResult BeginExecuteCore(AsyncCallback callback, object state)
         {
+            LogSave.Save(User.Identity.IsAuthenticated ? User.Identity.GetUserId() : "", Request.UserHostAddress, Request.UserAgent, "Base");
             SetLang();
             return base.BeginExecuteCore(callback, state);
         }
