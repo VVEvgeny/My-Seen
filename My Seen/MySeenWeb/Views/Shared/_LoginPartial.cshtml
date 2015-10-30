@@ -1,13 +1,20 @@
 ﻿@using Microsoft.AspNet.Identity
+@using MySeenLib
 @if (Request.IsAuthenticated)
 {
+    if (Admin.isAdmin(User.Identity.GetUserName()))
+    { 
+        <ul class="nav navbar-nav">
+            <li>@Html.ActionLink(Resource.Users, "Users", "Home", routeValues: null, htmlAttributes: new { id = "usersLink" })</li>
+        </ul>
+    }
     using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { id = "logoutForm", @class = "navbar-right" }))
     {
     @Html.AntiForgeryToken()
 
     <ul class="nav navbar-nav navbar-right">
         <li>
-            @Html.ActionLink(User.Identity.GetUserName() , "Index", "Manage", routeValues: null, htmlAttributes: new { title = "Manage" })
+            @Html.ActionLink(User.Identity.GetUserName() , "Index", "Manage", routeValues: null, htmlAttributes: new { title = Resource.Manage })
         </li>
         <li><a href="javascript:document.getElementById('logoutForm').submit()">@Resource.LogOff</a></li>
     </ul>

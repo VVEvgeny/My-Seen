@@ -1,0 +1,35 @@
+﻿@using MySeenWeb.Models;
+@using MySeenLib;
+
+@model UsersViewModel
+
+@Scripts.Render("~/bundles/jquery", "~/bundles/bootstrap")
+
+@{
+    ViewBag.Title = Resource.Users;
+}
+
+<table class="table table-striped" id="table">
+    <thead>
+        <tr>
+            <th width="20%">@Resource.UserName</th>
+            <th width="20%">@Resource.RegisterDate</th>
+            <th width="20%">@Resource.CultureName</th>
+            <th width="20%">@Resource.FilmsCount</th>
+            <th width="20%">@Resource.SerialsCount</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (UsersView user in Model.Users)
+        {
+            <tr>
+                <td class="align-center">@user.Name</td>
+                <td class="align-center">@user.RegiserDate</td>
+                <td class="align-center">@user.Culture</td>
+                <td class="align-center">@user.FilmsCount</td>
+                <td class="align-center">@user.SerialsCount</td>
+            </tr>
+        }
+    </tbody>
+    </table>
+

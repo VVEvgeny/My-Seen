@@ -214,6 +214,15 @@ namespace MySeenLib {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Culture.
+        /// </summary>
+        public static string CultureName {
+            get {
+                return ResourceManager.GetString("CultureName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Current Password.
         /// </summary>
         public static string CurrentPassword {
@@ -435,6 +444,15 @@ namespace MySeenLib {
         public static string Films {
             get {
                 return ResourceManager.GetString("Films", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Films.
+        /// </summary>
+        public static string FilmsCount {
+            get {
+                return ResourceManager.GetString("FilmsCount", resourceCulture);
             }
         }
         
@@ -673,6 +691,15 @@ namespace MySeenLib {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Register.
+        /// </summary>
+        public static string RegisterDate {
+            get {
+                return ResourceManager.GetString("RegisterDate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Registered Logins.
         /// </summary>
         public static string RegisteredLogins {
@@ -768,6 +795,15 @@ namespace MySeenLib {
         public static string Serials {
             get {
                 return ResourceManager.GetString("Serials", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Serials.
+        /// </summary>
+        public static string SerialsCount {
+            get {
+                return ResourceManager.GetString("SerialsCount", resourceCulture);
             }
         }
         
@@ -880,6 +916,15 @@ namespace MySeenLib {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to UserName.
+        /// </summary>
+        public static string UserName {
+            get {
+                return ResourceManager.GetString("UserName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to User Not Exist.
         /// </summary>
         public static string UserNotExist {
@@ -894,6 +939,15 @@ namespace MySeenLib {
         public static string UserOK {
             get {
                 return ResourceManager.GetString("UserOK", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Users.
+        /// </summary>
+        public static string Users {
+            get {
+                return ResourceManager.GetString("Users", resourceCulture);
             }
         }
         

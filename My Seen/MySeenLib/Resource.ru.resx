@@ -399,4 +399,22 @@
   <data name="QuickSearch" xml:space="preserve">
     <value>Поиск</value>
   </data>
+  <data name="Users" xml:space="preserve">
+    <value>Пользователи</value>
+  </data>
+  <data name="UserName" xml:space="preserve">
+    <value>Пользователь</value>
+  </data>
+  <data name="CultureName" xml:space="preserve">
+    <value>Язык</value>
+  </data>
+  <data name="FilmsCount" xml:space="preserve">
+    <value>Фильмов</value>
+  </data>
+  <data name="SerialsCount" xml:space="preserve">
+    <value>Сериалов</value>
+  </data>
+  <data name="RegisterDate" xml:space="preserve">
+    <value>Регистрация</value>
+  </data>
 </root>

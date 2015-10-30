@@ -12,10 +12,6 @@ namespace MySeenWeb.Models
 {
     public static class LogSave
     {
-        private static string GetOnlyDateNow()
-        {
-            return DateTime.Now.Day.ToString() + "." + DateTime.Now.Month.ToString() + "." + DateTime.Now.Year.ToString();
-        }
         public static void Save(string userId, string ipAdress, string userAgent, string pageName)
         {
             Save(userId, ipAdress, userAgent, pageName, string.Empty);
@@ -23,7 +19,7 @@ namespace MySeenWeb.Models
         public static void Save(string userId, string ipAdress, string userAgent, string pageName, string addData)
         {
             ApplicationDbContext ac = new ApplicationDbContext();
-            string date = GetOnlyDateNow();
+            string date = DateTime.Now.ToShortDateString();
 
             if (ac.Logs.Where(l => l.IPAdress == ipAdress && l.UserAgent == userAgent && l.UserId == userId && l.OnlyDate == date && l.PageName == pageName).Count() == 0)
             {

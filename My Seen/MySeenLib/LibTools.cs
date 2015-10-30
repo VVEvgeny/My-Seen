@@ -10,6 +10,14 @@ using Newtonsoft.Json;
 
 namespace MySeenLib
 {
+    public static class Admin
+    {
+        public static bool isAdmin(string userName)
+        {
+            if (userName.ToLower() == "vvevgeny@gmail.com") return true;
+            return false;
+        }
+    }
     public static class TEST
     {
         private static bool mEnabled = false;

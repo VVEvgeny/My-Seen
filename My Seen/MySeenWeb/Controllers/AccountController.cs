@@ -156,7 +156,8 @@ namespace MySeenWeb.Controllers
             LogSave.Save(User.Identity.IsAuthenticated ? User.Identity.GetUserId() : "", Request.UserHostAddress, Request.UserAgent, "Account/RegisterAsync");
             if (ModelState.IsValid)
             {
-                var user = new ApplicationUser { UserName = model.Email, Email = model.Email, UniqueKey = MD5Tools.GetMd5Hash(model.Email.ToLower()), Culture = CultureInfoTool.Cultures.English };
+                var user = new ApplicationUser { UserName = model.Email, Email = model.Email
+                    , UniqueKey = MD5Tools.GetMd5Hash(model.Email.ToLower()), Culture = CultureInfoTool.Cultures.English, RegisterDate=DateTime.Now };
                 var result = await UserManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
                 {
@@ -355,7 +356,8 @@ namespace MySeenWeb.Controllers
                         {
                             return View("ExternalLoginFailure");
                         }
-                        var user = new ApplicationUser { UserName = loginInfo.Email, Email = loginInfo.Email, UniqueKey = MD5Tools.GetMd5Hash(loginInfo.Email), Culture = CultureInfoTool.Cultures.English };
+                        var user = new ApplicationUser { UserName = loginInfo.Email, Email = loginInfo.Email
+                            , UniqueKey = MD5Tools.GetMd5Hash(loginInfo.Email), Culture = CultureInfoTool.Cultures.English, RegisterDate=DateTime.Now };
                         var result2 = await UserManager.CreateAsync(user);
                         if (result2.Succeeded)
                         {
@@ -395,7 +397,8 @@ namespace MySeenWeb.Controllers
                 {
                     return View("ExternalLoginFailure");
                 }
-                var user = new ApplicationUser { UserName = model.Email, Email = model.Email, UniqueKey = MD5Tools.GetMd5Hash(model.Email), Culture = CultureInfoTool.Cultures.English };
+                var user = new ApplicationUser { UserName = model.Email, Email = model.Email
+                    , UniqueKey = MD5Tools.GetMd5Hash(model.Email), Culture = CultureInfoTool.Cultures.English, RegisterDate=DateTime.Now };
                 var result = await UserManager.CreateAsync(user);
                 if (result.Succeeded)
                 {

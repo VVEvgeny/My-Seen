@@ -270,5 +270,15 @@ namespace MySeenWeb.Controllers
             }
             return Json(new { success = true });
         }
+        public ActionResult Users()
+        {
+            LogSave.Save(User.Identity.IsAuthenticated ? User.Identity.GetUserId() : "", Request.UserHostAddress, Request.UserAgent, "Home/Users");
+            if (User.Identity.IsAuthenticated && Admin.isAdmin(User.Identity.Name))
+            {
+                UsersViewModel model = new UsersViewModel();
+                return View(model);
+            }
+            return RedirectToAction("Index");
+        }
     }
 }
