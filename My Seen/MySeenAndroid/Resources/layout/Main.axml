@@ -71,7 +71,7 @@
             android:layout_weight="0.15" />
         <TextView
             android:id="@+id/table_rate_f"
-            android:text="@string/Rate"
+            android:text="@string/Rating"
             android:textColor="@color/green"
             android:layout_height="wrap_content"
             android:layout_width="0dp"
@@ -133,7 +133,7 @@
             android:layout_weight="0.15" />
         <TextView
             android:id="@+id/table_rate"
-            android:text="@string/Rate"
+            android:text="@string/Rating"
             android:textColor="@color/green"
             android:layout_height="wrap_content"
             android:layout_width="0dp"

@@ -166,7 +166,7 @@
     <value>Введите имя пользователя</value>
   </data>
   <data name="FilmNameAlreadyExists" xml:space="preserve">
-    <value>Такой фильм уже есть в базе</value>
+    <value>Такой фильм уже есть</value>
   </data>
   <data name="Films" xml:space="preserve">
     <value>Фильмы</value>
@@ -220,7 +220,7 @@
     <value>Оценка</value>
   </data>
   <data name="SerialNameAlreadyExists" xml:space="preserve">
-    <value>Такой сериал уже есть в базе</value>
+    <value>Такой сериал уже есть</value>
   </data>
   <data name="Serials" xml:space="preserve">
     <value>Сериалы</value>
@@ -280,7 +280,7 @@
     <value>Сериал</value>
   </data>
   <data name="Account" xml:space="preserve">
-    <value>учетную запись</value>
+    <value>Учетнуя запись</value>
   </data>
   <data name="ConfirmNewPassword" xml:space="preserve">
     <value>Подтверждение нового пароля</value>

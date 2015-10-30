@@ -21,13 +21,13 @@
                 android:layout_height="wrap_content"
                 android:layout_width="0dp"
                 android:layout_weight="0.7"
-                android:text="Save" />
+                android:text="@string/Save" />
             <Button
                 android:id="@+id/ExitButton_SerialAdd"
                 android:layout_height="wrap_content"
                 android:layout_width="0dp"
                 android:layout_weight="0.3"
-                android:text="Exit" />
+                android:text="@string/Exit" />
         </TableRow>
     </LinearLayout>
     <LinearLayout
@@ -48,7 +48,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:textSize="25sp"
-                android:text="Serial Name:" />
+                android:text="@string/Serial" />
             <EditText
                 android:id="@+id/edittext_serial_name"
                 android:layout_width="fill_parent"
@@ -67,7 +67,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:textSize="25sp"
-                android:text="Last Season:" />
+                android:text="@string/Season" />
             <EditText
                 android:id="@+id/edittext_season"
                 android:layout_width="fill_parent"
@@ -86,7 +86,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:textSize="25sp"
-                android:text="Last Series:" />
+                android:text="@string/Series" />
             <EditText
                 android:id="@+id/edittext_series"
                 android:layout_width="fill_parent"
@@ -105,7 +105,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:textSize="25sp"
-                android:text="Genre:" />
+                android:text="@string/Genre" />
             <Spinner
                 android:id="@+id/spinner_genre_s"
                 android:layout_width="match_parent"
@@ -125,7 +125,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:textSize="25sp"
-                android:text="Rate:" />
+                android:text="@string/Rating" />
             <Spinner
                 android:id="@+id/spinner_rate_s"
                 android:layout_width="match_parent"

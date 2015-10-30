@@ -46,6 +46,13 @@ namespace MySeenAndroid
                 Finish();
             };
 
+            Button buttonv2 = FindViewById<Button>(Resource.Id.TryV2);
+            buttonv2.Click += delegate
+            {
+                Intent intent = new Intent(this, typeof(MainRazorActivity));
+                StartActivity(intent);
+            };
+
             Log.Warn(LogTAG, "end OnCreate");
         }
 

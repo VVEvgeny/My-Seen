@@ -13,13 +13,13 @@ using System.Globalization;
 
 namespace MySeenAndroid
 {
-    [Activity(Label = "@string/ApplicationName"
-        , MainLauncher = false
+        [Activity(Label = "@string/ApplicationName"
+        , MainLauncher = true
         , Icon = "@drawable/icon"
-        , ConfigurationChanges = ConfigChanges.Locale
+        , ConfigurationChanges = ConfigChanges.Locale | ConfigChanges.Orientation | ConfigChanges.ScreenSize
         , NoHistory = false //для второго интента чтобы можно было вернуться назад
         , LaunchMode = LaunchMode.SingleTask
-        , ScreenOrientation = ScreenOrientation.Landscape
+            //, ScreenOrientation = ScreenOrientation.Landscape 
         , Theme = "@android:style/Theme.Black.NoTitleBar.Fullscreen"
         )]
     public class MainActivity : Activity
@@ -36,10 +36,6 @@ namespace MySeenAndroid
             base.OnCreate(bundle);
             SetContentView(Resource.Layout.Main);
             State = States.Films;
-
-
-
-
             
              /*
              //ПРОВАЛЬНЫЕ ПОПЫТКИ ДОСТУЧАТЬСЯ до русского языка в библиотеке
@@ -124,8 +120,7 @@ namespace MySeenAndroid
 
             button_config.Click += delegate
             {
-                //Intent intent = new Intent(this, typeof(ConfigActivity));
-                Intent intent = new Intent(this, typeof(MainRazorActivity));
+                Intent intent = new Intent(this, typeof(ConfigActivity));
                 StartActivityForResult(intent,0);
             };
 

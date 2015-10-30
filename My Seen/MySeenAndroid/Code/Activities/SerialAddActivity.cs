@@ -72,7 +72,7 @@ namespace MySeenAndroid
                 if (string.IsNullOrEmpty(name_text.Text))
                 {
                     tv_error.Visibility = ViewStates.Visible;
-                    tv_error.Text = "Need serial name";
+                    tv_error.Text = MySeenLib.Resource.EnterSerialName;
                     return;
                 }
                 int iseason = 0;
@@ -98,7 +98,7 @@ namespace MySeenAndroid
                     if (DatabaseHelper.Get.isSerialExist(name_text.Text))
                     {
                         tv_error.Visibility = ViewStates.Visible;
-                        tv_error.Text = "Serial already exists";
+                        tv_error.Text = MySeenLib.Resource.SerialNameAlreadyExists;
                         return;
                     }
 
@@ -119,7 +119,7 @@ namespace MySeenAndroid
                     if (DatabaseHelper.Get.isSerialExistAndNotSame(name_text.Text, edited_id))
                     {
                         tv_error.Visibility = ViewStates.Visible;
-                        tv_error.Text = "Serial already exists";
+                        tv_error.Text = MySeenLib.Resource.SerialNameAlreadyExists;
                         return;
                     }
                     DatabaseHelper.Get.Update(new Serials

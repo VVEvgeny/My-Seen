@@ -69,7 +69,7 @@ namespace MySeenAndroid
                 if (string.IsNullOrEmpty(name_text.Text))
                 {
                     tv_error.Visibility = ViewStates.Visible;
-                    tv_error.Text = "Need film name";
+                    tv_error.Text = MySeenLib.Resource.EnterFilmName;
                     return;
                 }
                 if (Mode == Modes.Add)
@@ -77,7 +77,7 @@ namespace MySeenAndroid
                     if (DatabaseHelper.Get.isFilmExist(name_text.Text))
                     {
                         tv_error.Visibility = ViewStates.Visible;
-                        tv_error.Text = "Film already exists";
+                        tv_error.Text = MySeenLib.Resource.FilmNameAlreadyExists;
                         return;
                     }
 
@@ -88,7 +88,7 @@ namespace MySeenAndroid
                     if (DatabaseHelper.Get.isFilmExistAndNotSame(name_text.Text, edited_id))
                     {
                         tv_error.Visibility = ViewStates.Visible;
-                        tv_error.Text = "Film already exists";
+                        tv_error.Text = MySeenLib.Resource.FilmNameAlreadyExists;
                         return;
                     }
                     DatabaseHelper.Get.Update(new Films { Id = film.Id, Name = name_text.Text, DateChange = UMTTime.To(DateTime.Now), DateSee = film.DateSee, Genre = comboboxgenre.SelectedItemPosition, Rating = comboboxrate.SelectedItemPosition, Id_R = film.Id_R, isDeleted = film.isDeleted });

@@ -18,7 +18,7 @@ using Android.Content.PM;
 namespace MySeenAndroid
 {
         [Activity(Label = "@string/ApplicationName"
-        , MainLauncher = true
+        //, MainLauncher = true
         , Icon = "@drawable/icon"
         , ConfigurationChanges = ConfigChanges.Locale | ConfigChanges.Orientation | ConfigChanges.ScreenSize
         , NoHistory = false //для второго интента чтобы можно было вернуться назад

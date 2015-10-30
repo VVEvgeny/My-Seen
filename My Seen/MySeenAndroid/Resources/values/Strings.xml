@@ -6,10 +6,18 @@
     <string name="Exit">Exit</string>
     <string name="Name">Name</string>
     <string name="Genre">Genre</string>
-  <string name="Rate">Rate</string>
   <string name="LastSeries">Last Series</string>
   <string name="DateLast">Date Last</string>
   <string name="DateSee">Date See</string>
   <string name="DateBegin">Date Begin</string>
   <string name="Config">Config</string>
+	<string name="Sync">Sync</string>
+	<string name="TryV2">Try Interface 2</string>
+	<string name="Email">Email</string>
+	<string name="Save">Save</string>
+	<string name="Film">Film</string>
+	<string name="Rating">Rating</string>
+	<string name="Serial">Serial</string>
+	<string name="Season">Season</string>
+	<string name="Series">Series</string>
 </resources>

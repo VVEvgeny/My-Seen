@@ -21,13 +21,13 @@
                 android:layout_height="wrap_content"
                 android:layout_width="0dp"
                 android:layout_weight="0.7"
-                android:text="Sync" />
+                android:text="@string/Sync" />
             <Button
                 android:id="@+id/ExitButton_Config"
                 android:layout_height="wrap_content"
                 android:layout_width="0dp"
                 android:layout_weight="0.3"
-                android:text="Exit" />
+                android:text="@string/Exit" />
         </TableRow>
     </LinearLayout>
     <LinearLayout
@@ -48,7 +48,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:textSize="25sp"
-                android:text="Email:" />
+                android:text="@string/Email" />
             <EditText
                 android:id="@+id/edit_config_email"
                 android:layout_width="fill_parent"
@@ -88,6 +88,19 @@
                 android:textSize="25sp"
                 android:text="PROGRESS"
                 android:visibility="gone" />
+        </TableRow>
+        <TableRow
+            android:minWidth="25px"
+            android:minHeight="25px"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/tableRowButtons_tryv2">
+            <Button
+                android:id="@+id/TryV2"
+                android:layout_height="wrap_content"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:text="@string/TryV2" />
         </TableRow>
     </LinearLayout>
 </RelativeLayout>
