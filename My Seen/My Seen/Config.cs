@@ -145,6 +145,7 @@ namespace My_Seen
             }
             DeleteData();
             WebApi.Sync(User);
+            DBDataChanged.Exec();
         }
 
     }

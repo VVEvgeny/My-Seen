@@ -46,6 +46,8 @@ namespace My_Seen
         }
         public static bool Sync(Users User)
         {
+            System.Net.ServicePointManager.Expect100Continue = false; 
+
             List<MySeenWebApi.SyncJsonData> films = new List<MySeenWebApi.SyncJsonData>();
             ModelContainer mc = new ModelContainer();
             //Буду отдавать ему ВСЁ, так надежнее
@@ -58,6 +60,7 @@ namespace My_Seen
                 req.Method = "POST";
                 req.Credentials = CredentialCache.DefaultCredentials;
                 ((HttpWebRequest)req).UserAgent = "MySeen";
+                ((HttpWebRequest)req).ProtocolVersion = HttpVersion.Version10;//для прокси
                 req.ContentType = "application/json";
                 string postData = MySeenWebApi.SetResponse(films);
                 byte[] byteArray = Encoding.UTF8.GetBytes(postData);
