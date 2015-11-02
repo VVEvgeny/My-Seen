@@ -9,7 +9,7 @@ namespace MySeenWeb.Migrations
     {
         public Configuration()
         {
-            AutomaticMigrationsEnabled = false;
+            AutomaticMigrationsEnabled = false;//Никаких true, уже стоит рабочая версия
         }
 
         protected override void Seed(MySeenWeb.Models.ApplicationDbContext context)

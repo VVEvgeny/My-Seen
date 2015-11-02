@@ -139,48 +139,12 @@ namespace My_Seen
                 MessageBox.Show(Resource.EnterEmail);
                 return;
             }
-            WebRequest req = WebRequest.Create(MySeenWebApi.ApiHost + MySeenWebApi.ApiSync + MD5Tools.GetMd5Hash(textBox5.Text.ToLower()) + "/" + ((int)MySeenWebApi.SyncModesApiData.GetAll).ToString());
-
-            WebResponse res = req.GetResponse();
-            Stream stream = res.GetResponseStream();
-            StreamReader sr = new StreamReader(stream);
-            string data = sr.ReadToEnd();
-
-            MySeenWebApi.SyncJsonAnswer answer = MySeenWebApi.GetResponseAnswer(data);
-            if (answer != null)
-            {
-                if (answer.Value == MySeenWebApi.SyncJsonAnswer.Values.UserNotExist)
-                {
-                    MessageBox.Show(Resource.UserNotExist);
-                }
-                else if (answer.Value == MySeenWebApi.SyncJsonAnswer.Values.NoData)
-                {
-                    MessageBox.Show(Resource.NoData);
-                }
-                else if (answer.Value == MySeenWebApi.SyncJsonAnswer.Values.BadRequestMode)
-                {
-                    MessageBox.Show(Resource.BadRequestMode);
-                }
-            }
             else
             {
-                DeleteData();
-                ModelContainer mc = new ModelContainer();
-                foreach (MySeenWebApi.SyncJsonData film in MySeenWebApi.GetResponse(data))
-                {
-                    if(film.IsFilm)
-                    {
-                        mc.FilmsSet.Add(Map_FilmsRequestResponse_To_Films(film));
-                    }
-                    else
-                    {
-                        mc.SerialsSet.Add(Map_FilmsRequestResponse_To_Serials(film));
-                    }
-                }
-                mc.SaveChanges();
-                DBDataChanged.Exec();
-                MessageBox.Show(Resource.SyncOK);
+                User.Email = textBox5.Text;
             }
+            DeleteData();
+            WebApi.Sync(User);
         }
 
     }

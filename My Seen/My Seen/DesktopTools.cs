@@ -44,6 +44,148 @@ namespace My_Seen
             }
             return Resource.ApiError;
         }
+        public static bool Sync(Users User)
+        {
+            List<MySeenWebApi.SyncJsonData> films = new List<MySeenWebApi.SyncJsonData>();
+            ModelContainer mc = new ModelContainer();
+            //Буду отдавать ему ВСЁ, так надежнее
+            films.AddRange(mc.FilmsSet.Where(f => f.UsersId == User.Id).Select(Map).Union(mc.SerialsSet.Where(f => f.UsersId == User.Id).Select(Map)));
+            WebRequest req;
+            MySeenWebApi.SyncJsonAnswer answer;
+            if (films.Count() != 0)
+            {
+                req = WebRequest.Create(MySeenWebApi.ApiHost + MySeenWebApi.ApiSync + MD5Tools.GetMd5Hash(User.Email.ToLower()) + "/" + ((int)MySeenWebApi.SyncModesApiData.PostAll).ToString());
+                req.Method = "POST";
+                req.Credentials = CredentialCache.DefaultCredentials;
+                ((HttpWebRequest)req).UserAgent = "MySeen";
+                req.ContentType = "application/json";
+                string postData = MySeenWebApi.SetResponse(films);
+                byte[] byteArray = Encoding.UTF8.GetBytes(postData);
+                req.ContentLength = byteArray.Length;
+                Stream dataStream = req.GetRequestStream();
+                dataStream.Write(byteArray, 0, byteArray.Length);
+                dataStream.Close();
+
+                answer = MySeenWebApi.GetResponseAnswer((new StreamReader(req.GetResponse().GetResponseStream())).ReadToEnd());
+                req.GetResponse().Close();
+                if (answer == null)
+                {
+                    MessageBox.Show(Resource.ApiError);
+                    return false;
+                }
+            }
+
+            req = WebRequest.Create(MySeenWebApi.ApiHost + MySeenWebApi.ApiSync + MD5Tools.GetMd5Hash(User.Email.ToLower()) + "/" + ((int)MySeenWebApi.SyncModesApiData.GetAll).ToString());
+
+            string data = (new StreamReader(req.GetResponse().GetResponseStream())).ReadToEnd();
+            req.GetResponse().Close();
+
+            answer = MySeenWebApi.GetResponseAnswer(data);
+
+            if (answer != null)
+            {
+                if (answer.Value == MySeenWebApi.SyncJsonAnswer.Values.UserNotExist)
+                {
+                    MessageBox.Show(Resource.UserNotExist);
+                }
+                else if (answer.Value == MySeenWebApi.SyncJsonAnswer.Values.BadRequestMode)
+                {
+                    MessageBox.Show(Resource.BadRequestMode);
+                }
+            }
+            else
+            {
+                //Для 2х БД алгоритм хороший, но тут есть 3 БД, надо между всеми...
+                mc.FilmsSet.RemoveRange(mc.FilmsSet.Where(f => f.UsersId == User.Id));
+                mc.SerialsSet.RemoveRange(mc.SerialsSet.Where(f => f.UsersId == User.Id));
+                mc.SaveChanges();
+                foreach (MySeenWebApi.SyncJsonData film in MySeenWebApi.GetResponse(data))
+                {
+                    if (film.IsFilm)
+                    {
+                        mc.FilmsSet.Add(MapToFilm(film, User.Id));
+                    }
+                    else
+                    {
+                        mc.SerialsSet.Add(MapToSerial(film, User.Id));
+                    }
+                }
+            }
+            mc.SaveChanges();
+            mc.SaveChanges();
+            MessageBox.Show(Resource.SyncOK);
+            return true;//LoadItemsToListView();
+        }
+        public static MySeenWebApi.SyncJsonData Map(Films model)
+        {
+            if (model == null) return new MySeenWebApi.SyncJsonData();
+
+            return new MySeenWebApi.SyncJsonData
+            {
+                IsFilm = true,
+                Id = model.Id_R,
+                Name = model.Name,
+                DateChange = model.DateChange,
+                DateSee = model.DateSee,
+                Genre = model.Genre,
+                Rating = model.Rating,
+                isDeleted = model.isDeleted
+            };
+        }
+        public static MySeenWebApi.SyncJsonData Map(Serials model)
+        {
+            if (model == null) return new MySeenWebApi.SyncJsonData();
+
+            return new MySeenWebApi.SyncJsonData
+            {
+                IsFilm = false,
+                Id = model.Id_R,
+                Name = model.Name,
+                DateChange = model.DateChange,
+                Genre = model.Genre,
+                Rating = model.Rating,
+                DateBegin = model.DateBegin,
+                DateLast = model.DateLast,
+                LastSeason = model.LastSeason,
+                LastSeries = model.LastSeries,
+                isDeleted = model.isDeleted
+            };
+        }
+        public static Films MapToFilm(MySeenWebApi.SyncJsonData model, int user_id)
+        {
+            if (model == null) return new Films();
+
+            return new Films
+            {
+                Id_R = model.Id,
+                Name = model.Name,
+                DateChange = model.DateChange,
+                DateSee = model.DateSee,
+                Genre = model.Genre,
+                Rating = model.Rating,
+                isDeleted = model.isDeleted,
+                UsersId = user_id
+            };
+        }
+        public static Serials MapToSerial(MySeenWebApi.SyncJsonData model, int user_id)
+        {
+            if (model == null) return new Serials();
+
+            return new Serials
+            {
+                Id_R = model.Id,
+                Name = model.Name,
+                DateChange = model.DateChange,
+                Genre = model.Genre,
+                Rating = model.Rating,
+                DateBegin = model.DateBegin,
+                DateLast = model.DateLast,
+                LastSeason = model.LastSeason,
+                LastSeries = model.LastSeries,
+                isDeleted = model.isDeleted,
+                UsersId = user_id
+            };
+        }
     }
 
     public delegate void MySeenEventHandler();
