@@ -33,6 +33,25 @@ namespace MySeenWeb.Controllers
                     }
                 }
             }
+            else
+            {
+                var userLanguages = Request.UserLanguages;
+                if(userLanguages.Count()>0)
+                {
+                    try
+                    {
+                        CultureInfoTool.SetCulture(userLanguages[0]);
+                    }
+                    catch
+                    {
+                        CultureInfoTool.SetCulture(CultureInfoTool.Cultures.English);
+                    }
+                }
+                else
+                {
+                    CultureInfoTool.SetCulture(CultureInfoTool.Cultures.English);
+                }
+            }
         }
         protected override void ExecuteCore()
         {

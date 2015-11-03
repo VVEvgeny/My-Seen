@@ -417,4 +417,46 @@
   <data name="RegisterDate" xml:space="preserve">
     <value>Регистрация</value>
   </data>
+  <data name="Bugs" xml:space="preserve">
+    <value>Баги</value>
+  </data>
+  <data name="DateEnd" xml:space="preserve">
+    <value>Завершено</value>
+  </data>
+  <data name="DateFound" xml:space="preserve">
+    <value>Дата</value>
+  </data>
+  <data name="Description" xml:space="preserve">
+    <value>Описание</value>
+  </data>
+  <data name="Found" xml:space="preserve">
+    <value>Нашел</value>
+  </data>
+  <data name="BugAlreadyExists" xml:space="preserve">
+    <value>Такой БАГ уже есть</value>
+  </data>
+  <data name="DescToShort" xml:space="preserve">
+    <value>Описание слишком короткое</value>
+  </data>
+  <data name="Android" xml:space="preserve">
+    <value>Андрюха</value>
+  </data>
+  <data name="PC" xml:space="preserve">
+    <value>Комп</value>
+  </data>
+  <data name="WEB" xml:space="preserve">
+    <value>ВЭБ</value>
+  </data>
+  <data name="All" xml:space="preserve">
+    <value>Все</value>
+  </data>
+  <data name="Complex" xml:space="preserve">
+    <value>Комплекс</value>
+  </data>
+  <data name="Logs" xml:space="preserve">
+    <value>Логи</value>
+  </data>
+  <data name="OurAndroidApp" xml:space="preserve">
+    <value>Для телефона</value>
+  </data>
 </root>

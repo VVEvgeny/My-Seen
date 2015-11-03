@@ -195,8 +195,33 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201511030911189_1.cs" />
+    <Compile Include="Migrations\201511030911189_1.Designer.cs">
+      <DependentUpon>201511030911189_1.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201511030940442_2.cs" />
+    <Compile Include="Migrations\201511030940442_2.Designer.cs">
+      <DependentUpon>201511030940442_2.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201511031002254_3.cs" />
+    <Compile Include="Migrations\201511031002254_3.Designer.cs">
+      <DependentUpon>201511031002254_3.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201511031151451_4.cs" />
+    <Compile Include="Migrations\201511031151451_4.Designer.cs">
+      <DependentUpon>201511031151451_4.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201511031155098_5.cs" />
+    <Compile Include="Migrations\201511031155098_5.Designer.cs">
+      <DependentUpon>201511031155098_5.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
+    <Compile Include="Models\Bugs.cs" />
+    <Compile Include="Models\BugsView.cs" />
+    <Compile Include="Models\LogsViewModel.cs" />
+    <Compile Include="Models\BugsViewModel.cs" />
+    <Compile Include="Models\LogsView.cs" />
     <Compile Include="Models\UsersViewModel.cs" />
     <Compile Include="Models\LogSave.cs" />
     <Compile Include="Models\Logs.cs" />
@@ -311,6 +336,8 @@
     <Content Include="Views\Shared\Lockout.cshtml" />
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
     <Content Include="Views\Home\Users.cshtml" />
+    <Content Include="Views\Home\Bugs.cshtml" />
+    <Content Include="Views\Home\Logs.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -321,6 +348,23 @@
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Migrations\201511030911189_1.resx">
+      <DependentUpon>201511030911189_1.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201511030940442_2.resx">
+      <DependentUpon>201511030940442_2.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201511031002254_3.resx">
+      <DependentUpon>201511031002254_3.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201511031151451_4.resx">
+      <DependentUpon>201511031151451_4.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201511031155098_5.resx">
+      <DependentUpon>201511031155098_5.cs</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

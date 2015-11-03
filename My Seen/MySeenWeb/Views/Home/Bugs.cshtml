@@ -1,0 +1,161 @@
+﻿@using MySeenWeb.Models;
+@using MySeenLib;
+
+@model BugsViewModel
+
+@Scripts.Render("~/bundles/jquery", "~/bundles/bootstrap")
+
+@{
+    ViewBag.Title = Resource.Bugs;
+}
+<br />
+<div class="form-inline">
+    <div class="form-group">
+        <label for="lstSelected" style="display: block;">@Resource.SelectTheCategory</label>
+        @Html.DropDownListFor(model => model.Complex, Model.complexList, new { @class = "form-control", @id = "lstComplex", @style = "width: 200px;" })
+        <button type="button" class="btn btn-primary" id="addButton"><span class="glyphicon glyphicon-plus"></span>&nbsp;@Resource.AddNew</button>
+    </div>
+</div>
+<br />
+<table class="table table-striped" id="table">
+    <thead>
+        <tr>
+            <th width="10%">@Resource.Found</th>
+            <th width="15%">@Resource.DateFound</th>
+            <th width="10%">@Resource.Complex</th>
+            <th width="30%">@Resource.Description</th>
+            <th width="15%">@Resource.DateEnd</th>
+            <th width="20%">@Resource.Description</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (BugsView bug in Model.Bugs)
+        {
+            <tr>
+                <td class="align-center">@bug.UserName</td>
+                <td class="align-center">@bug.DateFound</td>
+                <td class="align-center">@bug.ComplexText</td>
+                <td class="align-center">@bug.Text</td>
+                <td class="align-center">@bug.DateEnd</td>
+                <td class="align-center">@bug.TextEnd</td>
+            </tr>
+        }
+    </tbody>
+    </table>
+
+<div class="modal fade modal-window" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">@Resource.AddNew</h4>
+            </div>
+            <div class="modal-body">
+                <div class="form-horizontal">
+                        <div class="form-group">
+                            <label for="bugDesc" class="col-sm-2 control-label">@Resource.Description</label>
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control movie-name" id="bugDesc" placeholder="@Resource.Description">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="complex" class="col-sm-2 control-label">@Resource.Complex</label>
+                            <div class="col-sm-10">
+                                @Html.DropDownListFor(model=>model.Complex, Model.complexList, new { @class = "form-control complex", @id = "complex" })
+                            </div>
+                        </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">
+                    <span class="glyphicon glyphicon-remove"></span>
+                    &nbsp;@Resource.Close
+                </button>
+                <button type="button" class="btn btn-success" id="submitAddButton">
+                    <span class="glyphicon glyphicon-ok"></span>
+                    &nbsp;@Resource.Add
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+<script language="javascript" type="text/javascript">
+        (function ($) {
+            $(function () {
+                var $addButton = $('#addButton');
+                var $submitAddButton = $('#submitAddButton');
+                var $select = $('#lstComplex');
+                var $modal = $('.modal-window');
+                var url = '';
+                var data = {};
+
+                function sendRequest(innerUrl, innerData) {
+                    $.ajax({
+                        type: 'POST',
+                        url: innerUrl,
+                        data: innerData,
+                        dataType: 'json',
+                        success: function (response) {
+                            if (response.error) {
+                                alert(response.error);
+                            }
+                            else {
+                                window.location.href = '/';
+                            }
+                            $modal.modal('hide');
+                        },
+                        error: function (err) {
+                            alert(err);
+                            $modal.modal('hide');
+                        }
+                    });
+
+                    return false;
+                }
+
+                $addButton.off('click');
+                $addButton.on('click', function () {
+                    $modal.modal('show');
+                    return false;
+                });
+
+                $submitAddButton.off('click');
+                $submitAddButton.on('click', function () {
+                    url = '/Home/AddBug';
+                    data = {
+                        desc: $('#bugDesc').val()
+                    };
+
+                    sendRequest(url, data);
+
+                    return false;
+                });
+
+                $select.on('change', function () {
+                    var value = $(this).val();
+
+                    $.ajax({
+                        type: 'POST',
+                        url: '/Home/ChangeCookiesBugs',
+                        data: {
+                            selected: value
+                        },
+                        dataType: 'json',
+                        success: function () {
+                            window.location.href = '/Home/Bugs';
+                        },
+                        error: function () {
+                            alert('Error');
+                        }
+                    });
+
+                    return false;
+                });
+            });
+        })(jQuery);
+</script>

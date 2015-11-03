@@ -35,6 +35,8 @@ namespace MySeenWeb.Models
 
         public DbSet<Logs> Logs { get; set; }
 
+        public DbSet<Bugs> Bugs { get; set; }
+
         public static ApplicationDbContext Create()
         {
             return new ApplicationDbContext();

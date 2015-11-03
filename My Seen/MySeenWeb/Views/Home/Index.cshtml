@@ -197,82 +197,188 @@
     </div>
 
     <script language="javascript" type="text/javascript">
-        (function ($) {
-            $(function () {
-                var $select = $('#lstSelected');
-                var $addButton = $('#addButton');
-                var $submitAddButton = $('#submitAddButton');
-                var $table = $('.table.table-striped');
-                var $modal = $('.modal-window');
-                var $quickSearch = $('#quickSearch');
-                var isSelectedFilm = '@Model.IsSelectedFilm' === 'True';
-                var url = '';
-                var data = {};
+    (function ($) {
+        $(function () {
+            var $select = $('#lstSelected');
+            var $addButton = $('#addButton');
+            var $submitAddButton = $('#submitAddButton');
+            var $table = $('.table.table-striped');
+            var $modal = $('.modal-window');
+            var $quickSearch = $('#quickSearch');
+            var isSelectedFilm = '@Model.IsSelectedFilm' === 'True';
+            var url = '';
+            var data = {};
 
-                function sendRequest(innerUrl, innerData) {
-                    $.ajax({
-                        type: 'POST',
-                        url: innerUrl,
-                        data: innerData,
-                        dataType: 'json',
-                        success: function (response) {
-                            if (response.error) {
-                                alert(response.error);
-                            }
-                            else {
-                                window.location.href = '/';
-                            }
-                            $modal.modal('hide');
-                        },
-                        error: function (err) {
-                            alert(err);
-                            $modal.modal('hide');
+            function sendRequest(innerUrl, innerData) {
+                $.ajax({
+                    type: 'POST',
+                    url: innerUrl,
+                    data: innerData,
+                    dataType: 'json',
+                    success: function (response) {
+                        if (response.error) {
+                            alert(response.error);
                         }
-                    });
+                        else {
+                            window.location.href = '/';
+                        }
+                        $modal.modal('hide');
+                    },
+                    error: function (err) {
+                        alert(err);
+                        $modal.modal('hide');
+                    }
+                });
 
-                    return false;
+                return false;
+            }
+
+            $select.on('change', function () {
+                var value = $(this).val();
+
+                $.ajax({
+                    type: 'POST',
+                    url: '/Home/ChangeCookies',
+                    data: {
+                        selected: value
+                    },
+                    dataType: 'json',
+                    success: function () {
+                        window.location.href = '/';
+                    },
+                    error: function () {
+                        alert('Error');
+                    }
+                });
+
+                return false;
+            });
+
+            $addButton.off('click');
+            $addButton.on('click', function () {
+                $modal.modal('show');
+
+                return false;
+            });
+
+            $submitAddButton.off('click');
+            $submitAddButton.on('click', function () {
+                if (isSelectedFilm) {
+                    url = '/Home/AddFilm';
+                    data = {
+                        name: $('#filmName').val(),
+                        genre: $('#filmGenre').val(),
+                        rating: $('#filmRating').val()
+                    };
+                } else {
+                    url = '/Home/AddSerial';
+                    data = {
+                        name: $('#serialName').val(),
+                        season: $('#serialSeason').val(),
+                        series: $('#serialSeries').val(),
+                        genre: $('#serialGenre').val(),
+                        rating: $('#serialRating').val()
+                    };
                 }
 
-                $select.on('change', function () {
-                    var value = $(this).val();
+                sendRequest(url, data);
 
-                    $.ajax({
-                        type: 'POST',
-                        url: '/Home/ChangeCookies',
-                        data: {
-                            selected: value
-                        },
-                        dataType: 'json',
-                        success: function () {
-                            window.location.href = '/';
-                        },
-                        error: function () {
-                            alert('Error');
-                        }
-                    });
+                return false;
+            });
+
+            $table.off('click', '.btn-edit');
+            $table.on('click', '.btn-edit', function () {
+                var $button = $(this);
+                var $tr = $button.parent().parent();
+                var $tds = $tr.find('td');
+                var $modalTitle = $modal.find('.modal-title');
+                var $modalBody = $modal.find('.modal-body');
+                var $movieName = $modalBody.find('.movie-name');
+                var $movieGenre = $modalBody.find('.movie-genre');
+                var $movieRating = $modalBody.find('.movie-rating');
+                var $serialSeason = $('#serialSeason') || $('<input id="serialSeason" value="" />');
+                var $serialSeries = $('#serialSeries') || $('<input id="serialSeries" value="" />');
+                var $saveButton = $('#saveButton');
+                var $deleteButton = $('#deleteButton');
+                var defaultModalTitle = $modalTitle.text();
+                var defaultModalGenre = $movieGenre.find('option:selected').text();
+                var defaultModalRating = $movieRating.find('option:selected').text();
+                var id = $button.attr('id');
+                var name = $tds.eq(1).text();
+                var genre = $tds.eq(-2).text();
+                var rating = $tds.eq(-1).text();
+
+                $movieName.val(name);
+                $movieGenre.find('option')
+                    .filter(function (index) {
+                        return $(this).text() === genre;
+                    })
+                    .prop('selected', true);
+                $movieRating.find('option')
+                    .filter(function (index) {
+                        return $(this).text() === rating;
+                    })
+                    .prop('selected', true);
+
+                if (isSelectedFilm) {
+                    $modalTitle.text('@Resource.Edit @Resource.Film');
+                } else {
+                    var lastEp = $tds.eq(2).text();
+                    var lastEpSeparated = lastEp.split('-');
+                    var season = 0;
+                    var series = 0;
+
+                    if (lastEpSeparated.length > 1) {
+                        season = lastEpSeparated[0];
+                        series = lastEpSeparated[1];
+                    }
+
+                    $modalTitle.text('@Resource.Edit @Resource.Serial');
+                    $serialSeason.val(season);
+                    $serialSeries.val(series);
+                }
+
+                $submitAddButton.hide();
+                $saveButton.show();
+                $deleteButton.show();
+                $modal.modal('show');
+
+                $modal.on('hidden.bs.modal', function (e) {
+                    $modalTitle.text(defaultModalTitle);
+                    $movieName.val('');
+                    $serialSeason.val('');
+                    $serialSeries.val('');
+                    $movieGenre.find('option')
+                        .filter(function (index) {
+                            return $(this).text() === defaultModalGenre;
+                        })
+                        .prop('selected', true);
+                    $movieRating.find('option')
+                        .filter(function (index) {
+                            return $(this).text() === defaultModalRating;
+                        })
+                        .prop('selected', true);
+                    $saveButton.hide();
+                    $deleteButton.hide();
+                    $submitAddButton.show();
 
                     return false;
                 });
 
-                $addButton.off('click');
-                $addButton.on('click', function () {
-                    $modal.modal('show');
-
-                    return false;
-                });
-
-                $submitAddButton.off('click');
-                $submitAddButton.on('click', function () {
+                $saveButton.off('click');
+                $saveButton.on('click', function () {
                     if (isSelectedFilm) {
-                        url = '/Home/AddFilm';
+                        url = '/Home/EditFilm';
                         data = {
+                            id: id,
                             name: $('#filmName').val(),
                             genre: $('#filmGenre').val(),
                             rating: $('#filmRating').val()
                         };
                     } else {
-                        url = '/Home/AddSerial';
+                        url = '/Home/EditSerial';
                         data = {
+                            id: id,
                             name: $('#serialName').val(),
                             season: $('#serialSeason').val(),
                             series: $('#serialSeries').val(),
@@ -286,154 +392,48 @@
                     return false;
                 });
 
-                $table.off('click', '.btn-edit');
-                $table.on('click', '.btn-edit', function () {
-                    var $button = $(this);
-                    var $tr = $button.parent().parent();
-                    var $tds = $tr.find('td');
-                    var $modalTitle = $modal.find('.modal-title');
-                    var $modalBody = $modal.find('.modal-body');
-                    var $movieName = $modalBody.find('.movie-name');
-                    var $movieGenre = $modalBody.find('.movie-genre');
-                    var $movieRating = $modalBody.find('.movie-rating');
-                    var $serialSeason = $('#serialSeason') || $('<input id="serialSeason" value="" />');
-                    var $serialSeries = $('#serialSeries') || $('<input id="serialSeries" value="" />');
-                    var $saveButton = $('#saveButton');
-                    var $deleteButton = $('#deleteButton');
-                    var defaultModalTitle = $modalTitle.text();
-                    var defaultModalGenre = $movieGenre.find('option:selected').text();
-                    var defaultModalRating = $movieRating.find('option:selected').text();
-                    var id = $button.attr('id');
-                    var name = $tds.eq(1).text();
-                    var genre = $tds.eq(-2).text();
-                    var rating = $tds.eq(-1).text();
-
-                    $movieName.val(name);
-                    $movieGenre.find('option')
-                        .filter(function (index) {
-                            return $(this).text() === genre;
-                        })
-                        .prop('selected', true);
-                    $movieRating.find('option')
-                        .filter(function (index) {
-                            return $(this).text() === rating;
-                        })
-                        .prop('selected', true);
-
+                $deleteButton.off('click');
+                $deleteButton.on('click', function () {
                     if (isSelectedFilm) {
-                        $modalTitle.text('Film Editing');
+                        url = '/Home/DeleteFilm';
+                        data = {
+                            id: id
+                        };
                     } else {
-                        var lastEp = $tds.eq(2).text();
-                        var lastEpSeparated = lastEp.split('-');
-                        var season = 0;
-                        var series = 0;
-
-                        if (lastEpSeparated.length > 1) {
-                            season = lastEpSeparated[0];
-                            series = lastEpSeparated[1];
-                        }
-
-                        $modalTitle.text('Serial Editing');
-                        $serialSeason.val(season);
-                        $serialSeries.val(series);
+                        url = '/Home/Deleteserial';
+                        data = {
+                            id: id
+                        };
                     }
 
-                    $submitAddButton.hide();
-                    $saveButton.show();
-                    $deleteButton.show();
-                    $modal.modal('show');
-
-                    $modal.on('hidden.bs.modal', function (e) {
-                        $modalTitle.text(defaultModalTitle);
-                        $movieName.val('');
-                        $serialSeason.val('');
-                        $serialSeries.val('');
-                        $movieGenre.find('option')
-                            .filter(function (index) {
-                                return $(this).text() === defaultModalGenre;
-                            })
-                            .prop('selected', true);
-                        $movieRating.find('option')
-                            .filter(function (index) {
-                                return $(this).text() === defaultModalRating;
-                            })
-                            .prop('selected', true);
-                        $saveButton.hide();
-                        $deleteButton.hide();
-                        $submitAddButton.show();
-
-                        return false;
-                    });
-
-                    $saveButton.off('click');
-                    $saveButton.on('click', function () {
-                        if (isSelectedFilm) {
-                            url = '/Home/EditFilm';
-                            data = {
-                                id: id,
-                                name: $('#filmName').val(),
-                                genre: $('#filmGenre').val(),
-                                rating: $('#filmRating').val()
-                            };
-                        } else {
-                            url = '/Home/EditSerial';
-                            data = {
-                                id: id,
-                                name: $('#serialName').val(),
-                                season: $('#serialSeason').val(),
-                                series: $('#serialSeries').val(),
-                                genre: $('#serialGenre').val(),
-                                rating: $('#serialRating').val()
-                            };
-                        }
-
-                        sendRequest(url, data);
-
-                        return false;
-                    });
-
-                    $deleteButton.off('click');
-                    $deleteButton.on('click', function () {
-                        if (isSelectedFilm) {
-                            url = '/Home/DeleteFilm';
-                            data = {
-                                id: id
-                            };
-                        } else {
-                            url = '/Home/Deleteserial';
-                            data = {
-                                id: id
-                            };
-                        }
-
-                        sendRequest(url, data);
-
-                        return false;
-                    });
+                    sendRequest(url, data);
 
                     return false;
                 });
 
-                $quickSearch.on('input', function () {
-                    var value = $(this).val();
-
-                    var $rows = $table.find('tbody tr');
-
-                    $rows.each(function (index, element) {
-                        var $row = $(element);
-
-                        var $tds = $row.find('td');
-
-                        if (value !== '' && $tds.eq(1).text().indexOf(value) < 0) {
-                            $row.hide();
-                        } else {
-                            $row.show();
-                        }
-                    });
-
-                    return false;
-                });                
+                return false;
             });
-        })(jQuery);
+
+            $quickSearch.on('input', function () {
+                var value = $(this).val();
+
+                var $rows = $table.find('tbody tr');
+
+                $rows.each(function (index, element) {
+                    var $row = $(element);
+
+                    var $tds = $row.find('td');
+
+                    if (value !== '' && $tds.eq(1).text().indexOf(value) < 0) {
+                        $row.hide();
+                    } else {
+                        $row.show();
+                    }
+                });
+
+                return false;
+            });
+        });
+    })(jQuery);
     </script>
 }

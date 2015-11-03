@@ -1,0 +1,62 @@
+﻿@using MySeenWeb.Models;
+@using MySeenLib;
+
+@model LogsViewModel
+
+@Scripts.Render("~/bundles/jquery", "~/bundles/bootstrap")
+
+@{
+    ViewBag.Title = Resource.Logs;
+}
+<br />
+<table class="table table-striped" id="table">
+    <thead>
+        <tr>
+            <th width="10%">User Name</th>
+            <th width="20%">UserAgent</th>
+            <th width="5%">IPAdress</th>
+            <th width="10%">Date First</th>
+            <th width="10%">Date Last</th>
+            <th width="5%">Count</th>
+            <th width="10%">Page Name</th>
+            <th width="30%">Add data</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (LogsView log in Model.Logs)
+        {
+            <tr>
+                <td class="align-center">@log.UserName</td>
+                <td class="align-center">@log.UserAgent</td>
+                <td class="align-center">@log.IPAdress</td>
+                <td class="align-center">@log.DateFirst</td>
+                <td class="align-center">@log.DateLast</td>
+                <td class="align-center">@log.Count</td>
+                <td class="align-center">@log.PageName</td>
+                <td class="align-center">
+                    @if (!string.IsNullOrEmpty(log.AddData))
+                    { 
+                        if(!log.AddData.Contains("!%!"))
+                        {
+                            @log.AddData
+                        }
+                        else
+                        {
+                            log.AddData=log.AddData.Replace("_", " ");
+                            log.AddData=log.AddData.Replace("!%!", "_");
+                            foreach(string s in log.AddData.Split('_'))
+                            {
+                                @s
+                                <br />
+                            }
+                        } 
+                    }   
+                    else
+                    {
+                        @log.AddData
+                    }      
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

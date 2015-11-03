@@ -216,6 +216,11 @@ namespace MySeenLib
         {
             public abstract void Load();
             public List<string> All;
+            public void Reload()
+            {
+                All = null;
+                Load();
+            }
             public List<string> GetAll()
             {
                 if (All == null) Load();
@@ -321,22 +326,34 @@ namespace MySeenLib
                 return CultureInfoTool.Cultures.Russian;
             }
         }
+        public class ComplexBase : ListStringBase
+        {
+            public override void Load()
+            {
+                if (All == null)
+                {
+                    All = new List<string>();
+                    All.Add(Resource.WEB);
+                    All.Add(Resource.Android);
+                    All.Add(Resource.PC);
+                }
+            }
+        }
+
 
         public static GenresBase Genres = new GenresBase();
         public static RatingsBase Ratings = new RatingsBase();
         public static CategoryBase Categories = new CategoryBase();
         public static LanguagesBase Languages = new LanguagesBase();
+        public static ComplexBase Complexes = new ComplexBase();
 
         public static void ReloadResources()
         {
-            Genres.All = null;
-            Genres.Load();
-            Ratings.All = null;
-            Ratings.Load();
-            Categories.All = null;
-            Categories.Load();
-            Languages.All = null;
-            Languages.Load();
+            Genres.Reload();
+            Ratings.Reload();
+            Categories.Reload();
+            Languages.Reload();
+            Complexes.Reload();
         }
     }
     public static class Validations

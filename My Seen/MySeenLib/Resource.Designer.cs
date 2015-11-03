@@ -88,6 +88,24 @@ namespace MySeenLib {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to All.
+        /// </summary>
+        public static string All {
+            get {
+                return ResourceManager.GetString("All", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Android.
+        /// </summary>
+        public static string Android {
+            get {
+                return ResourceManager.GetString("Android", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to An error has occurred.
         /// </summary>
         public static string AnErrorHasOccurred {
@@ -124,6 +142,24 @@ namespace MySeenLib {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Bug Already Exists.
+        /// </summary>
+        public static string BugAlreadyExists {
+            get {
+                return ResourceManager.GetString("BugAlreadyExists", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Bugs.
+        /// </summary>
+        public static string Bugs {
+            get {
+                return ResourceManager.GetString("Bugs", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Change your account settings.
         /// </summary>
         public static string ChangeYourAccountSettings {
@@ -147,6 +183,15 @@ namespace MySeenLib {
         public static string Close {
             get {
                 return ResourceManager.GetString("Close", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Complex.
+        /// </summary>
+        public static string Complex {
+            get {
+                return ResourceManager.GetString("Complex", resourceCulture);
             }
         }
         
@@ -250,6 +295,24 @@ namespace MySeenLib {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Date End.
+        /// </summary>
+        public static string DateEnd {
+            get {
+                return ResourceManager.GetString("DateEnd", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Date Found.
+        /// </summary>
+        public static string DateFound {
+            get {
+                return ResourceManager.GetString("DateFound", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Date Last.
         /// </summary>
         public static string DateLast {
@@ -300,6 +363,24 @@ namespace MySeenLib {
         public static string DeleteUser {
             get {
                 return ResourceManager.GetString("DeleteUser", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Description.
+        /// </summary>
+        public static string Description {
+            get {
+                return ResourceManager.GetString("Description", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Description To Short.
+        /// </summary>
+        public static string DescToShort {
+            get {
+                return ResourceManager.GetString("DescToShort", resourceCulture);
             }
         }
         
@@ -457,6 +538,15 @@ namespace MySeenLib {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Found.
+        /// </summary>
+        public static string Found {
+            get {
+                return ResourceManager.GetString("Found", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Genre.
         /// </summary>
         public static string Genre {
@@ -583,6 +673,15 @@ namespace MySeenLib {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Logs.
+        /// </summary>
+        public static string Logs {
+            get {
+                return ResourceManager.GetString("Logs", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Manage.
         /// </summary>
         public static string Manage {
@@ -628,6 +727,15 @@ namespace MySeenLib {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Phone App.
+        /// </summary>
+        public static string OurAndroidApp {
+            get {
+                return ResourceManager.GetString("OurAndroidApp", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Password.
         /// </summary>
         public static string Password {
@@ -660,6 +768,15 @@ namespace MySeenLib {
         public static string PasswordsNotEqual {
             get {
                 return ResourceManager.GetString("PasswordsNotEqual", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to PC.
+        /// </summary>
+        public static string PC {
+            get {
+                return ResourceManager.GetString("PC", resourceCulture);
             }
         }
         
@@ -948,6 +1065,15 @@ namespace MySeenLib {
         public static string Users {
             get {
                 return ResourceManager.GetString("Users", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to WEB.
+        /// </summary>
+        public static string WEB {
+            get {
+                return ResourceManager.GetString("WEB", resourceCulture);
             }
         }
         

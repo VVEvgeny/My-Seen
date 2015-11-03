@@ -417,4 +417,46 @@
   <data name="RegisterDate" xml:space="preserve">
     <value>Register</value>
   </data>
+  <data name="Bugs" xml:space="preserve">
+    <value>Bugs</value>
+  </data>
+  <data name="DateEnd" xml:space="preserve">
+    <value>Date End</value>
+  </data>
+  <data name="DateFound" xml:space="preserve">
+    <value>Date Found</value>
+  </data>
+  <data name="Description" xml:space="preserve">
+    <value>Description</value>
+  </data>
+  <data name="Found" xml:space="preserve">
+    <value>Found</value>
+  </data>
+  <data name="BugAlreadyExists" xml:space="preserve">
+    <value>Bug Already Exists</value>
+  </data>
+  <data name="DescToShort" xml:space="preserve">
+    <value>Description To Short</value>
+  </data>
+  <data name="Android" xml:space="preserve">
+    <value>Android</value>
+  </data>
+  <data name="PC" xml:space="preserve">
+    <value>PC</value>
+  </data>
+  <data name="WEB" xml:space="preserve">
+    <value>WEB</value>
+  </data>
+  <data name="All" xml:space="preserve">
+    <value>All</value>
+  </data>
+  <data name="Complex" xml:space="preserve">
+    <value>Complex</value>
+  </data>
+  <data name="Logs" xml:space="preserve">
+    <value>Logs</value>
+  </data>
+  <data name="OurAndroidApp" xml:space="preserve">
+    <value>Phone App</value>
+  </data>
 </root>

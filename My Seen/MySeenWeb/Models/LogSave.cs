@@ -23,7 +23,7 @@ namespace MySeenWeb.Models
 
             if (ac.Logs.Where(l => l.IPAdress == ipAdress && l.UserAgent == userAgent && l.UserId == userId && l.OnlyDate == date && l.PageName == pageName).Count() == 0)
             {
-                ac.Logs.Add(new Logs { IPAdress = ipAdress, UserId = userId, UserAgent = userAgent, OnlyDate = date, DateFirst = DateTime.Now, DateLast = DateTime.Now, PageName=pageName, AddData=addData});
+                ac.Logs.Add(new Logs { IPAdress = ipAdress, UserId = userId, UserAgent = userAgent, OnlyDate = date, DateFirst = DateTime.Now, DateLast = DateTime.Now, PageName = pageName, AddData = addData, Count = 1 });
             }
             else
             {

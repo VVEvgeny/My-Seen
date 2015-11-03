@@ -7,15 +7,23 @@
         <ul class="nav navbar-nav">
             <li>@Html.ActionLink(Resource.Users, "Users", "Home", routeValues: null, htmlAttributes: new { id = "usersLink" })</li>
         </ul>
+        <ul class="nav navbar-nav">
+            <li>@Html.ActionLink(Resource.Logs, "Logs", "Home", routeValues: null, htmlAttributes: new { id = "usersLink" })</li>
+        </ul>
     }
+    <ul class="nav navbar-nav">
+        <li>@Html.ActionLink(Resource.Bugs, "Bugs", "Home", routeValues: null, htmlAttributes: new { id = "usersLink" })</li>
+    </ul>
     using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { id = "logoutForm", @class = "navbar-right" }))
     {
     @Html.AntiForgeryToken()
 
     <ul class="nav navbar-nav navbar-right">
-        <li>
-            @Html.ActionLink(User.Identity.GetUserName() , "Index", "Manage", routeValues: null, htmlAttributes: new { title = Resource.Manage })
-        </li>
+        @if(!Request.Browser.IsMobileDevice)
+        { 
+            <li><a href='https://play.google.com/store/apps/details?id=com.vve.myseen'>@Resource.OurAndroidApp</a></li>
+        }
+        <li>@Html.ActionLink(User.Identity.GetUserName() , "Index", "Manage", routeValues: null, htmlAttributes: new { title = Resource.Manage })</li>
         <li><a href="javascript:document.getElementById('logoutForm').submit()">@Resource.LogOff</a></li>
     </ul>
     }
@@ -23,6 +31,10 @@
 else
 {
     <ul class="nav navbar-nav navbar-right">
+        @if (!Request.Browser.IsMobileDevice)
+        {
+            <li><a href='https://play.google.com/store/apps/details?id=com.vve.myseen'>@Resource.OurAndroidApp</a></li>
+        }
         <li>@Html.ActionLink(Resource.Register, "Register", "Account", routeValues: null, htmlAttributes: new { id = "registerLink" })</li>
         <li>@Html.ActionLink(Resource.Login, "Login", "Account", routeValues: null, htmlAttributes: new { id = "loginLink" })</li>
     </ul>

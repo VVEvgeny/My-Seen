@@ -51,7 +51,19 @@ namespace MySeenWeb.Controllers
                 cc = new HttpCookie(HomeViewModel.AFCookies.CoockieSelectedKey);
             }
             cc.Value = Defaults.Categories.GetId(selected).ToString();
-
+            cc.Expires = DateTime.Now.AddDays(1);
+            ControllerContext.HttpContext.Response.Cookies.Add(cc);
+            return Json(new { success = true });
+        }
+        [HttpPost]
+        public JsonResult ChangeCookiesBugs(string selected)
+        {
+            HttpCookie cc = ControllerContext.HttpContext.Request.Cookies[BugsViewModel.AFCookies.CoockieSelectedKey];
+            if (cc == null)
+            {
+                cc = new HttpCookie(BugsViewModel.AFCookies.CoockieSelectedKey);
+            }
+            cc.Value = selected;
             cc.Expires = DateTime.Now.AddDays(1);
             ControllerContext.HttpContext.Response.Cookies.Add(cc);
             return Json(new { success = true });
@@ -276,6 +288,88 @@ namespace MySeenWeb.Controllers
             if (User.Identity.IsAuthenticated && Admin.isAdmin(User.Identity.Name))
             {
                 UsersViewModel model = new UsersViewModel();
+                return View(model);
+            }
+            return RedirectToAction("Index");
+        }
+        public ActionResult Bugs()
+        {
+            LogSave.Save(User.Identity.IsAuthenticated ? User.Identity.GetUserId() : "", Request.UserHostAddress, Request.UserAgent, "Home/Bugs");
+            BugsViewModel model = new BugsViewModel();
+            HttpCookie cookie = ControllerContext.HttpContext.Request.Cookies[BugsViewModel.AFCookies.CoockieSelectedKey];
+            int complex_cookie = Defaults.Complexes.GetMaxId() + 1;
+            if (cookie == null)
+            {
+                cookie = new HttpCookie(BugsViewModel.AFCookies.CoockieSelectedKey);
+                cookie.Value = complex_cookie.ToString();
+                cookie.Expires = DateTime.Now.AddDays(1);
+                ControllerContext.HttpContext.Response.Cookies.Add(cookie);
+            }
+            else
+            {
+                try
+                {
+                    complex_cookie = Convert.ToInt32(cookie.Value);
+                    if (complex_cookie < 0) throw new Exception();
+                }
+                catch
+                {
+                    complex_cookie = Defaults.Complexes.GetMaxId() + 1;
+                    ControllerContext.HttpContext.Response.Cookies.Remove(BugsViewModel.AFCookies.CoockieSelectedKey);
+                    cookie.Value = complex_cookie.ToString();
+                    cookie.Expires = DateTime.Now.AddDays(1);
+                    ControllerContext.HttpContext.Response.Cookies.Add(cookie);
+                }
+            }
+            model.Load(complex_cookie);
+            return View(model);
+        }
+        [HttpPost]
+        public JsonResult AddBug(string desc)
+        {
+            LogSave.Save(User.Identity.IsAuthenticated ? User.Identity.GetUserId() : "", Request.UserHostAddress, Request.UserAgent, "Home/AddBug", desc);
+            string errorMessage = string.Empty;
+            string user_id = User.Identity.GetUserId();
+            ApplicationDbContext ac = new ApplicationDbContext();
+            if (string.IsNullOrEmpty(errorMessage))
+            {
+                if (desc.Length==0)
+                {
+                    errorMessage = Resource.DescToShort;
+                }
+            }
+            if (string.IsNullOrEmpty(errorMessage))
+            {
+                if (ac.Bugs.Count(f => f.Text == desc) != 0)
+                {
+                    errorMessage = Resource.BugAlreadyExists;
+                }
+            }
+            if (string.IsNullOrEmpty(errorMessage))
+            {
+                try
+                {
+                    ac.Bugs.Add(new Bugs { Text = desc, DateFound = DateTime.Now, UserId = User.Identity.GetUserId(), UserName = User.Identity.GetUserName() });
+                    ac.SaveChanges();
+                }
+                catch (Exception e)
+                {
+                    errorMessage = Resource.ErrorWorkWithDB + "=" + e.Message;
+                }
+            }
+            if (!string.IsNullOrEmpty(errorMessage))
+            {
+                return new JsonResult { Data = new { success = false, error = errorMessage } };
+            }
+            return Json(new { success = true });
+        }
+        public ActionResult Logs()
+        {
+            LogSave.Save(User.Identity.IsAuthenticated ? User.Identity.GetUserId() : "", Request.UserHostAddress, Request.UserAgent, "Home/Logs");
+            if (User.Identity.IsAuthenticated && Admin.isAdmin(User.Identity.GetUserName()))
+            {
+                LogsViewModel model = new LogsViewModel();
+                model.Load();
                 return View(model);
             }
             return RedirectToAction("Index");
