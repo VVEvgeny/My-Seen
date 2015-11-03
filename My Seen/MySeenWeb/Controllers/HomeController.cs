@@ -297,7 +297,7 @@ namespace MySeenWeb.Controllers
             LogSave.Save(User.Identity.IsAuthenticated ? User.Identity.GetUserId() : "", Request.UserHostAddress, Request.UserAgent, "Home/Bugs");
             BugsViewModel model = new BugsViewModel();
             HttpCookie cookie = ControllerContext.HttpContext.Request.Cookies[BugsViewModel.AFCookies.CoockieSelectedKey];
-            int complex_cookie = Defaults.Complexes.GetMaxId() + 1;
+            int complex_cookie = Defaults.Complexes.GetMaxId();
             if (cookie == null)
             {
                 cookie = new HttpCookie(BugsViewModel.AFCookies.CoockieSelectedKey);
@@ -314,7 +314,7 @@ namespace MySeenWeb.Controllers
                 }
                 catch
                 {
-                    complex_cookie = Defaults.Complexes.GetMaxId() + 1;
+                    complex_cookie = Defaults.Complexes.GetMaxId();
                     ControllerContext.HttpContext.Response.Cookies.Remove(BugsViewModel.AFCookies.CoockieSelectedKey);
                     cookie.Value = complex_cookie.ToString();
                     cookie.Expires = DateTime.Now.AddDays(1);
@@ -325,7 +325,7 @@ namespace MySeenWeb.Controllers
             return View(model);
         }
         [HttpPost]
-        public JsonResult AddBug(string desc)
+        public JsonResult AddBug(string desc, string complex)
         {
             LogSave.Save(User.Identity.IsAuthenticated ? User.Identity.GetUserId() : "", Request.UserHostAddress, Request.UserAgent, "Home/AddBug", desc);
             string errorMessage = string.Empty;
@@ -336,6 +336,19 @@ namespace MySeenWeb.Controllers
                 if (desc.Length==0)
                 {
                     errorMessage = Resource.DescToShort;
+                }
+            }
+            int _id=-1;
+            if (string.IsNullOrEmpty(errorMessage))
+            {
+                try
+                {
+                    _id = Convert.ToInt32(complex);
+                    if (_id < 0) throw new Exception();
+                }
+                catch
+                {
+                    errorMessage = "Корявая айдишка";
                 }
             }
             if (string.IsNullOrEmpty(errorMessage))
@@ -349,7 +362,92 @@ namespace MySeenWeb.Controllers
             {
                 try
                 {
-                    ac.Bugs.Add(new Bugs { Text = desc, DateFound = DateTime.Now, UserId = User.Identity.GetUserId(), UserName = User.Identity.GetUserName() });
+                    ac.Bugs.Add(new Bugs { Text = desc, DateFound = DateTime.Now, UserId = User.Identity.GetUserId(), Complex = _id });
+                    ac.SaveChanges();
+                }
+                catch (Exception e)
+                {
+                    errorMessage = Resource.ErrorWorkWithDB + "=" + e.Message;
+                }
+            }
+            if (!string.IsNullOrEmpty(errorMessage))
+            {
+                return new JsonResult { Data = new { success = false, error = errorMessage } };
+            }
+            return Json(new { success = true });
+        }
+        [HttpPost]
+        public JsonResult EndBug(string id,string desc)
+        {
+            LogSave.Save(User.Identity.IsAuthenticated ? User.Identity.GetUserId() : "", Request.UserHostAddress, Request.UserAgent, "Home/EndBug", id + " " + desc);
+            string errorMessage = string.Empty;
+            string user_id = User.Identity.GetUserId();
+            ApplicationDbContext ac = new ApplicationDbContext();
+            int _id = -1;
+            if (string.IsNullOrEmpty(errorMessage))
+            {
+                if(desc.Length==0)
+                {
+                    errorMessage = Resource.DescToShort;
+                }
+            }
+            if (string.IsNullOrEmpty(errorMessage))
+            {
+                try
+                {
+                    _id = Convert.ToInt32(id);
+                    if (_id < 0) throw new Exception();
+                }
+                catch
+                {
+                    errorMessage = "Корявая айдишка";
+                }
+            }
+            if (string.IsNullOrEmpty(errorMessage))
+            {
+                try
+                {
+                    var bug = ac.Bugs.Where(b => b.Id == _id).First();
+                    bug.TextEnd = desc;
+                    bug.DateEnd = DateTime.Now;
+                    ac.SaveChanges();
+                }
+                catch (Exception e)
+                {
+                    errorMessage = Resource.ErrorWorkWithDB + "=" + e.Message;
+                }
+            }
+            if (!string.IsNullOrEmpty(errorMessage))
+            {
+                return new JsonResult { Data = new { success = false, error = errorMessage } };
+            }
+            return Json(new { success = true });
+        }
+        [HttpPost]
+        public JsonResult DeleteBug(string id)
+        {
+            LogSave.Save(User.Identity.IsAuthenticated ? User.Identity.GetUserId() : "", Request.UserHostAddress, Request.UserAgent, "Home/DeleteBug", id);
+            string errorMessage = string.Empty;
+            string user_id = User.Identity.GetUserId();
+            ApplicationDbContext ac = new ApplicationDbContext();
+            int _id = -1;
+            if (string.IsNullOrEmpty(errorMessage))
+            {
+                try
+                {
+                    _id = Convert.ToInt32(id);
+                    if (_id < 0) throw new Exception();
+                }
+                catch
+                {
+                    errorMessage = "Корявая айдишка";
+                }
+            }
+            if (string.IsNullOrEmpty(errorMessage))
+            {
+                try
+                {
+                    ac.Bugs.RemoveRange(ac.Bugs.Where(b => b.Id == _id));
                     ac.SaveChanges();
                 }
                 catch (Exception e)

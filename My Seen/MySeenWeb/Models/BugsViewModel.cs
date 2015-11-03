@@ -24,7 +24,7 @@ namespace MySeenWeb.Models
         public void Load(int complex)
         {
             ApplicationDbContext ac = new ApplicationDbContext();
-            if (complex == (Defaults.Complexes.GetMaxId() + 1))
+            if (complex == (Defaults.Complexes.GetMaxId()))
             {
                 Bugs = ac.Bugs.Select(BugsView.Map).OrderByDescending(b => b.DateFound);
             }
@@ -39,7 +39,6 @@ namespace MySeenWeb.Models
             {
                 listItems.Add(new SelectListItem { Text = sel, Value = Defaults.Complexes.GetId(sel).ToString(), Selected = (Defaults.Complexes.GetId(sel) == complex) });
             }
-            listItems.Add(new SelectListItem { Text = Resource.All, Value = (Defaults.Complexes.GetMaxId() + 1).ToString(), Selected = ((Defaults.Complexes.GetMaxId() + 1) == complex) });
             complexList = listItems;
         }
     }

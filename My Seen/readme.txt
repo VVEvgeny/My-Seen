@@ -22,10 +22,10 @@
 -Глобализация
 
 ==АНДРОЕД
+=Нативный интерфейс
 -ListView динамический
 -sqlite
 -Синхрони
-
-
+=WebView интерфейс
 -PortableRazor
 -bootstrap

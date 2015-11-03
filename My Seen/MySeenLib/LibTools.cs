@@ -336,6 +336,7 @@ namespace MySeenLib
                     All.Add(Resource.WEB);
                     All.Add(Resource.Android);
                     All.Add(Resource.PC);
+                    All.Add(Resource.All);
                 }
             }
         }

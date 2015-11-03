@@ -20,7 +20,6 @@ namespace MySeenWeb.Models
         public string Text { get; set; }
         public DateTime? DateEnd { get; set; }
         public string TextEnd { get; set; }
-        public string UserName { get; set; }
         public int Complex { get; set; }
     }
 }

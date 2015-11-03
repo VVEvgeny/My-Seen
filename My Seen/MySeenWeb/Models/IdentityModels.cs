@@ -28,6 +28,7 @@ namespace MySeenWeb.Models
         public ApplicationDbContext()
             : base("DefaultConnection", throwIfV1Schema: false)
         {
+            Database.SetInitializer(new MigrateDatabaseToLatestVersion<ApplicationDbContext, Migrations.Configuration>("DefaultConnection"));
         }
 
         public DbSet<Films> Films { get; set; }

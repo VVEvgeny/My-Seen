@@ -18,12 +18,12 @@ namespace MySeenWeb.Models
             return new BugsView
             {
                 DateEnd = model.DateEnd,
-                UserName = model.UserName,
                 DateFound = model.DateFound,
                 Id = model.Id,
                 Text = model.Text,
                 TextEnd = model.TextEnd,
-                UserId = model.UserId
+                UserId = model.UserId,
+                Complex = model.Complex
             };
         }
         public string ComplexText
@@ -31,6 +31,18 @@ namespace MySeenWeb.Models
             get
             {
                 return Defaults.Complexes.GetById(Complex);
+            }
+        }
+        public string UserName
+        {
+            get
+            {
+                if (!string.IsNullOrEmpty(UserId))
+                {
+                    ApplicationDbContext ac = new ApplicationDbContext();
+                    return ac.Users.Where(u => u.Id == UserId).Select(u => u.UserName).FirstOrDefault();
+                }
+                return string.Empty;
             }
         }
     }
