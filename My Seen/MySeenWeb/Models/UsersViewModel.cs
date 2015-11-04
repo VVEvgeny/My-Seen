@@ -30,7 +30,10 @@ namespace MySeenWeb.Models
             {
                 Name = model.UserName,
                 RegiserDate = model.RegisterDate.ToShortDateString(),
-                Culture = model.Culture,
+                //Culture = model.Culture,
+                Culture = (model.Culture==CultureInfoTool.Cultures.English ?
+                        Defaults.Languages.GetById(Defaults.LanguagesBase.Indexes.English): Defaults.Languages.GetById(Defaults.LanguagesBase.Indexes.Russian)
+                        ),
                 FilmsCount = ap.Films.Where(f=>f.UserId==model.Id).Count(),
                 SerialsCount = ap.Serials.Where(f => f.UserId == model.Id).Count(),
             };

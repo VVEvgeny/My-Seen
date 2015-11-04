@@ -3,7 +3,7 @@
 
 @model HomeViewModel
 
-@Scripts.Render("~/bundles/jquery", "~/bundles/bootstrap")
+@Scripts.Render("~/bundles/jquery", "~/bundles/bootstrap", "~/bundles/floatingHeaderTable")
 
 @{
     ViewBag.Title = Resource.AppName;
@@ -33,407 +33,406 @@
     </div>
 
     <br />
-
-    <table class="table table-striped" id="table">
-        @if (isSelectedFilm)
+        <table class="table table-striped" id="table">
+            @if (isSelectedFilm)
         {
-            <thead>
-                <tr>
-                    <th width="10%"></th>
-                    <th width="60%">@Resource.Name</th>
-                    <th width="20%">@Resource.Date</th>
-                    <th width="10%">@Resource.Genre</th>
-                    <th width="10%">@Resource.Rating</th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach (FilmsView film in Model.Films)
-                {
+                <thead>
                     <tr>
-                        <td class="align-center">
-                            <button type="button" class="btn btn-info btn-edit" id=@film.Id>
-                                <span class="glyphicon glyphicon-pencil"></span>
-                                &nbsp;@Resource.Edit
-                            </button>
-                        </td>
-                        <td class="align-left">@film.Name</td>
-                        <td class="align-center">@film.DateSee</td>
-                        <td class="align-center">@film.GenreText</td>
-                        <td class="align-center">@film.RatingText</td>
+                        <th width="10%"></th>
+                        <th width="60%">@Resource.Name</th>
+                        <th width="20%">@Resource.Date</th>
+                        <th width="10%">@Resource.Genre</th>
+                        <th width="10%">@Resource.Rating</th>
                     </tr>
+                </thead>
+                <tbody>
+                    @foreach (FilmsView film in Model.Films)
+                {
+                        <tr>
+                            <td class="align-center">
+                                <button type="button" class="btn btn-info btn-edit" id=@film.Id>
+                                    <span class="glyphicon glyphicon-pencil"></span>
+                                    &nbsp;@Resource.Edit
+                                </button>
+                            </td>
+                            <td class="align-left">@film.Name</td>
+                            <td class="align-center">@film.DateSee</td>
+                            <td class="align-center">@film.GenreText</td>
+                            <td class="align-center">@film.RatingText</td>
+                        </tr>
                 }
-            </tbody>
+                </tbody>
         }
         else
         {
-            <thead>
-                <tr>
-                    <th width="10%"></th>
-                    <th width="40%">@Resource.Name</th>
-                    <th width="10%">@Resource.LastEpisode</th>
-                    <th width="20%">@Resource.DateLast</th>
-                    <th width="20%">@Resource.DateBegin</th>
-                    <th width="10%">@Resource.Genre</th>
-                    <th width="10%">@Resource.Rating</th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach (SerialsView serial in Model.Serials)
-                {
+                <thead>
                     <tr>
-                        <td class="align-center">
-                            <button type="button" class="btn btn-info btn-edit" id=@serial.Id>
-                                <span class="glyphicon glyphicon-pencil"></span>
-                                &nbsp;@Resource.Edit
-                            </button>
-                        </td>
-                        <td class="align-center">@serial.Name</td>
-                        <td class="align-center">@serial.LastSeason-@serial.LastSeries</td>
-                        <td class="align-center">@serial.DateLast</td>
-                        <td class="align-center">@serial.DateBegin</td>
-                        <td class="align-center">@serial.GenreText</td>
-                        <td class="align-center">@serial.RatingText</td>
+                        <th width="10%"></th>
+                        <th width="40%">@Resource.Name</th>
+                        <th width="10%">@Resource.LastEpisode</th>
+                        <th width="20%">@Resource.DateLast</th>
+                        <th width="20%">@Resource.DateBegin</th>
+                        <th width="10%">@Resource.Genre</th>
+                        <th width="10%">@Resource.Rating</th>
                     </tr>
+                </thead>
+                <tbody>
+                    @foreach (SerialsView serial in Model.Serials)
+                {
+                        <tr>
+                            <td class="align-center">
+                                <button type="button" class="btn btn-info btn-edit" id=@serial.Id>
+                                    <span class="glyphicon glyphicon-pencil"></span>
+                                    &nbsp;@Resource.Edit
+                                </button>
+                            </td>
+                            <td class="align-center">@serial.Name</td>
+                            <td class="align-center">@serial.LastSeason-@serial.LastSeries</td>
+                            <td class="align-center">@serial.DateLast</td>
+                            <td class="align-center">@serial.DateBegin</td>
+                            <td class="align-center">@serial.GenreText</td>
+                            <td class="align-center">@serial.RatingText</td>
+                        </tr>
                 }
-            </tbody>
+                </tbody>
         }
-    </table>
-
-    <div class="modal fade modal-window" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                    <h4 class="modal-title">
-                        @Resource.AddNew
-                        @if (isSelectedFilm)
+        </table>
+        
+        <div class="modal fade modal-window" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-title">
+                            @Resource.AddNew
+                            @if (isSelectedFilm)
                         {
-                            <text>@Resource.Film</text>
+                                <text>@Resource.Film</text>
                         }
                         else
                         {
-                            <text>@Resource.Serial</text>
+                                <text>@Resource.Serial</text>
                         }
-                    </h4>
-                </div>
-                <div class="modal-body">
-                    <div class="form-horizontal">
-                        @if (isSelectedFilm)
-                        {
-                            <div class="form-group">
-                                <label for="filmName" class="col-sm-2 control-label">@Resource.Name</label>
-                                <div class="col-sm-10">
-                                    <input type="text" class="form-control movie-name" id="filmName" placeholder="@Resource.Name">
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <label for="filmGenre" class="col-sm-2 control-label">@Resource.Genre</label>
-                                <div class="col-sm-10">
-                                    @Html.DropDownListFor(model => model.Genre, Model.genreList, new { @class = "form-control movie-genre", @id = "filmGenre" })
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <label for="filmRating" class="col-sm-2 control-label">@Resource.Rating</label>
-                                <div class="col-sm-10">
-                                    @Html.DropDownListFor(model => model.Rating, Model.ratingList, new { @class = "form-control movie-rating", @id = "filmRating" })
-                                </div>
-                            </div>
-                        }
-                        else
-                        {
-                            <div class="form-group">
-                                <label for="serialName" class="col-sm-2 control-label">@Resource.Name</label>
-                                <div class="col-sm-10">
-                                    <input type="text" class="form-control movie-name" id="serialName" placeholder="@Resource.Name">
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <label for="serialSeason" class="col-sm-2 control-label">@Resource.Season</label>
-                                <div class="col-sm-10">
-                                    <input type="text" class="form-control" id="serialSeason" placeholder="@Resource.Season">
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <label for="serialSeries" class="col-sm-2 control-label">@Resource.Series</label>
-                                <div class="col-sm-10">
-                                    <input type="text" class="form-control" id="serialSeries" placeholder="@Resource.Series">
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <label for="serialGenre" class="col-sm-2 control-label">@Resource.Genre</label>
-                                <div class="col-sm-10">
-                                    @Html.DropDownListFor(model => model.Genre, Model.genreList, new { @class = "form-control movie-genre", @id = "serialGenre" })
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <label for="serialRating" class="col-sm-2 control-label">@Resource.Rating</label>
-                                <div class="col-sm-10">
-                                    @Html.DropDownListFor(model => model.Rating, Model.ratingList, new { @class = "form-control movie-rating", @id = "serialRating" })
-                                </div>
-                            </div>
-                        }
+                        </h4>
                     </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-danger" id="deleteButton" style="display: none;">
-                        <span class="glyphicon glyphicon-trash"></span>
-                        &nbsp;@Resource.Delete
-                    </button>
-                    <button type="button" class="btn btn-default" data-dismiss="modal">
-                        <span class="glyphicon glyphicon-remove"></span>
-                        &nbsp;@Resource.Close
-                    </button>
-                    <button type="button" class="btn btn-success" id="submitAddButton">
-                        <span class="glyphicon glyphicon-ok"></span>
-                        &nbsp;@Resource.Add
-                    </button>
-                    <button type="button" class="btn btn-success" id="saveButton" style="display: none;">
-                        <span class="glyphicon glyphicon-ok"></span>
-                        &nbsp;@Resource.SaveСhanges
-                    </button>
+                    <div class="modal-body">
+                        <div class="form-horizontal">
+                            @if (isSelectedFilm)
+                        {
+                                <div class="form-group">
+                                    <label for="filmName" class="col-sm-2 control-label">@Resource.Name</label>
+                                    <div class="col-sm-10">
+                                        <input type="text" class="form-control movie-name" id="filmName" placeholder="@Resource.Name">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="filmGenre" class="col-sm-2 control-label">@Resource.Genre</label>
+                                    <div class="col-sm-10">
+                                        @Html.DropDownListFor(model => model.Genre, Model.genreList, new { @class = "form-control movie-genre", @id = "filmGenre" })
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="filmRating" class="col-sm-2 control-label">@Resource.Rating</label>
+                                    <div class="col-sm-10">
+                                        @Html.DropDownListFor(model => model.Rating, Model.ratingList, new { @class = "form-control movie-rating", @id = "filmRating" })
+                                    </div>
+                                </div>
+                        }
+                        else
+                        {
+                                <div class="form-group">
+                                    <label for="serialName" class="col-sm-2 control-label">@Resource.Name</label>
+                                    <div class="col-sm-10">
+                                        <input type="text" class="form-control movie-name" id="serialName" placeholder="@Resource.Name">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="serialSeason" class="col-sm-2 control-label">@Resource.Season</label>
+                                    <div class="col-sm-10">
+                                        <input type="text" class="form-control" id="serialSeason" placeholder="@Resource.Season">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="serialSeries" class="col-sm-2 control-label">@Resource.Series</label>
+                                    <div class="col-sm-10">
+                                        <input type="text" class="form-control" id="serialSeries" placeholder="@Resource.Series">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="serialGenre" class="col-sm-2 control-label">@Resource.Genre</label>
+                                    <div class="col-sm-10">
+                                        @Html.DropDownListFor(model => model.Genre, Model.genreList, new { @class = "form-control movie-genre", @id = "serialGenre" })
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="serialRating" class="col-sm-2 control-label">@Resource.Rating</label>
+                                    <div class="col-sm-10">
+                                        @Html.DropDownListFor(model => model.Rating, Model.ratingList, new { @class = "form-control movie-rating", @id = "serialRating" })
+                                    </div>
+                                </div>
+                        }
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-danger" id="deleteButton" style="display: none;">
+                            <span class="glyphicon glyphicon-trash"></span>
+                            &nbsp;@Resource.Delete
+                        </button>
+                        <button type="button" class="btn btn-default" data-dismiss="modal">
+                            <span class="glyphicon glyphicon-remove"></span>
+                            &nbsp;@Resource.Close
+                        </button>
+                        <button type="button" class="btn btn-success" id="submitAddButton">
+                            <span class="glyphicon glyphicon-ok"></span>
+                            &nbsp;@Resource.Add
+                        </button>
+                        <button type="button" class="btn btn-success" id="saveButton" style="display: none;">
+                            <span class="glyphicon glyphicon-ok"></span>
+                            &nbsp;@Resource.SaveСhanges
+                        </button>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
 
-    <script language="javascript" type="text/javascript">
-    (function ($) {
-        $(function () {
-            var $select = $('#lstSelected');
-            var $addButton = $('#addButton');
-            var $submitAddButton = $('#submitAddButton');
-            var $table = $('.table.table-striped');
-            var $modal = $('.modal-window');
-            var $quickSearch = $('#quickSearch');
-            var isSelectedFilm = '@Model.IsSelectedFilm' === 'True';
-            var url = '';
-            var data = {};
+        <script language="javascript" type="text/javascript">
+            (function ($) {
+                $(function () {
+                    var $select = $('#lstSelected');
+                    var $addButton = $('#addButton');
+                    var $submitAddButton = $('#submitAddButton');
+                    var $table = $('.table.table-striped');
+                    var $modal = $('.modal-window');
+                    var $quickSearch = $('#quickSearch');
+                    var isSelectedFilm = '@Model.IsSelectedFilm' === 'True';
+                    var url = '';
+                    var data = {};
 
-            function sendRequest(innerUrl, innerData) {
-                $.ajax({
-                    type: 'POST',
-                    url: innerUrl,
-                    data: innerData,
-                    dataType: 'json',
-                    success: function (response) {
-                        if (response.error) {
-                            alert(response.error);
+                    function sendRequest(innerUrl, innerData) {
+                        $.ajax({
+                            type: 'POST',
+                            url: innerUrl,
+                            data: innerData,
+                            dataType: 'json',
+                            success: function (response) {
+                                if (response.error) {
+                                    alert(response.error);
+                                }
+                                else {
+                                    window.location.href = '/';
+                                }
+                                $modal.modal('hide');
+                            },
+                            error: function (err) {
+                                alert(err);
+                                $modal.modal('hide');
+                            }
+                        });
+
+                        return false;
+                    }
+
+                    $select.on('change', function () {
+                        var value = $(this).val();
+
+                        $.ajax({
+                            type: 'POST',
+                            url: '/Home/ChangeCookies',
+                            data: {
+                                selected: value
+                            },
+                            dataType: 'json',
+                            success: function () {
+                                window.location.href = '/';
+                            },
+                            error: function () {
+                                alert('Error');
+                            }
+                        });
+
+                        return false;
+                    });
+
+                    $addButton.off('click');
+                    $addButton.on('click', function () {
+                        $modal.modal('show');
+
+                        return false;
+                    });
+
+                    $submitAddButton.off('click');
+                    $submitAddButton.on('click', function () {
+                        if (isSelectedFilm) {
+                            url = '/Home/AddFilm';
+                            data = {
+                                name: $('#filmName').val(),
+                                genre: $('#filmGenre').val(),
+                                rating: $('#filmRating').val()
+                            };
+                        } else {
+                            url = '/Home/AddSerial';
+                            data = {
+                                name: $('#serialName').val(),
+                                season: $('#serialSeason').val(),
+                                series: $('#serialSeries').val(),
+                                genre: $('#serialGenre').val(),
+                                rating: $('#serialRating').val()
+                            };
                         }
-                        else {
-                            window.location.href = '/';
+
+                        sendRequest(url, data);
+
+                        return false;
+                    });
+
+                    $table.off('click', '.btn-edit');
+                    $table.on('click', '.btn-edit', function () {
+                        var $button = $(this);
+                        var $tr = $button.parent().parent();
+                        var $tds = $tr.find('td');
+                        var $modalTitle = $modal.find('.modal-title');
+                        var $modalBody = $modal.find('.modal-body');
+                        var $movieName = $modalBody.find('.movie-name');
+                        var $movieGenre = $modalBody.find('.movie-genre');
+                        var $movieRating = $modalBody.find('.movie-rating');
+                        var $serialSeason = $('#serialSeason') || $('<input id="serialSeason" value="" />');
+                        var $serialSeries = $('#serialSeries') || $('<input id="serialSeries" value="" />');
+                        var $saveButton = $('#saveButton');
+                        var $deleteButton = $('#deleteButton');
+                        var defaultModalTitle = $modalTitle.text();
+                        var defaultModalGenre = $movieGenre.find('option:selected').text();
+                        var defaultModalRating = $movieRating.find('option:selected').text();
+                        var id = $button.attr('id');
+                        var name = $tds.eq(1).text();
+                        var genre = $tds.eq(-2).text();
+                        var rating = $tds.eq(-1).text();
+
+                        $movieName.val(name);
+                        $movieGenre.find('option')
+                            .filter(function (index) {
+                                return $(this).text() === genre;
+                            })
+                            .prop('selected', true);
+                        $movieRating.find('option')
+                            .filter(function (index) {
+                                return $(this).text() === rating;
+                            })
+                            .prop('selected', true);
+
+                        if (isSelectedFilm) {
+                            $modalTitle.text('@Resource.Edit @Resource.Film');
+                        } else {
+                            var lastEp = $tds.eq(2).text();
+                            var lastEpSeparated = lastEp.split('-');
+                            var season = 0;
+                            var series = 0;
+
+                            if (lastEpSeparated.length > 1) {
+                                season = lastEpSeparated[0];
+                                series = lastEpSeparated[1];
+                            }
+
+                            $modalTitle.text('@Resource.Edit @Resource.Serial');
+                            $serialSeason.val(season);
+                            $serialSeries.val(series);
                         }
-                        $modal.modal('hide');
-                    },
-                    error: function (err) {
-                        alert(err);
-                        $modal.modal('hide');
-                    }
+
+                        $submitAddButton.hide();
+                        $saveButton.show();
+                        $deleteButton.show();
+                        $modal.modal('show');
+
+                        $modal.on('hidden.bs.modal', function (e) {
+                            $modalTitle.text(defaultModalTitle);
+                            $movieName.val('');
+                            $serialSeason.val('');
+                            $serialSeries.val('');
+                            $movieGenre.find('option')
+                                .filter(function (index) {
+                                    return $(this).text() === defaultModalGenre;
+                                })
+                                .prop('selected', true);
+                            $movieRating.find('option')
+                                .filter(function (index) {
+                                    return $(this).text() === defaultModalRating;
+                                })
+                                .prop('selected', true);
+                            $saveButton.hide();
+                            $deleteButton.hide();
+                            $submitAddButton.show();
+
+                            return false;
+                        });
+
+                        $saveButton.off('click');
+                        $saveButton.on('click', function () {
+                            if (isSelectedFilm) {
+                                url = '/Home/EditFilm';
+                                data = {
+                                    id: id,
+                                    name: $('#filmName').val(),
+                                    genre: $('#filmGenre').val(),
+                                    rating: $('#filmRating').val()
+                                };
+                            } else {
+                                url = '/Home/EditSerial';
+                                data = {
+                                    id: id,
+                                    name: $('#serialName').val(),
+                                    season: $('#serialSeason').val(),
+                                    series: $('#serialSeries').val(),
+                                    genre: $('#serialGenre').val(),
+                                    rating: $('#serialRating').val()
+                                };
+                            }
+
+                            sendRequest(url, data);
+
+                            return false;
+                        });
+
+                        $deleteButton.off('click');
+                        $deleteButton.on('click', function () {
+                            if (isSelectedFilm) {
+                                url = '/Home/DeleteFilm';
+                                data = {
+                                    id: id
+                                };
+                            } else {
+                                url = '/Home/Deleteserial';
+                                data = {
+                                    id: id
+                                };
+                            }
+
+                            sendRequest(url, data);
+
+                            return false;
+                        });
+
+                        return false;
+                    });
+
+                    $quickSearch.on('input', function () {
+                        var value = $(this).val().toLowerCase();
+
+                        var $rows = $table.find('tbody tr');
+
+                        $rows.each(function (index, element) {
+                            var $row = $(element);
+
+                            var $tds = $row.find('td');
+
+                            if (value !== '' && $tds.eq(1).text().toLowerCase().indexOf(value) < 0) {
+                                $row.hide();
+                            } else {
+                                $row.show();
+                            }
+                        });
+
+                        return false;
+                    });
                 });
-
-                return false;
-            }
-
-            $select.on('change', function () {
-                var value = $(this).val();
-
-                $.ajax({
-                    type: 'POST',
-                    url: '/Home/ChangeCookies',
-                    data: {
-                        selected: value
-                    },
-                    dataType: 'json',
-                    success: function () {
-                        window.location.href = '/';
-                    },
-                    error: function () {
-                        alert('Error');
-                    }
-                });
-
-                return false;
-            });
-
-            $addButton.off('click');
-            $addButton.on('click', function () {
-                $modal.modal('show');
-
-                return false;
-            });
-
-            $submitAddButton.off('click');
-            $submitAddButton.on('click', function () {
-                if (isSelectedFilm) {
-                    url = '/Home/AddFilm';
-                    data = {
-                        name: $('#filmName').val(),
-                        genre: $('#filmGenre').val(),
-                        rating: $('#filmRating').val()
-                    };
-                } else {
-                    url = '/Home/AddSerial';
-                    data = {
-                        name: $('#serialName').val(),
-                        season: $('#serialSeason').val(),
-                        series: $('#serialSeries').val(),
-                        genre: $('#serialGenre').val(),
-                        rating: $('#serialRating').val()
-                    };
-                }
-
-                sendRequest(url, data);
-
-                return false;
-            });
-
-            $table.off('click', '.btn-edit');
-            $table.on('click', '.btn-edit', function () {
-                var $button = $(this);
-                var $tr = $button.parent().parent();
-                var $tds = $tr.find('td');
-                var $modalTitle = $modal.find('.modal-title');
-                var $modalBody = $modal.find('.modal-body');
-                var $movieName = $modalBody.find('.movie-name');
-                var $movieGenre = $modalBody.find('.movie-genre');
-                var $movieRating = $modalBody.find('.movie-rating');
-                var $serialSeason = $('#serialSeason') || $('<input id="serialSeason" value="" />');
-                var $serialSeries = $('#serialSeries') || $('<input id="serialSeries" value="" />');
-                var $saveButton = $('#saveButton');
-                var $deleteButton = $('#deleteButton');
-                var defaultModalTitle = $modalTitle.text();
-                var defaultModalGenre = $movieGenre.find('option:selected').text();
-                var defaultModalRating = $movieRating.find('option:selected').text();
-                var id = $button.attr('id');
-                var name = $tds.eq(1).text();
-                var genre = $tds.eq(-2).text();
-                var rating = $tds.eq(-1).text();
-
-                $movieName.val(name);
-                $movieGenre.find('option')
-                    .filter(function (index) {
-                        return $(this).text() === genre;
-                    })
-                    .prop('selected', true);
-                $movieRating.find('option')
-                    .filter(function (index) {
-                        return $(this).text() === rating;
-                    })
-                    .prop('selected', true);
-
-                if (isSelectedFilm) {
-                    $modalTitle.text('@Resource.Edit @Resource.Film');
-                } else {
-                    var lastEp = $tds.eq(2).text();
-                    var lastEpSeparated = lastEp.split('-');
-                    var season = 0;
-                    var series = 0;
-
-                    if (lastEpSeparated.length > 1) {
-                        season = lastEpSeparated[0];
-                        series = lastEpSeparated[1];
-                    }
-
-                    $modalTitle.text('@Resource.Edit @Resource.Serial');
-                    $serialSeason.val(season);
-                    $serialSeries.val(series);
-                }
-
-                $submitAddButton.hide();
-                $saveButton.show();
-                $deleteButton.show();
-                $modal.modal('show');
-
-                $modal.on('hidden.bs.modal', function (e) {
-                    $modalTitle.text(defaultModalTitle);
-                    $movieName.val('');
-                    $serialSeason.val('');
-                    $serialSeries.val('');
-                    $movieGenre.find('option')
-                        .filter(function (index) {
-                            return $(this).text() === defaultModalGenre;
-                        })
-                        .prop('selected', true);
-                    $movieRating.find('option')
-                        .filter(function (index) {
-                            return $(this).text() === defaultModalRating;
-                        })
-                        .prop('selected', true);
-                    $saveButton.hide();
-                    $deleteButton.hide();
-                    $submitAddButton.show();
-
-                    return false;
-                });
-
-                $saveButton.off('click');
-                $saveButton.on('click', function () {
-                    if (isSelectedFilm) {
-                        url = '/Home/EditFilm';
-                        data = {
-                            id: id,
-                            name: $('#filmName').val(),
-                            genre: $('#filmGenre').val(),
-                            rating: $('#filmRating').val()
-                        };
-                    } else {
-                        url = '/Home/EditSerial';
-                        data = {
-                            id: id,
-                            name: $('#serialName').val(),
-                            season: $('#serialSeason').val(),
-                            series: $('#serialSeries').val(),
-                            genre: $('#serialGenre').val(),
-                            rating: $('#serialRating').val()
-                        };
-                    }
-
-                    sendRequest(url, data);
-
-                    return false;
-                });
-
-                $deleteButton.off('click');
-                $deleteButton.on('click', function () {
-                    if (isSelectedFilm) {
-                        url = '/Home/DeleteFilm';
-                        data = {
-                            id: id
-                        };
-                    } else {
-                        url = '/Home/Deleteserial';
-                        data = {
-                            id: id
-                        };
-                    }
-
-                    sendRequest(url, data);
-
-                    return false;
-                });
-
-                return false;
-            });
-
-            $quickSearch.on('input', function () {
-                var value = $(this).val();
-
-                var $rows = $table.find('tbody tr');
-
-                $rows.each(function (index, element) {
-                    var $row = $(element);
-
-                    var $tds = $row.find('td');
-
-                    if (value !== '' && $tds.eq(1).text().indexOf(value) < 0) {
-                        $row.hide();
-                    } else {
-                        $row.show();
-                    }
-                });
-
-                return false;
-            });
-        });
-    })(jQuery);
-    </script>
-}
+            })(jQuery);
+        </script>
+        }

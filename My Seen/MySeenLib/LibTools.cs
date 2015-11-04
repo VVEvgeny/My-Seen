@@ -304,6 +304,11 @@ namespace MySeenLib
         }
         public class LanguagesBase : ListStringBase
         {
+            public static class Indexes
+            {
+                public static int English = 0;
+                public static int Russian = 1;
+            }
             public override void Load()
             {
                 if (All == null)
