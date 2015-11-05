@@ -3,7 +3,7 @@
 
 @model HomeViewModel
 
-@Scripts.Render("~/bundles/jquery", "~/bundles/bootstrap", "~/bundles/floatingHeaderTable")
+@Scripts.Render("~/bundles/jquery", "~/bundles/bootstrap")
 
 @{
     ViewBag.Title = Resource.AppName;
@@ -38,11 +38,11 @@
         {
             <thead>
                 <tr>
-                    <th width="10%"></th>
-                    <th width="60%">@Resource.Name</th>
-                    <th width="20%">@Resource.Date</th>
-                    <th width="10%">@Resource.Genre</th>
-                    <th width="10%">@Resource.Rating</th>
+                    <th class="col-sm-1"></th>
+                    <th class="col-sm-7">@Resource.Name</th>
+                    <th class="col-sm-2">@Resource.Date</th>
+                    <th class="col-sm-1">@Resource.Genre</th>
+                    <th class="col-sm-1">@Resource.Rating</th>
                 </tr>
             </thead>
             <tbody>
@@ -50,7 +50,7 @@
                 {
                     <tr>
                         <td class="align-center">
-                            <button type="button" class="btn btn-info btn-edit" id=@film.Id>
+                            <button type="button" class="btn btn-info btn-edit btn-xs" id=@film.Id>
                                 <span class="glyphicon glyphicon-pencil"></span>
                                 &nbsp;@Resource.Edit
                             </button>
@@ -67,13 +67,13 @@
         {
             <thead>
                 <tr>
-                    <th width="10%"></th>
-                    <th width="40%">@Resource.Name</th>
-                    <th width="10%">@Resource.LastEpisode</th>
-                    <th width="20%">@Resource.DateLast</th>
-                    <th width="20%">@Resource.DateBegin</th>
-                    <th width="10%">@Resource.Genre</th>
-                    <th width="10%">@Resource.Rating</th>
+                    <th class="col-sm-1"></th>
+                    <th class="col-sm-4">@Resource.Name</th>
+                    <th class="col-sm-1">@Resource.LastEpisode</th>
+                    <th class="col-sm-2">@Resource.DateLast</th>
+                    <th class="col-sm-2">@Resource.DateBegin</th>
+                    <th class="col-sm-1">@Resource.Genre</th>
+                    <th class="col-sm-1">@Resource.Rating</th>
                 </tr>
             </thead>
             <tbody>
@@ -81,7 +81,7 @@
                 {
                     <tr>
                         <td class="align-center">
-                            <button type="button" class="btn btn-info btn-edit" id=@serial.Id>
+                            <button type="button" class="btn btn-info btn-edit btn-xs" id=@serial.Id>
                                 <span class="glyphicon glyphicon-pencil"></span>
                                 &nbsp;@Resource.Edit
                             </button>
@@ -220,12 +220,11 @@
                             }
                             else {
                                 window.location.href = '/';
+                                $modal.modal('hide');
                             }
-                            $modal.modal('hide');
                         },
                         error: function (err) {
                             alert(err);
-                            $modal.modal('hide');
                         }
                     });
 

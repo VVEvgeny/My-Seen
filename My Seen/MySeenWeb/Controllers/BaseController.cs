@@ -23,6 +23,8 @@ namespace MySeenWeb.Controllers
                 }
                 catch
                 {
+                    LogSave.Save(User.Identity.IsAuthenticated ? User.Identity.GetUserId() : "", Request.UserHostAddress, Request.UserAgent, "catch SetCulture");
+                    /*
                     //когда пересоздаю БД 
                     HttpCookie cc = ControllerContext.HttpContext.Request.Cookies[".AspNet.ApplicationCookie"];
                     if (cc != null)
@@ -30,7 +32,7 @@ namespace MySeenWeb.Controllers
                         cc.Value = string.Empty;
                         cc.Expires = DateTime.Now.AddMilliseconds(-1);
                         ControllerContext.HttpContext.Response.Cookies.Add(cc);
-                    }
+                    }*/
                 }
             }
             else
