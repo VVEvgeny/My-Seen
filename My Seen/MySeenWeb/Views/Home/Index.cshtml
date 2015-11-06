@@ -434,6 +434,7 @@
 
                 var $thead = $table.find('thead');
                 var $ths = $thead.find('tr th');
+
                 var offsetTop = $thead.offset().top;
                 var thWidths = [];
 
@@ -443,6 +444,7 @@
                     thWidths.push($th.width());
                 });
 
+                $(window).off('scroll');
                 $(window).on('scroll', function () {
                     var scrollTop = $(window).scrollTop() + 50;
 
@@ -450,16 +452,19 @@
                         $thead.css({ 'position': 'fixed', 'top': '50px' });
 
                         var $firstTr = $table.find('tbody tr:first');
+                        var $tds = $firstTr.find('td');
 
                         $ths.each(function (index, element) {
                             var $th = $(element);
 
                             $th.width(thWidths[index]);
-                            $firstTr.find('td').eq(index).width(thWidths[index]);
+                            $tds.eq(index).width(thWidths[index]);                            
                         });
                     } else {
                         $thead.css({ 'position': 'relative', 'top': 'auto' });
                     }
+
+                    return false;
                 });
             });
         })(jQuery);
