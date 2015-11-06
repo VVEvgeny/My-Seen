@@ -9,17 +9,18 @@
     ViewBag.Title = Resource.Logs;
 }
 <br />
+
 <table class="table table-striped" id="table">
     <thead>
         <tr>
-            <th width="10%">User Name</th>
-            <th width="20%">UserAgent</th>
-            <th width="5%">IPAdress</th>
-            <th width="10%">Date First</th>
-            <th width="10%">Date Last</th>
-            <th width="5%">Count</th>
-            <th width="10%">Page Name</th>
-            <th width="30%">Add data</th>
+            <th class="col-sm-1">@Resource.UserName</th>
+            <th class="col-sm-2">@Resource.UserAgent</th>
+            <th class="col-sm-1">@Resource.IPAdress</th>
+            <th class="col-sm-1">@Resource.FirstCall</th>
+            <th class="col-sm-1">@Resource.DateLast</th>
+            <th class="col-sm-1">@Resource.Amount</th>
+            <th class="col-sm-1">@Resource.PageName</th>
+            <th class="col-sm-4">@Resource.AddData</th>
         </tr>
     </thead>
     <tbody>
@@ -60,39 +61,44 @@
         }
     </tbody>
 </table>
-<script language="javascript" type="text/javascript">
-    (function ($) {
-        $(function () {
-            var $table = $('.table.table-striped');
-            var $thead = $table.find('thead');
-            var $ths = $thead.find('tr th');
-            var offsetTop = $thead.offset().top;
-            var thWidths = [];
 
-            $ths.each(function (index, element) {
-                var $th = $(element);
+<div class="text-center">
+    @Html.Partial("_Pagination", Model.Pages)
+</div>
 
-                thWidths.push($th.width());
+    <script language="javascript" type="text/javascript">
+        (function ($) {
+            $(function () {
+                var $table = $('.table.table-striped');
+                var $thead = $table.find('thead');
+                var $ths = $thead.find('tr th');
+                var offsetTop = $thead.offset().top;
+                var thWidths = [];
+
+                $ths.each(function (index, element) {
+                    var $th = $(element);
+
+                    thWidths.push($th.width());
+                });
+
+                $(window).on('scroll', function () {
+                    var scrollTop = $(window).scrollTop() + 50;
+
+                    if (scrollTop >= offsetTop) {
+                        $thead.css({ 'position': 'fixed', 'top': '50px' });
+
+                        var $firstTr = $table.find('tbody tr:first');
+
+                        $ths.each(function (index, element) {
+                            var $th = $(element);
+
+                            $th.width(thWidths[index]);
+                            $firstTr.find('td').eq(index).width(thWidths[index]);
+                        });
+                    } else {
+                        $thead.css({ 'position': 'relative', 'top': 'auto' });
+                    }
+                });
             });
-
-            $(window).on('scroll', function () {
-                var scrollTop = $(window).scrollTop() + 50;
-
-                if (scrollTop >= offsetTop) {
-                    $thead.css({ 'position': 'fixed', 'top': '50px' });
-
-                    var $firstTr = $table.find('tbody tr:first');
-
-                    $ths.each(function (index, element) {
-                        var $th = $(element);
-
-                        $th.width(thWidths[index]);
-                        $firstTr.find('td').eq(index).width(thWidths[index]);
-                    });
-                } else {
-                    $thead.css({ 'position': 'relative', 'top': 'auto' });
-                }
-            });
-        });
-    })(jQuery);
-</script>
+        })(jQuery);
+    </script>

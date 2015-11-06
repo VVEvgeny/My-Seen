@@ -41,7 +41,6 @@ namespace MySeenWeb.Controllers
             }
             return View();
         }
-
         [HttpPost]
         public JsonResult ChangeCookies(string selected)
         {
@@ -68,6 +67,7 @@ namespace MySeenWeb.Controllers
             ControllerContext.HttpContext.Response.Cookies.Add(cc);
             return Json(new { success = true });
         }
+        [Authorize]
         [HttpPost]
         public JsonResult AddFilm(string name, string genre, string rating)
         {
@@ -105,6 +105,7 @@ namespace MySeenWeb.Controllers
             }
             return Json(new { success = true });
         }
+        [Authorize]
         [HttpPost]
         public JsonResult EditFilm(string id,string name, string genre, string rating)
         {
@@ -143,6 +144,7 @@ namespace MySeenWeb.Controllers
             }
             return Json(new { success = true });
         }
+        [Authorize]
         [HttpPost]
         public JsonResult AddSerial(string name, string season, string series, string genre, string rating)
         {
@@ -182,6 +184,7 @@ namespace MySeenWeb.Controllers
             }
             return Json(new { success = true });
         }
+        [Authorize]
         [HttpPost]
         public JsonResult EditSerial(string id, string name, string season, string series, string genre, string rating)
         {
@@ -226,6 +229,7 @@ namespace MySeenWeb.Controllers
             }
             return Json(new { success = true });
         }
+        [Authorize]
         [HttpPost]
         public JsonResult DeleteFilm(string id)
         {
@@ -254,6 +258,7 @@ namespace MySeenWeb.Controllers
             }
             return Json(new { success = true });
         }
+        [Authorize]
         [HttpPost]
         public JsonResult DeleteSerial(string id)
         {
@@ -282,6 +287,7 @@ namespace MySeenWeb.Controllers
             }
             return Json(new { success = true });
         }
+        [Authorize]
         public ActionResult Users()
         {
             LogSave.Save(User.Identity.IsAuthenticated ? User.Identity.GetUserId() : "", Request.UserHostAddress, Request.UserAgent, "Home/Users");
@@ -292,7 +298,7 @@ namespace MySeenWeb.Controllers
             }
             return RedirectToAction("Index");
         }
-        public ActionResult Bugs()
+        public ActionResult Bugs(int? page)
         {
             LogSave.Save(User.Identity.IsAuthenticated ? User.Identity.GetUserId() : "", Request.UserHostAddress, Request.UserAgent, "Home/Bugs");
             BugsViewModel model = new BugsViewModel();
@@ -321,9 +327,10 @@ namespace MySeenWeb.Controllers
                     ControllerContext.HttpContext.Response.Cookies.Add(cookie);
                 }
             }
-            model.Load(complex_cookie);
+            model.Load(complex_cookie, page == null ? 1 : page.Value, 10);
             return View(model);
         }
+        [Authorize]
         [HttpPost]
         public JsonResult AddBug(string desc, string complex)
         {
@@ -376,6 +383,7 @@ namespace MySeenWeb.Controllers
             }
             return Json(new { success = true });
         }
+        [Authorize]
         [HttpPost]
         public JsonResult EndBug(string id,string desc)
         {
@@ -423,6 +431,7 @@ namespace MySeenWeb.Controllers
             }
             return Json(new { success = true });
         }
+        [Authorize]
         [HttpPost]
         public JsonResult DeleteBug(string id)
         {
@@ -461,13 +470,16 @@ namespace MySeenWeb.Controllers
             }
             return Json(new { success = true });
         }
-        public ActionResult Logs()
+
+        [Authorize]
+        public ActionResult Logs(int? page)
         {
+            int _page = page == null ? 1 : page.Value;
             LogSave.Save(User.Identity.IsAuthenticated ? User.Identity.GetUserId() : "", Request.UserHostAddress, Request.UserAgent, "Home/Logs");
             if (User.Identity.IsAuthenticated && Admin.isAdmin(User.Identity.GetUserName()))
             {
                 LogsViewModel model = new LogsViewModel();
-                model.Load();
+                model.Load(_page, 5);
                 return View(model);
             }
             return RedirectToAction("Index");

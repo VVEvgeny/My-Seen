@@ -459,4 +459,25 @@
   <data name="OurAndroidApp" xml:space="preserve">
     <value>Phone App</value>
   </data>
+  <data name="TimeFormat" xml:space="preserve">
+    <value>Time Format</value>
+  </data>
+  <data name="AddData" xml:space="preserve">
+    <value>Add. Data</value>
+  </data>
+  <data name="Amount" xml:space="preserve">
+    <value>Amount</value>
+  </data>
+  <data name="FirstCall" xml:space="preserve">
+    <value>First Call</value>
+  </data>
+  <data name="IPAdress" xml:space="preserve">
+    <value>IP Adress</value>
+  </data>
+  <data name="PageName" xml:space="preserve">
+    <value>Page Name</value>
+  </data>
+  <data name="UserAgent" xml:space="preserve">
+    <value>User Agent</value>
+  </data>
 </root>

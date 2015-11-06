@@ -79,6 +79,15 @@ namespace MySeenLib {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Add. Data.
+        /// </summary>
+        public static string AddData {
+            get {
+                return ResourceManager.GetString("AddData", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Add New.
         /// </summary>
         public static string AddNew {
@@ -93,6 +102,15 @@ namespace MySeenLib {
         public static string All {
             get {
                 return ResourceManager.GetString("All", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Amount.
+        /// </summary>
+        public static string Amount {
+            get {
+                return ResourceManager.GetString("Amount", resourceCulture);
             }
         }
         
@@ -538,6 +556,15 @@ namespace MySeenLib {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to First Call.
+        /// </summary>
+        public static string FirstCall {
+            get {
+                return ResourceManager.GetString("FirstCall", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Found.
         /// </summary>
         public static string Found {
@@ -637,6 +664,15 @@ namespace MySeenLib {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to IP Adress.
+        /// </summary>
+        public static string IPAdress {
+            get {
+                return ResourceManager.GetString("IPAdress", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Last Ep.
         /// </summary>
         public static string LastEpisode {
@@ -732,6 +768,15 @@ namespace MySeenLib {
         public static string OurAndroidApp {
             get {
                 return ResourceManager.GetString("OurAndroidApp", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Page Name.
+        /// </summary>
+        public static string PageName {
+            get {
+                return ResourceManager.GetString("PageName", resourceCulture);
             }
         }
         
@@ -988,6 +1033,15 @@ namespace MySeenLib {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Time Format.
+        /// </summary>
+        public static string TimeFormat {
+            get {
+                return ResourceManager.GetString("TimeFormat", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Use a local account to log in..
         /// </summary>
         public static string TxtForLogin1 {
@@ -1011,6 +1065,15 @@ namespace MySeenLib {
         public static string UseAnotherServiceToLogIn {
             get {
                 return ResourceManager.GetString("UseAnotherServiceToLogIn", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to User Agent.
+        /// </summary>
+        public static string UserAgent {
+            get {
+                return ResourceManager.GetString("UserAgent", resourceCulture);
             }
         }
         

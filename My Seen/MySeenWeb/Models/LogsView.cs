@@ -37,7 +37,10 @@ namespace MySeenWeb.Models
                 if(!string.IsNullOrEmpty(UserId))
                 {
                     ApplicationDbContext ac = new ApplicationDbContext();
-                    return ac.Users.Where(u => u.Id == UserId).Select(u => u.UserName).FirstOrDefault();
+                    string user = ac.Users.Where(u => u.Id == UserId).Select(u => u.UserName).FirstOrDefault();
+                    if (string.IsNullOrEmpty(user)) return string.Empty;
+                    if (user.Contains('@')) user = user.Remove(user.IndexOf('@'));
+                    return user;
                 }
                 return string.Empty;
             }

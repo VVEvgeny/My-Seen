@@ -459,4 +459,25 @@
   <data name="OurAndroidApp" xml:space="preserve">
     <value>Для телефона</value>
   </data>
+  <data name="TimeFormat" xml:space="preserve">
+    <value>Формат времени</value>
+  </data>
+  <data name="AddData" xml:space="preserve">
+    <value>Доп. данные</value>
+  </data>
+  <data name="Amount" xml:space="preserve">
+    <value>Количество</value>
+  </data>
+  <data name="FirstCall" xml:space="preserve">
+    <value>Первый вызов</value>
+  </data>
+  <data name="IPAdress" xml:space="preserve">
+    <value>Айпишник</value>
+  </data>
+  <data name="PageName" xml:space="preserve">
+    <value>Страница</value>
+  </data>
+  <data name="UserAgent" xml:space="preserve">
+    <value>Браузер</value>
+  </data>
 </root>

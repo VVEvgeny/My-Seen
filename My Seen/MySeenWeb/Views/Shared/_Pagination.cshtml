@@ -1,0 +1,42 @@
+﻿@using MySeenWeb.Models;
+@using MySeenLib;
+
+@model PaginationViewModel
+@if (!(Model.isFirstPage && Model.isLastPage))
+    {
+    <ul class="pagination">
+        @{int last = 0;}
+        @if (Model.isFirstPage)
+        {
+            <li class="disabled"><a href="#">←</a></li>
+        }
+        else
+        {
+            <li>@Html.ActionLink("←", Model.Page, Model.Controller, routeValues: new { page = (Model.CurentPage - 1) }, htmlAttributes: new { id = "usersLink" })</li>
+        }
+        @foreach (int i in Model.List)
+        {
+            if ((last + 1) != i)
+            {
+                <li class="disabled"><a href="#">...</a></li>
+            }
+            if (i == Model.CurentPage)
+            {
+                <li class="active">@Html.ActionLink(i.ToString(), Model.Page, Model.Controller, routeValues: new { page = i }, htmlAttributes: new { id = "usersLink" })</li>
+            }
+            else
+            {
+                <li>@Html.ActionLink(i.ToString(), Model.Page, Model.Controller, routeValues: new { page = i }, htmlAttributes: new { id = "usersLink" })</li>
+            }
+            last = i;
+        }
+        @if (Model.isLastPage)
+        {
+            <li class="disabled"><a href="#">→</a></li>
+        }
+        else
+        {
+            <li>@Html.ActionLink("→", Model.Page, Model.Controller, routeValues: new { page = (Model.CurentPage + 1) }, htmlAttributes: new { id = "usersLink" })</li>
+        }
+    </ul>
+}

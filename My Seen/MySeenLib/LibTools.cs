@@ -85,8 +85,21 @@ namespace MySeenLib
         {
             if (GetCulture() != cult)
             {
-                //Thread.CurrentThread.CurrentCulture = new CultureInfo(cult);
-                Thread.CurrentThread.CurrentUICulture = new CultureInfo(cult);
+                CultureInfo culture = new CultureInfo(cult);
+
+                DateTimeFormatInfo datetimeformat = culture.DateTimeFormat;
+                if (cult == Cultures.English)
+                {
+                    datetimeformat.LongTimePattern = "h:mm:ss tt"; //12
+                }
+                else
+                {
+                    datetimeformat.LongTimePattern = "HH:mm:ss"; //24
+                }
+                culture.DateTimeFormat = datetimeformat;
+
+                Thread.CurrentThread.CurrentCulture = culture;
+                Thread.CurrentThread.CurrentUICulture = culture;
                 return true;
             }
             return false;

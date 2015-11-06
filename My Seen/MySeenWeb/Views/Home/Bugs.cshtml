@@ -20,12 +20,12 @@
 <table class="table table-striped" id="table">
     <thead>
         <tr>
-            <th width="10%">@Resource.Found</th>
-            <th width="15%">@Resource.DateFound</th>
-            <th width="10%">@Resource.Complex</th>
-            <th width="30%">@Resource.Description</th>
-            <th width="15%">@Resource.DateEnd</th>
-            <th width="20%">@Resource.Description</th>
+            <th class="col-sm-1">@Resource.Found</th>
+            <th class="col-sm-1">@Resource.DateFound</th>
+            <th class="col-sm-1">@Resource.Complex</th>
+            <th class="col-sm-4">@Resource.Description</th>
+            <th class="col-sm-1">@Resource.DateEnd</th>
+            <th class="col-sm-4">@Resource.Description</th>
         </tr>
     </thead>
     <tbody>
@@ -36,7 +36,7 @@
                 <td class="align-center">@bug.DateFound</td>
                 <td class="align-center">@bug.ComplexText</td>
                 <td class="align-center">@bug.Text</td>
-                <td class="align-center">@bug.DateEnd</td>
+                <td class="align-center">@bug.DateEndText</td>
                 <td class="align-center">
                     @if (string.IsNullOrEmpty(bug.TextEnd))
                     {
@@ -50,7 +50,11 @@
             </tr>
         }
     </tbody>
-    </table>
+</table>
+
+<div class="text-center">
+    @Html.Partial("_Pagination", Model.Pages)
+</div>
 
 <div class="modal fade modal-window" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" id="modalAdd">
     <div class="modal-dialog">

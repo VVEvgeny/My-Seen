@@ -18,7 +18,7 @@ namespace MySeenWeb.Models
             public static string CoockieSelectedValueFilms = Defaults.Categories.GetById(Defaults.CategoryBase.FilmIndex);
             public static string CoockieSelectedValueSerials = Defaults.Categories.GetById(Defaults.CategoryBase.SerialIndex);
         }
-       
+        public PaginationViewModel Pages { get; set; }
         public string Selected;
         public bool IsSelectedFilm
         {
