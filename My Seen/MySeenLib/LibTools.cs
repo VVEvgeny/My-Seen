@@ -354,15 +354,16 @@ namespace MySeenLib
         }
         public class ComplexBase : ListStringBase
         {
+            public static int IndexAll = 0;
             public override void Load()
             {
                 if (All == null)
                 {
                     All = new List<string>();
+                    All.Add(Resource.All);
                     All.Add(Resource.WEB);
                     All.Add(Resource.Android);
                     All.Add(Resource.PC);
-                    All.Add(Resource.All);
                 }
             }
         }

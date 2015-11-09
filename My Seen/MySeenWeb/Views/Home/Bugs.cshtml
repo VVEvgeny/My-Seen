@@ -20,9 +20,9 @@
 <table class="table table-striped" id="table">
     <thead>
         <tr>
+            <th class="col-sm-1">@Resource.Complex</th>
             <th class="col-sm-1">@Resource.Found</th>
             <th class="col-sm-1">@Resource.DateFound</th>
-            <th class="col-sm-1">@Resource.Complex</th>
             <th class="col-sm-3">@Resource.Description</th>
             <th class="col-sm-1">@Resource.DateEnd</th>
             <th class="col-sm-1">@Resource.Version</th>
@@ -33,9 +33,9 @@
         @foreach (BugsView bug in Model.Bugs)
         {
             <tr>
-                <td class="align-center">@bug.UserName</td>
-                <td class="align-center">@bug.DateFound</td>
                 <td class="align-center">@bug.ComplexText</td>
+                <td class="align-center">@bug.UserName</td>
+                <td class="align-center">@bug.DateFoundText</td>
                 <td class="align-center">@bug.Text</td>
                 <td class="align-center">@bug.DateEndText</td>
                 <td class="align-center">@bug.VersionText</td>

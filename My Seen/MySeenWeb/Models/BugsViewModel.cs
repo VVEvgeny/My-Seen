@@ -25,7 +25,7 @@ namespace MySeenWeb.Models
         public void Load(int complex, int page, int countInPage)
         {
             ApplicationDbContext ac = new ApplicationDbContext();
-            if (complex == (Defaults.Complexes.GetMaxId()))
+            if (complex == Defaults.ComplexBase.IndexAll)
             {
                 Bugs = ac.Bugs.Select(BugsView.Map).OrderByDescending(b => b.DateEnd == null).ThenByDescending(b => b.DateEnd).ThenByDescending(b => b.DateFound).Skip((page - 1) * countInPage).Take(countInPage);
                 Pages = new PaginationViewModel(page, ac.Bugs.Count(), countInPage, "Home", "Bugs");

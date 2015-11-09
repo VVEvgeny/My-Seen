@@ -60,6 +60,13 @@ namespace MySeenWeb.Models
                 return string.Empty;
             }
         }
+        public string DateFoundText
+        {
+            get
+            {
+                return DateFound.ToShortDateString();
+            }
+        }
         public string VersionText
         {
             get

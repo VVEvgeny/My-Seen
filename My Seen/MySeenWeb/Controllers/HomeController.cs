@@ -304,7 +304,7 @@ namespace MySeenWeb.Controllers
             LogSave.Save(User.Identity.IsAuthenticated ? User.Identity.GetUserId() : "", Request.UserHostAddress, Request.UserAgent, "Home/Bugs");
             BugsViewModel model = new BugsViewModel();
             HttpCookie cookie = ControllerContext.HttpContext.Request.Cookies[BugsViewModel.AFCookies.CoockieSelectedKey];
-            int complex_cookie = Defaults.Complexes.GetMaxId();
+            int complex_cookie = Defaults.ComplexBase.IndexAll;
             if (cookie == null)
             {
                 cookie = new HttpCookie(BugsViewModel.AFCookies.CoockieSelectedKey);
@@ -321,7 +321,7 @@ namespace MySeenWeb.Controllers
                 }
                 catch
                 {
-                    complex_cookie = Defaults.Complexes.GetMaxId();
+                    complex_cookie = Defaults.ComplexBase.IndexAll;
                     ControllerContext.HttpContext.Response.Cookies.Remove(BugsViewModel.AFCookies.CoockieSelectedKey);
                     cookie.Value = complex_cookie.ToString();
                     cookie.Expires = DateTime.Now.AddDays(1);
