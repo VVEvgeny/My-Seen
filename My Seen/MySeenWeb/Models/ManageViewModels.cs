@@ -14,8 +14,10 @@ namespace MySeenWeb.Models
         public bool TwoFactor { get; set; }
         public bool BrowserRemembered { get; set; }
 
-        public int Lang;
+        public int Lang { get; set; }
         public IEnumerable<System.Web.Mvc.SelectListItem> LangList { get; set; }
+        public int RPP { get; set; }
+        public IEnumerable<System.Web.Mvc.SelectListItem> RPPList { get; set; }
 
         public bool havedata { get; set; }
 
@@ -27,6 +29,13 @@ namespace MySeenWeb.Models
                 listItems.Add(new System.Web.Mvc.SelectListItem { Text = sel, Value = Defaults.Languages.GetId(sel).ToString(), Selected = (Defaults.Languages.GetId(sel) == Lang) });
             }
             LangList = listItems;
+
+            listItems = new List<System.Web.Mvc.SelectListItem>();
+            foreach(string sel in Defaults.RecordPerPage.GetAll())
+            {
+                listItems.Add(new System.Web.Mvc.SelectListItem { Text = sel, Value = Defaults.RecordPerPage.GetId(sel).ToString(), Selected = (Defaults.RecordPerPage.GetId(sel) == RPP) });
+            }
+            RPPList = listItems;
         }
     }
 

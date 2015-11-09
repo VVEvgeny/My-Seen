@@ -10,6 +10,14 @@ using Newtonsoft.Json;
 
 namespace MySeenLib
 {
+    public static class Versions
+    {
+        public static int LibALL = 2;
+        public static int WEB = 2;
+        public static int Android = 1;
+        public static int AndroidLib = 1;
+        public static int PK = 1;
+    }
     public static class Admin
     {
         public static bool isAdmin(string userName)
@@ -358,13 +366,30 @@ namespace MySeenLib
                 }
             }
         }
-
+        public class RecordPerPageBase : ListStringBase
+        {
+            public static int IndexAll = 0;
+            public static int ValAll = int.MaxValue;
+            public override void Load()
+            {
+                if (All == null)
+                {
+                    All = new List<string>();
+                    All.Add(Resource.All);
+                    All.Add("20");
+                    All.Add("50");
+                    All.Add("100");
+                    All.Add("500");
+                }
+            }
+        }
 
         public static GenresBase Genres = new GenresBase();
         public static RatingsBase Ratings = new RatingsBase();
         public static CategoryBase Categories = new CategoryBase();
         public static LanguagesBase Languages = new LanguagesBase();
         public static ComplexBase Complexes = new ComplexBase();
+        public static RecordPerPageBase RecordPerPage = new RecordPerPageBase();
 
         public static void ReloadResources()
         {
@@ -373,6 +398,7 @@ namespace MySeenLib
             Categories.Reload();
             Languages.Reload();
             Complexes.Reload();
+            RecordPerPage.Reload();
         }
     }
     public static class Validations

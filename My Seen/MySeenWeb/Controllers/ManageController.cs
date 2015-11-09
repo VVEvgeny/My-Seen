@@ -78,7 +78,9 @@ namespace MySeenWeb.Controllers
             if (User.Identity.IsAuthenticated)
             {
                 ApplicationDbContext ac = new ApplicationDbContext();
-                model.Lang = Defaults.Languages.GetIdDB(ac.Users.Where(u => u.Id == userId).First().Culture);
+                ApplicationUser user = ac.Users.Where(u => u.Id == userId).First();
+                model.Lang = Defaults.Languages.GetIdDB(user.Culture);
+                model.RPP = user.RecordPerPage;
                 model.LoadSelectList();
 
                 model.havedata = (ac.Films.Where(f => f.UserId == userId).Count() != 0 || ac.Serials.Where(f => f.UserId == userId).Count() != 0);
@@ -120,6 +122,17 @@ namespace MySeenWeb.Controllers
             ac.SaveChanges();
             CultureInfoTool.SetCulture(Defaults.Languages.GetValDB(Convert.ToInt32(selected)));
             Defaults.ReloadResources();
+            return Json(new { success = true });
+        }
+        [HttpPost]
+        public JsonResult ChangeRPP(string selected)
+        {
+            LogSave.Save(User.Identity.IsAuthenticated ? User.Identity.GetUserId() : "", Request.UserHostAddress, Request.UserAgent, "Manage/ChangeRPP", selected);
+            ApplicationDbContext ac = new ApplicationDbContext();
+            var userId = User.Identity.GetUserId();
+            ac.Users.Where(u => u.Id == userId).First().RecordPerPage = Convert.ToInt32(selected);
+            ac.SaveChanges();
+            RPP = Convert.ToInt32(selected);
             return Json(new { success = true });
         }
         private void DeleteUserData()

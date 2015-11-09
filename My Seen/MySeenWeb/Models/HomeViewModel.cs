@@ -63,15 +63,17 @@ namespace MySeenWeb.Models
             }
             genreList = listItemsGenre;
         }
-        public void LoadFilms(string userId)
+        public void LoadFilms(string userId, int page, int countInPage)
         {
             ApplicationDbContext ac= new ApplicationDbContext();
-            Films = ac.Films.Where(f => f.UserId == userId && f.isDeleted != true).OrderByDescending(f => f.DateSee).Select(FilmsView.Map);
+            Pages = new PaginationViewModel(page, ac.Films.Where(f => f.UserId == userId && f.isDeleted != true).Count(), countInPage, "Home", "");
+            Films = ac.Films.Where(f => f.UserId == userId && f.isDeleted != true).OrderByDescending(f => f.DateSee).Select(FilmsView.Map).Skip((page - 1) * countInPage).Take(countInPage);
         }
-        public void LoadSerials(string userId)
+        public void LoadSerials(string userId, int page, int countInPage)
         {
             ApplicationDbContext ac = new ApplicationDbContext();
-            Serials = ac.Serials.Where(f => f.UserId == userId && f.isDeleted != true).OrderByDescending(f => f.DateLast).Select(SerialsView.Map);
+            Pages = new PaginationViewModel(page, ac.Serials.Where(f => f.UserId == userId && f.isDeleted != true).Count(), countInPage, "Home", "");
+            Serials = ac.Serials.Where(f => f.UserId == userId && f.isDeleted != true).OrderByDescending(f => f.DateLast).Select(SerialsView.Map).Skip((page - 1) * countInPage).Take(countInPage);
         }
     }
 }

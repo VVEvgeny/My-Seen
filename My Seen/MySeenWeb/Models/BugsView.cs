@@ -23,7 +23,8 @@ namespace MySeenWeb.Models
                 Text = model.Text,
                 TextEnd = model.TextEnd,
                 UserId = model.UserId,
-                Complex = model.Complex
+                Complex = model.Complex,
+                Version = model.Version
             };
         }
         public string ComplexText
@@ -56,6 +57,14 @@ namespace MySeenWeb.Models
                 {
                     return DateEnd.Value.ToShortDateString();
                 }
+                return string.Empty;
+            }
+        }
+        public string VersionText
+        {
+            get
+            {
+                if (Version != 0) return Version.ToString();
                 return string.Empty;
             }
         }

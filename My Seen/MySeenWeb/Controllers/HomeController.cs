@@ -12,7 +12,7 @@ namespace MySeenWeb.Controllers
     //[RequireHttps]
     public class HomeController : BaseController
     {
-        public ActionResult Index()
+        public ActionResult Index(int? page)
         {
             LogSave.Save(User.Identity.IsAuthenticated?User.Identity.GetUserId():"", Request.UserHostAddress, Request.UserAgent, "Home/Index");
             if (User.Identity.IsAuthenticated)
@@ -34,8 +34,8 @@ namespace MySeenWeb.Controllers
                     else af.Selected = Defaults.Categories.GetById(Defaults.CategoryBase.FilmIndex);
                 }
                 af.LoadSelectList();
-                if (af.Selected == Defaults.Categories.GetById(Defaults.CategoryBase.FilmIndex)) af.LoadFilms(User.Identity.GetUserId());
-                else af.LoadSerials(User.Identity.GetUserId());
+                if (af.Selected == Defaults.Categories.GetById(Defaults.CategoryBase.FilmIndex)) af.LoadFilms(User.Identity.GetUserId(), page == null ? 1 : page.Value, RPP);
+                else af.LoadSerials(User.Identity.GetUserId(), page == null ? 1 : page.Value, RPP);
 
                 return View(af);
             }
@@ -288,12 +288,13 @@ namespace MySeenWeb.Controllers
             return Json(new { success = true });
         }
         [Authorize]
-        public ActionResult Users()
+        public ActionResult Users(int? page)
         {
             LogSave.Save(User.Identity.IsAuthenticated ? User.Identity.GetUserId() : "", Request.UserHostAddress, Request.UserAgent, "Home/Users");
             if (User.Identity.IsAuthenticated && Admin.isAdmin(User.Identity.Name))
             {
                 UsersViewModel model = new UsersViewModel();
+                model.Load(page == null ? 1 : page.Value, RPP);
                 return View(model);
             }
             return RedirectToAction("Index");
@@ -327,7 +328,7 @@ namespace MySeenWeb.Controllers
                     ControllerContext.HttpContext.Response.Cookies.Add(cookie);
                 }
             }
-            model.Load(complex_cookie, page == null ? 1 : page.Value, 10);
+            model.Load(complex_cookie, page == null ? 1 : page.Value, RPP);
             return View(model);
         }
         [Authorize]
@@ -385,13 +386,14 @@ namespace MySeenWeb.Controllers
         }
         [Authorize]
         [HttpPost]
-        public JsonResult EndBug(string id,string desc)
+        public JsonResult EndBug(string id,string desc,string version)
         {
-            LogSave.Save(User.Identity.IsAuthenticated ? User.Identity.GetUserId() : "", Request.UserHostAddress, Request.UserAgent, "Home/EndBug", id + " " + desc);
+            LogSave.Save(User.Identity.IsAuthenticated ? User.Identity.GetUserId() : "", Request.UserHostAddress, Request.UserAgent, "Home/EndBug", id + " " + desc + " " + version);
             string errorMessage = string.Empty;
             string user_id = User.Identity.GetUserId();
             ApplicationDbContext ac = new ApplicationDbContext();
             int _id = -1;
+            int _version = -1;
             if (string.IsNullOrEmpty(errorMessage))
             {
                 if(desc.Length==0)
@@ -415,9 +417,22 @@ namespace MySeenWeb.Controllers
             {
                 try
                 {
+                    _version = Convert.ToInt32(version);
+                    if (_version < 0) throw new Exception();
+                }
+                catch
+                {
+                    errorMessage = "Корявая Версия";
+                }
+            }
+            if (string.IsNullOrEmpty(errorMessage))
+            {
+                try
+                {
                     var bug = ac.Bugs.Where(b => b.Id == _id).First();
                     bug.TextEnd = desc;
                     bug.DateEnd = DateTime.Now;
+                    bug.Version = _version;
                     ac.SaveChanges();
                 }
                 catch (Exception e)
@@ -479,7 +494,7 @@ namespace MySeenWeb.Controllers
             if (User.Identity.IsAuthenticated && Admin.isAdmin(User.Identity.GetUserName()))
             {
                 LogsViewModel model = new LogsViewModel();
-                model.Load(_page, 5);
+                model.Load(_page, RPP);
                 return View(model);
             }
             return RedirectToAction("Index");

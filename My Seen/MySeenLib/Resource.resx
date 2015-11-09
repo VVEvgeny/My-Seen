@@ -480,4 +480,13 @@
   <data name="UserAgent" xml:space="preserve">
     <value>User Agent</value>
   </data>
+  <data name="LibraryVersion" xml:space="preserve">
+    <value>Library Version</value>
+  </data>
+  <data name="SiteVersion" xml:space="preserve">
+    <value>Site Version</value>
+  </data>
+  <data name="Version" xml:space="preserve">
+    <value>Version</value>
+  </data>
 </root>

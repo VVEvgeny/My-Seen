@@ -51,7 +51,25 @@ namespace MySeenWeb.Models
             if (!List.Contains(LastPage)) List.Add(LastPage);
             if (isLastPage && !List.Contains(LastPage - 1)) List.Add(LastPage - 1);
 
-            //if (List.Contains(0)) List.Remove(0);
+
+            //если пропуск между страницами всего 1 которую заменили бы на "..." лучше покажу страничку...
+            int i_prev=-5;
+            List<int> add_list=new List<int>();
+
+            List.Sort();
+            foreach (int i in List)
+            {
+                if ((i_prev + 2) == i)
+                {
+                    add_list.Add(i_prev + 1);
+                }
+                i_prev = i;
+            }
+
+            foreach(int i in add_list)
+            {
+                List.Add(i);
+            }
 
             List.Sort();
         }

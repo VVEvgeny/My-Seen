@@ -39,11 +39,13 @@ namespace MySeenWeb.Models
             };
         }
 
-        public UsersViewModel()
-        {
-            ApplicationDbContext ap = new ApplicationDbContext();
-            Users = ap.Users.Select(Map);
-        }
         public IEnumerable<UsersView> Users;
+        public PaginationViewModel Pages { get; set; }
+        public void Load(int page, int countInPage)
+        {
+            ApplicationDbContext ac = new ApplicationDbContext();
+            Pages = new PaginationViewModel(page, ac.Users.Count(), countInPage, "Home", "Users");
+            Users = ac.Users.Select(Map).OrderBy(l => l.RegiserDate).Skip((page - 1) * countInPage).Take(countInPage);
+        }
     }
 }

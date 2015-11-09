@@ -21,5 +21,6 @@ namespace MySeenWeb.Models
         public DateTime? DateEnd { get; set; }
         public string TextEnd { get; set; }
         public int Complex { get; set; }
+        public int Version { get; set; }
     }
 }

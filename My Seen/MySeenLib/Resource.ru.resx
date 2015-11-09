@@ -480,4 +480,13 @@
   <data name="UserAgent" xml:space="preserve">
     <value>Браузер</value>
   </data>
+  <data name="LibraryVersion" xml:space="preserve">
+    <value>Версия библиотеки</value>
+  </data>
+  <data name="SiteVersion" xml:space="preserve">
+    <value>Версия сайта</value>
+  </data>
+  <data name="Version" xml:space="preserve">
+    <value>Версия</value>
+  </data>
 </root>

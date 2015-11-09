@@ -682,6 +682,15 @@ namespace MySeenLib {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Library Version.
+        /// </summary>
+        public static string LibraryVersion {
+            get {
+                return ResourceManager.GetString("LibraryVersion", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Log in.
         /// </summary>
         public static string Login {
@@ -997,6 +1006,15 @@ namespace MySeenLib {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Site Version.
+        /// </summary>
+        public static string SiteVersion {
+            get {
+                return ResourceManager.GetString("SiteVersion", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Sync OK.
         /// </summary>
         public static string SyncOK {
@@ -1128,6 +1146,15 @@ namespace MySeenLib {
         public static string Users {
             get {
                 return ResourceManager.GetString("Users", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Version.
+        /// </summary>
+        public static string Version {
+            get {
+                return ResourceManager.GetString("Version", resourceCulture);
             }
         }
         
