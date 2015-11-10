@@ -28,13 +28,13 @@ namespace MySeenWeb.Models
             isMiddlePage = MiddlePage == CurentPage;
 
             //Хочу считать сам странички которые надо отобразить
-            List = new List<int>();
-            List.Add(1);
-            if (isFirstPage && totalRecords > 1 && !List.Contains(2)) List.Add(2);
+            List<int> ListI = new List<int>();
+            ListI.Add(1);
+            if (isFirstPage && totalRecords > 1 && !ListI.Contains(2)) ListI.Add(2);
 
-            if (!List.Contains(CurentPage)) List.Add(CurentPage);
-            if ((CurentPage - 1) > 0 && !List.Contains(CurentPage - 1)) List.Add(CurentPage - 1);
-            if ((CurentPage + 1) < LastPage && !List.Contains(CurentPage + 1)) List.Add(CurentPage + 1);
+            if (!ListI.Contains(CurentPage)) ListI.Add(CurentPage);
+            if ((CurentPage - 1) > 0 && !ListI.Contains(CurentPage - 1)) ListI.Add(CurentPage - 1);
+            if ((CurentPage + 1) < LastPage && !ListI.Contains(CurentPage + 1)) ListI.Add(CurentPage + 1);
 
             //Середину не показывать если пересекаемся
             if (!(CurentPage == MiddlePage || CurentPage == (MiddlePage - 1) || CurentPage == (MiddlePage + 1))
@@ -44,20 +44,20 @@ namespace MySeenWeb.Models
                 && !(CurentPage - 2 == MiddlePage + 1)
                 )
             {
-                if (!List.Contains(MiddlePage)) List.Add(MiddlePage);
-                if (!List.Contains(MiddlePage - 1)) List.Add(MiddlePage - 1);
-                if (!List.Contains(MiddlePage + 1)) List.Add(MiddlePage + 1);
+                if (!ListI.Contains(MiddlePage)) ListI.Add(MiddlePage);
+                if (!ListI.Contains(MiddlePage - 1)) ListI.Add(MiddlePage - 1);
+                if (!ListI.Contains(MiddlePage + 1)) ListI.Add(MiddlePage + 1);
             }
-            if (!List.Contains(LastPage)) List.Add(LastPage);
-            if (isLastPage && !List.Contains(LastPage - 1)) List.Add(LastPage - 1);
+            if (!ListI.Contains(LastPage)) ListI.Add(LastPage);
+            if (isLastPage && !ListI.Contains(LastPage - 1)) ListI.Add(LastPage - 1);
 
 
             //если пропуск между страницами всего 1 которую заменили бы на "..." лучше покажу страничку...
             int i_prev=-5;
             List<int> add_list=new List<int>();
 
-            List.Sort();
-            foreach (int i in List)
+            ListI.Sort();
+            foreach (int i in ListI)
             {
                 if ((i_prev + 2) == i)
                 {
@@ -68,10 +68,11 @@ namespace MySeenWeb.Models
 
             foreach(int i in add_list)
             {
-                List.Add(i);
+                ListI.Add(i);
             }
 
-            List.Sort();
+            ListI.Sort();
+            List = ListI.Distinct();
         }
         public bool isFirstPage { get; set; }
         public bool isMiddlePage { get; set; }
@@ -83,6 +84,6 @@ namespace MySeenWeb.Models
         public string Controller { get; set; }
         public string Page { get; set; }
 
-        public List<int> List { get; set; }
+        public IEnumerable<int> List { get; set; }
     }
 }

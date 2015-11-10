@@ -19,6 +19,7 @@ namespace My_Seen
         {
             this.Films = new HashSet<Films>();
             this.Serials = new HashSet<Serials>();
+            this.Books = new HashSet<Books>();
         }
     
         public int Id { get; set; }
@@ -31,5 +32,7 @@ namespace My_Seen
         public virtual ICollection<Films> Films { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Serials> Serials { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Books> Books { get; set; }
     }
 }

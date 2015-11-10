@@ -107,7 +107,7 @@ namespace My_Seen
             if (string.IsNullOrEmpty(errorProvider.GetError(textBox1)))
             {
                 ModelContainer mc = new ModelContainer();
-                if (mc.SerialsSet.Count(f => f.Name == textBox1.Text && f.UsersId == User.Id && (EditId != 0 ? f.Id != EditId : 1 == 1)) != 0)//айди проверяем только для редактируемых, чтобы не налететь по названию на чужой
+                if (mc.SerialsSet.Count(f => f.Name.ToLower() == textBox1.Text.ToLower() && f.UsersId == User.Id && (EditId != 0 ? f.Id != EditId : 1 == 1)) != 0)//айди проверяем только для редактируемых, чтобы не налететь по названию на чужой
                 {
                     errorProvider.SetError(textBox1, Resource.SerialNameAlreadyExists);
                 }

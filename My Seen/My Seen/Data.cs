@@ -20,7 +20,8 @@ namespace My_Seen
         private enum DBMode
         {
             Films,
-            Serials
+            Serials,
+            Books
         }
         private DBMode CurrentDB = DBMode.Films;
 
@@ -44,6 +45,7 @@ namespace My_Seen
             InitializeComponent();
             toolStripComboBox1.Items.Add(Resource.Films);
             toolStripComboBox1.Items.Add(Resource.Serials);
+            toolStripComboBox1.Items.Add(Resource.Books);
             NeedRestartAppAfterDeleteUserEvent = new MySeenEvent();
         }
 
@@ -115,7 +117,7 @@ namespace My_Seen
                 cl_date.Width = 120;
                 listView1.Columns.Add(cl_date);
             }
-            else
+            else if (CurrentDB == DBMode.Serials)
             {
                 ColumnHeader cl_name = new ColumnHeader();
                 cl_name.Text = Resource.Name;
@@ -142,10 +144,44 @@ namespace My_Seen
                 cl_date_begin.Width = 120;
                 listView1.Columns.Add(cl_date_begin);
             }
+            else //books
+            {
+                ColumnHeader cl_name = new ColumnHeader();
+                cl_name.Text = Resource.Name;
+                cl_name.Width = 350;
+                listView1.Columns.Add(cl_name);
+
+                ColumnHeader cl_author = new ColumnHeader();
+                cl_author.Text = Resource.Author;
+                cl_author.Width = 50;
+                listView1.Columns.Add(cl_author);
+
+                ColumnHeader cl_genre = new ColumnHeader();
+                cl_genre.Text = Resource.Genre;
+                cl_genre.Width = 50;
+                listView1.Columns.Add(cl_genre);
+
+                ColumnHeader cl_date = new ColumnHeader();
+                cl_date.Text = Resource.Date;
+                cl_date.Width = 120;
+                listView1.Columns.Add(cl_date);
+            }
             ColumnHeader cl_rate = new ColumnHeader();
             cl_rate.Text = Resource.Rating;
             cl_rate.Width = 35;
             listView1.Columns.Add(cl_rate);
+        }
+        private void LoadBooks()
+        {
+            LoadBooks(string.Empty);
+        }
+        private void LoadBooks(string filter)
+        {
+            ModelContainer mc = new ModelContainer();
+            foreach (Books film in mc.BooksSet.Where(f => f.UsersId == User.Id && f.isDeleted != true && (string.IsNullOrEmpty(filter) ? 1 == 1 : f.Name.Contains(filter))).OrderByDescending(t => t.DateRead))
+            {
+                LoadItemsToListView(film);
+            }
         }
         private void LoadSerials()
         {
@@ -178,10 +214,18 @@ namespace My_Seen
             {
                 LoadFilms();
             }
-            else
+            else if (CurrentDB == DBMode.Serials)
             {
                 LoadSerials();
             }
+            else
+            {
+                LoadBooks();
+            }
+        }
+        private void LoadItemsToListView(Books film)
+        {
+            LoadItemsToListView(film, false);
         }
         private void LoadItemsToListView(Serials film)
         {
@@ -191,18 +235,26 @@ namespace My_Seen
         {
             LoadItemsToListView(film, false);
         }
+        private void LoadItemsToListView(Books film, bool oneToTop)
+        {
+            ListViewItem lvi = new ListViewItem(new string[] { film.Id.ToString(), film.Name, film.Authors, Defaults.Genres.GetById(film.Genre), UMTTime.From(film.DateRead).ToString(), Defaults.Ratings.GetById(film.Rating)});
+            AddToList(lvi, oneToTop);
+        }
         private void LoadItemsToListView(Serials film, bool oneToTop)
         {
-            if (oneToTop) listView1.Items.Insert(0, new ListViewItem(new string[] { film.Id.ToString(), film.Name, film.LastSeason.ToString() + "-" + film.LastSeries.ToString(), Defaults.Genres.GetById(film.Genre), UMTTime.From(film.DateLast).ToString(), UMTTime.From(film.DateBegin).ToString(), Defaults.Ratings.GetById(film.Rating) }));
-            else listView1.Items.Add(new ListViewItem(new string[] { film.Id.ToString(), film.Name, film.LastSeason.ToString() + "-" + film.LastSeries.ToString(), Defaults.Genres.GetById(film.Genre), UMTTime.From(film.DateLast).ToString(), UMTTime.From(film.DateBegin).ToString(), Defaults.Ratings.GetById(film.Rating) }));
-
-            toolStripStatusLabel2.Text = listView1.Items.Count.ToString();
+            ListViewItem lvi = new ListViewItem(new string[] { film.Id.ToString(), film.Name, film.LastSeason.ToString() + "-" + film.LastSeries.ToString(), Defaults.Genres.GetById(film.Genre), UMTTime.From(film.DateLast).ToString(), UMTTime.From(film.DateBegin).ToString(), Defaults.Ratings.GetById(film.Rating) });
+            AddToList(lvi, oneToTop);
         }
         private void LoadItemsToListView(Films film, bool oneToTop)
         {
-            if (oneToTop) listView1.Items.Insert(0, new ListViewItem(new string[] { film.Id.ToString(), film.Name, Defaults.Genres.GetById(film.Genre), UMTTime.From(film.DateSee).ToString(), Defaults.Ratings.GetById(film.Rating) }));
-            else listView1.Items.Add(new ListViewItem(new string[] { film.Id.ToString(), film.Name, Defaults.Genres.GetById(film.Genre), UMTTime.From(film.DateSee).ToString(), Defaults.Ratings.GetById(film.Rating) }));
-            
+            ListViewItem lvi = new ListViewItem(new string[] { film.Id.ToString(), film.Name, Defaults.Genres.GetById(film.Genre), UMTTime.From(film.DateSee).ToString(), Defaults.Ratings.GetById(film.Rating) });
+            AddToList(lvi, oneToTop);
+        }
+        private void AddToList(ListViewItem lvi, bool oneToTop)
+        {
+            if (oneToTop) listView1.Items.Insert(0, lvi);
+            else listView1.Items.Add(lvi);
+
             toolStripStatusLabel2.Text = listView1.Items.Count.ToString();
         }
 
@@ -245,7 +297,7 @@ namespace My_Seen
                 }
                 form.Close();
             }
-            else
+            else if (CurrentDB == DBMode.Serials)
             {
                 Add_Serial form = new Add_Serial();
                 form.User = user;
@@ -282,6 +334,41 @@ namespace My_Seen
                 }
                 form.Close();
             }
+            else
+            {
+                Add_Book form = new Add_Book();
+                form.User = user;
+
+                form.EditData(lvi.SubItems[0].Text, lvi.SubItems[1].Text, lvi.SubItems[4].Text, lvi.SubItems[5].Text, lvi.SubItems[2].Text, lvi.SubItems[3].Text);
+                form.ShowDialog();
+                if (form.NewFilm != null)
+                {
+                    ModelContainer mc = new ModelContainer();
+                    int f_id = Convert.ToInt32(lvi.SubItems[0].Text);
+                    Books film = mc.BooksSet.First(f => f.Id == f_id);
+                    film.UsersId = User.Id;
+                    film.Name = form.NewFilm.Name;
+                    film.DateRead = UMTTime.To(form.NewFilm.DateRead);
+                    film.Authors = form.NewFilm.Authors;
+                    film.Rating = form.NewFilm.Rating;
+                    film.DateChange = UMTTime.To(form.NewFilm.DateChange);
+                    if (form.DelRecord)
+                    {
+                        film.isDeleted = true;
+                        listView1.Items.Remove(lvi);
+                    }
+                    else
+                    {
+                        lvi.SubItems[1].Text = form.NewFilm.Name;
+                        lvi.SubItems[2].Text = form.NewFilm.Authors;
+                        lvi.SubItems[3].Text = Defaults.Genres.GetById(form.NewFilm.Genre);
+                        lvi.SubItems[4].Text = form.NewFilm.DateRead.ToString();
+                        lvi.SubItems[5].Text = Defaults.Ratings.GetById(film.Rating);
+                    }
+                    mc.SaveChanges();
+                }
+                form.Close();
+            }
         }
         private void Add()
         {
@@ -301,7 +388,7 @@ namespace My_Seen
                 }
                 form.Close();
             }
-            else
+            else if (CurrentDB == DBMode.Serials)
             {
                 Add_Serial form = new Add_Serial();
                 form.User = user;
@@ -318,11 +405,27 @@ namespace My_Seen
                 }
                 form.Close();
             }
+            else
+            {
+                Add_Book form = new Add_Book();
+                form.User = user;
+                form.ShowDialog();
+                if (form.NewFilm != null)
+                {
+                    ModelContainer mc = new ModelContainer();
+                    form.NewFilm.DateChange = UMTTime.To(form.NewFilm.DateChange);
+                    form.NewFilm.DateRead = UMTTime.To(form.NewFilm.DateRead);
+                    mc.BooksSet.Add(form.NewFilm);
+                    mc.SaveChanges();
+                    LoadItemsToListView(form.NewFilm, true);
+                }
+                form.Close();
+            }
         }
 
         private void ChangeMenus()
         {
-            if (CurrentDB == DBMode.Films)
+            if (CurrentDB == DBMode.Films || CurrentDB==DBMode.Books)
             {
                 toolStripSeparator1.Visible = false;
                 AddSeasonToolStripMenuItem.Visible = false;
@@ -344,7 +447,8 @@ namespace My_Seen
         private void toolStripComboBox1_SelectedIndexChanged(object sender, EventArgs e)
         {
             if (toolStripComboBox1.Text == Resource.Films) CurrentDB = DBMode.Films;
-            else CurrentDB = DBMode.Serials;
+            else if(toolStripComboBox1.Text == Resource.Serials) CurrentDB = DBMode.Serials;
+            else CurrentDB = DBMode.Books;
 
             UpdateListViewColumns();
             LoadItemsToListView();
@@ -371,15 +475,18 @@ namespace My_Seen
         private void toolStripComboBox2_TextChanged(object sender, EventArgs e)
         {
             toolStripStatusLabel2.Text = "0";
+            listView1.Items.Clear();
             if (CurrentDB == DBMode.Films)
             {
-                listView1.Items.Clear();
                 LoadFilms(toolStripComboBox2.Text);
+            }
+            else if (CurrentDB == DBMode.Serials)
+            {
+                LoadSerials(toolStripComboBox2.Text);
             }
             else
             {
-                listView1.Items.Clear();
-                LoadSerials(toolStripComboBox2.Text);
+                LoadBooks(toolStripComboBox2.Text);
             }
         }
 

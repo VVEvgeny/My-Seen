@@ -299,6 +299,7 @@ namespace MySeenWeb.Controllers
             }
             return RedirectToAction("Index");
         }
+        [Authorize]
         public ActionResult Bugs(int? page)
         {
             LogSave.Save(User.Identity.IsAuthenticated ? User.Identity.GetUserId() : "", Request.UserHostAddress, Request.UserAgent, "Home/Bugs");
@@ -361,7 +362,7 @@ namespace MySeenWeb.Controllers
             }
             if (string.IsNullOrEmpty(errorMessage))
             {
-                if (ac.Bugs.Count(f => f.Text == desc) != 0)
+                if (ac.Bugs.Count(f => f.Text == desc && f.Complex == _id) != 0)
                 {
                     errorMessage = Resource.BugAlreadyExists;
                 }
@@ -410,7 +411,7 @@ namespace MySeenWeb.Controllers
                 }
                 catch
                 {
-                    errorMessage = "Корявая айдишка";
+                    errorMessage = Resource.WrongId;
                 }
             }
             if (string.IsNullOrEmpty(errorMessage))
@@ -422,7 +423,7 @@ namespace MySeenWeb.Controllers
                 }
                 catch
                 {
-                    errorMessage = "Корявая Версия";
+                    errorMessage = Resource.WrongVersion;
                 }
             }
             if (string.IsNullOrEmpty(errorMessage))

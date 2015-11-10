@@ -9,6 +9,7 @@
     <EntitySet Name="UsersSet" EntityType="Model.Store.UsersSet" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="FilmsSet" EntityType="Model.Store.FilmsSet" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="SerialsSet" EntityType="Model.Store.SerialsSet" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="BooksSet" EntityType="Model.Store.BooksSet" store:Type="Tables" Schema="dbo" />
     <AssociationSet Name="UsersFilms" Association="Model.Store.UsersFilms">
       <End Role="Users" EntitySet="UsersSet" />
       <End Role="Films" EntitySet="FilmsSet" />
@@ -16,6 +17,10 @@
     <AssociationSet Name="UsersSerials" Association="Model.Store.UsersSerials">
       <End Role="Users" EntitySet="UsersSet" />
       <End Role="Serials" EntitySet="SerialsSet" />
+    </AssociationSet>
+    <AssociationSet Name="BooksUsers" Association="Model.Store.BooksUsers">
+      <End Role="Books" EntitySet="BooksSet" />
+      <End Role="Users" EntitySet="UsersSet" />
     </AssociationSet>
   </EntityContainer>
   <EntityType Name="UsersSet">
@@ -59,6 +64,21 @@
     <Property Name="DateChange" Type="datetime" Nullable="false" />
     <Property Name="isDeleted" Type="bit" Nullable="true" />
   </EntityType>
+  <EntityType Name="BooksSet">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Id_R" Type="nvarchar(max)" Nullable="true" />
+    <Property Name="UsersId" Type="int" Nullable="false" />
+    <Property Name="Name" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Authors" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="DateRead" Type="datetime" Nullable="false" />
+    <Property Name="Genre" Type="int" Nullable="false" />
+    <Property Name="Rating" Type="int" Nullable="false" />
+    <Property Name="DateChange" Type="datetime" Nullable="false" />
+    <Property Name="isDeleted" Type="bit" Nullable="true" />
+  </EntityType>
   <Association Name="UsersFilms">
     <End Role="Users" Type="Model.Store.UsersSet" Multiplicity="1">
       <OnDelete Action="Cascade" />
@@ -87,6 +107,18 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
+  <Association Name="BooksUsers">
+    <End Role="Books" Type="Model.Store.BooksSet" Multiplicity="*" />
+    <End Role="Users" Type="Model.Store.UsersSet" Multiplicity="1" />
+    <ReferentialConstraint>
+      <Principal Role="Users">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Books">
+        <PropertyRef Name="UsersId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
 </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
@@ -103,6 +135,11 @@
             <End Role="Users" EntitySet="UsersSet" />
             <End Role="Serials" EntitySet="SerialsSet" />
           </AssociationSet>
+          <EntitySet Name="BooksSet" EntityType="Model.Books" />
+          <AssociationSet Name="BooksUsers" Association="Model.BooksUsers">
+            <End Role="Books" EntitySet="BooksSet" />
+            <End Role="Users" EntitySet="UsersSet" />
+          </AssociationSet>
         </EntityContainer>
         <EntityType Name="Users">
           <Key>
@@ -115,6 +152,7 @@
           <NavigationProperty Name="Films" Relationship="Model.UsersFilms" FromRole="Users" ToRole="Films" />
           <NavigationProperty Name="Serials" Relationship="Model.UsersSerials" FromRole="Users" ToRole="Serials" />
           <Property Name="Email" Type="String" />
+          <NavigationProperty Name="Books" Relationship="Model.BooksUsers" FromRole="Users" ToRole="Books" />
         </EntityType>
         <EntityType Name="Films">
           <Key>
@@ -179,6 +217,34 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="Books">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Id_R" Type="String" Nullable="true" />
+          <NavigationProperty Name="Users" Relationship="Model.BooksUsers" FromRole="Books" ToRole="Users" />
+          <Property Name="UsersId" Type="Int32" Nullable="false" />
+          <Property Name="Name" Type="String" Nullable="false" />
+          <Property Name="Authors" Type="String" Nullable="false" />
+          <Property Name="DateRead" Type="DateTime" Nullable="false" />
+          <Property Name="Genre" Type="Int32" Nullable="false" />
+          <Property Name="Rating" Type="Int32" Nullable="false" />
+          <Property Name="DateChange" Type="DateTime" Nullable="false" />
+          <Property Name="isDeleted" Type="Boolean" Nullable="true" />
+        </EntityType>
+        <Association Name="BooksUsers">
+          <End Type="Model.Books" Role="Books" Multiplicity="*" />
+          <End Type="Model.Users" Role="Users" Multiplicity="1" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Books">
+              <PropertyRef Name="UsersId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -224,6 +290,22 @@
           <ScalarProperty Name="DateLast" ColumnName="DateLast" />
           <ScalarProperty Name="Rating" ColumnName="Rating" />
           <ScalarProperty Name="Genre" ColumnName="Genre" />
+          <ScalarProperty Name="DateChange" ColumnName="DateChange" />
+          <ScalarProperty Name="isDeleted" ColumnName="isDeleted" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="BooksSet">
+      <EntityTypeMapping TypeName="IsTypeOf(Model.Books)">
+        <MappingFragment StoreEntitySet="BooksSet">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Id_R" ColumnName="Id_R" />
+          <ScalarProperty Name="UsersId" ColumnName="UsersId" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="Authors" ColumnName="Authors" />
+          <ScalarProperty Name="DateRead" ColumnName="DateRead" />
+          <ScalarProperty Name="Genre" ColumnName="Genre" />
+          <ScalarProperty Name="Rating" ColumnName="Rating" />
           <ScalarProperty Name="DateChange" ColumnName="DateChange" />
           <ScalarProperty Name="isDeleted" ColumnName="isDeleted" />
         </MappingFragment>

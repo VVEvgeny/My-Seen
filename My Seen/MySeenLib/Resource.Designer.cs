@@ -151,11 +151,38 @@ namespace MySeenLib {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Author.
+        /// </summary>
+        public static string Author {
+            get {
+                return ResourceManager.GetString("Author", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Bad Request Mode.
         /// </summary>
         public static string BadRequestMode {
             get {
                 return ResourceManager.GetString("BadRequestMode", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Book Name Already Exists.
+        /// </summary>
+        public static string BookNameAlreadyExists {
+            get {
+                return ResourceManager.GetString("BookNameAlreadyExists", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Books.
+        /// </summary>
+        public static string Books {
+            get {
+                return ResourceManager.GetString("Books", resourceCulture);
             }
         }
         
@@ -295,7 +322,7 @@ namespace MySeenLib {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Date.
+        ///   Looks up a localized string similar to Seen.
         /// </summary>
         public static string Date {
             get {
@@ -304,7 +331,7 @@ namespace MySeenLib {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Date Begin.
+        ///   Looks up a localized string similar to Begin.
         /// </summary>
         public static string DateBegin {
             get {
@@ -331,7 +358,7 @@ namespace MySeenLib {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Date Last.
+        ///   Looks up a localized string similar to Last.
         /// </summary>
         public static string DateLast {
             get {
@@ -435,6 +462,24 @@ namespace MySeenLib {
         public static string English {
             get {
                 return ResourceManager.GetString("English", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Enter Book Authors.
+        /// </summary>
+        public static string EnterBookAuthors {
+            get {
+                return ResourceManager.GetString("EnterBookAuthors", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Enter Book Name.
+        /// </summary>
+        public static string EnterBookName {
+            get {
+                return ResourceManager.GetString("EnterBookName", resourceCulture);
             }
         }
         
@@ -1168,11 +1213,29 @@ namespace MySeenLib {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Wrong Id.
+        /// </summary>
+        public static string WrongId {
+            get {
+                return ResourceManager.GetString("WrongId", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Wrong password.
         /// </summary>
         public static string WrongPassword {
             get {
                 return ResourceManager.GetString("WrongPassword", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Wrong Version.
+        /// </summary>
+        public static string WrongVersion {
+            get {
+                return ResourceManager.GetString("WrongVersion", resourceCulture);
             }
         }
     }

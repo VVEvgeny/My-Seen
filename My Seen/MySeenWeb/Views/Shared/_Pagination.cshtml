@@ -3,8 +3,8 @@
 
 @model PaginationViewModel
 @if (!(Model.isFirstPage && Model.isLastPage))
-    {
-    <ul class="pagination">
+{
+    <ul class="pagination pagination-sm">
         @{int last = 0;}
         @if (Model.isFirstPage)
         {

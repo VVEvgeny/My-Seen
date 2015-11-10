@@ -124,13 +124,13 @@
     <value>Bad Request Mode</value>
   </data>
   <data name="Date" xml:space="preserve">
-    <value>Date</value>
+    <value>Seen</value>
   </data>
   <data name="DateBegin" xml:space="preserve">
-    <value>Date Begin</value>
+    <value>Begin</value>
   </data>
   <data name="DateLast" xml:space="preserve">
-    <value>Date Last</value>
+    <value>Last</value>
   </data>
   <data name="DBDeleted" xml:space="preserve">
     <value>Base Clear</value>
@@ -488,5 +488,26 @@
   </data>
   <data name="Version" xml:space="preserve">
     <value>Version</value>
+  </data>
+  <data name="WrongId" xml:space="preserve">
+    <value>Wrong Id</value>
+  </data>
+  <data name="WrongVersion" xml:space="preserve">
+    <value>Wrong Version</value>
+  </data>
+  <data name="Books" xml:space="preserve">
+    <value>Books</value>
+  </data>
+  <data name="Author" xml:space="preserve">
+    <value>Author</value>
+  </data>
+  <data name="BookNameAlreadyExists" xml:space="preserve">
+    <value>Book Name Already Exists</value>
+  </data>
+  <data name="EnterBookAuthors" xml:space="preserve">
+    <value>Enter Book Authors</value>
+  </data>
+  <data name="EnterBookName" xml:space="preserve">
+    <value>Enter Book Name</value>
   </data>
 </root>

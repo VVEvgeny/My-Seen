@@ -28,5 +28,6 @@ namespace My_Seen
         public virtual DbSet<Users> UsersSet { get; set; }
         public virtual DbSet<Films> FilmsSet { get; set; }
         public virtual DbSet<Serials> SerialsSet { get; set; }
+        public virtual DbSet<Books> BooksSet { get; set; }
     }
 }

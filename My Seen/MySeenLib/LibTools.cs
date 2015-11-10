@@ -12,8 +12,8 @@ namespace MySeenLib
 {
     public static class Versions
     {
-        public static int LibALL = 2;
-        public static int WEB = 2;
+        public static int LibALL = 3;
+        public static int WEB = 3;
         public static int Android = 1;
         public static int AndroidLib = 1;
         public static int PK = 1;
@@ -108,6 +108,9 @@ namespace MySeenLib
 
                 Thread.CurrentThread.CurrentCulture = culture;
                 Thread.CurrentThread.CurrentUICulture = culture;
+
+                Defaults.ReloadResources();
+
                 return true;
             }
             return false;

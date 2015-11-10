@@ -2,7 +2,7 @@
 -- --------------------------------------------------
 -- Entity Designer DDL Script for SQL Server 2005, 2008, 2012 and Azure
 -- --------------------------------------------------
--- Date Created: 10/26/2015 10:58:30
+-- Date Created: 11/10/2015 14:34:28
 -- Generated from EDMX file: D:\Work_vve\workspace_sharp_git\vvevgeny_myseen\My Seen\My Seen\Model.edmx
 -- --------------------------------------------------
 
@@ -83,6 +83,21 @@ CREATE TABLE [dbo].[SerialsSet] (
 );
 GO
 
+-- Creating table 'BooksSet'
+CREATE TABLE [dbo].[BooksSet] (
+    [Id] int IDENTITY(1,1) NOT NULL,
+    [Id_R] nvarchar(max)  NULL,
+    [UsersId] int  NOT NULL,
+    [Name] nvarchar(max)  NOT NULL,
+    [Authors] nvarchar(max)  NOT NULL,
+    [DateRead] datetime  NOT NULL,
+    [Genre] int  NOT NULL,
+    [Rating] int  NOT NULL,
+    [DateChange] datetime  NOT NULL,
+    [isDeleted] bit  NULL
+);
+GO
+
 -- --------------------------------------------------
 -- Creating all PRIMARY KEY constraints
 -- --------------------------------------------------
@@ -102,6 +117,12 @@ GO
 -- Creating primary key on [Id] in table 'SerialsSet'
 ALTER TABLE [dbo].[SerialsSet]
 ADD CONSTRAINT [PK_SerialsSet]
+    PRIMARY KEY CLUSTERED ([Id] ASC);
+GO
+
+-- Creating primary key on [Id] in table 'BooksSet'
+ALTER TABLE [dbo].[BooksSet]
+ADD CONSTRAINT [PK_BooksSet]
     PRIMARY KEY CLUSTERED ([Id] ASC);
 GO
 
@@ -136,6 +157,21 @@ GO
 -- Creating non-clustered index for FOREIGN KEY 'FK_UsersSerials'
 CREATE INDEX [IX_FK_UsersSerials]
 ON [dbo].[SerialsSet]
+    ([UsersId]);
+GO
+
+-- Creating foreign key on [UsersId] in table 'BooksSet'
+ALTER TABLE [dbo].[BooksSet]
+ADD CONSTRAINT [FK_BooksUsers]
+    FOREIGN KEY ([UsersId])
+    REFERENCES [dbo].[UsersSet]
+        ([Id])
+    ON DELETE NO ACTION ON UPDATE NO ACTION;
+GO
+
+-- Creating non-clustered index for FOREIGN KEY 'FK_BooksUsers'
+CREATE INDEX [IX_FK_BooksUsers]
+ON [dbo].[BooksSet]
     ([UsersId]);
 GO
 
