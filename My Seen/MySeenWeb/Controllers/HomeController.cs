@@ -612,5 +612,16 @@ namespace MySeenWeb.Controllers
             }
             return RedirectToAction("Index");
         }
+        [Authorize]
+        public ActionResult Tracks()
+        {
+            LogSave.Save(User.Identity.IsAuthenticated ? User.Identity.GetUserId() : "", Request.UserHostAddress, Request.UserAgent, "Home/Tracks");
+            if (User.Identity.IsAuthenticated && Admin.isAdmin(User.Identity.GetUserName()))
+            {
+                TracksViewModel model = new TracksViewModel();
+                return View(model);
+            }
+            return RedirectToAction("Index");
+        }
     }
 }

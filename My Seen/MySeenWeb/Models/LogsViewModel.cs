@@ -19,7 +19,7 @@ namespace MySeenWeb.Models
         {
             ApplicationDbContext ac = new ApplicationDbContext();
             Pages = new PaginationViewModel(page, ac.Logs.Count(), countInPage,"Home","Logs");
-            Logs = ac.Logs.Select(LogsView.Map).OrderByDescending(l => l.DateLast).Skip((page - 1) * countInPage).Take(countInPage);
+            Logs = ac.Logs.Select(LogsView.Map).OrderByDescending(l => l.DateLast).Skip((Pages.CurentPage - 1) * countInPage).Take(countInPage);
         }
     }
 }

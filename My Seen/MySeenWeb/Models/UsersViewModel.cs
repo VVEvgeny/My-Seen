@@ -47,7 +47,7 @@ namespace MySeenWeb.Models
         {
             ApplicationDbContext ac = new ApplicationDbContext();
             Pages = new PaginationViewModel(page, ac.Users.Count(), countInPage, "Home", "Users");
-            Users = ac.Users.Select(Map).OrderBy(l => l.RegiserDate).Skip((page - 1) * countInPage).Take(countInPage);
+            Users = ac.Users.Select(Map).OrderBy(l => l.RegiserDate).Skip((Pages.CurentPage - 1) * countInPage).Take(countInPage);
         }
     }
 }

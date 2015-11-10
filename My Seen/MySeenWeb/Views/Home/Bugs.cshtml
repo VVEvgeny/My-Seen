@@ -42,7 +42,7 @@
                 <td class="align-center">
                     @if (string.IsNullOrEmpty(bug.TextEnd))
                     {
-                        <button type="button" class="btn btn-success btn-xs" id=@bug.Id><span class="glyphicon glyphicon-ok"></span>&nbsp;END</button>
+                        <button type="button" class="btn btn-success btn-xs btn-block" id=@bug.Id><span class="glyphicon glyphicon-ok"></span>&nbsp;@Resource.Close</button>
                     }
                     else
                     {

@@ -74,19 +74,19 @@ namespace MySeenWeb.Models
         {
             ApplicationDbContext ac= new ApplicationDbContext();
             Pages = new PaginationViewModel(page, ac.Films.Where(f => f.UserId == userId && f.isDeleted != true).Count(), countInPage, "Home", "");
-            Films = ac.Films.Where(f => f.UserId == userId && f.isDeleted != true).OrderByDescending(f => f.DateSee).Select(FilmsView.Map).Skip((page - 1) * countInPage).Take(countInPage);
+            Films = ac.Films.Where(f => f.UserId == userId && f.isDeleted != true).OrderByDescending(f => f.DateSee).Select(FilmsView.Map).Skip((Pages.CurentPage - 1) * countInPage).Take(countInPage);
         }
         public void LoadSerials(string userId, int page, int countInPage)
         {
             ApplicationDbContext ac = new ApplicationDbContext();
             Pages = new PaginationViewModel(page, ac.Serials.Where(f => f.UserId == userId && f.isDeleted != true).Count(), countInPage, "Home", "");
-            Serials = ac.Serials.Where(f => f.UserId == userId && f.isDeleted != true).OrderByDescending(f => f.DateLast).Select(SerialsView.Map).Skip((page - 1) * countInPage).Take(countInPage);
+            Serials = ac.Serials.Where(f => f.UserId == userId && f.isDeleted != true).OrderByDescending(f => f.DateLast).Select(SerialsView.Map).Skip((Pages.CurentPage - 1) * countInPage).Take(countInPage);
         }
         public void LoadBooks(string userId, int page, int countInPage)
         {
             ApplicationDbContext ac = new ApplicationDbContext();
             Pages = new PaginationViewModel(page, ac.Books.Where(f => f.UserId == userId && f.isDeleted != true).Count(), countInPage, "Home", "");
-            Books = ac.Books.Where(f => f.UserId == userId && f.isDeleted != true).OrderByDescending(f => f.DateRead).Select(BooksView.Map).Skip((page - 1) * countInPage).Take(countInPage);
+            Books = ac.Books.Where(f => f.UserId == userId && f.isDeleted != true).OrderByDescending(f => f.DateRead).Select(BooksView.Map).Skip((Pages.CurentPage - 1) * countInPage).Take(countInPage);
         }
     }
 }

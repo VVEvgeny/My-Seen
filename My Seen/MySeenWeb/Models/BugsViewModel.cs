@@ -27,13 +27,13 @@ namespace MySeenWeb.Models
             ApplicationDbContext ac = new ApplicationDbContext();
             if (complex == Defaults.ComplexBase.IndexAll)
             {
-                Bugs = ac.Bugs.Select(BugsView.Map).OrderByDescending(b => b.DateEnd == null).ThenByDescending(b => b.DateEnd).ThenByDescending(b => b.DateFound).Skip((page - 1) * countInPage).Take(countInPage);
                 Pages = new PaginationViewModel(page, ac.Bugs.Count(), countInPage, "Home", "Bugs");
+                Bugs = ac.Bugs.Select(BugsView.Map).OrderByDescending(b => b.DateEnd == null).ThenByDescending(b => b.DateEnd).ThenByDescending(b => b.DateFound).Skip((Pages.CurentPage - 1) * countInPage).Take(countInPage);
             }
             else
             {
-                Bugs = ac.Bugs.Select(BugsView.Map).Where(b => b.Complex == complex).OrderByDescending(b => b.DateEnd == null).ThenByDescending(b => b.DateEnd).ThenByDescending(b => b.DateFound).Skip((page - 1) * countInPage).Take(countInPage);
                 Pages = new PaginationViewModel(page, ac.Bugs.Where(b => b.Complex == complex).Count(), countInPage, "Home", "Bugs");
+                Bugs = ac.Bugs.Select(BugsView.Map).Where(b => b.Complex == complex).OrderByDescending(b => b.DateEnd == null).ThenByDescending(b => b.DateEnd).ThenByDescending(b => b.DateFound).Skip((Pages.CurentPage - 1) * countInPage).Take(countInPage);
             }
 
             Complex = complex.ToString();

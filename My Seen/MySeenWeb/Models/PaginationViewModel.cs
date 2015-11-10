@@ -18,10 +18,12 @@ namespace MySeenWeb.Models
             Page = page;
 
             CurentPage = pageNum;
+            if (CurentPage < 1) CurentPage = 1;
             isFirstPage = CurentPage == 1;
             if (totalRecords != 0) LastPage = totalRecords / countInPage;
             else LastPage = 1;
             if (totalRecords % countInPage != 0) LastPage++;
+            if (CurentPage > LastPage) CurentPage = LastPage;
             isLastPage = LastPage == CurentPage;
             MiddlePage = LastPage / 2;
             if (LastPage % 2 != 0) MiddlePage++;

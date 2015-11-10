@@ -17,7 +17,8 @@
             [
             @if (Model.HasPassword)
             {
-                @Html.ActionLink(Resource.ChangeYourPassword, "ChangePassword")
+
+                                @Html.ActionLink(Resource.ChangeYourPassword, "ChangePassword")
             }
             else
             {
@@ -30,6 +31,8 @@
             @Model.Logins.Count [
             @Html.ActionLink(Resource.Manage, "ManageLogins") ]
         </dd>
+    </dl>
+    <dl class="dl-horizontal">
         <dt>@Resource.SelectLanguage</dt>
         <dd>
             @Html.DropDownListFor(model => model.Lang, Model.LangList, new { @class = "form-control", @id = "lstLang", @style = "width: 200px;" })
@@ -46,7 +49,7 @@
             <dl class="dl-horizontal">
                 <dt>@Resource.DeleteData</dt>
                 <dd>
-                    <button type="button" class="btn btn-danger btn-xs" id="delDataButton">
+                    <button type="button" class="btn btn-danger btn-xs" id="delDataButton" style="width: 200px;">
                         <span class="glyphicon glyphicon-trash"></span>
                         &nbsp;@Resource.DeleteData
                     </button>
