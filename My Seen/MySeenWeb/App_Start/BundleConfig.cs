@@ -27,6 +27,9 @@ namespace MySeenWeb
                       "~/Content/bootstrap.css",
                       "~/Content/site.css"));
 
+            bundles.Add(new ScriptBundle("~/bundles/myseen").Include(
+                      "~/Scripts/myseen.js"));
+
         }
     }
 }
