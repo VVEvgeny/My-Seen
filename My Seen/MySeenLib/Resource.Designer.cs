@@ -169,6 +169,15 @@ namespace MySeenLib {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Book.
+        /// </summary>
+        public static string Book {
+            get {
+                return ResourceManager.GetString("Book", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Book Name Already Exists.
         /// </summary>
         public static string BookNameAlreadyExists {
@@ -183,6 +192,15 @@ namespace MySeenLib {
         public static string Books {
             get {
                 return ResourceManager.GetString("Books", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Books Count.
+        /// </summary>
+        public static string BooksCount {
+            get {
+                return ResourceManager.GetString("BooksCount", resourceCulture);
             }
         }
         
@@ -363,6 +381,15 @@ namespace MySeenLib {
         public static string DateLast {
             get {
                 return ResourceManager.GetString("DateLast", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Readed.
+        /// </summary>
+        public static string DateRead {
+            get {
+                return ResourceManager.GetString("DateRead", resourceCulture);
             }
         }
         
@@ -813,6 +840,15 @@ namespace MySeenLib {
         public static string NoData {
             get {
                 return ResourceManager.GetString("NoData", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to No Longer Supported Version.
+        /// </summary>
+        public static string NoLongerSupportedVersion {
+            get {
+                return ResourceManager.GetString("NoLongerSupportedVersion", resourceCulture);
             }
         }
         

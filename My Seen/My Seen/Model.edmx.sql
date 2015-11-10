@@ -2,7 +2,7 @@
 -- --------------------------------------------------
 -- Entity Designer DDL Script for SQL Server 2005, 2008, 2012 and Azure
 -- --------------------------------------------------
--- Date Created: 11/10/2015 14:34:28
+-- Date Created: 11/10/2015 16:28:41
 -- Generated from EDMX file: D:\Work_vve\workspace_sharp_git\vvevgeny_myseen\My Seen\My Seen\Model.edmx
 -- --------------------------------------------------
 
@@ -23,6 +23,9 @@ GO
 IF OBJECT_ID(N'[dbo].[FK_UsersSerials]', 'F') IS NOT NULL
     ALTER TABLE [dbo].[SerialsSet] DROP CONSTRAINT [FK_UsersSerials];
 GO
+IF OBJECT_ID(N'[dbo].[FK_BooksUsers]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[BooksSet] DROP CONSTRAINT [FK_BooksUsers];
+GO
 
 -- --------------------------------------------------
 -- Dropping existing tables
@@ -36,6 +39,9 @@ IF OBJECT_ID(N'[dbo].[FilmsSet]', 'U') IS NOT NULL
 GO
 IF OBJECT_ID(N'[dbo].[SerialsSet]', 'U') IS NOT NULL
     DROP TABLE [dbo].[SerialsSet];
+GO
+IF OBJECT_ID(N'[dbo].[BooksSet]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[BooksSet];
 GO
 
 -- --------------------------------------------------
@@ -86,7 +92,7 @@ GO
 -- Creating table 'BooksSet'
 CREATE TABLE [dbo].[BooksSet] (
     [Id] int IDENTITY(1,1) NOT NULL,
-    [Id_R] nvarchar(max)  NULL,
+    [Id_R] int  NULL,
     [UsersId] int  NOT NULL,
     [Name] nvarchar(max)  NOT NULL,
     [Authors] nvarchar(max)  NOT NULL,

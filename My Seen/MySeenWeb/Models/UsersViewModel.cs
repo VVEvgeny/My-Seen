@@ -12,11 +12,12 @@ namespace MySeenWeb.Models
 {
     public class UsersView
     {
-        public string Name;
-        public string Culture;
-        public int FilmsCount;
-        public int SerialsCount;
-        public string RegiserDate;
+        public string Name { get; set; }
+        public string Culture { get; set; }
+        public int FilmsCount { get; set; }
+        public int SerialsCount { get; set; }
+        public int BooksCount { get; set; }
+        public string RegiserDate { get; set; }
     }
     public class UsersViewModel
     {
@@ -28,7 +29,7 @@ namespace MySeenWeb.Models
 
             return new UsersView
             {
-                Name = model.UserName,
+                Name = model.UserName.Remove(model.UserName.IndexOf('@')),
                 RegiserDate = model.RegisterDate.ToShortDateString(),
                 //Culture = model.Culture,
                 Culture = (model.Culture==CultureInfoTool.Cultures.English ?
@@ -36,6 +37,7 @@ namespace MySeenWeb.Models
                         ),
                 FilmsCount = ap.Films.Where(f=>f.UserId==model.Id).Count(),
                 SerialsCount = ap.Serials.Where(f => f.UserId == model.Id).Count(),
+                BooksCount = ap.Books.Where(f => f.UserId == model.Id).Count()
             };
         }
 

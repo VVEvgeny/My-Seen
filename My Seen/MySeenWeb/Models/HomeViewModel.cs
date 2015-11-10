@@ -17,12 +17,17 @@ namespace MySeenWeb.Models
             public static string CoockieSelectedKey = "eSelected";
             public static string CoockieSelectedValueFilms = Defaults.Categories.GetById(Defaults.CategoryBase.FilmIndex);
             public static string CoockieSelectedValueSerials = Defaults.Categories.GetById(Defaults.CategoryBase.SerialIndex);
+            public static string CoockieSelectedValueBooks = Defaults.Categories.GetById(Defaults.CategoryBase.BookIndex);
         }
         public PaginationViewModel Pages { get; set; }
         public string Selected;
         public bool IsSelectedFilm
         {
             get { return Selected == Defaults.Categories.GetById(Defaults.CategoryBase.FilmIndex); }            
+        }
+        public bool IsSelectedSerial
+        {
+            get { return Selected == Defaults.Categories.GetById(Defaults.CategoryBase.SerialIndex); }
         }
 
         public IEnumerable<SelectListItem> selectList { get; set; }
@@ -39,6 +44,8 @@ namespace MySeenWeb.Models
         }
         public IEnumerable<FilmsView> Films;
         public IEnumerable<SerialsView> Serials;
+        public IEnumerable<BooksView> Books;
+
         public void LoadSelectList()
         {
             List<SelectListItem> listItems = new List<SelectListItem>();
@@ -74,6 +81,12 @@ namespace MySeenWeb.Models
             ApplicationDbContext ac = new ApplicationDbContext();
             Pages = new PaginationViewModel(page, ac.Serials.Where(f => f.UserId == userId && f.isDeleted != true).Count(), countInPage, "Home", "");
             Serials = ac.Serials.Where(f => f.UserId == userId && f.isDeleted != true).OrderByDescending(f => f.DateLast).Select(SerialsView.Map).Skip((page - 1) * countInPage).Take(countInPage);
+        }
+        public void LoadBooks(string userId, int page, int countInPage)
+        {
+            ApplicationDbContext ac = new ApplicationDbContext();
+            Pages = new PaginationViewModel(page, ac.Books.Where(f => f.UserId == userId && f.isDeleted != true).Count(), countInPage, "Home", "");
+            Books = ac.Books.Where(f => f.UserId == userId && f.isDeleted != true).OrderByDescending(f => f.DateRead).Select(BooksView.Map).Skip((page - 1) * countInPage).Take(countInPage);
         }
     }
 }

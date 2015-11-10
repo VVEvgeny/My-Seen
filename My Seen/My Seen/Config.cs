@@ -74,6 +74,7 @@ namespace My_Seen
             ModelContainer mc = new ModelContainer();
             mc.FilmsSet.RemoveRange(mc.FilmsSet.Where(f=>f.UsersId==user.Id));
             mc.SerialsSet.RemoveRange(mc.SerialsSet.Where(f => f.UsersId == user.Id));
+            mc.BooksSet.RemoveRange(mc.BooksSet.Where(f => f.UsersId == user.Id));
             mc.SaveChanges();
             DBDataChanged.Exec();
         }

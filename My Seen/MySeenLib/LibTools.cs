@@ -28,7 +28,7 @@ namespace MySeenLib
     }
     public static class TEST
     {
-        private static bool mEnabled = false;
+        private static bool mEnabled = true;
         public static bool ENABLED
         {
             get
@@ -41,7 +41,6 @@ namespace MySeenLib
             }
         }
     }
-
     public static class UMTTime
     {
         public static DateTime To(DateTime _datetime)
@@ -118,6 +117,7 @@ namespace MySeenLib
     }
     public static class MySeenWebApi
     {
+        public static int ApiVersion = 2;
         public static string ApiHost
         {
             get
@@ -174,7 +174,8 @@ namespace MySeenLib
                 NoData = 2,
                 BadRequestMode = 3,
                 UserNotExist = 4,
-                NewDataRecieved = 5
+                NewDataRecieved = 5,
+                NoLongerSupportedVersion =6
             }
             [JsonProperty("Value")]
             public Values Value { get; set; }
@@ -183,10 +184,16 @@ namespace MySeenLib
                 return Value.ToString();
             }
         }
+        public enum DataModes
+        {
+            Film =1,
+            Serial=2,
+            Book =3
+        }
         public class SyncJsonData
         {
-            [JsonProperty("IsFilm")]
-            public bool IsFilm { get; set; }
+            [JsonProperty("DataMode")]
+            public int DataMode { get; set; }//in DataModes
             [JsonProperty("Id")]
             public int? Id { get; set; }
             [JsonProperty("Name")]
@@ -211,6 +218,12 @@ namespace MySeenLib
             public DateTime DateLast { get; set; }
             [JsonProperty("DateBegin")]
             public DateTime DateBegin { get; set; }
+
+            //books
+            [JsonProperty("DateRead")]
+            public DateTime DateRead { get; set; }
+            [JsonProperty("Authors")]
+            public string Authors { get; set; }
         }
         public static IEnumerable<SyncJsonData> GetResponse(string data)
         {
@@ -316,6 +329,7 @@ namespace MySeenLib
         {
             public static int FilmIndex = 0;
             public static int SerialIndex = 1;
+            public static int BookIndex = 2;
             public override void Load()
             {
                 if (All == null)
@@ -323,6 +337,7 @@ namespace MySeenLib
                     All = new List<string>();
                     All.Add(Resource.Films);
                     All.Add(Resource.Serials);
+                    All.Add(Resource.Books);
                 }
             }
         }

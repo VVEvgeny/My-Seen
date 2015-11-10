@@ -23,19 +23,20 @@ namespace MySeenWeb.Controllers
                 {
                     af.Selected = Defaults.Categories.GetById(Defaults.CategoryBase.FilmIndex);
                     cookie = new HttpCookie(HomeViewModel.AFCookies.CoockieSelectedKey);
-                    //cookie.Value = HomeViewModel.AFCookies.CoockieSelectedValueFilms;
                     cookie.Value = Defaults.CategoryBase.FilmIndex.ToString();
                     cookie.Expires = DateTime.Now.AddDays(1);
                     ControllerContext.HttpContext.Response.Cookies.Add(cookie);
                 }
                 else
                 {
-                    if (cookie.Value == Defaults.CategoryBase.SerialIndex.ToString()) af.Selected = Defaults.Categories.GetById(Defaults.CategoryBase.SerialIndex);
-                    else af.Selected = Defaults.Categories.GetById(Defaults.CategoryBase.FilmIndex);
+                    if (cookie.Value == Defaults.CategoryBase.FilmIndex.ToString())af.Selected = Defaults.Categories.GetById(Defaults.CategoryBase.FilmIndex);
+                    else if (cookie.Value == Defaults.CategoryBase.SerialIndex.ToString())af.Selected = Defaults.Categories.GetById(Defaults.CategoryBase.SerialIndex);
+                    else af.Selected = Defaults.Categories.GetById(Defaults.CategoryBase.BookIndex);
                 }
                 af.LoadSelectList();
                 if (af.Selected == Defaults.Categories.GetById(Defaults.CategoryBase.FilmIndex)) af.LoadFilms(User.Identity.GetUserId(), page == null ? 1 : page.Value, RPP);
-                else af.LoadSerials(User.Identity.GetUserId(), page == null ? 1 : page.Value, RPP);
+                else if (af.Selected == Defaults.Categories.GetById(Defaults.CategoryBase.SerialIndex)) af.LoadSerials(User.Identity.GetUserId(), page == null ? 1 : page.Value, RPP);
+                else af.LoadBooks(User.Identity.GetUserId(), page == null ? 1 : page.Value, RPP);
 
                 return View(af);
             }
@@ -76,7 +77,7 @@ namespace MySeenWeb.Controllers
             string user_id = User.Identity.GetUserId();
             if (string.IsNullOrEmpty(errorMessage))
             {
-                Validations.ValidateName(ref errorMessage, name);
+                if (string.IsNullOrEmpty(name)) errorMessage = Resource.EnterFilmName;
             }
             ApplicationDbContext ac = new ApplicationDbContext();
             if (string.IsNullOrEmpty(errorMessage))
@@ -114,7 +115,7 @@ namespace MySeenWeb.Controllers
             string user_id = User.Identity.GetUserId();
             if (string.IsNullOrEmpty(errorMessage))
             {
-                Validations.ValidateName(ref errorMessage, name);
+                if (string.IsNullOrEmpty(name)) errorMessage = Resource.EnterFilmName;
             }
             ApplicationDbContext ac = new ApplicationDbContext();
             int iid = (Convert.ToInt32(id));
@@ -153,7 +154,7 @@ namespace MySeenWeb.Controllers
             string user_id = User.Identity.GetUserId();
             if (string.IsNullOrEmpty(errorMessage))
             {
-                Validations.ValidateName(ref errorMessage, name);
+                if (string.IsNullOrEmpty(name)) errorMessage = Resource.EnterSerialName;
             }
             ApplicationDbContext ac = new ApplicationDbContext();
             if (string.IsNullOrEmpty(errorMessage))
@@ -193,7 +194,7 @@ namespace MySeenWeb.Controllers
             string user_id = User.Identity.GetUserId();
             if (string.IsNullOrEmpty(errorMessage))
             {
-                Validations.ValidateName(ref errorMessage, name);
+                if (string.IsNullOrEmpty(name)) errorMessage = Resource.EnterSerialName;
             }
             ApplicationDbContext ac = new ApplicationDbContext();
             int iid = (Convert.ToInt32(id));
@@ -213,6 +214,88 @@ namespace MySeenWeb.Controllers
                     }
                     film.LastSeason = Convert.ToInt32(season);
                     film.LastSeries = Convert.ToInt32(series);
+                    film.Genre = Convert.ToInt32(genre);
+                    film.Rating = Convert.ToInt32(rating);
+                    film.DateChange = UMTTime.To(DateTime.Now);
+                    ac.SaveChanges();
+                }
+                catch (Exception e)
+                {
+                    errorMessage = Resource.ErrorWorkWithDB + "=" + e.Message;
+                }
+            }
+            if (!string.IsNullOrEmpty(errorMessage))
+            {
+                return new JsonResult { Data = new { success = false, error = errorMessage } };
+            }
+            return Json(new { success = true });
+        }
+        [Authorize]
+        [HttpPost]
+        public JsonResult AddBook(string name, string authors, string genre, string rating)
+        {
+            LogSave.Save(User.Identity.IsAuthenticated ? User.Identity.GetUserId() : "", Request.UserHostAddress, Request.UserAgent, "Home/AddBook", name);
+            string errorMessage = string.Empty;
+            string user_id = User.Identity.GetUserId();
+            if (string.IsNullOrEmpty(errorMessage))
+            {
+                if (string.IsNullOrEmpty(authors)) errorMessage = Resource.EnterBookName;
+            }
+            if (string.IsNullOrEmpty(errorMessage))
+            {
+                if (string.IsNullOrEmpty(authors)) errorMessage = Resource.EnterBookAuthors;
+            }
+            ApplicationDbContext ac = new ApplicationDbContext();
+            if (string.IsNullOrEmpty(errorMessage))
+            {
+                if (ac.Books.Count(f => f.Name == name && f.UserId == user_id) != 0)//айди проверяем только для редактируемых, чтобы не налететь по названию на чужой
+                {
+                    errorMessage = Resource.BookNameAlreadyExists;
+                }
+            }
+            if (string.IsNullOrEmpty(errorMessage))
+            {
+                try
+                {
+                    Books f = new Books { Name = name, Authors = authors, Genre = Convert.ToInt32(genre), Rating = Convert.ToInt32(rating), DateRead = UMTTime.To(DateTime.Now), DateChange = UMTTime.To(DateTime.Now), UserId = user_id };
+                    ac.Books.Add(f);
+                    ac.SaveChanges();
+                }
+                catch (Exception e)
+                {
+                    errorMessage = Resource.ErrorWorkWithDB + "=" + e.Message;
+                }
+            }
+            if (!string.IsNullOrEmpty(errorMessage))
+            {
+                return new JsonResult { Data = new { success = false, error = errorMessage } };
+            }
+            return Json(new { success = true });
+        }
+        [Authorize]
+        [HttpPost]
+        public JsonResult EditBook(string id, string name, string authors, string genre, string rating)
+        {
+            LogSave.Save(User.Identity.IsAuthenticated ? User.Identity.GetUserId() : "", Request.UserHostAddress, Request.UserAgent, "Home/EditBook", id);
+            string errorMessage = string.Empty;
+            string user_id = User.Identity.GetUserId();
+            if (string.IsNullOrEmpty(errorMessage))
+            {
+                if (string.IsNullOrEmpty(name)) errorMessage = Resource.EnterBookName;
+            }
+            ApplicationDbContext ac = new ApplicationDbContext();
+            int iid = (Convert.ToInt32(id));
+            if (ac.Books.Count(f => f.Name == name && f.UserId == user_id && f.Id != iid) != 0)//айди проверяем только для редактируемых, чтобы не налететь по названию на чужой
+            {
+                errorMessage = Resource.BookNameAlreadyExists;
+            }
+            if (string.IsNullOrEmpty(errorMessage))
+            {
+                try
+                {
+                    Books film = ac.Books.Where(f => f.UserId == user_id && f.Id == iid).First();
+                    film.Name = name;
+                    film.Authors = authors;
                     film.Genre = Convert.ToInt32(genre);
                     film.Rating = Convert.ToInt32(rating);
                     film.DateChange = UMTTime.To(DateTime.Now);
@@ -273,6 +356,35 @@ namespace MySeenWeb.Controllers
                 try
                 {
                     Serials film = ac.Serials.Where(f => f.UserId == user_id && f.Id == iid).First();
+                    film.isDeleted = true;
+                    ac.SaveChanges();
+                }
+                catch (Exception e)
+                {
+                    errorMessage = Resource.ErrorWorkWithDB + "=" + e.Message;
+                }
+            }
+            if (!string.IsNullOrEmpty(errorMessage))
+            {
+                return new JsonResult { Data = new { success = false, error = errorMessage } };
+            }
+            return Json(new { success = true });
+        }
+        [Authorize]
+        [HttpPost]
+        public JsonResult DeleteBook(string id)
+        {
+            LogSave.Save(User.Identity.IsAuthenticated ? User.Identity.GetUserId() : "", Request.UserHostAddress, Request.UserAgent, "Home/DeleteBook", id);
+            string errorMessage = string.Empty;
+            string user_id = User.Identity.GetUserId();
+            ApplicationDbContext ac = new ApplicationDbContext();
+            int iid = (Convert.ToInt32(id));
+
+            if (string.IsNullOrEmpty(errorMessage))
+            {
+                try
+                {
+                    Books film = ac.Books.Where(f => f.UserId == user_id && f.Id == iid).First();
                     film.isDeleted = true;
                     ac.SaveChanges();
                 }

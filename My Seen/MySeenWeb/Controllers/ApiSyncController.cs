@@ -19,7 +19,7 @@ namespace MySeenWeb.Controllers
 
             return new MySeenWebApi.SyncJsonData
             {
-                IsFilm = true,
+                DataMode = (int)MySeenWebApi.DataModes.Film,
                 Id = model.Id,
                 Name = model.Name,
                 DateChange = model.DateChange,
@@ -50,7 +50,7 @@ namespace MySeenWeb.Controllers
 
             return new MySeenWebApi.SyncJsonData
             {
-                IsFilm = false,
+                DataMode = (int)MySeenWebApi.DataModes.Serial,
                 Id = model.Id,
                 Name = model.Name,
                 DateChange = model.DateChange,
@@ -81,6 +81,39 @@ namespace MySeenWeb.Controllers
                 UserId = user_id
             };
         }
+        public static MySeenWebApi.SyncJsonData Map(Books model)
+        {
+            if (model == null) return new MySeenWebApi.SyncJsonData();
+
+            return new MySeenWebApi.SyncJsonData
+            {
+                DataMode = (int)MySeenWebApi.DataModes.Book,
+                Id = model.Id,
+                Name = model.Name,
+                DateChange = model.DateChange,
+                Genre = model.Genre,
+                Rating = model.Rating,
+                isDeleted = model.isDeleted,
+                Authors = model.Authors,
+                DateRead = model.DateRead
+            };
+        }
+        public static Books MapToBook(MySeenWebApi.SyncJsonData model, string user_id)
+        {
+            if (model == null) return new Books();
+
+            return new Books
+            {
+                Name = model.Name,
+                DateChange = model.DateChange,
+                Genre = model.Genre,
+                Rating = model.Rating,
+                UserId = user_id, 
+                Authors=model.Authors,
+                DateRead =model.DateRead,
+                isDeleted=model.isDeleted
+            };
+        }
         public string GetUserId(string user_key)
         {
             ApplicationDbContext ac = new ApplicationDbContext();
@@ -90,9 +123,26 @@ namespace MySeenWeb.Controllers
             }
             return string.Empty;
         }
-        public IHttpActionResult Get(string user_key,int mode)
+        public IHttpActionResult Get()
+        {
+            return Ok(new MySeenWebApi.SyncJsonAnswer { Value = MySeenWebApi.SyncJsonAnswer.Values.BadRequestMode });
+        }
+        public IHttpActionResult Get(string user_key)
+        {
+            return Ok(new MySeenWebApi.SyncJsonAnswer { Value = MySeenWebApi.SyncJsonAnswer.Values.BadRequestMode });
+        }
+        public IHttpActionResult Get(string user_key, int mode)
+        {
+            return Ok(new MySeenWebApi.SyncJsonAnswer { Value = MySeenWebApi.SyncJsonAnswer.Values.NoLongerSupportedVersion });
+        }
+        public IHttpActionResult Get(string user_key, int mode, int apiVersion)
         {
             LogSave.Save(user_key, string.Empty, string.Empty, "ApiSync/Get", mode.ToString());
+            if (apiVersion != MySeenWebApi.ApiVersion)
+            {
+                return Ok(new MySeenWebApi.SyncJsonAnswer { Value = MySeenWebApi.SyncJsonAnswer.Values.NoLongerSupportedVersion });
+            }
+
             ApplicationDbContext ac = new ApplicationDbContext();
             string user_id = GetUserId(user_key);
             if (string.IsNullOrEmpty(user_id))
@@ -102,9 +152,9 @@ namespace MySeenWeb.Controllers
             if ((MySeenWebApi.SyncModesApiData)mode == MySeenWebApi.SyncModesApiData.GetAll)
             {
                 List<MySeenWebApi.SyncJsonData> film = new List<MySeenWebApi.SyncJsonData>();
-                film.AddRange(ac.Films.Where(f => f.UserId == user_id).Select(Map).Union(ac.Serials.Where(f => f.UserId == user_id).Select(Map)));
-                //film.AddRange(ac.Films.Where(f => f.UserId == user_id).Select(Map));
-                //film.AddRange(ac.Serials.Where(f => f.UserId == user_id).Select(Map));
+                film.AddRange(ac.Films.Where(f => f.UserId == user_id).Select(Map)
+                    .Union(ac.Serials.Where(f => f.UserId == user_id).Select(Map))
+                    .Union(ac.Books.Where(f => f.UserId == user_id).Select(Map)));
 
                 if (film != null && film.Count()>0)
                 {
@@ -114,10 +164,35 @@ namespace MySeenWeb.Controllers
             }
             return Ok(new MySeenWebApi.SyncJsonAnswer { Value = MySeenWebApi.SyncJsonAnswer.Values.BadRequestMode });
         }
+
+        [HttpPost]
+        public IHttpActionResult Post()
+        {
+            return Ok(new MySeenWebApi.SyncJsonAnswer { Value = MySeenWebApi.SyncJsonAnswer.Values.BadRequestMode });
+        }
+        [HttpPost]
+        public IHttpActionResult Post([FromUri]string user_key)
+        {
+            return Ok(new MySeenWebApi.SyncJsonAnswer { Value = MySeenWebApi.SyncJsonAnswer.Values.BadRequestMode });
+        }
+        [HttpPost]
+        public IHttpActionResult Post([FromUri]string user_key, [FromUri]int mode)
+        {
+            return Ok(new MySeenWebApi.SyncJsonAnswer { Value = MySeenWebApi.SyncJsonAnswer.Values.BadRequestMode });
+        }
         [HttpPost]
         public IHttpActionResult Post([FromUri]string user_key, [FromUri]int mode, [FromBody] IEnumerable<MySeenWebApi.SyncJsonData> data)
         {
+            return Ok(new MySeenWebApi.SyncJsonAnswer { Value = MySeenWebApi.SyncJsonAnswer.Values.NoLongerSupportedVersion });
+        }
+        [HttpPost]
+        public IHttpActionResult Post([FromUri]string user_key, [FromUri]int mode, [FromUri]int apiVersion, [FromBody] IEnumerable<MySeenWebApi.SyncJsonData> data)
+        {
             LogSave.Save(user_key, string.Empty, string.Empty, "ApiSync/Post", mode.ToString());
+            if (apiVersion != MySeenWebApi.ApiVersion)
+            {
+                return Ok(new MySeenWebApi.SyncJsonAnswer { Value = MySeenWebApi.SyncJsonAnswer.Values.NoLongerSupportedVersion });
+            }
             if (data == null || (MySeenWebApi.SyncModesApiData)mode != MySeenWebApi.SyncModesApiData.PostAll)
             {
                 return Ok(new MySeenWebApi.SyncJsonAnswer { Value = MySeenWebApi.SyncJsonAnswer.Values.BadRequestMode });
@@ -132,7 +207,7 @@ namespace MySeenWeb.Controllers
                 ApplicationDbContext ac = new ApplicationDbContext();
                 foreach (MySeenWebApi.SyncJsonData film in data)
                 {
-                    if (film.IsFilm)
+                    if (film.DataMode == (int) MySeenWebApi.DataModes.Film)
                     {
                         if (film.Id == null)
                         {
@@ -174,7 +249,7 @@ namespace MySeenWeb.Controllers
                             }
                         }
                     }
-                    else
+                    else if (film.DataMode == (int)MySeenWebApi.DataModes.Serial)
                     {
                         if (film.Id == null)//Новый 
                         {
@@ -219,6 +294,50 @@ namespace MySeenWeb.Controllers
                             else
                             {
                                 ac.Serials.Add(MapToSerial(film, user_id));
+                            }
+                        }
+                    }
+                    else
+                    {
+                        if (film.Id == null)//Новый 
+                        {
+                            if (ac.Books.Where(f => f.Name == film.Name && f.UserId == user_id).Count() != 0)//с таким именем у нас уже есть
+                            {
+                                var filmBD = ac.Books.Where(f => f.Name == film.Name && f.UserId == user_id).First();
+                                if (filmBD.DateChange < film.DateChange)//есть не изменненый или изменен ранее чем обновляем
+                                {
+                                    filmBD.DateChange = film.DateChange;
+                                    filmBD.Genre = film.Genre;
+                                    filmBD.isDeleted = film.isDeleted;
+                                    filmBD.Rating = film.Rating;
+                                    filmBD.DateRead = film.DateRead;
+                                    filmBD.Authors = film.Authors;
+                                }
+                            }
+                            else //нету нового с таким именем
+                            {
+                                ac.Books.Add(MapToBook(film, user_id));
+                            }
+                        }
+                        else //старый обновился
+                        {
+                            if (ac.Books.Where(f => f.Id == film.Id && f.UserId == user_id).Count() != 0)//с таким ID есть в БД, обновим
+                            {
+                                var filmBD = ac.Books.Where(f => f.Id == film.Id && f.UserId == user_id).First();
+                                if (filmBD.DateChange < film.DateChange)//есть не изменненый или изменен ранее чем обновляем
+                                {
+                                    filmBD.DateChange = film.DateChange;
+                                    filmBD.Genre = film.Genre;
+                                    filmBD.isDeleted = film.isDeleted;
+                                    filmBD.Rating = film.Rating;
+                                    filmBD.DateRead = film.DateRead;
+                                    filmBD.Authors = film.Authors;
+                                    filmBD.Name = film.Name;
+                                }
+                            }
+                            else
+                            {
+                                ac.Books.Add(MapToBook(film, user_id));
                             }
                         }
                     }

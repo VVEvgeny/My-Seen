@@ -16,8 +16,8 @@ namespace MySeenWeb
 
             config.Routes.MapHttpRoute(
                 name: "DefaultApi",
-                routeTemplate: "api/{controller}/{user_key}/{mode}",
-                defaults: new { user_key = RouteParameter.Optional, mode = RouteParameter.Optional }
+                routeTemplate: "api/{controller}/{user_key}/{mode}/{apiVersion}",
+                defaults: new { user_key = RouteParameter.Optional, mode = RouteParameter.Optional, apiVersion = RouteParameter.Optional }
             );
         }
     }

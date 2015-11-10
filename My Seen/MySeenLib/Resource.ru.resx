@@ -501,13 +501,25 @@
   <data name="Author" xml:space="preserve">
     <value>Автор</value>
   </data>
+  <data name="Book" xml:space="preserve">
+    <value>Книгу</value>
+  </data>
   <data name="BookNameAlreadyExists" xml:space="preserve">
     <value>Книга уже есть</value>
+  </data>
+  <data name="DateRead" xml:space="preserve">
+    <value>Прочитано</value>
   </data>
   <data name="EnterBookAuthors" xml:space="preserve">
     <value>Введите авторов</value>
   </data>
   <data name="EnterBookName" xml:space="preserve">
     <value>Введите название книги</value>
+  </data>
+  <data name="BooksCount" xml:space="preserve">
+    <value>Книг</value>
+  </data>
+  <data name="NoLongerSupportedVersion" xml:space="preserve">
+    <value>Данная версия не поддерживается</value>
   </data>
 </root>

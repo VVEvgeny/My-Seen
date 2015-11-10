@@ -15,7 +15,7 @@ namespace My_Seen
     public partial class Books
     {
         public int Id { get; set; }
-        public string Id_R { get; set; }
+        public Nullable<int> Id_R { get; set; }
         public int UsersId { get; set; }
         public string Name { get; set; }
         public string Authors { get; set; }

@@ -69,7 +69,7 @@
       <PropertyRef Name="Id" />
     </Key>
     <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-    <Property Name="Id_R" Type="nvarchar(max)" Nullable="true" />
+    <Property Name="Id_R" Type="int" Nullable="true" />
     <Property Name="UsersId" Type="int" Nullable="false" />
     <Property Name="Name" Type="nvarchar(max)" Nullable="false" />
     <Property Name="Authors" Type="nvarchar(max)" Nullable="false" />
@@ -222,7 +222,7 @@
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Id_R" Type="String" Nullable="true" />
+          <Property Name="Id_R" Type="Int32" Nullable="true" />
           <NavigationProperty Name="Users" Relationship="Model.BooksUsers" FromRole="Books" ToRole="Users" />
           <Property Name="UsersId" Type="Int32" Nullable="false" />
           <Property Name="Name" Type="String" Nullable="false" />
