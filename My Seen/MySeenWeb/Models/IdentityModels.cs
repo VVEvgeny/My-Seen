@@ -34,12 +34,10 @@ namespace MySeenWeb.Models
 
         public DbSet<Films> Films { get; set; }
         public DbSet<Serials> Serials { get; set; }
-
         public DbSet<Logs> Logs { get; set; }
-
         public DbSet<Bugs> Bugs { get; set; }
-
         public DbSet<Books> Books { get; set; }
+        public DbSet<Tracks> Tracks { get; set; }
 
         public static ApplicationDbContext Create()
         {

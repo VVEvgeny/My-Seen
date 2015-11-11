@@ -619,9 +619,111 @@ namespace MySeenWeb.Controllers
             if (User.Identity.IsAuthenticated && Admin.isAdmin(User.Identity.GetUserName()))
             {
                 TracksViewModel model = new TracksViewModel();
+                model.Load(User.Identity.GetUserId());
                 return View(model);
             }
             return RedirectToAction("Index");
+        }
+        [Authorize]
+        public ActionResult GetTrack(int id)
+        {
+            if (User.Identity.IsAuthenticated && Admin.isAdmin(User.Identity.GetUserName()))
+            {
+                TracksViewModel model = new TracksViewModel();
+                return Json(model.GetTrack(id, User.Identity.GetUserId()), JsonRequestBehavior.AllowGet);
+            }
+            return RedirectToAction("Index");
+        }
+        [Authorize]
+        [HttpPost]
+        public JsonResult AddTrack(string name, string type, string coordinates,string distance)
+        {
+            LogSave.Save(User.Identity.IsAuthenticated ? User.Identity.GetUserId() : "", Request.UserHostAddress, Request.UserAgent, "Home/AddTrack", name);
+            string errorMessage = string.Empty;
+            string user_id = User.Identity.GetUserId();
+            ApplicationDbContext ac = new ApplicationDbContext();
+
+            //errorMessage = "name=" + name + " type=" + type + " coordinates=" + coordinates + " distance=" + distance;
+
+            if (string.IsNullOrEmpty(errorMessage))
+            {
+                if (name.Length == 0)
+                {
+                    errorMessage = "Короткое название";
+                }
+            }
+            int _id = -1;
+            if (string.IsNullOrEmpty(errorMessage))
+            {
+                try
+                {
+                    _id = Convert.ToInt32(type);
+                    if (_id < 0) throw new Exception();
+                }
+                catch
+                {
+                    errorMessage = "Корявый тип";
+                }
+            }
+            if (string.IsNullOrEmpty(errorMessage))
+            {
+                if (coordinates.Length == 0)
+                {
+                    errorMessage = "Нет координат";
+                }
+            }
+            if (string.IsNullOrEmpty(errorMessage))
+            {
+                if (distance.Length == 0 || distance.ToLower()=="nan".ToLower() || distance=="0")
+                {
+                    errorMessage = "Ошибка вычисления расстояния, перепроверьте координаты";
+                }
+            }
+            double _distance = -1;
+            if (string.IsNullOrEmpty(errorMessage))
+            {
+                string s_distance = distance;
+                if(distance.Contains('.'))
+                {
+                    //if (distance.Length > (distance.IndexOf('.') + 1 + 4))
+                    {
+                        s_distance = s_distance.Remove(distance.IndexOf('.'));
+                    }
+                }
+                try
+                {
+                    _distance = Convert.ToDouble(s_distance);
+                    if (_distance < 0) throw new Exception();
+                }
+                catch (Exception e)
+                {
+                    errorMessage = "Нереальное расстояние =" + distance + " s_=" + s_distance + " mes=" + e.Message;
+                }
+            }
+            if (string.IsNullOrEmpty(errorMessage))
+            {
+                if (distance.Split(';').Count() < 1 || distance.Split(';').Count() > 100)
+                {
+                    errorMessage = "Ошибка колличества координат =" + distance.Split(';').Count().ToString();
+                }
+            }
+            if (string.IsNullOrEmpty(errorMessage))
+            {
+                try
+                {
+                    ac.Tracks.Add(new Tracks { UserId = User.Identity.GetUserId(), Type = _id, Coordinates = coordinates, Date = DateTime.Now, Name = name, Distance = _distance });
+                    ac.SaveChanges();
+                }
+                catch (Exception e)
+                {
+                    errorMessage = Resource.ErrorWorkWithDB + "=" + e.Message;
+                }
+            }
+            if (!string.IsNullOrEmpty(errorMessage))
+            {
+                return new JsonResult { Data = new { success = false, error = errorMessage } };
+            }
+            return Json(new { success = true });
         }
     }
 }

@@ -24,6 +24,7 @@
     <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\</SolutionDir>
     <RestorePackages>true</RestorePackages>
     <TargetFrameworkProfile />
+    <NuGetPackageImportStamp>20b19c3a</NuGetPackageImportStamp>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -63,6 +64,7 @@
     <Reference Include="System.Data" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="System.Drawing" />
+    <Reference Include="System.Net" />
     <Reference Include="System.Net.Http.Formatting, Version=5.2.3.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.AspNet.WebApi.Client.5.2.3\lib\net45\System.Net.Http.Formatting.dll</HintPath>
       <Private>True</Private>
@@ -231,10 +233,20 @@
     <Compile Include="Migrations\201511101233351_9.Designer.cs">
       <DependentUpon>201511101233351_9.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201511111233512_10.cs" />
+    <Compile Include="Migrations\201511111233512_10.Designer.cs">
+      <DependentUpon>201511111233512_10.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201511111428436_11.cs" />
+    <Compile Include="Migrations\201511111428436_11.Designer.cs">
+      <DependentUpon>201511111428436_11.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\Bugs.cs" />
     <Compile Include="Models\BugsView.cs" />
+    <Compile Include="Models\Tracks.cs" />
+    <Compile Include="Models\TracksView.cs" />
     <Compile Include="Models\TracksViewModel.cs" />
     <Compile Include="Models\PaginationViewModel.cs" />
     <Compile Include="Models\LogsViewModel.cs" />
@@ -305,6 +317,9 @@
     <Content Include="Content\bootstrap.css.map" />
     <None Include="Properties\PublishProfiles\myseen.pubxml" />
     <None Include="Scripts\jquery-2.1.4.intellisense.js" />
+    <Content Include="Scripts\gmap3.js" />
+    <Content Include="Scripts\gmap3.min.js" />
+    <Content Include="Scripts\myseen.gmap.js" />
     <Content Include="Scripts\myseen.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
@@ -399,6 +414,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201511101233351_9.resx">
       <DependentUpon>201511101233351_9.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201511111233512_10.resx">
+      <DependentUpon>201511111233512_10.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201511111428436_11.resx">
+      <DependentUpon>201511111428436_11.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

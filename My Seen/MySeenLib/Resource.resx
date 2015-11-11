@@ -522,4 +522,22 @@
   <data name="NoLongerSupportedVersion" xml:space="preserve">
     <value>No Longer Supported Version</value>
   </data>
+  <data name="Car" xml:space="preserve">
+    <value>Car</value>
+  </data>
+  <data name="Distance" xml:space="preserve">
+    <value>Distance</value>
+  </data>
+  <data name="FootBike" xml:space="preserve">
+    <value>Foot + Bike</value>
+  </data>
+  <data name="Km" xml:space="preserve">
+    <value>Ml</value>
+  </data>
+  <data name="Tracks" xml:space="preserve">
+    <value>Tracks</value>
+  </data>
+  <data name="Map" xml:space="preserve">
+    <value>Map</value>
+  </data>
 </root>

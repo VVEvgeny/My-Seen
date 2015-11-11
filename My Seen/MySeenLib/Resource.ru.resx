@@ -522,4 +522,22 @@
   <data name="NoLongerSupportedVersion" xml:space="preserve">
     <value>Данная версия не поддерживается</value>
   </data>
+  <data name="Car" xml:space="preserve">
+    <value>Авто</value>
+  </data>
+  <data name="Distance" xml:space="preserve">
+    <value>Расстояние</value>
+  </data>
+  <data name="FootBike" xml:space="preserve">
+    <value>Вело + Пехо</value>
+  </data>
+  <data name="Km" xml:space="preserve">
+    <value>Км</value>
+  </data>
+  <data name="Tracks" xml:space="preserve">
+    <value>Треки</value>
+  </data>
+  <data name="Map" xml:space="preserve">
+    <value>Карта</value>
+  </data>
 </root>

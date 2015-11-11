@@ -3,7 +3,10 @@
 @if (Request.IsAuthenticated)
 {
     if (Admin.isAdmin(User.Identity.GetUserName()))
-    { 
+    {
+        <ul class="nav navbar-nav">
+            <li>@Html.ActionLink(Resource.Tracks, "Tracks", "Home", routeValues: null, htmlAttributes: new { id = "usersLink" })</li>
+        </ul>
         <ul class="nav navbar-nav">
             <li>@Html.ActionLink(Resource.Users, "Users", "Home", routeValues: null, htmlAttributes: new { id = "usersLink" })</li>
         </ul>
@@ -19,7 +22,7 @@
     @Html.AntiForgeryToken()
 
     <ul class="nav navbar-nav navbar-right">
-        @if(!Request.Browser.IsMobileDevice)
+        @if(Request.Browser.IsMobileDevice)
         { 
             <li><a href='https://play.google.com/store/apps/details?id=com.vve.myseen'>@Resource.OurAndroidApp</a></li>
         }
@@ -31,7 +34,7 @@
 else
 {
     <ul class="nav navbar-nav navbar-right">
-        @if (!Request.Browser.IsMobileDevice)
+        @if (Request.Browser.IsMobileDevice)
         {
             <li><a href='https://play.google.com/store/apps/details?id=com.vve.myseen'>@Resource.OurAndroidApp</a></li>
         }
