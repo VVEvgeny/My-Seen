@@ -540,4 +540,10 @@
   <data name="Map" xml:space="preserve">
     <value>Карта</value>
   </data>
+  <data name="Coordinates" xml:space="preserve">
+    <value>Координаты</value>
+  </data>
+  <data name="Type" xml:space="preserve">
+    <value>Тип</value>
+  </data>
 </root>

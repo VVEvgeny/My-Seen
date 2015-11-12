@@ -286,6 +286,15 @@ namespace MySeenLib {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Coordinates.
+        /// </summary>
+        public static string Coordinates {
+            get {
+                return ResourceManager.GetString("Coordinates", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Create.
         /// </summary>
         public static string Create {
@@ -1209,6 +1218,15 @@ namespace MySeenLib {
         public static string TxtForLogin2 {
             get {
                 return ResourceManager.GetString("TxtForLogin2", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Type.
+        /// </summary>
+        public static string Type {
+            get {
+                return ResourceManager.GetString("Type", resourceCulture);
             }
         }
         

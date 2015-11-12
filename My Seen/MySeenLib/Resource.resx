@@ -540,4 +540,10 @@
   <data name="Map" xml:space="preserve">
     <value>Map</value>
   </data>
+  <data name="Coordinates" xml:space="preserve">
+    <value>Coordinates</value>
+  </data>
+  <data name="Type" xml:space="preserve">
+    <value>Type</value>
+  </data>
 </root>

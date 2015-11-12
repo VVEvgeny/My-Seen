@@ -4,8 +4,6 @@ $(document).ready(function () {
             map: {
                 options: {
                     zoom: 2,
-                    zoomControl: true,
-                    scaleControl: false,
                     mapTypeId: google.maps.MapTypeId.ROADMAP
                 }
             }
@@ -76,6 +74,11 @@ function addNew_WithZoomAndCenter(data, track_coords_LatLng, Zoom)
 function addNew(track_coords_LatLng) {
     jQuery("#my_map").gmap3(
     {
+        map: {
+            options: {
+                zoom: 2
+            }
+        },
         polyline: {
             options: {
                 strokeColor: "#FF0000",//Красный
@@ -115,11 +118,17 @@ function showTrack(id,centerAndZoom)
             //console.log("min lat=", data.Min.lat, "lng", data.Min.lng);
 
             var maxLen = google.maps.geometry.spherical.computeDistanceBetween(p1, p2) / 1000;
-            //console.log("maxLen=", maxLen);
+            console.log("maxLen=", maxLen);
             if (maxLen < 10) {
                 Zoom = 14;
             }
-            else if (maxLen > 500 && maxLen < 1000) {
+            else if (maxLen >= 300 && maxLen < 400) {
+                Zoom = 8;
+            }
+            else if (maxLen >= 400 && maxLen < 500) {
+                Zoom = 7;
+            }
+            else if (maxLen >= 500 && maxLen < 1000) {
                 Zoom = 6;
             }
 

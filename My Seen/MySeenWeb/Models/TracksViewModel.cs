@@ -70,18 +70,25 @@ namespace MySeenWeb.Models
 
         public IEnumerable<TracksView> TracksFoot;
         public IEnumerable<TracksView> TracksCar;
+        public bool HaveTracksFoot { get; set; }
+        public bool HaveTracksCar { get; set; }
+        public DateTime Date { get; set; }
 
         public void Load(string userId)
         {
             ApplicationDbContext ac = new ApplicationDbContext();
             TracksFoot = ac.Tracks.Where(t => t.UserId == userId && t.Type == (int)TrackTypes.Foot).OrderByDescending(t => t.Date).Select(TracksView.Map);
+            HaveTracksFoot = TracksFoot.Count() > 0;
             TracksCar = ac.Tracks.Where(t => t.UserId == userId && t.Type == (int)TrackTypes.Car).OrderByDescending(t => t.Date).Select(TracksView.Map);
+            HaveTracksCar = TracksCar.Count() > 0;
 
             Type = ((int)TrackTypes.Foot).ToString();
             List<SelectListItem> listItems = new List<SelectListItem>();
             listItems.Add(new SelectListItem { Text = Resource.FootBike, Value = ((int)TrackTypes.Foot).ToString(), Selected = true });
             listItems.Add(new SelectListItem { Text = Resource.Car, Value = ((int)TrackTypes.Car).ToString(), Selected = false });
             typesList = listItems;
+
+            Date = DateTime.Now;
         }
 
         public TrackInfo GetTrack(int id, string userId)

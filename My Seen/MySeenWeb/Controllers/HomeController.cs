@@ -625,6 +625,27 @@ namespace MySeenWeb.Controllers
             return RedirectToAction("Index");
         }
         [Authorize]
+        public ActionResult ShareTrack(int id)
+        {
+            string errorMessage = string.Empty;
+            ApplicationDbContext ac = new ApplicationDbContext();
+            string userId=User.Identity.GetUserId();
+            if(ac.Tracks.Where(t => t.Id == id && t.UserId == userId).Count()!=0)
+            {
+                Tracks track = ac.Tracks.Where(t => t.Id == id && t.UserId == userId).First();
+                //Поместить запись в таблицу расшареных, подумать как отдавать ссылку на расшареные
+            }
+            else
+            {
+                errorMessage = "Трек не найден";
+            }
+            if (!string.IsNullOrEmpty(errorMessage))
+            {
+                return new JsonResult { Data = new { success = false, error = errorMessage } };
+            }
+            return Json(new { success = true });
+        }
+        [Authorize]
         public ActionResult GetTrack(int id)
         {
             if (User.Identity.IsAuthenticated && Admin.isAdmin(User.Identity.GetUserName()))
