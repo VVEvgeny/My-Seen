@@ -25,20 +25,32 @@
             </ul>
             <div class="tab-content">
                 <div id="menu1" class="list-group tab-pane fade in active">
+                    @if (Model.TracksFoot.Count() > 0)
+                    {
+                        <a href="" class="list-group-item track-id" id="All Foot">
+                            <h5 class="list-group-item-heading align-center">@Resource.All</h5>
+                        </a>
+                    }
                     @foreach (var track in Model.TracksFoot)
                     {
-                        <a href="javascript:showTrack(@track.Id)" class="list-group-item">
+                        <a href="" class="list-group-item track-id" id=@track.Id>
                             <h5 class="list-group-item-heading">@track.Name<span class="badge pull-right">@track.DateText</span></h5>
-                            <h6 class="list-group-item-text align-center">@Resource.Distance:<span class="badge pull-right alert-info small">@track.DistanceText</span></h6>
+                            <h6 class="list-group-item-text align-center">@Resource.Distance :<span class="badge pull-right alert-info small">@track.DistanceText</span></h6>
                         </a>
                     }
                 </div>
                 <div id="menu2" class="list-group tab-pane fade">
+                    @if (Model.TracksCar.Count() > 0)
+                    {
+                        <a href="" class="list-group-item track-id" id="All Car">
+                            <h5 class="list-group-item-heading align-center">@Resource.All</h5>
+                        </a>
+                    }
                     @foreach (var track in Model.TracksCar)
                     {
-                        <a href="javascript:showTrack(@track.Id)" class="list-group-item">
+                        <a href="" class="list-group-item track-id" id=@track.Id>
                             <h5 class="list-group-item-heading">@track.Name<span class="badge pull-right">@track.DateText</span></h5>
-                            <h6 class="list-group-item-text align-center">Distance:<span class="badge pull-right alert-info small">@track.DistanceText</span></h6>
+                            <h6 class="list-group-item-text align-center">@Resource.Distance :<span class="badge pull-right alert-info small">@track.DistanceText</span></h6>
                         </a>
                     }
                 </div>
@@ -146,6 +158,73 @@
                 };
                 sendRequest(url, data);
 
+                return false;
+            });
+
+            var $list = $('.tab-content');
+            $list.off('click', '.track-id');
+            $list.on('click', '.track-id', function () {
+                var $item = $(this);
+                var id = $item.attr('id');
+                //console.log("id=", id);
+                if (id === 'All Foot')
+                {
+                    clearMap();
+                    var $rows = $list.find('a');
+                    //console.log("rows=", $rows);
+
+                    var skip = false;
+                    var skip_once = false;
+                    $rows.each(function (index, element) 
+                    {
+                        var $row = $(element);
+                        //console.log("row=", $row);
+                        var id = $row.attr('id');
+                        skip_once = false;
+
+                        if (id === 'All Foot') skip_once = true;
+                        if (id === 'All Car') skip = true;
+
+                        if (!(skip || skip_once)) {
+                            showTrack(id);
+                        }
+                        else
+                        {
+                            //console.log("skip");
+                        }
+                    });
+                    //Просто перебрать все пехо треки и показать их без очистки
+                }
+                else if (id === 'All Car')
+                {
+                    clearMap();
+                    var $rows = $list.find('a');
+                    //console.log("rows=", $rows);
+
+                    var skip = false;
+                    var skip_once = false;
+                    $rows.each(function (index, element) {
+                        var $row = $(element);
+                        //console.log("row=", $row);
+                        var id = $row.attr('id');
+                        skip_once = false;
+
+                        if (id === 'All Foot') skip = true;
+                        if (id === 'All Car')
+                        {
+                            skip = false;
+                            skip_once = true;
+                        }
+
+                        if (!(skip || skip_once)) {
+                            showTrack(id);
+                        }
+                        else {
+                            //console.log("skip");
+                        }
+                    });
+                }
+                else showTrack(id,true);
                 return false;
             });
         });
