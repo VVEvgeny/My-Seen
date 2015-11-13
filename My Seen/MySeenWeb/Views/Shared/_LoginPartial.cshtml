@@ -5,9 +5,6 @@
     if (Admin.isAdmin(User.Identity.GetUserName()))
     {
         <ul class="nav navbar-nav">
-            <li>@Html.ActionLink(Resource.Tracks, "Tracks", "Home", routeValues: null, htmlAttributes: new { id = "usersLink" })</li>
-        </ul>
-        <ul class="nav navbar-nav">
             <li>@Html.ActionLink(Resource.Users, "Users", "Home", routeValues: null, htmlAttributes: new { id = "usersLink" })</li>
         </ul>
         <ul class="nav navbar-nav">
@@ -26,7 +23,9 @@
         { 
             <li><a href='https://play.google.com/store/apps/details?id=com.vve.myseen'>@Resource.OurAndroidApp</a></li>
         }
-        <li>@Html.ActionLink(User.Identity.GetUserName() , "Index", "Manage", routeValues: null, htmlAttributes: new { title = Resource.Manage })</li>
+        @{string UserName = User.Identity.GetUserName();}
+        @if (UserName.Contains("@")) { UserName = UserName.Remove(UserName.IndexOf('@')); }
+        <li>@Html.ActionLink(UserName , "Index", "Manage", routeValues: null, htmlAttributes: new { title = Resource.Manage })</li>
         <li><a href="javascript:document.getElementById('logoutForm').submit()">@Resource.LogOff</a></li>
     </ul>
     }

@@ -11,111 +11,170 @@ namespace MySeenWeb.Controllers
 {
     public class BaseController : Controller
     {
-        private string CoockieSelectedKey = "RecordPerPage";
+        public int ReadCookie(string key, int defaultValue)
+        {
+            int readed = -1;
+            try
+            {
+                readed = Convert.ToInt32(ReadCookie(key, defaultValue.ToString()));
+            }
+            catch
+            {
+                WriteCookie(key, defaultValue);
+                readed = defaultValue;
+            }
+            return readed;
+        }
+        public string ReadCookie(string key, string defaultValue)
+        {
+            HttpCookie cookie = ControllerContext.HttpContext.Request.Cookies[key];
+            if (cookie == null)
+            {
+                cookie = new HttpCookie(key);
+                cookie.Value = defaultValue;
+                cookie.Expires = DateTime.Now.AddDays(1);
+                ControllerContext.HttpContext.Response.Cookies.Add(cookie);
+                return defaultValue;
+            }
+            return cookie.Value;
+        }
+        public bool TryReadCookie(string key)
+        {
+            HttpCookie cookie = ControllerContext.HttpContext.Request.Cookies[key];
+            if (cookie == null) return false;
+            return true;
+        }
+        public void WriteCookie(string key, object value)
+        {
+            WriteCookie(key, value.ToString());
+        }
+        public void WriteCookie(string key, string value)
+        {
+            HttpCookie cookie = ControllerContext.HttpContext.Request.Cookies[key];
+            if (cookie == null)
+            {
+                cookie = new HttpCookie(key);
+            }
+            cookie.Value = value;
+            cookie.Expires = DateTime.Now.AddDays(1);
+            ControllerContext.HttpContext.Response.Cookies.Add(cookie);
+        }
+        /*
+        public void RemoveCookie(string key)
+        {
+            ControllerContext.HttpContext.Request.Cookies.Remove(key);
+        }
+         * */
+
         public int RPP
         {
             get
             {
-                HttpCookie cookie = ControllerContext.HttpContext.Request.Cookies[CoockieSelectedKey];
-                string user_id = User.Identity.GetUserId();
-
-                if (cookie == null)
+                if (TryReadCookie(CookieKeys.RecordPerPage))
                 {
-                    cookie = new HttpCookie(CoockieSelectedKey);
-                    try
+                    int ret = ReadCookie(CookieKeys.RecordPerPage, Defaults.RecordPerPageBase.IndexAll);
+                    if (string.IsNullOrEmpty(Defaults.RecordPerPage.GetById(ret)))
                     {
-                        ApplicationDbContext ac = new ApplicationDbContext();
-                        ApplicationUser au = ac.Users.Where(u => u.Id == user_id).First();
-                        cookie.Value = au.RecordPerPage.ToString();
+                        string user_id = string.Empty;
+                        try
+                        {
+                            ApplicationDbContext ac = new ApplicationDbContext();
+                            user_id = User.Identity.GetUserId();
+                            ApplicationUser au = ac.Users.Where(u => u.Id == user_id).First();
+                            ret = au.RecordPerPage;
+                            WriteCookie(CookieKeys.RecordPerPage, ret);
+                        }
+                        catch
+                        {
+                            LogSave.Save(User.Identity.IsAuthenticated ? User.Identity.GetUserId() : "", Request.UserHostAddress, Request.UserAgent, "RecordPerPage catch No USER", user_id);
+                        }
                     }
-                    catch
-                    {
-                        LogSave.Save(User.Identity.IsAuthenticated ? User.Identity.GetUserId() : "", Request.UserHostAddress, Request.UserAgent, "RPP catch No USER", user_id);
-                        cookie.Value = "0";
-                    }
-                    cookie.Expires = DateTime.Now.AddDays(1);
-                    ControllerContext.HttpContext.Response.Cookies.Add(cookie);
+                    return ret == Defaults.RecordPerPageBase.IndexAll ? Defaults.RecordPerPageBase.ValAll : Convert.ToInt32(Defaults.RecordPerPage.GetById(ret));
                 }
                 else
                 {
-                    int ret = 0;
+                    string user_id = string.Empty;
+                    int ret = Defaults.RecordPerPageBase.IndexAll;
                     try
                     {
-                        ret = Convert.ToInt32(cookie.Value);
-                        if (string.IsNullOrEmpty(Defaults.RecordPerPage.GetById(ret))) throw new Exception();
-
-                        //теперь приведем к норм виду 0= все
-                        if (ret == Defaults.RecordPerPageBase.IndexAll)
-                        {
-                            ret = Defaults.RecordPerPageBase.ValAll;
-                        }
-                        else ret = Convert.ToInt32(Defaults.RecordPerPage.GetById(ret));
+                        ApplicationDbContext ac = new ApplicationDbContext();
+                        user_id = User.Identity.GetUserId();
+                        ApplicationUser au = ac.Users.Where(u => u.Id == user_id).First();
+                        ret = au.RecordPerPage;
+                        WriteCookie(CookieKeys.RecordPerPage, au.RecordPerPage);
                     }
                     catch
                     {
-                        ControllerContext.HttpContext.Request.Cookies.Remove(CoockieSelectedKey);
-                        ret = Defaults.RecordPerPageBase.ValAll;
+                        LogSave.Save(User.Identity.IsAuthenticated ? User.Identity.GetUserId() : "", Request.UserHostAddress, Request.UserAgent, "RecordPerPage catch No USER", user_id);
                     }
-                    return ret;
+                    return ret == Defaults.RecordPerPageBase.IndexAll ? Defaults.RecordPerPageBase.ValAll : Convert.ToInt32(Defaults.RecordPerPage.GetById(ret));
                 }
-                return Defaults.RecordPerPageBase.ValAll;
             }
             set
             {
-                HttpCookie cookie = ControllerContext.HttpContext.Request.Cookies[CoockieSelectedKey];
-                if (cookie == null)
-                {
-                    cookie = new HttpCookie(CoockieSelectedKey);
-                }
-                cookie.Value = value.ToString();
-                cookie.Expires = DateTime.Now.AddDays(1);
-                ControllerContext.HttpContext.Response.Cookies.Add(cookie);
+                WriteCookie(CookieKeys.RecordPerPage, value);
             }
         }
         private void SetLang()
         {
-            if (User.Identity.IsAuthenticated)
+            if (TryReadCookie(CookieKeys.Language))
             {
-                ApplicationDbContext ac = new ApplicationDbContext();
-                string user_id = User.Identity.GetUserId();
-                ApplicationUser au = null;
+                int lang = ReadCookie(CookieKeys.Language, Defaults.LanguagesBase.Indexes.English);
                 try
                 {
-                    au = ac.Users.Where(u => u.Id == user_id).First();
-                    try
-                    {
-                        CultureInfoTool.SetCulture(au.Culture);
-                    }
-                    catch
-                    {
-                        LogSave.Save(User.Identity.IsAuthenticated ? User.Identity.GetUserId() : "", Request.UserHostAddress, Request.UserAgent, "catch SetCulture");
-                    }
+                    CultureInfoTool.SetCulture(Defaults.Languages.GetValDB(lang));
                 }
                 catch
                 {
-                    LogSave.Save(User.Identity.IsAuthenticated ? User.Identity.GetUserId() : "", Request.UserHostAddress, Request.UserAgent, "catch No USER", user_id);
+                    LogSave.Save(User.Identity.IsAuthenticated ? User.Identity.GetUserId() : "", Request.UserHostAddress, Request.UserAgent, "catch SetCulture");
                 }
             }
             else
             {
-                var userLanguages = Request.UserLanguages;
-                if(userLanguages.Count()>0)
+                if (User.Identity.IsAuthenticated)
                 {
+                    string user_id = User.Identity.GetUserId();
                     try
                     {
-                        CultureInfoTool.SetCulture(userLanguages[0]);
+                        ApplicationDbContext ac = new ApplicationDbContext();
+                        ApplicationUser au = null;
+                        au = ac.Users.Where(u => u.Id == user_id).First();
+                        try
+                        {
+                            CultureInfoTool.SetCulture(au.Culture);
+                        }
+                        catch
+                        {
+                            LogSave.Save(User.Identity.IsAuthenticated ? User.Identity.GetUserId() : "", Request.UserHostAddress, Request.UserAgent, "catch SetCulture");
+                        }
                     }
                     catch
                     {
-                        CultureInfoTool.SetCulture(CultureInfoTool.Cultures.English);
+                        LogSave.Save(User.Identity.IsAuthenticated ? User.Identity.GetUserId() : "", Request.UserHostAddress, Request.UserAgent, "catch No USER", user_id);
                     }
                 }
                 else
                 {
-                    CultureInfoTool.SetCulture(CultureInfoTool.Cultures.English);
+                    var userLanguages = Request.UserLanguages;
+                    if (userLanguages.Count() > 0)
+                    {
+                        try
+                        {
+                            CultureInfoTool.SetCulture(userLanguages[0]);
+                        }
+                        catch
+                        {
+                            CultureInfoTool.SetCulture(CultureInfoTool.Cultures.English);
+                        }
+                    }
+                    else
+                    {
+                        CultureInfoTool.SetCulture(CultureInfoTool.Cultures.English);
+                    }
                 }
             }
         }
+
         protected override void ExecuteCore()
         {
             LogSave.Save(User.Identity.IsAuthenticated ? User.Identity.GetUserId() : "", Request.UserHostAddress, Request.UserAgent, "Base");

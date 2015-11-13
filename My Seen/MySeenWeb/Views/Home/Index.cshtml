@@ -3,23 +3,16 @@
 
 @model HomeViewModel
 
-@Scripts.Render("~/bundles/jquery", "~/bundles/bootstrap", "~/bundles/myseen")
-
-@{
-    ViewBag.Title = Resource.AppName;
-}
+@Scripts.Render("~/bundles/jquery", "~/bundles/bootstrap")
 
 <br />
 
 @if (User.Identity.IsAuthenticated)
 {
-    var isSelectedFilm = Model.IsSelectedFilm;
-    var isSelectedSerial = Model.IsSelectedSerial;
-
     <div class="form-inline">
         <div class="form-group">
             <label for="lstSelected" style="display: block;">@Resource.SelectTheCategory</label>
-            @Html.DropDownListFor(model => model.Selected, Model.selectList, new { @class = "form-control", @id = "lstSelected", @style = "width: 200px;" })
+            @Html.DropDownList("Selected", Model.selectList, new { @class = "form-control", @id = "lstSelected", @style = "width: 200px;" })
 
             <button type="button" class="btn btn-primary" id="addButton">
                 <span class="glyphicon glyphicon-plus"></span>
@@ -35,8 +28,12 @@
     </div>
 
     <br />
+    if (!Model.PageTracks)
+    { 
+        @Scripts.Render("~/bundles/myseen")
+
     <table class="table table-striped" id="table">
-        @if (isSelectedFilm)
+        @if (Model.PageFilms)
         {
             <thead>
                 <tr>
@@ -48,7 +45,7 @@
                 </tr>
             </thead>
             <tbody>
-                @foreach (FilmsView elem in Model.Films)
+                @foreach (FilmsView elem in Model.Films.Data)
                 {
                     <tr>
                         <td class="align-center">
@@ -65,7 +62,7 @@
                 }
             </tbody>
         }
-        else if (isSelectedSerial)
+        else if (Model.PageSerials)
         {
             <thead>
                 <tr>
@@ -79,7 +76,7 @@
                 </tr>
             </thead>
             <tbody>
-                @foreach (SerialsView elem in Model.Serials)
+                @foreach (SerialsView elem in Model.Serials.Data)
                 {
                     <tr>
                         <td class="align-center">
@@ -98,7 +95,7 @@
                 }
             </tbody>
         }
-        else
+        else if (Model.PageBooks)
         {
             <thead>
                 <tr>
@@ -111,7 +108,7 @@
                 </tr>
             </thead>
             <tbody>
-                @foreach (BooksView elem in Model.Books)
+                @foreach (BooksView elem in Model.Books.Data)
                 {
                     <tr>
                         <td class="align-center">
@@ -132,8 +129,79 @@
     </table>
 
     <div class="text-center">
-            @Html.Partial("_Pagination", Model.Pages)
+        @Html.Partial("_Pagination", Model.Pages)
     </div>
+}
+else
+{
+   @Scripts.Render("~/bundles/gmap3", "~/bundles/myseen.gmap")
+    <!-- надо геометрия для расчета расстояний и путей <script type="text/javascript" src="http://maps.google.com/maps/api/js"></script>-->
+    <script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?libraries=geometry"></script>
+
+    <div class="row">
+        <div class="panel panel-primary col-md-3">
+            <div class="panel panel-default">
+                <div class="panel-heading">@Resource.Tracks</div>
+                <ul class="nav nav-tabs">
+                    @if (Model.Tracks.HaveFoot)
+                    {
+                        <li class="active"><a data-toggle="tab" href="#menu1">@Resource.FootBike</a></li>
+                    }
+                    @if (Model.Tracks.HaveCar)
+                    {
+                        if (Model.Tracks.HaveFoot)
+                        {
+                            <li><a data-toggle="tab" href="#menu2">@Resource.Car</a></li>
+                        }
+                        else
+                        {
+                            <li class="active"><a data-toggle="tab" href="#menu2">@Resource.Car</a></li>
+                        }
+                    }
+                </ul>
+                <div class="tab-content page-size-gmap page-scrolable">
+                    @if (Model.Tracks.HaveFoot)
+                    {
+                        <div id="menu1" class="list-group tab-pane fade in active">
+                            <a href="" class="list-group-item track-id" id="All Foot">
+                                <h5 class="list-group-item-heading align-center">@Resource.All</h5>
+                            </a>
+                            @foreach (var track in Model.Tracks.DataFoot)
+                            {
+                                <a href="" class="list-group-item track-id" id=@track.Id>
+                                    <h5 class="list-group-item-heading">@track.Name<span class="badge pull-right">@track.DateText</span></h5>
+                                    <h6 class="list-group-item-text align-center">@Resource.Distance :<span class="badge pull-right alert-info small">@track.DistanceText</span></h6>
+                                </a>
+                            }
+                        </div>
+                    }
+                    @if (Model.Tracks.HaveCar)
+                    {
+                        <div id="menu2" class="list-group tab-pane fade @Model.Tracks.HaveFoot?:in active">
+                            <a href="" class="list-group-item track-id" id="All Car">
+                                <h5 class="list-group-item-heading align-center">@Resource.All</h5>
+                            </a>
+                            @foreach (var track in Model.Tracks.DataCar)
+                            {
+                                <a href="" class="list-group-item track-id" id=@track.Id>
+                                    <h5 class="list-group-item-heading">@track.Name<span class="badge pull-right">@track.DateText</span></h5>
+                                    <h6 class="list-group-item-text align-center">@Resource.Distance :<span class="badge pull-right alert-info small">@track.DistanceText</span></h6>
+                                </a>
+                            }
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+        <div class="panel panel-primary col-md-9">
+            <div class="panel panel-default">
+                <div class="panel-heading">@Resource.Map</div>
+                <div id="my_map" class="gmap page-size-gmap"></div>
+            </div>
+        </div>
+    </div>
+}
+
 
     <div class="modal fade modal-window" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel">
         <div class="modal-dialog">
@@ -142,23 +210,27 @@
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                     <h4 class="modal-title">
                         @Resource.AddNew
-                        @if (isSelectedFilm)
+                        @if (Model.PageFilms)
                         {
                             <text>@Resource.Film</text>
                         }
-                        else if (isSelectedSerial)
+                        else if (Model.PageSerials)
                         {
                             <text>@Resource.Serial</text>
                         }
-                        else
+                        else if (Model.PageBooks)
                         {
                             <text>@Resource.Book</text>
+                        }
+                        else if (Model.PageTracks)
+                        {
+                            <text>@Resource.Tracks</text>
                         }
                     </h4>
                 </div>
                 <div class="modal-body">
                     <div class="form-horizontal">
-                        @if (isSelectedFilm)
+                        @if (Model.PageFilms)
                         {
                             <div class="form-group">
                                 <label for="filmName" class="col-sm-2 control-label">@Resource.Name</label>
@@ -169,17 +241,17 @@
                             <div class="form-group">
                                 <label for="filmGenre" class="col-sm-2 control-label">@Resource.Genre</label>
                                 <div class="col-sm-10">
-                                    @Html.DropDownListFor(model => model.Genre, Model.genreList, new { @class = "form-control movie-genre", @id = "filmGenre" })
+                                    @Html.DropDownList("Genre", Model.genreList, new { @class = "form-control movie-genre", @id = "filmGenre" })
                                 </div>
                             </div>
                             <div class="form-group">
                                 <label for="filmRating" class="col-sm-2 control-label">@Resource.Rating</label>
                                 <div class="col-sm-10">
-                                    @Html.DropDownListFor(model => model.Rating, Model.ratingList, new { @class = "form-control movie-rating", @id = "filmRating" })
+                                    @Html.DropDownList("Rating", Model.ratingList, new { @class = "form-control movie-rating", @id = "filmRating" })
                                 </div>
                             </div>
                         }
-                        else if (isSelectedSerial)
+                        else if (Model.PageSerials)
                         {
                             <div class="form-group">
                                 <label for="serialName" class="col-sm-2 control-label">@Resource.Name</label>
@@ -202,17 +274,17 @@
                             <div class="form-group">
                                 <label for="serialGenre" class="col-sm-2 control-label">@Resource.Genre</label>
                                 <div class="col-sm-10">
-                                    @Html.DropDownListFor(model => model.Genre, Model.genreList, new { @class = "form-control movie-genre", @id = "serialGenre" })
+                                    @Html.DropDownList("Genre", Model.genreList, new { @class = "form-control movie-genre", @id = "serialGenre" })
                                 </div>
                             </div>
                             <div class="form-group">
                                 <label for="serialRating" class="col-sm-2 control-label">@Resource.Rating</label>
                                 <div class="col-sm-10">
-                                    @Html.DropDownListFor(model => model.Rating, Model.ratingList, new { @class = "form-control movie-rating", @id = "serialRating" })
+                                    @Html.DropDownList("Rating", Model.ratingList, new { @class = "form-control movie-rating", @id = "serialRating" })
                                 </div>
                             </div>
                         }
-                        else
+                        else if (Model.PageBooks)
                         {
                             <div class="form-group">
                                 <label for="bookName" class="col-sm-2 control-label">@Resource.Name</label>
@@ -229,13 +301,34 @@
                             <div class="form-group">
                                 <label for="bookGenre" class="col-sm-2 control-label">@Resource.Genre</label>
                                 <div class="col-sm-10">
-                                    @Html.DropDownListFor(model => model.Genre, Model.genreList, new { @class = "form-control movie-genre", @id = "bookGenre" })
+                                    @Html.DropDownList("Genre", Model.genreList, new { @class = "form-control movie-genre", @id = "bookGenre" })
                                 </div>
                             </div>
                             <div class="form-group">
                                 <label for="bookRating" class="col-sm-2 control-label">@Resource.Rating</label>
                                 <div class="col-sm-10">
-                                    @Html.DropDownListFor(model => model.Rating, Model.ratingList, new { @class = "form-control movie-rating", @id = "bookRating" })
+                                    @Html.DropDownList("Rating", Model.ratingList, new { @class = "form-control movie-rating", @id = "bookRating" })
+                                </div>
+                            </div>
+                        }
+                        else if (Model.PageTracks)
+                        {
+                            <div class="form-group">
+                                <label for="trackName" class="col-sm-2 control-label">@Resource.Name</label>
+                                <div class="col-sm-10">
+                                    <input type="text" class="form-control bag-name" id="trackName" placeholder="@Resource.Name">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="type" class="col-sm-2 control-label">@Resource.Type</label>
+                                <div class="col-sm-10">
+                                    @Html.DropDownList("type", Model.typesList, new { @class = "form-control type", @id = "type" })
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="trackCoords" class="col-sm-2 control-label">@Resource.Coordinates</label>
+                                <div class="col-sm-10">
+                                    @Html.TextArea("trackCoords", null, 10, 55, new { @class = "form-control trackCoords", @placeholder = "lat,lng;lat,lng;..." })
                                 </div>
                             </div>
                         }
@@ -272,8 +365,10 @@
             var $table = $('.table.table-striped');
             var $modal = $('.modal-window');
             var $quickSearch = $('#quickSearch');
-            var isSelectedFilm = '@Model.IsSelectedFilm' === 'True';
-            var isSelectedSerial = '@Model.IsSelectedSerial' === 'True';
+            var isSelectedFilm = '@Model.PageFilms' === 'True';
+            var isSelectedSerial = '@Model.PageSerials' === 'True';
+            var isSelectedBook = '@Model.PageBooks' === 'True';
+            var isSelectedTrack = '@Model.PageTracks' === 'True';
             var url = '';
             var data = {};
 
@@ -348,13 +443,22 @@
                         rating: $('#serialRating').val()
                     };
                 }
-                else {
+                else if (isSelectedBook) {
                     url = '/Home/AddBook';
                     data = {
                         name: $('#bookName').val(),
                         authors: $('#bookAuthor').val(),
                         genre: $('#bookGenre').val(),
                         rating: $('#bookRating').val()
+                    };
+                }
+                else if (isSelectedTrack) {
+                    url = '/Home/AddTrack';
+                    data = {
+                        name: $('#trackName').val(),
+                        type: $('#type').val(),
+                        coordinates: $('#trackCoords').val(),
+                        distance: CalcDistanceFromTxt($('#trackCoords').val())
                     };
                 }
 
@@ -416,13 +520,12 @@
                     }
 
                     $modalTitle.text('@Resource.Edit @Resource.Serial');
-                        $serialSeason.val(season);
-                        $serialSeries.val(series);
-                    }
-                    else
-                    {
-                        $modalTitle.text('@Resource.Edit @Resource.Book');
-                    }
+                    $serialSeason.val(season);
+                    $serialSeries.val(series);
+                }
+                else {
+                    $modalTitle.text('@Resource.Edit @Resource.Book');
+                }
 
                 $submitAddButton.hide();
                 $saveButton.show();
@@ -453,8 +556,7 @@
                 });
 
                 $saveButton.off('click');
-                $saveButton.on('click', function ()
-                {
+                $saveButton.on('click', function () {
                     if (isSelectedFilm) {
                         url = '/Home/EditFilm';
                         data = {
@@ -474,7 +576,7 @@
                             rating: $('#serialRating').val()
                         };
                     }
-                    else  {
+                    else {
                         url = '/Home/EditBook';
                         data = {
                             id: id,
@@ -537,7 +639,69 @@
 
                 return false;
             });
+
+            var $list = $('.tab-content');
+            $list.off('click', '.track-id');
+            $list.on('click', '.track-id', function () {
+                var $item = $(this);
+                var id = $item.attr('id');
+                //console.log("id=", id);
+                if (id === 'All Foot') {
+                    clearMap();
+                    var $rows = $list.find('a');
+                    //console.log("rows=", $rows);
+
+                    var skip = false;
+                    var skip_once = false;
+                    $rows.each(function (index, element) {
+                        var $row = $(element);
+                        //console.log("row=", $row);
+                        var id = $row.attr('id');
+                        skip_once = false;
+
+                        if (id === 'All Foot') skip_once = true;
+                        if (id === 'All Car') skip = true;
+
+                        if (!(skip || skip_once)) {
+                            showTrack(id);
+                        }
+                        else {
+                            //console.log("skip");
+                        }
+                    });
+                    //Просто перебрать все пехо треки и показать их без очистки
+                }
+                else if (id === 'All Car') {
+                    clearMap();
+                    var $rows = $list.find('a');
+                    //console.log("rows=", $rows);
+
+                    var skip = false;
+                    var skip_once = false;
+                    $rows.each(function (index, element) {
+                        var $row = $(element);
+                        //console.log("row=", $row);
+                        var id = $row.attr('id');
+                        skip_once = false;
+
+                        if (id === 'All Foot') skip = true;
+                        if (id === 'All Car') {
+                            skip = false;
+                            skip_once = true;
+                        }
+
+                        if (!(skip || skip_once)) {
+                            showTrack(id);
+                        }
+                        else {
+                            //console.log("skip");
+                        }
+                    });
+                }
+                else showTrack(id, true);
+                return false;
+            });
         });
     })(jQuery);
-    </script>
+</script>
 }

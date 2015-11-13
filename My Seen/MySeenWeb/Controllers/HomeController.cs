@@ -15,29 +15,12 @@ namespace MySeenWeb.Controllers
         public ActionResult Index(int? page)
         {
             LogSave.Save(User.Identity.IsAuthenticated?User.Identity.GetUserId():"", Request.UserHostAddress, Request.UserAgent, "Home/Index");
+
             if (User.Identity.IsAuthenticated)
             {
                 HomeViewModel af = new HomeViewModel();
-                HttpCookie cookie = ControllerContext.HttpContext.Request.Cookies[HomeViewModel.AFCookies.CoockieSelectedKey];
-                if (cookie == null)
-                {
-                    af.Selected = Defaults.Categories.GetById(Defaults.CategoryBase.FilmIndex);
-                    cookie = new HttpCookie(HomeViewModel.AFCookies.CoockieSelectedKey);
-                    cookie.Value = Defaults.CategoryBase.FilmIndex.ToString();
-                    cookie.Expires = DateTime.Now.AddDays(1);
-                    ControllerContext.HttpContext.Response.Cookies.Add(cookie);
-                }
-                else
-                {
-                    if (cookie.Value == Defaults.CategoryBase.FilmIndex.ToString())af.Selected = Defaults.Categories.GetById(Defaults.CategoryBase.FilmIndex);
-                    else if (cookie.Value == Defaults.CategoryBase.SerialIndex.ToString())af.Selected = Defaults.Categories.GetById(Defaults.CategoryBase.SerialIndex);
-                    else af.Selected = Defaults.Categories.GetById(Defaults.CategoryBase.BookIndex);
-                }
-                af.LoadSelectList();
-                if (af.Selected == Defaults.Categories.GetById(Defaults.CategoryBase.FilmIndex)) af.LoadFilms(User.Identity.GetUserId(), page == null ? 1 : page.Value, RPP);
-                else if (af.Selected == Defaults.Categories.GetById(Defaults.CategoryBase.SerialIndex)) af.LoadSerials(User.Identity.GetUserId(), page == null ? 1 : page.Value, RPP);
-                else af.LoadBooks(User.Identity.GetUserId(), page == null ? 1 : page.Value, RPP);
-
+                af.Selected = ReadCookie(CookieKeys.HomeCategory, Defaults.CategoryBase.FilmIndex).ToString();
+                af.Load(User.Identity.GetUserId(), page == null ? 1 : page.Value, RPP);
                 return View(af);
             }
             return View();
@@ -45,27 +28,13 @@ namespace MySeenWeb.Controllers
         [HttpPost]
         public JsonResult ChangeCookies(string selected)
         {
-            HttpCookie cc = ControllerContext.HttpContext.Request.Cookies[HomeViewModel.AFCookies.CoockieSelectedKey];
-            if (cc == null)
-            {
-                cc = new HttpCookie(HomeViewModel.AFCookies.CoockieSelectedKey);
-            }
-            cc.Value = Defaults.Categories.GetId(selected).ToString();
-            cc.Expires = DateTime.Now.AddDays(1);
-            ControllerContext.HttpContext.Response.Cookies.Add(cc);
+            WriteCookie(CookieKeys.HomeCategory, selected);
             return Json(new { success = true });
         }
         [HttpPost]
         public JsonResult ChangeCookiesBugs(string selected)
         {
-            HttpCookie cc = ControllerContext.HttpContext.Request.Cookies[BugsViewModel.AFCookies.CoockieSelectedKey];
-            if (cc == null)
-            {
-                cc = new HttpCookie(BugsViewModel.AFCookies.CoockieSelectedKey);
-            }
-            cc.Value = selected;
-            cc.Expires = DateTime.Now.AddDays(1);
-            ControllerContext.HttpContext.Response.Cookies.Add(cc);
+            WriteCookie(CookieKeys.BugsCategory, selected);
             return Json(new { success = true });
         }
         [Authorize]
@@ -416,32 +385,7 @@ namespace MySeenWeb.Controllers
         {
             LogSave.Save(User.Identity.IsAuthenticated ? User.Identity.GetUserId() : "", Request.UserHostAddress, Request.UserAgent, "Home/Bugs");
             BugsViewModel model = new BugsViewModel();
-            HttpCookie cookie = ControllerContext.HttpContext.Request.Cookies[BugsViewModel.AFCookies.CoockieSelectedKey];
-            int complex_cookie = Defaults.ComplexBase.IndexAll;
-            if (cookie == null)
-            {
-                cookie = new HttpCookie(BugsViewModel.AFCookies.CoockieSelectedKey);
-                cookie.Value = complex_cookie.ToString();
-                cookie.Expires = DateTime.Now.AddDays(1);
-                ControllerContext.HttpContext.Response.Cookies.Add(cookie);
-            }
-            else
-            {
-                try
-                {
-                    complex_cookie = Convert.ToInt32(cookie.Value);
-                    if (complex_cookie < 0) throw new Exception();
-                }
-                catch
-                {
-                    complex_cookie = Defaults.ComplexBase.IndexAll;
-                    ControllerContext.HttpContext.Response.Cookies.Remove(BugsViewModel.AFCookies.CoockieSelectedKey);
-                    cookie.Value = complex_cookie.ToString();
-                    cookie.Expires = DateTime.Now.AddDays(1);
-                    ControllerContext.HttpContext.Response.Cookies.Add(cookie);
-                }
-            }
-            model.Load(complex_cookie, page == null ? 1 : page.Value, RPP);
+            model.Load(ReadCookie(CookieKeys.BugsCategory, Defaults.ComplexBase.IndexAll), page == null ? 1 : page.Value, RPP);
             return View(model);
         }
         [Authorize]
@@ -613,18 +557,6 @@ namespace MySeenWeb.Controllers
             return RedirectToAction("Index");
         }
         [Authorize]
-        public ActionResult Tracks()
-        {
-            LogSave.Save(User.Identity.IsAuthenticated ? User.Identity.GetUserId() : "", Request.UserHostAddress, Request.UserAgent, "Home/Tracks");
-            if (User.Identity.IsAuthenticated && Admin.isAdmin(User.Identity.GetUserName()))
-            {
-                TracksViewModel model = new TracksViewModel();
-                model.Load(User.Identity.GetUserId());
-                return View(model);
-            }
-            return RedirectToAction("Index");
-        }
-        [Authorize]
         public ActionResult ShareTrack(int id)
         {
             string errorMessage = string.Empty;
@@ -648,10 +580,10 @@ namespace MySeenWeb.Controllers
         [Authorize]
         public ActionResult GetTrack(int id)
         {
-            if (User.Identity.IsAuthenticated && Admin.isAdmin(User.Identity.GetUserName()))
+            if (User.Identity.IsAuthenticated)
             {
-                TracksViewModel model = new TracksViewModel();
-                return Json(model.GetTrack(id, User.Identity.GetUserId()), JsonRequestBehavior.AllowGet);
+                //TracksViewModel model = new TracksViewModel();
+                return Json(HomeViewModelTracks.GetTrack(id, User.Identity.GetUserId()), JsonRequestBehavior.AllowGet);
             }
             return RedirectToAction("Index");
         }

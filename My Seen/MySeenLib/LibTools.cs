@@ -330,6 +330,7 @@ namespace MySeenLib
             public static int FilmIndex = 0;
             public static int SerialIndex = 1;
             public static int BookIndex = 2;
+            public static int TrackIndex = 3;
             public override void Load()
             {
                 if (All == null)
@@ -338,6 +339,7 @@ namespace MySeenLib
                     All.Add(Resource.Films);
                     All.Add(Resource.Serials);
                     All.Add(Resource.Books);
+                    All.Add(Resource.Tracks);
                 }
             }
         }

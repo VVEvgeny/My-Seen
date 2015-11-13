@@ -12,11 +12,6 @@ namespace MySeenWeb.Models
 {
     public class BugsViewModel
     {
-        public static class AFCookies
-        {
-            public static string CoockieSelectedKey = "bugsSelected";
-        }
-
         public PaginationViewModel Pages { get; set; }
         public IEnumerable<BugsView> Bugs;
         public IEnumerable<SelectListItem> complexList { get; set; }

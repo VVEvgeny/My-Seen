@@ -7,52 +7,78 @@ using System.ComponentModel.DataAnnotations;
 using System.Security.Principal;
 using System.Web.Mvc;
 using MySeenLib;
+using System.Globalization;
 
 namespace MySeenWeb.Models
 {
     public class HomeViewModel
     {
-        public static class AFCookies
+        public PaginationViewModel Pages;
+        public string Selected { get; set; }
+
+        public bool PageFilms
         {
-            public static string CoockieSelectedKey = "eSelected";
-            public static string CoockieSelectedValueFilms = Defaults.Categories.GetById(Defaults.CategoryBase.FilmIndex);
-            public static string CoockieSelectedValueSerials = Defaults.Categories.GetById(Defaults.CategoryBase.SerialIndex);
-            public static string CoockieSelectedValueBooks = Defaults.Categories.GetById(Defaults.CategoryBase.BookIndex);
+            get
+            {
+                return Selected == Defaults.CategoryBase.FilmIndex.ToString();
+            }
         }
-        public PaginationViewModel Pages { get; set; }
-        public string Selected;
-        public bool IsSelectedFilm
+        public bool PageSerials
         {
-            get { return Selected == Defaults.Categories.GetById(Defaults.CategoryBase.FilmIndex); }            
+            get
+            {
+                return Selected == Defaults.CategoryBase.SerialIndex.ToString();
+            }
         }
-        public bool IsSelectedSerial
+        public bool PageBooks
         {
-            get { return Selected == Defaults.Categories.GetById(Defaults.CategoryBase.SerialIndex); }
+            get
+            {
+                return Selected == Defaults.CategoryBase.BookIndex.ToString();
+            }
+        }
+        public bool PageTracks
+        {
+            get
+            {
+                return Selected == Defaults.CategoryBase.TrackIndex.ToString();
+            }
         }
 
         public IEnumerable<SelectListItem> selectList { get; set; }
-        public string Rating;
+        public string Rating { get; set; }
         public IEnumerable<SelectListItem> ratingList { get; set; }
-        public string Genre;
+        public string Genre { get; set; }
         public IEnumerable<SelectListItem> genreList { get; set; }
+        public string Type { get; set; }
+        public IEnumerable<SelectListItem> typesList { get; set; }
 
         public HomeViewModel()
         {
             Selected = Defaults.Categories.GetById(Defaults.CategoryBase.FilmIndex);
             Rating = Defaults.Ratings.GetMaxValue();
             Genre = Defaults.Genres.GetMaxValue();
+            Type = ((int)TrackTypes.Foot).ToString();
         }
-        public IEnumerable<FilmsView> Films;
-        public IEnumerable<SerialsView> Serials;
-        public IEnumerable<BooksView> Books;
+        public HomeViewModelFilms Films;
+        public HomeViewModelSerials Serials;
+        public HomeViewModelBooks Books;
+        public HomeViewModelTracks Tracks;
 
-        public void LoadSelectList()
+        public void Load(string userId, int page, int countInPage)
+        {
+            LoadSelectList();
+            if (Selected == Defaults.CategoryBase.SerialIndex.ToString()) Serials = new HomeViewModelSerials(userId, page, countInPage, ref Pages);
+            else if (Selected == Defaults.CategoryBase.BookIndex.ToString()) Books = new HomeViewModelBooks(userId, page, countInPage, ref Pages);
+            else if (Selected == Defaults.CategoryBase.TrackIndex.ToString()) Tracks = new HomeViewModelTracks(userId);
+            else Films = new HomeViewModelFilms(userId, page, countInPage, ref Pages);//По умолчанию
+        }
+        private void LoadSelectList()
         {
             List<SelectListItem> listItems = new List<SelectListItem>();
-            //foreach (eSelected sel in Enum.GetValues(typeof(eSelected)).Cast<eSelected>())
             foreach (string sel in Defaults.Categories.GetAll())
             {
-                listItems.Add(new SelectListItem { Text = sel, Value = sel, Selected = (sel == Selected) });
+                listItems.Add(new SelectListItem { Text = sel, Value = Defaults.Categories.GetId(sel).ToString(), Selected = (Defaults.Categories.GetId(sel).ToString() == Selected) });
             }
             selectList = listItems;
 
@@ -69,24 +95,11 @@ namespace MySeenWeb.Models
                 listItemsGenre.Add(new SelectListItem { Text = sel, Value = Defaults.Genres.GetId(sel).ToString(), Selected = (sel == Genre) });
             }
             genreList = listItemsGenre;
-        }
-        public void LoadFilms(string userId, int page, int countInPage)
-        {
-            ApplicationDbContext ac= new ApplicationDbContext();
-            Pages = new PaginationViewModel(page, ac.Films.Where(f => f.UserId == userId && f.isDeleted != true).Count(), countInPage, "Home", "");
-            Films = ac.Films.Where(f => f.UserId == userId && f.isDeleted != true).OrderByDescending(f => f.DateSee).Select(FilmsView.Map).Skip((Pages.CurentPage - 1) * countInPage).Take(countInPage);
-        }
-        public void LoadSerials(string userId, int page, int countInPage)
-        {
-            ApplicationDbContext ac = new ApplicationDbContext();
-            Pages = new PaginationViewModel(page, ac.Serials.Where(f => f.UserId == userId && f.isDeleted != true).Count(), countInPage, "Home", "");
-            Serials = ac.Serials.Where(f => f.UserId == userId && f.isDeleted != true).OrderByDescending(f => f.DateLast).Select(SerialsView.Map).Skip((Pages.CurentPage - 1) * countInPage).Take(countInPage);
-        }
-        public void LoadBooks(string userId, int page, int countInPage)
-        {
-            ApplicationDbContext ac = new ApplicationDbContext();
-            Pages = new PaginationViewModel(page, ac.Books.Where(f => f.UserId == userId && f.isDeleted != true).Count(), countInPage, "Home", "");
-            Books = ac.Books.Where(f => f.UserId == userId && f.isDeleted != true).OrderByDescending(f => f.DateRead).Select(BooksView.Map).Skip((Pages.CurentPage - 1) * countInPage).Take(countInPage);
+
+            List<SelectListItem> listItemsTypes = new List<SelectListItem>();
+            listItemsTypes.Add(new SelectListItem { Text = Resource.FootBike, Value = ((int)TrackTypes.Foot).ToString(), Selected = true });
+            listItemsTypes.Add(new SelectListItem { Text = Resource.Car, Value = ((int)TrackTypes.Car).ToString(), Selected = false });
+            typesList = listItemsTypes;
         }
     }
 }

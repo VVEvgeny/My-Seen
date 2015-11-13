@@ -35,13 +35,13 @@
     <dl class="dl-horizontal">
         <dt>@Resource.SelectLanguage</dt>
         <dd>
-            @Html.DropDownListFor(model => model.Lang, Model.LangList, new { @class = "form-control", @id = "lstLang", @style = "width: 200px;" })
+            @Html.DropDownList("Lang", Model.LangList, new { @class = "form-control", @id = "lstLang", @style = "width: 200px;" })
         </dd>
     </dl>
     <dl class="dl-horizontal">
         <dt>Записей на страницу</dt>
         <dd>
-            @Html.DropDownListFor(model => model.RPP, Model.RPPList, new { @class = "form-control", @id = "lstRPP", @style = "width: 200px;" })
+            @Html.DropDownList("RPP", Model.RPPList, new { @class = "form-control", @id = "lstRPP", @style = "width: 200px;" })
         </dd>
     </dl>
         @if (Model.havedata)
@@ -102,7 +102,7 @@
                             selected: value
                         },
                         dataType: 'json',
-                        success: function () {
+                        success: function (){
                         },
                         error: function () {
                             alert('Error');

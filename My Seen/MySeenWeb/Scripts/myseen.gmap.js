@@ -128,10 +128,10 @@ function showTrack(id,centerAndZoom)
             else if (maxLen >= 30 && maxLen < 100) {
                 Zoom = 10;
             }
-            else if (maxLen >= 100 && maxLen < 200) {
+            else if (maxLen >= 100 && maxLen < 160) {
                 Zoom = 9;
             }
-            else if (maxLen >= 200 && maxLen < 400) {
+            else if (maxLen >= 160 && maxLen < 400) {
                 Zoom = 8;
             }
             else if (maxLen >= 400 && maxLen < 600) {
