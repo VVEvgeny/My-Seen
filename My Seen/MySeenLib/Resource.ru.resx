@@ -523,7 +523,7 @@
     <value>Данная версия не поддерживается</value>
   </data>
   <data name="Car" xml:space="preserve">
-    <value>Авто</value>
+    <value>Авто + Мото</value>
   </data>
   <data name="Distance" xml:space="preserve">
     <value>Расстояние</value>
@@ -545,5 +545,8 @@
   </data>
   <data name="Type" xml:space="preserve">
     <value>Тип</value>
+  </data>
+  <data name="LibVersionNum" xml:space="preserve">
+    <value>5</value>
   </data>
 </root>

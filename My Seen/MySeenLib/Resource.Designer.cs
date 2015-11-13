@@ -223,7 +223,7 @@ namespace MySeenLib {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Car.
+        ///   Looks up a localized string similar to Car + Moto.
         /// </summary>
         public static string Car {
             get {
@@ -804,6 +804,15 @@ namespace MySeenLib {
         public static string LibraryVersion {
             get {
                 return ResourceManager.GetString("LibraryVersion", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 5.
+        /// </summary>
+        public static string LibVersionNum {
+            get {
+                return ResourceManager.GetString("LibVersionNum", resourceCulture);
             }
         }
         

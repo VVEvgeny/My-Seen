@@ -523,7 +523,7 @@
     <value>No Longer Supported Version</value>
   </data>
   <data name="Car" xml:space="preserve">
-    <value>Car</value>
+    <value>Car + Moto</value>
   </data>
   <data name="Distance" xml:space="preserve">
     <value>Distance</value>
@@ -545,5 +545,8 @@
   </data>
   <data name="Type" xml:space="preserve">
     <value>Type</value>
+  </data>
+  <data name="LibVersionNum" xml:space="preserve">
+    <value>5</value>
   </data>
 </root>

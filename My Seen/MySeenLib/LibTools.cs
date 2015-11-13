@@ -12,8 +12,8 @@ namespace MySeenLib
 {
     public static class Versions
     {
-        public static int LibALL = 3;
-        public static int WEB = 3;
+        //Строка с версией библиотеки в ресурсах LibVersionNum
+        public static int WEB = 5;//сейчас 4 хоть и показывает 3
         public static int Android = 1;
         public static int AndroidLib = 1;
         public static int PK = 1;
