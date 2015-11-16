@@ -214,15 +214,6 @@ namespace MySeenLib {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Bugs.
-        /// </summary>
-        public static string Bugs {
-            get {
-                return ResourceManager.GetString("Bugs", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Car + Moto.
         /// </summary>
         public static string Car {
@@ -772,6 +763,15 @@ namespace MySeenLib {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Improvements.
+        /// </summary>
+        public static string Improvements {
+            get {
+                return ResourceManager.GetString("Improvements", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to IP Adress.
         /// </summary>
         public static string IPAdress {
@@ -1209,6 +1209,15 @@ namespace MySeenLib {
         public static string Tracks {
             get {
                 return ResourceManager.GetString("Tracks", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Tracks.
+        /// </summary>
+        public static string TracksCount {
+            get {
+                return ResourceManager.GetString("TracksCount", resourceCulture);
             }
         }
         

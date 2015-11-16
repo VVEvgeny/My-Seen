@@ -58,6 +58,7 @@ namespace MySeenWeb.Controllers
             cookie.Value = value;
             cookie.Expires = DateTime.Now.AddDays(1);
             ControllerContext.HttpContext.Response.Cookies.Add(cookie);
+            //ControllerContext.HttpContext.Session[key] = cookie;
         }
         /*
         public void RemoveCookie(string key)

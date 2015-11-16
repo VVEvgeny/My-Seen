@@ -10,10 +10,10 @@ using MySeenLib;
 
 namespace MySeenWeb.Models
 {
-    public class BugsViewModel
+    public class ImprovementsViewModel
     {
         public PaginationViewModel Pages { get; set; }
-        public IEnumerable<BugsView> Bugs;
+        public IEnumerable<BugsView> Bugs { get; set; }
         public IEnumerable<SelectListItem> complexList { get; set; }
         public string Complex;
 

@@ -13,17 +13,10 @@ namespace MySeenWeb.Models
 {
     public class HomeViewModelBooks
     {
-        public HomeViewModelBooks()
-        {
-
-        }
-        public HomeViewModelBooks(string userId, int page, int countInPage, ref PaginationViewModel Pages)
-        {
-            Load(userId, page, countInPage, ref Pages);
-        }
         public IEnumerable<BooksView> Data { get; set; }
+        public PaginationViewModel Pages { get; set; }
 
-        private void Load(string userId, int page, int countInPage, ref PaginationViewModel Pages)
+        public HomeViewModelBooks(string userId, int page, int countInPage)
         {
             ApplicationDbContext ac = new ApplicationDbContext();
             Pages = new PaginationViewModel(page, ac.Books.Where(f => f.UserId == userId && f.isDeleted != true).Count(), countInPage, "Home", "");

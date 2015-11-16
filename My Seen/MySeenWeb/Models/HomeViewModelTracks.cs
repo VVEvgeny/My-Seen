@@ -30,21 +30,13 @@ namespace MySeenWeb.Models
             }
         }
 
-        public HomeViewModelTracks()
-        {
-
-        }
         public HomeViewModelTracks(string userId)
-        {
-            Load(userId);
-        }
-        
-        private void Load(string userId)
         {
             ApplicationDbContext ac = new ApplicationDbContext();
             DataFoot = ac.Tracks.Where(t => t.UserId == userId && t.Type == (int)TrackTypes.Foot).OrderByDescending(t => t.Date).Select(TracksView.Map);
             DataCar = ac.Tracks.Where(t => t.UserId == userId && t.Type == (int)TrackTypes.Car).OrderByDescending(t => t.Date).Select(TracksView.Map);
         }
+
         public static TrackInfo GetTrack(int id, string userId)
         {
             TrackInfo ti = new TrackInfo();

@@ -1,12 +1,12 @@
 ﻿@using MySeenWeb.Models;
 @using MySeenLib;
 
-@model BugsViewModel
+@model ImprovementsViewModel
 
 @Scripts.Render("~/bundles/jquery", "~/bundles/bootstrap", "~/bundles/myseen")
 
 @{
-    ViewBag.Title = Resource.Bugs;
+    ViewBag.Title = Resource.Improvements;
 }
 <br />
 <div class="form-inline">
@@ -106,7 +106,7 @@
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                <h4 class="modal-title">Завершить баг</h4>
+                <h4 class="modal-title">Завершить Улучшение</h4>
             </div>
             <div class="modal-body">
                 <div class="form-horizontal">
@@ -165,7 +165,7 @@
                                 alert(response.error);
                             }
                             else {
-                                window.location.href = '/Home/Bugs';
+                                window.location.href = '/Home/Improvements';
                                 $modalAdd.modal('hide');
                             }
                         },
@@ -185,7 +185,7 @@
 
                 $submitAddButton.off('click');
                 $submitAddButton.on('click', function () {
-                        url = '/Home/AddBug';
+                    url = '/Home/AddImprovement';
                         data = {
                             desc: $('#bugDesc').val(),
                             complex: $('#complex').val()
@@ -206,7 +206,7 @@
 
                     $saveButton.off('click');
                     $saveButton.on('click', function () {
-                        url = '/Home/EndBug';
+                        url = '/Home/EndImprovement';
                         data = {
                             id: id,
                             desc: $('#bugDescEnd').val(),
@@ -218,7 +218,7 @@
 
                     $deleteButton.off('click');
                     $deleteButton.on('click', function () {
-                        url = '/Home/DeleteBug';
+                        url = '/Home/DeleteImprovement';
                         data = {
                             id: id
                         };
@@ -235,13 +235,13 @@
 
                     $.ajax({
                         type: 'POST',
-                        url: '/Home/ChangeCookiesBugs',
+                        url: '/Home/ChangeCookiesImprovement',
                         data: {
                             selected: value
                         },
                         dataType: 'json',
                         success: function () {
-                            window.location.href = '/Home/Bugs';
+                            window.location.href = '/Home/Improvements';
                         },
                         error: function () {
                             alert('Error');

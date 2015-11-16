@@ -13,7 +13,6 @@ namespace MySeenWeb.Models
 {
     public class HomeViewModel
     {
-        public PaginationViewModel Pages;
         public string Selected { get; set; }
 
         public bool PageFilms
@@ -68,10 +67,10 @@ namespace MySeenWeb.Models
         public void Load(string userId, int page, int countInPage)
         {
             LoadSelectList();
-            if (Selected == Defaults.CategoryBase.SerialIndex.ToString()) Serials = new HomeViewModelSerials(userId, page, countInPage, ref Pages);
-            else if (Selected == Defaults.CategoryBase.BookIndex.ToString()) Books = new HomeViewModelBooks(userId, page, countInPage, ref Pages);
+            if (Selected == Defaults.CategoryBase.SerialIndex.ToString()) Serials = new HomeViewModelSerials(userId, page, countInPage);
+            else if (Selected == Defaults.CategoryBase.BookIndex.ToString()) Books = new HomeViewModelBooks(userId, page, countInPage);
             else if (Selected == Defaults.CategoryBase.TrackIndex.ToString()) Tracks = new HomeViewModelTracks(userId);
-            else Films = new HomeViewModelFilms(userId, page, countInPage, ref Pages);//По умолчанию
+            else Films = new HomeViewModelFilms(userId, page, countInPage);//По умолчанию
         }
         private void LoadSelectList()
         {

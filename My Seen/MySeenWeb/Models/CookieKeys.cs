@@ -12,6 +12,6 @@ namespace MySeenWeb.Models
         public static string RecordPerPage = "RecordPerPage";
         public static string Language = "Language";
         public static string HomeCategory = "HomeCategory";
-        public static string BugsCategory = "BugsCategory";
+        public static string ImprovementsCategory = "ImprovementsCategory";
     }
 }

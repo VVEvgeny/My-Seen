@@ -17,6 +17,7 @@ namespace MySeenWeb.Models
         public int FilmsCount { get; set; }
         public int SerialsCount { get; set; }
         public int BooksCount { get; set; }
+        public int TracksCount { get; set; }
         public string RegiserDate { get; set; }
     }
     public class UsersViewModel
@@ -37,7 +38,8 @@ namespace MySeenWeb.Models
                         ),
                 FilmsCount = ap.Films.Where(f=>f.UserId==model.Id).Count(),
                 SerialsCount = ap.Serials.Where(f => f.UserId == model.Id).Count(),
-                BooksCount = ap.Books.Where(f => f.UserId == model.Id).Count()
+                BooksCount = ap.Books.Where(f => f.UserId == model.Id).Count(),
+                TracksCount = ap.Tracks.Where(f => f.UserId == model.Id).Count()
             };
         }
 

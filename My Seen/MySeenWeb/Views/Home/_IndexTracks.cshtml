@@ -1,0 +1,140 @@
+﻿@using MySeenWeb.Models;
+
+@model HomeViewModelTracks
+
+<br />
+
+@Scripts.Render("~/bundles/gmap3", "~/bundles/myseen.gmap")
+<!-- надо геометрия для расчета расстояний и путей <script type="text/javascript" src="http://maps.google.com/maps/api/js"></script>-->
+<script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?libraries=geometry"></script>
+
+<div class="row">
+    <div class="panel panel-primary col-md-3">
+        <div class="panel panel-default">
+            <div class="panel-heading">@Resource.Tracks</div>
+            <ul class="nav nav-tabs">
+                @if (Model.HaveFoot)
+                {
+                    <li class="active"><a data-toggle="tab" href="#menu1">@Resource.FootBike</a></li>
+                }
+                @if (Model.HaveCar)
+                {
+                    if (Model.HaveFoot)
+                    {
+                        <li><a data-toggle="tab" href="#menu2">@Resource.Car</a></li>
+                    }
+                    else
+                    {
+                        <li class="active"><a data-toggle="tab" href="#menu2">@Resource.Car</a></li>
+                    }
+                }
+            </ul>
+            <div class="tab-content page-size-gmap page-scrolable">
+                @if (Model.HaveFoot)
+                {
+                    <div id="menu1" class="list-group tab-pane fade in active">
+                        <a href="" class="list-group-item track-id" id="All Foot">
+                            <h5 class="list-group-item-heading align-center">@Resource.All</h5>
+                        </a>
+                        @foreach (var track in Model.DataFoot)
+                        {
+                            <a href="" class="list-group-item track-id" id=@track.Id>
+                                <h5 class="list-group-item-heading">@track.Name<span class="badge pull-right">@track.DateText</span></h5>
+                                <h6 class="list-group-item-text align-center">@Resource.Distance :<span class="badge pull-right alert-info small">@track.DistanceText</span></h6>
+                            </a>
+                        }
+                    </div>
+                }
+                @if (Model.HaveCar)
+                {
+                    <div id="menu2" class="list-group tab-pane fade @Model.HaveFoot?:in active">
+                        <a href="" class="list-group-item track-id" id="All Car">
+                            <h5 class="list-group-item-heading align-center">@Resource.All</h5>
+                        </a>
+                        @foreach (var track in Model.DataCar)
+                        {
+                            <a href="" class="list-group-item track-id" id=@track.Id>
+                                <h5 class="list-group-item-heading">@track.Name<span class="badge pull-right">@track.DateText</span></h5>
+                                <h6 class="list-group-item-text align-center">@Resource.Distance :<span class="badge pull-right alert-info small">@track.DistanceText</span></h6>
+                            </a>
+                        }
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+    <div class="panel panel-primary col-md-9">
+        <div class="panel panel-default">
+            <div class="panel-heading">@Resource.Map</div>
+            <div id="my_map" class="gmap page-size-gmap"></div>
+        </div>
+    </div>
+</div>
+
+<script language="javascript" type="text/javascript">
+    (function ($) {
+        $(function () {
+
+            var $list = $('.tab-content');
+            $list.off('click', '.track-id');
+            $list.on('click', '.track-id', function () {
+                var $item = $(this);
+                var id = $item.attr('id');
+                //console.log("id=", id);
+                if (id === 'All Foot') {
+                    clearMap();
+                    var $rows = $list.find('a');
+                    //console.log("rows=", $rows);
+                    var skip = false;
+                    var skip_once = false;
+                    $rows.each(function (index, element) {
+                        var $row = $(element);
+                        //console.log("row=", $row);
+                        var id = $row.attr('id');
+                        skip_once = false;
+
+                        if (id === 'All Foot') skip_once = true;
+                        if (id === 'All Car') skip = true;
+
+                        if (!(skip || skip_once)) {
+                            showTrack(id);
+                        }
+                        else {
+                            //console.log("skip");
+                        }
+                    });
+                    //Просто перебрать все пехо треки и показать их без очистки
+                }
+                else if (id === 'All Car') {
+                    clearMap();
+                    var $rows = $list.find('a');
+                    //console.log("rows=", $rows);
+
+                    var skip = false;
+                    var skip_once = false;
+                    $rows.each(function (index, element) {
+                        var $row = $(element);
+                        //console.log("row=", $row);
+                        var id = $row.attr('id');
+                        skip_once = false;
+
+                        if (id === 'All Foot') skip = true;
+                        if (id === 'All Car') {
+                            skip = false;
+                            skip_once = true;
+                        }
+
+                        if (!(skip || skip_once)) {
+                            showTrack(id);
+                        }
+                        else {
+                            //console.log("skip");
+                        }
+                    });
+                }
+                else showTrack(id, true);
+                return false;
+            });
+        });
+    })(jQuery);
+</script>

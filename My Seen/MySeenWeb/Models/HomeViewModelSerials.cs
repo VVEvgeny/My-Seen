@@ -13,17 +13,10 @@ namespace MySeenWeb.Models
 {
     public class HomeViewModelSerials
     {
-        public HomeViewModelSerials()
-        {
-
-        }
-        public HomeViewModelSerials(string userId, int page, int countInPage,ref PaginationViewModel Pages)
-        {
-            Load(userId, page, countInPage,ref Pages);
-        }
         public IEnumerable<SerialsView> Data { get; set; }
+        public PaginationViewModel Pages { get; set; }
 
-        public void Load(string userId, int page, int countInPage,ref PaginationViewModel Pages)
+        public HomeViewModelSerials(string userId, int page, int countInPage)
         {
             ApplicationDbContext ac = new ApplicationDbContext();
             Pages = new PaginationViewModel(page, ac.Serials.Where(f => f.UserId == userId && f.isDeleted != true).Count(), countInPage, "Home", "");

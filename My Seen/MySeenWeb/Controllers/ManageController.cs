@@ -86,6 +86,7 @@ namespace MySeenWeb.Controllers
                 model.havedata = (ac.Films.Where(f => f.UserId == userId).Count() != 0 
                     || ac.Serials.Where(f => f.UserId == userId).Count() != 0
                     || ac.Books.Where(f => f.UserId == userId).Count() != 0
+                    || ac.Tracks.Where(f => f.UserId == userId).Count() != 0
                     );
             }
             return View(model);
@@ -146,6 +147,7 @@ namespace MySeenWeb.Controllers
             ac.Films.RemoveRange(ac.Films.Where(f => f.UserId == userId));
             ac.Serials.RemoveRange(ac.Serials.Where(f => f.UserId == userId));
             ac.Books.RemoveRange(ac.Books.Where(f => f.UserId == userId));
+            ac.Tracks.RemoveRange(ac.Tracks.Where(f => f.UserId == userId));
             ac.SaveChanges();
         }
         [HttpPost]

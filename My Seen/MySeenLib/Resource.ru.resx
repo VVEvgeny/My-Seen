@@ -280,7 +280,7 @@
     <value>Сериал</value>
   </data>
   <data name="Account" xml:space="preserve">
-    <value>Учетнуя запись</value>
+    <value>Учетная запись</value>
   </data>
   <data name="ConfirmNewPassword" xml:space="preserve">
     <value>Подтверждение нового пароля</value>
@@ -417,9 +417,6 @@
   <data name="RegisterDate" xml:space="preserve">
     <value>Регистрация</value>
   </data>
-  <data name="Bugs" xml:space="preserve">
-    <value>Баги</value>
-  </data>
   <data name="DateEnd" xml:space="preserve">
     <value>Завершено</value>
   </data>
@@ -548,5 +545,11 @@
   </data>
   <data name="LibVersionNum" xml:space="preserve">
     <value>5</value>
+  </data>
+  <data name="Improvements" xml:space="preserve">
+    <value>Улучшения</value>
+  </data>
+  <data name="TracksCount" xml:space="preserve">
+    <value>Треков</value>
   </data>
 </root>

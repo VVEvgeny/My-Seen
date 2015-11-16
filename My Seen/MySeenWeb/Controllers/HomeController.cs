@@ -32,9 +32,9 @@ namespace MySeenWeb.Controllers
             return Json(new { success = true });
         }
         [HttpPost]
-        public JsonResult ChangeCookiesBugs(string selected)
+        public JsonResult ChangeCookiesImprovement(string selected)
         {
-            WriteCookie(CookieKeys.BugsCategory, selected);
+            WriteCookie(CookieKeys.ImprovementsCategory, selected);
             return Json(new { success = true });
         }
         [Authorize]
@@ -381,18 +381,18 @@ namespace MySeenWeb.Controllers
             return RedirectToAction("Index");
         }
         [Authorize]
-        public ActionResult Bugs(int? page)
+        public ActionResult Improvements(int? page)
         {
-            LogSave.Save(User.Identity.IsAuthenticated ? User.Identity.GetUserId() : "", Request.UserHostAddress, Request.UserAgent, "Home/Bugs");
-            BugsViewModel model = new BugsViewModel();
-            model.Load(ReadCookie(CookieKeys.BugsCategory, Defaults.ComplexBase.IndexAll), page == null ? 1 : page.Value, RPP);
+            LogSave.Save(User.Identity.IsAuthenticated ? User.Identity.GetUserId() : "", Request.UserHostAddress, Request.UserAgent, "Home/Improvements");
+            ImprovementsViewModel model = new ImprovementsViewModel();
+            model.Load(ReadCookie(CookieKeys.ImprovementsCategory, Defaults.ComplexBase.IndexAll), page == null ? 1 : page.Value, RPP);
             return View(model);
         }
         [Authorize]
         [HttpPost]
-        public JsonResult AddBug(string desc, string complex)
+        public JsonResult AddImprovement(string desc, string complex)
         {
-            LogSave.Save(User.Identity.IsAuthenticated ? User.Identity.GetUserId() : "", Request.UserHostAddress, Request.UserAgent, "Home/AddBug", desc);
+            LogSave.Save(User.Identity.IsAuthenticated ? User.Identity.GetUserId() : "", Request.UserHostAddress, Request.UserAgent, "Home/AddImprovement", desc);
             string errorMessage = string.Empty;
             string user_id = User.Identity.GetUserId();
             ApplicationDbContext ac = new ApplicationDbContext();
@@ -443,9 +443,9 @@ namespace MySeenWeb.Controllers
         }
         [Authorize]
         [HttpPost]
-        public JsonResult EndBug(string id,string desc,string version)
+        public JsonResult EndImprovement(string id, string desc, string version)
         {
-            LogSave.Save(User.Identity.IsAuthenticated ? User.Identity.GetUserId() : "", Request.UserHostAddress, Request.UserAgent, "Home/EndBug", id + " " + desc + " " + version);
+            LogSave.Save(User.Identity.IsAuthenticated ? User.Identity.GetUserId() : "", Request.UserHostAddress, Request.UserAgent, "Home/EndImprovement", id + " " + desc + " " + version);
             string errorMessage = string.Empty;
             string user_id = User.Identity.GetUserId();
             ApplicationDbContext ac = new ApplicationDbContext();
@@ -505,9 +505,9 @@ namespace MySeenWeb.Controllers
         }
         [Authorize]
         [HttpPost]
-        public JsonResult DeleteBug(string id)
+        public JsonResult DeleteImprovement(string id)
         {
-            LogSave.Save(User.Identity.IsAuthenticated ? User.Identity.GetUserId() : "", Request.UserHostAddress, Request.UserAgent, "Home/DeleteBug", id);
+            LogSave.Save(User.Identity.IsAuthenticated ? User.Identity.GetUserId() : "", Request.UserHostAddress, Request.UserAgent, "Home/DeleteImprovement", id);
             string errorMessage = string.Empty;
             string user_id = User.Identity.GetUserId();
             ApplicationDbContext ac = new ApplicationDbContext();

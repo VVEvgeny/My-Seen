@@ -1,5 +1,5 @@
 ﻿@using Microsoft.AspNet.Identity
-@using MySeenLib
+
 @if (Request.IsAuthenticated)
 {
     if (Admin.isAdmin(User.Identity.GetUserName()))
@@ -12,7 +12,7 @@
         </ul>
     }
     <ul class="nav navbar-nav">
-        <li>@Html.ActionLink(Resource.Bugs, "Bugs", "Home", routeValues: null, htmlAttributes: new { id = "usersLink" })</li>
+        <li>@Html.ActionLink(Resource.Improvements, "Improvements", "Home", routeValues: null, htmlAttributes: new { id = "usersLink" })</li>
     </ul>
     using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { id = "logoutForm", @class = "navbar-right" }))
     {
