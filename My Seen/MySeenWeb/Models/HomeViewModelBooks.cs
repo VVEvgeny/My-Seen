@@ -15,12 +15,20 @@ namespace MySeenWeb.Models
     {
         public IEnumerable<BooksView> Data { get; set; }
         public PaginationViewModel Pages { get; set; }
+        public RatingGenreViewModel RatinngGenre { get; set; }
 
-        public HomeViewModelBooks(string userId, int page, int countInPage)
+        public HomeViewModelBooks(string userId, int page, int countInPage,string search)
         {
+            var RouteValues = new Dictionary<string, object>();
+            if (!string.IsNullOrEmpty(search))
+            {
+                RouteValues.Add("search", search);
+            }
+
             ApplicationDbContext ac = new ApplicationDbContext();
-            Pages = new PaginationViewModel(page, ac.Books.Where(f => f.UserId == userId && f.isDeleted != true).Count(), countInPage, "Home", "");
-            Data = ac.Books.Where(f => f.UserId == userId && f.isDeleted != true).OrderByDescending(f => f.DateRead).Select(BooksView.Map).Skip((Pages.CurentPage - 1) * countInPage).Take(countInPage);
+            Pages = new PaginationViewModel(page, ac.Books.Where(f => f.UserId == userId && f.isDeleted != true && (string.IsNullOrEmpty(search) ? true : f.Name.Contains(search))).Count(), countInPage, "Home", "", RouteValues);
+            RatinngGenre = new RatingGenreViewModel();
+            Data = ac.Books.Where(f => f.UserId == userId && f.isDeleted != true && (string.IsNullOrEmpty(search) ? true : f.Name.Contains(search))).OrderByDescending(f => f.DateRead).Select(BooksView.Map).Skip((Pages.CurentPage - 1) * countInPage).Take(countInPage);
         }
     }
 }

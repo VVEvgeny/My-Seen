@@ -552,4 +552,19 @@
   <data name="TracksCount" xml:space="preserve">
     <value>Tracks</value>
   </data>
+  <data name="Seen" xml:space="preserve">
+    <value>Seen</value>
+  </data>
+  <data name="Saved" xml:space="preserve">
+    <value>Saved</value>
+  </data>
+  <data name="BrowserDoesNotSupport" xml:space="preserve">
+    <value>Browser does not support</value>
+  </data>
+  <data name="Download" xml:space="preserve">
+    <value>Download</value>
+  </data>
+  <data name="ToViewThisSiteUseOneOfTheseBrowsers" xml:space="preserve">
+    <value>To view this site Use one of these browsers</value>
+  </data>
 </root>

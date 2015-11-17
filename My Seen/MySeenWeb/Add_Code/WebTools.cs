@@ -6,6 +6,16 @@ using System.Text;
 using System.Security.Cryptography;
 using System.Web.Mvc;
 
+public enum BrowserTypes
+{
+    Chrome = 1,
+    Firefox,
+    Opera,
+    Safari,
+    Ie,
+    InternetExplorer
+}
+
 #region MD5Tools
 public static class MD5Tools
 {

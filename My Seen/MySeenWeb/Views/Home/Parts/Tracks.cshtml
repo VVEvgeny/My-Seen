@@ -71,11 +71,114 @@
     </div>
 </div>
 
+<div class="modal fade modal-window" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" id="ModalAddWindow">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">
+                    @Resource.AddNew <text>@Resource.Tracks</text>
+                </h4>
+            </div>
+            <div class="modal-body">
+                <div class="form-horizontal">
+                    <div class="form-group">
+                        <label for="trackName" class="col-sm-2 control-label">@Resource.Name</label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control bag-name" id="trackName" placeholder="@Resource.Name">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="type" class="col-sm-2 control-label">@Resource.Type</label>
+                        <div class="col-sm-10">
+                            @Html.DropDownList("type", Model.TypeList, new { @class = "form-control type", @id = "type" })
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="trackCoords" class="col-sm-2 control-label">@Resource.Coordinates</label>
+                        <div class="col-sm-10">
+                            @Html.TextArea("trackCoords", null, 10, 55, new { @class = "form-control trackCoords", @placeholder = "lat,lng;lat,lng;..." })
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger" id="deleteButton" style="display: none;">
+                    <span class="glyphicon glyphicon-trash"></span>
+                    &nbsp;@Resource.Delete
+                </button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">
+                    <span class="glyphicon glyphicon-remove"></span>
+                    &nbsp;@Resource.Close
+                </button>
+                <button type="button" class="btn btn-success" id="submitAddButton">
+                    <span class="glyphicon glyphicon-ok"></span>
+                    &nbsp;@Resource.Add
+                </button>
+                <button type="button" class="btn btn-success" id="saveButton" style="display: none;">
+                    <span class="glyphicon glyphicon-ok"></span>
+                    &nbsp;@Resource.SaveСhanges
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
 <script language="javascript" type="text/javascript">
     (function ($) {
         $(function () {
-
             var $list = $('.tab-content');
+            var $addButton = $('#addButton');
+            var $submitAddButton = $('#submitAddButton');
+            var $modal = $('#ModalAddWindow');
+            var url = '';
+            var data = {};
+
+            function sendRequest(innerUrl, innerData) {
+                $.ajax({
+                    type: 'POST',
+                    url: innerUrl,
+                    data: innerData,
+                    dataType: 'json',
+                    success: function (response) {
+                        if (response.error) {
+                            alert(response.error);
+                        }
+                        else {
+                            window.location.href = '/';
+                            $modal.modal('hide');
+                        }
+                    },
+                    error: function (err) {
+                        alert(err);
+                    }
+                });
+
+                return false;
+            }
+
+            $addButton.off('click');
+            $addButton.on('click', function () {
+                $modal.modal('show');
+
+                return false;
+            });
+
+            $submitAddButton.off('click');
+            $submitAddButton.on('click', function () {
+ 
+                url = '/Home/AddTrack';
+                data = {
+                    name: $('#trackName').val(),
+                    type: $('#type').val(),
+                    coordinates: $('#trackCoords').val(),
+                    distance: CalcDistanceFromTxt($('#trackCoords').val())
+                };
+
+                sendRequest(url, data);
+                return false;
+            });
+
             $list.off('click', '.track-id');
             $list.on('click', '.track-id', function () {
                 var $item = $(this);
@@ -138,3 +241,4 @@
         });
     })(jQuery);
 </script>
+

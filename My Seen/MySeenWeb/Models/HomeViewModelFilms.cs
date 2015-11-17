@@ -15,12 +15,28 @@ namespace MySeenWeb.Models
     {
         public IEnumerable<FilmsView> Data { get; set; }
         public PaginationViewModel Pages { get; set; }
+        public RatingGenreViewModel RatinngGenre { get; set; }
 
-        public HomeViewModelFilms(string userId, int page, int countInPage)
+        public HomeViewModelFilms(string userId, int page, int countInPage, string search)
         {
             ApplicationDbContext ac = new ApplicationDbContext();
-            Pages = new PaginationViewModel(page, ac.Films.Where(f => f.UserId == userId && f.isDeleted != true).Count(), countInPage, "Home", "");
-            Data = ac.Films.Where(f => f.UserId == userId && f.isDeleted != true).OrderByDescending(f => f.DateSee).Select(FilmsView.Map).Skip((Pages.CurentPage - 1) * countInPage).Take(countInPage);
+
+            var RouteValues = new Dictionary<string, object>();
+            if (!string.IsNullOrEmpty(search))
+            {
+                RouteValues.Add("search", search);
+            }
+
+            Pages = new PaginationViewModel(page,
+                ac.Films.Where(f => f.UserId == userId && f.isDeleted != true && (string.IsNullOrEmpty(search) ? true : f.Name.Contains(search))).Count()
+                , countInPage, "Home", "", RouteValues);
+
+            RatinngGenre = new RatingGenreViewModel();
+            Data = ac.Films.Where(f => f.UserId == userId && f.isDeleted != true && (string.IsNullOrEmpty(search) ? true : f.Name.Contains(search)))
+                .OrderByDescending(f => f.DateSee)
+                .Select(FilmsView.Map)
+                .Skip((Pages.CurentPage - 1) * countInPage)
+                .Take(countInPage);
         }
     }
 }

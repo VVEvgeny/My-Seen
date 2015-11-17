@@ -5,10 +5,10 @@
     if (Admin.isAdmin(User.Identity.GetUserName()))
     {
         <ul class="nav navbar-nav">
-            <li>@Html.ActionLink(Resource.Users, "Users", "Home", routeValues: null, htmlAttributes: new { id = "usersLink" })</li>
+            <li>@Html.ActionLink(Resource.Users, "Users", "", routeValues: null, htmlAttributes: new { id = "usersLink" })</li>
         </ul>
         <ul class="nav navbar-nav">
-            <li>@Html.ActionLink(Resource.Logs, "Logs", "Home", routeValues: null, htmlAttributes: new { id = "usersLink" })</li>
+            <li>@Html.ActionLink(Resource.Logs, "Logs", "", routeValues: null, htmlAttributes: new { id = "usersLink" })</li>
         </ul>
     }
     <ul class="nav navbar-nav">

@@ -205,6 +205,15 @@ namespace MySeenLib {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Browser does not support.
+        /// </summary>
+        public static string BrowserDoesNotSupport {
+            get {
+                return ResourceManager.GetString("BrowserDoesNotSupport", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Bug Already Exists.
         /// </summary>
         public static string BugAlreadyExists {
@@ -471,6 +480,15 @@ namespace MySeenLib {
         public static string Distance {
             get {
                 return ResourceManager.GetString("Distance", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Download.
+        /// </summary>
+        public static string Download {
+            get {
+                return ResourceManager.GetString("Download", resourceCulture);
             }
         }
         
@@ -1051,6 +1069,15 @@ namespace MySeenLib {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Saved.
+        /// </summary>
+        public static string Saved {
+            get {
+                return ResourceManager.GetString("Saved", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Save changes.
         /// </summary>
         public static string SaveСhanges {
@@ -1065,6 +1092,15 @@ namespace MySeenLib {
         public static string Season {
             get {
                 return ResourceManager.GetString("Season", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Seen.
+        /// </summary>
+        public static string Seen {
+            get {
+                return ResourceManager.GetString("Seen", resourceCulture);
             }
         }
         
@@ -1200,6 +1236,15 @@ namespace MySeenLib {
         public static string TimeFormat {
             get {
                 return ResourceManager.GetString("TimeFormat", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to To view this site Use one of these browsers.
+        /// </summary>
+        public static string ToViewThisSiteUseOneOfTheseBrowsers {
+            get {
+                return ResourceManager.GetString("ToViewThisSiteUseOneOfTheseBrowsers", resourceCulture);
             }
         }
         

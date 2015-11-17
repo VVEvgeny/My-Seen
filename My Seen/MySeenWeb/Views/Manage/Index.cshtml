@@ -41,6 +41,7 @@
         <dt>Записей на страницу</dt>
         <dd>
             @Html.DropDownList("RPP", Model.RPPList, new { @class = "form-control", @id = "lstRPP", @style = "width: 200px;" })
+            <div id="RPPSaved" style="display: none;" class="text-success">@Resource.Saved</div>
         </dd>
     </dl>
         @if (Model.havedata)
@@ -101,7 +102,11 @@
                             selected: value
                         },
                         dataType: 'json',
-                        success: function (){
+                        success: function ()
+                        {
+                            var $RPPSaved = $('#RPPSaved');
+                            $RPPSaved.show();
+                            window.setTimeout(HideRPPSaved, 2000);
                         },
                         error: function () {
                             alert('Error');
@@ -125,5 +130,10 @@
                     return false;
                 });
             });
+            function HideRPPSaved()
+            {
+                var $RPPSaved = $('#RPPSaved');
+                $RPPSaved.hide();
+            }
         })(jQuery);
 </script>

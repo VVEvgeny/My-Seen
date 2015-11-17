@@ -1,9 +1,8 @@
 ﻿@using MySeenWeb.Models;
-@using MySeenLib;
 
-@model UsersViewModel
+@model HomeViewModelUsers
 
-@Scripts.Render("~/bundles/jquery", "~/bundles/bootstrap", "~/bundles/myseen")
+@Scripts.Render("~/bundles/jquery", "~/bundles/bootstrap", "~/bundles/myseen.table")
 
 @{
     ViewBag.Title = Resource.Users;
@@ -38,6 +37,6 @@
 </table>
 
 <div class="text-center">
-    @Html.Partial("_Pagination", Model.Pages)
+    @Html.Partial("Parts/Tools/Pagination", Model.Pages)
 </div>
 

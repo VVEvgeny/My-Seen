@@ -20,7 +20,7 @@ namespace MySeenWeb.Models
         public int TracksCount { get; set; }
         public string RegiserDate { get; set; }
     }
-    public class UsersViewModel
+    public class HomeViewModelUsers
     {
         public UsersView Map(ApplicationUser model)
         {
@@ -45,10 +45,10 @@ namespace MySeenWeb.Models
 
         public IEnumerable<UsersView> Users;
         public PaginationViewModel Pages { get; set; }
-        public void Load(int page, int countInPage)
+        public HomeViewModelUsers(int page, int countInPage)
         {
             ApplicationDbContext ac = new ApplicationDbContext();
-            Pages = new PaginationViewModel(page, ac.Users.Count(), countInPage, "Home", "Users");
+            Pages = new PaginationViewModel(page, ac.Users.Count(), countInPage, "Home", "");
             Users = ac.Users.Select(Map).OrderBy(l => l.RegiserDate).Skip((Pages.CurentPage - 1) * countInPage).Take(countInPage);
         }
     }

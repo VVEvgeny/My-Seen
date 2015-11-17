@@ -1,7 +1,7 @@
 ﻿@using MySeenWeb.Models;
 @using MySeenLib;
 
-@model LogsViewModel
+@model HomeViewModelLogs
 
 @Scripts.Render("~/bundles/jquery", "~/bundles/bootstrap", "~/bundles/myseen")
 
@@ -63,6 +63,6 @@
 </table>
 
 <div class="text-center">
-    @Html.Partial("_Pagination", Model.Pages)
+    @Html.Partial("Parts/Tools/Pagination", Model.Pages)
 </div>
 

@@ -1,0 +1,51 @@
+﻿@using MySeenWeb.Models;
+@using MySeenLib;
+
+@model PaginationViewModel
+
+@if (!(Model.isFirstPage && Model.isLastPage))
+{
+    <ul class="pagination pagination-sm">
+        @{int last = 0;}
+        @if (Model.isFirstPage)
+        {
+            <li class="disabled"><a href="#">←</a></li>
+        }
+        else
+        {
+            var Routes = new RouteValueDictionary(Model.RouteValues);
+            Routes.Add("page", (Model.CurentPage - 1).ToString());
+            <li>@Html.ActionLink("←", Model.Page, Model.Controller, routeValues: new RouteValueDictionary(Routes), htmlAttributes: new Dictionary<string, object>())</li>
+        }
+        @foreach (int i in Model.List)
+        {
+            if ((last + 1) != i)
+            {
+                <li class="disabled"><a href="#">...</a></li>
+            }
+            if (i == Model.CurentPage)
+            {
+                var Routes = new RouteValueDictionary(Model.RouteValues);
+                Routes.Add("page", (i).ToString());
+                <li class="active">@Html.ActionLink(i.ToString(), Model.Page, Model.Controller, routeValues: new RouteValueDictionary(Routes), htmlAttributes: new Dictionary<string, object>())</li>
+            }
+            else
+            {
+                var Routes = new RouteValueDictionary(Model.RouteValues);
+                Routes.Add("page", (i).ToString());
+                <li>@Html.ActionLink(i.ToString(), Model.Page, Model.Controller, routeValues: new RouteValueDictionary(Routes), htmlAttributes: new Dictionary<string, object>())</li>
+            }
+            last = i;
+        }
+        @if (Model.isLastPage)
+        {
+            <li class="disabled"><a href="#">→</a></li>
+        }
+        else
+        {
+            var Routes = new RouteValueDictionary(Model.RouteValues);
+            Routes.Add("page", (Model.CurentPage - 1).ToString());
+            <li>@Html.ActionLink("→", Model.Page, Model.Controller, routeValues: new RouteValueDictionary(Routes), htmlAttributes: new Dictionary<string, object>())</li>
+        }
+    </ul>
+}

@@ -15,6 +15,25 @@ namespace MySeenWeb.Models
     {
         public string Selected { get; set; }
 
+        public enum CategoryExt
+        {
+            Users=101,
+            Logs=102,
+            Improvements=103
+        }
+        public static bool isCategoryExt(int category)
+        {
+            return category == (int)CategoryExt.Users || category == (int)CategoryExt.Logs || category == (int)CategoryExt.Improvements;
+        }
+
+        public bool ExtPage
+        {
+            get
+            {
+                return PageUsers || PageLogs || PageImprovements;
+            }
+        }
+
         public bool PageFilms
         {
             get
@@ -43,62 +62,59 @@ namespace MySeenWeb.Models
                 return Selected == Defaults.CategoryBase.TrackIndex.ToString();
             }
         }
-
-        public IEnumerable<SelectListItem> selectList { get; set; }
-        public string Rating { get; set; }
-        public IEnumerable<SelectListItem> ratingList { get; set; }
-        public string Genre { get; set; }
-        public IEnumerable<SelectListItem> genreList { get; set; }
-        public string Type { get; set; }
-        public IEnumerable<SelectListItem> typesList { get; set; }
-
-        public HomeViewModel()
+        public bool PageUsers
         {
-            Selected = Defaults.Categories.GetById(Defaults.CategoryBase.FilmIndex);
-            Rating = Defaults.Ratings.GetMaxValue();
-            Genre = Defaults.Genres.GetMaxValue();
-            Type = ((int)TrackTypes.Foot).ToString();
+            get
+            {
+                return Selected == ((int)CategoryExt.Users).ToString();
+            }
         }
+        public bool PageLogs
+        {
+            get
+            {
+                return Selected == ((int)CategoryExt.Logs).ToString();
+            }
+        }
+        public bool PageImprovements
+        {
+            get
+            {
+                return Selected == ((int)CategoryExt.Improvements).ToString();
+            }
+        }
+
+        public IEnumerable<SelectListItem> SelectList { get; set; }
+
         public HomeViewModelFilms Films;
         public HomeViewModelSerials Serials;
         public HomeViewModelBooks Books;
         public HomeViewModelTracks Tracks;
+        public HomeViewModelUsers Users;
+        public HomeViewModelLogs Logs;
+        public HomeViewModelImprovements Improvements;
 
-        public void Load(string userId, int page, int countInPage)
+        public string Search { get; set; }
+
+
+        public HomeViewModel(string selected,string userId, int page, int countInPage, int complex,string search)
         {
-            LoadSelectList();
-            if (Selected == Defaults.CategoryBase.SerialIndex.ToString()) Serials = new HomeViewModelSerials(userId, page, countInPage);
-            else if (Selected == Defaults.CategoryBase.BookIndex.ToString()) Books = new HomeViewModelBooks(userId, page, countInPage);
-            else if (Selected == Defaults.CategoryBase.TrackIndex.ToString()) Tracks = new HomeViewModelTracks(userId);
-            else Films = new HomeViewModelFilms(userId, page, countInPage);//По умолчанию
-        }
-        private void LoadSelectList()
-        {
+            Search = search;
+            Selected = selected;
+            if (PageSerials) Serials = new HomeViewModelSerials(userId, page, countInPage, search);
+            else if (PageBooks) Books = new HomeViewModelBooks(userId, page, countInPage, search);
+            else if (PageTracks) Tracks = new HomeViewModelTracks(userId);
+            else if (PageUsers) Users = new HomeViewModelUsers(page, countInPage);
+            else if (PageLogs) Logs = new HomeViewModelLogs(page, countInPage);
+            else if (PageImprovements) Improvements = new HomeViewModelImprovements(complex, page, countInPage);
+            else Films = new HomeViewModelFilms(userId, page, countInPage, search);
+
             List<SelectListItem> listItems = new List<SelectListItem>();
             foreach (string sel in Defaults.Categories.GetAll())
             {
                 listItems.Add(new SelectListItem { Text = sel, Value = Defaults.Categories.GetId(sel).ToString(), Selected = (Defaults.Categories.GetId(sel).ToString() == Selected) });
             }
-            selectList = listItems;
-
-            List<SelectListItem> listItemsRating = new List<SelectListItem>();
-            foreach (string sel in Defaults.Ratings.GetAll())
-            {
-                listItemsRating.Add(new SelectListItem { Text = sel, Value = Defaults.Ratings.GetId(sel).ToString(), Selected = (sel == Rating) });
-            }
-            ratingList = listItemsRating;
-
-            List<SelectListItem> listItemsGenre = new List<SelectListItem>();
-            foreach (string sel in Defaults.Genres.GetAll())
-            {
-                listItemsGenre.Add(new SelectListItem { Text = sel, Value = Defaults.Genres.GetId(sel).ToString(), Selected = (sel == Genre) });
-            }
-            genreList = listItemsGenre;
-
-            List<SelectListItem> listItemsTypes = new List<SelectListItem>();
-            listItemsTypes.Add(new SelectListItem { Text = Resource.FootBike, Value = ((int)TrackTypes.Foot).ToString(), Selected = true });
-            listItemsTypes.Add(new SelectListItem { Text = Resource.Car, Value = ((int)TrackTypes.Car).ToString(), Selected = false });
-            typesList = listItemsTypes;
+            SelectList = listItems;
         }
     }
 }

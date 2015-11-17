@@ -10,9 +10,11 @@ using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using MySeenWeb.Models;
 using MySeenLib;
+using MySeenWeb.ActionFilters;
 
 namespace MySeenWeb.Controllers
 {
+    [BrowserActionFilter]
     [Authorize]
     public class AccountController : BaseController
     {

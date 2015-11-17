@@ -1,0 +1,48 @@
+﻿@model dynamic
+
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <meta charset="utf-8" />
+    <title>@Resource.BrowserDoesNotSupport</title>
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,300,600,700" rel="stylesheet" type="text/css">
+    @Styles.Render("~/Content/css")
+</head>
+<body>
+
+    <h1 class="title text-center">@Resource.ToViewThisSiteUseOneOfTheseBrowsers</h1>
+
+    <table class="table table-bordered" id="table">
+        <thead>
+            <tr>
+                <th class="col-sm-2"><img src="@Url.Content("~/Content/Images/browser-chrome.png")" /></th>
+                <th class="col-sm-2"><img src="@Url.Content("~/Content/Images/browser-ff.png")" /></th>
+                <th class="col-sm-2"><img src="@Url.Content("~/Content/Images/browser-opera.png")" /></th>
+                <th class="col-sm-2"><img src="@Url.Content("~/Content/Images/browser-safari.png")" /></th>
+                <th class="col-sm-2"><img src="@Url.Content("~/Content/Images/browser-ie.png")" /></th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td class="align-center"><h2 class="subtitle">Chrome</h2></td>
+                <td class="align-center"><h2 class="subtitle">Firefox</h2></td>
+                <td class="align-center"><h2 class="subtitle">Opera</h2></td>
+                <td class="align-center"><h2 class="subtitle">Safari</h2></td>
+                <td class="align-center"><h2 class="subtitle">Internet Explorer 9+</h2></td>
+            </tr>
+            <tr>
+                <td class="align-center"><a href="https://support.google.com/chrome/answer/95346?hl=ru" target="_blank" class="btn btn-primary lg">@Resource.Download</a></td>
+                <td class="align-center"><a href="https://www.mozilla.org/ru/firefox/new/" target="_blank" class="btn btn-primary lg">@Resource.Download</a></td>
+                <td class="align-center"><a href="http://www.opera.com/ru/computer/windows" target="_blank" class="btn btn-primary lg">@Resource.Download</a></td>
+                <td class="align-center"><a href="https://support.apple.com/ru_RU/downloads/safari" target="_blank" class="btn btn-primary lg">@Resource.Download</a></td>
+                <td class="align-center"><a href="http://windows.microsoft.com/ru-ru/internet-explorer/download-ie" target="_blank" class="btn btn-primary lg">@Resource.Download</a></td>
+            </tr>
+        </tbody>
+    </table>
+</body>
+</html>

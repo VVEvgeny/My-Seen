@@ -6,32 +6,41 @@ using System.Web.Mvc;
 using MySeenWeb.Models;
 using Microsoft.AspNet.Identity;
 using MySeenLib;
+using MySeenWeb.ActionFilters;
 
 namespace MySeenWeb.Controllers
 {
     //[RequireHttps]
     public class HomeController : BaseController
     {
-        public ActionResult Index(int? page)
+        [BrowserActionFilter]
+        public ActionResult Index(string search,int? page)
         {
             LogSave.Save(User.Identity.IsAuthenticated?User.Identity.GetUserId():"", Request.UserHostAddress, Request.UserAgent, "Home/Index");
 
             if (User.Identity.IsAuthenticated)
             {
-                HomeViewModel af = new HomeViewModel();
-                af.Selected = ReadCookie(CookieKeys.HomeCategory, Defaults.CategoryBase.FilmIndex).ToString();
-                af.Load(User.Identity.GetUserId(), page == null ? 1 : page.Value, RPP);
+                HomeViewModel af = new HomeViewModel(
+                    ReadCookie(CookieKeys.HomeCategory, Defaults.CategoryBase.FilmIndex).ToString(),
+                    User.Identity.GetUserId(),
+                    page == null ? 1 : page.Value,
+                    RPP,
+                    ReadCookie(CookieKeys.ImprovementsCategory, Defaults.ComplexBase.IndexAll),
+                    search
+                    );
                 return View(af);
             }
             return View();
         }
+        [Authorize]
         [HttpPost]
         public JsonResult ChangeCookies(string selected)
         {
             WriteCookie(CookieKeys.HomeCategory, selected);
+            WriteCookie(CookieKeys.HomeCategoryPrev, selected);
             return Json(new { success = true });
         }
-        [HttpPost]
+        [Authorize]
         public JsonResult ChangeCookiesImprovement(string selected)
         {
             WriteCookie(CookieKeys.ImprovementsCategory, selected);
@@ -369,26 +378,6 @@ namespace MySeenWeb.Controllers
             return Json(new { success = true });
         }
         [Authorize]
-        public ActionResult Users(int? page)
-        {
-            LogSave.Save(User.Identity.IsAuthenticated ? User.Identity.GetUserId() : "", Request.UserHostAddress, Request.UserAgent, "Home/Users");
-            if (User.Identity.IsAuthenticated && Admin.isAdmin(User.Identity.Name))
-            {
-                UsersViewModel model = new UsersViewModel();
-                model.Load(page == null ? 1 : page.Value, RPP);
-                return View(model);
-            }
-            return RedirectToAction("Index");
-        }
-        [Authorize]
-        public ActionResult Improvements(int? page)
-        {
-            LogSave.Save(User.Identity.IsAuthenticated ? User.Identity.GetUserId() : "", Request.UserHostAddress, Request.UserAgent, "Home/Improvements");
-            ImprovementsViewModel model = new ImprovementsViewModel();
-            model.Load(ReadCookie(CookieKeys.ImprovementsCategory, Defaults.ComplexBase.IndexAll), page == null ? 1 : page.Value, RPP);
-            return View(model);
-        }
-        [Authorize]
         [HttpPost]
         public JsonResult AddImprovement(string desc, string complex)
         {
@@ -542,20 +531,6 @@ namespace MySeenWeb.Controllers
             }
             return Json(new { success = true });
         }
-
-        [Authorize]
-        public ActionResult Logs(int? page)
-        {
-            int _page = page == null ? 1 : page.Value;
-            LogSave.Save(User.Identity.IsAuthenticated ? User.Identity.GetUserId() : "", Request.UserHostAddress, Request.UserAgent, "Home/Logs");
-            if (User.Identity.IsAuthenticated && Admin.isAdmin(User.Identity.GetUserName()))
-            {
-                LogsViewModel model = new LogsViewModel();
-                model.Load(_page, RPP);
-                return View(model);
-            }
-            return RedirectToAction("Index");
-        }
         [Authorize]
         public ActionResult ShareTrack(int id)
         {
@@ -677,6 +652,40 @@ namespace MySeenWeb.Controllers
                 return new JsonResult { Data = new { success = false, error = errorMessage } };
             }
             return Json(new { success = true });
+        }
+        [BrowserActionFilter]
+        public ActionResult Home()
+        {
+            WriteCookie(CookieKeys.HomeCategory, ReadCookie(CookieKeys.HomeCategoryPrev, Defaults.CategoryBase.FilmIndex));
+            return RedirectToAction("Index");
+        }
+        [BrowserActionFilter]
+        [Authorize]
+        public ActionResult Logs()
+        {
+            if (!HomeViewModel.isCategoryExt(ReadCookie(CookieKeys.HomeCategory, Defaults.CategoryBase.FilmIndex)))
+                WriteCookie(CookieKeys.HomeCategoryPrev, ReadCookie(CookieKeys.HomeCategory, Defaults.CategoryBase.FilmIndex));
+            WriteCookie(CookieKeys.HomeCategory, (int)HomeViewModel.CategoryExt.Logs);
+            return RedirectToAction("Index");
+        }
+        [BrowserActionFilter]
+        [Authorize]
+        public ActionResult Users()
+        {
+            if (!HomeViewModel.isCategoryExt(ReadCookie(CookieKeys.HomeCategory, Defaults.CategoryBase.FilmIndex)))
+                WriteCookie(CookieKeys.HomeCategoryPrev, ReadCookie(CookieKeys.HomeCategory, Defaults.CategoryBase.FilmIndex));
+
+            WriteCookie(CookieKeys.HomeCategory, (int)HomeViewModel.CategoryExt.Users);
+            return RedirectToAction("Index");
+        }
+        [BrowserActionFilter]
+        [Authorize]
+        public ActionResult Improvements()
+        {
+            if (!HomeViewModel.isCategoryExt(ReadCookie(CookieKeys.HomeCategory, Defaults.CategoryBase.FilmIndex)))
+                WriteCookie(CookieKeys.HomeCategoryPrev, ReadCookie(CookieKeys.HomeCategory, Defaults.CategoryBase.FilmIndex));
+            WriteCookie(CookieKeys.HomeCategory, (int)HomeViewModel.CategoryExt.Improvements);
+            return RedirectToAction("Index");
         }
     }
 }

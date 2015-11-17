@@ -250,7 +250,7 @@
     <value>Привет</value>
   </data>
   <data name="AppName" xml:space="preserve">
-    <value>Просмотренное</value>
+    <value>Просмотреное</value>
   </data>
   <data name="Login" xml:space="preserve">
     <value>Вход</value>
@@ -551,5 +551,20 @@
   </data>
   <data name="TracksCount" xml:space="preserve">
     <value>Треков</value>
+  </data>
+  <data name="Seen" xml:space="preserve">
+    <value>Просмотрено</value>
+  </data>
+  <data name="Saved" xml:space="preserve">
+    <value>Сохранено</value>
+  </data>
+  <data name="BrowserDoesNotSupport" xml:space="preserve">
+    <value>Браузер Не Поддерживается</value>
+  </data>
+  <data name="Download" xml:space="preserve">
+    <value>Скачать</value>
+  </data>
+  <data name="ToViewThisSiteUseOneOfTheseBrowsers" xml:space="preserve">
+    <value>Для просмотра данного сайта Используйте один из этих браузеров</value>
   </data>
 </root>

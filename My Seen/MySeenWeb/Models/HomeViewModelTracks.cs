@@ -29,12 +29,20 @@ namespace MySeenWeb.Models
                 return DataCar.Count() > 0;
             }
         }
+        public string Type { get; set; }
+        public IEnumerable<SelectListItem> TypeList { get; set; }
 
         public HomeViewModelTracks(string userId)
         {
+            Type = ((int)TrackTypes.Foot).ToString();
             ApplicationDbContext ac = new ApplicationDbContext();
             DataFoot = ac.Tracks.Where(t => t.UserId == userId && t.Type == (int)TrackTypes.Foot).OrderByDescending(t => t.Date).Select(TracksView.Map);
             DataCar = ac.Tracks.Where(t => t.UserId == userId && t.Type == (int)TrackTypes.Car).OrderByDescending(t => t.Date).Select(TracksView.Map);
+
+            List<SelectListItem> listItemsTypes = new List<SelectListItem>();
+            listItemsTypes.Add(new SelectListItem { Text = Resource.FootBike, Value = ((int)TrackTypes.Foot).ToString(), Selected = true });
+            listItemsTypes.Add(new SelectListItem { Text = Resource.Car, Value = ((int)TrackTypes.Car).ToString(), Selected = false });
+            TypeList = listItemsTypes;
         }
 
         public static TrackInfo GetTrack(int id, string userId)

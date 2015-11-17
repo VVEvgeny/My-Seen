@@ -181,6 +181,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ActionFilters\BrowserActionFilter.cs" />
     <Compile Include="Add_Code\Auths.cs" />
     <Compile Include="Add_Code\WebTools.cs" />
     <Compile Include="App_Start\BundleConfig.cs" />
@@ -192,6 +193,7 @@
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\ApiUsersController.cs" />
     <Compile Include="Controllers\BaseController.cs" />
+    <Compile Include="Controllers\BrowserFilterController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\ApiSyncController.cs" />
@@ -244,31 +246,32 @@
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
-    <Compile Include="Models\CookieKeys.cs" />
-    <Compile Include="Models\Bugs.cs" />
-    <Compile Include="Models\BugsView.cs" />
+    <Compile Include="Models\Tools\CookieKeys.cs" />
+    <Compile Include="Models\Tables\Bugs.cs" />
+    <Compile Include="Models\TablesViews\BugsView.cs" />
     <Compile Include="Models\HomeViewModelTracks.cs" />
     <Compile Include="Models\HomeViewModelBooks.cs" />
     <Compile Include="Models\HomeViewModelSerials.cs" />
     <Compile Include="Models\HomeViewModelFilms.cs" />
-    <Compile Include="Models\Tracks.cs" />
-    <Compile Include="Models\TracksView.cs" />
-    <Compile Include="Models\PaginationViewModel.cs" />
-    <Compile Include="Models\LogsViewModel.cs" />
-    <Compile Include="Models\ImprovementsViewModel.cs" />
-    <Compile Include="Models\LogsView.cs" />
-    <Compile Include="Models\Books.cs" />
-    <Compile Include="Models\BooksView.cs" />
-    <Compile Include="Models\UsersViewModel.cs" />
-    <Compile Include="Models\LogSave.cs" />
-    <Compile Include="Models\Logs.cs" />
-    <Compile Include="Models\SerialsView.cs" />
-    <Compile Include="Models\FilmsView.cs" />
+    <Compile Include="Models\Tools\RatingGenreViewModel.cs" />
+    <Compile Include="Models\Tables\Tracks.cs" />
+    <Compile Include="Models\TablesViews\TracksView.cs" />
+    <Compile Include="Models\Tools\PaginationViewModel.cs" />
+    <Compile Include="Models\HomeViewModelLogs.cs" />
+    <Compile Include="Models\HomeViewModelImprovements.cs" />
+    <Compile Include="Models\TablesViews\LogsView.cs" />
+    <Compile Include="Models\Tables\Books.cs" />
+    <Compile Include="Models\TablesViews\BooksView.cs" />
+    <Compile Include="Models\HomeViewModelUsers.cs" />
+    <Compile Include="Models\Tools\LogSave.cs" />
+    <Compile Include="Models\Tables\Logs.cs" />
+    <Compile Include="Models\TablesViews\SerialsView.cs" />
+    <Compile Include="Models\TablesViews\FilmsView.cs" />
     <Compile Include="Models\HomeViewModel.cs" />
-    <Compile Include="Models\Films.cs" />
+    <Compile Include="Models\Tables\Films.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
-    <Compile Include="Models\Serials.cs" />
+    <Compile Include="Models\Tables\Serials.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
   </ItemGroup>
@@ -277,6 +280,11 @@
     <Content Include="Content\bootstrap-theme.min.css" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\Images\browser-chrome.png" />
+    <Content Include="Content\Images\browser-ff.png" />
+    <Content Include="Content\Images\browser-ie.png" />
+    <Content Include="Content\Images\browser-opera.png" />
+    <Content Include="Content\Images\browser-safari.png" />
     <Content Include="Content\themes\base\accordion.css" />
     <Content Include="Content\themes\base\all.css" />
     <Content Include="Content\themes\base\autocomplete.css" />
@@ -326,8 +334,8 @@
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="Scripts\gmap3.js" />
     <Content Include="Scripts\gmap3.min.js" />
-    <Content Include="Scripts\myseen.gmap.js" />
-    <Content Include="Scripts\myseen.js" />
+    <Content Include="Scripts\myseen\gmap.js" />
+    <Content Include="Scripts\myseen\table.js" />
     <Content Include="Scripts\jquery-2.1.4.js" />
     <Content Include="Scripts\jquery-2.1.4.min.js" />
     <Content Include="Scripts\jquery-2.1.4.min.map" />
@@ -352,7 +360,6 @@
       <DependentUpon>Web.config</DependentUpon>
     </Content>
     <Content Include="Views\Web.config" />
-    <Content Include="Views\_ViewStart.cshtml" />
     <Content Include="Views\Shared\Error.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
@@ -376,14 +383,16 @@
     <Content Include="Views\Manage\VerifyPhoneNumber.cshtml" />
     <Content Include="Views\Shared\Lockout.cshtml" />
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
-    <Content Include="Views\Home\Users.cshtml" />
-    <Content Include="Views\Home\Improvements.cshtml" />
-    <Content Include="Views\Home\Logs.cshtml" />
-    <Content Include="Views\Shared\_Pagination.cshtml" />
-    <Content Include="Views\Home\_IndexFilms.cshtml" />
-    <Content Include="Views\Home\_IndexSerials.cshtml" />
-    <Content Include="Views\Home\_IndexBooks.cshtml" />
-    <Content Include="Views\Home\_IndexTracks.cshtml" />
+    <Content Include="Views\Home\Parts\Ext\Users.cshtml" />
+    <Content Include="Views\Home\Parts\Ext\Improvements.cshtml" />
+    <Content Include="Views\Home\Parts\Ext\Logs.cshtml" />
+    <Content Include="Views\Home\Parts\Tools\Pagination.cshtml" />
+    <Content Include="Views\Home\Parts\Films.cshtml" />
+    <Content Include="Views\Home\Parts\Serials.cshtml" />
+    <Content Include="Views\Home\Parts\Books.cshtml" />
+    <Content Include="Views\Home\Parts\Tracks.cshtml" />
+    <Content Include="Views\_ViewStart.cshtml" />
+    <Content Include="Views\BrowserFilter\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

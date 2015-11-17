@@ -7,13 +7,25 @@ using System.ComponentModel.DataAnnotations;
 using System.Security.Principal;
 using System.Web.Mvc;
 using MySeenLib;
+using System.Web.Routing;
 
 namespace MySeenWeb.Models
 {
     public class PaginationViewModel
     {
-        public PaginationViewModel(int pageNum, int totalRecords, int countInPage,string controller, string page)
+        public IDictionary<string, object> RouteValues { get; set; }
+
+        public PaginationViewModel(int pageNum, int totalRecords, int countInPage, string controller, string page)
         {
+            Load(pageNum, totalRecords, countInPage, controller, page, new Dictionary<string, object>());
+        }
+        public PaginationViewModel(int pageNum, int totalRecords, int countInPage, string controller, string page, Dictionary<string, object> routes)
+        {
+            Load(pageNum, totalRecords, countInPage, controller, page, routes);
+        }
+        private void Load(int pageNum, int totalRecords, int countInPage, string controller, string page, Dictionary<string, object> routes)
+        {
+            RouteValues = routes;
             Controller = controller;
             Page = page;
 

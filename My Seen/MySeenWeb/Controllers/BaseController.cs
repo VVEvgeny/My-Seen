@@ -60,12 +60,6 @@ namespace MySeenWeb.Controllers
             ControllerContext.HttpContext.Response.Cookies.Add(cookie);
             //ControllerContext.HttpContext.Session[key] = cookie;
         }
-        /*
-        public void RemoveCookie(string key)
-        {
-            ControllerContext.HttpContext.Request.Cookies.Remove(key);
-        }
-         * */
 
         public int RPP
         {
