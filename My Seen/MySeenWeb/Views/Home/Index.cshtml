@@ -1,5 +1,4 @@
 ﻿@using MySeenWeb.Models;
-@using MySeenLib;
 
 @model HomeViewModel
 
@@ -13,7 +12,7 @@
     {
         <div class="form-inline">
             <div class="form-group">
-                <label for="lstSelected" style="display: block;">@Resource.SelectTheCategory</label>
+                <label style="display: block;">@Resource.SelectTheCategory</label>
                 @Html.DropDownList("Selected", Model.SelectList, new { @class = "form-control", @id = "lstSelected", @style = "width: 200px;" })
 
                 <button type="button" class="btn btn-primary" id="addButton">

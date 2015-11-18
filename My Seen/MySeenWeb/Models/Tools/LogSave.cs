@@ -1,14 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.ComponentModel.DataAnnotations;
-using System.Security.Principal;
-using System.Web.Mvc;
-using MySeenLib;
+using MySeenWeb.Models.Tables;
 
-namespace MySeenWeb.Models
+namespace MySeenWeb.Models.Tools
 {
     public static class LogSave
     {
@@ -21,13 +15,13 @@ namespace MySeenWeb.Models
             ApplicationDbContext ac = new ApplicationDbContext();
             string date = DateTime.Now.ToShortDateString();
 
-            if (ac.Logs.Where(l => l.IPAdress == ipAdress && l.UserAgent == userAgent && l.UserId == userId && l.OnlyDate == date && l.PageName == pageName).Count() == 0)
+            if (!ac.Logs.Any(l => l.IPAdress == ipAdress && l.UserAgent == userAgent && l.UserId == userId && l.OnlyDate == date && l.PageName == pageName))
             {
                 ac.Logs.Add(new Logs { IPAdress = ipAdress, UserId = userId, UserAgent = userAgent, OnlyDate = date, DateFirst = DateTime.Now, DateLast = DateTime.Now, PageName = pageName, AddData = addData, Count = 1 });
             }
             else
             {
-                Logs log = ac.Logs.Where(l => l.IPAdress == ipAdress && l.UserAgent == userAgent && l.UserId == userId && l.OnlyDate == date && l.PageName == pageName).First();
+                Logs log = ac.Logs.First(l => l.IPAdress == ipAdress && l.UserAgent == userAgent && l.UserId == userId && l.OnlyDate == date && l.PageName == pageName);
                 log.DateLast = DateTime.Now;
                 log.Count++;
                 if (!string.IsNullOrEmpty(addData)) log.AddData += "!%!" + addData;

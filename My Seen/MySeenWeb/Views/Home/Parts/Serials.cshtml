@@ -1,4 +1,5 @@
 ﻿@using MySeenWeb.Models;
+@using MySeenWeb.Models.TablesViews
 
 @model HomeViewModelSerials
 
@@ -48,9 +49,7 @@
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                <h4 class="modal-title">
-                    @Resource.AddNew <text>@Resource.Serial</text>
-                </h4>
+                <h4 class="modal-title">@Resource.AddNew @Resource.Serial</h4>
             </div>
             <div class="modal-body">
                 <div class="form-horizontal">
@@ -73,13 +72,13 @@
                         </div>
                     </div>
                     <div class="form-group">
-                        <label for="serialGenre" class="col-sm-2 control-label">@Resource.Genre</label>
+                        <label class="col-sm-2 control-label">@Resource.Genre</label>
                         <div class="col-sm-10">
                             @Html.DropDownList("Genre", Model.RatinngGenre.GenreList, new { @class = "form-control movie-genre", @id = "serialGenre" })
                         </div>
                     </div>
                     <div class="form-group">
-                        <label for="serialRating" class="col-sm-2 control-label">@Resource.Rating</label>
+                        <label class="col-sm-2 control-label">@Resource.Rating</label>
                         <div class="col-sm-10">
                             @Html.DropDownList("Rating", Model.RatinngGenre.RatingList, new { @class = "form-control movie-rating", @id = "serialRating" })
                         </div>
@@ -111,7 +110,6 @@
 <script language="javascript" type="text/javascript">
     (function ($) {
         $(function () {
-            var $select = $('#lstSelected');
             var $addButton = $('#addButton');
             var $submitAddButton = $('#submitAddButton');
             var $table = $('.table.table-striped');
@@ -190,12 +188,12 @@
                 $movieName.val(name);
 
                 $movieGenre.find('option')
-                    .filter(function (index) {
+                    .filter(function () {
                         return $(this).text() === genre;
                     })
                     .prop('selected', true);
                 $movieRating.find('option')
-                    .filter(function (index) {
+                    .filter(function () {
                         return $(this).text() === rating;
                     })
                     .prop('selected', true);
@@ -219,18 +217,18 @@
                 $deleteButton.show();
                 $modal.modal('show');
 
-                $modal.on('hidden.bs.modal', function (e) {
+                $modal.on('hidden.bs.modal', function () {
                     $modalTitle.text(defaultModalTitle);
                     $movieName.val('');
                     $serialSeason.val('');
                     $serialSeries.val('');
                     $movieGenre.find('option')
-                        .filter(function (index) {
+                        .filter(function () {
                             return $(this).text() === defaultModalGenre;
                         })
                         .prop('selected', true);
                     $movieRating.find('option')
-                        .filter(function (index) {
+                        .filter(function () {
                             return $(this).text() === defaultModalRating;
                         })
                         .prop('selected', true);

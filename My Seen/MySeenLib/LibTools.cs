@@ -22,8 +22,7 @@ namespace MySeenLib
     {
         public static bool isAdmin(string userName)
         {
-            if (userName.ToLower() == "vvevgeny@gmail.com") return true;
-            return false;
+            return userName.ToLower() == "vvevgeny@gmail.com";
         }
     }
     public static class TEST
@@ -146,7 +145,7 @@ namespace MySeenLib
                 }
             }
         }
-             
+
         //public static string ApiHost = ;
         //public static string ApiHostAndroid = @"https://10.0.2.2:443";
 
@@ -176,7 +175,7 @@ namespace MySeenLib
                 BadRequestMode = 3,
                 UserNotExist = 4,
                 NewDataRecieved = 5,
-                NoLongerSupportedVersion =6
+                NoLongerSupportedVersion = 6
             }
             [JsonProperty("Value")]
             public Values Value { get; set; }
@@ -187,9 +186,9 @@ namespace MySeenLib
         }
         public enum DataModes
         {
-            Film =1,
-            Serial=2,
-            Book =3
+            Film = 1,
+            Serial = 2,
+            Book = 3
         }
         public class SyncJsonData
         {
@@ -281,6 +280,7 @@ namespace MySeenLib
                 if (All == null) Load();
                 return All.Count - 1;
             }
+
             public string GetMaxValue()
             {
                 if (All == null) Load();

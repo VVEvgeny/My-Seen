@@ -1,7 +1,5 @@
 ﻿using System;
-using System.Globalization;
 using System.Linq;
-using System.Security.Claims;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
@@ -11,6 +9,8 @@ using Microsoft.Owin.Security;
 using MySeenWeb.Models;
 using MySeenLib;
 using MySeenWeb.ActionFilters;
+using MySeenWeb.Add_Code;
+using MySeenWeb.Models.Tools;
 
 namespace MySeenWeb.Controllers
 {
@@ -25,7 +25,7 @@ namespace MySeenWeb.Controllers
         {
         }
 
-        public AccountController(ApplicationUserManager userManager, ApplicationSignInManager signInManager )
+        public AccountController(ApplicationUserManager userManager, ApplicationSignInManager signInManager)
         {
             UserManager = userManager;
             SignInManager = signInManager;
@@ -37,9 +37,10 @@ namespace MySeenWeb.Controllers
             {
                 return _signInManager ?? HttpContext.GetOwinContext().Get<ApplicationSignInManager>();
             }
-            private set 
-            { 
-                _signInManager = value; 
+
+            private set
+            {
+                _signInManager = value;
             }
         }
 
@@ -49,6 +50,7 @@ namespace MySeenWeb.Controllers
             {
                 return _userManager ?? HttpContext.GetOwinContext().GetUserManager<ApplicationUserManager>();
             }
+
             private set
             {
                 _userManager = value;
@@ -69,7 +71,7 @@ namespace MySeenWeb.Controllers
         // POST: /Account/Login
         [HttpPost]
         [AllowAnonymous]
-        //[ValidateAntiForgeryToken]
+        ////[ValidateAntiForgeryToken]
         public async Task<ActionResult> Login(LoginViewModel model, string returnUrl)
         {
             LogSave.Save(User.Identity.IsAuthenticated ? User.Identity.GetUserId() : "", Request.UserHostAddress, Request.UserAgent, "Account/LoginAsync");
@@ -88,7 +90,7 @@ namespace MySeenWeb.Controllers
                 case SignInStatus.LockedOut:
                     return View("Lockout");
                 case SignInStatus.RequiresVerification:
-                    return RedirectToAction("SendCode", new { ReturnUrl = returnUrl, RememberMe = model.RememberMe });
+                    return RedirectToAction("SendCode", new { ReturnUrl = returnUrl, model.RememberMe });
                 case SignInStatus.Failure:
                 default:
                     ModelState.AddModelError("", "Invalid login attempt.");
@@ -106,6 +108,7 @@ namespace MySeenWeb.Controllers
             {
                 return View("Error");
             }
+
             return View(new VerifyCodeViewModel { Provider = provider, ReturnUrl = returnUrl, RememberMe = rememberMe });
         }
 
@@ -125,7 +128,7 @@ namespace MySeenWeb.Controllers
             // If a user enters incorrect codes for a specified amount of time then the user account 
             // will be locked out for a specified amount of time. 
             // You can configure the account lockout settings in IdentityConfig
-            var result = await SignInManager.TwoFactorSignInAsync(model.Provider, model.Code, isPersistent:  model.RememberMe, rememberBrowser: model.RememberBrowser);
+            var result = await SignInManager.TwoFactorSignInAsync(model.Provider, model.Code, isPersistent: model.RememberMe, rememberBrowser: model.RememberBrowser);
             switch (result)
             {
                 case SignInStatus.Success:
@@ -158,13 +161,19 @@ namespace MySeenWeb.Controllers
             LogSave.Save(User.Identity.IsAuthenticated ? User.Identity.GetUserId() : "", Request.UserHostAddress, Request.UserAgent, "Account/RegisterAsync");
             if (ModelState.IsValid)
             {
-                var user = new ApplicationUser { UserName = model.Email, Email = model.Email
-                    , UniqueKey = MD5Tools.GetMd5Hash(model.Email.ToLower()), Culture = CultureInfoTool.GetCulture(), RegisterDate=DateTime.Now };
+                var user = new ApplicationUser
+                {
+                    UserName = model.Email,
+                    Email = model.Email,
+                    UniqueKey = Md5Tools.GetMd5Hash(model.Email.ToLower()),
+                    Culture = CultureInfoTool.GetCulture(),
+                    RegisterDate = DateTime.Now
+                };
                 var result = await UserManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
                 {
-                    await SignInManager.SignInAsync(user, isPersistent:false, rememberBrowser:false);
-                    
+                    await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
+
                     // For more information on how to enable account confirmation and password reset please visit http://go.microsoft.com/fwlink/?LinkID=320771
                     // Send an email with this link
                     // string code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
@@ -173,6 +182,7 @@ namespace MySeenWeb.Controllers
 
                     return RedirectToAction("Index", "Home");
                 }
+
                 AddErrors(result);
             }
 
@@ -323,7 +333,7 @@ namespace MySeenWeb.Controllers
             {
                 return View("Error");
             }
-            return RedirectToAction("VerifyCode", new { Provider = model.SelectedProvider, ReturnUrl = model.ReturnUrl, RememberMe = model.RememberMe });
+            return RedirectToAction("VerifyCode", new { Provider = model.SelectedProvider, model.ReturnUrl, model.RememberMe });
         }
 
         //
@@ -361,7 +371,7 @@ namespace MySeenWeb.Controllers
                             return View("ExternalLoginFailure");
                         }
                         var user = new ApplicationUser { UserName = loginInfo.Email, Email = loginInfo.Email
-                            , UniqueKey = MD5Tools.GetMd5Hash(loginInfo.Email), Culture = CultureInfoTool.GetCulture(), RegisterDate=DateTime.Now };
+                            , UniqueKey = Md5Tools.GetMd5Hash(loginInfo.Email), Culture = CultureInfoTool.GetCulture(), RegisterDate=DateTime.Now };
                         var result2 = await UserManager.CreateAsync(user);
                         if (result2.Succeeded)
                         {
@@ -402,8 +412,15 @@ namespace MySeenWeb.Controllers
                 {
                     return View("ExternalLoginFailure");
                 }
-                var user = new ApplicationUser { UserName = model.Email, Email = model.Email
-                    , UniqueKey = MD5Tools.GetMd5Hash(model.Email), Culture = CultureInfoTool.GetCulture(), RegisterDate=DateTime.Now };
+                var user = new ApplicationUser
+                {
+                    UserName = model.Email,
+                    Email = model.Email
+                    ,
+                    UniqueKey = Md5Tools.GetMd5Hash(model.Email),
+                    Culture = CultureInfoTool.GetCulture(),
+                    RegisterDate = DateTime.Now
+                };
                 var result = await UserManager.CreateAsync(user);
                 if (result.Succeeded)
                 {

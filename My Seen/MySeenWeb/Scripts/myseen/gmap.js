@@ -4,7 +4,7 @@ $(document).ready(function () {
             map: {
                 options: {
                     zoom: 2,
-                    mapTypeId: google.maps.MapTypeId.ROADMAP
+                    mapTypeId: window.google.maps.MapTypeId.ROADMAP
                 }
             }
         });
@@ -12,33 +12,33 @@ $(document).ready(function () {
 
 function CalcDistance(data)
 {
-    var track_coords_LatLng = [];
+    var trackCoordsLatLng = [];
     $.each(data, function (i, item) {
-        //console.log("history lat=", item.lat, "lng=", item.lng);
-        track_coords_LatLng.push(new google.maps.LatLng(item.lat, item.lng));
+        //console.log("history Latitude=", item.Latitude, "Longitude=", item.Longitude);
+        trackCoordsLatLng.push(new window.google.maps.LatLng(item.Latitude, item.Longitude));
     });
 
-    var polyline = new google.maps.Polyline({
-        path: track_coords_LatLng
+    var polyline = new window.google.maps.Polyline({
+        path: trackCoordsLatLng
     });
 
-    return google.maps.geometry.spherical.computeLength(polyline.getPath()) / 1000;
+    return window.google.maps.geometry.spherical.computeLength(polyline.getPath()) / 1000;
 }
 function CalcDistanceFromTxt(data)
 {
     var array = data.split(";");
 
-    var track_coords_LatLng = [];
+    var trackCoordsLatLng = [];
     $.each(array, function (i, item) {
         //console.log("CalcDistanceFromTxt item=", item);
-        track_coords_LatLng.push(new google.maps.LatLng(item.split(",")[0], item.split(",")[1]));
+        trackCoordsLatLng.push(new window.google.maps.LatLng(item.split(",")[0], item.split(",")[1]));
     });
 
-    var polyline = new google.maps.Polyline({
-        path: track_coords_LatLng
+    var polyline = new window.google.maps.Polyline({
+        path: trackCoordsLatLng
     });
 
-    return google.maps.geometry.spherical.computeLength(polyline.getPath()) / 1000;
+    return window.google.maps.geometry.spherical.computeLength(polyline.getPath()) / 1000;
 }
 
 function clearMap()
@@ -50,14 +50,14 @@ function clearMap()
         }
     });
 }
-function addNew_WithZoomAndCenter(data, track_coords_LatLng, Zoom)
+function addNew_WithZoomAndCenter(data, trackCoordsLatLng, zoom)
 {
     jQuery("#my_map").gmap3(
     {
         map: {
             options: {
-                zoom: Zoom,
-                center: new google.maps.LatLng(data.Center.lat, data.Center.lng)
+                zoom: zoom,
+                center: new window.google.maps.LatLng(data.Center.Latitude, data.Center.Longitude)
             }
         },
         polyline: {
@@ -65,13 +65,13 @@ function addNew_WithZoomAndCenter(data, track_coords_LatLng, Zoom)
                 strokeColor: "#FF0000",//Красный
                 strokeOpacity: 1.0,
                 strokeWeight: 2,
-                path: track_coords_LatLng
+                path: trackCoordsLatLng
             },
             tag: ["polyline"]
         }
     });
 }
-function addNew(track_coords_LatLng) {
+function addNew(trackCoordsLatLng) {
     jQuery("#my_map").gmap3(
     {
         map: {
@@ -84,7 +84,7 @@ function addNew(track_coords_LatLng) {
                 strokeColor: "#FF0000",//Красный
                 strokeOpacity: 1.0,
                 strokeWeight: 2,
-                path: track_coords_LatLng
+                path: trackCoordsLatLng
             },
             tag: ["polyline"]
         }
@@ -110,58 +110,60 @@ function showTrack(id,centerAndZoom)
 {
     $.getJSON('/Home/GetTrack/' + id + '/', function (data)
     {
-        //console.log("location lat=", data.Location.lat, "lng", data.Location.lng);
+        //console.log("location Latitude=", data.Location.Latitude, "Longitude", data.Location.Longitude);
 
-        var track_coords_LatLng = [];
+        var trackCoordsLatLng = [];
         $.each(data.Path, function (i, item)
         {
-            //console.log("history lat=", item.lat, "lng", item.lng);
-            track_coords_LatLng.push(new google.maps.LatLng(item.lat, item.lng));
+            //console.log("history Latitude=", item.Latitude, "Longitude", item.Longitude);
+            trackCoordsLatLng.push(new window.google.maps.LatLng(item.Latitude, item.Longitude));
         });
 
         if (centerAndZoom) {
+            /*
             var polyline = new google.maps.Polyline({
-                path: track_coords_LatLng
+                path: trackCoordsLatLng
             });
+            */
 
-            var Zoom = 12;
+            var zoom = 12;
 
             //расстояние от удаленных точек, есть смысл их считать, только по горизонтали
-            var p1 = new google.maps.LatLng(data.Max.lat, data.Max.lng);
-            var p2 = new google.maps.LatLng(data.Min.lat, data.Min.lng);
-            //console.log("max lat=", data.Max.lat, "lng", data.Max.lng);
-            //console.log("min lat=", data.Min.lat, "lng", data.Min.lng);
+            var p1 = new window.google.maps.LatLng(data.Max.Latitude, data.Max.Longitude);
+            var p2 = new window.google.maps.LatLng(data.Min.Latitude, data.Min.Longitude);
+            //console.log("max Latitude=", data.Max.Latitude, "Longitude", data.Max.Longitude);
+            //console.log("min Latitude=", data.Min.Latitude, "Longitude", data.Min.Longitude);
 
-            var maxLen = google.maps.geometry.spherical.computeDistanceBetween(p1, p2) / 1000;
+            var maxLen = window.google.maps.geometry.spherical.computeDistanceBetween(p1, p2) / 1000;
             console.log("maxLen=", maxLen);
             if (maxLen < 10) {
-                Zoom = 14;
+                zoom = 14;
             }
             else if (maxLen >= 10 && maxLen < 30) {
-                Zoom = 11;
+                zoom = 11;
             }
             else if (maxLen >= 30 && maxLen < 100) {
-                Zoom = 10;
+                zoom = 10;
             }
             else if (maxLen >= 100 && maxLen < 160) {
-                Zoom = 9;
+                zoom = 9;
             }
             else if (maxLen >= 160 && maxLen < 400) {
-                Zoom = 8;
+                zoom = 8;
             }
             else if (maxLen >= 400 && maxLen < 600) {
-                Zoom = 7;
+                zoom = 7;
             }
             else if (maxLen >= 600 && maxLen < 1000) {
-                Zoom = 6;
+                zoom = 6;
             }
 
             clearMap();
-            addNew_WithZoomAndCenter(data, track_coords_LatLng, Zoom);
+            addNew_WithZoomAndCenter(data, trackCoordsLatLng, zoom);
         }
         else
         {
-            addNew(track_coords_LatLng);
+            addNew(trackCoordsLatLng);
         }
     });
 }

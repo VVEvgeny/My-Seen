@@ -1,13 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.ComponentModel.DataAnnotations;
-using System.Security.Principal;
 using System.Web.Mvc;
 using MySeenLib;
-using System.Globalization;
 
 namespace MySeenWeb.Models
 {
@@ -17,11 +11,11 @@ namespace MySeenWeb.Models
 
         public enum CategoryExt
         {
-            Users=101,
-            Logs=102,
-            Improvements=103
+            Users = 101,
+            Logs = 102,
+            Improvements = 103
         }
-        public static bool isCategoryExt(int category)
+        public static bool IsCategoryExt(int category)
         {
             return category == (int)CategoryExt.Users || category == (int)CategoryExt.Logs || category == (int)CategoryExt.Improvements;
         }
@@ -97,7 +91,7 @@ namespace MySeenWeb.Models
         public string Search { get; set; }
 
 
-        public HomeViewModel(string selected,string userId, int page, int countInPage, int complex,string search)
+        public HomeViewModel(string selected, string userId, int page, int countInPage, int complex, string search)
         {
             Search = search;
             Selected = selected;
@@ -109,11 +103,7 @@ namespace MySeenWeb.Models
             else if (PageImprovements) Improvements = new HomeViewModelImprovements(complex, page, countInPage);
             else Films = new HomeViewModelFilms(userId, page, countInPage, search);
 
-            List<SelectListItem> listItems = new List<SelectListItem>();
-            foreach (string sel in Defaults.Categories.GetAll())
-            {
-                listItems.Add(new SelectListItem { Text = sel, Value = Defaults.Categories.GetId(sel).ToString(), Selected = (Defaults.Categories.GetId(sel).ToString() == Selected) });
-            }
+            List<SelectListItem> listItems = Defaults.Categories.GetAll().Select(sel => new SelectListItem {Text = sel, Value = Defaults.Categories.GetId(sel).ToString(), Selected = (Defaults.Categories.GetId(sel).ToString() == Selected)}).ToList();
             SelectList = listItems;
         }
     }

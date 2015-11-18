@@ -1,14 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.ComponentModel.DataAnnotations;
-using System.Security.Principal;
-using System.Web.Mvc;
-using MySeenLib;
+﻿using MySeenLib;
+using MySeenWeb.Models.Tables;
 
-namespace MySeenWeb.Models
+namespace MySeenWeb.Models.TablesViews
 {
     public class SerialsView : Serials
     {
@@ -24,10 +17,10 @@ namespace MySeenWeb.Models
                 DateChange = UMTTime.From(model.DateChange),
                 Genre = model.Genre,
                 Rating = model.Rating,
-                DateBegin=UMTTime.From(model.DateBegin),
-                DateLast=UMTTime.From(model.DateLast),
-                LastSeason=model.LastSeason,
-                LastSeries=model.LastSeries,
+                DateBegin = UMTTime.From(model.DateBegin),
+                DateLast = UMTTime.From(model.DateLast),
+                LastSeason = model.LastSeason,
+                LastSeries = model.LastSeries,
                 isDeleted = model.isDeleted
             };
         }

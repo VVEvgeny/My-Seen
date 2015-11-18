@@ -4,6 +4,7 @@ using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin;
 using Microsoft.Owin.Security.Cookies;
 using Microsoft.Owin.Security.Google;
+using MySeenWeb.Add_Code;
 using Owin;
 using MySeenWeb.Models;
 
@@ -35,7 +36,7 @@ namespace MySeenWeb
                         validateInterval: TimeSpan.FromDays(7),
                         regenerateIdentity: (manager, user) => user.GenerateUserIdentityAsync(manager))
                 }
-            });            
+            });
             app.UseExternalSignInCookie(DefaultAuthenticationTypes.ExternalCookie);
 
             // Enables the application to temporarily store user information when they are verifying the second factor in the two-factor authentication process.
@@ -57,9 +58,9 @@ namespace MySeenWeb
             //   consumerSecret: "");
 
 
-            app.UseVkontakteAuthentication(Auths.VK_Id, Auths.VK_Secret, "4194304");
-            app.UseFacebookAuthentication(appId: Auths.Facebook_Id, appSecret: Auths.Facebook_Secret);
-            app.UseGoogleAuthentication(new GoogleOAuth2AuthenticationOptions(){ClientId = Auths.Google_Id,ClientSecret = Auths.Google_Secret});
+            app.UseVkontakteAuthentication(Auths.VkId, Auths.VkSecret, "4194304");
+            app.UseFacebookAuthentication(appId: Auths.FacebookId, appSecret: Auths.FacebookSecret);
+            app.UseGoogleAuthentication(new GoogleOAuth2AuthenticationOptions() { ClientId = Auths.GoogleId, ClientSecret = Auths.GoogleSecret });
         }
     }
 }

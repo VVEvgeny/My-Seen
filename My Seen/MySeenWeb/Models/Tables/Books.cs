@@ -1,11 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.ComponentModel.DataAnnotations;
 
-namespace MySeenWeb.Models
+namespace MySeenWeb.Models.Tables
 {
     public class Books
     {

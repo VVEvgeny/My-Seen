@@ -9,6 +9,7 @@ using Microsoft.Owin.Security;
 using MySeenWeb.Models;
 using MySeenLib;
 using MySeenWeb.ActionFilters;
+using MySeenWeb.Models.Tools;
 
 namespace MySeenWeb.Controllers
 {
@@ -35,9 +36,9 @@ namespace MySeenWeb.Controllers
             {
                 return _signInManager ?? HttpContext.GetOwinContext().Get<ApplicationSignInManager>();
             }
-            private set 
-            { 
-                _signInManager = value; 
+            private set
+            {
+                _signInManager = value;
             }
         }
 
@@ -80,15 +81,15 @@ namespace MySeenWeb.Controllers
             if (User.Identity.IsAuthenticated)
             {
                 ApplicationDbContext ac = new ApplicationDbContext();
-                ApplicationUser user = ac.Users.Where(u => u.Id == userId).First();
+                ApplicationUser user = ac.Users.First(u => u.Id == userId);
                 model.Lang = Defaults.Languages.GetIdDB(user.Culture);
-                model.RPP = user.RecordPerPage;
+                model.Rpp = user.RecordPerPage;
                 model.LoadSelectList();
 
-                model.havedata = (ac.Films.Where(f => f.UserId == userId).Count() != 0 
-                    || ac.Serials.Where(f => f.UserId == userId).Count() != 0
-                    || ac.Books.Where(f => f.UserId == userId).Count() != 0
-                    || ac.Tracks.Where(f => f.UserId == userId).Count() != 0
+                model.HaveData = (ac.Films.Any(f => f.UserId == userId)
+                    || ac.Serials.Any(f => f.UserId == userId)
+                    || ac.Books.Any(f => f.UserId == userId)
+                    || ac.Tracks.Any(f => f.UserId == userId)
                     );
             }
             return View(model);
@@ -124,7 +125,7 @@ namespace MySeenWeb.Controllers
             LogSave.Save(User.Identity.IsAuthenticated ? User.Identity.GetUserId() : "", Request.UserHostAddress, Request.UserAgent, "Manage/ChangeLanguage", selected);
             ApplicationDbContext ac = new ApplicationDbContext();
             var userId = User.Identity.GetUserId();
-            ac.Users.Where(u => u.Id == userId).First().Culture = Defaults.Languages.GetValDB(Convert.ToInt32(selected));
+            ac.Users.First(u => u.Id == userId).Culture = Defaults.Languages.GetValDB(Convert.ToInt32(selected));
             ac.SaveChanges();
             CultureInfoTool.SetCulture(Defaults.Languages.GetValDB(Convert.ToInt32(selected)));
             WriteCookie(CookieKeys.Language, selected);
@@ -132,14 +133,14 @@ namespace MySeenWeb.Controllers
             return Json(new { success = true });
         }
         [HttpPost]
-        public JsonResult ChangeRPP(string selected)
+        public JsonResult ChangeRpp(string selected)
         {
-            LogSave.Save(User.Identity.IsAuthenticated ? User.Identity.GetUserId() : "", Request.UserHostAddress, Request.UserAgent, "Manage/ChangeRPP", selected);
+            LogSave.Save(User.Identity.IsAuthenticated ? User.Identity.GetUserId() : "", Request.UserHostAddress, Request.UserAgent, "Manage/ChangeRpp", selected);
             ApplicationDbContext ac = new ApplicationDbContext();
             var userId = User.Identity.GetUserId();
-            ac.Users.Where(u => u.Id == userId).First().RecordPerPage = Convert.ToInt32(selected);
+            ac.Users.First(u => u.Id == userId).RecordPerPage = Convert.ToInt32(selected);
             ac.SaveChanges();
-            RPP = Convert.ToInt32(selected);
+            Rpp = Convert.ToInt32(selected);
             return Json(new { success = true });
         }
         private void DeleteUserData()
@@ -224,7 +225,8 @@ namespace MySeenWeb.Controllers
         // GET: /Manage/VerifyPhoneNumber
         public async Task<ActionResult> VerifyPhoneNumber(string phoneNumber)
         {
-            var code = await UserManager.GenerateChangePhoneNumberTokenAsync(User.Identity.GetUserId(), phoneNumber);
+            //var code = 
+                await UserManager.GenerateChangePhoneNumberTokenAsync(User.Identity.GetUserId(), phoneNumber);
             // Send an SMS through the SMS provider to verify the phone number
             return phoneNumber == null ? View("Error") : View(new VerifyPhoneNumberViewModel { PhoneNumber = phoneNumber });
         }
@@ -394,7 +396,7 @@ namespace MySeenWeb.Controllers
             base.Dispose(disposing);
         }
 
-#region Helpers
+        #region Helpers
         // Used for XSRF protection when adding external logins
         private const string XsrfKey = "XsrfId";
 
@@ -424,6 +426,7 @@ namespace MySeenWeb.Controllers
             return false;
         }
 
+/*
         private bool HasPhoneNumber()
         {
             var user = UserManager.FindById(User.Identity.GetUserId());
@@ -433,6 +436,7 @@ namespace MySeenWeb.Controllers
             }
             return false;
         }
+*/
 
         public enum ManageMessageId
         {
@@ -445,6 +449,6 @@ namespace MySeenWeb.Controllers
             Error
         }
 
-#endregion
+        #endregion
     }
 }

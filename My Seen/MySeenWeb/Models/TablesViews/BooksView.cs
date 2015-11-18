@@ -1,14 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.ComponentModel.DataAnnotations;
-using System.Security.Principal;
-using System.Web.Mvc;
-using MySeenLib;
+﻿using MySeenLib;
+using MySeenWeb.Models.Tables;
 
-namespace MySeenWeb.Models
+namespace MySeenWeb.Models.TablesViews
 {
     public class BooksView : Books
     {
@@ -26,7 +19,7 @@ namespace MySeenWeb.Models
                 Rating = model.Rating,
                 DateRead = UMTTime.From(model.DateRead),
                 isDeleted = model.isDeleted,
-                Authors=model.Authors
+                Authors = model.Authors
             };
         }
         public string GenreText

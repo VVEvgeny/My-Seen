@@ -1,6 +1,9 @@
 ﻿@using MySeenWeb.Models;
 
 @model HomeViewModelTracks
+<style type="text/css">
+    
+</style>
 
 <br />
 
@@ -104,9 +107,7 @@
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                <h4 class="modal-title">
-                    @Resource.AddNew <text>@Resource.Track</text>
-                </h4>
+                <h4 class="modal-title">@Resource.AddNew @Resource.Track</h4>
             </div>
             <div class="modal-body">
                 <div class="form-horizontal">
@@ -117,15 +118,15 @@
                         </div>
                     </div>
                     <div class="form-group">
-                        <label for="type" class="col-sm-2 control-label">@Resource.Type</label>
+                        <label class="col-sm-2 control-label">@Resource.Type</label>
                         <div class="col-sm-10">
                             @Html.DropDownList("type", Model.TypeList, new { @class = "form-control track-type", @id = "type" })
                         </div>
                     </div>
                     <div class="form-group">
-                        <label for="trackCoords" class="col-sm-2 control-label">@Resource.Coordinates</label>
+                        <label class="col-sm-2 control-label">@Resource.Coordinates</label>
                         <div class="col-sm-10">
-                            @Html.TextArea("trackCoords", null, 10, 55, new { @class = "form-control track-coords", @placeholder = "lat,lng;lat,lng;..." })
+                            @Html.TextArea("trackCoords", null, 10, 55, new { @class = "form-control track-coords", @placeholder = "Latitude,Longitude;Latitude,Longitude;..." })
                         </div>
                     </div>
                 </div>
@@ -157,17 +158,14 @@
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                <h4 class="modal-title">
-                    @Resource.Share <text>@Resource.Track</text>
-                </h4>
+                <h4 class="modal-title">@Resource.Share @Resource.Track</h4>
             </div>
             <div class="modal-body">
                 <div class="form-horizontal">
                     <div class="form-group">
                         <label for="trackName" class="col-sm-2 control-label">@Resource.Link</label>
-                        <div class="col-sm-10">
-                            <input type="text" class="form-control track-name" id="trackLink" placeholder="@Resource.Link">
-                        </div>
+                        <input type="text" class="form-control track-name col-sm-7" id="trackLink" placeholder="@Resource.Link">
+                        <button type="button" class="btn btn-info col-sm-3" id="shareTryButton">@Resource.Try&nbsp;<span class="glyphicon glyphicon-arrow-right"></span></button>
                     </div>
                 </div>
             </div>
@@ -255,25 +253,25 @@
                 var id = $item.attr('id');
                 var $shareGetButton = $('#shareGetButton');
                 var $shareDeleteGetButton = $('#shareDeleteGetButton');
+                var $shareTryButton = $('#shareTryButton');
                 var $trackLink = $('#trackLink');
 
                 console.log("Share click id=", id);
 
 
                 $shareDeleteGetButton.hide();
+                $shareTryButton.hide();
                 $shareGetButton.show();
                 $.getJSON('/Home/GetTrackShare/' + id + '/', function (data)
                 {
                     console.log('GetTrackShare=', data);
                     if (data === '') return;
                     $shareGetButton.hide();
+                    $shareTryButton.show();
                     $shareDeleteGetButton.show();
                     $trackLink.val(data);
                 });
-
                 var $modalTitle = $modalShare.find('.modal-title');
-                var defaultModalTitle = $modalTitle.text();
-                var $modalTitle = $modal.find('.modal-title');
                 $modalTitle.text('@Resource.Share @Resource.Track');
 
                 $modalShare.modal('show');
@@ -289,6 +287,7 @@
                         //console.log('GetTrackShare=', data);
                         $shareGetButton.hide();
                         $shareDeleteGetButton.show();
+                        $shareTryButton.show();
                         $trackLink.val(data);
                     });
 
@@ -306,6 +305,18 @@
 
                     return false;
                 });
+
+                $shareTryButton.off('click');
+                $shareTryButton.on('click', function () {
+                    console.log("$shareTryButton id=", id);
+
+                    window.open($trackLink.val(), '_blank');
+
+                    $modalShare.modal('hide');
+                    return false;
+                });
+
+                
 
                 return false;
             });
@@ -326,7 +337,7 @@
                 //console.log('type=', typeinmenu);
                 if (typeinmenu === 'menu2')
                 {
-                    $trackType.find('option').filter(function (index) { return index == 1; }).prop('selected', true);
+                    $trackType.find('option').filter(function (index) { return index === 1; }).prop('selected', true);
                 }
 
                 console.log("Edit click id=", id);
@@ -335,13 +346,13 @@
                 var defaultModalTitle = $modalTitle.text();
                 $modalTitle.text('@Resource.Edit @Resource.Track');
 
-                $modal.on('hidden.bs.modal', function (e) {
+                $modal.on('hidden.bs.modal', function () {
                     $modalTitle.text(defaultModalTitle);
                     $trackName.val('');
                     $trackCoords.val('');
 
                     $trackType.find('option')
-                        .filter(function (index) {
+                        .filter(function () {
                             return $(this).text() === defaultModalType;
                         })
                         .prop('selected', true);
@@ -395,55 +406,51 @@
             $list.on('click', '.track-id', function () {
                 var $item = $(this);
                 var id = $item.attr('id');
-                //console.log("id=", id);
+                //console.log("track-id id=", id);
+                var $rows;
+                var skip;
+                var skipOnce;
                 if (id === 'All Foot') {
                     clearMap();
-                    var $rows = $list.find('a');
+                    $rows = $list.find('a');
                     //console.log("rows=", $rows);
-                    var skip = false;
-                    var skip_once = false;
+                    skip = false;
+                    skipOnce = false;
                     $rows.each(function (index, element) {
                         var $row = $(element);
                         //console.log("row=", $row);
                         var id = $row.attr('id');
-                        skip_once = false;
+                        skipOnce = false;
 
-                        if (id === 'All Foot') skip_once = true;
+                        if (id === 'All Foot') skipOnce = true;
                         if (id === 'All Car') skip = true;
 
-                        if (!(skip || skip_once)) {
+                        if (!(skip || skipOnce)) {
                             showTrack(id);
-                        }
-                        else {
-                            //console.log("skip");
                         }
                     });
                     //Просто перебрать все пехо треки и показать их без очистки
                 }
                 else if (id === 'All Car') {
                     clearMap();
-                    var $rows = $list.find('a');
+                    $rows = $list.find('a');
                     //console.log("rows=", $rows);
-
-                    var skip = false;
-                    var skip_once = false;
+                    skip = false;
+                    skipOnce = false;
                     $rows.each(function (index, element) {
                         var $row = $(element);
                         //console.log("row=", $row);
                         var id = $row.attr('id');
-                        skip_once = false;
+                        skipOnce = false;
 
                         if (id === 'All Foot') skip = true;
                         if (id === 'All Car') {
                             skip = false;
-                            skip_once = true;
+                            skipOnce = true;
                         }
 
-                        if (!(skip || skip_once)) {
+                        if (!(skip || skipOnce)) {
                             showTrack(id);
-                        }
-                        else {
-                            //console.log("skip");
                         }
                     });
                 }

@@ -1,16 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.ComponentModel.DataAnnotations;
-using System.Security.Principal;
-using System.Web.Mvc;
-using MySeenLib;
+﻿using System.Linq;
+using MySeenWeb.Models.Tables;
 
-namespace MySeenWeb.Models
+namespace MySeenWeb.Models.TablesViews
 {
-    public class LogsView: Logs
+    public class LogsView : Logs
     {
         public static LogsView Map(Logs model)
         {
@@ -34,13 +27,17 @@ namespace MySeenWeb.Models
         {
             get
             {
-                if(!string.IsNullOrEmpty(UserId))
+                if (!string.IsNullOrEmpty(UserId))
                 {
                     ApplicationDbContext ac = new ApplicationDbContext();
-                    string user = ac.Users.Where(u => u.Id == UserId).Select(u => u.UserName).FirstOrDefault();
-                    if (string.IsNullOrEmpty(user)) return string.Empty;
-                    if (user.Contains('@')) user = user.Remove(user.IndexOf('@'));
-                    return user;
+                    var firstOrDefault = ac.Users.FirstOrDefault(u => u.Id == UserId);
+                    if (firstOrDefault != null)
+                    {
+                        string user = firstOrDefault.UserName;
+                        if (string.IsNullOrEmpty(user)) return string.Empty;
+                        if (user.Contains('@')) user = user.Remove(user.IndexOf('@'));
+                        return user;
+                    }
                 }
                 return string.Empty;
             }

@@ -1,13 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.ComponentModel.DataAnnotations;
-using System.Security.Principal;
-using System.Web.Mvc;
-using MySeenLib;
-using System.Globalization;
+using MySeenWeb.Models.TablesViews;
+using MySeenWeb.Models.Tools;
 
 namespace MySeenWeb.Models
 {
@@ -21,18 +15,18 @@ namespace MySeenWeb.Models
         {
             ApplicationDbContext ac = new ApplicationDbContext();
 
-            var RouteValues = new Dictionary<string, object>();
+            var routeValues = new Dictionary<string, object>();
             if (!string.IsNullOrEmpty(search))
             {
-                RouteValues.Add("search", search);
+                routeValues.Add("search", search);
             }
 
             Pages = new PaginationViewModel(page,
-                ac.Films.Where(f => f.UserId == userId && f.isDeleted != true && (string.IsNullOrEmpty(search) ? true : f.Name.Contains(search))).Count()
-                , countInPage, "Home", "", RouteValues);
+                ac.Films.Count(f => f.UserId == userId && f.isDeleted != true && (string.IsNullOrEmpty(search) || f.Name.Contains(search)))
+                , countInPage, "Home", "", routeValues);
 
             RatinngGenre = new RatingGenreViewModel();
-            Data = ac.Films.Where(f => f.UserId == userId && f.isDeleted != true && (string.IsNullOrEmpty(search) ? true : f.Name.Contains(search)))
+            Data = ac.Films.Where(f => f.UserId == userId && f.isDeleted != true && (string.IsNullOrEmpty(search) || f.Name.Contains(search)))
                 .OrderByDescending(f => f.DateSee)
                 .Select(FilmsView.Map)
                 .Skip((Pages.CurentPage - 1) * countInPage)

@@ -579,4 +579,7 @@
   <data name="Link" xml:space="preserve">
     <value>Ссылка</value>
   </data>
+  <data name="Try" xml:space="preserve">
+    <value>Попробовать</value>
+  </data>
 </root>

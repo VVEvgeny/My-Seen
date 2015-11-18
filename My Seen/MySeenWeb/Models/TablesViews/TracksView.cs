@@ -1,14 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.ComponentModel.DataAnnotations;
-using System.Security.Principal;
-using System.Web.Mvc;
-using MySeenLib;
+﻿using MySeenLib;
+using MySeenWeb.Models.Tables;
 
-namespace MySeenWeb.Models
+namespace MySeenWeb.Models.TablesViews
 {
     public enum TrackTypes
     {
@@ -17,51 +10,20 @@ namespace MySeenWeb.Models
     }
     public class Location
     {
-        public double lat { get; set; }
-        public double lng { get; set; }
+        public double Latitude { get; set; }
+        public double Longitude { get; set; }
 
         public Location()
         {
 
         }
-        public Location(double _lat, double _lng)
+        public Location(double latitude, double longitude)
         {
-            lat = _lat;
-            lng = _lng;
-        }
-    }
-    public class ITrackInfo
-    {
-        public List<Location> Path { get; set; }
-        public Location Min { get; set; }
-        public Location Center { get; set; }
-        public Location Max { get; set; }
-
-        public void CallcMinMaxCenter()
-        {
-            double minX = Path[0].lat;
-            double maxX = Path[0].lat;
-
-            double minY = Path[0].lng;
-            double maxY = Path[0].lng;
-
-            foreach (Location l in Path)
-            {
-                if (minX > l.lat) minX = l.lat;
-                if (maxX < l.lat) maxX = l.lat;
-                if (maxY < l.lng) maxY = l.lng;
-                if (minY > l.lng) minY = l.lng;
-            }
-            Max = new Location(maxX, maxY);
-            Min = new Location(minX, minY);
-            Center = new Location((maxX + minX) / 2, (maxY + minY) / 2);
+            Latitude = latitude;
+            Longitude = longitude;
         }
     }
 
-    public class TrackInfo : ITrackInfo
-    {
-
-    }
     public class TracksView : Tracks
     {
         public static TracksView Map(Tracks model)
@@ -88,7 +50,7 @@ namespace MySeenWeb.Models
         {
             get
             {
-                return ((int)(Distance / (CultureInfoTool.GetCulture()==CultureInfoTool.Cultures.English ? 1.66: 1))).ToString() +" "+ Resource.Km;
+                return ((int)(Distance / (CultureInfoTool.GetCulture() == CultureInfoTool.Cultures.English ? 1.66 : 1))).ToString() + " " + Resource.Km;
             }
         }
     }

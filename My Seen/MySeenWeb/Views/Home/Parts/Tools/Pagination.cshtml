@@ -1,21 +1,17 @@
-﻿@using MySeenWeb.Models;
-@using MySeenLib;
+﻿@model MySeenWeb.Models.Tools.PaginationViewModel
 
-@model PaginationViewModel
-
-@if (!(Model.isFirstPage && Model.isLastPage))
+@if (!(Model.IsFirstPage && Model.IsLastPage))
 {
     <ul class="pagination pagination-sm">
         @{int last = 0;}
-        @if (Model.isFirstPage)
+        @if (Model.IsFirstPage)
         {
             <li class="disabled"><a href="#">←</a></li>
         }
         else
         {
-            var Routes = new RouteValueDictionary(Model.RouteValues);
-            Routes.Add("page", (Model.CurentPage - 1).ToString());
-            <li>@Html.ActionLink("←", Model.Page, Model.Controller, routeValues: new RouteValueDictionary(Routes), htmlAttributes: new Dictionary<string, object>())</li>
+            var routes = new RouteValueDictionary(Model.RouteValues) {{"page", (Model.CurentPage - 1).ToString()}};
+            <li>@Html.ActionLink("←", Model.Page, Model.Controller, routeValues: new RouteValueDictionary(routes), htmlAttributes: new Dictionary<string, object>())</li>
         }
         @foreach (int i in Model.List)
         {
@@ -25,27 +21,24 @@
             }
             if (i == Model.CurentPage)
             {
-                var Routes = new RouteValueDictionary(Model.RouteValues);
-                Routes.Add("page", (i).ToString());
-                <li class="active">@Html.ActionLink(i.ToString(), Model.Page, Model.Controller, routeValues: new RouteValueDictionary(Routes), htmlAttributes: new Dictionary<string, object>())</li>
+                var routes = new RouteValueDictionary(Model.RouteValues) {{"page", (i).ToString()}};
+                <li class="active">@Html.ActionLink(i.ToString(), Model.Page, Model.Controller, routeValues: new RouteValueDictionary(routes), htmlAttributes: new Dictionary<string, object>())</li>
             }
             else
             {
-                var Routes = new RouteValueDictionary(Model.RouteValues);
-                Routes.Add("page", (i).ToString());
-                <li>@Html.ActionLink(i.ToString(), Model.Page, Model.Controller, routeValues: new RouteValueDictionary(Routes), htmlAttributes: new Dictionary<string, object>())</li>
+                var routes = new RouteValueDictionary(Model.RouteValues) {{"page", (i).ToString()}};
+                <li>@Html.ActionLink(i.ToString(), Model.Page, Model.Controller, routeValues: new RouteValueDictionary(routes), htmlAttributes: new Dictionary<string, object>())</li>
             }
             last = i;
         }
-        @if (Model.isLastPage)
+        @if (Model.IsLastPage)
         {
             <li class="disabled"><a href="#">→</a></li>
         }
         else
         {
-            var Routes = new RouteValueDictionary(Model.RouteValues);
-            Routes.Add("page", (Model.CurentPage - 1).ToString());
-            <li>@Html.ActionLink("→", Model.Page, Model.Controller, routeValues: new RouteValueDictionary(Routes), htmlAttributes: new Dictionary<string, object>())</li>
+            var routes = new RouteValueDictionary(Model.RouteValues) {{"page", (Model.CurentPage - 1).ToString()}};
+            <li>@Html.ActionLink("→", Model.Page, Model.Controller, routeValues: new RouteValueDictionary(routes), htmlAttributes: new Dictionary<string, object>())</li>
         }
     </ul>
 }

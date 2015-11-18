@@ -1,14 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.ComponentModel.DataAnnotations;
-using System.Security.Principal;
 using System.Web.Mvc;
 using MySeenLib;
 
-namespace MySeenWeb.Models
+namespace MySeenWeb.Models.Tools
 {
     public class RatingGenreViewModel
     {
@@ -22,18 +17,10 @@ namespace MySeenWeb.Models
             Rating = Defaults.Ratings.GetMaxValue();
             Genre = Defaults.Genres.GetMaxValue();
 
-            List<SelectListItem> listItemsRating = new List<SelectListItem>();
-            foreach (string sel in Defaults.Ratings.GetAll())
-            {
-                listItemsRating.Add(new SelectListItem { Text = sel, Value = Defaults.Ratings.GetId(sel).ToString(), Selected = (sel == Rating) });
-            }
+            List<SelectListItem> listItemsRating = Defaults.Ratings.GetAll().Select(sel => new SelectListItem {Text = sel, Value = Defaults.Ratings.GetId(sel).ToString(), Selected = (sel == Rating)}).ToList();
             RatingList = listItemsRating;
 
-            List<SelectListItem> listItemsGenre = new List<SelectListItem>();
-            foreach (string sel in Defaults.Genres.GetAll())
-            {
-                listItemsGenre.Add(new SelectListItem { Text = sel, Value = Defaults.Genres.GetId(sel).ToString(), Selected = (sel == Genre) });
-            }
+            List<SelectListItem> listItemsGenre = Defaults.Genres.GetAll().Select(sel => new SelectListItem {Text = sel, Value = Defaults.Genres.GetId(sel).ToString(), Selected = (sel == Genre)}).ToList();
             GenreList = listItemsGenre;
         }
     }

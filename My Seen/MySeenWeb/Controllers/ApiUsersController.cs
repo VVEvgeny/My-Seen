@@ -1,29 +1,24 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net;
-using System.Net.Http;
+﻿using System.Linq;
 using System.Web.Http;
-using MySeenWeb;
 using MySeenWeb.Models;
 using MySeenLib;
+using MySeenWeb.Models.Tools;
 
 namespace MySeenWeb.Controllers
 {
     public class ApiUsersController : ApiController
     {
-        public IHttpActionResult Get(string user_key, int mode, int apiVersion)
+        public IHttpActionResult Get(string userKey, int mode, int apiVersion)
         {
-            LogSave.Save(user_key, string.Empty, string.Empty, "ApiUsers/Get", mode.ToString());
+            LogSave.Save(userKey, string.Empty, string.Empty, "ApiUsers/Get", mode.ToString());
             if (apiVersion != MySeenWebApi.ApiVersion)
             {
                 return Ok(new MySeenWebApi.SyncJsonAnswer { Value = MySeenWebApi.SyncJsonAnswer.Values.NoLongerSupportedVersion });
             }
             if ((MySeenWebApi.SyncModesApiUsers)mode == MySeenWebApi.SyncModesApiUsers.isUserExists)
             {
-                string user_id = string.Empty;
                 ApplicationDbContext ac = new ApplicationDbContext();
-                if (ac.Users.Where(u => u.UniqueKey == user_key).Count() == 0)
+                if (!ac.Users.Any(u => u.UniqueKey == userKey))
                 {
                     return Ok(new MySeenWebApi.SyncJsonAnswer { Value = MySeenWebApi.SyncJsonAnswer.Values.UserNotExist });
                 }
@@ -34,11 +29,11 @@ namespace MySeenWeb.Controllers
             }
             return Ok(new MySeenWebApi.SyncJsonAnswer { Value = MySeenWebApi.SyncJsonAnswer.Values.BadRequestMode });
         }
-        public IHttpActionResult Get(string user_key, int mode)
+        public IHttpActionResult Get(string userKey, int mode)
         {
             return Ok(new MySeenWebApi.SyncJsonAnswer { Value = MySeenWebApi.SyncJsonAnswer.Values.NoLongerSupportedVersion });
         }
-        public IHttpActionResult Get(string user_key)
+        public IHttpActionResult Get(string userKey)
         {
             return Ok(new MySeenWebApi.SyncJsonAnswer { Value = MySeenWebApi.SyncJsonAnswer.Values.BadRequestMode });
         }

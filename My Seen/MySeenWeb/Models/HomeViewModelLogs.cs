@@ -1,12 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.ComponentModel.DataAnnotations;
-using System.Security.Principal;
-using System.Web.Mvc;
-using MySeenLib;
+using MySeenWeb.Models.TablesViews;
+using MySeenWeb.Models.Tools;
 
 namespace MySeenWeb.Models
 {
@@ -18,7 +13,7 @@ namespace MySeenWeb.Models
         public HomeViewModelLogs(int page, int countInPage)
         {
             ApplicationDbContext ac = new ApplicationDbContext();
-            Pages = new PaginationViewModel(page, ac.Logs.Count(), countInPage,"Home","");
+            Pages = new PaginationViewModel(page, ac.Logs.Count(), countInPage, "Home", "");
             Logs = ac.Logs.Select(LogsView.Map).OrderByDescending(l => l.DateLast).Skip((Pages.CurentPage - 1) * countInPage).Take(countInPage);
         }
     }

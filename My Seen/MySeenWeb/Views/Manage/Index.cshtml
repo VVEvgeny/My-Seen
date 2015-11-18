@@ -15,14 +15,7 @@
         <dt>@Resource.Password:</dt>
         <dd>
             [
-            @if (Model.HasPassword)
-            {
-                @Html.ActionLink(Resource.ChangeYourPassword, "ChangePassword")
-            }
-            else
-            {
-                @Html.ActionLink(Resource.Create, "SetPassword")
-            }
+            @(Model.HasPassword ? Html.ActionLink(Resource.ChangeYourPassword, "ChangePassword") : Html.ActionLink(Resource.Create, "SetPassword"))
             ]
         </dd>
         <dt>@Resource.ExternalLogins:</dt>
@@ -40,11 +33,11 @@
     <dl class="dl-horizontal">
         <dt>Записей на страницу</dt>
         <dd>
-            @Html.DropDownList("RPP", Model.RPPList, new { @class = "form-control", @id = "lstRPP", @style = "width: 200px;" })
+            @Html.DropDownList("Rpp", Model.RppList, new { @class = "form-control", @id = "lstRpp", @style = "width: 200px;" })
             <div id="RPPSaved" style="display: none;" class="text-success">@Resource.Saved</div>
         </dd>
     </dl>
-        @if (Model.havedata)
+        @if (Model.HaveData)
         {
             <dl class="dl-horizontal">
                 <dt>@Resource.DeleteData</dt>
@@ -69,7 +62,7 @@
             $(function () {
                 var $delDataButton = $('#delDataButton');
                 var $select = $('#lstLang');
-                var $selectRPP = $('#lstRPP');
+                var $selectRpp = $('#lstRPP');
 
                 $select.on('change', function ()
                 {
@@ -92,21 +85,21 @@
                     return false;
                 });
 
-                $selectRPP.on('change', function () {
+                $selectRpp.on('change', function () {
                     var value = $(this).val();
 
                     $.ajax({
                         type: 'POST',
-                        url: '/Manage/ChangeRPP',
+                        url: '/Manage/ChangeRpp',
                         data: {
                             selected: value
                         },
                         dataType: 'json',
                         success: function ()
                         {
-                            var $RPPSaved = $('#RPPSaved');
-                            $RPPSaved.show();
-                            window.setTimeout(HideRPPSaved, 2000);
+                            var $rppSaved = $('#RPPSaved');
+                            $rppSaved.show();
+                            window.setTimeout(hideRppSaved, 2000);
                         },
                         error: function () {
                             alert('Error');
@@ -130,10 +123,10 @@
                     return false;
                 });
             });
-            function HideRPPSaved()
+            function hideRppSaved()
             {
-                var $RPPSaved = $('#RPPSaved');
-                $RPPSaved.hide();
+                var $rppSaved = $('#RPPSaved');
+                $rppSaved.hide();
             }
         })(jQuery);
 </script>

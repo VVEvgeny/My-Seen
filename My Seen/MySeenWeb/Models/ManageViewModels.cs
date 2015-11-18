@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.Linq;
 using Microsoft.AspNet.Identity;
 using Microsoft.Owin.Security;
 using MySeenLib;
@@ -16,26 +17,18 @@ namespace MySeenWeb.Models
 
         public int Lang { get; set; }
         public IEnumerable<System.Web.Mvc.SelectListItem> LangList { get; set; }
-        public int RPP { get; set; }
-        public IEnumerable<System.Web.Mvc.SelectListItem> RPPList { get; set; }
+        public int Rpp { get; set; }
+        public IEnumerable<System.Web.Mvc.SelectListItem> RppList { get; set; }
 
-        public bool havedata { get; set; }
+        public bool HaveData { get; set; }
 
         public void LoadSelectList()
         {
-            List<System.Web.Mvc.SelectListItem> listItems = new List<System.Web.Mvc.SelectListItem>();
-            foreach (string sel in Defaults.Languages.GetAll())
-            {
-                listItems.Add(new System.Web.Mvc.SelectListItem { Text = sel, Value = Defaults.Languages.GetId(sel).ToString(), Selected = (Defaults.Languages.GetId(sel) == Lang) });
-            }
+            List<System.Web.Mvc.SelectListItem> listItems = Defaults.Languages.GetAll().Select(sel => new System.Web.Mvc.SelectListItem {Text = sel, Value = Defaults.Languages.GetId(sel).ToString(), Selected = (Defaults.Languages.GetId(sel) == Lang)}).ToList();
             LangList = listItems;
 
-            listItems = new List<System.Web.Mvc.SelectListItem>();
-            foreach(string sel in Defaults.RecordPerPage.GetAll())
-            {
-                listItems.Add(new System.Web.Mvc.SelectListItem { Text = sel, Value = Defaults.RecordPerPage.GetId(sel).ToString(), Selected = (Defaults.RecordPerPage.GetId(sel) == RPP) });
-            }
-            RPPList = listItems;
+            listItems = Defaults.RecordPerPage.GetAll().Select(sel => new System.Web.Mvc.SelectListItem {Text = sel, Value = Defaults.RecordPerPage.GetId(sel).ToString(), Selected = (Defaults.RecordPerPage.GetId(sel) == Rpp)}).ToList();
+            RppList = listItems;
         }
     }
 

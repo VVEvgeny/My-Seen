@@ -1,11 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using MySeenWeb.Models;
 using Microsoft.AspNet.Identity;
 using MySeenLib;
+using MySeenWeb.Models.Tools;
 
 namespace MySeenWeb.Controllers
 {
@@ -13,7 +13,7 @@ namespace MySeenWeb.Controllers
     {
         public int ReadCookie(string key, int defaultValue)
         {
-            int readed = -1;
+            int readed;
             try
             {
                 readed = Convert.ToInt32(ReadCookie(key, defaultValue.ToString()));
@@ -61,7 +61,7 @@ namespace MySeenWeb.Controllers
             //ControllerContext.HttpContext.Session[key] = cookie;
         }
 
-        public int RPP
+        public int Rpp
         {
             get
             {
@@ -70,37 +70,37 @@ namespace MySeenWeb.Controllers
                     int ret = ReadCookie(CookieKeys.RecordPerPage, Defaults.RecordPerPageBase.IndexAll);
                     if (string.IsNullOrEmpty(Defaults.RecordPerPage.GetById(ret)))
                     {
-                        string user_id = string.Empty;
+                        string userId = string.Empty;
                         try
                         {
                             ApplicationDbContext ac = new ApplicationDbContext();
-                            user_id = User.Identity.GetUserId();
-                            ApplicationUser au = ac.Users.Where(u => u.Id == user_id).First();
+                            userId = User.Identity.GetUserId();
+                            ApplicationUser au = ac.Users.First(u => u.Id == userId);
                             ret = au.RecordPerPage;
                             WriteCookie(CookieKeys.RecordPerPage, ret);
                         }
                         catch
                         {
-                            LogSave.Save(User.Identity.IsAuthenticated ? User.Identity.GetUserId() : "", Request.UserHostAddress, Request.UserAgent, "RecordPerPage catch No USER", user_id);
+                            LogSave.Save(User.Identity.IsAuthenticated ? User.Identity.GetUserId() : "", Request.UserHostAddress, Request.UserAgent, "RecordPerPage catch No USER", userId);
                         }
                     }
                     return ret == Defaults.RecordPerPageBase.IndexAll ? Defaults.RecordPerPageBase.ValAll : Convert.ToInt32(Defaults.RecordPerPage.GetById(ret));
                 }
                 else
                 {
-                    string user_id = string.Empty;
+                    string userId = string.Empty;
                     int ret = Defaults.RecordPerPageBase.IndexAll;
                     try
                     {
                         ApplicationDbContext ac = new ApplicationDbContext();
-                        user_id = User.Identity.GetUserId();
-                        ApplicationUser au = ac.Users.Where(u => u.Id == user_id).First();
+                        userId = User.Identity.GetUserId();
+                        ApplicationUser au = ac.Users.First(u => u.Id == userId);
                         ret = au.RecordPerPage;
                         WriteCookie(CookieKeys.RecordPerPage, au.RecordPerPage);
                     }
                     catch
                     {
-                        LogSave.Save(User.Identity.IsAuthenticated ? User.Identity.GetUserId() : "", Request.UserHostAddress, Request.UserAgent, "RecordPerPage catch No USER", user_id);
+                        LogSave.Save(User.Identity.IsAuthenticated ? User.Identity.GetUserId() : "", Request.UserHostAddress, Request.UserAgent, "RecordPerPage catch No USER", userId);
                     }
                     return ret == Defaults.RecordPerPageBase.IndexAll ? Defaults.RecordPerPageBase.ValAll : Convert.ToInt32(Defaults.RecordPerPage.GetById(ret));
                 }
@@ -128,12 +128,12 @@ namespace MySeenWeb.Controllers
             {
                 if (User.Identity.IsAuthenticated)
                 {
-                    string user_id = User.Identity.GetUserId();
+                    string userId = User.Identity.GetUserId();
                     try
                     {
                         ApplicationDbContext ac = new ApplicationDbContext();
-                        ApplicationUser au = null;
-                        au = ac.Users.Where(u => u.Id == user_id).First();
+                        ApplicationUser au;
+                        au = ac.Users.First(u => u.Id == userId);
                         try
                         {
                             CultureInfoTool.SetCulture(au.Culture);
@@ -145,13 +145,13 @@ namespace MySeenWeb.Controllers
                     }
                     catch
                     {
-                        LogSave.Save(User.Identity.IsAuthenticated ? User.Identity.GetUserId() : "", Request.UserHostAddress, Request.UserAgent, "catch No USER", user_id);
+                        LogSave.Save(User.Identity.IsAuthenticated ? User.Identity.GetUserId() : "", Request.UserHostAddress, Request.UserAgent, "catch No USER", userId);
                     }
                 }
                 else
                 {
                     var userLanguages = Request.UserLanguages;
-                    if (userLanguages.Count() > 0)
+                    if (userLanguages != null && userLanguages.Any())
                     {
                         try
                         {

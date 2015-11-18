@@ -1,4 +1,5 @@
 ﻿@using MySeenWeb.Models;
+@using MySeenWeb.Models.TablesViews
 
 @model HomeViewModelBooks
 
@@ -18,7 +19,8 @@
         </tr>
     </thead>
     <tbody>
-        @foreach (BooksView elem in Model.Data)
+
+    @foreach (BooksView elem in Model.Data)
         {
             <tr>
                 <td class="align-center">
@@ -46,9 +48,7 @@
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                <h4 class="modal-title">
-                    @Resource.AddNew <text>@Resource.Book</text>
-                </h4>
+                <h4 class="modal-title">@Resource.AddNew @Resource.Book</h4>
             </div>
             <div class="modal-body">
                 <div class="form-horizontal">
@@ -65,13 +65,13 @@
                         </div>
                     </div>
                     <div class="form-group">
-                        <label for="bookGenre" class="col-sm-2 control-label">@Resource.Genre</label>
+                        <label class="col-sm-2 control-label">@Resource.Genre</label>
                         <div class="col-sm-10">
                             @Html.DropDownList("Genre", Model.RatinngGenre.GenreList, new { @class = "form-control movie-genre", @id = "bookGenre" })
                         </div>
                     </div>
                     <div class="form-group">
-                        <label for="bookRating" class="col-sm-2 control-label">@Resource.Rating</label>
+                        <label class="col-sm-2 control-label">@Resource.Rating</label>
                         <div class="col-sm-10">
                             @Html.DropDownList("Rating", Model.RatinngGenre.RatingList, new { @class = "form-control movie-rating", @id = "bookRating" })
                         </div>
@@ -181,12 +181,12 @@
                 $bookAuthors.val(authors);
 
                 $movieGenre.find('option')
-                    .filter(function (index) {
+                    .filter(function () {
                         return $(this).text() === genre;
                     })
                     .prop('selected', true);
                 $movieRating.find('option')
-                    .filter(function (index) {
+                    .filter(function () {
                         return $(this).text() === rating;
                     })
                     .prop('selected', true);
@@ -198,19 +198,17 @@
                 $deleteButton.show();
                 $modal.modal('show');
 
-                $modal.on('hidden.bs.modal', function (e) {
+                $modal.on('hidden.bs.modal', function () {
                     $modalTitle.text(defaultModalTitle);
                     $movieName.val('');
-                    $serialSeason.val('');
-                    $serialSeries.val('');
                     $bookAuthors.val('');
                     $movieGenre.find('option')
-                        .filter(function (index) {
+                        .filter(function () {
                             return $(this).text() === defaultModalGenre;
                         })
                         .prop('selected', true);
                     $movieRating.find('option')
-                        .filter(function (index) {
+                        .filter(function () {
                             return $(this).text() === defaultModalRating;
                         })
                         .prop('selected', true);

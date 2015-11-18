@@ -1303,6 +1303,15 @@ namespace MySeenLib {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Try.
+        /// </summary>
+        public static string Try {
+            get {
+                return ResourceManager.GetString("Try", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Use a local account to log in..
         /// </summary>
         public static string TxtForLogin1 {

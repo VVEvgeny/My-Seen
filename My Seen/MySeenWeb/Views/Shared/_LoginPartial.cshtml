@@ -23,9 +23,9 @@
         { 
             <li><a href='https://play.google.com/store/apps/details?id=com.vve.myseen'>@Resource.OurAndroidApp</a></li>
         }
-        @{string UserName = User.Identity.GetUserName();}
-        @if (UserName.Contains("@")) { UserName = UserName.Remove(UserName.IndexOf('@')); }
-        <li>@Html.ActionLink(UserName , "Index", "Manage", routeValues: null, htmlAttributes: new { title = Resource.Manage })</li>
+        @{string userName = User.Identity.GetUserName();}
+        @if (userName.Contains("@")) { userName = userName.Remove(userName.IndexOf('@')); }
+        <li>@Html.ActionLink(userName , "Index", "Manage", routeValues: null, htmlAttributes: new { title = Resource.Manage })</li>
         <li><a href="javascript:document.getElementById('logoutForm').submit()">@Resource.LogOff</a></li>
     </ul>
     }
