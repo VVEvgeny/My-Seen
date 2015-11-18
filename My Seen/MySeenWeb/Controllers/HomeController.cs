@@ -563,6 +563,52 @@ namespace MySeenWeb.Controllers
             return RedirectToAction("Index");
         }
         [Authorize]
+        public ActionResult GetTrackNameById(int id)
+        {
+            if (User.Identity.IsAuthenticated)
+            {
+                return Json(HomeViewModelTracks.GetTrackNameById(id, User.Identity.GetUserId()), JsonRequestBehavior.AllowGet);
+            }
+            return RedirectToAction("Index");
+        }
+        [Authorize]
+        public ActionResult GetTrackShare(string id)
+        {
+            if (User.Identity.IsAuthenticated)
+            {
+                return Json(HomeViewModelTracks.GetTrackShare(id, User.Identity.GetUserId()), JsonRequestBehavior.AllowGet);
+            }
+            return RedirectToAction("Index");
+        }
+        [Authorize]
+        public ActionResult GenerateTrackShare(string id)
+        {
+            if (User.Identity.IsAuthenticated)
+            {
+                return Json(HomeViewModelTracks.GenerateTrackShare(id, User.Identity.GetUserId()), JsonRequestBehavior.AllowGet);
+            }
+            return RedirectToAction("Index");
+        }
+        [Authorize]
+        public ActionResult DeleteTrackShare(string id)
+        {
+            if (User.Identity.IsAuthenticated)
+            {
+                HomeViewModelTracks.DeleteTrackShare(id, User.Identity.GetUserId());
+                return Json(new { success = true }, JsonRequestBehavior.AllowGet);
+            }
+            return RedirectToAction("Index");
+        }
+        [Authorize]
+        public ActionResult GetTrackCoordinatesById(int id)
+        {
+            if (User.Identity.IsAuthenticated)
+            {
+                return Json(HomeViewModelTracks.GetTrackCoordinatesById(id, User.Identity.GetUserId()), JsonRequestBehavior.AllowGet);
+            }
+            return RedirectToAction("Index");
+        }
+        [Authorize]
         [HttpPost]
         public JsonResult AddTrack(string name, string type, string coordinates,string distance)
         {
@@ -640,6 +686,103 @@ namespace MySeenWeb.Controllers
                 try
                 {
                     ac.Tracks.Add(new Tracks { UserId = User.Identity.GetUserId(), Type = _id, Coordinates = coordinates, Date = DateTime.Now, Name = name, Distance = _distance });
+                    ac.SaveChanges();
+                }
+                catch (Exception e)
+                {
+                    errorMessage = Resource.ErrorWorkWithDB + "=" + e.Message;
+                }
+            }
+            if (!string.IsNullOrEmpty(errorMessage))
+            {
+                return new JsonResult { Data = new { success = false, error = errorMessage } };
+            }
+            return Json(new { success = true });
+        }
+        [Authorize]
+        [HttpPost]
+        public JsonResult EditTrack(int id,string name, string type, string coordinates, string distance)
+        {
+            LogSave.Save(User.Identity.IsAuthenticated ? User.Identity.GetUserId() : "", Request.UserHostAddress, Request.UserAgent, "Home/EditTrack", name);
+            string errorMessage = string.Empty;
+            string user_id = User.Identity.GetUserId();
+            ApplicationDbContext ac = new ApplicationDbContext();
+
+            //errorMessage = "id="+id.ToString()+" name=" + name + " type=" + type + " coordinates=" + coordinates + " distance=" + distance;
+
+            if (string.IsNullOrEmpty(errorMessage))
+            {
+                if (name.Length == 0)
+                {
+                    errorMessage = "Короткое название";
+                }
+            }
+            int _id = -1;
+            if (string.IsNullOrEmpty(errorMessage))
+            {
+                try
+                {
+                    _id = Convert.ToInt32(type);
+                    if (_id < 0) throw new Exception();
+                }
+                catch
+                {
+                    errorMessage = "Корявый тип";
+                }
+            }
+            if (string.IsNullOrEmpty(errorMessage))
+            {
+                if (coordinates.Length == 0)
+                {
+                    errorMessage = "Нет координат";
+                }
+            }
+            if (string.IsNullOrEmpty(errorMessage))
+            {
+                if (distance.Length == 0 || distance.ToLower() == "nan".ToLower() || distance == "0")
+                {
+                    errorMessage = "Ошибка вычисления расстояния, перепроверьте координаты";
+                }
+            }
+            double _distance = -1;
+            if (string.IsNullOrEmpty(errorMessage))
+            {
+                string s_distance = distance;
+                if (distance.Contains('.'))
+                {
+                    //if (distance.Length > (distance.IndexOf('.') + 1 + 4))
+                    {
+                        s_distance = s_distance.Remove(distance.IndexOf('.'));
+                    }
+                }
+                try
+                {
+                    _distance = Convert.ToDouble(s_distance);
+                    if (_distance < 0) throw new Exception();
+                }
+                catch (Exception e)
+                {
+                    errorMessage = "Нереальное расстояние =" + distance + " s_=" + s_distance + " mes=" + e.Message;
+                }
+            }
+            if (string.IsNullOrEmpty(errorMessage))
+            {
+                if (distance.Split(';').Count() < 1 || distance.Split(';').Count() > 100)
+                {
+                    errorMessage = "Ошибка колличества координат =" + distance.Split(';').Count().ToString();
+                }
+            }
+            if (string.IsNullOrEmpty(errorMessage))
+            {
+                try
+                {
+                    string user=User.Identity.GetUserId();
+                    //ac.Tracks.Add(new Tracks { UserId = User.Identity.GetUserId(), Type = _id, Coordinates = coordinates, Date = DateTime.Now, Name = name, Distance = _distance });
+                    Tracks track = ac.Tracks.Where(t=>t.Id == id && t.UserId == user).First();
+                    track.Name = name;
+                    track.Type = _id;
+                    track.Coordinates = coordinates;
+                    track.Distance = _distance;
                     ac.SaveChanges();
                 }
                 catch (Exception e)

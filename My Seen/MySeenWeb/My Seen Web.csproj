@@ -244,6 +244,10 @@
     <Compile Include="Migrations\201511111428436_11.Designer.cs">
       <DependentUpon>201511111428436_11.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201511180929261_12.cs" />
+    <Compile Include="Migrations\201511180929261_12.Designer.cs">
+      <DependentUpon>201511180929261_12.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\Tools\CookieKeys.cs" />
@@ -437,6 +441,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201511111428436_11.resx">
       <DependentUpon>201511111428436_11.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201511180929261_12.resx">
+      <DependentUpon>201511180929261_12.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

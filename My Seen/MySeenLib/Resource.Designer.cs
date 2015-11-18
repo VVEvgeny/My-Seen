@@ -70,6 +70,15 @@ namespace MySeenLib {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Actions.
+        /// </summary>
+        public static string Actions {
+            get {
+                return ResourceManager.GetString("Actions", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Add.
         /// </summary>
         public static string Add {
@@ -835,6 +844,15 @@ namespace MySeenLib {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Link.
+        /// </summary>
+        public static string Link {
+            get {
+                return ResourceManager.GetString("Link", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Log in.
         /// </summary>
         public static string Login {
@@ -1177,6 +1195,15 @@ namespace MySeenLib {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Share.
+        /// </summary>
+        public static string Share {
+            get {
+                return ResourceManager.GetString("Share", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Too Short User Name.
         /// </summary>
         public static string ShortUserName {
@@ -1245,6 +1272,15 @@ namespace MySeenLib {
         public static string ToViewThisSiteUseOneOfTheseBrowsers {
             get {
                 return ResourceManager.GetString("ToViewThisSiteUseOneOfTheseBrowsers", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Track.
+        /// </summary>
+        public static string Track {
+            get {
+                return ResourceManager.GetString("Track", resourceCulture);
             }
         }
         

@@ -29,6 +29,20 @@ namespace MySeenWeb.Models
                 return DataCar.Count() > 0;
             }
         }
+        public int CountFoot
+        {
+            get
+            {
+                return DataFoot.Count();
+            }
+        }
+        public int CountCar
+        {
+            get
+            {
+                return DataCar.Count();
+            }
+        }
         public string Type { get; set; }
         public IEnumerable<SelectListItem> TypeList { get; set; }
 
@@ -58,5 +72,75 @@ namespace MySeenWeb.Models
             ti.CallcMinMaxCenter();
             return ti;
         }
+        public static string GetTrackNameById(int id, string userId)
+        {
+            ApplicationDbContext ac = new ApplicationDbContext();
+            return ac.Tracks.Where(t => t.UserId == userId && t.Id == id).OrderByDescending(t => t.Date).Select(t => t.Name).First();
+        }
+        public static string GetTrackCoordinatesById(int id, string userId)
+        {
+            ApplicationDbContext ac = new ApplicationDbContext();
+            return ac.Tracks.Where(t => t.UserId == userId && t.Id == id).OrderByDescending(t => t.Date).Select(t => t.Coordinates).First();
+        }
+        public static string GetTrackShare(string id, string userId)
+        {
+            ApplicationDbContext ac = new ApplicationDbContext();
+            string key = string.Empty;
+            if (id.ToLower().Contains("all"))
+            {
+                key=ac.Users.Where(t => t.Id == userId).Select(t => t.ShareTracksKey).First();
+            }
+            else
+            {
+                int _id = Convert.ToInt32(id);
+                key=ac.Tracks.Where(t => t.UserId == userId && t.Id == _id).OrderByDescending(t => t.Date).Select(t => t.ShareKey).First();
+            }
+            if(string.IsNullOrEmpty(key))return key;
+            return MySeenWebApi.ApiHost + MySeenWebApi.ShareTracks + key;
+        }
+        public static string GenerateTrackShare(string id, string userId)
+        {
+            ApplicationDbContext ac = new ApplicationDbContext();
+            string genkey = string.Empty;
+            genkey += id + userId;
+            Random r = new Random(DateTime.Now.Millisecond);
+            for (int i = 0; i < 20;i++ )
+            {
+                genkey += r.Next().ToString();
+            }
+            genkey = MD5Tools.GetMd5Hash(genkey);
+
+            if (id.ToLower().Contains("all"))
+            {
+                var trackkey = ac.Users.Where(t => t.Id == userId).First();
+                trackkey.ShareTracksKey = genkey;
+            }
+            else
+            {
+                int _id = Convert.ToInt32(id);
+                var trackkey=ac.Tracks.Where(t => t.UserId == userId && t.Id == _id).First();
+                trackkey.ShareKey = genkey;
+            }
+            ac.SaveChanges();
+            return MySeenWebApi.ApiHost + MySeenWebApi.ShareTracks + genkey;
+        }
+        public static void DeleteTrackShare(string id, string userId)
+        {
+            ApplicationDbContext ac = new ApplicationDbContext();
+
+            if (id.ToLower().Contains("all"))
+            {
+                var trackkey = ac.Users.Where(t => t.Id == userId).First();
+                trackkey.ShareTracksKey = string.Empty;
+            }
+            else
+            {
+                int _id = Convert.ToInt32(id);
+                var trackkey=ac.Tracks.Where(t => t.UserId == userId && t.Id == _id).First();
+                trackkey.ShareKey = string.Empty;
+            }
+            ac.SaveChanges();
+        }
+        
     }
 }

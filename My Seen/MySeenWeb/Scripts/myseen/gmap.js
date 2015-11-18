@@ -91,6 +91,21 @@ function addNew(track_coords_LatLng) {
     });
 }
 
+function GetTrackNameByIdIntoField(id, field)
+{
+    $.getJSON('/Home/GetTrackNameById/' + id + '/', function (data) {
+        //console.log('loaded data=', data);
+        field.val(data);
+        return data;
+    });
+}
+function GetTrackCoordinatesByIdIntoField(id, field) {
+    $.getJSON('/Home/GetTrackCoordinatesById/' + id + '/', function (data) {
+        //console.log('loaded data=', data);
+        field.val(data);
+        return data;
+    });
+}
 function showTrack(id,centerAndZoom)
 {
     $.getJSON('/Home/GetTrack/' + id + '/', function (data)

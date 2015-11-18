@@ -156,6 +156,7 @@ namespace MySeenLib
         //public static string ApiHostAndroid = @"http://205.144.171.47";
         public static string ApiUsers = @"/api/ApiUsers/";
         public static string ApiSync = @"/api/ApiSync/";
+        public static string ShareTracks = @"/Home/ShareTracks/";
 
         public enum SyncModesApiUsers
         {

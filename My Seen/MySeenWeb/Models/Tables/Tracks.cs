@@ -22,5 +22,6 @@ namespace MySeenWeb.Models
         public DateTime Date { get; set; }
         public string Coordinates { get; set; }
         public double Distance { get; set; }
+        public string ShareKey { get; set; }
     }
 }

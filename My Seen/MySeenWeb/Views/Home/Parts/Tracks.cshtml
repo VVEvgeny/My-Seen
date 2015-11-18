@@ -34,13 +34,27 @@
                 {
                     <div id="menu1" class="list-group tab-pane fade in active">
                         <a href="" class="list-group-item track-id" id="All Foot">
-                            <h5 class="list-group-item-heading align-center">@Resource.All</h5>
+                            <h5 class="list-group-item-heading align-center">@Resource.All<span class="badge pull-right">@Model.CountFoot</span></h5>
+                            <h6 class="list-group-item-text align-left">
+                                @Resource.Actions :
+                                <span class="pull-right alert-info small">
+                                    <button class="btn btn-xs btn-info" id="All Foot"><small><span class="glyphicon glyphicon-share"></span></small></button>
+                                </span>
+                            </h6>
                         </a>
                         @foreach (var track in Model.DataFoot)
                         {
                             <a href="" class="list-group-item track-id" id=@track.Id>
                                 <h5 class="list-group-item-heading">@track.Name<span class="badge pull-right">@track.DateText</span></h5>
                                 <h6 class="list-group-item-text align-center">@Resource.Distance :<span class="badge pull-right alert-info small">@track.DistanceText</span></h6>
+                                <h6 class="list-group-item-text align-left">
+                                    @Resource.Actions :
+                                    <span class="pull-right alert-info small">
+                                        <button class="btn btn-xs btn-info" id=@track.Id><small><span class="glyphicon glyphicon-share"></span></small></button>
+                                        <button class="btn btn-xs btn-warning" id=@track.Id><small><span class="glyphicon glyphicon-pencil"></span></small></button>
+                                        <!--<button class="btn btn-xs btn-warning" id=@track.Id><small><span class="glyphicon glyphicon-trash"></span></small></button>-->
+                                    </span>
+                                </h6>
                             </a>
                         }
                     </div>
@@ -49,13 +63,27 @@
                 {
                     <div id="menu2" class="list-group tab-pane fade @Model.HaveFoot?:in active">
                         <a href="" class="list-group-item track-id" id="All Car">
-                            <h5 class="list-group-item-heading align-center">@Resource.All</h5>
+                            <h5 class="list-group-item-heading align-center">@Resource.All<span class="badge pull-right">@Model.CountCar</span></h5>
+                            <h6 class="list-group-item-text align-left">
+                                @Resource.Actions :
+                                <span class="pull-right alert-info small">
+                                    <button class="btn btn-xs btn-info" id="All Car"><small><span class="glyphicon glyphicon-share"></span></small></button>
+                                </span>
+                            </h6>
                         </a>
                         @foreach (var track in Model.DataCar)
                         {
                             <a href="" class="list-group-item track-id" id=@track.Id>
                                 <h5 class="list-group-item-heading">@track.Name<span class="badge pull-right">@track.DateText</span></h5>
                                 <h6 class="list-group-item-text align-center">@Resource.Distance :<span class="badge pull-right alert-info small">@track.DistanceText</span></h6>
+                                <h6 class="list-group-item-text align-left">
+                                    @Resource.Actions :
+                                    <span class="pull-right alert-info small">
+                                        <button class="btn btn-xs btn-info" id=@track.Id><small><span class="glyphicon glyphicon-share"></span></small></button>
+                                        <button class="btn btn-xs btn-warning" id=@track.Id><small><span class="glyphicon glyphicon-pencil"></span></small></button>
+                                        <!--<button class="btn btn-xs btn-warning" id=@track.Id><small><span class="glyphicon glyphicon-trash"></span></small></button>-->
+                                    </span>
+                                </h6>
                             </a>
                         }
                     </div>
@@ -77,7 +105,7 @@
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                 <h4 class="modal-title">
-                    @Resource.AddNew <text>@Resource.Tracks</text>
+                    @Resource.AddNew <text>@Resource.Track</text>
                 </h4>
             </div>
             <div class="modal-body">
@@ -85,19 +113,19 @@
                     <div class="form-group">
                         <label for="trackName" class="col-sm-2 control-label">@Resource.Name</label>
                         <div class="col-sm-10">
-                            <input type="text" class="form-control bag-name" id="trackName" placeholder="@Resource.Name">
+                            <input type="text" class="form-control track-name" id="trackName" placeholder="@Resource.Name">
                         </div>
                     </div>
                     <div class="form-group">
                         <label for="type" class="col-sm-2 control-label">@Resource.Type</label>
                         <div class="col-sm-10">
-                            @Html.DropDownList("type", Model.TypeList, new { @class = "form-control type", @id = "type" })
+                            @Html.DropDownList("type", Model.TypeList, new { @class = "form-control track-type", @id = "type" })
                         </div>
                     </div>
                     <div class="form-group">
                         <label for="trackCoords" class="col-sm-2 control-label">@Resource.Coordinates</label>
                         <div class="col-sm-10">
-                            @Html.TextArea("trackCoords", null, 10, 55, new { @class = "form-control trackCoords", @placeholder = "lat,lng;lat,lng;..." })
+                            @Html.TextArea("trackCoords", null, 10, 55, new { @class = "form-control track-coords", @placeholder = "lat,lng;lat,lng;..." })
                         </div>
                     </div>
                 </div>
@@ -124,6 +152,43 @@
     </div>
 </div>
 
+<div class="modal fade modal-window" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" id="ModalShareWindow">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">
+                    @Resource.Share <text>@Resource.Track</text>
+                </h4>
+            </div>
+            <div class="modal-body">
+                <div class="form-horizontal">
+                    <div class="form-group">
+                        <label for="trackName" class="col-sm-2 control-label">@Resource.Link</label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control track-name" id="trackLink" placeholder="@Resource.Link">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-info" id="shareGetButton">
+                    <span class="glyphicon glyphicon-plus"></span>
+                    &nbsp;@Resource.Add @Resource.Share
+                </button>
+                <button type="button" class="btn btn-danger" id="shareDeleteGetButton">
+                    <span class="glyphicon glyphicon-trash"></span>
+                    &nbsp;@Resource.Delete @Resource.Share
+                </button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">
+                    <span class="glyphicon glyphicon-remove"></span>
+                    &nbsp;@Resource.Close
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
 <script language="javascript" type="text/javascript">
     (function ($) {
         $(function () {
@@ -131,10 +196,13 @@
             var $addButton = $('#addButton');
             var $submitAddButton = $('#submitAddButton');
             var $modal = $('#ModalAddWindow');
+            var $modalShare = $('#ModalShareWindow');
+            var $modalBody = $modal.find('.modal-body');
+            var $saveButton = $('#saveButton');
             var url = '';
             var data = {};
 
-            function sendRequest(innerUrl, innerData) {
+            function sendRequest(innerUrl, innerData,noRedirect) {
                 $.ajax({
                     type: 'POST',
                     url: innerUrl,
@@ -144,9 +212,11 @@
                         if (response.error) {
                             alert(response.error);
                         }
-                        else {
-                            window.location.href = '/';
+                        else
+                        {
                             $modal.modal('hide');
+                            $modalShare.modal('hide');
+                            if (!noRedirect)window.location.href = '/';
                         }
                     },
                     error: function (err) {
@@ -166,7 +236,7 @@
 
             $submitAddButton.off('click');
             $submitAddButton.on('click', function () {
- 
+
                 url = '/Home/AddTrack';
                 data = {
                     name: $('#trackName').val(),
@@ -178,6 +248,148 @@
                 sendRequest(url, data);
                 return false;
             });
+
+            $list.off('click', '.btn-info');
+            $list.on('click', '.btn-info', function () {
+                var $item = $(this);
+                var id = $item.attr('id');
+                var $shareGetButton = $('#shareGetButton');
+                var $shareDeleteGetButton = $('#shareDeleteGetButton');
+                var $trackLink = $('#trackLink');
+
+                console.log("Share click id=", id);
+
+
+                $shareDeleteGetButton.hide();
+                $shareGetButton.show();
+                $.getJSON('/Home/GetTrackShare/' + id + '/', function (data)
+                {
+                    console.log('GetTrackShare=', data);
+                    if (data === '') return;
+                    $shareGetButton.hide();
+                    $shareDeleteGetButton.show();
+                    $trackLink.val(data);
+                });
+
+                var $modalTitle = $modalShare.find('.modal-title');
+                var defaultModalTitle = $modalTitle.text();
+                var $modalTitle = $modal.find('.modal-title');
+                $modalTitle.text('@Resource.Share @Resource.Track');
+
+                $modalShare.modal('show');
+
+                $trackLink.val('');
+
+                $shareGetButton.off('click');
+                $shareGetButton.on('click', function ()
+                {
+                    console.log("shareGetButton id=", id);
+
+                    $.getJSON('/Home/GenerateTrackShare/' + id + '/', function (data) {
+                        //console.log('GetTrackShare=', data);
+                        $shareGetButton.hide();
+                        $shareDeleteGetButton.show();
+                        $trackLink.val(data);
+                    });
+
+                    return false;
+                });
+
+                $shareDeleteGetButton.off('click');
+                $shareDeleteGetButton.on('click', function () {
+                    console.log("shareDeleteGetButton id=", id);
+
+                    url = '/Home/DeleteTrackShare/' + id + '/';
+                    data = {id:id};
+
+                    sendRequest(url, data,true);
+
+                    return false;
+                });
+
+                return false;
+            });
+            $list.off('click', '.btn-warning');
+            $list.on('click', '.btn-warning', function () {
+                var $item = $(this);
+                var id = $item.attr('id');
+                var $trackName = $modalBody.find('.track-name');
+                var $modalTitle = $modal.find('.modal-title');
+                var $trackType = $modalBody.find('.track-type');
+                var $trackCoords = $modalBody.find('.track-coords');
+                var defaultModalType = $trackType.find('option:selected').text();
+
+                GetTrackNameByIdIntoField(id, $trackName);
+                GetTrackCoordinatesByIdIntoField(id, $trackCoords);
+
+                var typeinmenu = $item.parent().parent().parent().parent().attr('id');
+                //console.log('type=', typeinmenu);
+                if (typeinmenu === 'menu2')
+                {
+                    $trackType.find('option').filter(function (index) { return index == 1; }).prop('selected', true);
+                }
+
+                console.log("Edit click id=", id);
+
+                var $deleteButton = $('#deleteButton');
+                var defaultModalTitle = $modalTitle.text();
+                $modalTitle.text('@Resource.Edit @Resource.Track');
+
+                $modal.on('hidden.bs.modal', function (e) {
+                    $modalTitle.text(defaultModalTitle);
+                    $trackName.val('');
+                    $trackCoords.val('');
+
+                    $trackType.find('option')
+                        .filter(function (index) {
+                            return $(this).text() === defaultModalType;
+                        })
+                        .prop('selected', true);
+
+                    $saveButton.hide();
+                    $deleteButton.hide();
+                    $submitAddButton.show();
+
+                    return false;
+                });
+
+                $submitAddButton.hide();
+                $saveButton.show();
+                $deleteButton.show();
+                $modal.modal('show');
+
+                $deleteButton.off('click');
+                $deleteButton.on('click', function () {
+
+                    url = '/Home/DeleteTrack';
+                    console.log('delete track=', id);
+                    data = { id: id };
+                    alert('Пока не делал, стремно терять, их сложно делать..');
+                    //sendRequest(url, data);
+
+                    return false;
+                });
+
+                $saveButton.off('click');
+                $saveButton.on('click', function () {
+                    url = '/Home/EditTrack';
+                    data = {
+                        id: id,
+                        name: $('#trackName').val(),
+                        type: $('#type').val(),
+                        coordinates: $('#trackCoords').val(),
+                        distance: CalcDistanceFromTxt($('#trackCoords').val())
+                    };
+
+                    sendRequest(url, data);
+
+                    return false;
+                });
+
+
+                return false;
+            });
+
 
             $list.off('click', '.track-id');
             $list.on('click', '.track-id', function () {
