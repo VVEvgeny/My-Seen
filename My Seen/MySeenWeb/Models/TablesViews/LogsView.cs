@@ -1,10 +1,31 @@
 ﻿using System.Linq;
-using MySeenWeb.Models.Tables;
+using MySeenWeb.Models.Database;
+using MySeenWeb.Models.Database.Tables;
 
 namespace MySeenWeb.Models.TablesViews
 {
     public class LogsView : Logs
     {
+        public string UserName
+        {
+            get
+            {
+                if (!string.IsNullOrEmpty(UserId))
+                {
+                    var ac = new ApplicationDbContext();
+                    var firstOrDefault = ac.Users.FirstOrDefault(u => u.Id == UserId);
+                    if (firstOrDefault != null)
+                    {
+                        var user = firstOrDefault.UserName;
+                        if (string.IsNullOrEmpty(user)) return string.Empty;
+                        if (user.Contains('@')) user = user.Remove(user.IndexOf('@'));
+                        return user;
+                    }
+                }
+                return string.Empty;
+            }
+        }
+
         public static LogsView Map(Logs model)
         {
             if (model == null) return new LogsView();
@@ -22,25 +43,6 @@ namespace MySeenWeb.Models.TablesViews
                 UserAgent = model.UserAgent,
                 UserId = model.UserId
             };
-        }
-        public string UserName
-        {
-            get
-            {
-                if (!string.IsNullOrEmpty(UserId))
-                {
-                    ApplicationDbContext ac = new ApplicationDbContext();
-                    var firstOrDefault = ac.Users.FirstOrDefault(u => u.Id == UserId);
-                    if (firstOrDefault != null)
-                    {
-                        string user = firstOrDefault.UserName;
-                        if (string.IsNullOrEmpty(user)) return string.Empty;
-                        if (user.Contains('@')) user = user.Remove(user.IndexOf('@'));
-                        return user;
-                    }
-                }
-                return string.Empty;
-            }
         }
     }
 }

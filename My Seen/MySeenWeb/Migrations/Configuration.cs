@@ -1,19 +1,16 @@
+using System.Data.Entity.Migrations;
+using MySeenWeb.Models.Database;
+
 namespace MySeenWeb.Migrations
 {
-    using System;
-    using System.Data.Entity;
-    using System.Data.Entity.Migrations;
-    using System.Linq;
-    using MySeenWeb.Models;
-
-    internal sealed class Configuration : DbMigrationsConfiguration<MySeenWeb.Models.ApplicationDbContext>
+    internal sealed class Configuration : DbMigrationsConfiguration<ApplicationDbContext>
     {
         public Configuration()
         {
-            AutomaticMigrationsEnabled = false;//Никаких true, уже стоит рабочая версия
+            AutomaticMigrationsEnabled = false; //Никаких true, уже стоит рабочая версия
         }
 
-        protected override void Seed(MySeenWeb.Models.ApplicationDbContext context)
+        protected override void Seed(ApplicationDbContext context)
         {
             //  This method will be called after migrating to the latest version.
 

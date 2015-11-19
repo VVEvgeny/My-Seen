@@ -45,7 +45,7 @@
     <Property Name="Rating" Type="int" Nullable="false" />
     <Property Name="Genre" Type="int" Nullable="false" />
     <Property Name="DateChange" Type="datetime" Nullable="false" />
-    <Property Name="isDeleted" Type="bit" Nullable="true" />
+    <Property Name="IsDeleted" Type="bit" Nullable="true" />
   </EntityType>
   <EntityType Name="SerialsSet">
     <Key>
@@ -62,7 +62,7 @@
     <Property Name="Rating" Type="int" Nullable="false" />
     <Property Name="Genre" Type="int" Nullable="false" />
     <Property Name="DateChange" Type="datetime" Nullable="false" />
-    <Property Name="isDeleted" Type="bit" Nullable="true" />
+    <Property Name="IsDeleted" Type="bit" Nullable="true" />
   </EntityType>
   <EntityType Name="BooksSet">
     <Key>
@@ -77,7 +77,7 @@
     <Property Name="Genre" Type="int" Nullable="false" />
     <Property Name="Rating" Type="int" Nullable="false" />
     <Property Name="DateChange" Type="datetime" Nullable="false" />
-    <Property Name="isDeleted" Type="bit" Nullable="true" />
+    <Property Name="IsDeleted" Type="bit" Nullable="true" />
   </EntityType>
   <Association Name="UsersFilms">
     <End Role="Users" Type="Model.Store.UsersSet" Multiplicity="1">
@@ -167,7 +167,7 @@
           <NavigationProperty Name="Users" Relationship="Model.UsersFilms" FromRole="Films" ToRole="Users" />
           <Property Name="Genre" Type="Int32" Nullable="false" />
           <Property Name="DateChange" Type="DateTime" Nullable="false" />
-          <Property Name="isDeleted" Type="Boolean" Nullable="true" />
+          <Property Name="IsDeleted" Type="Boolean" Nullable="true" />
         </EntityType>
         <EntityType Name="Serials">
           <Key>
@@ -185,7 +185,7 @@
           <Property Name="Rating" Type="Int32" Nullable="false" />
           <Property Name="Genre" Type="Int32" Nullable="false" />
           <Property Name="DateChange" Type="DateTime" Nullable="false" />
-          <Property Name="isDeleted" Type="Boolean" Nullable="true" />
+          <Property Name="IsDeleted" Type="Boolean" Nullable="true" />
         </EntityType>
         <Association Name="UsersFilms">
           <End Type="Model.Users" Role="Users" Multiplicity="1" >
@@ -231,7 +231,7 @@
           <Property Name="Genre" Type="Int32" Nullable="false" />
           <Property Name="Rating" Type="Int32" Nullable="false" />
           <Property Name="DateChange" Type="DateTime" Nullable="false" />
-          <Property Name="isDeleted" Type="Boolean" Nullable="true" />
+          <Property Name="IsDeleted" Type="Boolean" Nullable="true" />
         </EntityType>
         <Association Name="BooksUsers">
           <End Type="Model.Books" Role="Books" Multiplicity="*" />
@@ -273,7 +273,7 @@
           <ScalarProperty Name="Rating" ColumnName="Rating" />
           <ScalarProperty Name="Genre" ColumnName="Genre" />
           <ScalarProperty Name="DateChange" ColumnName="DateChange" />
-          <ScalarProperty Name="isDeleted" ColumnName="isDeleted" />
+          <ScalarProperty Name="IsDeleted" ColumnName="IsDeleted" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -291,7 +291,7 @@
           <ScalarProperty Name="Rating" ColumnName="Rating" />
           <ScalarProperty Name="Genre" ColumnName="Genre" />
           <ScalarProperty Name="DateChange" ColumnName="DateChange" />
-          <ScalarProperty Name="isDeleted" ColumnName="isDeleted" />
+          <ScalarProperty Name="IsDeleted" ColumnName="IsDeleted" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -307,7 +307,7 @@
           <ScalarProperty Name="Genre" ColumnName="Genre" />
           <ScalarProperty Name="Rating" ColumnName="Rating" />
           <ScalarProperty Name="DateChange" ColumnName="DateChange" />
-          <ScalarProperty Name="isDeleted" ColumnName="isDeleted" />
+          <ScalarProperty Name="IsDeleted" ColumnName="IsDeleted" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>

@@ -105,9 +105,9 @@ namespace MySeenAndroid
                     DatabaseHelper.Get.Add(new Serials
                     {
                         Name = name_text.Text,
-                        DateChange = UMTTime.To(DateTime.Now),
-                        DateLast = UMTTime.To(DateTime.Now),
-                        DateBegin = UMTTime.To(DateTime.Now),
+                        DateChange = UmtTime.To(DateTime.Now),
+                        DateLast = UmtTime.To(DateTime.Now),
+                        DateBegin = UmtTime.To(DateTime.Now),
                         LastSeason = iseason,
                         LastSeries = iseries,
                         Genre = comboboxgenre.SelectedItemPosition,
@@ -126,8 +126,8 @@ namespace MySeenAndroid
                     {
                         Id = film.Id,
                         Name = name_text.Text,
-                        DateChange = UMTTime.To(DateTime.Now),
-                        DateLast = ((iseason == film.LastSeason && iseries == film.LastSeries) ? film.DateLast : UMTTime.To(DateTime.Now)),
+                        DateChange = UmtTime.To(DateTime.Now),
+                        DateLast = ((iseason == film.LastSeason && iseries == film.LastSeries) ? film.DateLast : UmtTime.To(DateTime.Now)),
                         DateBegin = film.DateBegin,
                         LastSeason = iseason,
                         LastSeries = iseries,

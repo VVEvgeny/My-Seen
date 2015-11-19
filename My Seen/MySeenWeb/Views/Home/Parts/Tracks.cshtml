@@ -1,11 +1,11 @@
-﻿@using MySeenWeb.Models;
-
-@model HomeViewModelTracks
+﻿@model MySeenWeb.Models.HomeModels.TracksViewModel
 <style type="text/css">
+    
+    
     
 </style>
 
-<br />
+<br/>
 
 @Scripts.Render("~/bundles/gmap3", "~/bundles/myseen.gmap")
 <!-- надо геометрия для расчета расстояний и путей <script type="text/javascript" src="http://maps.google.com/maps/api/js"></script>-->
@@ -18,17 +18,23 @@
             <ul class="nav nav-tabs">
                 @if (Model.HaveFoot)
                 {
-                    <li class="active"><a data-toggle="tab" href="#menu1">@Resource.FootBike</a></li>
+                    <li class="active">
+                        <a data-toggle="tab" href="#menu1">@Resource.FootBike</a>
+                    </li>
                 }
                 @if (Model.HaveCar)
                 {
                     if (Model.HaveFoot)
                     {
-                        <li><a data-toggle="tab" href="#menu2">@Resource.Car</a></li>
+                        <li>
+                            <a data-toggle="tab" href="#menu2">@Resource.Car</a>
+                        </li>
                     }
                     else
                     {
-                        <li class="active"><a data-toggle="tab" href="#menu2">@Resource.Car</a></li>
+                        <li class="active">
+                            <a data-toggle="tab" href="#menu2">@Resource.Car</a>
+                        </li>
                     }
                 }
             </ul>
@@ -37,7 +43,8 @@
                 {
                     <div id="menu1" class="list-group tab-pane fade in active">
                         <a href="" class="list-group-item track-id" id="All Foot">
-                            <h5 class="list-group-item-heading align-center">@Resource.All<span class="badge pull-right">@Model.CountFoot</span></h5>
+                            <h5 class="list-group-item-heading align-center">
+                                @Resource.All<span class="badge pull-right">@Model.CountFoot</span></h5>
                             <h6 class="list-group-item-text align-left">
                                 @Resource.Actions :
                                 <span class="pull-right alert-info small">
@@ -48,7 +55,8 @@
                         @foreach (var track in Model.DataFoot)
                         {
                             <a href="" class="list-group-item track-id" id=@track.Id>
-                                <h5 class="list-group-item-heading">@track.Name<span class="badge pull-right">@track.DateText</span></h5>
+                                <h5 class="list-group-item-heading">
+                                    @track.Name<span class="badge pull-right">@track.DateText</span></h5>
                                 <h6 class="list-group-item-text align-center">@Resource.Distance :<span class="badge pull-right alert-info small">@track.DistanceText</span></h6>
                                 <h6 class="list-group-item-text align-left">
                                     @Resource.Actions :
@@ -66,7 +74,8 @@
                 {
                     <div id="menu2" class="list-group tab-pane fade @Model.HaveFoot?:in active">
                         <a href="" class="list-group-item track-id" id="All Car">
-                            <h5 class="list-group-item-heading align-center">@Resource.All<span class="badge pull-right">@Model.CountCar</span></h5>
+                            <h5 class="list-group-item-heading align-center">
+                                @Resource.All<span class="badge pull-right">@Model.CountCar</span></h5>
                             <h6 class="list-group-item-text align-left">
                                 @Resource.Actions :
                                 <span class="pull-right alert-info small">
@@ -77,7 +86,8 @@
                         @foreach (var track in Model.DataCar)
                         {
                             <a href="" class="list-group-item track-id" id=@track.Id>
-                                <h5 class="list-group-item-heading">@track.Name<span class="badge pull-right">@track.DateText</span></h5>
+                                <h5 class="list-group-item-heading">
+                                    @track.Name<span class="badge pull-right">@track.DateText</span></h5>
                                 <h6 class="list-group-item-text align-center">@Resource.Distance :<span class="badge pull-right alert-info small">@track.DistanceText</span></h6>
                                 <h6 class="list-group-item-text align-left">
                                     @Resource.Actions :
@@ -106,7 +116,8 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span></button>
                 <h4 class="modal-title">@Resource.AddNew @Resource.Track</h4>
             </div>
             <div class="modal-body">
@@ -120,13 +131,13 @@
                     <div class="form-group">
                         <label class="col-sm-2 control-label">@Resource.Type</label>
                         <div class="col-sm-10">
-                            @Html.DropDownList("type", Model.TypeList, new { @class = "form-control track-type", @id = "type" })
+                            @Html.DropDownList("type", Model.TypeList, new {@class = "form-control track-type", @id = "type"})
                         </div>
                     </div>
                     <div class="form-group">
                         <label class="col-sm-2 control-label">@Resource.Coordinates</label>
                         <div class="col-sm-10">
-                            @Html.TextArea("trackCoords", null, 10, 55, new { @class = "form-control track-coords", @placeholder = "Latitude,Longitude;Latitude,Longitude;..." })
+                            @Html.TextArea("trackCoords", null, 10, 55, new {@class = "form-control track-coords", @placeholder = "Latitude,Longitude;Latitude,Longitude;..."})
                         </div>
                     </div>
                 </div>
@@ -157,7 +168,8 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span></button>
                 <h4 class="modal-title">@Resource.Share @Resource.Track</h4>
             </div>
             <div class="modal-body">
@@ -188,8 +200,8 @@
 </div>
 
 <script language="javascript" type="text/javascript">
-    (function ($) {
-        $(function () {
+    (function($) {
+        $(function() {
             var $list = $('.tab-content');
             var $addButton = $('#addButton');
             var $submitAddButton = $('#submitAddButton');
@@ -200,24 +212,22 @@
             var url = '';
             var data = {};
 
-            function sendRequest(innerUrl, innerData,noRedirect) {
+            function sendRequest(innerUrl, innerData, noRedirect) {
                 $.ajax({
                     type: 'POST',
                     url: innerUrl,
                     data: innerData,
                     dataType: 'json',
-                    success: function (response) {
+                    success: function(response) {
                         if (response.error) {
                             alert(response.error);
-                        }
-                        else
-                        {
+                        } else {
                             $modal.modal('hide');
                             $modalShare.modal('hide');
                             if (!noRedirect)window.location.href = '/';
                         }
                     },
-                    error: function (err) {
+                    error: function(err) {
                         alert(err);
                     }
                 });
@@ -226,14 +236,14 @@
             }
 
             $addButton.off('click');
-            $addButton.on('click', function () {
+            $addButton.on('click', function() {
                 $modal.modal('show');
 
                 return false;
             });
 
             $submitAddButton.off('click');
-            $submitAddButton.on('click', function () {
+            $submitAddButton.on('click', function() {
 
                 url = '/Home/AddTrack';
                 data = {
@@ -248,7 +258,7 @@
             });
 
             $list.off('click', '.btn-info');
-            $list.on('click', '.btn-info', function () {
+            $list.on('click', '.btn-info', function() {
                 var $item = $(this);
                 var id = $item.attr('id');
                 var $shareGetButton = $('#shareGetButton');
@@ -262,8 +272,7 @@
                 $shareDeleteGetButton.hide();
                 $shareTryButton.hide();
                 $shareGetButton.show();
-                $.getJSON('/Home/GetTrackShare/' + id + '/', function (data)
-                {
+                $.getJSON('/Home/GetTrackShare/' + id + '/', function(data) {
                     console.log('GetTrackShare=', data);
                     if (data === '') return;
                     $shareGetButton.hide();
@@ -279,11 +288,10 @@
                 $trackLink.val('');
 
                 $shareGetButton.off('click');
-                $shareGetButton.on('click', function ()
-                {
+                $shareGetButton.on('click', function() {
                     console.log("shareGetButton id=", id);
 
-                    $.getJSON('/Home/GenerateTrackShare/' + id + '/', function (data) {
+                    $.getJSON('/Home/GenerateTrackShare/' + id + '/', function(data) {
                         //console.log('GetTrackShare=', data);
                         $shareGetButton.hide();
                         $shareDeleteGetButton.show();
@@ -295,19 +303,19 @@
                 });
 
                 $shareDeleteGetButton.off('click');
-                $shareDeleteGetButton.on('click', function () {
+                $shareDeleteGetButton.on('click', function() {
                     console.log("shareDeleteGetButton id=", id);
 
                     url = '/Home/DeleteTrackShare/' + id + '/';
-                    data = {id:id};
+                    data = { id: id };
 
-                    sendRequest(url, data,true);
+                    sendRequest(url, data, true);
 
                     return false;
                 });
 
                 $shareTryButton.off('click');
-                $shareTryButton.on('click', function () {
+                $shareTryButton.on('click', function() {
                     console.log("$shareTryButton id=", id);
 
                     window.open($trackLink.val(), '_blank');
@@ -316,12 +324,11 @@
                     return false;
                 });
 
-                
 
                 return false;
             });
             $list.off('click', '.btn-warning');
-            $list.on('click', '.btn-warning', function () {
+            $list.on('click', '.btn-warning', function() {
                 var $item = $(this);
                 var id = $item.attr('id');
                 var $trackName = $modalBody.find('.track-name');
@@ -335,9 +342,8 @@
 
                 var typeinmenu = $item.parent().parent().parent().parent().attr('id');
                 //console.log('type=', typeinmenu);
-                if (typeinmenu === 'menu2')
-                {
-                    $trackType.find('option').filter(function (index) { return index === 1; }).prop('selected', true);
+                if (typeinmenu === 'menu2') {
+                    $trackType.find('option').filter(function(index) { return index === 1; }).prop('selected', true);
                 }
 
                 console.log("Edit click id=", id);
@@ -346,13 +352,13 @@
                 var defaultModalTitle = $modalTitle.text();
                 $modalTitle.text('@Resource.Edit @Resource.Track');
 
-                $modal.on('hidden.bs.modal', function () {
+                $modal.on('hidden.bs.modal', function() {
                     $modalTitle.text(defaultModalTitle);
                     $trackName.val('');
                     $trackCoords.val('');
 
                     $trackType.find('option')
-                        .filter(function () {
+                        .filter(function() {
                             return $(this).text() === defaultModalType;
                         })
                         .prop('selected', true);
@@ -370,7 +376,7 @@
                 $modal.modal('show');
 
                 $deleteButton.off('click');
-                $deleteButton.on('click', function () {
+                $deleteButton.on('click', function() {
 
                     url = '/Home/DeleteTrack';
                     console.log('delete track=', id);
@@ -382,7 +388,7 @@
                 });
 
                 $saveButton.off('click');
-                $saveButton.on('click', function () {
+                $saveButton.on('click', function() {
                     url = '/Home/EditTrack';
                     data = {
                         id: id,
@@ -403,7 +409,7 @@
 
 
             $list.off('click', '.track-id');
-            $list.on('click', '.track-id', function () {
+            $list.on('click', '.track-id', function() {
                 var $item = $(this);
                 var id = $item.attr('id');
                 //console.log("track-id id=", id);
@@ -416,7 +422,7 @@
                     //console.log("rows=", $rows);
                     skip = false;
                     skipOnce = false;
-                    $rows.each(function (index, element) {
+                    $rows.each(function(index, element) {
                         var $row = $(element);
                         //console.log("row=", $row);
                         var id = $row.attr('id');
@@ -430,14 +436,13 @@
                         }
                     });
                     //Просто перебрать все пехо треки и показать их без очистки
-                }
-                else if (id === 'All Car') {
+                } else if (id === 'All Car') {
                     clearMap();
                     $rows = $list.find('a');
                     //console.log("rows=", $rows);
                     skip = false;
                     skipOnce = false;
-                    $rows.each(function (index, element) {
+                    $rows.each(function(index, element) {
                         var $row = $(element);
                         //console.log("row=", $row);
                         var id = $row.attr('id');
@@ -453,11 +458,9 @@
                             showTrack(id);
                         }
                     });
-                }
-                else showTrack(id, true);
+                } else showTrack(id, true);
                 return false;
             });
         });
     })(jQuery);
 </script>
-

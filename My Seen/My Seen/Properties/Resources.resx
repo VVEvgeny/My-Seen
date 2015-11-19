@@ -117,4 +117,19 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+	<data name="Add_Serial_button1_Click__1" xml:space="preserve">
+    <value>1</value>
+  </data>
+	<data name="Data_UpdateListViewColumns_id" xml:space="preserve">
+    <value>id</value>
+  </data>
+	<data name="Minus" xml:space="preserve">
+    <value>-</value>
+  </data>
+	<data name="0" xml:space="preserve">
+    <value>0</value>
+  </data>
+	<data name="Eng" xml:space="preserve">
+    <value>ENG</value>
+  </data>
 </root>

@@ -1,48 +1,30 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using MySeenLib;
-using System.Net;
-using System.IO;
 
 namespace My_Seen
 {
     public partial class Config : Form
     {
-        public MySeenEvent DBUserDeleted = null;
-        public MySeenEvent DBDataChanged = null;
-        public MySeenEvent DBUpdateUser = null;
+        public MySeenEvent DbUserDeleted;
+        public MySeenEvent DbDataChanged;
+        public MySeenEvent DbUpdateUser;
         public Config()
         {
             InitializeComponent();
-            DBDataChanged = new MySeenEvent();
-            DBUserDeleted = new MySeenEvent();
-            DBUpdateUser = new MySeenEvent();
+            DbDataChanged = new MySeenEvent();
+            DbUserDeleted = new MySeenEvent();
+            DbUpdateUser = new MySeenEvent();
         }
-       
-        private Users user;
-        public Users User
-        {
-            get
-            {
-                return user;
-            }
-            set
-            {
-                user = value;
-            }
-        }
+
+        public Users User { get; set; }
+
         private void button1_Click(object sender, EventArgs e)
         {
             if(textBox2.Text.Length!=0)
             {
-                if(MD5Tools.GetMd5Hash(textBox2.Text)!=User.Password)
+                if(Md5Tools.GetMd5Hash(textBox2.Text)!=User.Password)
                 {
                     MessageBox.Show(Resource.WrongPassword);
                     return;
@@ -53,14 +35,14 @@ namespace My_Seen
                     MessageBox.Show(msg);
                     return;
                 }
-                User.Password = MD5Tools.GetMd5Hash(textBox2.Text);
+                User.Password = Md5Tools.GetMd5Hash(textBox2.Text);
             }
             ModelContainer mc = new ModelContainer();
-            Users update_user = mc.UsersSet.First(u => u.Id == User.Id);
-            update_user.Email = textBox5.Text;
-            update_user.Password = User.Password;
+            Users updateUser = mc.UsersSet.First(u => u.Id == User.Id);
+            updateUser.Email = textBox5.Text;
+            updateUser.Password = User.Password;
             mc.SaveChanges();
-            DBUpdateUser.Exec();
+            DbUpdateUser.Exec();
             Close();
         }
 
@@ -72,11 +54,11 @@ namespace My_Seen
         private void DeleteData()
         {
             ModelContainer mc = new ModelContainer();
-            mc.FilmsSet.RemoveRange(mc.FilmsSet.Where(f=>f.UsersId==user.Id));
-            mc.SerialsSet.RemoveRange(mc.SerialsSet.Where(f => f.UsersId == user.Id));
-            mc.BooksSet.RemoveRange(mc.BooksSet.Where(f => f.UsersId == user.Id));
+            mc.FilmsSet.RemoveRange(mc.FilmsSet.Where(f=>f.UsersId==User.Id));
+            mc.SerialsSet.RemoveRange(mc.SerialsSet.Where(f => f.UsersId == User.Id));
+            mc.BooksSet.RemoveRange(mc.BooksSet.Where(f => f.UsersId == User.Id));
             mc.SaveChanges();
-            DBDataChanged.Exec();
+            DbDataChanged.Exec();
         }
         private void button3_Click(object sender, EventArgs e)
         {
@@ -86,10 +68,10 @@ namespace My_Seen
         private void DeleteUser()
         {
             ModelContainer mc = new ModelContainer();
-            mc.UsersSet.Remove(mc.UsersSet.First(u=>u.Id==user.Id));
+            mc.UsersSet.Remove(mc.UsersSet.First(u=>u.Id==User.Id));
             mc.SaveChanges();
             MessageBox.Show(Resource.DBUserDeleted);
-            DBUserDeleted.Exec();
+            DbUserDeleted.Exec();
             Close();
         }
         private void button4_Click(object sender, EventArgs e)
@@ -111,7 +93,7 @@ namespace My_Seen
                 DateSee = model.DateSee,
                 Genre = model.Genre,
                 Rating = model.Rating,
-                isDeleted = model.isDeleted,
+                isDeleted = model.IsDeleted,
                 UsersId = User.Id
             };
         }
@@ -125,7 +107,7 @@ namespace My_Seen
                 Name = model.Name,
                 Genre = model.Genre,
                 Rating = model.Rating,
-                isDeleted = model.isDeleted,
+                isDeleted = model.IsDeleted,
                 UsersId = User.Id,
                 DateBegin = model.DateBegin,
                 DateLast = model.DateLast,
@@ -146,7 +128,7 @@ namespace My_Seen
             }
             DeleteData();
             WebApi.Sync(User);
-            DBDataChanged.Exec();
+            DbDataChanged.Exec();
         }
 
     }

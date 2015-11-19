@@ -1,11 +1,63 @@
 ﻿using System.Linq;
 using MySeenLib;
-using MySeenWeb.Models.Tables;
+using MySeenWeb.Models.Database;
+using MySeenWeb.Models.Database.Tables;
 
 namespace MySeenWeb.Models.TablesViews
 {
     public class BugsView : Bugs
     {
+        public string ComplexText
+        {
+            get { return Defaults.Complexes.GetById(Complex); }
+        }
+
+        public string UserName
+        {
+            get
+            {
+                if (!string.IsNullOrEmpty(UserId))
+                {
+                    var ac = new ApplicationDbContext();
+                    var firstOrDefault = ac.Users.FirstOrDefault(u => u.Id == UserId);
+                    if (firstOrDefault != null)
+                    {
+                        var user = firstOrDefault.UserName;
+                        if (string.IsNullOrEmpty(user)) return string.Empty;
+                        if (user.Contains('@')) user = user.Remove(user.IndexOf('@'));
+                        return user;
+                    }
+                }
+                return string.Empty;
+            }
+        }
+
+        public string DateEndText
+        {
+            get
+            {
+                if (DateEnd != null)
+                {
+                    return DateEnd.Value.ToShortDateString();
+                }
+                return string.Empty;
+            }
+        }
+
+        public string DateFoundText
+        {
+            get { return DateFound.ToShortDateString(); }
+        }
+
+        public string VersionText
+        {
+            get
+            {
+                if (Version != 0) return Version.ToString();
+                return string.Empty;
+            }
+        }
+
         public static BugsView Map(Bugs model)
         {
             if (model == null) return new BugsView();
@@ -20,58 +72,6 @@ namespace MySeenWeb.Models.TablesViews
                 Complex = model.Complex,
                 Version = model.Version
             };
-        }
-        public string ComplexText
-        {
-            get
-            {
-                return Defaults.Complexes.GetById(Complex);
-            }
-        }
-        public string UserName
-        {
-            get
-            {
-                if (!string.IsNullOrEmpty(UserId))
-                {
-                    ApplicationDbContext ac = new ApplicationDbContext();
-                    var firstOrDefault = ac.Users.FirstOrDefault(u => u.Id == UserId);
-                    if (firstOrDefault != null)
-                    {
-                        string user = firstOrDefault.UserName;
-                        if (string.IsNullOrEmpty(user)) return string.Empty;
-                        if (user.Contains('@')) user = user.Remove(user.IndexOf('@'));
-                        return user;
-                    }
-                }
-                return string.Empty;
-            }
-        }
-        public string DateEndText
-        {
-            get
-            {
-                if (DateEnd != null)
-                {
-                    return DateEnd.Value.ToShortDateString();
-                }
-                return string.Empty;
-            }
-        }
-        public string DateFoundText
-        {
-            get
-            {
-                return DateFound.ToShortDateString();
-            }
-        }
-        public string VersionText
-        {
-            get
-            {
-                if (Version != 0) return Version.ToString();
-                return string.Empty;
-            }
         }
     }
 }

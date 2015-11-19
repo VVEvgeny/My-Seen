@@ -1,6 +1,6 @@
 ﻿namespace My_Seen
 {
-    partial class Add_Serial
+    partial class AddSerial
     {
         /// <summary>
         /// Required designer variable.
@@ -29,7 +29,7 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Add_Serial));
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(AddSerial));
             this.label1 = new System.Windows.Forms.Label();
             this.textBox1 = new System.Windows.Forms.TextBox();
             this.dateTimePicker1 = new System.Windows.Forms.DateTimePicker();
@@ -131,7 +131,7 @@
             this.button2.UseVisualStyleBackColor = true;
             this.button2.Click += new System.EventHandler(this.button2_Click);
             // 
-            // Add_Serial
+            // AddSerial
             // 
             this.AcceptButton = this.button1;
             resources.ApplyResources(this, "$this");
@@ -153,7 +153,7 @@
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.Fixed3D;
             this.MaximizeBox = false;
             this.MinimizeBox = false;
-            this.Name = "Add_Serial";
+            this.Name = "AddSerial";
             this.ShowIcon = false;
             this.Load += new System.EventHandler(this.Add_Serial_Load);
             ((System.ComponentModel.ISupportInitialize)(this.errorProvider)).EndInit();

@@ -442,7 +442,7 @@
     <value>PC</value>
   </data>
   <data name="WEB" xml:space="preserve">
-    <value>WEB</value>
+    <value>Web</value>
   </data>
   <data name="All" xml:space="preserve">
     <value>All</value>
@@ -581,5 +581,8 @@
   </data>
   <data name="Try" xml:space="preserve">
     <value>Try</value>
+  </data>
+  <data name="RecordPerPage" xml:space="preserve">
+    <value>Record Per Page</value>
   </data>
 </root>

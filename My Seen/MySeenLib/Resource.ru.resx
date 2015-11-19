@@ -582,4 +582,7 @@
   <data name="Try" xml:space="preserve">
     <value>Попробовать</value>
   </data>
+  <data name="RecordPerPage" xml:space="preserve">
+    <value>Записей на страницу</value>
+  </data>
 </root>

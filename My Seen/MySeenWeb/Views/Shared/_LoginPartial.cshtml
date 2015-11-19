@@ -1,33 +1,39 @@
 ﻿@using Microsoft.AspNet.Identity
-
 @if (Request.IsAuthenticated)
 {
-    if (Admin.isAdmin(User.Identity.GetUserName()))
+    if (Admin.IsAdmin(User.Identity.GetUserName()))
     {
         <ul class="nav navbar-nav">
-            <li>@Html.ActionLink(Resource.Users, "Users", "", routeValues: null, htmlAttributes: new { id = "usersLink" })</li>
+            <li>@Html.ActionLink(Resource.Users, "Users", "", null, new {id = "usersLink"})</li>
         </ul>
         <ul class="nav navbar-nav">
-            <li>@Html.ActionLink(Resource.Logs, "Logs", "", routeValues: null, htmlAttributes: new { id = "usersLink" })</li>
+            <li>@Html.ActionLink(Resource.Logs, "Logs", "", null, new {id = "usersLink"})</li>
         </ul>
     }
     <ul class="nav navbar-nav">
-        <li>@Html.ActionLink(Resource.Improvements, "Improvements", "Home", routeValues: null, htmlAttributes: new { id = "usersLink" })</li>
+        <li>@Html.ActionLink(Resource.Improvements, "Improvements", "Home", null, new {id = "usersLink"})</li>
     </ul>
-    using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { id = "logoutForm", @class = "navbar-right" }))
+    using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new {id = "logoutForm", @class = "navbar-right"}))
     {
-    @Html.AntiForgeryToken()
+        @Html.AntiForgeryToken()
 
-    <ul class="nav navbar-nav navbar-right">
-        @if(Request.Browser.IsMobileDevice)
-        { 
-            <li><a href='https://play.google.com/store/apps/details?id=com.vve.myseen'>@Resource.OurAndroidApp</a></li>
-        }
-        @{string userName = User.Identity.GetUserName();}
-        @if (userName.Contains("@")) { userName = userName.Remove(userName.IndexOf('@')); }
-        <li>@Html.ActionLink(userName , "Index", "Manage", routeValues: null, htmlAttributes: new { title = Resource.Manage })</li>
-        <li><a href="javascript:document.getElementById('logoutForm').submit()">@Resource.LogOff</a></li>
-    </ul>
+        <ul class="nav navbar-nav navbar-right">
+            @if (Request.Browser.IsMobileDevice)
+            {
+                <li>
+                    <a href='https://play.google.com/store/apps/details?id=com.vve.myseen'>@Resource.OurAndroidApp</a>
+                </li>
+            }
+            @{ var userName = User.Identity.GetUserName(); }
+            @if (userName.Contains("@"))
+            {
+                userName = userName.Remove(userName.IndexOf('@'));
+            }
+            <li>@Html.ActionLink(userName, "Index", "Manage", null, new {title = Resource.Manage})</li>
+            <li>
+                <a href="javascript:document.getElementById('logoutForm').submit()">@Resource.LogOff</a>
+            </li>
+        </ul>
     }
 }
 else
@@ -35,9 +41,11 @@ else
     <ul class="nav navbar-nav navbar-right">
         @if (Request.Browser.IsMobileDevice)
         {
-            <li><a href='https://play.google.com/store/apps/details?id=com.vve.myseen'>@Resource.OurAndroidApp</a></li>
+            <li>
+                <a href='https://play.google.com/store/apps/details?id=com.vve.myseen'>@Resource.OurAndroidApp</a>
+            </li>
         }
-        <li>@Html.ActionLink(Resource.Register, "Register", "Account", routeValues: null, htmlAttributes: new { id = "registerLink" })</li>
-        <li>@Html.ActionLink(Resource.Login, "Login", "Account", routeValues: null, htmlAttributes: new { id = "loginLink" })</li>
+        <li>@Html.ActionLink(Resource.Register, "Register", "Account", null, new {id = "registerLink"})</li>
+        <li>@Html.ActionLink(Resource.Login, "Login", "Account", null, new {id = "loginLink"})</li>
     </ul>
 }

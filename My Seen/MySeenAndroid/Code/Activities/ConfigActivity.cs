@@ -69,7 +69,7 @@ namespace MySeenAndroid
                 DateSee = model.DateSee,
                 Genre = model.Genre,
                 Rating = model.Rating,
-                isDeleted = model.isDeleted
+                IsDeleted = model.isDeleted
             };
         }
         public static Films MapToFilm(MySeenWebApi.SyncJsonData model)
@@ -84,7 +84,7 @@ namespace MySeenAndroid
                 DateSee = model.DateSee,
                 Genre = model.Genre,
                 Rating = model.Rating,
-                isDeleted = model.isDeleted
+                isDeleted = model.IsDeleted
             };
         }
         public static Serials MapToSerial(MySeenWebApi.SyncJsonData model)
@@ -102,7 +102,7 @@ namespace MySeenAndroid
                 DateLast = model.DateLast,
                 LastSeason = model.LastSeason,
                 LastSeries = model.LastSeries,
-                isDeleted = model.isDeleted
+                isDeleted = model.IsDeleted
             };
         }
         public static MySeenWebApi.SyncJsonData Map(Serials model)
@@ -121,7 +121,7 @@ namespace MySeenAndroid
                 DateLast = model.DateLast,
                 LastSeason = model.LastSeason,
                 LastSeries = model.LastSeries,
-                isDeleted = model.isDeleted
+                IsDeleted = model.isDeleted
             };
         }
         private void Sync(string email)

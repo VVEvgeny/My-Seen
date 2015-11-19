@@ -1,19 +1,18 @@
-$(document).ready(function () {
-    $('#my_map').gmap3(
-        {
-            map: {
-                options: {
-                    zoom: 2,
-                    mapTypeId: window.google.maps.MapTypeId.ROADMAP
-                }
+$(document).ready(function() {
+    $("#my_map").gmap3(
+    {
+        map: {
+            options: {
+                zoom: 2,
+                mapTypeId: window.google.maps.MapTypeId.ROADMAP
             }
-        });
+        }
+    });
 });
 
-function CalcDistance(data)
-{
+function CalcDistance(data) {
     var trackCoordsLatLng = [];
-    $.each(data, function (i, item) {
+    $.each(data, function(i, item) {
         //console.log("history Latitude=", item.Latitude, "Longitude=", item.Longitude);
         trackCoordsLatLng.push(new window.google.maps.LatLng(item.Latitude, item.Longitude));
     });
@@ -24,12 +23,12 @@ function CalcDistance(data)
 
     return window.google.maps.geometry.spherical.computeLength(polyline.getPath()) / 1000;
 }
-function CalcDistanceFromTxt(data)
-{
+
+function CalcDistanceFromTxt(data) {
     var array = data.split(";");
 
     var trackCoordsLatLng = [];
-    $.each(array, function (i, item) {
+    $.each(array, function(i, item) {
         //console.log("CalcDistanceFromTxt item=", item);
         trackCoordsLatLng.push(new window.google.maps.LatLng(item.split(",")[0], item.split(",")[1]));
     });
@@ -41,8 +40,7 @@ function CalcDistanceFromTxt(data)
     return window.google.maps.geometry.spherical.computeLength(polyline.getPath()) / 1000;
 }
 
-function clearMap()
-{
+function clearMap() {
     //Очистка старых
     jQuery("#my_map").gmap3({
         clear: {
@@ -50,8 +48,8 @@ function clearMap()
         }
     });
 }
-function addNew_WithZoomAndCenter(data, trackCoordsLatLng, zoom)
-{
+
+function addNew_WithZoomAndCenter(data, trackCoordsLatLng, zoom) {
     jQuery("#my_map").gmap3(
     {
         map: {
@@ -62,7 +60,7 @@ function addNew_WithZoomAndCenter(data, trackCoordsLatLng, zoom)
         },
         polyline: {
             options: {
-                strokeColor: "#FF0000",//Красный
+                strokeColor: "#FF0000", //Красный
                 strokeOpacity: 1.0,
                 strokeWeight: 2,
                 path: trackCoordsLatLng
@@ -71,6 +69,7 @@ function addNew_WithZoomAndCenter(data, trackCoordsLatLng, zoom)
         }
     });
 }
+
 function addNew(trackCoordsLatLng) {
     jQuery("#my_map").gmap3(
     {
@@ -81,7 +80,7 @@ function addNew(trackCoordsLatLng) {
         },
         polyline: {
             options: {
-                strokeColor: "#FF0000",//Красный
+                strokeColor: "#FF0000", //Красный
                 strokeOpacity: 1.0,
                 strokeWeight: 2,
                 path: trackCoordsLatLng
@@ -91,30 +90,28 @@ function addNew(trackCoordsLatLng) {
     });
 }
 
-function GetTrackNameByIdIntoField(id, field)
-{
-    $.getJSON('/Home/GetTrackNameById/' + id + '/', function (data) {
+function GetTrackNameByIdIntoField(id, field) {
+    $.getJSON("/Home/GetTrackNameById/" + id + "/", function(data) {
         //console.log('loaded data=', data);
         field.val(data);
         return data;
     });
 }
+
 function GetTrackCoordinatesByIdIntoField(id, field) {
-    $.getJSON('/Home/GetTrackCoordinatesById/' + id + '/', function (data) {
+    $.getJSON("/Home/GetTrackCoordinatesById/" + id + "/", function(data) {
         //console.log('loaded data=', data);
         field.val(data);
         return data;
     });
 }
-function showTrack(id,centerAndZoom)
-{
-    $.getJSON('/Home/GetTrack/' + id + '/', function (data)
-    {
+
+function showTrack(id, centerAndZoom) {
+    $.getJSON("/Home/GetTrack/" + id + "/", function(data) {
         //console.log("location Latitude=", data.Location.Latitude, "Longitude", data.Location.Longitude);
 
         var trackCoordsLatLng = [];
-        $.each(data.Path, function (i, item)
-        {
+        $.each(data.Path, function(i, item) {
             //console.log("history Latitude=", item.Latitude, "Longitude", item.Longitude);
             trackCoordsLatLng.push(new window.google.maps.LatLng(item.Latitude, item.Longitude));
         });
@@ -138,31 +135,23 @@ function showTrack(id,centerAndZoom)
             console.log("maxLen=", maxLen);
             if (maxLen < 10) {
                 zoom = 14;
-            }
-            else if (maxLen >= 10 && maxLen < 30) {
+            } else if (maxLen >= 10 && maxLen < 30) {
                 zoom = 11;
-            }
-            else if (maxLen >= 30 && maxLen < 100) {
+            } else if (maxLen >= 30 && maxLen < 100) {
                 zoom = 10;
-            }
-            else if (maxLen >= 100 && maxLen < 160) {
+            } else if (maxLen >= 100 && maxLen < 160) {
                 zoom = 9;
-            }
-            else if (maxLen >= 160 && maxLen < 400) {
+            } else if (maxLen >= 160 && maxLen < 400) {
                 zoom = 8;
-            }
-            else if (maxLen >= 400 && maxLen < 600) {
+            } else if (maxLen >= 400 && maxLen < 600) {
                 zoom = 7;
-            }
-            else if (maxLen >= 600 && maxLen < 1000) {
+            } else if (maxLen >= 600 && maxLen < 1000) {
                 zoom = 6;
             }
 
             clearMap();
             addNew_WithZoomAndCenter(data, trackCoordsLatLng, zoom);
-        }
-        else
-        {
+        } else {
             addNew(trackCoordsLatLng);
         }
     });

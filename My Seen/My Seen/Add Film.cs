@@ -1,41 +1,27 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using MySeenLib;
 
 namespace My_Seen
 {
-    public partial class Add_Film : Form
+    public partial class AddFilm : Form
     {
-        private Users user;
-        public Users User
-        {
-            get
-            {
-                return user;
-            }
-            set
-            {
-                user = value;
-            }
-        }
-        public Add_Film()
+        public Users User { get; set; }
+
+        public AddFilm()
         {
             InitializeComponent();
-            EditId = 0;
+            _editId = 0;
 
             comboBox1.Items.Clear();
-            comboBox1.Items.AddRange(Defaults.Ratings.GetAll().ToArray());
+            // ReSharper disable once CoVariantArrayConversion
+            comboBox1.Items.AddRange(items: Defaults.Ratings.GetAll().ToArray());
             if (comboBox1.Items.Count != 0) comboBox1.Text = comboBox1.Items[0].ToString();
 
             comboBox2.Items.Clear();
-            comboBox2.Items.AddRange(Defaults.Genres.GetAll().ToArray());
+            // ReSharper disable once CoVariantArrayConversion
+            comboBox2.Items.AddRange(items: Defaults.Genres.GetAll().ToArray());
             if (comboBox2.Items.Count != 0) comboBox2.Text = comboBox2.Items[0].ToString();
 
             DelRecord = false;
@@ -50,32 +36,22 @@ namespace My_Seen
             dateTimePicker1.MaxDate = DateTime.Now.AddDays(1);
             dateTimePicker1.MinDate = new DateTime(1988, 10, 2);
         }
-        private Films newFilm;
-        public Films NewFilm
-        {
-            get
-            {
-                return newFilm;
-            }
-            set
-            {
-                newFilm = value;
-            }
-        }
 
-        private int EditId;
+        public Films NewFilm { get; set; }
+
+        private int _editId;
         public bool DelRecord;
-        public void EditData(string id, string _name, string _genre, string _seeDate, string _rate)
+        public void EditData(string id, string name, string genre, string seeDate, string rate)
         {
             Text = Resource.Edit;
-            EditId = Convert.ToInt32(id);
-            textBox1.Text = _name;
-            dateTimePicker1.Value = DateTime.Parse(_seeDate);
+            _editId = Convert.ToInt32(id);
+            textBox1.Text = name;
+            dateTimePicker1.Value = DateTime.Parse(seeDate);
             dateTimePicker1.Enabled = false;
             button1.Text = Resource.Edit;
 
-            comboBox1.Text = _rate;
-            comboBox2.Text = _genre;
+            comboBox1.Text = rate;
+            comboBox2.Text = genre;
             button2.Visible = true;
         }
         private void button1_Click(object sender, EventArgs e)
@@ -88,21 +64,22 @@ namespace My_Seen
             if (string.IsNullOrEmpty(errorProvider.GetError(textBox1)))
             {
                 ModelContainer mc = new ModelContainer();
-                if (mc.FilmsSet.Count(f => f.Name.ToLower() == textBox1.Text.ToLower() && f.UsersId==User.Id && (EditId!=0 ? f.Id != EditId : 1==1)) != 0)//айди проверяем только для редактируемых, чтобы не налететь по названию на чужой
+                if (mc.FilmsSet.Count(f => f.Name.ToLower() == textBox1.Text.ToLower() && f.UsersId==User.Id && (_editId == 0 || f.Id != _editId)) != 0)//айди проверяем только для редактируемых, чтобы не налететь по названию на чужой
                 {
                     errorProvider.SetError(textBox1, Resource.FilmNameAlreadyExists);
                 }
             }
-            if (!ErrorProviderTools.isValid(errorProvider)) return;
+            if (!ErrorProviderTools.IsValid(errorProvider)) return;
 
-            if (EditId != 0) newFilm = new Films() { Id = EditId, UsersId = user.Id, Name = textBox1.Text, DateSee = dateTimePicker1.Value, DateChange = DateTime.Now, Rating = Defaults.Ratings.GetId(comboBox1.Text), Genre = Defaults.Genres.GetId(comboBox2.Text) };
-            else newFilm = new Films() { UsersId = user.Id, Name = textBox1.Text, DateSee = dateTimePicker1.Value, DateChange = DateTime.Now, Rating = Defaults.Ratings.GetId(comboBox1.Text), Genre = Defaults.Genres.GetId(comboBox2.Text) };
+            NewFilm = _editId != 0 ? 
+                new Films() { Id = _editId, UsersId = User.Id, Name = textBox1.Text, DateSee = dateTimePicker1.Value, DateChange = DateTime.Now, Rating = Defaults.Ratings.GetId(comboBox1.Text), Genre = Defaults.Genres.GetId(comboBox2.Text) } : 
+                new Films() { UsersId = User.Id, Name = textBox1.Text, DateSee = dateTimePicker1.Value, DateChange = DateTime.Now, Rating = Defaults.Ratings.GetId(comboBox1.Text), Genre = Defaults.Genres.GetId(comboBox2.Text) };
             Hide();
         }
 
         private void button2_Click(object sender, EventArgs e)
         {
-            newFilm = new Films() { Id = EditId, UsersId = user.Id, Name = textBox1.Text, DateSee = dateTimePicker1.Value, DateChange = DateTime.Now, Rating = Defaults.Ratings.GetId(comboBox1.Text), Genre = Defaults.Genres.GetId(comboBox2.Text) };
+            NewFilm = new Films() { Id = _editId, UsersId = User.Id, Name = textBox1.Text, DateSee = dateTimePicker1.Value, DateChange = DateTime.Now, Rating = Defaults.Ratings.GetId(comboBox1.Text), Genre = Defaults.Genres.GetId(comboBox2.Text) };
             DelRecord = true;
             Hide();
         }

@@ -1,13 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
-using System.Security.Cryptography;
 using MySeenLib;
 
 namespace My_Seen
@@ -37,12 +30,14 @@ namespace My_Seen
             {
                 MessageBox.Show(Resource.UserAlreadyExists);
             }
-            if (!ErrorProviderTools.isValid(errorProvider)) return;
+            if (!ErrorProviderTools.IsValid(errorProvider)) return;
 
-            Users us = new Users();
-            us.Name = textBox1.Text;
-            us.Password = MD5Tools.GetMd5Hash(textBox2.Text);
-            us.CreationDate = DateTime.Now;
+            Users us = new Users
+            {
+                Name = textBox1.Text,
+                Password = Md5Tools.GetMd5Hash(textBox2.Text),
+                CreationDate = DateTime.Now
+            };
 
             mc.UsersSet.Add(us);
             mc.SaveChanges();

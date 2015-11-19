@@ -1,10 +1,8 @@
-﻿@using MySeenWeb.Models;
-
-@model HomeViewModel
+﻿@model MySeenWeb.Models.HomeModels.HomeViewModel
 
 @Scripts.Render("~/bundles/jquery", "~/bundles/bootstrap")
 
-<br />
+<br/>
 
 @if (User.Identity.IsAuthenticated)
 {
@@ -13,7 +11,7 @@
         <div class="form-inline">
             <div class="form-group">
                 <label style="display: block;">@Resource.SelectTheCategory</label>
-                @Html.DropDownList("Selected", Model.SelectList, new { @class = "form-control", @id = "lstSelected", @style = "width: 200px;" })
+                @Html.DropDownList("Selected", Model.SelectList, new {@class = "form-control", @id = "lstSelected", @style = "width:200px;"})
 
                 <button type="button" class="btn btn-primary" id="addButton">
                     <span class="glyphicon glyphicon-plus"></span>
@@ -21,7 +19,7 @@
                 </button>
                 &nbsp;
                 @if (Model.PageFilms || Model.PageSerials || Model.PageBooks)
-                { 
+                {
                     <div class="form-group">
                         <!--Переделать на поиск по БД-->
                         <label for="quickSearch">@Resource.QuickSearch:</label>
@@ -34,7 +32,7 @@
                 }
             </div>
         </div>
-        <br />
+        <br/>
     }
 
     if (Model.PageFilms)
@@ -68,14 +66,14 @@
     if (!Model.ExtPage)
     {
         <script language="javascript" type="text/javascript">
-            (function ($) {
-                $(function () {
+            (function($) {
+                $(function() {
                     var $select = $('#lstSelected');
                     var $search = $('#searchButton');
                     var $quickSearch = $('#quickSearch');
                     $quickSearch.val('@Model.Search');
 
-                    $select.on('change', function () {
+                    $select.on('change', function() {
                         var value = $(this).val();
 
                         $.ajax({
@@ -85,10 +83,10 @@
                                 selected: value
                             },
                             dataType: 'json',
-                            success: function () {
+                            success: function() {
                                 window.location.href = '/';
                             },
-                            error: function () {
+                            error: function() {
                                 alert('Error');
                             }
                         });
@@ -97,7 +95,7 @@
                     });
 
                     $search.off('click');
-                    $search.on('click', function () {
+                    $search.on('click', function() {
 
                         window.location.href = '/?search=' + $quickSearch.val();
 

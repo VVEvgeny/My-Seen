@@ -1,42 +1,40 @@
-﻿@using MySeenWeb.Models;
-@using MySeenWeb.Models.TablesViews
+﻿@using MySeenWeb.Models.TablesViews
+@model MySeenWeb.Models.HomeModels.SerialsViewModel
 
-@model HomeViewModelSerials
-
-<br />
+<br/>
 
 @Scripts.Render("~/bundles/myseen.table")
 
 <table class="table table-striped" id="table">
     <thead>
-        <tr>
-            <th class="col-sm-1"></th>
-            <th class="col-sm-4">@Resource.Name</th>
-            <th class="col-sm-1">@Resource.LastEpisode</th>
-            <th class="col-sm-2">@Resource.DateLast</th>
-            <th class="col-sm-2">@Resource.DateBegin</th>
-            <th class="col-sm-1">@Resource.Genre</th>
-            <th class="col-sm-1">@Resource.Rating</th>
-        </tr>
+    <tr>
+        <th class="col-sm-1"></th>
+        <th class="col-sm-4">@Resource.Name</th>
+        <th class="col-sm-1">@Resource.LastEpisode</th>
+        <th class="col-sm-2">@Resource.DateLast</th>
+        <th class="col-sm-2">@Resource.DateBegin</th>
+        <th class="col-sm-1">@Resource.Genre</th>
+        <th class="col-sm-1">@Resource.Rating</th>
+    </tr>
     </thead>
     <tbody>
-        @foreach (SerialsView elem in Model.Data)
-        {
-            <tr>
-                <td class="align-center">
-                    <button type="button" class="btn btn-info btn-edit btn-xs" id=@elem.Id>
-                        <span class="glyphicon glyphicon-pencil"></span>
-                        &nbsp;@Resource.Edit
-                    </button>
-                </td>
-                <td class="align-center">@elem.Name</td>
-                <td class="align-center">@elem.LastSeason-@elem.LastSeries</td>
-                <td class="align-center">@elem.DateLast</td>
-                <td class="align-center">@elem.DateBegin</td>
-                <td class="align-center">@elem.GenreText</td>
-                <td class="align-center">@elem.RatingText</td>
-            </tr>
-        }
+    @foreach (SerialsView elem in Model.Data)
+    {
+        <tr>
+            <td class="align-center">
+                <button type="button" class="btn btn-info btn-edit btn-xs" id=@elem.Id>
+                    <span class="glyphicon glyphicon-pencil"></span>
+                    &nbsp;@Resource.Edit
+                </button>
+            </td>
+            <td class="align-center">@elem.Name</td>
+            <td class="align-center">@elem.LastSeason-@elem.LastSeries</td>
+            <td class="align-center">@elem.DateLast</td>
+            <td class="align-center">@elem.DateBegin</td>
+            <td class="align-center">@elem.GenreText</td>
+            <td class="align-center">@elem.RatingText</td>
+        </tr>
+    }
     </tbody>
 </table>
 
@@ -48,7 +46,8 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span></button>
                 <h4 class="modal-title">@Resource.AddNew @Resource.Serial</h4>
             </div>
             <div class="modal-body">
@@ -74,13 +73,13 @@
                     <div class="form-group">
                         <label class="col-sm-2 control-label">@Resource.Genre</label>
                         <div class="col-sm-10">
-                            @Html.DropDownList("Genre", Model.RatinngGenre.GenreList, new { @class = "form-control movie-genre", @id = "serialGenre" })
+                            @Html.DropDownList("Genre", Model.RatinngGenre.GenreList, new {@class = "form-control movie-genre", @id = "serialGenre"})
                         </div>
                     </div>
                     <div class="form-group">
                         <label class="col-sm-2 control-label">@Resource.Rating</label>
                         <div class="col-sm-10">
-                            @Html.DropDownList("Rating", Model.RatinngGenre.RatingList, new { @class = "form-control movie-rating", @id = "serialRating" })
+                            @Html.DropDownList("Rating", Model.RatinngGenre.RatingList, new {@class = "form-control movie-rating", @id = "serialRating"})
                         </div>
                     </div>
                 </div>
@@ -108,8 +107,8 @@
 </div>
 
 <script language="javascript" type="text/javascript">
-    (function ($) {
-        $(function () {
+    (function($) {
+        $(function() {
             var $addButton = $('#addButton');
             var $submitAddButton = $('#submitAddButton');
             var $table = $('.table.table-striped');
@@ -123,16 +122,15 @@
                     url: innerUrl,
                     data: innerData,
                     dataType: 'json',
-                    success: function (response) {
+                    success: function(response) {
                         if (response.error) {
                             alert(response.error);
-                        }
-                        else {
+                        } else {
                             window.location.href = '/';
                             $modal.modal('hide');
                         }
                     },
-                    error: function (err) {
+                    error: function(err) {
                         alert(err);
                     }
                 });
@@ -141,14 +139,14 @@
             }
 
             $addButton.off('click');
-            $addButton.on('click', function () {
+            $addButton.on('click', function() {
                 $modal.modal('show');
 
                 return false;
             });
 
             $submitAddButton.off('click');
-            $submitAddButton.on('click', function () {
+            $submitAddButton.on('click', function() {
                 url = '/Home/AddSerial';
                 data = {
                     name: $('#serialName').val(),
@@ -164,7 +162,7 @@
             });
 
             $table.off('click', '.btn-edit');
-            $table.on('click', '.btn-edit', function () {
+            $table.on('click', '.btn-edit', function() {
                 var $button = $(this);
                 var $tr = $button.parent().parent();
                 var $tds = $tr.find('td');
@@ -188,12 +186,12 @@
                 $movieName.val(name);
 
                 $movieGenre.find('option')
-                    .filter(function () {
+                    .filter(function() {
                         return $(this).text() === genre;
                     })
                     .prop('selected', true);
                 $movieRating.find('option')
-                    .filter(function () {
+                    .filter(function() {
                         return $(this).text() === rating;
                     })
                     .prop('selected', true);
@@ -217,18 +215,18 @@
                 $deleteButton.show();
                 $modal.modal('show');
 
-                $modal.on('hidden.bs.modal', function () {
+                $modal.on('hidden.bs.modal', function() {
                     $modalTitle.text(defaultModalTitle);
                     $movieName.val('');
                     $serialSeason.val('');
                     $serialSeries.val('');
                     $movieGenre.find('option')
-                        .filter(function () {
+                        .filter(function() {
                             return $(this).text() === defaultModalGenre;
                         })
                         .prop('selected', true);
                     $movieRating.find('option')
-                        .filter(function () {
+                        .filter(function() {
                             return $(this).text() === defaultModalRating;
                         })
                         .prop('selected', true);
@@ -240,7 +238,7 @@
                 });
 
                 $saveButton.off('click');
-                $saveButton.on('click', function () {
+                $saveButton.on('click', function() {
 
                     url = '/Home/EditSerial';
                     data = {
@@ -258,7 +256,7 @@
                 });
 
                 $deleteButton.off('click');
-                $deleteButton.on('click', function () {
+                $deleteButton.on('click', function() {
 
                     url = '/Home/DeleteSerial';
                     data = {

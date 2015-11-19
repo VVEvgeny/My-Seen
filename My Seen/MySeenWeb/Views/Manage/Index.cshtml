@@ -1,4 +1,4 @@
-﻿@model MySeenWeb.Models.IndexViewModel
+﻿@model MySeenWeb.Models.Account.IndexViewModel
 @Scripts.Render("~/bundles/jquery")
 
 @{
@@ -10,7 +10,7 @@
 <p class="text-success">@ViewBag.StatusMessage</p>
 <div>
     <h4>@Resource.ChangeYourAccountSettings</h4>
-    <hr />
+    <hr/>
     <dl class="dl-horizontal">
         <dt>@Resource.Password:</dt>
         <dd>
@@ -27,106 +27,104 @@
     <dl class="dl-horizontal">
         <dt>@Resource.SelectLanguage</dt>
         <dd>
-            @Html.DropDownList("Lang", Model.LangList, new { @class = "form-control", @id = "lstLang", @style = "width: 200px;" })
+            @Html.DropDownList("Lang", Model.LangList, new {@class = "form-control", @id = "lstLang", @style = "width:200px;"})
         </dd>
     </dl>
     <dl class="dl-horizontal">
-        <dt>Записей на страницу</dt>
+        <dt>@Resource.RecordPerPage</dt>
         <dd>
-            @Html.DropDownList("Rpp", Model.RppList, new { @class = "form-control", @id = "lstRpp", @style = "width: 200px;" })
+            @Html.DropDownList("Rpp", Model.RppList, new {@class = "form-control", @id = "lstRpp", @style = "width:200px;"})
             <div id="RPPSaved" style="display: none;" class="text-success">@Resource.Saved</div>
         </dd>
     </dl>
-        @if (Model.HaveData)
-        {
-            <dl class="dl-horizontal">
-                <dt>@Resource.DeleteData</dt>
-                <dd>
-                    <button type="button" class="btn btn-danger btn-xs" id="delDataButton" style="width: 200px;">
-                        <span class="glyphicon glyphicon-trash"></span>
-                        &nbsp;@Resource.DeleteData
-                    </button>
-                </dd>
-            </dl>
-        }
+    @if (Model.HaveData)
+    {
+        <dl class="dl-horizontal">
+            <dt>@Resource.DeleteData</dt>
+            <dd>
+                <button type="button" class="btn btn-danger btn-xs" id="delDataButton" style="width: 200px;">
+                    <span class="glyphicon glyphicon-trash"></span>
+                    &nbsp;@Resource.DeleteData
+                </button>
+            </dd>
+        </dl>
+    }
 </div>
 
 <footer class="row">
     <div class="text-center">
-        <p class="text-muted small">@Resource.SiteVersion @Versions.WEB / @Resource.LibraryVersion @Resource.LibVersionNum</p>
+        <p class="text-muted small">@Resource.SiteVersion @Versions.Web / @Resource.LibraryVersion @Resource.LibVersionNum</p>
     </div>
 </footer>
 
 <script language="javascript" type="text/javascript">
-        (function ($) {
-            $(function () {
-                var $delDataButton = $('#delDataButton');
-                var $select = $('#lstLang');
-                var $selectRpp = $('#lstRPP');
+    (function($) {
+        $(function() {
+            var $delDataButton = $('#delDataButton');
+            var $select = $('#lstLang');
+            var $selectRpp = $('#lstRpp');
 
-                $select.on('change', function ()
-                {
-                    var value = $(this).val();
+            $select.on('change', function() {
+                var value = $(this).val();
 
-                    $.ajax({
-                        type: 'POST',
-                        url: '/Manage/ChangeLanguage',
-                        data: {
-                            selected: value
-                        },
-                        dataType: 'json',
-                        success: function () {
-                            window.location.href = '/Manage';
-                        },
-                        error: function () {
-                            alert('Error');
-                        }
-                    });
-                    return false;
+                $.ajax({
+                    type: 'POST',
+                    url: '/Manage/ChangeLanguage',
+                    data: {
+                        selected: value
+                    },
+                    dataType: 'json',
+                    success: function() {
+                        window.location.href = '/Manage';
+                    },
+                    error: function() {
+                        alert('Error');
+                    }
                 });
-
-                $selectRpp.on('change', function () {
-                    var value = $(this).val();
-
-                    $.ajax({
-                        type: 'POST',
-                        url: '/Manage/ChangeRpp',
-                        data: {
-                            selected: value
-                        },
-                        dataType: 'json',
-                        success: function ()
-                        {
-                            var $rppSaved = $('#RPPSaved');
-                            $rppSaved.show();
-                            window.setTimeout(hideRppSaved, 2000);
-                        },
-                        error: function () {
-                            alert('Error');
-                        }
-                    });
-                    return false;
-                });
-
-                $delDataButton.on('click', function () {
-                    $.ajax({
-                        type: 'POST',
-                        url: '/Manage/DeleteData',
-                        dataType: 'json',
-                        success: function () {
-                            window.location.href = '/Manage';
-                        },
-                        error: function () {
-                            alert('Error');
-                        }
-                    });
-                    return false;
-                });
+                return false;
             });
-            function hideRppSaved()
-            {
-                var $rppSaved = $('#RPPSaved');
-                $rppSaved.hide();
-            }
-        })(jQuery);
+
+            $selectRpp.on('change', function() {
+                var value = $(this).val();
+
+                $.ajax({
+                    type: 'POST',
+                    url: '/Manage/ChangeRpp',
+                    data: {
+                        selected: value
+                    },
+                    dataType: 'json',
+                    success: function() {
+                        var $rppSaved = $('#RPPSaved');
+                        $rppSaved.show();
+                        window.setTimeout(hideRppSaved, 2000);
+                    },
+                    error: function() {
+                        alert('Error');
+                    }
+                });
+                return false;
+            });
+
+            $delDataButton.on('click', function() {
+                $.ajax({
+                    type: 'POST',
+                    url: '/Manage/DeleteData',
+                    dataType: 'json',
+                    success: function() {
+                        window.location.href = '/Manage';
+                    },
+                    error: function() {
+                        alert('Error');
+                    }
+                });
+                return false;
+            });
+        });
+
+        function hideRppSaved() {
+            var $rppSaved = $('#RPPSaved');
+            $rppSaved.hide();
+        }
+    })(jQuery);
 </script>
