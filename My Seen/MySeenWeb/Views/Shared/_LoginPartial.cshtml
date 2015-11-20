@@ -2,7 +2,7 @@
 
 @if (Request.IsAuthenticated)
 {
-    if (Admin.isAdmin(User.Identity.GetUserName()))
+    if (Admin.IsAdmin(User.Identity.GetUserName()))
     {
         <ul class="nav navbar-nav">
             <li>@Html.ActionLink(Resource.Users, "Users", "", routeValues: null, htmlAttributes: new { id = "usersLink" })</li>

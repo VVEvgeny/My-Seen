@@ -835,7 +835,7 @@ namespace MySeenLib {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to 5.
+        ///   Looks up a localized string similar to 6.
         /// </summary>
         public static string LibVersionNum {
             get {
@@ -1420,11 +1420,20 @@ namespace MySeenLib {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to WEB.
+        ///   Looks up a localized string similar to Web.
         /// </summary>
         public static string WEB {
             get {
                 return ResourceManager.GetString("WEB", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to When.
+        /// </summary>
+        public static string When {
+            get {
+                return ResourceManager.GetString("When", resourceCulture);
             }
         }
         

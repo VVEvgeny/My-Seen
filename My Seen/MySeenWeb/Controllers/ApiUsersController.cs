@@ -15,7 +15,7 @@ namespace MySeenWeb.Controllers
             {
                 return Ok(new MySeenWebApi.SyncJsonAnswer { Value = MySeenWebApi.SyncJsonAnswer.Values.NoLongerSupportedVersion });
             }
-            if ((MySeenWebApi.SyncModesApiUsers)mode == MySeenWebApi.SyncModesApiUsers.isUserExists)
+            if ((MySeenWebApi.SyncModesApiUsers)mode == MySeenWebApi.SyncModesApiUsers.IsUserExists)
             {
                 ApplicationDbContext ac = new ApplicationDbContext();
                 if (!ac.Users.Any(u => u.UniqueKey == userKey))

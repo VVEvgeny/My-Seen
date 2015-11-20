@@ -14,8 +14,8 @@ namespace MySeenWeb.Models.TablesViews
                 Id = model.Id,
                 Name = model.Name,
                 UserId = model.UserId,
-                DateChange = UMTTime.From(model.DateChange),
-                DateSee = UMTTime.From(model.DateSee),
+                DateChange = UmtTime.From(model.DateChange),
+                DateSee = UmtTime.From(model.DateSee),
                 Genre = model.Genre,
                 Rating = model.Rating,
                 isDeleted = model.isDeleted

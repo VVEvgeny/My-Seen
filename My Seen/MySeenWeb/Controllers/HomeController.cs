@@ -23,7 +23,7 @@ namespace MySeenWeb.Controllers
                 HomeViewModel af = new HomeViewModel(
                     ReadCookie(CookieKeys.HomeCategory, Defaults.CategoryBase.FilmIndex).ToString(),
                     User.Identity.GetUserId(),
-                    page == null ? 1 : page.Value,
+                    page ?? 1,
                     Rpp,
                     ReadCookie(CookieKeys.ImprovementsCategory, Defaults.ComplexBase.IndexAll),
                     search
@@ -48,7 +48,7 @@ namespace MySeenWeb.Controllers
         }
         [Authorize]
         [HttpPost]
-        public JsonResult AddFilm(string name, string genre, string rating)
+        public JsonResult AddFilm(string name, string datetime, string genre, string rating)
         {
             LogSave.Save(User.Identity.IsAuthenticated ? User.Identity.GetUserId() : "", Request.UserHostAddress, Request.UserAgent, "Home/AddFilm", name);
             string errorMessage = string.Empty;
@@ -56,6 +56,10 @@ namespace MySeenWeb.Controllers
             if (string.IsNullOrEmpty(errorMessage))
             {
                 if (string.IsNullOrEmpty(name)) errorMessage = Resource.EnterFilmName;
+            }
+            if (string.IsNullOrEmpty(errorMessage))
+            {
+                if (string.IsNullOrEmpty(datetime)) errorMessage = "datetime";
             }
             ApplicationDbContext ac = new ApplicationDbContext();
             if (string.IsNullOrEmpty(errorMessage))
@@ -69,7 +73,7 @@ namespace MySeenWeb.Controllers
             {
                 try
                 {
-                    Films f = new Films { Name = name, Genre = Convert.ToInt32(genre), Rating = Convert.ToInt32(rating), DateSee = UMTTime.To(DateTime.Now), DateChange = UMTTime.To(DateTime.Now), UserId = userId };
+                    Films f = new Films { Name = name, Genre = Convert.ToInt32(genre), Rating = Convert.ToInt32(rating), DateSee = UmtTime.To(Convert.ToDateTime(datetime)), DateChange = UmtTime.To(DateTime.Now), UserId = userId };
                     ac.Films.Add(f);
                     ac.SaveChanges();
                 }
@@ -86,7 +90,7 @@ namespace MySeenWeb.Controllers
         }
         [Authorize]
         [HttpPost]
-        public JsonResult EditFilm(string id, string name, string genre, string rating)
+        public JsonResult EditFilm(string id, string name, string datetime, string genre, string rating)
         {
             LogSave.Save(User.Identity.IsAuthenticated ? User.Identity.GetUserId() : "", Request.UserHostAddress, Request.UserAgent, "Home/EditFilm", id);
             string errorMessage = string.Empty;
@@ -95,6 +99,11 @@ namespace MySeenWeb.Controllers
             {
                 if (string.IsNullOrEmpty(name)) errorMessage = Resource.EnterFilmName;
             }
+            if (string.IsNullOrEmpty(errorMessage))
+            {
+                if (string.IsNullOrEmpty(datetime)) errorMessage = "datetime";
+            }
+            
             ApplicationDbContext ac = new ApplicationDbContext();
             int iid = (Convert.ToInt32(id));
             if (ac.Films.Count(f => f.Name == name && f.UserId == userId && f.Id != iid) != 0)//айди проверяем только для редактируемых, чтобы не налететь по названию на чужой
@@ -109,7 +118,8 @@ namespace MySeenWeb.Controllers
                     film.Name = name;
                     film.Genre = Convert.ToInt32(genre);
                     film.Rating = Convert.ToInt32(rating);
-                    film.DateChange = UMTTime.To(DateTime.Now);
+                    film.DateChange = UmtTime.To(DateTime.Now);
+                    film.DateSee = UmtTime.To(Convert.ToDateTime(datetime));
                     ac.SaveChanges();
                 }
                 catch (Exception e)
@@ -125,7 +135,7 @@ namespace MySeenWeb.Controllers
         }
         [Authorize]
         [HttpPost]
-        public JsonResult AddSerial(string name, string season, string series, string genre, string rating)
+        public JsonResult AddSerial(string name, string season, string series, string datetime, string genre, string rating)
         {
             LogSave.Save(User.Identity.IsAuthenticated ? User.Identity.GetUserId() : "", Request.UserHostAddress, Request.UserAgent, "Home/AddSerial", name);
             string errorMessage = string.Empty;
@@ -133,6 +143,10 @@ namespace MySeenWeb.Controllers
             if (string.IsNullOrEmpty(errorMessage))
             {
                 if (string.IsNullOrEmpty(name)) errorMessage = Resource.EnterSerialName;
+            }
+            if (string.IsNullOrEmpty(errorMessage))
+            {
+                if (string.IsNullOrEmpty(datetime)) errorMessage = "datetime";
             }
             ApplicationDbContext ac = new ApplicationDbContext();
             if (string.IsNullOrEmpty(errorMessage))
@@ -148,7 +162,7 @@ namespace MySeenWeb.Controllers
                 {
                     if (string.IsNullOrEmpty(season)) season = "1";
                     if (string.IsNullOrEmpty(series)) series = "1";
-                    Serials s = new Serials { Name = name, LastSeason = Convert.ToInt32(season), LastSeries = Convert.ToInt32(series), Genre = Convert.ToInt32(genre), Rating = Convert.ToInt32(rating), DateBegin = UMTTime.To(DateTime.Now), DateLast = UMTTime.To(DateTime.Now), DateChange = UMTTime.To(DateTime.Now), UserId = userId };
+                    Serials s = new Serials { Name = name, LastSeason = Convert.ToInt32(season), LastSeries = Convert.ToInt32(series), Genre = Convert.ToInt32(genre), Rating = Convert.ToInt32(rating), DateBegin = UmtTime.To(Convert.ToDateTime(datetime)), DateLast = UmtTime.To(DateTime.Now), DateChange = UmtTime.To(DateTime.Now), UserId = userId };
                     ac.Serials.Add(s);
                     ac.SaveChanges();
                 }
@@ -165,7 +179,7 @@ namespace MySeenWeb.Controllers
         }
         [Authorize]
         [HttpPost]
-        public JsonResult EditSerial(string id, string name, string season, string series, string genre, string rating)
+        public JsonResult EditSerial(string id, string name, string season, string series, string datetime, string genre, string rating)
         {
             LogSave.Save(User.Identity.IsAuthenticated ? User.Identity.GetUserId() : "", Request.UserHostAddress, Request.UserAgent, "Home/EditSerial", id);
             string errorMessage = string.Empty;
@@ -188,13 +202,14 @@ namespace MySeenWeb.Controllers
                     film.Name = name;
                     if (film.LastSeason != Convert.ToInt32(season) || film.LastSeries != Convert.ToInt32(series))
                     {
-                        film.DateLast = UMTTime.To(DateTime.Now);
+                        film.DateLast = UmtTime.To(DateTime.Now);
                     }
                     film.LastSeason = Convert.ToInt32(season);
                     film.LastSeries = Convert.ToInt32(series);
                     film.Genre = Convert.ToInt32(genre);
                     film.Rating = Convert.ToInt32(rating);
-                    film.DateChange = UMTTime.To(DateTime.Now);
+                    film.DateChange = UmtTime.To(DateTime.Now);
+                    film.DateBegin = UmtTime.To(Convert.ToDateTime(datetime));
                     ac.SaveChanges();
                 }
                 catch (Exception e)
@@ -210,7 +225,7 @@ namespace MySeenWeb.Controllers
         }
         [Authorize]
         [HttpPost]
-        public JsonResult AddBook(string name, string authors, string genre, string rating)
+        public JsonResult AddBook(string name, string authors, string datetime, string genre, string rating)
         {
             LogSave.Save(User.Identity.IsAuthenticated ? User.Identity.GetUserId() : "", Request.UserHostAddress, Request.UserAgent, "Home/AddBook", name);
             string errorMessage = string.Empty;
@@ -223,10 +238,14 @@ namespace MySeenWeb.Controllers
             {
                 if (string.IsNullOrEmpty(authors)) errorMessage = Resource.EnterBookAuthors;
             }
+            if (string.IsNullOrEmpty(errorMessage))
+            {
+                if (string.IsNullOrEmpty(datetime))errorMessage = "Чота дата кривая";
+            }
             ApplicationDbContext ac = new ApplicationDbContext();
             if (string.IsNullOrEmpty(errorMessage))
             {
-                if (ac.Books.Count(f => f.Name == name && f.UserId == userId) != 0)//айди проверяем только для редактируемых, чтобы не налететь по названию на чужой
+                if (ac.Books.Any(f => f.Name == name && f.UserId == userId))//айди проверяем только для редактируемых, чтобы не налететь по названию на чужой
                 {
                     errorMessage = Resource.BookNameAlreadyExists;
                 }
@@ -235,7 +254,7 @@ namespace MySeenWeb.Controllers
             {
                 try
                 {
-                    Books f = new Books { Name = name, Authors = authors, Genre = Convert.ToInt32(genre), Rating = Convert.ToInt32(rating), DateRead = UMTTime.To(DateTime.Now), DateChange = UMTTime.To(DateTime.Now), UserId = userId };
+                    Books f = new Books { Name = name, Authors = authors, Genre = Convert.ToInt32(genre), Rating = Convert.ToInt32(rating), DateRead = UmtTime.To(Convert.ToDateTime(datetime)), DateChange = UmtTime.To(DateTime.Now), UserId = userId };
                     ac.Books.Add(f);
                     ac.SaveChanges();
                 }
@@ -252,7 +271,7 @@ namespace MySeenWeb.Controllers
         }
         [Authorize]
         [HttpPost]
-        public JsonResult EditBook(string id, string name, string authors, string genre, string rating)
+        public JsonResult EditBook(string id, string name, string authors,string datetime, string genre, string rating)
         {
             LogSave.Save(User.Identity.IsAuthenticated ? User.Identity.GetUserId() : "", Request.UserHostAddress, Request.UserAgent, "Home/EditBook", id);
             string errorMessage = string.Empty;
@@ -260,6 +279,14 @@ namespace MySeenWeb.Controllers
             if (string.IsNullOrEmpty(errorMessage))
             {
                 if (string.IsNullOrEmpty(name)) errorMessage = Resource.EnterBookName;
+            }
+            if (string.IsNullOrEmpty(errorMessage))
+            {
+                if (string.IsNullOrEmpty(authors)) errorMessage = Resource.EnterBookAuthors;
+            }
+            if (string.IsNullOrEmpty(errorMessage))
+            {
+                if (string.IsNullOrEmpty(datetime)) errorMessage = "надо дата";
             }
             ApplicationDbContext ac = new ApplicationDbContext();
             int iid = (Convert.ToInt32(id));
@@ -276,7 +303,8 @@ namespace MySeenWeb.Controllers
                     film.Authors = authors;
                     film.Genre = Convert.ToInt32(genre);
                     film.Rating = Convert.ToInt32(rating);
-                    film.DateChange = UMTTime.To(DateTime.Now);
+                    film.DateRead = UmtTime.To(Convert.ToDateTime(datetime));
+                    film.DateChange = UmtTime.To(DateTime.Now);
                     ac.SaveChanges();
                 }
                 catch (Exception e)
@@ -436,8 +464,8 @@ namespace MySeenWeb.Controllers
             LogSave.Save(User.Identity.IsAuthenticated ? User.Identity.GetUserId() : "", Request.UserHostAddress, Request.UserAgent, "Home/EndImprovement", id + " " + desc + " " + version);
             string errorMessage = string.Empty;
             ApplicationDbContext ac = new ApplicationDbContext();
-            var _id = -1;
-            int _version = -1;
+            var recordId = -1;
+            int versionNum = -1;
             if (string.IsNullOrEmpty(errorMessage))
             {
                 if (desc.Length == 0)
@@ -449,8 +477,8 @@ namespace MySeenWeb.Controllers
             {
                 try
                 {
-                    _id = Convert.ToInt32(id);
-                    if (_id < 0) throw new Exception();
+                    recordId = Convert.ToInt32(id);
+                    if (recordId < 0) throw new Exception();
                 }
                 catch
                 {
@@ -461,8 +489,8 @@ namespace MySeenWeb.Controllers
             {
                 try
                 {
-                    _version = Convert.ToInt32(version);
-                    if (_version < 0) throw new Exception();
+                    versionNum = Convert.ToInt32(version);
+                    if (versionNum < 0) throw new Exception();
                 }
                 catch
                 {
@@ -473,10 +501,10 @@ namespace MySeenWeb.Controllers
             {
                 try
                 {
-                    var bug = ac.Bugs.First(b => b.Id == _id);
+                    var bug = ac.Bugs.First(b => b.Id == recordId);
                     bug.TextEnd = desc;
                     bug.DateEnd = DateTime.Now;
-                    bug.Version = _version;
+                    bug.Version = versionNum;
                     ac.SaveChanges();
                 }
                 catch (Exception e)
@@ -497,13 +525,13 @@ namespace MySeenWeb.Controllers
             LogSave.Save(User.Identity.IsAuthenticated ? User.Identity.GetUserId() : "", Request.UserHostAddress, Request.UserAgent, "Home/DeleteImprovement", id);
             string errorMessage = string.Empty;
             ApplicationDbContext ac = new ApplicationDbContext();
-            int _id = 0;
+            int recordId = 0;
             if (string.IsNullOrEmpty(errorMessage))
             {
-                _id = Convert.ToInt32(id);
+                recordId = Convert.ToInt32(id);
                 try
                 {
-                    if (_id < 0) throw new Exception();
+                    if (recordId < 0) throw new Exception();
                 }
                 catch
                 {
@@ -514,7 +542,7 @@ namespace MySeenWeb.Controllers
             {
                 try
                 {
-                    ac.Bugs.RemoveRange(ac.Bugs.Where(b => b.Id == _id));
+                    ac.Bugs.RemoveRange(ac.Bugs.Where(b => b.Id == recordId));
                     ac.SaveChanges();
                 }
                 catch (Exception e)
@@ -628,7 +656,7 @@ namespace MySeenWeb.Controllers
                     errorMessage = "Ошибка вычисления расстояния, перепроверьте координаты";
                 }
             }
-            double _distance = -1;
+            double toDouble = -1;
             if (string.IsNullOrEmpty(errorMessage))
             {
                 string sDistance = distance;
@@ -641,8 +669,8 @@ namespace MySeenWeb.Controllers
                 }
                 try
                 {
-                    _distance = Convert.ToDouble(sDistance);
-                    if (_distance < 0) throw new Exception();
+                    toDouble = Convert.ToDouble(sDistance);
+                    if (toDouble < 0) throw new Exception();
                 }
                 catch (Exception e)
                 {
@@ -651,16 +679,16 @@ namespace MySeenWeb.Controllers
             }
             if (string.IsNullOrEmpty(errorMessage))
             {
-                if (!distance.Split(';').Any() || distance.Split(';').Count() > 100)
+                if (!distance.Split(';').Any() || distance.Split(';').Length > 100)
                 {
-                    errorMessage = "Ошибка колличества координат =" + distance.Split(';').Count().ToString();
+                    errorMessage = "Ошибка колличества координат =" + distance.Split(';').Length.ToString();
                 }
             }
             if (string.IsNullOrEmpty(errorMessage))
             {
                 try
                 {
-                    ac.Tracks.Add(new Tracks { UserId = User.Identity.GetUserId(), Type = id, Coordinates = coordinates, Date = DateTime.Now, Name = name, Distance = _distance });
+                    ac.Tracks.Add(new Tracks { UserId = User.Identity.GetUserId(), Type = id, Coordinates = coordinates, Date = DateTime.Now, Name = name, Distance = toDouble });
                     ac.SaveChanges();
                 }
                 catch (Exception e)
@@ -691,13 +719,13 @@ namespace MySeenWeb.Controllers
                     errorMessage = "Короткое название";
                 }
             }
-            int _id = -1;
+            var recordId = -1;
             if (string.IsNullOrEmpty(errorMessage))
             {
                 try
                 {
-                    _id = Convert.ToInt32(type);
-                    if (_id < 0) throw new Exception();
+                    recordId = Convert.ToInt32(type);
+                    if (recordId < 0) throw new Exception();
                 }
                 catch
                 {
@@ -718,7 +746,7 @@ namespace MySeenWeb.Controllers
                     errorMessage = "Ошибка вычисления расстояния, перепроверьте координаты";
                 }
             }
-            double _distance = -1;
+            double toDouble = -1;
             if (string.IsNullOrEmpty(errorMessage))
             {
                 string sDistance = distance;
@@ -731,8 +759,8 @@ namespace MySeenWeb.Controllers
                 }
                 try
                 {
-                    _distance = Convert.ToDouble(sDistance);
-                    if (_distance < 0) throw new Exception();
+                    toDouble = Convert.ToDouble(sDistance);
+                    if (toDouble < 0) throw new Exception();
                 }
                 catch (Exception e)
                 {
@@ -741,9 +769,9 @@ namespace MySeenWeb.Controllers
             }
             if (string.IsNullOrEmpty(errorMessage))
             {
-                if (!distance.Split(';').Any() || distance.Split(';').Count() > 100)
+                if (!distance.Split(';').Any() || distance.Split(';').Length > 100)
                 {
-                    errorMessage = "Ошибка колличества координат =" + distance.Split(';').Count().ToString();
+                    errorMessage = "Ошибка колличества координат =" + distance.Split(';').Length.ToString();
                 }
             }
             if (string.IsNullOrEmpty(errorMessage))
@@ -753,9 +781,9 @@ namespace MySeenWeb.Controllers
                     string user = User.Identity.GetUserId();
                     Tracks track = ac.Tracks.First(t => t.Id == id && t.UserId == user);
                     track.Name = name;
-                    track.Type = _id;
+                    track.Type = recordId;
                     track.Coordinates = coordinates;
-                    track.Distance = _distance;
+                    track.Distance = toDouble;
                     ac.SaveChanges();
                 }
                 catch (Exception e)

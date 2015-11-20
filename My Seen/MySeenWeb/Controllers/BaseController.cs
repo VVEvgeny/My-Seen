@@ -30,9 +30,11 @@ namespace MySeenWeb.Controllers
             HttpCookie cookie = ControllerContext.HttpContext.Request.Cookies[key];
             if (cookie == null)
             {
-                cookie = new HttpCookie(key);
-                cookie.Value = defaultValue;
-                cookie.Expires = DateTime.Now.AddDays(1);
+                cookie = new HttpCookie(key)
+                {
+                    Value = defaultValue,
+                    Expires = DateTime.Now.AddDays(1)
+                };
                 ControllerContext.HttpContext.Response.Cookies.Add(cookie);
                 return defaultValue;
             }
@@ -50,11 +52,7 @@ namespace MySeenWeb.Controllers
         }
         public void WriteCookie(string key, string value)
         {
-            HttpCookie cookie = ControllerContext.HttpContext.Request.Cookies[key];
-            if (cookie == null)
-            {
-                cookie = new HttpCookie(key);
-            }
+            HttpCookie cookie = ControllerContext.HttpContext.Request.Cookies[key] ?? new HttpCookie(key);
             cookie.Value = value;
             cookie.Expires = DateTime.Now.AddDays(1);
             ControllerContext.HttpContext.Response.Cookies.Add(cookie);
@@ -117,7 +115,7 @@ namespace MySeenWeb.Controllers
                 int lang = ReadCookie(CookieKeys.Language, Defaults.LanguagesBase.Indexes.English);
                 try
                 {
-                    CultureInfoTool.SetCulture(Defaults.Languages.GetValDB(lang));
+                    CultureInfoTool.SetCulture(Defaults.Languages.GetValDb(lang));
                 }
                 catch
                 {
@@ -132,8 +130,7 @@ namespace MySeenWeb.Controllers
                     try
                     {
                         ApplicationDbContext ac = new ApplicationDbContext();
-                        ApplicationUser au;
-                        au = ac.Users.First(u => u.Id == userId);
+                        var au = ac.Users.First(u => u.Id == userId);
                         try
                         {
                             CultureInfoTool.SetCulture(au.Culture);

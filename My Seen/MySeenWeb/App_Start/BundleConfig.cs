@@ -29,14 +29,28 @@ namespace MySeenWeb
                       "~/Content/bootstrap.css",
                       "~/Content/site.css"));
 
+            bundles.Add(new ScriptBundle("~/bundles/datetimepicker").Include(
+                      "~/Scripts/moment-with-locales.js",
+                      "~/Scripts/bootstrap-datetimepicker.js"));
+
+            bundles.Add(new StyleBundle("~/Content/datetimepicker.css").Include(
+                      "~/Content/bootstrap-datetimepicker.css"));
+
             bundles.Add(new ScriptBundle("~/bundles/gmap3").Include(
-                      "~/Scripts/gmap3.js"));
+                        "~/Scripts/gmap3.js"));
+
 
             bundles.Add(new ScriptBundle("~/bundles/myseen.table").Include(
                         "~/Scripts/myseen/table.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/myseen.gmap").Include(
                       "~/Scripts/myseen/gmap.js"));
+
+            bundles.Add(new ScriptBundle("~/bundles/analytics.yandex").Include(
+                        "~/Scripts/Analytics/yandex.js"));
+
+            bundles.Add(new ScriptBundle("~/bundles/analytics.google").Include(
+                        "~/Scripts/Analytics/google.js"));
 
         }
     }

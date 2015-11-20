@@ -82,7 +82,7 @@ namespace MySeenWeb.Controllers
             {
                 ApplicationDbContext ac = new ApplicationDbContext();
                 ApplicationUser user = ac.Users.First(u => u.Id == userId);
-                model.Lang = Defaults.Languages.GetIdDB(user.Culture);
+                model.Lang = Defaults.Languages.GetIdDb(user.Culture);
                 model.Rpp = user.RecordPerPage;
                 model.LoadSelectList();
 
@@ -125,9 +125,9 @@ namespace MySeenWeb.Controllers
             LogSave.Save(User.Identity.IsAuthenticated ? User.Identity.GetUserId() : "", Request.UserHostAddress, Request.UserAgent, "Manage/ChangeLanguage", selected);
             ApplicationDbContext ac = new ApplicationDbContext();
             var userId = User.Identity.GetUserId();
-            ac.Users.First(u => u.Id == userId).Culture = Defaults.Languages.GetValDB(Convert.ToInt32(selected));
+            ac.Users.First(u => u.Id == userId).Culture = Defaults.Languages.GetValDb(Convert.ToInt32(selected));
             ac.SaveChanges();
-            CultureInfoTool.SetCulture(Defaults.Languages.GetValDB(Convert.ToInt32(selected)));
+            CultureInfoTool.SetCulture(Defaults.Languages.GetValDb(Convert.ToInt32(selected)));
             WriteCookie(CookieKeys.Language, selected);
             Defaults.ReloadResources();
             return Json(new { success = true });

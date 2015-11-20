@@ -3,7 +3,7 @@
 
 @model HomeViewModelImprovements
 
-@Scripts.Render("~/bundles/jquery", "~/bundles/bootstrap", "~/bundles/myseen")
+@Scripts.Render("~/bundles/myseen.table")
 
 @{
     ViewBag.Title = Resource.Improvements;
@@ -60,7 +60,7 @@
 
 <footer class="row">
     <div class="text-center">
-        <p class="text-muted small">@Resource.SiteVersion @Versions.WEB / @Resource.LibraryVersion @Resource.LibVersionNum</p>
+        <p class="text-muted small">@Resource.SiteVersion @Versions.Web / @Resource.LibraryVersion @Resource.LibVersionNum</p>
     </div>
 </footer>
 

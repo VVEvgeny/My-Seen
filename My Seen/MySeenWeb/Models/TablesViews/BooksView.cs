@@ -14,10 +14,10 @@ namespace MySeenWeb.Models.TablesViews
                 Id = model.Id,
                 Name = model.Name,
                 UserId = model.UserId,
-                DateChange = UMTTime.From(model.DateChange),
+                DateChange = UmtTime.From(model.DateChange),
                 Genre = model.Genre,
                 Rating = model.Rating,
-                DateRead = UMTTime.From(model.DateRead),
+                DateRead = UmtTime.From(model.DateRead),
                 isDeleted = model.isDeleted,
                 Authors = model.Authors
             };

@@ -1,4 +1,4 @@
-namespace MySeenWeb.Models
+namespace MySeenWeb.Models.TablesViews
 {
     public class UsersView
     {

@@ -1,9 +1,5 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Resources;
 using System.Globalization;
 using System.Threading;
 using Newtonsoft.Json;
@@ -13,52 +9,45 @@ namespace MySeenLib
     public static class Versions
     {
         //Строка с версией библиотеки в ресурсах LibVersionNum
-        public static int WEB = 5;//сейчас 4 хоть и показывает 3
+        public static int Web = 6;//сейчас 4 хоть и показывает 3
         public static int Android = 1;
         public static int AndroidLib = 1;
-        public static int PK = 1;
+        public static int Pc = 1;
     }
     public static class Admin
     {
-        public static bool isAdmin(string userName)
+        public static bool IsAdmin(string userName)
         {
             return userName.ToLower() == "vvevgeny@gmail.com";
         }
     }
-    public static class TEST
+    public static class Test
     {
-        private static bool mEnabled = true;
-        public static bool ENABLED
+        static Test()
         {
-            get
-            {
-                return mEnabled;
-            }
-            set
-            {
-                mEnabled = value;
-            }
+            Enabled = true;
         }
+
+        public static bool Enabled { get; set; }
     }
-    public static class UMTTime
+    public static class UmtTime
     {
-        public static DateTime To(DateTime _datetime)
+        public static DateTime To(DateTime datetime)
         {
-            return _datetime.ToUniversalTime();
+            return datetime.ToUniversalTime();
         }
-        public static DateTime? To(DateTime? _datetime)
+        public static DateTime? To(DateTime? datetime)
         {
-            if (!_datetime.HasValue) return null;
-            return _datetime.Value.ToUniversalTime();
+            return !datetime.HasValue ? (DateTime?) null : datetime.Value.ToUniversalTime();
         }
-        public static DateTime From(DateTime _datetime)
+
+        public static DateTime From(DateTime datetime)
         {
-            return _datetime.ToLocalTime();
+            return datetime.ToLocalTime();
         }
-        public static DateTime? From(DateTime? _datetime)
+        public static DateTime? From(DateTime? datetime)
         {
-            if (!_datetime.HasValue) return null;
-            return _datetime.Value.ToLocalTime();
+            return !datetime.HasValue ? (DateTime?) null : datetime.Value.ToLocalTime();
         }
     }
     public static class CultureInfoTool
@@ -66,22 +55,15 @@ namespace MySeenLib
         public static string CoockieCultureKey = "_culture";
         public static class Cultures
         {
-            private static string eng = "en";
-            private static string rus = "ru";
-            public static string English
+            static Cultures()
             {
-                get
-                {
-                    return eng;
-                }
+                Russian = "ru";
+                English = "en";
             }
-            public static string Russian
-            {
-                get
-                {
-                    return rus;
-                }
-            }
+
+            public static string English { get; private set; }
+
+            public static string Russian { get; private set; }
         }
         public static string GetCulture()
         {
@@ -94,14 +76,7 @@ namespace MySeenLib
                 CultureInfo culture = new CultureInfo(cult);
 
                 DateTimeFormatInfo datetimeformat = culture.DateTimeFormat;
-                if (cult == Cultures.English)
-                {
-                    datetimeformat.LongTimePattern = "h:mm:ss tt"; //12
-                }
-                else
-                {
-                    datetimeformat.LongTimePattern = "HH:mm:ss"; //24
-                }
+                datetimeformat.LongTimePattern = cult == Cultures.English ? "h:mm:ss tt" : "HH:mm:ss";
                 culture.DateTimeFormat = datetimeformat;
 
                 Thread.CurrentThread.CurrentCulture = culture;
@@ -121,7 +96,7 @@ namespace MySeenLib
         {
             get
             {
-                if (TEST.ENABLED)
+                if (Test.Enabled)
                 {
                     return "http://localhost:44301";
                 }
@@ -135,7 +110,7 @@ namespace MySeenLib
         {
             get
             {
-                if (TEST.ENABLED)
+                if (Test.Enabled)
                 {
                     return "https://10.0.2.2:443";
                 }
@@ -159,7 +134,7 @@ namespace MySeenLib
 
         public enum SyncModesApiUsers
         {
-            isUserExists = 1
+            IsUserExists = 1
         }
         public enum SyncModesApiData
         {
@@ -206,8 +181,8 @@ namespace MySeenLib
             public DateTime DateSee { get; set; }
             [JsonProperty("DateChange")]
             public DateTime DateChange { get; set; }
-            [JsonProperty("isDeleted")]
-            public bool? isDeleted { get; set; }
+            [JsonProperty("IsDeleted")]
+            public bool? IsDeleted { get; set; }
 
             //serials
             [JsonProperty("LastSeason")]
@@ -242,7 +217,7 @@ namespace MySeenLib
             }
             catch
             {
-
+                // ignored
             }
             return answer;
         }
@@ -264,28 +239,33 @@ namespace MySeenLib
                 return All;
             }
 
-            public int GetId(string _str)
+            public int GetId(string str)
             {
                 if (All == null) Load();
-                return All.IndexOf(_str);
+                if (All != null) return All.IndexOf(str);
+                return -1;
             }
-            public string GetById(int _id)
+
+            public string GetById(int id)
             {
                 if (All == null) Load();
-                if (_id >= All.Count) return "";
-                return All[_id];
+                if (All != null && id >= All.Count) return "";
+                if (All != null) return All[id];
+                return "";
             }
             public int GetMaxId()
             {
                 if (All == null) Load();
-                return All.Count - 1;
+                if (All != null) return All.Count - 1;
+                return 0;
             }
 
             public string GetMaxValue()
             {
                 if (All == null) Load();
-                if (All.Count == 0) return "";
-                return All[GetMaxId()];
+                if (All != null && All.Count == 0) return "";
+                if (All != null) return All[GetMaxId()];
+                return "";
             }
         }
         public class GenresBase : ListStringBase
@@ -294,15 +274,17 @@ namespace MySeenLib
             {
                 if (All == null)
                 {
-                    All = new List<string>();
-                    All.Add(Resource.GenreThriller);
-                    All.Add(Resource.GenreDocumentary);
-                    All.Add(Resource.GenreDrama);
-                    All.Add(Resource.GenreComedy);
-                    All.Add(Resource.GenreConcert);
-                    All.Add(Resource.GenreCartoon);
-                    All.Add(Resource.GenreHorror);
-                    All.Add(Resource.GenreFantastic);
+                    All = new List<string>
+                    {
+                        Resource.GenreThriller,
+                        Resource.GenreDocumentary,
+                        Resource.GenreDrama,
+                        Resource.GenreComedy,
+                        Resource.GenreConcert,
+                        Resource.GenreCartoon,
+                        Resource.GenreHorror,
+                        Resource.GenreFantastic
+                    };
                 }
             }
         }
@@ -312,17 +294,7 @@ namespace MySeenLib
             {
                 if (All == null)
                 {
-                    All = new List<string>();
-                    All.Add("1");
-                    All.Add("2");
-                    All.Add("3");
-                    All.Add("4");
-                    All.Add("5");
-                    All.Add("6");
-                    All.Add("7");
-                    All.Add("8");
-                    All.Add("9");
-                    All.Add("10");
+                    All = new List<string> {"1", "2", "3", "4", "5", "6", "7", "8", "9", "10"};
                 }
             }
         }
@@ -336,11 +308,7 @@ namespace MySeenLib
             {
                 if (All == null)
                 {
-                    All = new List<string>();
-                    All.Add(Resource.Films);
-                    All.Add(Resource.Serials);
-                    All.Add(Resource.Books);
-                    All.Add(Resource.Tracks);
+                    All = new List<string> {Resource.Films, Resource.Serials, Resource.Books, Resource.Tracks};
                 }
             }
         }
@@ -355,22 +323,18 @@ namespace MySeenLib
             {
                 if (All == null)
                 {
-                    All = new List<string>();
-                    All.Add(Resource.English);
-                    All.Add(Resource.Russian);
+                    All = new List<string> {Resource.English, Resource.Russian};
                 }
             }
-            public int GetIdDB(string s)
+            public int GetIdDb(string s)
             {
                 Load();
-                if (s == CultureInfoTool.Cultures.English) return All.IndexOf(Resource.English);
-                return All.IndexOf(Resource.Russian);
+                return s == CultureInfoTool.Cultures.English ? Indexes.English : Indexes.Russian;
             }
-            public string GetValDB(int i)
+            public string GetValDb(int i)
             {
                 Load();
-                if (All[i] == Resource.English) return CultureInfoTool.Cultures.English;
-                return CultureInfoTool.Cultures.Russian;
+                return i == Indexes.English ? CultureInfoTool.Cultures.English : CultureInfoTool.Cultures.Russian;
             }
         }
         public class ComplexBase : ListStringBase
@@ -380,11 +344,7 @@ namespace MySeenLib
             {
                 if (All == null)
                 {
-                    All = new List<string>();
-                    All.Add(Resource.All);
-                    All.Add(Resource.WEB);
-                    All.Add(Resource.Android);
-                    All.Add(Resource.PC);
+                    All = new List<string> {Resource.All, Resource.WEB, Resource.Android, Resource.PC};
                 }
             }
         }
@@ -396,12 +356,7 @@ namespace MySeenLib
             {
                 if (All == null)
                 {
-                    All = new List<string>();
-                    All.Add(Resource.All);
-                    All.Add("20");
-                    All.Add("50");
-                    All.Add("100");
-                    All.Add("500");
+                    All = new List<string> {Resource.All, "20", "50", "100", "500"};
                 }
             }
         }

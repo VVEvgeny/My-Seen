@@ -1,11 +1,13 @@
-﻿@using MySeenWeb.Models;
+﻿@using System.Web.UI.WebControls
+@using MySeenWeb.Models;
 @using MySeenWeb.Models.TablesViews
 
 @model HomeViewModelBooks
 
-<br />
+@Scripts.Render("~/bundles/myseen.table", "~/bundles/datetimepicker")
+@Styles.Render("~/Content/datetimepicker.css")
 
-@Scripts.Render("~/bundles/myseen.table")
+<br />
 
 <table class="table table-striped" id="table">
     <thead>
@@ -20,7 +22,7 @@
     </thead>
     <tbody>
 
-    @foreach (BooksView elem in Model.Data)
+        @foreach (BooksView elem in Model.Data)
         {
             <tr>
                 <td class="align-center">
@@ -62,6 +64,12 @@
                         <label for="bookAuthor" class="col-sm-2 control-label">@Resource.Author</label>
                         <div class="col-sm-10">
                             <input type="text" class="form-control" id="bookAuthor" placeholder="@Resource.Author">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="datetimepicker" class="col-sm-2 control-label">@Resource.When</label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" id="datetimepicker" placeholder="@DateTime.Now" />
                         </div>
                     </div>
                     <div class="form-group">
@@ -109,6 +117,12 @@
             var $modal = $('#ModalAddWindow');
             var url = '';
             var data = {};
+            var $datetimepicker = $('#datetimepicker');
+            $datetimepicker.datetimepicker({
+                viewMode: 'years',
+                locale: '@CultureInfoTool.GetCulture()'
+            });
+
 
             function sendRequest(innerUrl, innerData) {
                 $.ajax({
@@ -135,6 +149,7 @@
 
             $addButton.off('click');
             $addButton.on('click', function () {
+                $datetimepicker.val('@DateTime.Now');
                 $modal.modal('show');
                 return false;
             });
@@ -146,6 +161,7 @@
                 data = {
                     name: $('#bookName').val(),
                     authors: $('#bookAuthor').val(),
+                    datetime: $('#datetimepicker').val(),
                     genre: $('#bookGenre').val(),
                     rating: $('#bookRating').val()
                 };
@@ -174,11 +190,13 @@
                 var id = $button.attr('id');
                 var name = $tds.eq(1).text();
                 var authors = $tds.eq(2).text();
+                var date = $tds.eq(3).text();
                 var genre = $tds.eq(-2).text();
                 var rating = $tds.eq(-1).text();
 
                 $movieName.val(name);
                 $bookAuthors.val(authors);
+                $datetimepicker.val(date);
 
                 $movieGenre.find('option')
                     .filter(function () {
@@ -227,6 +245,7 @@
                         id: id,
                         name: $('#bookName').val(),
                         authors: $('#bookAuthor').val(),
+                        datetime: $('#datetimepicker').val(),
                         genre: $('#bookGenre').val(),
                         rating: $('#bookRating').val()
                     };

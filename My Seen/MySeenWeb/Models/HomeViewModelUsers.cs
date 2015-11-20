@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using MySeenLib;
+using MySeenWeb.Models.TablesViews;
 using MySeenWeb.Models.Tools;
 
 namespace MySeenWeb.Models

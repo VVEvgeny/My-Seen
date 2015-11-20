@@ -544,7 +544,7 @@
     <value>Тип</value>
   </data>
   <data name="LibVersionNum" xml:space="preserve">
-    <value>5</value>
+    <value>6</value>
   </data>
   <data name="Improvements" xml:space="preserve">
     <value>Улучшения</value>
@@ -581,5 +581,8 @@
   </data>
   <data name="Try" xml:space="preserve">
     <value>Попробовать</value>
+  </data>
+  <data name="When" xml:space="preserve">
+    <value>Когда</value>
   </data>
 </root>

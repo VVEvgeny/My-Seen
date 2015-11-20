@@ -442,7 +442,7 @@
     <value>PC</value>
   </data>
   <data name="WEB" xml:space="preserve">
-    <value>WEB</value>
+    <value>Web</value>
   </data>
   <data name="All" xml:space="preserve">
     <value>All</value>
@@ -544,7 +544,7 @@
     <value>Type</value>
   </data>
   <data name="LibVersionNum" xml:space="preserve">
-    <value>5</value>
+    <value>6</value>
   </data>
   <data name="Improvements" xml:space="preserve">
     <value>Improvements</value>
@@ -581,5 +581,8 @@
   </data>
   <data name="Try" xml:space="preserve">
     <value>Try</value>
+  </data>
+  <data name="When" xml:space="preserve">
+    <value>When</value>
   </data>
 </root>
