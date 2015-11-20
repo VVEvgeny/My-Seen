@@ -177,7 +177,7 @@
     <value>2</value>
   </data>
   <data name="label1.Text" xml:space="preserve">
-    <value>userName</value>
+    <value>UserName</value>
   </data>
   <data name="&gt;&gt;label1.Name" xml:space="preserve">
     <value>label1</value>
@@ -309,7 +309,7 @@
     <value>209, 153</value>
   </data>
   <data name="$this.Text" xml:space="preserve">
-    <value>Create user</value>
+    <value>Create User</value>
   </data>
   <data name="&gt;&gt;errorProvider.Name" xml:space="preserve">
     <value>errorProvider</value>

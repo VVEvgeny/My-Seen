@@ -1,5 +1,5 @@
-﻿@using Microsoft.Owin.Security
-@model MySeenWeb.Models.Account.ManageLoginsViewModel
+﻿@model MySeenWeb.Models.ManageLoginsViewModel
+@using Microsoft.Owin.Security
 @{
     ViewBag.Title = Resource.ManageYourExternalLogins;
 }
@@ -9,8 +9,7 @@
 <p class="text-success">@ViewBag.StatusMessage</p>
 @{
     var loginProviders = Context.GetOwinContext().Authentication.GetExternalAuthenticationTypes();
-    if (!loginProviders.Any())
-    {
+    if (!loginProviders.Any()) {
         <div>
             <p>
             </p>
@@ -23,30 +22,30 @@
             <h4>@Resource.RegisteredLogins</h4>
             <table class="table">
                 <tbody>
-                @foreach (var account in Model.CurrentLogins)
-                {
-                    <tr>
-                        <td>@account.LoginProvider</td>
-                        <td>
-                            @if (ViewBag.ShowRemoveButton)
-                            {
-                                using (Html.BeginForm("RemoveLogin", "Manage"))
+                    @foreach (var account in Model.CurrentLogins)
+                    {
+                        <tr>
+                            <td>@account.LoginProvider</td>
+                            <td>
+                                @if (ViewBag.ShowRemoveButton)
                                 {
-                                    @Html.AntiForgeryToken()
-                                    <div>
-                                        @Html.Hidden("loginProvider", account.LoginProvider)
-                                        @Html.Hidden("providerKey", account.ProviderKey)
-                                        <input type="submit" class="btn btn-default" value=@Resource.Remove title="Remove this @account.LoginProvider login from your account"/>
-                                    </div>
+                                    using (Html.BeginForm("RemoveLogin", "Manage"))
+                                    {
+                                        @Html.AntiForgeryToken()
+                                        <div>
+                                            @Html.Hidden("loginProvider", account.LoginProvider)
+                                            @Html.Hidden("providerKey", account.ProviderKey)
+                                            <input type="submit" class="btn btn-default" value=@Resource.Remove title="Remove this @account.LoginProvider login from your account" />
+                                        </div>
+                                    }
                                 }
-                            }
-                            else
-                            {
-                                @: &nbsp;
-                            }
-                        </td>
-                    </tr>
-                }
+                                else
+                                {
+                                    @: &nbsp;
+                                }
+                            </td>
+                        </tr>
+                    }
                 </tbody>
             </table>
         }
@@ -56,12 +55,12 @@
             {
                 @Html.AntiForgeryToken()
                 <div id="socialLoginList">
-                    <p>
-                        @foreach (var p in Model.OtherLogins)
-                        {
-                            <button type="submit" class="btn btn-default" id="@p.AuthenticationType" name="provider" value="@p.AuthenticationType" title="@Resource.LogInUsingYour @p.Caption @Resource.Account ">@p.AuthenticationType</button>
-                        }
-                    </p>
+                <p>
+                    @foreach (AuthenticationDescription p in Model.OtherLogins)
+                    {
+                        <button type="submit" class="btn btn-default" id="@p.AuthenticationType" name="provider" value="@p.AuthenticationType" title="@Resource.LogInUsingYour @p.Caption @Resource.Account ">@p.AuthenticationType</button>
+                    }
+                </p>
                 </div>
             }
         }

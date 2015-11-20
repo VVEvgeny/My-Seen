@@ -1,4 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 using System.Windows.Forms;
 using MySeenLib;
 
@@ -10,28 +13,28 @@ namespace My_Seen
         /// The main entry point for the application.
         /// </summary>
         [STAThread]
-        private static void Main()
+        static void Main()
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            //Application.Run(new MainForm());
+            //Application.Run(new Main_Form());
 
             CultureInfoTool.SetCulture(Properties.Settings.Default.LastLanguage);
 
             for (; ; )
             {
-                var form = new MainForm();
+                Main_Form form = new Main_Form();
                 form.ShowDialog();
                 try
                 {
-                    if (form.IsRestart)
+                    if (form.isRestart)
                     {
                         continue;
                     }
                 }
                 catch
                 {
-                    // ignored
+                    break;
                 }
                 break;
             }

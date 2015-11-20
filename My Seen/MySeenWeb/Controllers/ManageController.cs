@@ -6,10 +6,9 @@ using System.Web.Mvc;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
+using MySeenWeb.Models;
 using MySeenLib;
 using MySeenWeb.ActionFilters;
-using MySeenWeb.Models.Account;
-using MySeenWeb.Models.Database;
 using MySeenWeb.Models.Tools;
 
 namespace MySeenWeb.Controllers
@@ -33,36 +32,41 @@ namespace MySeenWeb.Controllers
 
         public ApplicationSignInManager SignInManager
         {
-            get { return _signInManager ?? HttpContext.GetOwinContext().Get<ApplicationSignInManager>(); }
-            private set { _signInManager = value; }
+            get
+            {
+                return _signInManager ?? HttpContext.GetOwinContext().Get<ApplicationSignInManager>();
+            }
+            private set
+            {
+                _signInManager = value;
+            }
         }
 
         public ApplicationUserManager UserManager
         {
-            get { return _userManager ?? HttpContext.GetOwinContext().GetUserManager<ApplicationUserManager>(); }
-            private set { _userManager = value; }
+            get
+            {
+                return _userManager ?? HttpContext.GetOwinContext().GetUserManager<ApplicationUserManager>();
+            }
+            private set
+            {
+                _userManager = value;
+            }
         }
 
         //
         // GET: /Manage/Index
         public async Task<ActionResult> Index(ManageMessageId? message)
         {
-            LogSave.Save(User.Identity.IsAuthenticated ? User.Identity.GetUserId() : "", Request.UserHostAddress,
-                Request.UserAgent, "Manage/Index");
+            LogSave.Save(User.Identity.IsAuthenticated ? User.Identity.GetUserId() : "", Request.UserHostAddress, Request.UserAgent, "Manage/Index");
             ViewBag.StatusMessage =
-                message == ManageMessageId.ChangePasswordSuccess
-                    ? "Your password has been changed."
-                    : message == ManageMessageId.SetPasswordSuccess
-                        ? "Your password has been set."
-                        : message == ManageMessageId.SetTwoFactorSuccess
-                            ? "Your two-factor authentication provider has been set."
-                            : message == ManageMessageId.Error
-                                ? "An error has occurred."
-                                : message == ManageMessageId.AddPhoneSuccess
-                                    ? "Your phone number was added."
-                                    : message == ManageMessageId.RemovePhoneSuccess
-                                        ? "Your phone number was removed."
-                                        : "";
+                message == ManageMessageId.ChangePasswordSuccess ? "Your password has been changed."
+                : message == ManageMessageId.SetPasswordSuccess ? "Your password has been set."
+                : message == ManageMessageId.SetTwoFactorSuccess ? "Your two-factor authentication provider has been set."
+                : message == ManageMessageId.Error ? "An error has occurred."
+                : message == ManageMessageId.AddPhoneSuccess ? "Your phone number was added."
+                : message == ManageMessageId.RemovePhoneSuccess ? "Your phone number was removed."
+                : "";
 
             var userId = User.Identity.GetUserId();
             var model = new IndexViewModel
@@ -76,16 +80,17 @@ namespace MySeenWeb.Controllers
 
             if (User.Identity.IsAuthenticated)
             {
-                var ac = new ApplicationDbContext();
-                var user = ac.Users.First(u => u.Id == userId);
-                model.Lang = Defaults.Languages.GetIdDb(user.Culture);
+                ApplicationDbContext ac = new ApplicationDbContext();
+                ApplicationUser user = ac.Users.First(u => u.Id == userId);
+                model.Lang = Defaults.Languages.GetIdDB(user.Culture);
                 model.Rpp = user.RecordPerPage;
                 model.LoadSelectList();
 
-                model.HaveData = ac.Films.Any(f => f.UserId == userId)
-                                 || ac.Serials.Any(f => f.UserId == userId)
-                                 || ac.Books.Any(f => f.UserId == userId)
-                                 || ac.Tracks.Any(f => f.UserId == userId);
+                model.HaveData = (ac.Films.Any(f => f.UserId == userId)
+                    || ac.Serials.Any(f => f.UserId == userId)
+                    || ac.Books.Any(f => f.UserId == userId)
+                    || ac.Tracks.Any(f => f.UserId == userId)
+                    );
             }
             return View(model);
         }
@@ -96,19 +101,15 @@ namespace MySeenWeb.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> RemoveLogin(string loginProvider, string providerKey)
         {
-            LogSave.Save(User.Identity.IsAuthenticated ? User.Identity.GetUserId() : "", Request.UserHostAddress,
-                Request.UserAgent, "Manage/RemoveLogin", loginProvider);
+            LogSave.Save(User.Identity.IsAuthenticated ? User.Identity.GetUserId() : "", Request.UserHostAddress, Request.UserAgent, "Manage/RemoveLogin", loginProvider);
             ManageMessageId? message;
-            var result =
-                await
-                    UserManager.RemoveLoginAsync(User.Identity.GetUserId(),
-                        new UserLoginInfo(loginProvider, providerKey));
+            var result = await UserManager.RemoveLoginAsync(User.Identity.GetUserId(), new UserLoginInfo(loginProvider, providerKey));
             if (result.Succeeded)
             {
                 var user = await UserManager.FindByIdAsync(User.Identity.GetUserId());
                 if (user != null)
                 {
-                    await SignInManager.SignInAsync(user, false, false);
+                    await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
                 }
                 message = ManageMessageId.RemoveLoginSuccess;
             }
@@ -116,40 +117,35 @@ namespace MySeenWeb.Controllers
             {
                 message = ManageMessageId.Error;
             }
-            return RedirectToAction("ManageLogins", new {Message = message});
+            return RedirectToAction("ManageLogins", new { Message = message });
         }
-
         [HttpPost]
         public JsonResult ChangeLanguage(string selected)
         {
-            LogSave.Save(User.Identity.IsAuthenticated ? User.Identity.GetUserId() : "", Request.UserHostAddress,
-                Request.UserAgent, "Manage/ChangeLanguage", selected);
-            var ac = new ApplicationDbContext();
+            LogSave.Save(User.Identity.IsAuthenticated ? User.Identity.GetUserId() : "", Request.UserHostAddress, Request.UserAgent, "Manage/ChangeLanguage", selected);
+            ApplicationDbContext ac = new ApplicationDbContext();
             var userId = User.Identity.GetUserId();
-            ac.Users.First(u => u.Id == userId).Culture = Defaults.Languages.GetValDb(Convert.ToInt32(selected));
+            ac.Users.First(u => u.Id == userId).Culture = Defaults.Languages.GetValDB(Convert.ToInt32(selected));
             ac.SaveChanges();
-            CultureInfoTool.SetCulture(Defaults.Languages.GetValDb(Convert.ToInt32(selected)));
+            CultureInfoTool.SetCulture(Defaults.Languages.GetValDB(Convert.ToInt32(selected)));
             WriteCookie(CookieKeys.Language, selected);
             Defaults.ReloadResources();
-            return Json(new {success = true});
+            return Json(new { success = true });
         }
-
         [HttpPost]
         public JsonResult ChangeRpp(string selected)
         {
-            LogSave.Save(User.Identity.IsAuthenticated ? User.Identity.GetUserId() : "", Request.UserHostAddress,
-                Request.UserAgent, "Manage/ChangeRpp", selected);
-            var ac = new ApplicationDbContext();
+            LogSave.Save(User.Identity.IsAuthenticated ? User.Identity.GetUserId() : "", Request.UserHostAddress, Request.UserAgent, "Manage/ChangeRpp", selected);
+            ApplicationDbContext ac = new ApplicationDbContext();
             var userId = User.Identity.GetUserId();
             ac.Users.First(u => u.Id == userId).RecordPerPage = Convert.ToInt32(selected);
             ac.SaveChanges();
             Rpp = Convert.ToInt32(selected);
-            return Json(new {success = true});
+            return Json(new { success = true });
         }
-
         private void DeleteUserData()
         {
-            var ac = new ApplicationDbContext();
+            ApplicationDbContext ac = new ApplicationDbContext();
             var userId = User.Identity.GetUserId();
             ac.Films.RemoveRange(ac.Films.Where(f => f.UserId == userId));
             ac.Serials.RemoveRange(ac.Serials.Where(f => f.UserId == userId));
@@ -157,16 +153,13 @@ namespace MySeenWeb.Controllers
             ac.Tracks.RemoveRange(ac.Tracks.Where(f => f.UserId == userId));
             ac.SaveChanges();
         }
-
         [HttpPost]
         public JsonResult DeleteData()
         {
-            LogSave.Save(User.Identity.IsAuthenticated ? User.Identity.GetUserId() : "", Request.UserHostAddress,
-                Request.UserAgent, "Manage/DeleteData");
+            LogSave.Save(User.Identity.IsAuthenticated ? User.Identity.GetUserId() : "", Request.UserHostAddress, Request.UserAgent, "Manage/DeleteData");
             DeleteUserData();
-            return Json(new {success = true});
+            return Json(new { success = true });
         }
-
         //
         // GET: /Manage/AddPhoneNumber
         public ActionResult AddPhoneNumber()
@@ -195,7 +188,7 @@ namespace MySeenWeb.Controllers
                 };
                 await UserManager.SmsService.SendAsync(message);
             }
-            return RedirectToAction("VerifyPhoneNumber", new {PhoneNumber = model.Number});
+            return RedirectToAction("VerifyPhoneNumber", new { PhoneNumber = model.Number });
         }
 
         //
@@ -208,7 +201,7 @@ namespace MySeenWeb.Controllers
             var user = await UserManager.FindByIdAsync(User.Identity.GetUserId());
             if (user != null)
             {
-                await SignInManager.SignInAsync(user, false, false);
+                await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
             }
             return RedirectToAction("Index", "Manage");
         }
@@ -223,7 +216,7 @@ namespace MySeenWeb.Controllers
             var user = await UserManager.FindByIdAsync(User.Identity.GetUserId());
             if (user != null)
             {
-                await SignInManager.SignInAsync(user, false, false);
+                await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
             }
             return RedirectToAction("Index", "Manage");
         }
@@ -233,11 +226,9 @@ namespace MySeenWeb.Controllers
         public async Task<ActionResult> VerifyPhoneNumber(string phoneNumber)
         {
             //var code = 
-            await UserManager.GenerateChangePhoneNumberTokenAsync(User.Identity.GetUserId(), phoneNumber);
+                await UserManager.GenerateChangePhoneNumberTokenAsync(User.Identity.GetUserId(), phoneNumber);
             // Send an SMS through the SMS provider to verify the phone number
-            return phoneNumber == null
-                ? View("Error")
-                : View(new VerifyPhoneNumberViewModel {PhoneNumber = phoneNumber});
+            return phoneNumber == null ? View("Error") : View(new VerifyPhoneNumberViewModel { PhoneNumber = phoneNumber });
         }
 
         //
@@ -250,16 +241,15 @@ namespace MySeenWeb.Controllers
             {
                 return View(model);
             }
-            var result =
-                await UserManager.ChangePhoneNumberAsync(User.Identity.GetUserId(), model.PhoneNumber, model.Code);
+            var result = await UserManager.ChangePhoneNumberAsync(User.Identity.GetUserId(), model.PhoneNumber, model.Code);
             if (result.Succeeded)
             {
                 var user = await UserManager.FindByIdAsync(User.Identity.GetUserId());
                 if (user != null)
                 {
-                    await SignInManager.SignInAsync(user, false, false);
+                    await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
                 }
-                return RedirectToAction("Index", new {Message = ManageMessageId.AddPhoneSuccess});
+                return RedirectToAction("Index", new { Message = ManageMessageId.AddPhoneSuccess });
             }
             // If we got this far, something failed, redisplay form
             ModelState.AddModelError("", "Failed to verify phone");
@@ -273,14 +263,14 @@ namespace MySeenWeb.Controllers
             var result = await UserManager.SetPhoneNumberAsync(User.Identity.GetUserId(), null);
             if (!result.Succeeded)
             {
-                return RedirectToAction("Index", new {Message = ManageMessageId.Error});
+                return RedirectToAction("Index", new { Message = ManageMessageId.Error });
             }
             var user = await UserManager.FindByIdAsync(User.Identity.GetUserId());
             if (user != null)
             {
-                await SignInManager.SignInAsync(user, false, false);
+                await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
             }
-            return RedirectToAction("Index", new {Message = ManageMessageId.RemovePhoneSuccess});
+            return RedirectToAction("Index", new { Message = ManageMessageId.RemovePhoneSuccess });
         }
 
         //
@@ -296,22 +286,20 @@ namespace MySeenWeb.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> ChangePassword(ChangePasswordViewModel model)
         {
-            LogSave.Save(User.Identity.IsAuthenticated ? User.Identity.GetUserId() : "", Request.UserHostAddress,
-                Request.UserAgent, "Manage/ChangePassword");
+            LogSave.Save(User.Identity.IsAuthenticated ? User.Identity.GetUserId() : "", Request.UserHostAddress, Request.UserAgent, "Manage/ChangePassword");
             if (!ModelState.IsValid)
             {
                 return View(model);
             }
-            var result =
-                await UserManager.ChangePasswordAsync(User.Identity.GetUserId(), model.OldPassword, model.NewPassword);
+            var result = await UserManager.ChangePasswordAsync(User.Identity.GetUserId(), model.OldPassword, model.NewPassword);
             if (result.Succeeded)
             {
                 var user = await UserManager.FindByIdAsync(User.Identity.GetUserId());
                 if (user != null)
                 {
-                    await SignInManager.SignInAsync(user, false, false);
+                    await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
                 }
-                return RedirectToAction("Index", new {Message = ManageMessageId.ChangePasswordSuccess});
+                return RedirectToAction("Index", new { Message = ManageMessageId.ChangePasswordSuccess });
             }
             AddErrors(result);
             return View(model);
@@ -330,8 +318,7 @@ namespace MySeenWeb.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> SetPassword(SetPasswordViewModel model)
         {
-            LogSave.Save(User.Identity.IsAuthenticated ? User.Identity.GetUserId() : "", Request.UserHostAddress,
-                Request.UserAgent, "Manage/SetPassword");
+            LogSave.Save(User.Identity.IsAuthenticated ? User.Identity.GetUserId() : "", Request.UserHostAddress, Request.UserAgent, "Manage/SetPassword");
             if (ModelState.IsValid)
             {
                 var result = await UserManager.AddPasswordAsync(User.Identity.GetUserId(), model.NewPassword);
@@ -340,9 +327,9 @@ namespace MySeenWeb.Controllers
                     var user = await UserManager.FindByIdAsync(User.Identity.GetUserId());
                     if (user != null)
                     {
-                        await SignInManager.SignInAsync(user, false, false);
+                        await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
                     }
-                    return RedirectToAction("Index", new {Message = ManageMessageId.SetPasswordSuccess});
+                    return RedirectToAction("Index", new { Message = ManageMessageId.SetPasswordSuccess });
                 }
                 AddErrors(result);
             }
@@ -355,24 +342,18 @@ namespace MySeenWeb.Controllers
         // GET: /Manage/ManageLogins
         public async Task<ActionResult> ManageLogins(ManageMessageId? message)
         {
-            LogSave.Save(User.Identity.IsAuthenticated ? User.Identity.GetUserId() : "", Request.UserHostAddress,
-                Request.UserAgent, "Manage/ManageLogins");
+            LogSave.Save(User.Identity.IsAuthenticated ? User.Identity.GetUserId() : "", Request.UserHostAddress, Request.UserAgent, "Manage/ManageLogins");
             ViewBag.StatusMessage =
-                message == ManageMessageId.RemoveLoginSuccess
-                    ? Resource.TheExternalLoginWasRemoved
-                    : message == ManageMessageId.Error
-                        ? Resource.AnErrorHasOccurred
-                        : "";
+                message == ManageMessageId.RemoveLoginSuccess ? Resource.TheExternalLoginWasRemoved
+                : message == ManageMessageId.Error ? Resource.AnErrorHasOccurred
+                : "";
             var user = await UserManager.FindByIdAsync(User.Identity.GetUserId());
             if (user == null)
             {
                 return View("Error");
             }
             var userLogins = await UserManager.GetLoginsAsync(User.Identity.GetUserId());
-            var otherLogins =
-                AuthenticationManager.GetExternalAuthenticationTypes()
-                    .Where(auth => userLogins.All(ul => auth.AuthenticationType != ul.LoginProvider))
-                    .ToList();
+            var otherLogins = AuthenticationManager.GetExternalAuthenticationTypes().Where(auth => userLogins.All(ul => auth.AuthenticationType != ul.LoginProvider)).ToList();
             ViewBag.ShowRemoveButton = user.PasswordHash != null || userLogins.Count > 1;
             return View(new ManageLoginsViewModel
             {
@@ -388,8 +369,7 @@ namespace MySeenWeb.Controllers
         public ActionResult LinkLogin(string provider)
         {
             // Request a redirect to the external login provider to link a login for the current user
-            return new AccountController.ChallengeResult(provider, Url.Action("LinkLoginCallback", "Manage"),
-                User.Identity.GetUserId());
+            return new AccountController.ChallengeResult(provider, Url.Action("LinkLoginCallback", "Manage"), User.Identity.GetUserId());
         }
 
         //
@@ -399,12 +379,10 @@ namespace MySeenWeb.Controllers
             var loginInfo = await AuthenticationManager.GetExternalLoginInfoAsync(XsrfKey, User.Identity.GetUserId());
             if (loginInfo == null)
             {
-                return RedirectToAction("ManageLogins", new {Message = ManageMessageId.Error});
+                return RedirectToAction("ManageLogins", new { Message = ManageMessageId.Error });
             }
             var result = await UserManager.AddLoginAsync(User.Identity.GetUserId(), loginInfo.Login);
-            return result.Succeeded
-                ? RedirectToAction("ManageLogins")
-                : RedirectToAction("ManageLogins", new {Message = ManageMessageId.Error});
+            return result.Succeeded ? RedirectToAction("ManageLogins") : RedirectToAction("ManageLogins", new { Message = ManageMessageId.Error });
         }
 
         protected override void Dispose(bool disposing)
@@ -419,13 +397,15 @@ namespace MySeenWeb.Controllers
         }
 
         #region Helpers
-
         // Used for XSRF protection when adding external logins
         private const string XsrfKey = "XsrfId";
 
         private IAuthenticationManager AuthenticationManager
         {
-            get { return HttpContext.GetOwinContext().Authentication; }
+            get
+            {
+                return HttpContext.GetOwinContext().Authentication;
+            }
         }
 
         private void AddErrors(IdentityResult result)

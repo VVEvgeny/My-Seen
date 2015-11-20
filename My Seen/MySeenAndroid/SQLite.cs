@@ -117,7 +117,7 @@ namespace SQLite
         ImplicitIndex = 2, // create an index for fields ending in 'Id' (Orm.ImplicitIndexSuffix)
         AllImplicit = 3,   // do both above
 
-        AutoIncPK = 4      // force Pk field to be auto inc
+        AutoIncPK = 4      // force PK field to be auto inc
     }
 
 	/// <summary>
@@ -271,7 +271,7 @@ namespace SQLite
 		/// The type whose mapping to the database is returned.
 		/// </param>         
         /// <param name="createFlags">
-		/// Optional flags allowing implicit Pk and indexes based on naming conventions
+		/// Optional flags allowing implicit PK and indexes based on naming conventions
 		/// </param>     
 		/// <returns>
 		/// The mapping represents the schema of the columns of the database and contains 
@@ -349,7 +349,7 @@ namespace SQLite
 		/// later access this schema by calling GetMapping.
 		/// </summary>
 		/// <param name="ty">Type to reflect to a database table.</param>
-        /// <param name="createFlags">Optional flags allowing implicit Pk and indexes based on naming conventions.</param>  
+        /// <param name="createFlags">Optional flags allowing implicit PK and indexes based on naming conventions.</param>  
 		/// <returns>
 		/// The number of entries added to the database schema.
 		/// </returns>
@@ -1234,14 +1234,14 @@ namespace SQLite
 			var map = GetMapping (objType);
 
 #if NETFX_CORE
-            if (map.Pk != null && map.Pñ.IsAutoGuid)
+            if (map.PK != null && map.PK.IsAutoGuid)
             {
                 // no GetProperty so search our way up the inheritance chain till we find it
                 PropertyInfo prop;
                 while (objType != null)
                 {
                     var info = objType.GetTypeInfo();
-                    prop = info.GetDeclaredProperty(map.Pk.PropertyName);
+                    prop = info.GetDeclaredProperty(map.PK.PropertyName);
                     if (prop != null) 
                     {
                         if (prop.GetValue(obj, null).Equals(Guid.Empty))
@@ -1342,7 +1342,7 @@ namespace SQLite
 			var pk = map.PK;
 			
 			if (pk == null) {
-				throw new NotSupportedException ("Cannot update " + map.TableName + ": it has no Pk");
+				throw new NotSupportedException ("Cannot update " + map.TableName + ": it has no PK");
 			}
 			
 			var cols = from p in map.Columns
@@ -1404,7 +1404,7 @@ namespace SQLite
 			var map = GetMapping (objectToDelete.GetType ());
 			var pk = map.PK;
 			if (pk == null) {
-				throw new NotSupportedException ("Cannot delete " + map.TableName + ": it has no Pk");
+				throw new NotSupportedException ("Cannot delete " + map.TableName + ": it has no PK");
 			}
 			var q = string.Format ("delete from \"{0}\" where \"{1}\" = ?", map.TableName, pk.Name);
 			return Execute (q, pk.GetValue (objectToDelete));
@@ -1427,7 +1427,7 @@ namespace SQLite
 			var map = GetMapping (typeof (T));
 			var pk = map.PK;
 			if (pk == null) {
-				throw new NotSupportedException ("Cannot delete " + map.TableName + ": it has no Pk");
+				throw new NotSupportedException ("Cannot delete " + map.TableName + ": it has no PK");
 			}
 			var q = string.Format ("delete from \"{0}\" where \"{1}\" = ?", map.TableName, pk.Name);
 			return Execute (q, primaryKey);
@@ -1670,7 +1670,7 @@ namespace SQLite
 				GetByPrimaryKeySql = string.Format ("select * from \"{0}\" where \"{1}\" = ?", TableName, PK.Name);
 			}
 			else {
-				// People should not be calling Get/Find without a Pk
+				// People should not be calling Get/Find without a PK
 				GetByPrimaryKeySql = string.Format ("select * from \"{0}\" limit 1", TableName);
 			}
 		}

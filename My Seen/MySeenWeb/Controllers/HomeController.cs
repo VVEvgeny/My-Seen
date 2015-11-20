@@ -1,12 +1,11 @@
 ﻿using System;
 using System.Linq;
 using System.Web.Mvc;
+using MySeenWeb.Models;
 using Microsoft.AspNet.Identity;
 using MySeenLib;
 using MySeenWeb.ActionFilters;
-using MySeenWeb.Models.Database;
-using MySeenWeb.Models.Database.Tables;
-using MySeenWeb.Models.HomeModels;
+using MySeenWeb.Models.Tables;
 using MySeenWeb.Models.Tools;
 
 namespace MySeenWeb.Controllers
@@ -17,12 +16,11 @@ namespace MySeenWeb.Controllers
         [BrowserActionFilter]
         public ActionResult Index(string search, int? page)
         {
-            LogSave.Save(User.Identity.IsAuthenticated ? User.Identity.GetUserId() : "", Request.UserHostAddress,
-                Request.UserAgent, "Home/Index");
+            LogSave.Save(User.Identity.IsAuthenticated ? User.Identity.GetUserId() : "", Request.UserHostAddress, Request.UserAgent, "Home/Index");
 
             if (User.Identity.IsAuthenticated)
             {
-                var af = new HomeViewModel(
+                HomeViewModel af = new HomeViewModel(
                     ReadCookie(CookieKeys.HomeCategory, Defaults.CategoryBase.FilmIndex).ToString(),
                     User.Identity.GetUserId(),
                     page == null ? 1 : page.Value,
@@ -34,40 +32,35 @@ namespace MySeenWeb.Controllers
             }
             return View();
         }
-
         [Authorize]
         [HttpPost]
         public JsonResult ChangeCookies(string selected)
         {
             WriteCookie(CookieKeys.HomeCategory, selected);
             WriteCookie(CookieKeys.HomeCategoryPrev, selected);
-            return Json(new {success = true});
+            return Json(new { success = true });
         }
-
         [Authorize]
         public JsonResult ChangeCookiesImprovement(string selected)
         {
             WriteCookie(CookieKeys.ImprovementsCategory, selected);
-            return Json(new {success = true});
+            return Json(new { success = true });
         }
-
         [Authorize]
         [HttpPost]
         public JsonResult AddFilm(string name, string genre, string rating)
         {
-            LogSave.Save(User.Identity.IsAuthenticated ? User.Identity.GetUserId() : "", Request.UserHostAddress,
-                Request.UserAgent, "Home/AddFilm", name);
-            var errorMessage = string.Empty;
-            var userId = User.Identity.GetUserId();
+            LogSave.Save(User.Identity.IsAuthenticated ? User.Identity.GetUserId() : "", Request.UserHostAddress, Request.UserAgent, "Home/AddFilm", name);
+            string errorMessage = string.Empty;
+            string userId = User.Identity.GetUserId();
             if (string.IsNullOrEmpty(errorMessage))
             {
                 if (string.IsNullOrEmpty(name)) errorMessage = Resource.EnterFilmName;
             }
-            var ac = new ApplicationDbContext();
+            ApplicationDbContext ac = new ApplicationDbContext();
             if (string.IsNullOrEmpty(errorMessage))
             {
-                if (ac.Films.Count(f => f.Name == name && f.UserId == userId) != 0)
-                    //айди проверяем только для редактируемых, чтобы не налететь по названию на чужой
+                if (ac.Films.Count(f => f.Name == name && f.UserId == userId) != 0)//айди проверяем только для редактируемых, чтобы не налететь по названию на чужой
                 {
                     errorMessage = Resource.FilmNameAlreadyExists;
                 }
@@ -76,15 +69,7 @@ namespace MySeenWeb.Controllers
             {
                 try
                 {
-                    var f = new Films
-                    {
-                        Name = name,
-                        Genre = Convert.ToInt32(genre),
-                        Rating = Convert.ToInt32(rating),
-                        DateSee = UmtTime.To(DateTime.Now),
-                        DateChange = UmtTime.To(DateTime.Now),
-                        UserId = userId
-                    };
+                    Films f = new Films { Name = name, Genre = Convert.ToInt32(genre), Rating = Convert.ToInt32(rating), DateSee = UMTTime.To(DateTime.Now), DateChange = UMTTime.To(DateTime.Now), UserId = userId };
                     ac.Films.Add(f);
                     ac.SaveChanges();
                 }
@@ -95,27 +80,24 @@ namespace MySeenWeb.Controllers
             }
             if (!string.IsNullOrEmpty(errorMessage))
             {
-                return new JsonResult {Data = new {success = false, error = errorMessage}};
+                return new JsonResult { Data = new { success = false, error = errorMessage } };
             }
-            return Json(new {success = true});
+            return Json(new { success = true });
         }
-
         [Authorize]
         [HttpPost]
         public JsonResult EditFilm(string id, string name, string genre, string rating)
         {
-            LogSave.Save(User.Identity.IsAuthenticated ? User.Identity.GetUserId() : "", Request.UserHostAddress,
-                Request.UserAgent, "Home/EditFilm", id);
-            var errorMessage = string.Empty;
-            var userId = User.Identity.GetUserId();
+            LogSave.Save(User.Identity.IsAuthenticated ? User.Identity.GetUserId() : "", Request.UserHostAddress, Request.UserAgent, "Home/EditFilm", id);
+            string errorMessage = string.Empty;
+            string userId = User.Identity.GetUserId();
             if (string.IsNullOrEmpty(errorMessage))
             {
                 if (string.IsNullOrEmpty(name)) errorMessage = Resource.EnterFilmName;
             }
-            var ac = new ApplicationDbContext();
-            var iid = Convert.ToInt32(id);
-            if (ac.Films.Count(f => f.Name == name && f.UserId == userId && f.Id != iid) != 0)
-                //айди проверяем только для редактируемых, чтобы не налететь по названию на чужой
+            ApplicationDbContext ac = new ApplicationDbContext();
+            int iid = (Convert.ToInt32(id));
+            if (ac.Films.Count(f => f.Name == name && f.UserId == userId && f.Id != iid) != 0)//айди проверяем только для редактируемых, чтобы не налететь по названию на чужой
             {
                 errorMessage = Resource.FilmNameAlreadyExists;
             }
@@ -123,11 +105,11 @@ namespace MySeenWeb.Controllers
             {
                 try
                 {
-                    var film = ac.Films.First(f => f.UserId == userId && f.Id == iid);
+                    Films film = ac.Films.First(f => f.UserId == userId && f.Id == iid);
                     film.Name = name;
                     film.Genre = Convert.ToInt32(genre);
                     film.Rating = Convert.ToInt32(rating);
-                    film.DateChange = UmtTime.To(DateTime.Now);
+                    film.DateChange = UMTTime.To(DateTime.Now);
                     ac.SaveChanges();
                 }
                 catch (Exception e)
@@ -137,28 +119,25 @@ namespace MySeenWeb.Controllers
             }
             if (!string.IsNullOrEmpty(errorMessage))
             {
-                return new JsonResult {Data = new {success = false, error = errorMessage}};
+                return new JsonResult { Data = new { success = false, error = errorMessage } };
             }
-            return Json(new {success = true});
+            return Json(new { success = true });
         }
-
         [Authorize]
         [HttpPost]
         public JsonResult AddSerial(string name, string season, string series, string genre, string rating)
         {
-            LogSave.Save(User.Identity.IsAuthenticated ? User.Identity.GetUserId() : "", Request.UserHostAddress,
-                Request.UserAgent, "Home/AddSerial", name);
-            var errorMessage = string.Empty;
-            var userId = User.Identity.GetUserId();
+            LogSave.Save(User.Identity.IsAuthenticated ? User.Identity.GetUserId() : "", Request.UserHostAddress, Request.UserAgent, "Home/AddSerial", name);
+            string errorMessage = string.Empty;
+            string userId = User.Identity.GetUserId();
             if (string.IsNullOrEmpty(errorMessage))
             {
                 if (string.IsNullOrEmpty(name)) errorMessage = Resource.EnterSerialName;
             }
-            var ac = new ApplicationDbContext();
+            ApplicationDbContext ac = new ApplicationDbContext();
             if (string.IsNullOrEmpty(errorMessage))
             {
-                if (ac.Serials.Count(f => f.Name == name && f.UserId == userId) != 0)
-                    //айди проверяем только для редактируемых, чтобы не налететь по названию на чужой
+                if (ac.Serials.Count(f => f.Name == name && f.UserId == userId) != 0)//айди проверяем только для редактируемых, чтобы не налететь по названию на чужой
                 {
                     errorMessage = Resource.SerialNameAlreadyExists;
                 }
@@ -169,18 +148,7 @@ namespace MySeenWeb.Controllers
                 {
                     if (string.IsNullOrEmpty(season)) season = "1";
                     if (string.IsNullOrEmpty(series)) series = "1";
-                    var s = new Serials
-                    {
-                        Name = name,
-                        LastSeason = Convert.ToInt32(season),
-                        LastSeries = Convert.ToInt32(series),
-                        Genre = Convert.ToInt32(genre),
-                        Rating = Convert.ToInt32(rating),
-                        DateBegin = UmtTime.To(DateTime.Now),
-                        DateLast = UmtTime.To(DateTime.Now),
-                        DateChange = UmtTime.To(DateTime.Now),
-                        UserId = userId
-                    };
+                    Serials s = new Serials { Name = name, LastSeason = Convert.ToInt32(season), LastSeries = Convert.ToInt32(series), Genre = Convert.ToInt32(genre), Rating = Convert.ToInt32(rating), DateBegin = UMTTime.To(DateTime.Now), DateLast = UMTTime.To(DateTime.Now), DateChange = UMTTime.To(DateTime.Now), UserId = userId };
                     ac.Serials.Add(s);
                     ac.SaveChanges();
                 }
@@ -191,27 +159,24 @@ namespace MySeenWeb.Controllers
             }
             if (!string.IsNullOrEmpty(errorMessage))
             {
-                return new JsonResult {Data = new {success = false, error = errorMessage}};
+                return new JsonResult { Data = new { success = false, error = errorMessage } };
             }
-            return Json(new {success = true});
+            return Json(new { success = true });
         }
-
         [Authorize]
         [HttpPost]
         public JsonResult EditSerial(string id, string name, string season, string series, string genre, string rating)
         {
-            LogSave.Save(User.Identity.IsAuthenticated ? User.Identity.GetUserId() : "", Request.UserHostAddress,
-                Request.UserAgent, "Home/EditSerial", id);
-            var errorMessage = string.Empty;
-            var userId = User.Identity.GetUserId();
+            LogSave.Save(User.Identity.IsAuthenticated ? User.Identity.GetUserId() : "", Request.UserHostAddress, Request.UserAgent, "Home/EditSerial", id);
+            string errorMessage = string.Empty;
+            string userId = User.Identity.GetUserId();
             if (string.IsNullOrEmpty(errorMessage))
             {
                 if (string.IsNullOrEmpty(name)) errorMessage = Resource.EnterSerialName;
             }
-            var ac = new ApplicationDbContext();
-            var iid = Convert.ToInt32(id);
-            if (ac.Serials.Count(f => f.Name == name && f.UserId == userId && f.Id != iid) != 0)
-                //айди проверяем только для редактируемых, чтобы не налететь по названию на чужой
+            ApplicationDbContext ac = new ApplicationDbContext();
+            int iid = (Convert.ToInt32(id));
+            if (ac.Serials.Count(f => f.Name == name && f.UserId == userId && f.Id != iid) != 0)//айди проверяем только для редактируемых, чтобы не налететь по названию на чужой
             {
                 errorMessage = Resource.FilmNameAlreadyExists;
             }
@@ -219,17 +184,17 @@ namespace MySeenWeb.Controllers
             {
                 try
                 {
-                    var film = ac.Serials.First(f => f.UserId == userId && f.Id == iid);
+                    Serials film = ac.Serials.First(f => f.UserId == userId && f.Id == iid);
                     film.Name = name;
                     if (film.LastSeason != Convert.ToInt32(season) || film.LastSeries != Convert.ToInt32(series))
                     {
-                        film.DateLast = UmtTime.To(DateTime.Now);
+                        film.DateLast = UMTTime.To(DateTime.Now);
                     }
                     film.LastSeason = Convert.ToInt32(season);
                     film.LastSeries = Convert.ToInt32(series);
                     film.Genre = Convert.ToInt32(genre);
                     film.Rating = Convert.ToInt32(rating);
-                    film.DateChange = UmtTime.To(DateTime.Now);
+                    film.DateChange = UMTTime.To(DateTime.Now);
                     ac.SaveChanges();
                 }
                 catch (Exception e)
@@ -239,19 +204,17 @@ namespace MySeenWeb.Controllers
             }
             if (!string.IsNullOrEmpty(errorMessage))
             {
-                return new JsonResult {Data = new {success = false, error = errorMessage}};
+                return new JsonResult { Data = new { success = false, error = errorMessage } };
             }
-            return Json(new {success = true});
+            return Json(new { success = true });
         }
-
         [Authorize]
         [HttpPost]
         public JsonResult AddBook(string name, string authors, string genre, string rating)
         {
-            LogSave.Save(User.Identity.IsAuthenticated ? User.Identity.GetUserId() : "", Request.UserHostAddress,
-                Request.UserAgent, "Home/AddBook", name);
-            var errorMessage = string.Empty;
-            var userId = User.Identity.GetUserId();
+            LogSave.Save(User.Identity.IsAuthenticated ? User.Identity.GetUserId() : "", Request.UserHostAddress, Request.UserAgent, "Home/AddBook", name);
+            string errorMessage = string.Empty;
+            string userId = User.Identity.GetUserId();
             if (string.IsNullOrEmpty(errorMessage))
             {
                 if (string.IsNullOrEmpty(authors)) errorMessage = Resource.EnterBookName;
@@ -260,11 +223,10 @@ namespace MySeenWeb.Controllers
             {
                 if (string.IsNullOrEmpty(authors)) errorMessage = Resource.EnterBookAuthors;
             }
-            var ac = new ApplicationDbContext();
+            ApplicationDbContext ac = new ApplicationDbContext();
             if (string.IsNullOrEmpty(errorMessage))
             {
-                if (ac.Books.Count(f => f.Name == name && f.UserId == userId) != 0)
-                    //айди проверяем только для редактируемых, чтобы не налететь по названию на чужой
+                if (ac.Books.Count(f => f.Name == name && f.UserId == userId) != 0)//айди проверяем только для редактируемых, чтобы не налететь по названию на чужой
                 {
                     errorMessage = Resource.BookNameAlreadyExists;
                 }
@@ -273,16 +235,7 @@ namespace MySeenWeb.Controllers
             {
                 try
                 {
-                    var f = new Books
-                    {
-                        Name = name,
-                        Authors = authors,
-                        Genre = Convert.ToInt32(genre),
-                        Rating = Convert.ToInt32(rating),
-                        DateRead = UmtTime.To(DateTime.Now),
-                        DateChange = UmtTime.To(DateTime.Now),
-                        UserId = userId
-                    };
+                    Books f = new Books { Name = name, Authors = authors, Genre = Convert.ToInt32(genre), Rating = Convert.ToInt32(rating), DateRead = UMTTime.To(DateTime.Now), DateChange = UMTTime.To(DateTime.Now), UserId = userId };
                     ac.Books.Add(f);
                     ac.SaveChanges();
                 }
@@ -293,27 +246,24 @@ namespace MySeenWeb.Controllers
             }
             if (!string.IsNullOrEmpty(errorMessage))
             {
-                return new JsonResult {Data = new {success = false, error = errorMessage}};
+                return new JsonResult { Data = new { success = false, error = errorMessage } };
             }
-            return Json(new {success = true});
+            return Json(new { success = true });
         }
-
         [Authorize]
         [HttpPost]
         public JsonResult EditBook(string id, string name, string authors, string genre, string rating)
         {
-            LogSave.Save(User.Identity.IsAuthenticated ? User.Identity.GetUserId() : "", Request.UserHostAddress,
-                Request.UserAgent, "Home/EditBook", id);
-            var errorMessage = string.Empty;
-            var userId = User.Identity.GetUserId();
+            LogSave.Save(User.Identity.IsAuthenticated ? User.Identity.GetUserId() : "", Request.UserHostAddress, Request.UserAgent, "Home/EditBook", id);
+            string errorMessage = string.Empty;
+            string userId = User.Identity.GetUserId();
             if (string.IsNullOrEmpty(errorMessage))
             {
                 if (string.IsNullOrEmpty(name)) errorMessage = Resource.EnterBookName;
             }
-            var ac = new ApplicationDbContext();
-            var iid = Convert.ToInt32(id);
-            if (ac.Books.Count(f => f.Name == name && f.UserId == userId && f.Id != iid) != 0)
-                //айди проверяем только для редактируемых, чтобы не налететь по названию на чужой
+            ApplicationDbContext ac = new ApplicationDbContext();
+            int iid = (Convert.ToInt32(id));
+            if (ac.Books.Count(f => f.Name == name && f.UserId == userId && f.Id != iid) != 0)//айди проверяем только для редактируемых, чтобы не налететь по названию на чужой
             {
                 errorMessage = Resource.BookNameAlreadyExists;
             }
@@ -321,12 +271,12 @@ namespace MySeenWeb.Controllers
             {
                 try
                 {
-                    var film = ac.Books.First(f => f.UserId == userId && f.Id == iid);
+                    Books film = ac.Books.First(f => f.UserId == userId && f.Id == iid);
                     film.Name = name;
                     film.Authors = authors;
                     film.Genre = Convert.ToInt32(genre);
                     film.Rating = Convert.ToInt32(rating);
-                    film.DateChange = UmtTime.To(DateTime.Now);
+                    film.DateChange = UMTTime.To(DateTime.Now);
                     ac.SaveChanges();
                 }
                 catch (Exception e)
@@ -336,27 +286,25 @@ namespace MySeenWeb.Controllers
             }
             if (!string.IsNullOrEmpty(errorMessage))
             {
-                return new JsonResult {Data = new {success = false, error = errorMessage}};
+                return new JsonResult { Data = new { success = false, error = errorMessage } };
             }
-            return Json(new {success = true});
+            return Json(new { success = true });
         }
-
         [Authorize]
         [HttpPost]
         public JsonResult DeleteFilm(string id)
         {
-            LogSave.Save(User.Identity.IsAuthenticated ? User.Identity.GetUserId() : "", Request.UserHostAddress,
-                Request.UserAgent, "Home/DeleteFilm", id);
-            var errorMessage = string.Empty;
-            var userId = User.Identity.GetUserId();
-            var ac = new ApplicationDbContext();
-            var iid = Convert.ToInt32(id);
+            LogSave.Save(User.Identity.IsAuthenticated ? User.Identity.GetUserId() : "", Request.UserHostAddress, Request.UserAgent, "Home/DeleteFilm", id);
+            string errorMessage = string.Empty;
+            string userId = User.Identity.GetUserId();
+            ApplicationDbContext ac = new ApplicationDbContext();
+            int iid = (Convert.ToInt32(id));
 
             if (string.IsNullOrEmpty(errorMessage))
             {
                 try
                 {
-                    var film = ac.Films.First(f => f.UserId == userId && f.Id == iid);
+                    Films film = ac.Films.First(f => f.UserId == userId && f.Id == iid);
                     film.isDeleted = true;
                     ac.SaveChanges();
                 }
@@ -367,27 +315,25 @@ namespace MySeenWeb.Controllers
             }
             if (!string.IsNullOrEmpty(errorMessage))
             {
-                return new JsonResult {Data = new {success = false, error = errorMessage}};
+                return new JsonResult { Data = new { success = false, error = errorMessage } };
             }
-            return Json(new {success = true});
+            return Json(new { success = true });
         }
-
         [Authorize]
         [HttpPost]
         public JsonResult DeleteSerial(string id)
         {
-            LogSave.Save(User.Identity.IsAuthenticated ? User.Identity.GetUserId() : "", Request.UserHostAddress,
-                Request.UserAgent, "Home/DeleteSerial", id);
-            var errorMessage = string.Empty;
-            var userId = User.Identity.GetUserId();
-            var ac = new ApplicationDbContext();
-            var iid = Convert.ToInt32(id);
+            LogSave.Save(User.Identity.IsAuthenticated ? User.Identity.GetUserId() : "", Request.UserHostAddress, Request.UserAgent, "Home/DeleteSerial", id);
+            string errorMessage = string.Empty;
+            string userId = User.Identity.GetUserId();
+            ApplicationDbContext ac = new ApplicationDbContext();
+            int iid = (Convert.ToInt32(id));
 
             if (string.IsNullOrEmpty(errorMessage))
             {
                 try
                 {
-                    var film = ac.Serials.First(f => f.UserId == userId && f.Id == iid);
+                    Serials film = ac.Serials.First(f => f.UserId == userId && f.Id == iid);
                     film.isDeleted = true;
                     ac.SaveChanges();
                 }
@@ -398,27 +344,25 @@ namespace MySeenWeb.Controllers
             }
             if (!string.IsNullOrEmpty(errorMessage))
             {
-                return new JsonResult {Data = new {success = false, error = errorMessage}};
+                return new JsonResult { Data = new { success = false, error = errorMessage } };
             }
-            return Json(new {success = true});
+            return Json(new { success = true });
         }
-
         [Authorize]
         [HttpPost]
         public JsonResult DeleteBook(string id)
         {
-            LogSave.Save(User.Identity.IsAuthenticated ? User.Identity.GetUserId() : "", Request.UserHostAddress,
-                Request.UserAgent, "Home/DeleteBook", id);
-            var errorMessage = string.Empty;
-            var userId = User.Identity.GetUserId();
-            var ac = new ApplicationDbContext();
-            var iid = Convert.ToInt32(id);
+            LogSave.Save(User.Identity.IsAuthenticated ? User.Identity.GetUserId() : "", Request.UserHostAddress, Request.UserAgent, "Home/DeleteBook", id);
+            string errorMessage = string.Empty;
+            string userId = User.Identity.GetUserId();
+            ApplicationDbContext ac = new ApplicationDbContext();
+            int iid = (Convert.ToInt32(id));
 
             if (string.IsNullOrEmpty(errorMessage))
             {
                 try
                 {
-                    var film = ac.Books.First(f => f.UserId == userId && f.Id == iid);
+                    Books film = ac.Books.First(f => f.UserId == userId && f.Id == iid);
                     film.isDeleted = true;
                     ac.SaveChanges();
                 }
@@ -429,19 +373,17 @@ namespace MySeenWeb.Controllers
             }
             if (!string.IsNullOrEmpty(errorMessage))
             {
-                return new JsonResult {Data = new {success = false, error = errorMessage}};
+                return new JsonResult { Data = new { success = false, error = errorMessage } };
             }
-            return Json(new {success = true});
+            return Json(new { success = true });
         }
-
         [Authorize]
         [HttpPost]
         public JsonResult AddImprovement(string desc, string complex)
         {
-            LogSave.Save(User.Identity.IsAuthenticated ? User.Identity.GetUserId() : "", Request.UserHostAddress,
-                Request.UserAgent, "Home/AddImprovement", desc);
-            var errorMessage = string.Empty;
-            var ac = new ApplicationDbContext();
+            LogSave.Save(User.Identity.IsAuthenticated ? User.Identity.GetUserId() : "", Request.UserHostAddress, Request.UserAgent, "Home/AddImprovement", desc);
+            string errorMessage = string.Empty;
+            ApplicationDbContext ac = new ApplicationDbContext();
             if (string.IsNullOrEmpty(errorMessage))
             {
                 if (desc.Length == 0)
@@ -449,7 +391,7 @@ namespace MySeenWeb.Controllers
                     errorMessage = Resource.DescToShort;
                 }
             }
-            var id = -1;
+            int id = -1;
             if (string.IsNullOrEmpty(errorMessage))
             {
                 try
@@ -473,13 +415,7 @@ namespace MySeenWeb.Controllers
             {
                 try
                 {
-                    ac.Bugs.Add(new Bugs
-                    {
-                        Text = desc,
-                        DateFound = DateTime.Now,
-                        UserId = User.Identity.GetUserId(),
-                        Complex = id
-                    });
+                    ac.Bugs.Add(new Bugs { Text = desc, DateFound = DateTime.Now, UserId = User.Identity.GetUserId(), Complex = id });
                     ac.SaveChanges();
                 }
                 catch (Exception e)
@@ -489,21 +425,19 @@ namespace MySeenWeb.Controllers
             }
             if (!string.IsNullOrEmpty(errorMessage))
             {
-                return new JsonResult {Data = new {success = false, error = errorMessage}};
+                return new JsonResult { Data = new { success = false, error = errorMessage } };
             }
-            return Json(new {success = true});
+            return Json(new { success = true });
         }
-
         [Authorize]
         [HttpPost]
         public JsonResult EndImprovement(string id, string desc, string version)
         {
-            LogSave.Save(User.Identity.IsAuthenticated ? User.Identity.GetUserId() : "", Request.UserHostAddress,
-                Request.UserAgent, "Home/EndImprovement", id + " " + desc + " " + version);
-            var errorMessage = string.Empty;
-            var ac = new ApplicationDbContext();
+            LogSave.Save(User.Identity.IsAuthenticated ? User.Identity.GetUserId() : "", Request.UserHostAddress, Request.UserAgent, "Home/EndImprovement", id + " " + desc + " " + version);
+            string errorMessage = string.Empty;
+            ApplicationDbContext ac = new ApplicationDbContext();
             var _id = -1;
-            var _version = -1;
+            int _version = -1;
             if (string.IsNullOrEmpty(errorMessage))
             {
                 if (desc.Length == 0)
@@ -552,20 +486,18 @@ namespace MySeenWeb.Controllers
             }
             if (!string.IsNullOrEmpty(errorMessage))
             {
-                return new JsonResult {Data = new {success = false, error = errorMessage}};
+                return new JsonResult { Data = new { success = false, error = errorMessage } };
             }
-            return Json(new {success = true});
+            return Json(new { success = true });
         }
-
         [Authorize]
         [HttpPost]
         public JsonResult DeleteImprovement(string id)
         {
-            LogSave.Save(User.Identity.IsAuthenticated ? User.Identity.GetUserId() : "", Request.UserHostAddress,
-                Request.UserAgent, "Home/DeleteImprovement", id);
-            var errorMessage = string.Empty;
-            var ac = new ApplicationDbContext();
-            var _id = 0;
+            LogSave.Save(User.Identity.IsAuthenticated ? User.Identity.GetUserId() : "", Request.UserHostAddress, Request.UserAgent, "Home/DeleteImprovement", id);
+            string errorMessage = string.Empty;
+            ApplicationDbContext ac = new ApplicationDbContext();
+            int _id = 0;
             if (string.IsNullOrEmpty(errorMessage))
             {
                 _id = Convert.ToInt32(id);
@@ -592,85 +524,73 @@ namespace MySeenWeb.Controllers
             }
             if (!string.IsNullOrEmpty(errorMessage))
             {
-                return new JsonResult {Data = new {success = false, error = errorMessage}};
+                return new JsonResult { Data = new { success = false, error = errorMessage } };
             }
-            return Json(new {success = true});
+            return Json(new { success = true });
         }
-
         [Authorize]
         public ActionResult GetTrack(int id)
         {
             if (User.Identity.IsAuthenticated)
             {
                 //TracksViewModel model = new TracksViewModel();
-                return Json(TracksViewModel.GetTrack(id, User.Identity.GetUserId()), JsonRequestBehavior.AllowGet);
+                return Json(HomeViewModelTracks.GetTrack(id, User.Identity.GetUserId()), JsonRequestBehavior.AllowGet);
             }
             return RedirectToAction("Index");
         }
-
         [Authorize]
         public ActionResult GetTrackNameById(int id)
         {
             if (User.Identity.IsAuthenticated)
             {
-                return Json(TracksViewModel.GetTrackNameById(id, User.Identity.GetUserId()),
-                    JsonRequestBehavior.AllowGet);
+                return Json(HomeViewModelTracks.GetTrackNameById(id, User.Identity.GetUserId()), JsonRequestBehavior.AllowGet);
             }
             return RedirectToAction("Index");
         }
-
         [Authorize]
         public ActionResult GetTrackShare(string id)
         {
             if (User.Identity.IsAuthenticated)
             {
-                return Json(TracksViewModel.GetTrackShare(id, User.Identity.GetUserId()),
-                    JsonRequestBehavior.AllowGet);
+                return Json(HomeViewModelTracks.GetTrackShare(id, User.Identity.GetUserId()), JsonRequestBehavior.AllowGet);
             }
             return RedirectToAction("Index");
         }
-
         [Authorize]
         public ActionResult GenerateTrackShare(string id)
         {
             if (User.Identity.IsAuthenticated)
             {
-                return Json(TracksViewModel.GenerateTrackShare(id, User.Identity.GetUserId()),
-                    JsonRequestBehavior.AllowGet);
+                return Json(HomeViewModelTracks.GenerateTrackShare(id, User.Identity.GetUserId()), JsonRequestBehavior.AllowGet);
             }
             return RedirectToAction("Index");
         }
-
         [Authorize]
         public ActionResult DeleteTrackShare(string id)
         {
             if (User.Identity.IsAuthenticated)
             {
-                TracksViewModel.DeleteTrackShare(id, User.Identity.GetUserId());
-                return Json(new {success = true}, JsonRequestBehavior.AllowGet);
+                HomeViewModelTracks.DeleteTrackShare(id, User.Identity.GetUserId());
+                return Json(new { success = true }, JsonRequestBehavior.AllowGet);
             }
             return RedirectToAction("Index");
         }
-
         [Authorize]
         public ActionResult GetTrackCoordinatesById(int id)
         {
             if (User.Identity.IsAuthenticated)
             {
-                return Json(TracksViewModel.GetTrackCoordinatesById(id, User.Identity.GetUserId()),
-                    JsonRequestBehavior.AllowGet);
+                return Json(HomeViewModelTracks.GetTrackCoordinatesById(id, User.Identity.GetUserId()), JsonRequestBehavior.AllowGet);
             }
             return RedirectToAction("Index");
         }
-
         [Authorize]
         [HttpPost]
         public JsonResult AddTrack(string name, string type, string coordinates, string distance)
         {
-            LogSave.Save(User.Identity.IsAuthenticated ? User.Identity.GetUserId() : "", Request.UserHostAddress,
-                Request.UserAgent, "Home/AddTrack", name);
-            var errorMessage = string.Empty;
-            var ac = new ApplicationDbContext();
+            LogSave.Save(User.Identity.IsAuthenticated ? User.Identity.GetUserId() : "", Request.UserHostAddress, Request.UserAgent, "Home/AddTrack", name);
+            string errorMessage = string.Empty;
+            ApplicationDbContext ac = new ApplicationDbContext();
 
             //errorMessage = "name=" + name + " type=" + type + " coordinates=" + coordinates + " distance=" + distance;
 
@@ -681,7 +601,7 @@ namespace MySeenWeb.Controllers
                     errorMessage = "Короткое название";
                 }
             }
-            var id = -1;
+            int id = -1;
             if (string.IsNullOrEmpty(errorMessage))
             {
                 try
@@ -711,7 +631,7 @@ namespace MySeenWeb.Controllers
             double _distance = -1;
             if (string.IsNullOrEmpty(errorMessage))
             {
-                var sDistance = distance;
+                string sDistance = distance;
                 if (distance.Contains('.'))
                 {
                     //if (distance.Length > (distance.IndexOf('.') + 1 + 4))
@@ -733,22 +653,14 @@ namespace MySeenWeb.Controllers
             {
                 if (!distance.Split(';').Any() || distance.Split(';').Count() > 100)
                 {
-                    errorMessage = "Ошибка колличества координат =" + distance.Split(';').Count();
+                    errorMessage = "Ошибка колличества координат =" + distance.Split(';').Count().ToString();
                 }
             }
             if (string.IsNullOrEmpty(errorMessage))
             {
                 try
                 {
-                    ac.Tracks.Add(new Tracks
-                    {
-                        UserId = User.Identity.GetUserId(),
-                        Type = id,
-                        Coordinates = coordinates,
-                        Date = DateTime.Now,
-                        Name = name,
-                        Distance = _distance
-                    });
+                    ac.Tracks.Add(new Tracks { UserId = User.Identity.GetUserId(), Type = id, Coordinates = coordinates, Date = DateTime.Now, Name = name, Distance = _distance });
                     ac.SaveChanges();
                 }
                 catch (Exception e)
@@ -758,19 +670,17 @@ namespace MySeenWeb.Controllers
             }
             if (!string.IsNullOrEmpty(errorMessage))
             {
-                return new JsonResult {Data = new {success = false, error = errorMessage}};
+                return new JsonResult { Data = new { success = false, error = errorMessage } };
             }
-            return Json(new {success = true});
+            return Json(new { success = true });
         }
-
         [Authorize]
         [HttpPost]
         public JsonResult EditTrack(int id, string name, string type, string coordinates, string distance)
         {
-            LogSave.Save(User.Identity.IsAuthenticated ? User.Identity.GetUserId() : "", Request.UserHostAddress,
-                Request.UserAgent, "Home/EditTrack", name);
-            var errorMessage = string.Empty;
-            var ac = new ApplicationDbContext();
+            LogSave.Save(User.Identity.IsAuthenticated ? User.Identity.GetUserId() : "", Request.UserHostAddress, Request.UserAgent, "Home/EditTrack", name);
+            string errorMessage = string.Empty;
+            ApplicationDbContext ac = new ApplicationDbContext();
 
             //errorMessage = "id="+id.ToString()+" name=" + name + " type=" + type + " coordinates=" + coordinates + " distance=" + distance;
 
@@ -781,7 +691,7 @@ namespace MySeenWeb.Controllers
                     errorMessage = "Короткое название";
                 }
             }
-            var _id = -1;
+            int _id = -1;
             if (string.IsNullOrEmpty(errorMessage))
             {
                 try
@@ -811,7 +721,7 @@ namespace MySeenWeb.Controllers
             double _distance = -1;
             if (string.IsNullOrEmpty(errorMessage))
             {
-                var sDistance = distance;
+                string sDistance = distance;
                 if (distance.Contains('.'))
                 {
                     //if (distance.Length > (distance.IndexOf('.') + 1 + 4))
@@ -833,15 +743,15 @@ namespace MySeenWeb.Controllers
             {
                 if (!distance.Split(';').Any() || distance.Split(';').Count() > 100)
                 {
-                    errorMessage = "Ошибка колличества координат =" + distance.Split(';').Count();
+                    errorMessage = "Ошибка колличества координат =" + distance.Split(';').Count().ToString();
                 }
             }
             if (string.IsNullOrEmpty(errorMessage))
             {
                 try
                 {
-                    var user = User.Identity.GetUserId();
-                    var track = ac.Tracks.First(t => t.Id == id && t.UserId == user);
+                    string user = User.Identity.GetUserId();
+                    Tracks track = ac.Tracks.First(t => t.Id == id && t.UserId == user);
                     track.Name = name;
                     track.Type = _id;
                     track.Coordinates = coordinates;
@@ -855,50 +765,42 @@ namespace MySeenWeb.Controllers
             }
             if (!string.IsNullOrEmpty(errorMessage))
             {
-                return new JsonResult {Data = new {success = false, error = errorMessage}};
+                return new JsonResult { Data = new { success = false, error = errorMessage } };
             }
-            return Json(new {success = true});
+            return Json(new { success = true });
         }
-
         [BrowserActionFilter]
         public ActionResult Home()
         {
-            WriteCookie(CookieKeys.HomeCategory,
-                ReadCookie(CookieKeys.HomeCategoryPrev, Defaults.CategoryBase.FilmIndex));
+            WriteCookie(CookieKeys.HomeCategory, ReadCookie(CookieKeys.HomeCategoryPrev, Defaults.CategoryBase.FilmIndex));
             return RedirectToAction("Index");
         }
-
         [BrowserActionFilter]
         [Authorize]
         public ActionResult Logs()
         {
             if (!HomeViewModel.IsCategoryExt(ReadCookie(CookieKeys.HomeCategory, Defaults.CategoryBase.FilmIndex)))
-                WriteCookie(CookieKeys.HomeCategoryPrev,
-                    ReadCookie(CookieKeys.HomeCategory, Defaults.CategoryBase.FilmIndex));
-            WriteCookie(CookieKeys.HomeCategory, (int) HomeViewModel.CategoryExt.Logs);
+                WriteCookie(CookieKeys.HomeCategoryPrev, ReadCookie(CookieKeys.HomeCategory, Defaults.CategoryBase.FilmIndex));
+            WriteCookie(CookieKeys.HomeCategory, (int)HomeViewModel.CategoryExt.Logs);
             return RedirectToAction("Index");
         }
-
         [BrowserActionFilter]
         [Authorize]
         public ActionResult Users()
         {
             if (!HomeViewModel.IsCategoryExt(ReadCookie(CookieKeys.HomeCategory, Defaults.CategoryBase.FilmIndex)))
-                WriteCookie(CookieKeys.HomeCategoryPrev,
-                    ReadCookie(CookieKeys.HomeCategory, Defaults.CategoryBase.FilmIndex));
+                WriteCookie(CookieKeys.HomeCategoryPrev, ReadCookie(CookieKeys.HomeCategory, Defaults.CategoryBase.FilmIndex));
 
-            WriteCookie(CookieKeys.HomeCategory, (int) HomeViewModel.CategoryExt.Users);
+            WriteCookie(CookieKeys.HomeCategory, (int)HomeViewModel.CategoryExt.Users);
             return RedirectToAction("Index");
         }
-
         [BrowserActionFilter]
         [Authorize]
         public ActionResult Improvements()
         {
             if (!HomeViewModel.IsCategoryExt(ReadCookie(CookieKeys.HomeCategory, Defaults.CategoryBase.FilmIndex)))
-                WriteCookie(CookieKeys.HomeCategoryPrev,
-                    ReadCookie(CookieKeys.HomeCategory, Defaults.CategoryBase.FilmIndex));
-            WriteCookie(CookieKeys.HomeCategory, (int) HomeViewModel.CategoryExt.Improvements);
+                WriteCookie(CookieKeys.HomeCategoryPrev, ReadCookie(CookieKeys.HomeCategory, Defaults.CategoryBase.FilmIndex));
+            WriteCookie(CookieKeys.HomeCategory, (int)HomeViewModel.CategoryExt.Improvements);
             return RedirectToAction("Index");
         }
     }

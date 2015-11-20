@@ -1,23 +1,24 @@
-﻿.gmap {
-    border: 1px dashed #C0C0C0;
-    margin: 20px auto;
-    width: 100%;
+﻿.gmap{
+        margin: 20px auto;
+        border: 1px dashed #C0C0C0;
+        width: 100%;
+ }
+.page-size-gmap
+{
+        height: 600px;
+        max-height: 600px; 
 }
-
-.page-size-gmap {
-    height: 600px;
-    max-height: 600px;
+.page-scrolable
+{
+        overflow-y: scroll;
 }
-
-.page-scrolable { overflow-y: scroll; }
 
 body {
-    padding-bottom: 20px;
     padding-top: 50px;
+    padding-bottom: 20px;
 }
 
 /* Set padding to keep content from hitting the edges */
-
 .body-content {
     padding-left: 15px;
     padding-right: 15px;
@@ -26,37 +27,43 @@ body {
 /* Override the default bootstrap behavior where horizontal description lists 
    will truncate terms that are too long to fit in the left column 
 */
-
-.dl-horizontal dt { white-space: normal; }
+.dl-horizontal dt {
+    white-space: normal;
+}
 
 /* Set width on the form input elements since they're 100% wide by default */
-
 input,
 select,
-textarea { max-width: 280px; }
+textarea {
+    max-width: 280px;
+}
 
 /* TABLE ----------------------------------------------------------*/
-
-table {
-    border: solid 1px #e8eef4;
-    border-collapse: collapse;
+table 
+{
+  border: solid 1px #e8eef4;
+  border-collapse: collapse;
+}
+table td 
+{
+  padding: 5px;   
+  border: solid 1px #e8eef4;
+  vertical-align: inherit;
+}
+table th
+{
+  padding: 6px 5px;
+  text-align: center;
+  background-color: #e8eef4; 
+  border: solid 1px #e8eef4;   
+  vertical-align: inherit;
+  font-weight: bold;
 }
 
-table td {
-    border: solid 1px #e8eef4;
-    padding: 5px;
-    vertical-align: inherit;
+.align-center {
+text-align: center;
 }
 
-table th {
-    background-color: #e8eef4;
-    border: solid 1px #e8eef4;
-    font-weight: bold;
-    padding: 6px 5px;
-    text-align: center;
-    vertical-align: inherit;
+.align-left {
+text-align: left;
 }
-
-.align-center { text-align: center; }
-
-.align-left { text-align: left; }

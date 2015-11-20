@@ -1,65 +1,68 @@
-﻿@using MySeenWeb.Models.TablesViews
-@model MySeenWeb.Models.HomeModels.Ext.LogsViewModel
+﻿@using MySeenWeb.Models;
+@using MySeenWeb.Models.TablesViews
+
+@model HomeViewModelLogs
 
 @Scripts.Render("~/bundles/jquery", "~/bundles/bootstrap", "~/bundles/myseen")
 
 @{
     ViewBag.Title = Resource.Logs;
 }
-<br/>
+<br />
 
 <table class="table table-striped" id="table">
     <thead>
-    <tr>
-        <th class="col-sm-1">@Resource.UserName</th>
-        <th class="col-sm-2">@Resource.UserAgent</th>
-        <th class="col-sm-1">@Resource.IPAdress</th>
-        <th class="col-sm-1">@Resource.FirstCall</th>
-        <th class="col-sm-1">@Resource.DateLast</th>
-        <th class="col-sm-1">@Resource.Amount</th>
-        <th class="col-sm-1">@Resource.PageName</th>
-        <th class="col-sm-4">@Resource.AddData</th>
-    </tr>
+        <tr>
+            <th class="col-sm-1">@Resource.UserName</th>
+            <th class="col-sm-2">@Resource.UserAgent</th>
+            <th class="col-sm-1">@Resource.IPAdress</th>
+            <th class="col-sm-1">@Resource.FirstCall</th>
+            <th class="col-sm-1">@Resource.DateLast</th>
+            <th class="col-sm-1">@Resource.Amount</th>
+            <th class="col-sm-1">@Resource.PageName</th>
+            <th class="col-sm-4">@Resource.AddData</th>
+        </tr>
     </thead>
     <tbody>
-    @foreach (LogsView log in Model.Logs)
-    {
-        <tr>
-            <td class="align-center">@log.UserName</td>
-            <td class="align-center">@log.UserAgent</td>
-            <td class="align-center">@log.IPAdress</td>
-            <td class="align-center">@log.DateFirst</td>
-            <td class="align-center">@log.DateLast</td>
-            <td class="align-center">@log.Count</td>
-            <td class="align-center">@log.PageName</td>
-            <td class="align-center">
-                @if (!string.IsNullOrEmpty(log.AddData))
-                {
-                    if (!log.AddData.Contains("!%!"))
-                    {
-                        @log.AddData
-                    }
+        @foreach (LogsView log in Model.Logs)
+        {
+            <tr>
+                <td class="align-center">@log.UserName</td>
+                <td class="align-center">@log.UserAgent</td>
+                <td class="align-center">@log.IPAdress</td>
+                <td class="align-center">@log.DateFirst</td>
+                <td class="align-center">@log.DateLast</td>
+                <td class="align-center">@log.Count</td>
+                <td class="align-center">@log.PageName</td>
+                <td class="align-center">
+                    @if (!string.IsNullOrEmpty(log.AddData))
+                    { 
+                        if(!log.AddData.Contains("!%!"))
+                        {
+                            @log.AddData
+                        }
+                        else
+                        {
+                            log.AddData=log.AddData.Replace("_", " ");
+                            log.AddData=log.AddData.Replace("!%!", "_");
+                            foreach(string s in log.AddData.Split('_'))
+                            {
+                                @s
+                                <br />
+                            }
+                        } 
+                    }   
                     else
                     {
-                        log.AddData = log.AddData.Replace("_", " ");
-                        log.AddData = log.AddData.Replace("!%!", "_");
-                        foreach (var s in log.AddData.Split('_'))
-                        {
-                            @s
-                            <br/>
-                        }
-                    }
-                }
-                else
-                {
-                    @log.AddData
-                }
-            </td>
-        </tr>
-    }
+                        @log.AddData
+                    }      
+                </td>
+            </tr>
+        }
     </tbody>
 </table>
 
 <div class="text-center">
     @Html.Partial("Parts/Tools/Pagination", Model.Pages)
 </div>
+

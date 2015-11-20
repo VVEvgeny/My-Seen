@@ -1,9 +1,7 @@
 ﻿using Microsoft.Owin;
-using MySeenWeb;
 using Owin;
 
-[assembly: OwinStartup(typeof (Startup))]
-
+[assembly: OwinStartupAttribute(typeof(MySeenWeb.Startup))]
 namespace MySeenWeb
 {
     public partial class Startup

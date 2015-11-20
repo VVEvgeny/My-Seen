@@ -1,17 +1,22 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Data;
+using System.Drawing;
 using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 using System.Windows.Forms;
 using MySeenLib;
-using My_Seen.Properties;
 
 namespace My_Seen
 {
-    public partial class MainForm : Form
+    public partial class Main_Form : Form
     {
-        public MainForm()
+        public Main_Form()
         {
             InitializeComponent();
-            IsRestart = false;
+            isRestart = false;
         }
         private void button1_Click(object sender, EventArgs e)
         {
@@ -23,23 +28,23 @@ namespace My_Seen
         {
             comboBox1.Items.Clear();
             ModelContainer mc = new ModelContainer();
-            // ReSharper disable once CoVariantArrayConversion
-            comboBox1.Items.AddRange(items: mc.UsersSet.OrderByDescending(u => u.CreationDate).Select(u => u.Name).ToArray());
+            comboBox1.Items.AddRange(mc.UsersSet.OrderByDescending(u => u.CreationDate).Select(u => u.Name).ToArray());
             if (comboBox1.Items.Count != 0) comboBox1.Text = comboBox1.Items[0].ToString();
         }
         private void Form1_Load(object sender, EventArgs e)
         {
-            comboBox2.Text = CultureInfoTool.GetCulture() == CultureInfoTool.Cultures.English ? comboBox2.Items[0].ToString() : comboBox2.Items[1].ToString();
+            if (CultureInfoTool.GetCulture() == CultureInfoTool.Cultures.English) comboBox2.Text = comboBox2.Items[0].ToString();
+            else comboBox2.Text = comboBox2.Items[1].ToString();
 
             Load_Users();
         }
 
-        private bool _noClose;
+        private bool no_close = false;
         private void ReloadAfterUserDelete()
         {
             textBox2.Text = "";
             comboBox1.Text = "";
-            _noClose = true;
+            no_close = true;
             Load_Users();
         }
         private void button2_Click(object sender, EventArgs e)
@@ -63,19 +68,20 @@ namespace My_Seen
             {
                 if (string.IsNullOrEmpty(errorProvider.GetError(comboBox1))) errorProvider.SetError(comboBox1, Resource.UserNotExist);
             }
-            if(user!=null && !Md5Tools.VerifyMd5Hash(textBox2.Text,user.Password))
+            if(user!=null && !MD5Tools.VerifyMd5Hash(textBox2.Text,user.Password))
             {
                 if (string.IsNullOrEmpty(errorProvider.GetError(textBox2))) errorProvider.SetError(textBox2, Resource.WrongPassword);
             }
-            if (!ErrorProviderTools.IsValid(errorProvider)) return;
+            if (!ErrorProviderTools.isValid(errorProvider)) return;
 
             Hide();
-            Data form = new Data {User = user};
-            _noClose = false;
-            form.NeedRestartAppAfterDeleteUserEvent.Event += ReloadAfterUserDelete;
+            Data form = new Data();
+            form.User = user;
+            no_close = false;
+            form.NeedRestartAppAfterDeleteUserEvent.Event += new MySeenEventHandler(ReloadAfterUserDelete);
             form.ShowDialog();
             form.Close();
-            if (!_noClose)
+            if (!no_close)
             {
                 Close();
             }
@@ -85,16 +91,16 @@ namespace My_Seen
             }
         }
 
-        public bool IsRestart;
+        public bool isRestart;
         private void comboBox2_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if (comboBox2.Text == Resources.Eng)
+            if (comboBox2.Text == "ENG")
             {
                 if (CultureInfoTool.SetCulture(CultureInfoTool.Cultures.English))
                 {
-                    Settings.Default.LastLanguage = CultureInfoTool.Cultures.English;
-                    Settings.Default.Save();
-                    IsRestart = true;
+                    Properties.Settings.Default.LastLanguage = CultureInfoTool.Cultures.English;
+                    Properties.Settings.Default.Save();
+                    isRestart = true;
                     Hide();
                 }
             }
@@ -102,9 +108,9 @@ namespace My_Seen
             {
                 if (CultureInfoTool.SetCulture(CultureInfoTool.Cultures.Russian))
                 {
-                    Settings.Default.LastLanguage = CultureInfoTool.Cultures.Russian;
-                    Settings.Default.Save();
-                    IsRestart = true;
+                    Properties.Settings.Default.LastLanguage = CultureInfoTool.Cultures.Russian;
+                    Properties.Settings.Default.Save();
+                    isRestart = true;
                     Hide();
                 }
             }

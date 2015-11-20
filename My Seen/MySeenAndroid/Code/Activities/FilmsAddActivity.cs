@@ -81,7 +81,7 @@ namespace MySeenAndroid
                         return;
                     }
 
-                    DatabaseHelper.Get.Add(new Films { Name = name_text.Text, DateChange = UmtTime.To(DateTime.Now), DateSee = UmtTime.To(DateTime.Now), Genre = comboboxgenre.SelectedItemPosition, Rating = comboboxrate.SelectedItemPosition });
+                    DatabaseHelper.Get.Add(new Films { Name = name_text.Text, DateChange = UMTTime.To(DateTime.Now), DateSee = UMTTime.To(DateTime.Now), Genre = comboboxgenre.SelectedItemPosition, Rating = comboboxrate.SelectedItemPosition });
                 }
                 else
                 {
@@ -91,7 +91,7 @@ namespace MySeenAndroid
                         tv_error.Text = MySeenLib.Resource.FilmNameAlreadyExists;
                         return;
                     }
-                    DatabaseHelper.Get.Update(new Films { Id = film.Id, Name = name_text.Text, DateChange = UmtTime.To(DateTime.Now), DateSee = film.DateSee, Genre = comboboxgenre.SelectedItemPosition, Rating = comboboxrate.SelectedItemPosition, Id_R = film.Id_R, isDeleted = film.isDeleted });
+                    DatabaseHelper.Get.Update(new Films { Id = film.Id, Name = name_text.Text, DateChange = UMTTime.To(DateTime.Now), DateSee = film.DateSee, Genre = comboboxgenre.SelectedItemPosition, Rating = comboboxrate.SelectedItemPosition, Id_R = film.Id_R, isDeleted = film.isDeleted });
                 }
                 var intent = new Intent(this, typeof(MainActivity));
                 SetResult(Result.Ok, intent);

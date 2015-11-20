@@ -1,6 +1,6 @@
 ﻿namespace My_Seen
 {
-    partial class AddBook
+    partial class Add_Book
     {
         /// <summary>
         /// Required designer variable.
@@ -29,7 +29,7 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(AddBook));
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Add_Book));
             this.label1 = new System.Windows.Forms.Label();
             this.textBox1 = new System.Windows.Forms.TextBox();
             this.dateTimePicker1 = new System.Windows.Forms.DateTimePicker();
@@ -156,7 +156,7 @@
             this.button2.UseVisualStyleBackColor = true;
             this.button2.Click += new System.EventHandler(this.button2_Click);
             // 
-            // AddBook
+            // Add_Book
             // 
             this.AcceptButton = this.button1;
             resources.ApplyResources(this, "$this");
@@ -176,7 +176,7 @@
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.Fixed3D;
             this.MaximizeBox = false;
             this.MinimizeBox = false;
-            this.Name = "AddBook";
+            this.Name = "Add_Book";
             this.ShowIcon = false;
             this.Load += new System.EventHandler(this.Add_Book_Load);
             ((System.ComponentModel.ISupportInitialize)(this.errorProvider)).EndInit();

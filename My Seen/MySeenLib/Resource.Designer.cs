@@ -1033,15 +1033,6 @@ namespace MySeenLib {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Record Per Page.
-        /// </summary>
-        public static string RecordPerPage {
-            get {
-                return ResourceManager.GetString("RecordPerPage", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Register.
         /// </summary>
         public static string Register {
@@ -1429,7 +1420,7 @@ namespace MySeenLib {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Web.
+        ///   Looks up a localized string similar to WEB.
         /// </summary>
         public static string WEB {
             get {

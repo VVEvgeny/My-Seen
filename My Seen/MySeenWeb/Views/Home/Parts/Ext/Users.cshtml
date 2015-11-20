@@ -1,39 +1,42 @@
-﻿@model MySeenWeb.Models.HomeModels.Ext.UsersViewModel
+﻿@using MySeenWeb.Models;
+
+@model HomeViewModelUsers
 
 @Scripts.Render("~/bundles/jquery", "~/bundles/bootstrap", "~/bundles/myseen.table")
 
 @{
     ViewBag.Title = Resource.Users;
 }
-<br/>
+<br />
 <table class="table table-striped" id="table">
     <thead>
-    <tr>
-        <th width="30%">@Resource.UserName</th>
-        <th width="20%">@Resource.RegisterDate</th>
-        <th width="10%">@Resource.CultureName</th>
-        <th width="10%">@Resource.FilmsCount</th>
-        <th width="10%">@Resource.SerialsCount</th>
-        <th width="10%">@Resource.BooksCount</th>
-        <th width="10%">@Resource.TracksCount</th>
-    </tr>
+        <tr>
+            <th width="30%">@Resource.UserName</th>
+            <th width="20%">@Resource.RegisterDate</th>
+            <th width="10%">@Resource.CultureName</th>
+            <th width="10%">@Resource.FilmsCount</th>
+            <th width="10%">@Resource.SerialsCount</th>
+            <th width="10%">@Resource.BooksCount</th>
+            <th width="10%">@Resource.TracksCount</th>
+        </tr>
     </thead>
     <tbody>
-    @foreach (var user in Model.Users)
-    {
-        <tr>
-            <td class="align-center">@user.Name</td>
-            <td class="align-center">@user.RegiserDate</td>
-            <td class="align-center">@user.Culture</td>
-            <td class="align-center">@user.FilmsCount</td>
-            <td class="align-center">@user.SerialsCount</td>
-            <td class="align-center">@user.BooksCount</td>
-            <td class="align-center">@user.TracksCount</td>
-        </tr>
-    }
+        @foreach (UsersView user in Model.Users)
+        {
+            <tr>
+                <td class="align-center">@user.Name</td>
+                <td class="align-center">@user.RegiserDate</td>
+                <td class="align-center">@user.Culture</td>
+                <td class="align-center">@user.FilmsCount</td>
+                <td class="align-center">@user.SerialsCount</td>
+                <td class="align-center">@user.BooksCount</td>
+                <td class="align-center">@user.TracksCount</td>
+            </tr>
+        }
     </tbody>
 </table>
 
 <div class="text-center">
     @Html.Partial("Parts/Tools/Pagination", Model.Pages)
 </div>
+

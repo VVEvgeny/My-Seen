@@ -1,9 +1,9 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System.Web.Http;
+using MySeenWeb.Models;
 using MySeenLib;
-using MySeenWeb.Models.Database;
-using MySeenWeb.Models.Database.Tables;
+using MySeenWeb.Models.Tables;
 using MySeenWeb.Models.Tools;
 
 namespace MySeenWeb.Controllers
@@ -16,17 +16,16 @@ namespace MySeenWeb.Controllers
 
             return new MySeenWebApi.SyncJsonData
             {
-                DataMode = (int) MySeenWebApi.DataModes.Film,
+                DataMode = (int)MySeenWebApi.DataModes.Film,
                 Id = model.Id,
                 Name = model.Name,
                 DateChange = model.DateChange,
                 DateSee = model.DateSee,
                 Genre = model.Genre,
                 Rating = model.Rating,
-                IsDeleted = model.isDeleted
+                isDeleted = model.isDeleted
             };
         }
-
         public static Films MapToFilm(MySeenWebApi.SyncJsonData model, string userId)
         {
             if (model == null) return new Films();
@@ -38,18 +37,17 @@ namespace MySeenWeb.Controllers
                 DateSee = model.DateSee,
                 Genre = model.Genre,
                 Rating = model.Rating,
-                isDeleted = model.IsDeleted,
+                isDeleted = model.isDeleted,
                 UserId = userId
             };
         }
-
         public static MySeenWebApi.SyncJsonData Map(Serials model)
         {
             if (model == null) return new MySeenWebApi.SyncJsonData();
 
             return new MySeenWebApi.SyncJsonData
             {
-                DataMode = (int) MySeenWebApi.DataModes.Serial,
+                DataMode = (int)MySeenWebApi.DataModes.Serial,
                 Id = model.Id,
                 Name = model.Name,
                 DateChange = model.DateChange,
@@ -59,10 +57,9 @@ namespace MySeenWeb.Controllers
                 DateLast = model.DateLast,
                 LastSeason = model.LastSeason,
                 LastSeries = model.LastSeries,
-                IsDeleted = model.isDeleted
+                isDeleted = model.isDeleted
             };
         }
-
         public static Serials MapToSerial(MySeenWebApi.SyncJsonData model, string userId)
         {
             if (model == null) return new Serials();
@@ -77,29 +74,27 @@ namespace MySeenWeb.Controllers
                 DateLast = model.DateLast,
                 LastSeason = model.LastSeason,
                 LastSeries = model.LastSeries,
-                isDeleted = model.IsDeleted,
+                isDeleted = model.isDeleted,
                 UserId = userId
             };
         }
-
         public static MySeenWebApi.SyncJsonData Map(Books model)
         {
             if (model == null) return new MySeenWebApi.SyncJsonData();
 
             return new MySeenWebApi.SyncJsonData
             {
-                DataMode = (int) MySeenWebApi.DataModes.Book,
+                DataMode = (int)MySeenWebApi.DataModes.Book,
                 Id = model.Id,
                 Name = model.Name,
                 DateChange = model.DateChange,
                 Genre = model.Genre,
                 Rating = model.Rating,
-                IsDeleted = model.isDeleted,
+                isDeleted = model.isDeleted,
                 Authors = model.Authors,
                 DateRead = model.DateRead
             };
         }
-
         public static Books MapToBook(MySeenWebApi.SyncJsonData model, string userId)
         {
             if (model == null) return new Books();
@@ -113,57 +108,47 @@ namespace MySeenWeb.Controllers
                 UserId = userId,
                 Authors = model.Authors,
                 DateRead = model.DateRead,
-                isDeleted = model.IsDeleted
+                isDeleted = model.isDeleted
             };
         }
-
         public string GetUserId(string userKey)
         {
-            var ac = new ApplicationDbContext();
+            ApplicationDbContext ac = new ApplicationDbContext();
             if (ac.Users.Any(u => u.UniqueKey == userKey))
             {
                 return ac.Users.First(u => u.UniqueKey == userKey).Id;
             }
             return string.Empty;
         }
-
         public IHttpActionResult Get()
         {
-            return Ok(new MySeenWebApi.SyncJsonAnswer {Value = MySeenWebApi.SyncJsonAnswer.Values.BadRequestMode});
+            return Ok(new MySeenWebApi.SyncJsonAnswer { Value = MySeenWebApi.SyncJsonAnswer.Values.BadRequestMode });
         }
-
         public IHttpActionResult Get(string userKey)
         {
-            return Ok(new MySeenWebApi.SyncJsonAnswer {Value = MySeenWebApi.SyncJsonAnswer.Values.BadRequestMode});
+            return Ok(new MySeenWebApi.SyncJsonAnswer { Value = MySeenWebApi.SyncJsonAnswer.Values.BadRequestMode });
         }
-
         public IHttpActionResult Get(string userKey, int mode)
         {
-            return
-                Ok(new MySeenWebApi.SyncJsonAnswer {Value = MySeenWebApi.SyncJsonAnswer.Values.NoLongerSupportedVersion});
+            return Ok(new MySeenWebApi.SyncJsonAnswer { Value = MySeenWebApi.SyncJsonAnswer.Values.NoLongerSupportedVersion });
         }
-
         public IHttpActionResult Get(string userKey, int mode, int apiVersion)
         {
             LogSave.Save(userKey, string.Empty, string.Empty, "ApiSync/Get", mode.ToString());
             if (apiVersion != MySeenWebApi.ApiVersion)
             {
-                return
-                    Ok(new MySeenWebApi.SyncJsonAnswer
-                    {
-                        Value = MySeenWebApi.SyncJsonAnswer.Values.NoLongerSupportedVersion
-                    });
+                return Ok(new MySeenWebApi.SyncJsonAnswer { Value = MySeenWebApi.SyncJsonAnswer.Values.NoLongerSupportedVersion });
             }
 
-            var ac = new ApplicationDbContext();
-            var userId = GetUserId(userKey);
+            ApplicationDbContext ac = new ApplicationDbContext();
+            string userId = GetUserId(userKey);
             if (string.IsNullOrEmpty(userId))
             {
-                return Ok(new MySeenWebApi.SyncJsonAnswer {Value = MySeenWebApi.SyncJsonAnswer.Values.UserNotExist});
+                return Ok(new MySeenWebApi.SyncJsonAnswer { Value = MySeenWebApi.SyncJsonAnswer.Values.UserNotExist });
             }
-            if ((MySeenWebApi.SyncModesApiData) mode == MySeenWebApi.SyncModesApiData.GetAll)
+            if ((MySeenWebApi.SyncModesApiData)mode == MySeenWebApi.SyncModesApiData.GetAll)
             {
-                var film = new List<MySeenWebApi.SyncJsonData>();
+                List<MySeenWebApi.SyncJsonData> film = new List<MySeenWebApi.SyncJsonData>();
                 film.AddRange(ac.Films.Where(f => f.UserId == userId).Select(Map)
                     .Union(ac.Serials.Where(f => f.UserId == userId).Select(Map))
                     .Union(ac.Books.Where(f => f.UserId == userId).Select(Map)));
@@ -172,80 +157,67 @@ namespace MySeenWeb.Controllers
                 {
                     return Ok(film.AsEnumerable());
                 }
-                return Ok(new MySeenWebApi.SyncJsonAnswer {Value = MySeenWebApi.SyncJsonAnswer.Values.NoData});
+                return Ok(new MySeenWebApi.SyncJsonAnswer { Value = MySeenWebApi.SyncJsonAnswer.Values.NoData });
             }
-            return Ok(new MySeenWebApi.SyncJsonAnswer {Value = MySeenWebApi.SyncJsonAnswer.Values.BadRequestMode});
+            return Ok(new MySeenWebApi.SyncJsonAnswer { Value = MySeenWebApi.SyncJsonAnswer.Values.BadRequestMode });
         }
 
         [HttpPost]
         public IHttpActionResult Post()
         {
-            return Ok(new MySeenWebApi.SyncJsonAnswer {Value = MySeenWebApi.SyncJsonAnswer.Values.BadRequestMode});
+            return Ok(new MySeenWebApi.SyncJsonAnswer { Value = MySeenWebApi.SyncJsonAnswer.Values.BadRequestMode });
         }
-
         [HttpPost]
-        public IHttpActionResult Post([FromUri] string userKey)
+        public IHttpActionResult Post([FromUri]string userKey)
         {
-            return Ok(new MySeenWebApi.SyncJsonAnswer {Value = MySeenWebApi.SyncJsonAnswer.Values.BadRequestMode});
+            return Ok(new MySeenWebApi.SyncJsonAnswer { Value = MySeenWebApi.SyncJsonAnswer.Values.BadRequestMode });
         }
-
         [HttpPost]
-        public IHttpActionResult Post([FromUri] string userKey, [FromUri] int mode)
+        public IHttpActionResult Post([FromUri]string userKey, [FromUri]int mode)
         {
-            return Ok(new MySeenWebApi.SyncJsonAnswer {Value = MySeenWebApi.SyncJsonAnswer.Values.BadRequestMode});
+            return Ok(new MySeenWebApi.SyncJsonAnswer { Value = MySeenWebApi.SyncJsonAnswer.Values.BadRequestMode });
         }
-
         [HttpPost]
-        public IHttpActionResult Post([FromUri] string userKey, [FromUri] int mode,
-            [FromBody] IEnumerable<MySeenWebApi.SyncJsonData> data)
+        public IHttpActionResult Post([FromUri]string userKey, [FromUri]int mode, [FromBody] IEnumerable<MySeenWebApi.SyncJsonData> data)
         {
-            return
-                Ok(new MySeenWebApi.SyncJsonAnswer {Value = MySeenWebApi.SyncJsonAnswer.Values.NoLongerSupportedVersion});
+            return Ok(new MySeenWebApi.SyncJsonAnswer { Value = MySeenWebApi.SyncJsonAnswer.Values.NoLongerSupportedVersion });
         }
-
         [HttpPost]
-        public IHttpActionResult Post([FromUri] string userKey, [FromUri] int mode, [FromUri] int apiVersion,
-            [FromBody] IEnumerable<MySeenWebApi.SyncJsonData> data)
+        public IHttpActionResult Post([FromUri]string userKey, [FromUri]int mode, [FromUri]int apiVersion, [FromBody] IEnumerable<MySeenWebApi.SyncJsonData> data)
         {
             LogSave.Save(userKey, string.Empty, string.Empty, "ApiSync/Post", mode.ToString());
             if (apiVersion != MySeenWebApi.ApiVersion)
             {
-                return
-                    Ok(new MySeenWebApi.SyncJsonAnswer
-                    {
-                        Value = MySeenWebApi.SyncJsonAnswer.Values.NoLongerSupportedVersion
-                    });
+                return Ok(new MySeenWebApi.SyncJsonAnswer { Value = MySeenWebApi.SyncJsonAnswer.Values.NoLongerSupportedVersion });
             }
-            if (data == null || (MySeenWebApi.SyncModesApiData) mode != MySeenWebApi.SyncModesApiData.PostAll)
+            if (data == null || (MySeenWebApi.SyncModesApiData)mode != MySeenWebApi.SyncModesApiData.PostAll)
             {
-                return Ok(new MySeenWebApi.SyncJsonAnswer {Value = MySeenWebApi.SyncJsonAnswer.Values.BadRequestMode});
+                return Ok(new MySeenWebApi.SyncJsonAnswer { Value = MySeenWebApi.SyncJsonAnswer.Values.BadRequestMode });
             }
-            var userId = GetUserId(userKey);
+            string userId = GetUserId(userKey);
             if (string.IsNullOrEmpty(userId))
             {
-                return Ok(new MySeenWebApi.SyncJsonAnswer {Value = MySeenWebApi.SyncJsonAnswer.Values.UserNotExist});
+                return Ok(new MySeenWebApi.SyncJsonAnswer { Value = MySeenWebApi.SyncJsonAnswer.Values.UserNotExist });
             }
             var syncJsonDatas = data as MySeenWebApi.SyncJsonData[] ?? data.ToArray();
             if (syncJsonDatas.Any())
             {
-                var ac = new ApplicationDbContext();
-                foreach (var film in syncJsonDatas)
+                ApplicationDbContext ac = new ApplicationDbContext();
+                foreach (MySeenWebApi.SyncJsonData film in syncJsonDatas)
                 {
-                    if (film.DataMode == (int) MySeenWebApi.DataModes.Film)
+                    if (film.DataMode == (int)MySeenWebApi.DataModes.Film)
                     {
                         if (film.Id == null)
                         {
-                            if (ac.Films.Any(f => f.Name == film.Name && f.UserId == userId))
-                                //с таким именем у нас уже есть
+                            if (ac.Films.Any(f => f.Name == film.Name && f.UserId == userId))//с таким именем у нас уже есть
                             {
                                 var filmDb = ac.Films.First(f => f.Name == film.Name && f.UserId == userId);
-                                if (filmDb.DateChange < film.DateChange)
-                                    //есть не изменненый или изменен ранее чем обновляем
+                                if (filmDb.DateChange < film.DateChange)//есть не изменненый или изменен ранее чем обновляем
                                 {
                                     filmDb.DateChange = film.DateChange;
                                     filmDb.DateSee = film.DateSee;
                                     filmDb.Genre = film.Genre;
-                                    filmDb.isDeleted = film.IsDeleted;
+                                    filmDb.isDeleted = film.isDeleted;
                                     filmDb.Rating = film.Rating;
                                 }
                             }
@@ -256,17 +228,15 @@ namespace MySeenWeb.Controllers
                         }
                         else //старый обновился
                         {
-                            if (ac.Films.Any(f => f.Id == film.Id && f.UserId == userId))
-                                //с таким ID есть в БД, обновим
+                            if (ac.Films.Any(f => f.Id == film.Id && f.UserId == userId))//с таким ID есть в БД, обновим
                             {
                                 var filmDb = ac.Films.First(f => f.Id == film.Id && f.UserId == userId);
-                                if (filmDb.DateChange < film.DateChange)
-                                    //есть не изменненый или изменен ранее чем обновляем
+                                if (filmDb.DateChange < film.DateChange)//есть не изменненый или изменен ранее чем обновляем
                                 {
                                     filmDb.DateChange = film.DateChange;
                                     filmDb.DateSee = film.DateSee;
                                     filmDb.Genre = film.Genre;
-                                    filmDb.isDeleted = film.IsDeleted;
+                                    filmDb.isDeleted = film.isDeleted;
                                     filmDb.Rating = film.Rating;
                                     filmDb.Name = film.Name;
                                 }
@@ -277,20 +247,18 @@ namespace MySeenWeb.Controllers
                             }
                         }
                     }
-                    else if (film.DataMode == (int) MySeenWebApi.DataModes.Serial)
+                    else if (film.DataMode == (int)MySeenWebApi.DataModes.Serial)
                     {
-                        if (film.Id == null) //Новый 
+                        if (film.Id == null)//Новый 
                         {
-                            if (ac.Serials.Any(f => f.Name == film.Name && f.UserId == userId))
-                                //с таким именем у нас уже есть
+                            if (ac.Serials.Any(f => f.Name == film.Name && f.UserId == userId))//с таким именем у нас уже есть
                             {
                                 var filmDb = ac.Serials.First(f => f.Name == film.Name && f.UserId == userId);
-                                if (filmDb.DateChange < film.DateChange)
-                                    //есть не изменненый или изменен ранее чем обновляем
+                                if (filmDb.DateChange < film.DateChange)//есть не изменненый или изменен ранее чем обновляем
                                 {
                                     filmDb.DateChange = film.DateChange;
                                     filmDb.Genre = film.Genre;
-                                    filmDb.isDeleted = film.IsDeleted;
+                                    filmDb.isDeleted = film.isDeleted;
                                     filmDb.Rating = film.Rating;
                                     filmDb.DateBegin = film.DateBegin;
                                     filmDb.DateLast = film.DateLast;
@@ -305,16 +273,14 @@ namespace MySeenWeb.Controllers
                         }
                         else //старый обновился
                         {
-                            if (ac.Serials.Any(f => f.Id == film.Id && f.UserId == userId))
-                                //с таким ID есть в БД, обновим
+                            if (ac.Serials.Any(f => f.Id == film.Id && f.UserId == userId))//с таким ID есть в БД, обновим
                             {
                                 var filmDb = ac.Serials.First(f => f.Id == film.Id && f.UserId == userId);
-                                if (filmDb.DateChange < film.DateChange)
-                                    //есть не изменненый или изменен ранее чем обновляем
+                                if (filmDb.DateChange < film.DateChange)//есть не изменненый или изменен ранее чем обновляем
                                 {
                                     filmDb.DateChange = film.DateChange;
                                     filmDb.Genre = film.Genre;
-                                    filmDb.isDeleted = film.IsDeleted;
+                                    filmDb.isDeleted = film.isDeleted;
                                     filmDb.Rating = film.Rating;
                                     filmDb.DateBegin = film.DateBegin;
                                     filmDb.DateLast = film.DateLast;
@@ -331,18 +297,16 @@ namespace MySeenWeb.Controllers
                     }
                     else
                     {
-                        if (film.Id == null) //Новый 
+                        if (film.Id == null)//Новый 
                         {
-                            if (ac.Books.Any(f => f.Name == film.Name && f.UserId == userId))
-                                //с таким именем у нас уже есть
+                            if (ac.Books.Any(f => f.Name == film.Name && f.UserId == userId))//с таким именем у нас уже есть
                             {
                                 var filmDb = ac.Books.First(f => f.Name == film.Name && f.UserId == userId);
-                                if (filmDb.DateChange < film.DateChange)
-                                    //есть не изменненый или изменен ранее чем обновляем
+                                if (filmDb.DateChange < film.DateChange)//есть не изменненый или изменен ранее чем обновляем
                                 {
                                     filmDb.DateChange = film.DateChange;
                                     filmDb.Genre = film.Genre;
-                                    filmDb.isDeleted = film.IsDeleted;
+                                    filmDb.isDeleted = film.isDeleted;
                                     filmDb.Rating = film.Rating;
                                     filmDb.DateRead = film.DateRead;
                                     filmDb.Authors = film.Authors;
@@ -355,16 +319,14 @@ namespace MySeenWeb.Controllers
                         }
                         else //старый обновился
                         {
-                            if (ac.Books.Any(f => f.Id == film.Id && f.UserId == userId))
-                                //с таким ID есть в БД, обновим
+                            if (ac.Books.Any(f => f.Id == film.Id && f.UserId == userId))//с таким ID есть в БД, обновим
                             {
                                 var filmDb = ac.Books.First(f => f.Id == film.Id && f.UserId == userId);
-                                if (filmDb.DateChange < film.DateChange)
-                                    //есть не изменненый или изменен ранее чем обновляем
+                                if (filmDb.DateChange < film.DateChange)//есть не изменненый или изменен ранее чем обновляем
                                 {
                                     filmDb.DateChange = film.DateChange;
                                     filmDb.Genre = film.Genre;
-                                    filmDb.isDeleted = film.IsDeleted;
+                                    filmDb.isDeleted = film.isDeleted;
                                     filmDb.Rating = film.Rating;
                                     filmDb.DateRead = film.DateRead;
                                     filmDb.Authors = film.Authors;
@@ -379,9 +341,9 @@ namespace MySeenWeb.Controllers
                     }
                 }
                 ac.SaveChanges();
-                return Ok(new MySeenWebApi.SyncJsonAnswer {Value = MySeenWebApi.SyncJsonAnswer.Values.NewDataRecieved});
+                return Ok(new MySeenWebApi.SyncJsonAnswer { Value = MySeenWebApi.SyncJsonAnswer.Values.NewDataRecieved });
             }
-            return Ok(new MySeenWebApi.SyncJsonAnswer {Value = MySeenWebApi.SyncJsonAnswer.Values.BadRequestMode});
+            return Ok(new MySeenWebApi.SyncJsonAnswer { Value = MySeenWebApi.SyncJsonAnswer.Values.BadRequestMode });
         }
     }
 }
