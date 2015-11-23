@@ -33,7 +33,7 @@ namespace MySeenWeb.Models.TablesViews
             return new TracksView
             {
                 Id = model.Id,
-                Date = model.Date,
+                Date = UmtTime.From(model.Date),
                 Distance = model.Distance,
                 Name = model.Name,
                 Type = model.Type

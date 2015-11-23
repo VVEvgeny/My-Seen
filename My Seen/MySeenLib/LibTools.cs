@@ -9,7 +9,7 @@ namespace MySeenLib
     public static class Versions
     {
         //Строка с версией библиотеки в ресурсах LibVersionNum
-        public static int Web = 6;//сейчас 4 хоть и показывает 3
+        public static int Web = 6;
         public static int Android = 1;
         public static int AndroidLib = 1;
         public static int Pc = 1;
@@ -20,15 +20,6 @@ namespace MySeenLib
         {
             return userName.ToLower() == "vvevgeny@gmail.com";
         }
-    }
-    public static class Test
-    {
-        static Test()
-        {
-            Enabled = true;
-        }
-
-        public static bool Enabled { get; set; }
     }
     public static class UmtTime
     {
@@ -71,22 +62,19 @@ namespace MySeenLib
         }
         public static bool SetCulture(string cult)
         {
-            if (GetCulture() != cult)
-            {
-                CultureInfo culture = new CultureInfo(cult);
+            if (GetCulture() == cult) return false;
+            var culture = new CultureInfo(cult);
 
-                DateTimeFormatInfo datetimeformat = culture.DateTimeFormat;
-                datetimeformat.LongTimePattern = cult == Cultures.English ? "h:mm:ss tt" : "HH:mm:ss";
-                culture.DateTimeFormat = datetimeformat;
+            var datetimeformat = culture.DateTimeFormat;
+            datetimeformat.LongTimePattern = cult == Cultures.English ? "h:mm:ss tt" : "HH:mm:ss";
+            culture.DateTimeFormat = datetimeformat;
 
-                Thread.CurrentThread.CurrentCulture = culture;
-                Thread.CurrentThread.CurrentUICulture = culture;
+            Thread.CurrentThread.CurrentCulture = culture;
+            Thread.CurrentThread.CurrentUICulture = culture;
 
-                Defaults.ReloadResources();
+            Defaults.ReloadResources();
 
-                return true;
-            }
-            return false;
+            return true;
         }
     }
     public static class MySeenWebApi
@@ -96,41 +84,28 @@ namespace MySeenLib
         {
             get
             {
-                if (Test.Enabled)
-                {
+                #if DEBUG
                     return "http://localhost:44301";
-                }
-                else
-                {
+                #else
                     return "http://myseen.by/";
-                }
+                #endif
             }
         }
         public static string ApiHostAndroid
         {
             get
             {
-                if (Test.Enabled)
-                {
+                #if DEBUG
                     return "https://10.0.2.2:443";
-                }
-                else
-                {
+                #else
                     return ApiHost;
-                }
+                #endif
             }
         }
 
-        //public static string ApiHost = ;
-        //public static string ApiHostAndroid = @"https://10.0.2.2:443";
-
-        //public static string ApiHost = @"http://localhost:44301";
-        //public static string ApiHostAndroid = @"https://10.0.2.2:443";
-        //public static string ApiHost = @"http://botmen-001-site1.btempurl.com";
-        //public static string ApiHostAndroid = @"http://205.144.171.47";
         public static string ApiUsers = @"/api/ApiUsers/";
         public static string ApiSync = @"/api/ApiSync/";
-        public static string ShareTracks = @"/Home/ShareTracks/";
+        public static string ShareTracks = @"/Share/Tracks/";
 
         public enum SyncModesApiUsers
         {
@@ -368,14 +343,14 @@ namespace MySeenLib
         public static ComplexBase Complexes = new ComplexBase();
         public static RecordPerPageBase RecordPerPage = new RecordPerPageBase();
 
+        private static readonly List<ListStringBase> AllResourcesLink = new List<ListStringBase> { Genres, Ratings, Categories, Languages, Complexes, RecordPerPage };
+
         public static void ReloadResources()
         {
-            Genres.Reload();
-            Ratings.Reload();
-            Categories.Reload();
-            Languages.Reload();
-            Complexes.Reload();
-            RecordPerPage.Reload();
+            foreach (var val in AllResourcesLink)
+            {
+                val.Reload();
+            }
         }
     }
     public static class Validations

@@ -1,0 +1,55 @@
+﻿@using MySeenWeb.Models;
+
+@model ShareViewModelTracks
+
+<br/>
+
+@Scripts.Render("~/bundles/jquery", "~/bundles/bootstrap")
+@Scripts.Render("~/bundles/gmap3", "~/bundles/myseen.gmap")
+
+<script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?libraries=geometry"></script>
+
+<div class="panel panel-primary col-md-12">
+    <div class="panel panel-default">
+        <div class="panel-heading">Легенда</div>
+        <div class="tab-content">
+            @if (Model.AllUsersTracks) //Это все треки юзера
+            {
+                <div>
+                    <a href="#" class="list-group-item track-id">
+                        <h5 class="list-group-item-text align-center">Треков<span class="badge pull-right">@Model.Count</span></h5>
+                        <h6 class="list-group-item-text align-center">@Resource.Distance :<span class="badge pull-right alert-info small">@Model.DistanceText</span></h6>
+                    </a>
+                </div>
+            }
+            else
+            {
+                <div>
+                    @foreach (var track in Model.Data)
+                    {
+                        <a href="" class="list-group-item track-id" id=@track.Id>
+                            <h5 class="list-group-item-heading">@track.Name<span class="badge pull-right">@track.DateText</span></h5>
+                            <h6 class="list-group-item-text align-center">@Resource.Distance :<span class="badge pull-right alert-info small">@track.DistanceText</span></h6>
+                        </a>
+                    }
+                </div>
+            }
+        </div>
+    </div>
+</div>
+<div class="panel panel-primary col-md-12">
+    <div class="panel panel-default">
+        <div class="panel-heading">@Resource.Map</div>
+        <div id="my_map" class="gmap page-size-gmap"></div>
+    </div>
+</div>
+
+<script language="javascript" type="text/javascript">
+    (function ($) {
+        $(function ()
+        {
+            showTrackByKey('@Model.Key');
+        });
+    })(jQuery);
+</script>
+

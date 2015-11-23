@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using MySeenWeb.Models.Tables;
 
@@ -12,8 +13,9 @@ namespace MySeenWeb.Models.Tools
         }
         public static void Save(string userId, string ipAdress, string userAgent, string pageName, string addData)
         {
-            ApplicationDbContext ac = new ApplicationDbContext();
-            string date = DateTime.Now.ToShortDateString();
+#if !DEBUG
+            var ac = new ApplicationDbContext();
+            var date = DateTime.Now.ToShortDateString();
 
             if (!ac.Logs.Any(l => l.IPAdress == ipAdress && l.UserAgent == userAgent && l.UserId == userId && l.OnlyDate == date && l.PageName == pageName))
             {
@@ -21,12 +23,13 @@ namespace MySeenWeb.Models.Tools
             }
             else
             {
-                Logs log = ac.Logs.First(l => l.IPAdress == ipAdress && l.UserAgent == userAgent && l.UserId == userId && l.OnlyDate == date && l.PageName == pageName);
+                var log = ac.Logs.First(l => l.IPAdress == ipAdress && l.UserAgent == userAgent && l.UserId == userId && l.OnlyDate == date && l.PageName == pageName);
                 log.DateLast = DateTime.Now;
                 log.Count++;
                 if (!string.IsNullOrEmpty(addData)) log.AddData += "!%!" + addData;
             }
             ac.SaveChanges();
+#endif
         }
     }
 }

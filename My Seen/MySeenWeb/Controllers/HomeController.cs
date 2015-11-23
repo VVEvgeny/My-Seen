@@ -561,17 +561,31 @@ namespace MySeenWeb.Controllers
         {
             if (User.Identity.IsAuthenticated)
             {
-                //TracksViewModel model = new TracksViewModel();
                 return Json(HomeViewModelTracks.GetTrack(id, User.Identity.GetUserId()), JsonRequestBehavior.AllowGet);
             }
             return RedirectToAction("Index");
         }
+
+        public ActionResult GetTrackByKey(string id)
+        {
+            return Json(HomeViewModelTracks.GetTrackByKey(id), JsonRequestBehavior.AllowGet);
+        }
+        
         [Authorize]
         public ActionResult GetTrackNameById(int id)
         {
             if (User.Identity.IsAuthenticated)
             {
                 return Json(HomeViewModelTracks.GetTrackNameById(id, User.Identity.GetUserId()), JsonRequestBehavior.AllowGet);
+            }
+            return RedirectToAction("Index");
+        }
+        [Authorize]
+        public ActionResult GetTrackDateById(int id)
+        {
+            if (User.Identity.IsAuthenticated)
+            {
+                return Json(HomeViewModelTracks.GetTrackDateById(id, User.Identity.GetUserId()), JsonRequestBehavior.AllowGet);
             }
             return RedirectToAction("Index");
         }
@@ -614,7 +628,7 @@ namespace MySeenWeb.Controllers
         }
         [Authorize]
         [HttpPost]
-        public JsonResult AddTrack(string name, string type, string coordinates, string distance)
+        public JsonResult AddTrack(string name, string datetime, string type, string coordinates, string distance)
         {
             LogSave.Save(User.Identity.IsAuthenticated ? User.Identity.GetUserId() : "", Request.UserHostAddress, Request.UserAgent, "Home/AddTrack", name);
             string errorMessage = string.Empty;
@@ -624,9 +638,16 @@ namespace MySeenWeb.Controllers
 
             if (string.IsNullOrEmpty(errorMessage))
             {
-                if (name.Length == 0)
+                if (string.IsNullOrEmpty(name))
                 {
                     errorMessage = "Короткое название";
+                }
+            }
+            if (string.IsNullOrEmpty(errorMessage))
+            {
+                if (string.IsNullOrEmpty(datetime))
+                {
+                    errorMessage = "Ошибка в дате";
                 }
             }
             int id = -1;
@@ -688,7 +709,7 @@ namespace MySeenWeb.Controllers
             {
                 try
                 {
-                    ac.Tracks.Add(new Tracks { UserId = User.Identity.GetUserId(), Type = id, Coordinates = coordinates, Date = DateTime.Now, Name = name, Distance = toDouble });
+                    ac.Tracks.Add(new Tracks { UserId = User.Identity.GetUserId(), Type = id, Coordinates = coordinates, Date = UmtTime.To(Convert.ToDateTime(datetime)), Name = name, Distance = toDouble });
                     ac.SaveChanges();
                 }
                 catch (Exception e)
@@ -704,7 +725,7 @@ namespace MySeenWeb.Controllers
         }
         [Authorize]
         [HttpPost]
-        public JsonResult EditTrack(int id, string name, string type, string coordinates, string distance)
+        public JsonResult EditTrack(int id, string name, string datetime, string type, string coordinates, string distance)
         {
             LogSave.Save(User.Identity.IsAuthenticated ? User.Identity.GetUserId() : "", Request.UserHostAddress, Request.UserAgent, "Home/EditTrack", name);
             string errorMessage = string.Empty;
@@ -714,9 +735,16 @@ namespace MySeenWeb.Controllers
 
             if (string.IsNullOrEmpty(errorMessage))
             {
-                if (name.Length == 0)
+                if (string.IsNullOrEmpty(name))
                 {
                     errorMessage = "Короткое название";
+                }
+            }
+            if (string.IsNullOrEmpty(errorMessage))
+            {
+                if (string.IsNullOrEmpty(datetime))
+                {
+                    errorMessage = "Ошибка в дате";
                 }
             }
             var recordId = -1;
@@ -778,11 +806,12 @@ namespace MySeenWeb.Controllers
             {
                 try
                 {
-                    string user = User.Identity.GetUserId();
-                    Tracks track = ac.Tracks.First(t => t.Id == id && t.UserId == user);
+                    var user = User.Identity.GetUserId();
+                    var track = ac.Tracks.First(t => t.Id == id && t.UserId == user);
                     track.Name = name;
                     track.Type = recordId;
                     track.Coordinates = coordinates;
+                    track.Date = UmtTime.To(Convert.ToDateTime(datetime));
                     track.Distance = toDouble;
                     ac.SaveChanges();
                 }

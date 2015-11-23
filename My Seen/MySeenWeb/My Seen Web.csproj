@@ -195,6 +195,7 @@
     <Compile Include="Controllers\ApiUsersController.cs" />
     <Compile Include="Controllers\BaseController.cs" />
     <Compile Include="Controllers\BrowserFilterController.cs" />
+    <Compile Include="Controllers\ShareController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\ApiSyncController.cs" />
@@ -251,6 +252,7 @@
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
+    <Compile Include="Models\ShareViewModelTracks.cs" />
     <Compile Include="Models\TablesViews\ITrackInfo.cs" />
     <Compile Include="Models\TablesViews\TrackInfo.cs" />
     <Compile Include="Models\Tools\CookieKeys.cs" />
@@ -490,6 +492,7 @@
     <Content Include="Views\_ViewStart.cshtml" />
     <Content Include="Views\BrowserFilter\Index.cshtml" />
     <Content Include="Views\Home\Parts\About.cshtml" />
+    <Content Include="Views\Share\Tracks.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

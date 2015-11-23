@@ -27,24 +27,20 @@ namespace MySeenWeb.Controllers
         }
         public string ReadCookie(string key, string defaultValue)
         {
-            HttpCookie cookie = ControllerContext.HttpContext.Request.Cookies[key];
-            if (cookie == null)
+            var cookie = ControllerContext.HttpContext.Request.Cookies[key];
+            if (cookie != null) return cookie.Value;
+            cookie = new HttpCookie(key)
             {
-                cookie = new HttpCookie(key)
-                {
-                    Value = defaultValue,
-                    Expires = DateTime.Now.AddDays(1)
-                };
-                ControllerContext.HttpContext.Response.Cookies.Add(cookie);
-                return defaultValue;
-            }
-            return cookie.Value;
+                Value = defaultValue,
+                Expires = DateTime.Now.AddDays(1)
+            };
+            ControllerContext.HttpContext.Response.Cookies.Add(cookie);
+            return defaultValue;
         }
         public bool TryReadCookie(string key)
         {
-            HttpCookie cookie = ControllerContext.HttpContext.Request.Cookies[key];
-            if (cookie == null) return false;
-            return true;
+            var cookie = ControllerContext.HttpContext.Request.Cookies[key];
+            return cookie != null;
         }
         public void WriteCookie(string key, object value)
         {
@@ -52,7 +48,7 @@ namespace MySeenWeb.Controllers
         }
         public void WriteCookie(string key, string value)
         {
-            HttpCookie cookie = ControllerContext.HttpContext.Request.Cookies[key] ?? new HttpCookie(key);
+            var cookie = ControllerContext.HttpContext.Request.Cookies[key] ?? new HttpCookie(key);
             cookie.Value = value;
             cookie.Expires = DateTime.Now.AddDays(1);
             ControllerContext.HttpContext.Response.Cookies.Add(cookie);
@@ -65,34 +61,35 @@ namespace MySeenWeb.Controllers
             {
                 if (TryReadCookie(CookieKeys.RecordPerPage))
                 {
-                    int ret = ReadCookie(CookieKeys.RecordPerPage, Defaults.RecordPerPageBase.IndexAll);
-                    if (string.IsNullOrEmpty(Defaults.RecordPerPage.GetById(ret)))
+                    var ret = ReadCookie(CookieKeys.RecordPerPage, Defaults.RecordPerPageBase.IndexAll);
+                    if (!string.IsNullOrEmpty(Defaults.RecordPerPage.GetById(ret)))
+                        return ret == Defaults.RecordPerPageBase.IndexAll
+                            ? Defaults.RecordPerPageBase.ValAll
+                            : Convert.ToInt32(Defaults.RecordPerPage.GetById(ret));
+                    var userId = string.Empty;
+                    try
                     {
-                        string userId = string.Empty;
-                        try
-                        {
-                            ApplicationDbContext ac = new ApplicationDbContext();
-                            userId = User.Identity.GetUserId();
-                            ApplicationUser au = ac.Users.First(u => u.Id == userId);
-                            ret = au.RecordPerPage;
-                            WriteCookie(CookieKeys.RecordPerPage, ret);
-                        }
-                        catch
-                        {
-                            LogSave.Save(User.Identity.IsAuthenticated ? User.Identity.GetUserId() : "", Request.UserHostAddress, Request.UserAgent, "RecordPerPage catch No USER", userId);
-                        }
+                        var ac = new ApplicationDbContext();
+                        userId = User.Identity.GetUserId();
+                        var au = ac.Users.First(u => u.Id == userId);
+                        ret = au.RecordPerPage;
+                        WriteCookie(CookieKeys.RecordPerPage, ret);
+                    }
+                    catch
+                    {
+                        LogSave.Save(User.Identity.IsAuthenticated ? User.Identity.GetUserId() : "", Request.UserHostAddress, Request.UserAgent, "RecordPerPage catch No USER", userId);
                     }
                     return ret == Defaults.RecordPerPageBase.IndexAll ? Defaults.RecordPerPageBase.ValAll : Convert.ToInt32(Defaults.RecordPerPage.GetById(ret));
                 }
                 else
                 {
-                    string userId = string.Empty;
-                    int ret = Defaults.RecordPerPageBase.IndexAll;
+                    var userId = string.Empty;
+                    var ret = Defaults.RecordPerPageBase.IndexAll;
                     try
                     {
-                        ApplicationDbContext ac = new ApplicationDbContext();
+                        var ac = new ApplicationDbContext();
                         userId = User.Identity.GetUserId();
-                        ApplicationUser au = ac.Users.First(u => u.Id == userId);
+                        var au = ac.Users.First(u => u.Id == userId);
                         ret = au.RecordPerPage;
                         WriteCookie(CookieKeys.RecordPerPage, au.RecordPerPage);
                     }
@@ -112,7 +109,7 @@ namespace MySeenWeb.Controllers
         {
             if (TryReadCookie(CookieKeys.Language))
             {
-                int lang = ReadCookie(CookieKeys.Language, Defaults.LanguagesBase.Indexes.English);
+                var lang = ReadCookie(CookieKeys.Language, Defaults.LanguagesBase.Indexes.English);
                 try
                 {
                     CultureInfoTool.SetCulture(Defaults.Languages.GetValDb(lang));
@@ -126,10 +123,10 @@ namespace MySeenWeb.Controllers
             {
                 if (User.Identity.IsAuthenticated)
                 {
-                    string userId = User.Identity.GetUserId();
+                    var userId = User.Identity.GetUserId();
                     try
                     {
-                        ApplicationDbContext ac = new ApplicationDbContext();
+                        var ac = new ApplicationDbContext();
                         var au = ac.Users.First(u => u.Id == userId);
                         try
                         {

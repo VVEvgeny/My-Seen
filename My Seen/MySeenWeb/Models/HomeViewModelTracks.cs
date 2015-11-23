@@ -47,7 +47,7 @@ namespace MySeenWeb.Models
         public HomeViewModelTracks(string userId)
         {
             Type = ((int)TrackTypes.Foot).ToString();
-            ApplicationDbContext ac = new ApplicationDbContext();
+            var ac = new ApplicationDbContext();
             DataFoot = ac.Tracks.Where(t => t.UserId == userId && t.Type == (int)TrackTypes.Foot).OrderByDescending(t => t.Date).Select(TracksView.Map);
             DataCar = ac.Tracks.Where(t => t.UserId == userId && t.Type == (int)TrackTypes.Car).OrderByDescending(t => t.Date).Select(TracksView.Map);
 
@@ -66,11 +66,25 @@ namespace MySeenWeb.Models
 
         public static TrackInfo GetTrack(int id, string userId)
         {
-            TrackInfo ti = new TrackInfo();
-            ApplicationDbContext ac = new ApplicationDbContext();
+            var ti = new TrackInfo();
+            var ac = new ApplicationDbContext();
             ti.Path = new List<Location>();
-            string coordinates = ac.Tracks.First(t => t.UserId == userId && t.Id == id).Coordinates;
-            foreach (string s in coordinates.Split(';'))
+            var coordinates = ac.Tracks.First(t => t.UserId == userId && t.Id == id).Coordinates;
+            foreach (var s in coordinates.Split(';'))
+            {
+                ti.Path.Add(new Location { Latitude = double.Parse(s.Split(',')[0], CultureInfo.InvariantCulture), Longitude = double.Parse(s.Split(',')[1], CultureInfo.InvariantCulture) });
+            }
+            ti.CallcMinMaxCenter();
+            return ti;
+        }
+
+        public static TrackInfo GetTrackByKey(string key)
+        {
+            var ti = new TrackInfo();
+            var ac = new ApplicationDbContext();
+            ti.Path = new List<Location>();
+            var coordinates = ac.Tracks.First(t=>t.ShareKey==key).Coordinates;
+            foreach (var s in coordinates.Split(';'))
             {
                 ti.Path.Add(new Location { Latitude = double.Parse(s.Split(',')[0], CultureInfo.InvariantCulture), Longitude = double.Parse(s.Split(',')[1], CultureInfo.InvariantCulture) });
             }
@@ -79,17 +93,22 @@ namespace MySeenWeb.Models
         }
         public static string GetTrackNameById(int id, string userId)
         {
-            ApplicationDbContext ac = new ApplicationDbContext();
+            var ac = new ApplicationDbContext();
             return ac.Tracks.First(t => t.UserId == userId && t.Id == id).Name;
+        }
+        public static string GetTrackDateById(int id, string userId)
+        {
+            var ac = new ApplicationDbContext();
+            return ac.Tracks.First(t => t.UserId == userId && t.Id == id).Date.ToString();
         }
         public static string GetTrackCoordinatesById(int id, string userId)
         {
-            ApplicationDbContext ac = new ApplicationDbContext();
+            var ac = new ApplicationDbContext();
             return ac.Tracks.First(t => t.UserId == userId && t.Id == id).Coordinates;
         }
         public static string GetTrackShare(string id, string userId)
         {
-            ApplicationDbContext ac = new ApplicationDbContext();
+            var ac = new ApplicationDbContext();
             string key;
             if (id.ToLower().Contains("all"))
             {
@@ -97,7 +116,7 @@ namespace MySeenWeb.Models
             }
             else
             {
-                int iid = Convert.ToInt32(id);
+                var iid = Convert.ToInt32(id);
                 key = ac.Tracks.First(t => t.UserId == userId && t.Id == iid).ShareKey;
             }
             if (string.IsNullOrEmpty(key)) return key;
@@ -105,8 +124,8 @@ namespace MySeenWeb.Models
         }
         public static string GenerateTrackShare(string id, string userId)
         {
-            ApplicationDbContext ac = new ApplicationDbContext();
-            string genkey = string.Empty;
+            var ac = new ApplicationDbContext();
+            var genkey = string.Empty;
             genkey += id + userId;
             Random r = new Random(DateTime.Now.Millisecond);
             for (int i = 0; i < 20; i++)
@@ -129,7 +148,7 @@ namespace MySeenWeb.Models
         }
         public static void DeleteTrackShare(string id, string userId)
         {
-            ApplicationDbContext ac = new ApplicationDbContext();
+            var ac = new ApplicationDbContext();
 
             if (id.ToLower().Contains("all"))
             {
@@ -137,7 +156,7 @@ namespace MySeenWeb.Models
             }
             else
             {
-                int iid = Convert.ToInt32(id);
+                var iid = Convert.ToInt32(id);
                 ac.Tracks.First(t => t.UserId == userId && t.Id == iid).ShareKey = string.Empty;
             }
             ac.SaveChanges();
