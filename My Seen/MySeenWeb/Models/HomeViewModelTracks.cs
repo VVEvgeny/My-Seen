@@ -34,11 +34,40 @@ namespace MySeenWeb.Models
                 return DataFoot.Count();
             }
         }
+
+        public double DistanceFoot
+        {
+            get
+            {
+                return DataFoot.Sum(item => item.Distance);
+            }
+        }
+        public string DistanceFootText
+        {
+            get
+            {
+                return ((int)(DistanceFoot / (CultureInfoTool.GetCulture() == CultureInfoTool.Cultures.English ? 1.66 : 1))).ToString() + " " + Resource.Km;
+            }
+        }
         public int CountCar
         {
             get
             {
                 return DataCar.Count();
+            }
+        }
+        public double DistanceCar
+        {
+            get
+            {
+                return DataCar.Sum(item => item.Distance);
+            }
+        }
+        public string DistanceCarText
+        {
+            get
+            {
+                return ((int)(DistanceCar / (CultureInfoTool.GetCulture() == CultureInfoTool.Cultures.English ? 1.66 : 1))).ToString() + " " + Resource.Km;
             }
         }
         public string Type { get; set; }
@@ -66,9 +95,8 @@ namespace MySeenWeb.Models
 
         public static TrackInfo GetTrack(int id, string userId)
         {
-            var ti = new TrackInfo();
+            var ti = new TrackInfo {Path = new List<Location>()};
             var ac = new ApplicationDbContext();
-            ti.Path = new List<Location>();
             var coordinates = ac.Tracks.First(t => t.UserId == userId && t.Id == id).Coordinates;
             foreach (var s in coordinates.Split(';'))
             {
@@ -77,19 +105,70 @@ namespace MySeenWeb.Models
             ti.CallcMinMaxCenter();
             return ti;
         }
-
-        public static TrackInfo GetTrackByKey(string key)
+        public static IEnumerable<TrackInfo> GetTrackByKey(string key)
         {
-            var ti = new TrackInfo();
+            var list = new List<TrackInfo>();
             var ac = new ApplicationDbContext();
-            ti.Path = new List<Location>();
-            var coordinates = ac.Tracks.First(t=>t.ShareKey==key).Coordinates;
-            foreach (var s in coordinates.Split(';'))
+
+            if (ac.Users.Any(u => u.ShareTracksFootKey != null && u.ShareTracksFootKey == key))
             {
-                ti.Path.Add(new Location { Latitude = double.Parse(s.Split(',')[0], CultureInfo.InvariantCulture), Longitude = double.Parse(s.Split(',')[1], CultureInfo.InvariantCulture) });
+                var userId = ac.Users.First(u => u.ShareTracksFootKey == key).Id;
+                const int type = (int)TrackTypes.Foot;
+
+                foreach (var item in ac.Tracks.Where(t => t.UserId == userId && t.Type == type))
+                {
+                    var ti = new TrackInfo { Path = new List<Location>() };
+                    foreach (var s in item.Coordinates.Split(';'))
+                    {
+                        ti.Path.Add(new Location { Latitude = double.Parse(s.Split(',')[0], CultureInfo.InvariantCulture), Longitude = double.Parse(s.Split(',')[1], CultureInfo.InvariantCulture) });
+                    }
+                    ti.CallcMinMaxCenter();
+                    list.Add(ti);
+                }
             }
-            ti.CallcMinMaxCenter();
-            return ti;
+            else if (ac.Users.Any(u => u.ShareTracksCarKey != null && u.ShareTracksCarKey == key))
+            {
+                var userId = ac.Users.First(u => u.ShareTracksCarKey == key).Id;
+                const int type = (int)TrackTypes.Car;
+                foreach (var item in ac.Tracks.Where(t => t.UserId == userId && t.Type == type))
+                {
+                    var ti = new TrackInfo { Path = new List<Location>() };
+                    foreach (var s in item.Coordinates.Split(';'))
+                    {
+                        ti.Path.Add(new Location { Latitude = double.Parse(s.Split(',')[0], CultureInfo.InvariantCulture), Longitude = double.Parse(s.Split(',')[1], CultureInfo.InvariantCulture) });
+                    }
+                    ti.CallcMinMaxCenter();
+                    list.Add(ti);
+                }
+            }
+            else if (ac.Users.Any(u => u.ShareTracksAllKey != null && u.ShareTracksAllKey == key))
+            {
+                var userId = ac.Users.First(u => u.ShareTracksAllKey == key).Id;
+                foreach (var item in ac.Tracks.Where(t => t.UserId == userId))
+                {
+                    var ti = new TrackInfo { Path = new List<Location>() };
+                    foreach (var s in item.Coordinates.Split(';'))
+                    {
+                        ti.Path.Add(new Location { Latitude = double.Parse(s.Split(',')[0], CultureInfo.InvariantCulture), Longitude = double.Parse(s.Split(',')[1], CultureInfo.InvariantCulture) });
+                    }
+                    ti.CallcMinMaxCenter();
+                    list.Add(ti);
+                }
+            }
+            else
+            {
+                foreach (var item in ac.Tracks.Where(t => t.ShareKey == key))
+                {
+                    var ti = new TrackInfo { Path = new List<Location>() };
+                    foreach (var s in item.Coordinates.Split(';'))
+                    {
+                        ti.Path.Add(new Location { Latitude = double.Parse(s.Split(',')[0], CultureInfo.InvariantCulture), Longitude = double.Parse(s.Split(',')[1], CultureInfo.InvariantCulture) });
+                    }
+                    ti.CallcMinMaxCenter();
+                    list.Add(ti);
+                }
+            }
+            return list;
         }
         public static string GetTrackNameById(int id, string userId)
         {
@@ -110,9 +189,17 @@ namespace MySeenWeb.Models
         {
             var ac = new ApplicationDbContext();
             string key;
-            if (id.ToLower().Contains("all"))
+            if (id.ToLower().Contains("all foot"))
             {
-                key = ac.Users.First(t => t.Id == userId).ShareTracksKey;
+                key = ac.Users.First(t => t.Id == userId).ShareTracksFootKey;
+            }
+            else if (id.ToLower().Contains("all car"))
+            {
+                key = ac.Users.First(t => t.Id == userId).ShareTracksCarKey;
+            }
+            else if (id.ToLower().Contains("all all"))
+            {
+                key = ac.Users.First(t => t.Id == userId).ShareTracksAllKey;
             }
             else
             {
@@ -134,9 +221,17 @@ namespace MySeenWeb.Models
             }
             genkey = Md5Tools.GetMd5Hash(genkey);
 
-            if (id.ToLower().Contains("all"))
+            if (id.ToLower().Contains("all foot"))
             {
-                ac.Users.First(t => t.Id == userId).ShareTracksKey = genkey;
+                ac.Users.First(t => t.Id == userId).ShareTracksFootKey = genkey;
+            }
+            else if (id.ToLower().Contains("all car"))
+            {
+                ac.Users.First(t => t.Id == userId).ShareTracksCarKey = genkey;
+            }
+            else if (id.ToLower().Contains("all all"))
+            {
+                ac.Users.First(t => t.Id == userId).ShareTracksAllKey = genkey;
             }
             else
             {
@@ -150,9 +245,13 @@ namespace MySeenWeb.Models
         {
             var ac = new ApplicationDbContext();
 
-            if (id.ToLower().Contains("all"))
+            if (id.ToLower().Contains("all foot"))
             {
-                ac.Users.First(t => t.Id == userId).ShareTracksKey = string.Empty;
+                ac.Users.First(t => t.Id == userId).ShareTracksFootKey = string.Empty;
+            }
+            else if (id.ToLower().Contains("all car"))
+            {
+                ac.Users.First(t => t.Id == userId).ShareTracksCarKey = string.Empty;
             }
             else
             {

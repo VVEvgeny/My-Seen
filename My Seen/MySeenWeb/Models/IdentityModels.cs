@@ -15,7 +15,9 @@ namespace MySeenWeb.Models
         public string Culture { get; set; }
         public DateTime RegisterDate { get; set; }
         public int RecordPerPage { get; set; }
-        public string ShareTracksKey { get; set; }
+        public string ShareTracksAllKey { get; set; }
+        public string ShareTracksFootKey { get; set; }
+        public string ShareTracksCarKey { get; set; }
         public async Task<ClaimsIdentity> GenerateUserIdentityAsync(UserManager<ApplicationUser> manager)
         {
             // Note the authenticationType must match the one defined in CookieAuthenticationOptions.AuthenticationType

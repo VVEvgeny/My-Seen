@@ -5,6 +5,10 @@ using MySeenWeb.Models.TablesViews;
 
 namespace MySeenWeb.Models
 {
+    /// <summary>
+    /// Он грузит только легенду 
+    /// основная работа уже при загрузке страницы пойдет работать метод Home/GetTrackByKey(string id)
+    /// </summary>
     public class ShareViewModelTracks
     {
         public string Key { get; set; }
@@ -33,10 +37,24 @@ namespace MySeenWeb.Models
         {
             Key = key;
             var ac=new ApplicationDbContext();
-            if (ac.Users.Any(u => u.ShareTracksKey != null && u.ShareTracksKey == key))
+            if (ac.Users.Any(u => u.ShareTracksFootKey != null && u.ShareTracksFootKey == key))
             {
                 AllUsersTracks = true;
-                var userId = ac.Users.First(u => u.ShareTracksKey == key).Id;
+                var userId = ac.Users.First(u => u.ShareTracksFootKey == key).Id;
+                const int type = (int)TrackTypes.Foot;
+                Data = ac.Tracks.Where(t => t.UserId == userId && t.Type == type).Select(TracksView.Map);
+            }
+            else if (ac.Users.Any(u => u.ShareTracksCarKey != null && u.ShareTracksCarKey == key))
+            {
+                AllUsersTracks = true;
+                var userId = ac.Users.First(u => u.ShareTracksCarKey == key).Id;
+                const int type = (int)TrackTypes.Car;
+                Data = ac.Tracks.Where(t => t.UserId == userId && t.Type == type).Select(TracksView.Map);
+            }
+            else if (ac.Users.Any(u => u.ShareTracksAllKey != null && u.ShareTracksAllKey == key))
+            {
+                AllUsersTracks = true;
+                var userId = ac.Users.First(u => u.ShareTracksAllKey == key).Id;
                 Data = ac.Tracks.Where(t => t.UserId == userId).Select(TracksView.Map);
             }
             else

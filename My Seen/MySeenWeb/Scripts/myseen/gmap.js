@@ -169,23 +169,25 @@ function getZoomByLen(maxLen) {
 function showTrackByKey(key) {
     $.getJSON('/Home/GetTrackByKey/' + key + '/', function (data) {
 
-        var trackCoordsLatLng = [];
-        $.each(data.Path, function (i, item) {
-            //console.log("history Latitude=", item.Latitude, "Longitude", item.Longitude);
-            trackCoordsLatLng.push(new window.google.maps.LatLng(item.Latitude, item.Longitude));
-        });
-
-        //расстояние от удаленных точек, есть смысл их считать, только по горизонтали
-        var p1 = new window.google.maps.LatLng(data.Max.Latitude, data.Max.Longitude);
-        var p2 = new window.google.maps.LatLng(data.Min.Latitude, data.Min.Longitude);
-        //console.log("max Latitude=", data.Max.Latitude, "Longitude", data.Max.Longitude);
-        //console.log("min Latitude=", data.Min.Latitude, "Longitude", data.Min.Longitude);
-
-        var maxLen = window.google.maps.geometry.spherical.computeDistanceBetween(p1, p2) / 1000;
-        //console.log("maxLen=", maxLen);
-        var zoom = getZoomByLen(maxLen);
-
         clearMap();
-        addNew_WithZoomAndCenter(data, trackCoordsLatLng, zoom);
+
+        $.each(data, function (i, item)
+        {
+            var trackCoordsLatLng = [];
+            $.each(item.Path, function (ip, itemp)
+            {
+                trackCoordsLatLng.push(new window.google.maps.LatLng(itemp.Latitude, itemp.Longitude));
+            });
+            if (data.length === 1) {
+                var p1 = new window.google.maps.LatLng(item.Max.Latitude, item.Max.Longitude);
+                var p2 = new window.google.maps.LatLng(item.Min.Latitude, item.Min.Longitude);
+
+                var maxLen = window.google.maps.geometry.spherical.computeDistanceBetween(p1, p2) / 1000;
+                var zoom = getZoomByLen(maxLen);
+                addNew_WithZoomAndCenter(item, trackCoordsLatLng, zoom);
+            } else {
+                addNew(trackCoordsLatLng);
+            }
+        });
     });
 }

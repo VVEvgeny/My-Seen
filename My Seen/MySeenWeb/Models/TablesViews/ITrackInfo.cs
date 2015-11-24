@@ -11,13 +11,13 @@ namespace MySeenWeb.Models.TablesViews
 
         public void CallcMinMaxCenter()
         {
-            double minX = Path[0].Latitude;
-            double maxX = Path[0].Latitude;
+            var minX = Path[0].Latitude;
+            var maxX = Path[0].Latitude;
 
-            double minY = Path[0].Longitude;
-            double maxY = Path[0].Longitude;
+            var minY = Path[0].Longitude;
+            var maxY = Path[0].Longitude;
 
-            foreach (Location l in Path)
+            foreach (var l in Path)
             {
                 if (minX > l.Latitude) minX = l.Latitude;
                 if (maxX < l.Latitude) maxX = l.Latitude;

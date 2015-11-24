@@ -2,7 +2,7 @@
 
 @model ShareViewModelTracks
 
-<br/>
+<br />
 
 @Scripts.Render("~/bundles/jquery", "~/bundles/bootstrap")
 @Scripts.Render("~/bundles/gmap3", "~/bundles/myseen.gmap")
@@ -46,10 +46,8 @@
 
 <script language="javascript" type="text/javascript">
     (function ($) {
-        $(function ()
-        {
+        $(function () {
             showTrackByKey('@Model.Key');
         });
     })(jQuery);
 </script>
-

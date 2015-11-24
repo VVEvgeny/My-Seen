@@ -14,7 +14,11 @@
 <div class="row">
     <div class="panel panel-primary col-md-3">
         <div class="panel panel-default">
-            <div class="panel-heading">@Resource.Tracks</div>
+            <div class="panel-heading">@Resource.Tracks
+                <span class="pull-right alert-info small">
+                    <button class="btn btn-xs btn-info" id="All All"><small><span class="glyphicon glyphicon-share"></span></small></button>
+                </span>
+            </div>
             <ul class="nav nav-tabs">
                 @if (Model.HaveFoot)
                 {
@@ -38,6 +42,7 @@
                     <div id="menu1" class="list-group tab-pane fade in active">
                         <a href="" class="list-group-item track-id" id="All Foot">
                             <h5 class="list-group-item-heading align-center">@Resource.All<span class="badge pull-right">@Model.CountFoot</span></h5>
+                            <h6 class="list-group-item-text align-center">@Resource.Distance :<span class="badge pull-right alert-info small">@Model.DistanceFootText</span></h6>
                             <h6 class="list-group-item-text align-left">
                                 @Resource.Actions :
                                 <span class="pull-right alert-info small">
@@ -67,6 +72,7 @@
                     <div id="menu2" class="list-group tab-pane fade @Model.HaveFoot?:in active">
                         <a href="" class="list-group-item track-id" id="All Car">
                             <h5 class="list-group-item-heading align-center">@Resource.All<span class="badge pull-right">@Model.CountCar</span></h5>
+                            <h6 class="list-group-item-text align-center">@Resource.Distance :<span class="badge pull-right alert-info small">@Model.DistanceCarText</span></h6>
                             <h6 class="list-group-item-text align-left">
                                 @Resource.Actions :
                                 <span class="pull-right alert-info small">
@@ -196,7 +202,7 @@
 <script language="javascript" type="text/javascript">
     (function ($) {
         $(function () {
-            var $list = $('.tab-content');
+            var $list = $('.tab-content,.panel-heading');
             var $addButton = $('#addButton');
             var $submitAddButton = $('#submitAddButton');
             var $modal = $('#ModalAddWindow');
