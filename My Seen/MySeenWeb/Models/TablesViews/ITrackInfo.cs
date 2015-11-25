@@ -9,7 +9,7 @@ namespace MySeenWeb.Models.TablesViews
         public Location Center { get; set; }
         public Location Max { get; set; }
 
-        public void CallcMinMaxCenter()
+        public virtual void CallcMinMaxCenter()
         {
             var minX = Path[0].Latitude;
             var maxX = Path[0].Latitude;

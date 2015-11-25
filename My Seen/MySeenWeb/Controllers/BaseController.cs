@@ -50,7 +50,7 @@ namespace MySeenWeb.Controllers
         {
             var cookie = ControllerContext.HttpContext.Request.Cookies[key] ?? new HttpCookie(key);
             cookie.Value = value;
-            cookie.Expires = DateTime.Now.AddDays(1);
+            cookie.Expires = DateTime.Now.AddDays(14);
             ControllerContext.HttpContext.Response.Cookies.Add(cookie);
             //ControllerContext.HttpContext.Session[key] = cookie;
         }

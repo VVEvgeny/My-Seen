@@ -97,17 +97,19 @@ namespace MySeenWeb.Models
         {
             var ti = new TrackInfo {Path = new List<Location>()};
             var ac = new ApplicationDbContext();
-            var coordinates = ac.Tracks.First(t => t.UserId == userId && t.Id == id).Coordinates;
-            foreach (var s in coordinates.Split(';'))
+            var track = ac.Tracks.First(t => t.UserId == userId && t.Id == id);
+            ti.Name = track.Name;
+            ti.Date = track.Date;
+            foreach (var s in track.Coordinates.Split(';'))
             {
                 ti.Path.Add(new Location { Latitude = double.Parse(s.Split(',')[0], CultureInfo.InvariantCulture), Longitude = double.Parse(s.Split(',')[1], CultureInfo.InvariantCulture) });
             }
             ti.CallcMinMaxCenter();
             return ti;
         }
-        public static IEnumerable<TrackInfo> GetTrackByKey(string key)
+        public static ShareTrackInfo GetTrackByKey(string key)
         {
-            var list = new List<TrackInfo>();
+            var list =new List<List<Location>>();
             var ac = new ApplicationDbContext();
 
             if (ac.Users.Any(u => u.ShareTracksFootKey != null && u.ShareTracksFootKey == key))
@@ -117,58 +119,38 @@ namespace MySeenWeb.Models
 
                 foreach (var item in ac.Tracks.Where(t => t.UserId == userId && t.Type == type))
                 {
-                    var ti = new TrackInfo { Path = new List<Location>() };
-                    foreach (var s in item.Coordinates.Split(';'))
-                    {
-                        ti.Path.Add(new Location { Latitude = double.Parse(s.Split(',')[0], CultureInfo.InvariantCulture), Longitude = double.Parse(s.Split(',')[1], CultureInfo.InvariantCulture) });
-                    }
-                    ti.CallcMinMaxCenter();
-                    list.Add(ti);
+                    list.Add(new List<Location>(item.Coordinates.Split(';').Select(s => new Location { Latitude = double.Parse(s.Split(',')[0], CultureInfo.InvariantCulture), Longitude = double.Parse(s.Split(',')[1], CultureInfo.InvariantCulture) }).ToList()));
                 }
             }
             else if (ac.Users.Any(u => u.ShareTracksCarKey != null && u.ShareTracksCarKey == key))
             {
                 var userId = ac.Users.First(u => u.ShareTracksCarKey == key).Id;
                 const int type = (int)TrackTypes.Car;
+
                 foreach (var item in ac.Tracks.Where(t => t.UserId == userId && t.Type == type))
                 {
-                    var ti = new TrackInfo { Path = new List<Location>() };
-                    foreach (var s in item.Coordinates.Split(';'))
-                    {
-                        ti.Path.Add(new Location { Latitude = double.Parse(s.Split(',')[0], CultureInfo.InvariantCulture), Longitude = double.Parse(s.Split(',')[1], CultureInfo.InvariantCulture) });
-                    }
-                    ti.CallcMinMaxCenter();
-                    list.Add(ti);
+                    list.Add(new List<Location>(item.Coordinates.Split(';').Select(s => new Location { Latitude = double.Parse(s.Split(',')[0], CultureInfo.InvariantCulture), Longitude = double.Parse(s.Split(',')[1], CultureInfo.InvariantCulture) }).ToList()));
                 }
             }
             else if (ac.Users.Any(u => u.ShareTracksAllKey != null && u.ShareTracksAllKey == key))
             {
                 var userId = ac.Users.First(u => u.ShareTracksAllKey == key).Id;
+
                 foreach (var item in ac.Tracks.Where(t => t.UserId == userId))
                 {
-                    var ti = new TrackInfo { Path = new List<Location>() };
-                    foreach (var s in item.Coordinates.Split(';'))
-                    {
-                        ti.Path.Add(new Location { Latitude = double.Parse(s.Split(',')[0], CultureInfo.InvariantCulture), Longitude = double.Parse(s.Split(',')[1], CultureInfo.InvariantCulture) });
-                    }
-                    ti.CallcMinMaxCenter();
-                    list.Add(ti);
+                    list.Add(new List<Location>(item.Coordinates.Split(';').Select(s => new Location { Latitude = double.Parse(s.Split(',')[0], CultureInfo.InvariantCulture), Longitude = double.Parse(s.Split(',')[1], CultureInfo.InvariantCulture) }).ToList()));
                 }
             }
             else
             {
                 foreach (var item in ac.Tracks.Where(t => t.ShareKey == key))
                 {
-                    var ti = new TrackInfo { Path = new List<Location>() };
-                    foreach (var s in item.Coordinates.Split(';'))
-                    {
-                        ti.Path.Add(new Location { Latitude = double.Parse(s.Split(',')[0], CultureInfo.InvariantCulture), Longitude = double.Parse(s.Split(',')[1], CultureInfo.InvariantCulture) });
-                    }
-                    ti.CallcMinMaxCenter();
-                    list.Add(ti);
+                    list.Add(new List<Location>(item.Coordinates.Split(';').Select(s => new Location {Latitude = double.Parse(s.Split(',')[0], CultureInfo.InvariantCulture), Longitude = double.Parse(s.Split(',')[1], CultureInfo.InvariantCulture)}).ToList()));
                 }
             }
-            return list;
+            var obj = new ShareTrackInfo {Data = list};
+            obj.CallcMinMaxCenter();
+            return obj;
         }
         public static string GetTrackNameById(int id, string userId)
         {
@@ -178,7 +160,7 @@ namespace MySeenWeb.Models
         public static string GetTrackDateById(int id, string userId)
         {
             var ac = new ApplicationDbContext();
-            return ac.Tracks.First(t => t.UserId == userId && t.Id == id).Date.ToString();
+            return ac.Tracks.First(t => t.UserId == userId && t.Id == id).Date.ToString(CultureInfo.CurrentCulture);
         }
         public static string GetTrackCoordinatesById(int id, string userId)
         {
@@ -260,6 +242,14 @@ namespace MySeenWeb.Models
             }
             ac.SaveChanges();
         }
+        public static void DeleteTrack(string id, string userId)
+        {
+            var ac = new ApplicationDbContext();
 
+            var iid = Convert.ToInt32(id);
+            ac.Tracks.RemoveRange(ac.Tracks.Where(t => t.UserId == userId && t.Id == iid));
+
+            ac.SaveChanges();
+        }
     }
 }

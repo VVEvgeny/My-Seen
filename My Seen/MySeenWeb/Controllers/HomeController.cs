@@ -618,6 +618,16 @@ namespace MySeenWeb.Controllers
             return RedirectToAction("Index");
         }
         [Authorize]
+        public ActionResult DeleteTrack(string id)
+        {
+            if (User.Identity.IsAuthenticated)
+            {
+                HomeViewModelTracks.DeleteTrack(id, User.Identity.GetUserId());
+                return Json(new { success = true }, JsonRequestBehavior.AllowGet);
+            }
+            return RedirectToAction("Index");
+        }
+        [Authorize]
         public ActionResult GetTrackCoordinatesById(int id)
         {
             if (User.Identity.IsAuthenticated)

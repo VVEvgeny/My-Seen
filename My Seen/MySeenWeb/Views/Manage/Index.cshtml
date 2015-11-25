@@ -33,10 +33,11 @@
     <dl class="dl-horizontal">
         <dt>Записей на страницу</dt>
         <dd>
-            @Html.DropDownList("Rpp", Model.RppList, new { @class = "form-control", @id = "lstRpp", @style = "width: 200px;" })
+            @Html.DropDownList("Rpp", Model.RppList, new {@class = "form-control", @id = "lstRpp", @style = "width: 200px;"})
             <div id="RPPSaved" style="display: none;" class="text-success">@Resource.Saved</div>
         </dd>
     </dl>
+    <!--
         @if (Model.HaveData)
         {
             <dl class="dl-horizontal">
@@ -49,6 +50,7 @@
                 </dd>
             </dl>
         }
+        -->
 </div>
 
 <footer class="row">

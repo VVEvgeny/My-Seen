@@ -24,6 +24,7 @@ function CalcDistance(data)
 
     return window.google.maps.geometry.spherical.computeLength(polyline.getPath()) / 1000;
 }
+
 function CalcDistanceFromTxt(data)
 {
     var array = data.split(";");
@@ -41,44 +42,34 @@ function CalcDistanceFromTxt(data)
     return window.google.maps.geometry.spherical.computeLength(polyline.getPath()) / 1000;
 }
 
-function clearMap()
+function clearPolylines()
 {
-    //Очистка старых
     jQuery("#my_map").gmap3({
         clear: {
             tag: ["polyline"]
         }
     });
 }
-function addNew_WithZoomAndCenter(data, trackCoordsLatLng, zoom)
-{
+
+function clearMap() {
+    clearPolylines();
+}
+
+function SetZoomAndCenter(center, zoom) {
     jQuery("#my_map").gmap3(
     {
         map: {
             options: {
                 zoom: zoom,
-                center: new window.google.maps.LatLng(data.Center.Latitude, data.Center.Longitude)
+                center: new window.google.maps.LatLng(center.Latitude, center.Longitude)
             }
-        },
-        polyline: {
-            options: {
-                strokeColor: "#FF0000",//Красный
-                strokeOpacity: 1.0,
-                strokeWeight: 2,
-                path: trackCoordsLatLng
-            },
-            tag: ["polyline"]
         }
     });
 }
-function addNew(trackCoordsLatLng) {
+
+function addPolyline(trackCoordsLatLng) {
     jQuery("#my_map").gmap3(
     {
-        map: {
-            options: {
-                zoom: 2
-            }
-        },
         polyline: {
             options: {
                 strokeColor: "#FF0000",//Красный
@@ -91,70 +82,37 @@ function addNew(trackCoordsLatLng) {
     });
 }
 
-function GetTrackNameByIdIntoField(id, field)
-{
-    $.getJSON('/Home/GetTrackNameById/' + id + '/', function (data) {
-        //console.log('loaded data=', data);
-        field.val(data);
-        return data;
-    });
-}
-function GetTrackCoordinatesByIdIntoField(id, field) {
-    $.getJSON('/Home/GetTrackCoordinatesById/' + id + '/', function (data) {
-        //console.log('loaded data=', data);
-        field.val(data);
-        return data;
-    });
-}
-function GetTrackDateByIdIntoField(id, field) {
-    $.getJSON('/Home/GetTrackDateById/' + id + '/', function (data) {
-        //console.log('loaded data=', data);
-        field.val(data);
-        return data;
-    });
-}
 function showTrack(id,centerAndZoom)
 {
     $.getJSON('/Home/GetTrack/' + id + '/', function (data)
     {
-        //console.log("location Latitude=", data.Location.Latitude, "Longitude", data.Location.Longitude);
-
         var trackCoordsLatLng = [];
         $.each(data.Path, function (i, item)
         {
-            //console.log("history Latitude=", item.Latitude, "Longitude", item.Longitude);
             trackCoordsLatLng.push(new window.google.maps.LatLng(item.Latitude, item.Longitude));
         });
 
         if (centerAndZoom) {
-            /*
-            var polyline = new google.maps.Polyline({
-                path: trackCoordsLatLng
-            });
-            */
-
-            var zoom = 12;
-
-            //расстояние от удаленных точек, есть смысл их считать, только по горизонтали
-            var p1 = new window.google.maps.LatLng(data.Max.Latitude, data.Max.Longitude);
-            var p2 = new window.google.maps.LatLng(data.Min.Latitude, data.Min.Longitude);
-            //console.log("max Latitude=", data.Max.Latitude, "Longitude", data.Max.Longitude);
-            //console.log("min Latitude=", data.Min.Latitude, "Longitude", data.Min.Longitude);
-
-            var maxLen = window.google.maps.geometry.spherical.computeDistanceBetween(p1, p2) / 1000;
-            console.log("maxLen=", maxLen);
-            zoom = getZoomByLen(maxLen);
 
             clearMap();
-            addNew_WithZoomAndCenter(data, trackCoordsLatLng, zoom);
+
+            addPolyline(trackCoordsLatLng);
+
+            SetZoomAndCenter(data.Center, getZoom(data.Min,data.Max));
         }
         else
         {
-            addNew(trackCoordsLatLng);
+            addPolyline(trackCoordsLatLng);
         }
     });
 }
-function getZoomByLen(maxLen) {
+
+function getZoom(min, max) {
+
+    var p1 = new window.google.maps.LatLng(max.Latitude, max.Longitude);
+    var p2 = new window.google.maps.LatLng(min.Latitude, min.Longitude);
+    var maxLen = window.google.maps.geometry.spherical.computeDistanceBetween(p1, p2) / 1000;
+
     var zoom = 12;
     if (maxLen < 10) zoom = 14;
     else if (maxLen >= 10 && maxLen < 30) zoom = 11;
@@ -163,31 +121,26 @@ function getZoomByLen(maxLen) {
     else if (maxLen >= 160 && maxLen < 400) zoom = 8;
     else if (maxLen >= 400 && maxLen < 600) zoom = 7;
     else if (maxLen >= 600 && maxLen < 1000) zoom = 6;
+    else if (maxLen >= 1000 && maxLen < 1300) zoom = 5;
     return zoom;
 }
 
 function showTrackByKey(key) {
-    $.getJSON('/Home/GetTrackByKey/' + key + '/', function (data) {
+
+    $.getJSON('/Home/GetTrackByKey/' + key + '/', function (shareTrackInfo) {
 
         clearMap();
 
-        $.each(data, function (i, item)
+        $.each(shareTrackInfo.Data, function (i, item)
         {
             var trackCoordsLatLng = [];
-            $.each(item.Path, function (ip, itemp)
+            $.each(item, function (ip, itemp)
             {
                 trackCoordsLatLng.push(new window.google.maps.LatLng(itemp.Latitude, itemp.Longitude));
             });
-            if (data.length === 1) {
-                var p1 = new window.google.maps.LatLng(item.Max.Latitude, item.Max.Longitude);
-                var p2 = new window.google.maps.LatLng(item.Min.Latitude, item.Min.Longitude);
-
-                var maxLen = window.google.maps.geometry.spherical.computeDistanceBetween(p1, p2) / 1000;
-                var zoom = getZoomByLen(maxLen);
-                addNew_WithZoomAndCenter(item, trackCoordsLatLng, zoom);
-            } else {
-                addNew(trackCoordsLatLng);
-            }
+            addPolyline(trackCoordsLatLng);
         });
+
+        SetZoomAndCenter(shareTrackInfo.Center, getZoom(shareTrackInfo.Min, shareTrackInfo.Max));
     });
 }

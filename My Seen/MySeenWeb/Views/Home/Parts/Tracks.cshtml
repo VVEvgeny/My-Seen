@@ -119,25 +119,34 @@
                 <div class="form-horizontal">
                     <div class="form-group">
                         <label for="trackName" class="col-sm-2 control-label">@Resource.Name</label>
-                        <div class="col-sm-10">
+                        <div id="loadingtrackNameModal" tabindex="-99" align="center">
+                            <img src="~/Content/Images/loading_small.gif" />
+                        </div>
+                        <div class="col-sm-10" id="trackNameModal">
                             <input type="text" class="form-control track-name" id="trackName" placeholder="@Resource.Name">
                         </div>
                     </div>
                     <div class="form-group">
                         <label for="datetimepicker" class="col-sm-2 control-label">@Resource.When</label>
-                        <div class="col-sm-10">
+                        <div id="loadingdatetimepickerModal" tabindex="-99" align="center">
+                            <img src="~/Content/Images/loading_small.gif" />
+                        </div>
+                        <div class="col-sm-10" id="datetimepickerModal">
                             <input type="text" class="form-control track-date" id="datetimepicker" placeholder="@DateTime.Now" />
                         </div>
                     </div>
                     <div class="form-group">
                         <label class="col-sm-2 control-label">@Resource.Type</label>
                         <div class="col-sm-10">
-                            @Html.DropDownList("type", Model.TypeList, new { @class = "form-control track-type", @id = "type" })
+                            @Html.DropDownList("type", Model.TypeList, new {@class = "form-control track-type", @id = "type"})
                         </div>
                     </div>
                     <div class="form-group">
                         <label class="col-sm-2 control-label">@Resource.Coordinates</label>
-                        <div class="col-sm-10">
+                        <div id="loadingtrackCoordsModal" tabindex="-99" align="center">
+                            <img src="~/Content/Images/loading_small.gif" />
+                        </div>
+                        <div class="col-sm-10" id="trackCoordsModal">
                             @Html.TextArea("trackCoords", null, 10, 55, new { @class = "form-control track-coords", @placeholder = "Latitude,Longitude;Latitude,Longitude;..." })
                         </div>
                     </div>
@@ -176,8 +185,13 @@
                 <div class="form-horizontal">
                     <div class="form-group">
                         <label for="trackName" class="col-sm-2 control-label">@Resource.Link</label>
-                        <input type="text" class="form-control track-name col-sm-7" id="trackLink" placeholder="@Resource.Link">
-                        <button type="button" class="btn btn-info col-sm-3" id="shareTryButton">@Resource.Try&nbsp;<span class="glyphicon glyphicon-arrow-right"></span></button>
+                        <div id="loadingtrackLinkModalShare" tabindex="-99" align="center">
+                            <img src="~/Content/Images/loading_small.gif"/>
+                        </div>
+                        <div id="trackLinkModalShare">
+                            <input type="text" class="form-control track-name col-sm-7" id="trackLink" placeholder="@Resource.Link">
+                            <button type="button" class="btn btn-info col-sm-3" id="shareTryButton">@Resource.Try&nbsp;<span class="glyphicon glyphicon-arrow-right"></span></button>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -269,12 +283,16 @@
             $list.on('click', '.btn-info', function () {
                 var $item = $(this);
                 var id = $item.attr('id');
+                var $loadingtrackLinkBegin = $('#loadingtrackLinkModalShare');
+                var $loadingtrackLinkEnd = $('#trackLinkModalShare');
+                $loadingtrackLinkBegin.show();
+                $loadingtrackLinkEnd.hide();
                 var $shareGetButton = $('#shareGetButton');
                 var $shareDeleteGetButton = $('#shareDeleteGetButton');
                 var $shareTryButton = $('#shareTryButton');
                 var $trackLink = $('#trackLink');
 
-                console.log("Share click id=", id);
+                //console.log("Share click id=", id);
 
 
                 $shareDeleteGetButton.hide();
@@ -282,7 +300,9 @@
                 $shareGetButton.show();
                 $.getJSON('/Home/GetTrackShare/' + id + '/', function (data)
                 {
-                    console.log('GetTrackShare=', data);
+                    $loadingtrackLinkBegin.hide();
+                    $loadingtrackLinkEnd.show();
+                    //console.log('GetTrackShare=', data);
                     if (data === '') return;
                     $shareGetButton.hide();
                     $shareTryButton.show();
@@ -298,9 +318,10 @@
 
                 $shareGetButton.off('click');
                 $shareGetButton.on('click', function () {
-                    console.log("shareGetButton id=", id);
+                    //console.log("shareGetButton id=", id);
 
-                    $.getJSON('/Home/GenerateTrackShare/' + id + '/', function (data) {
+                    $.getJSON('/Home/GenerateTrackShare/' + id + '/', function (data)
+                    {
                         //console.log('GetTrackShare=', data);
                         $shareGetButton.hide();
                         $shareDeleteGetButton.show();
@@ -313,7 +334,7 @@
 
                 $shareDeleteGetButton.off('click');
                 $shareDeleteGetButton.on('click', function () {
-                    console.log("shareDeleteGetButton id=", id);
+                    //console.log("shareDeleteGetButton id=", id);
 
                     url = '/Home/DeleteTrackShare/' + id + '/';
                     data = { id: id };
@@ -325,7 +346,7 @@
 
                 $shareTryButton.off('click');
                 $shareTryButton.on('click', function () {
-                    console.log("$shareTryButton id=", id);
+                    //console.log("$shareTryButton id=", id);
 
                     window.open($trackLink.val(), '_blank');
 
@@ -348,9 +369,46 @@
                 var defaultModalType = $trackType.find('option:selected').text();
                 var $trackDate = $modalBody.find('.track-date');
 
-                GetTrackNameByIdIntoField(id, $trackName);
-                GetTrackCoordinatesByIdIntoField(id, $trackCoords);
-                GetTrackDateByIdIntoField(id, $trackDate);
+
+                var $loadingTrackNameBegin = $('#loadingtrackNameModal');
+                var $loadingTrackNameEnd = $('#trackNameModal');
+
+                var $loadingTrackDatesBegin = $('#loadingdatetimepickerModal');
+                var $loadingTrackDateEnd = $('#datetimepickerModal');
+
+                var $loadingTrackCoordinatesBegin = $('#loadingtrackCoordsModal');
+                var $loadingTrackCoordinatesEnd = $('#trackCoordsModal');
+
+
+                $loadingTrackNameBegin.show();
+                $loadingTrackNameEnd.hide();
+                $.getJSON('/Home/GetTrackNameById/' + id + '/', function (name)
+                {
+                    $trackName.val(name);
+
+                    $loadingTrackNameBegin.hide();
+                    $loadingTrackNameEnd.show();
+                });
+
+                $loadingTrackDatesBegin.show();
+                $loadingTrackDateEnd.hide();
+                $.getJSON('/Home/GetTrackDateById/' + id + '/', function (date)
+                {
+                    $trackDate.val(date);
+
+                    $loadingTrackDatesBegin.hide();
+                    $loadingTrackDateEnd.show();
+                });
+
+                $loadingTrackCoordinatesBegin.show();
+                $loadingTrackCoordinatesEnd.hide();
+                $.getJSON('/Home/GetTrackCoordinatesById/' + id + '/', function (coordinates) {
+                    $trackCoords.val(coordinates);
+
+                    $loadingTrackCoordinatesBegin.hide();
+                    $loadingTrackCoordinatesEnd.show();
+                });
+
 
                 var typeinmenu = $item.parent().parent().parent().parent().attr('id');
                 //console.log('type=', typeinmenu);
@@ -358,7 +416,7 @@
                     $trackType.find('option').filter(function (index) { return index === 1; }).prop('selected', true);
                 }
 
-                console.log("Edit click id=", id);
+                //console.log("Edit click id=", id);
 
                 var $deleteButton = $('#deleteButton');
                 var defaultModalTitle = $modalTitle.text();
@@ -391,10 +449,10 @@
                 $deleteButton.on('click', function () {
 
                     url = '/Home/DeleteTrack';
-                    console.log('delete track=', id);
+                    //console.log('delete track=', id);
                     data = { id: id };
-                    alert('Пока не делал, стремно терять, их сложно делать..');
-                    //sendRequest(url, data);
+                    //alert('Пока не делал, стремно терять, их сложно делать..');
+                    sendRequest(url, data);
 
                     return false;
                 });
