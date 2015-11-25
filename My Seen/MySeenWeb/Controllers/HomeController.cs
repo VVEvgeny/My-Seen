@@ -18,19 +18,15 @@ namespace MySeenWeb.Controllers
         {
             LogSave.Save(User.Identity.IsAuthenticated ? User.Identity.GetUserId() : "", Request.UserHostAddress, Request.UserAgent, "Home/Index");
 
-            if (User.Identity.IsAuthenticated)
-            {
-                HomeViewModel af = new HomeViewModel(
-                    ReadCookie(CookieKeys.HomeCategory, Defaults.CategoryBase.FilmIndex).ToString(),
-                    User.Identity.GetUserId(),
-                    page ?? 1,
-                    Rpp,
-                    ReadCookie(CookieKeys.ImprovementsCategory, Defaults.ComplexBase.IndexAll),
-                    search
-                    );
-                return View(af);
-            }
-            return View();
+            if (!User.Identity.IsAuthenticated) return View();
+            return View(new HomeViewModel(
+                ReadCookie(CookieKeys.HomeCategory, Defaults.CategoryBase.FilmIndex).ToString(),
+                User.Identity.GetUserId(),
+                page ?? 1,
+                Rpp,
+                ReadCookie(CookieKeys.ImprovementsCategory, Defaults.ComplexBase.IndexAll),
+                search
+                ));
         }
         [Authorize]
         [HttpPost]
@@ -51,29 +47,19 @@ namespace MySeenWeb.Controllers
         public JsonResult AddFilm(string name, string datetime, string genre, string rating)
         {
             LogSave.Save(User.Identity.IsAuthenticated ? User.Identity.GetUserId() : "", Request.UserHostAddress, Request.UserAgent, "Home/AddFilm", name);
-            string errorMessage = string.Empty;
-            string userId = User.Identity.GetUserId();
-            if (string.IsNullOrEmpty(errorMessage))
-            {
-                if (string.IsNullOrEmpty(name)) errorMessage = Resource.EnterFilmName;
-            }
-            if (string.IsNullOrEmpty(errorMessage))
-            {
-                if (string.IsNullOrEmpty(datetime)) errorMessage = "datetime";
-            }
-            ApplicationDbContext ac = new ApplicationDbContext();
-            if (string.IsNullOrEmpty(errorMessage))
-            {
-                if (ac.Films.Count(f => f.Name == name && f.UserId == userId) != 0)//айди проверяем только для редактируемых, чтобы не налететь по названию на чужой
-                {
-                    errorMessage = Resource.FilmNameAlreadyExists;
-                }
-            }
+            var errorMessage = string.Empty;
+            var userId = User.Identity.GetUserId();
+            var ac = new ApplicationDbContext();
+            
+            if (string.IsNullOrEmpty(errorMessage) && string.IsNullOrEmpty(name))errorMessage = Resource.EnterFilmName;
+            if (string.IsNullOrEmpty(errorMessage) && string.IsNullOrEmpty(datetime)) errorMessage = "datetime";
+            if (string.IsNullOrEmpty(errorMessage) && ac.Films.Any(f => f.Name == name && f.UserId == userId))errorMessage = Resource.FilmNameAlreadyExists;
+
             if (string.IsNullOrEmpty(errorMessage))
             {
                 try
                 {
-                    Films f = new Films { Name = name, Genre = Convert.ToInt32(genre), Rating = Convert.ToInt32(rating), DateSee = UmtTime.To(Convert.ToDateTime(datetime)), DateChange = UmtTime.To(DateTime.Now), UserId = userId };
+                    var f = new Films { Name = name, Genre = Convert.ToInt32(genre), Rating = Convert.ToInt32(rating), DateSee = UmtTime.To(Convert.ToDateTime(datetime)), DateChange = UmtTime.To(DateTime.Now), UserId = userId };
                     ac.Films.Add(f);
                     ac.SaveChanges();
                 }
@@ -93,28 +79,20 @@ namespace MySeenWeb.Controllers
         public JsonResult EditFilm(string id, string name, string datetime, string genre, string rating)
         {
             LogSave.Save(User.Identity.IsAuthenticated ? User.Identity.GetUserId() : "", Request.UserHostAddress, Request.UserAgent, "Home/EditFilm", id);
-            string errorMessage = string.Empty;
-            string userId = User.Identity.GetUserId();
-            if (string.IsNullOrEmpty(errorMessage))
-            {
-                if (string.IsNullOrEmpty(name)) errorMessage = Resource.EnterFilmName;
-            }
-            if (string.IsNullOrEmpty(errorMessage))
-            {
-                if (string.IsNullOrEmpty(datetime)) errorMessage = "datetime";
-            }
-            
-            ApplicationDbContext ac = new ApplicationDbContext();
-            int iid = (Convert.ToInt32(id));
-            if (ac.Films.Count(f => f.Name == name && f.UserId == userId && f.Id != iid) != 0)//айди проверяем только для редактируемых, чтобы не налететь по названию на чужой
-            {
-                errorMessage = Resource.FilmNameAlreadyExists;
-            }
+            var errorMessage = string.Empty;
+            var userId = User.Identity.GetUserId();
+            var ac = new ApplicationDbContext();
+            var iid = (Convert.ToInt32(id));
+
+            if (string.IsNullOrEmpty(errorMessage) && string.IsNullOrEmpty(name)) errorMessage = Resource.EnterFilmName;
+            if (string.IsNullOrEmpty(errorMessage) && string.IsNullOrEmpty(datetime)) errorMessage = "datetime";
+            if (string.IsNullOrEmpty(errorMessage) && ac.Films.Any(f => f.Name == name && f.UserId == userId && f.Id != iid)) errorMessage = Resource.FilmNameAlreadyExists;
+
             if (string.IsNullOrEmpty(errorMessage))
             {
                 try
                 {
-                    Films film = ac.Films.First(f => f.UserId == userId && f.Id == iid);
+                    var film = ac.Films.First(f => f.UserId == userId && f.Id == iid);
                     film.Name = name;
                     film.Genre = Convert.ToInt32(genre);
                     film.Rating = Convert.ToInt32(rating);
@@ -127,42 +105,28 @@ namespace MySeenWeb.Controllers
                     errorMessage = Resource.ErrorWorkWithDB + "=" + e.Message;
                 }
             }
-            if (!string.IsNullOrEmpty(errorMessage))
-            {
-                return new JsonResult { Data = new { success = false, error = errorMessage } };
-            }
-            return Json(new { success = true });
+            return !string.IsNullOrEmpty(errorMessage) ? new JsonResult { Data = new { success = false, error = errorMessage } } : Json(new { success = true });
         }
         [Authorize]
         [HttpPost]
         public JsonResult AddSerial(string name, string season, string series, string datetime, string genre, string rating)
         {
             LogSave.Save(User.Identity.IsAuthenticated ? User.Identity.GetUserId() : "", Request.UserHostAddress, Request.UserAgent, "Home/AddSerial", name);
-            string errorMessage = string.Empty;
-            string userId = User.Identity.GetUserId();
-            if (string.IsNullOrEmpty(errorMessage))
-            {
-                if (string.IsNullOrEmpty(name)) errorMessage = Resource.EnterSerialName;
-            }
-            if (string.IsNullOrEmpty(errorMessage))
-            {
-                if (string.IsNullOrEmpty(datetime)) errorMessage = "datetime";
-            }
-            ApplicationDbContext ac = new ApplicationDbContext();
-            if (string.IsNullOrEmpty(errorMessage))
-            {
-                if (ac.Serials.Count(f => f.Name == name && f.UserId == userId) != 0)//айди проверяем только для редактируемых, чтобы не налететь по названию на чужой
-                {
-                    errorMessage = Resource.SerialNameAlreadyExists;
-                }
-            }
+            var errorMessage = string.Empty;
+            var userId = User.Identity.GetUserId();
+            var ac = new ApplicationDbContext();
+
+            if (string.IsNullOrEmpty(errorMessage) && string.IsNullOrEmpty(name)) errorMessage = Resource.EnterSerialName;
+            if (string.IsNullOrEmpty(errorMessage) && string.IsNullOrEmpty(datetime))errorMessage = "datetime";
+            if (string.IsNullOrEmpty(errorMessage) && ac.Serials.Any(f => f.Name == name && f.UserId == userId)) errorMessage = Resource.SerialNameAlreadyExists;
+
             if (string.IsNullOrEmpty(errorMessage))
             {
                 try
                 {
                     if (string.IsNullOrEmpty(season)) season = "1";
                     if (string.IsNullOrEmpty(series)) series = "1";
-                    Serials s = new Serials { Name = name, LastSeason = Convert.ToInt32(season), LastSeries = Convert.ToInt32(series), Genre = Convert.ToInt32(genre), Rating = Convert.ToInt32(rating), DateBegin = UmtTime.To(Convert.ToDateTime(datetime)), DateLast = UmtTime.To(DateTime.Now), DateChange = UmtTime.To(DateTime.Now), UserId = userId };
+                    var s = new Serials { Name = name, LastSeason = Convert.ToInt32(season), LastSeries = Convert.ToInt32(series), Genre = Convert.ToInt32(genre), Rating = Convert.ToInt32(rating), DateBegin = UmtTime.To(Convert.ToDateTime(datetime)), DateLast = UmtTime.To(DateTime.Now), DateChange = UmtTime.To(DateTime.Now), UserId = userId };
                     ac.Serials.Add(s);
                     ac.SaveChanges();
                 }
@@ -171,34 +135,27 @@ namespace MySeenWeb.Controllers
                     errorMessage = Resource.ErrorWorkWithDB + "=" + e.Message;
                 }
             }
-            if (!string.IsNullOrEmpty(errorMessage))
-            {
-                return new JsonResult { Data = new { success = false, error = errorMessage } };
-            }
-            return Json(new { success = true });
+            return !string.IsNullOrEmpty(errorMessage) ? new JsonResult { Data = new { success = false, error = errorMessage } } : Json(new { success = true });
         }
         [Authorize]
         [HttpPost]
         public JsonResult EditSerial(string id, string name, string season, string series, string datetime, string genre, string rating)
         {
             LogSave.Save(User.Identity.IsAuthenticated ? User.Identity.GetUserId() : "", Request.UserHostAddress, Request.UserAgent, "Home/EditSerial", id);
-            string errorMessage = string.Empty;
-            string userId = User.Identity.GetUserId();
-            if (string.IsNullOrEmpty(errorMessage))
-            {
-                if (string.IsNullOrEmpty(name)) errorMessage = Resource.EnterSerialName;
-            }
-            ApplicationDbContext ac = new ApplicationDbContext();
-            int iid = (Convert.ToInt32(id));
-            if (ac.Serials.Count(f => f.Name == name && f.UserId == userId && f.Id != iid) != 0)//айди проверяем только для редактируемых, чтобы не налететь по названию на чужой
-            {
-                errorMessage = Resource.FilmNameAlreadyExists;
-            }
+            var errorMessage = string.Empty;
+            var userId = User.Identity.GetUserId();
+            var ac = new ApplicationDbContext();
+            var iid = (Convert.ToInt32(id));
+
+            if (string.IsNullOrEmpty(errorMessage) && string.IsNullOrEmpty(name))errorMessage = Resource.EnterSerialName;
+            if (string.IsNullOrEmpty(errorMessage) && string.IsNullOrEmpty(datetime)) errorMessage = "datetime";
+            if (string.IsNullOrEmpty(errorMessage) && ac.Serials.Any(f => f.Name == name && f.UserId == userId && f.Id != iid)) errorMessage = Resource.FilmNameAlreadyExists;
+
             if (string.IsNullOrEmpty(errorMessage))
             {
                 try
                 {
-                    Serials film = ac.Serials.First(f => f.UserId == userId && f.Id == iid);
+                    var film = ac.Serials.First(f => f.UserId == userId && f.Id == iid);
                     film.Name = name;
                     if (film.LastSeason != Convert.ToInt32(season) || film.LastSeries != Convert.ToInt32(series))
                     {
@@ -217,44 +174,27 @@ namespace MySeenWeb.Controllers
                     errorMessage = Resource.ErrorWorkWithDB + "=" + e.Message;
                 }
             }
-            if (!string.IsNullOrEmpty(errorMessage))
-            {
-                return new JsonResult { Data = new { success = false, error = errorMessage } };
-            }
-            return Json(new { success = true });
+            return !string.IsNullOrEmpty(errorMessage) ? new JsonResult { Data = new { success = false, error = errorMessage } } : Json(new { success = true });
         }
         [Authorize]
         [HttpPost]
         public JsonResult AddBook(string name, string authors, string datetime, string genre, string rating)
         {
             LogSave.Save(User.Identity.IsAuthenticated ? User.Identity.GetUserId() : "", Request.UserHostAddress, Request.UserAgent, "Home/AddBook", name);
-            string errorMessage = string.Empty;
-            string userId = User.Identity.GetUserId();
-            if (string.IsNullOrEmpty(errorMessage))
-            {
-                if (string.IsNullOrEmpty(authors)) errorMessage = Resource.EnterBookName;
-            }
-            if (string.IsNullOrEmpty(errorMessage))
-            {
-                if (string.IsNullOrEmpty(authors)) errorMessage = Resource.EnterBookAuthors;
-            }
-            if (string.IsNullOrEmpty(errorMessage))
-            {
-                if (string.IsNullOrEmpty(datetime))errorMessage = "Чота дата кривая";
-            }
-            ApplicationDbContext ac = new ApplicationDbContext();
-            if (string.IsNullOrEmpty(errorMessage))
-            {
-                if (ac.Books.Any(f => f.Name == name && f.UserId == userId))//айди проверяем только для редактируемых, чтобы не налететь по названию на чужой
-                {
-                    errorMessage = Resource.BookNameAlreadyExists;
-                }
-            }
+            var errorMessage = string.Empty;
+            var userId = User.Identity.GetUserId();
+            var ac = new ApplicationDbContext();
+
+            if (string.IsNullOrEmpty(errorMessage) && string.IsNullOrEmpty(authors))errorMessage = Resource.EnterBookName;
+            if (string.IsNullOrEmpty(errorMessage) && string.IsNullOrEmpty(authors))errorMessage = Resource.EnterBookAuthors;
+            if (string.IsNullOrEmpty(errorMessage) && string.IsNullOrEmpty(datetime))errorMessage = "Чота дата кривая";
+            if (string.IsNullOrEmpty(errorMessage) && ac.Books.Any(f => f.Name == name && f.UserId == userId)) errorMessage = Resource.BookNameAlreadyExists;
+
             if (string.IsNullOrEmpty(errorMessage))
             {
                 try
                 {
-                    Books f = new Books { Name = name, Authors = authors, Genre = Convert.ToInt32(genre), Rating = Convert.ToInt32(rating), DateRead = UmtTime.To(Convert.ToDateTime(datetime)), DateChange = UmtTime.To(DateTime.Now), UserId = userId };
+                    var f = new Books { Name = name, Authors = authors, Genre = Convert.ToInt32(genre), Rating = Convert.ToInt32(rating), DateRead = UmtTime.To(Convert.ToDateTime(datetime)), DateChange = UmtTime.To(DateTime.Now), UserId = userId };
                     ac.Books.Add(f);
                     ac.SaveChanges();
                 }
@@ -263,42 +203,28 @@ namespace MySeenWeb.Controllers
                     errorMessage = Resource.ErrorWorkWithDB + "=" + e.Message;
                 }
             }
-            if (!string.IsNullOrEmpty(errorMessage))
-            {
-                return new JsonResult { Data = new { success = false, error = errorMessage } };
-            }
-            return Json(new { success = true });
+            return !string.IsNullOrEmpty(errorMessage) ? new JsonResult { Data = new { success = false, error = errorMessage } } : Json(new { success = true });
         }
         [Authorize]
         [HttpPost]
         public JsonResult EditBook(string id, string name, string authors,string datetime, string genre, string rating)
         {
             LogSave.Save(User.Identity.IsAuthenticated ? User.Identity.GetUserId() : "", Request.UserHostAddress, Request.UserAgent, "Home/EditBook", id);
-            string errorMessage = string.Empty;
-            string userId = User.Identity.GetUserId();
-            if (string.IsNullOrEmpty(errorMessage))
-            {
-                if (string.IsNullOrEmpty(name)) errorMessage = Resource.EnterBookName;
-            }
-            if (string.IsNullOrEmpty(errorMessage))
-            {
-                if (string.IsNullOrEmpty(authors)) errorMessage = Resource.EnterBookAuthors;
-            }
-            if (string.IsNullOrEmpty(errorMessage))
-            {
-                if (string.IsNullOrEmpty(datetime)) errorMessage = "надо дата";
-            }
-            ApplicationDbContext ac = new ApplicationDbContext();
-            int iid = (Convert.ToInt32(id));
-            if (ac.Books.Count(f => f.Name == name && f.UserId == userId && f.Id != iid) != 0)//айди проверяем только для редактируемых, чтобы не налететь по названию на чужой
-            {
-                errorMessage = Resource.BookNameAlreadyExists;
-            }
+            var errorMessage = string.Empty;
+            var userId = User.Identity.GetUserId();
+            var ac = new ApplicationDbContext();
+            var iid = Convert.ToInt32(id);
+
+            if (string.IsNullOrEmpty(errorMessage) && string.IsNullOrEmpty(authors))errorMessage = Resource.EnterBookName;
+            if (string.IsNullOrEmpty(errorMessage) && string.IsNullOrEmpty(authors))errorMessage = Resource.EnterBookAuthors;
+            if (string.IsNullOrEmpty(errorMessage) && string.IsNullOrEmpty(datetime))errorMessage = "Чота дата кривая";
+            if (string.IsNullOrEmpty(errorMessage) && ac.Books.Any(f => f.Name == name && f.UserId == userId && f.Id != iid)) errorMessage = Resource.BookNameAlreadyExists;
+
             if (string.IsNullOrEmpty(errorMessage))
             {
                 try
                 {
-                    Books film = ac.Books.First(f => f.UserId == userId && f.Id == iid);
+                    var film = ac.Books.First(f => f.UserId == userId && f.Id == iid);
                     film.Name = name;
                     film.Authors = authors;
                     film.Genre = Convert.ToInt32(genre);
@@ -312,27 +238,23 @@ namespace MySeenWeb.Controllers
                     errorMessage = Resource.ErrorWorkWithDB + "=" + e.Message;
                 }
             }
-            if (!string.IsNullOrEmpty(errorMessage))
-            {
-                return new JsonResult { Data = new { success = false, error = errorMessage } };
-            }
-            return Json(new { success = true });
+            return !string.IsNullOrEmpty(errorMessage) ? new JsonResult { Data = new { success = false, error = errorMessage } } : Json(new { success = true });
         }
         [Authorize]
         [HttpPost]
         public JsonResult DeleteFilm(string id)
         {
             LogSave.Save(User.Identity.IsAuthenticated ? User.Identity.GetUserId() : "", Request.UserHostAddress, Request.UserAgent, "Home/DeleteFilm", id);
-            string errorMessage = string.Empty;
-            string userId = User.Identity.GetUserId();
-            ApplicationDbContext ac = new ApplicationDbContext();
-            int iid = (Convert.ToInt32(id));
+            var errorMessage = string.Empty;
+            var userId = User.Identity.GetUserId();
+            var ac = new ApplicationDbContext();
+            var iid = (Convert.ToInt32(id));
 
             if (string.IsNullOrEmpty(errorMessage))
             {
                 try
                 {
-                    Films film = ac.Films.First(f => f.UserId == userId && f.Id == iid);
+                    var film = ac.Films.First(f => f.UserId == userId && f.Id == iid);
                     film.isDeleted = true;
                     ac.SaveChanges();
                 }
@@ -341,27 +263,23 @@ namespace MySeenWeb.Controllers
                     errorMessage = Resource.ErrorWorkWithDB + "=" + e.Message;
                 }
             }
-            if (!string.IsNullOrEmpty(errorMessage))
-            {
-                return new JsonResult { Data = new { success = false, error = errorMessage } };
-            }
-            return Json(new { success = true });
+            return !string.IsNullOrEmpty(errorMessage) ? new JsonResult { Data = new { success = false, error = errorMessage } } : Json(new { success = true });
         }
         [Authorize]
         [HttpPost]
         public JsonResult DeleteSerial(string id)
         {
             LogSave.Save(User.Identity.IsAuthenticated ? User.Identity.GetUserId() : "", Request.UserHostAddress, Request.UserAgent, "Home/DeleteSerial", id);
-            string errorMessage = string.Empty;
-            string userId = User.Identity.GetUserId();
-            ApplicationDbContext ac = new ApplicationDbContext();
-            int iid = (Convert.ToInt32(id));
+            var errorMessage = string.Empty;
+            var userId = User.Identity.GetUserId();
+            var ac = new ApplicationDbContext();
+            var iid = (Convert.ToInt32(id));
 
             if (string.IsNullOrEmpty(errorMessage))
             {
                 try
                 {
-                    Serials film = ac.Serials.First(f => f.UserId == userId && f.Id == iid);
+                    var film = ac.Serials.First(f => f.UserId == userId && f.Id == iid);
                     film.isDeleted = true;
                     ac.SaveChanges();
                 }
@@ -370,27 +288,23 @@ namespace MySeenWeb.Controllers
                     errorMessage = Resource.ErrorWorkWithDB + "=" + e.Message;
                 }
             }
-            if (!string.IsNullOrEmpty(errorMessage))
-            {
-                return new JsonResult { Data = new { success = false, error = errorMessage } };
-            }
-            return Json(new { success = true });
+            return !string.IsNullOrEmpty(errorMessage) ? new JsonResult { Data = new { success = false, error = errorMessage } } : Json(new { success = true });
         }
         [Authorize]
         [HttpPost]
         public JsonResult DeleteBook(string id)
         {
             LogSave.Save(User.Identity.IsAuthenticated ? User.Identity.GetUserId() : "", Request.UserHostAddress, Request.UserAgent, "Home/DeleteBook", id);
-            string errorMessage = string.Empty;
-            string userId = User.Identity.GetUserId();
-            ApplicationDbContext ac = new ApplicationDbContext();
-            int iid = (Convert.ToInt32(id));
+            var errorMessage = string.Empty;
+            var userId = User.Identity.GetUserId();
+            var ac = new ApplicationDbContext();
+            var iid = (Convert.ToInt32(id));
 
             if (string.IsNullOrEmpty(errorMessage))
             {
                 try
                 {
-                    Books film = ac.Books.First(f => f.UserId == userId && f.Id == iid);
+                    var film = ac.Books.First(f => f.UserId == userId && f.Id == iid);
                     film.isDeleted = true;
                     ac.SaveChanges();
                 }
@@ -399,27 +313,18 @@ namespace MySeenWeb.Controllers
                     errorMessage = Resource.ErrorWorkWithDB + "=" + e.Message;
                 }
             }
-            if (!string.IsNullOrEmpty(errorMessage))
-            {
-                return new JsonResult { Data = new { success = false, error = errorMessage } };
-            }
-            return Json(new { success = true });
+            return !string.IsNullOrEmpty(errorMessage) ? new JsonResult { Data = new { success = false, error = errorMessage } } : Json(new { success = true });
         }
         [Authorize]
         [HttpPost]
         public JsonResult AddImprovement(string desc, string complex)
         {
             LogSave.Save(User.Identity.IsAuthenticated ? User.Identity.GetUserId() : "", Request.UserHostAddress, Request.UserAgent, "Home/AddImprovement", desc);
-            string errorMessage = string.Empty;
-            ApplicationDbContext ac = new ApplicationDbContext();
-            if (string.IsNullOrEmpty(errorMessage))
-            {
-                if (desc.Length == 0)
-                {
-                    errorMessage = Resource.DescToShort;
-                }
-            }
-            int id = -1;
+            var errorMessage = string.Empty;
+            var ac = new ApplicationDbContext();
+            var id = -1;
+
+            if (string.IsNullOrEmpty(errorMessage) && desc.Length == 0)errorMessage = Resource.DescToShort;
             if (string.IsNullOrEmpty(errorMessage))
             {
                 try
@@ -432,13 +337,7 @@ namespace MySeenWeb.Controllers
                     errorMessage = "Корявая айдишка";
                 }
             }
-            if (string.IsNullOrEmpty(errorMessage))
-            {
-                if (ac.Bugs.Count(f => f.Text == desc && f.Complex == id) != 0)
-                {
-                    errorMessage = Resource.BugAlreadyExists;
-                }
-            }
+            if (string.IsNullOrEmpty(errorMessage) && ac.Bugs.Any(f => f.Text == desc && f.Complex == id)) errorMessage = Resource.BugAlreadyExists;
             if (string.IsNullOrEmpty(errorMessage))
             {
                 try
@@ -451,28 +350,19 @@ namespace MySeenWeb.Controllers
                     errorMessage = Resource.ErrorWorkWithDB + "=" + e.Message;
                 }
             }
-            if (!string.IsNullOrEmpty(errorMessage))
-            {
-                return new JsonResult { Data = new { success = false, error = errorMessage } };
-            }
-            return Json(new { success = true });
+            return !string.IsNullOrEmpty(errorMessage) ? new JsonResult { Data = new { success = false, error = errorMessage } } : Json(new { success = true });
         }
         [Authorize]
         [HttpPost]
         public JsonResult EndImprovement(string id, string desc, string version)
         {
             LogSave.Save(User.Identity.IsAuthenticated ? User.Identity.GetUserId() : "", Request.UserHostAddress, Request.UserAgent, "Home/EndImprovement", id + " " + desc + " " + version);
-            string errorMessage = string.Empty;
-            ApplicationDbContext ac = new ApplicationDbContext();
+            var errorMessage = string.Empty;
+            var ac = new ApplicationDbContext();
             var recordId = -1;
-            int versionNum = -1;
-            if (string.IsNullOrEmpty(errorMessage))
-            {
-                if (desc.Length == 0)
-                {
-                    errorMessage = Resource.DescToShort;
-                }
-            }
+            var versionNum = -1;
+
+            if (string.IsNullOrEmpty(errorMessage) && desc.Length == 0) errorMessage = Resource.DescToShort;
             if (string.IsNullOrEmpty(errorMessage))
             {
                 try
@@ -512,20 +402,17 @@ namespace MySeenWeb.Controllers
                     errorMessage = Resource.ErrorWorkWithDB + "=" + e.Message;
                 }
             }
-            if (!string.IsNullOrEmpty(errorMessage))
-            {
-                return new JsonResult { Data = new { success = false, error = errorMessage } };
-            }
-            return Json(new { success = true });
+            return !string.IsNullOrEmpty(errorMessage) ? new JsonResult { Data = new { success = false, error = errorMessage } } : Json(new { success = true });
         }
         [Authorize]
         [HttpPost]
         public JsonResult DeleteImprovement(string id)
         {
             LogSave.Save(User.Identity.IsAuthenticated ? User.Identity.GetUserId() : "", Request.UserHostAddress, Request.UserAgent, "Home/DeleteImprovement", id);
-            string errorMessage = string.Empty;
-            ApplicationDbContext ac = new ApplicationDbContext();
-            int recordId = 0;
+            var errorMessage = string.Empty;
+            var ac = new ApplicationDbContext();
+            var recordId = 0;
+
             if (string.IsNullOrEmpty(errorMessage))
             {
                 recordId = Convert.ToInt32(id);
@@ -641,26 +528,12 @@ namespace MySeenWeb.Controllers
         public JsonResult AddTrack(string name, string datetime, string type, string coordinates, string distance)
         {
             LogSave.Save(User.Identity.IsAuthenticated ? User.Identity.GetUserId() : "", Request.UserHostAddress, Request.UserAgent, "Home/AddTrack", name);
-            string errorMessage = string.Empty;
-            ApplicationDbContext ac = new ApplicationDbContext();
+            var errorMessage = string.Empty;
+            var ac = new ApplicationDbContext();
+            var id = -1;
 
-            //errorMessage = "name=" + name + " type=" + type + " coordinates=" + coordinates + " distance=" + distance;
-
-            if (string.IsNullOrEmpty(errorMessage))
-            {
-                if (string.IsNullOrEmpty(name))
-                {
-                    errorMessage = "Короткое название";
-                }
-            }
-            if (string.IsNullOrEmpty(errorMessage))
-            {
-                if (string.IsNullOrEmpty(datetime))
-                {
-                    errorMessage = "Ошибка в дате";
-                }
-            }
-            int id = -1;
+            if (string.IsNullOrEmpty(errorMessage) && string.IsNullOrEmpty(name)) errorMessage = "Короткое название";
+            if (string.IsNullOrEmpty(errorMessage) && string.IsNullOrEmpty(datetime))errorMessage = "Ошибка в дате";
             if (string.IsNullOrEmpty(errorMessage))
             {
                 try
@@ -673,31 +546,14 @@ namespace MySeenWeb.Controllers
                     errorMessage = "Корявый тип";
                 }
             }
-            if (string.IsNullOrEmpty(errorMessage))
-            {
-                if (coordinates.Length == 0)
-                {
-                    errorMessage = "Нет координат";
-                }
-            }
-            if (string.IsNullOrEmpty(errorMessage))
-            {
-                if (distance.Length == 0 || distance.ToLower() == "nan".ToLower() || distance == "0")
-                {
-                    errorMessage = "Ошибка вычисления расстояния, перепроверьте координаты";
-                }
-            }
+            if (string.IsNullOrEmpty(errorMessage) && coordinates.Length == 0)errorMessage = "Нет координат";
+            if (string.IsNullOrEmpty(errorMessage) && (distance.Length == 0 || distance.ToLower() == "nan".ToLower() || distance == "0"))errorMessage = "Ошибка вычисления расстояния, перепроверьте координаты";
+
             double toDouble = -1;
             if (string.IsNullOrEmpty(errorMessage))
             {
-                string sDistance = distance;
-                if (distance.Contains('.'))
-                {
-                    //if (distance.Length > (distance.IndexOf('.') + 1 + 4))
-                    {
-                        sDistance = sDistance.Remove(distance.IndexOf('.'));
-                    }
-                }
+                var sDistance = distance;
+                if (distance.Contains('.')) sDistance = sDistance.Remove(distance.IndexOf('.'));
                 try
                 {
                     toDouble = Convert.ToDouble(sDistance);
@@ -708,13 +564,7 @@ namespace MySeenWeb.Controllers
                     errorMessage = "Нереальное расстояние =" + distance + " s_=" + sDistance + " mes=" + e.Message;
                 }
             }
-            if (string.IsNullOrEmpty(errorMessage))
-            {
-                if (!distance.Split(';').Any() || distance.Split(';').Length > 100)
-                {
-                    errorMessage = "Ошибка колличества координат =" + distance.Split(';').Length.ToString();
-                }
-            }
+            if (string.IsNullOrEmpty(errorMessage) && (!distance.Split(';').Any() || distance.Split(';').Length > 100))errorMessage = "Ошибка колличества координат =" + distance.Split(';').Length;
             if (string.IsNullOrEmpty(errorMessage))
             {
                 try
@@ -727,37 +577,20 @@ namespace MySeenWeb.Controllers
                     errorMessage = Resource.ErrorWorkWithDB + "=" + e.Message;
                 }
             }
-            if (!string.IsNullOrEmpty(errorMessage))
-            {
-                return new JsonResult { Data = new { success = false, error = errorMessage } };
-            }
-            return Json(new { success = true });
+            return !string.IsNullOrEmpty(errorMessage) ? new JsonResult { Data = new { success = false, error = errorMessage } } : Json(new { success = true });
         }
         [Authorize]
         [HttpPost]
         public JsonResult EditTrack(int id, string name, string datetime, string type, string coordinates, string distance)
         {
             LogSave.Save(User.Identity.IsAuthenticated ? User.Identity.GetUserId() : "", Request.UserHostAddress, Request.UserAgent, "Home/EditTrack", name);
-            string errorMessage = string.Empty;
-            ApplicationDbContext ac = new ApplicationDbContext();
-
-            //errorMessage = "id="+id.ToString()+" name=" + name + " type=" + type + " coordinates=" + coordinates + " distance=" + distance;
-
-            if (string.IsNullOrEmpty(errorMessage))
-            {
-                if (string.IsNullOrEmpty(name))
-                {
-                    errorMessage = "Короткое название";
-                }
-            }
-            if (string.IsNullOrEmpty(errorMessage))
-            {
-                if (string.IsNullOrEmpty(datetime))
-                {
-                    errorMessage = "Ошибка в дате";
-                }
-            }
+            var errorMessage = string.Empty;
+            var ac = new ApplicationDbContext();
             var recordId = -1;
+            double toDouble = -1;
+
+            if (string.IsNullOrEmpty(errorMessage) && string.IsNullOrEmpty(name))errorMessage = "Короткое название";
+            if (string.IsNullOrEmpty(errorMessage) && string.IsNullOrEmpty(datetime))errorMessage = "Ошибка в дате";
             if (string.IsNullOrEmpty(errorMessage))
             {
                 try
@@ -770,31 +603,12 @@ namespace MySeenWeb.Controllers
                     errorMessage = "Корявый тип";
                 }
             }
+            if (string.IsNullOrEmpty(errorMessage) && coordinates.Length == 0)errorMessage = "Нет координат";
+            if (string.IsNullOrEmpty(errorMessage) && (distance.Length == 0 || distance.ToLower() == "nan".ToLower() || distance == "0"))errorMessage = "Ошибка вычисления расстояния, перепроверьте координаты";
             if (string.IsNullOrEmpty(errorMessage))
             {
-                if (coordinates.Length == 0)
-                {
-                    errorMessage = "Нет координат";
-                }
-            }
-            if (string.IsNullOrEmpty(errorMessage))
-            {
-                if (distance.Length == 0 || distance.ToLower() == "nan".ToLower() || distance == "0")
-                {
-                    errorMessage = "Ошибка вычисления расстояния, перепроверьте координаты";
-                }
-            }
-            double toDouble = -1;
-            if (string.IsNullOrEmpty(errorMessage))
-            {
-                string sDistance = distance;
-                if (distance.Contains('.'))
-                {
-                    //if (distance.Length > (distance.IndexOf('.') + 1 + 4))
-                    {
-                        sDistance = sDistance.Remove(distance.IndexOf('.'));
-                    }
-                }
+                var sDistance = distance;
+                if (distance.Contains('.')) sDistance = sDistance.Remove(distance.IndexOf('.'));
                 try
                 {
                     toDouble = Convert.ToDouble(sDistance);
@@ -805,13 +619,7 @@ namespace MySeenWeb.Controllers
                     errorMessage = "Нереальное расстояние =" + distance + " s_=" + sDistance + " mes=" + e.Message;
                 }
             }
-            if (string.IsNullOrEmpty(errorMessage))
-            {
-                if (!distance.Split(';').Any() || distance.Split(';').Length > 100)
-                {
-                    errorMessage = "Ошибка колличества координат =" + distance.Split(';').Length.ToString();
-                }
-            }
+            if (string.IsNullOrEmpty(errorMessage) && (!distance.Split(';').Any() || distance.Split(';').Length > 100))errorMessage = "Ошибка колличества координат =" + distance.Split(';').Length;
             if (string.IsNullOrEmpty(errorMessage))
             {
                 try
@@ -830,11 +638,7 @@ namespace MySeenWeb.Controllers
                     errorMessage = Resource.ErrorWorkWithDB + "=" + e.Message;
                 }
             }
-            if (!string.IsNullOrEmpty(errorMessage))
-            {
-                return new JsonResult { Data = new { success = false, error = errorMessage } };
-            }
-            return Json(new { success = true });
+            return !string.IsNullOrEmpty(errorMessage) ? new JsonResult { Data = new { success = false, error = errorMessage } } : Json(new { success = true });
         }
         [BrowserActionFilter]
         public ActionResult Home()
@@ -870,5 +674,13 @@ namespace MySeenWeb.Controllers
             WriteCookie(CookieKeys.HomeCategory, (int)HomeViewModel.CategoryExt.Improvements);
             return RedirectToAction("Index");
         }
+        [BrowserActionFilter]
+        [Authorize]
+        public ActionResult TrackEditor()
+        {
+            LogSave.Save(User.Identity.IsAuthenticated ? User.Identity.GetUserId() : "", Request.UserHostAddress, Request.UserAgent, "Home/TrackEditor");
+            return View(new HomeViewModelTrackEditor(User.Identity.GetUserId()));
+        }
+        
     }
 }

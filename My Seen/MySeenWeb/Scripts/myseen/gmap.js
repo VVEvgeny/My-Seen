@@ -50,9 +50,17 @@ function clearPolylines()
         }
     });
 }
+function clearMarkers() {
+    jQuery("#my_map").gmap3({
+        clear: {
+            tag: ["marker"]
+        }
+    });
+}
 
 function clearMap() {
     clearPolylines();
+    clearMarkers();
 }
 
 function SetZoomAndCenter(center, zoom) {
@@ -67,12 +75,16 @@ function SetZoomAndCenter(center, zoom) {
     });
 }
 
-function addPolyline(trackCoordsLatLng) {
+function addPolyline(trackCoordsLatLng, color) {
+
+    var strokeColor = "#FF0000";//Красный
+    if (color === "green") strokeColor = "#008000";//зеленый
+
     jQuery("#my_map").gmap3(
     {
         polyline: {
             options: {
-                strokeColor: "#FF0000",//Красный
+                strokeColor: strokeColor,
                 strokeOpacity: 1.0,
                 strokeWeight: 2,
                 path: trackCoordsLatLng
@@ -81,28 +93,61 @@ function addPolyline(trackCoordsLatLng) {
         }
     });
 }
+function getMarkerIcon(type) {
+    //https://sites.google.com/site/gmapicons/home
+    if (type === "start") return "http://www.google.com/mapfiles/dd-start.png";
+    else if (type === "end") return "http://www.google.com/mapfiles/dd-end.png";
+    //http://maps.google.com/mapfiles/marker_green.png
+    return "http://www.google.com/mapfiles/marker.png";
+}
+function addMarker(markerCoords, data, icon, id, key) {
 
-function showTrack(id,centerAndZoom)
-{
-    $.getJSON('/Home/GetTrack/' + id + '/', function (data)
+    var trackCoordsLatLng = new window.google.maps.LatLng(markerCoords.Latitude, markerCoords.Longitude);
+
+    jQuery("#my_map").gmap3(
     {
-        var trackCoordsLatLng = [];
-        $.each(data.Path, function (i, item)
-        {
-            trackCoordsLatLng.push(new window.google.maps.LatLng(item.Latitude, item.Longitude));
-        });
-
-        if (centerAndZoom) {
-
-            clearMap();
-
-            addPolyline(trackCoordsLatLng);
-
-            SetZoomAndCenter(data.Center, getZoom(data.Min,data.Max));
-        }
-        else
-        {
-            addPolyline(trackCoordsLatLng);
+        marker: {
+            values: [
+              {
+                  latLng: trackCoordsLatLng,
+                  data: data,
+                  options: { icon: getMarkerIcon(icon) }
+              }
+            ],
+            options: {
+                draggable: false
+            },
+            tag: ["marker"]
+            ,
+            events: {
+                mouseover: function (marker, event, context) {
+                    var map = $(this).gmap3("get"),
+                      infowindow = $(this).gmap3({ get: { name: "infowindow" } });
+                    if (infowindow) {
+                        infowindow.open(map, marker);
+                        infowindow.setContent(context.data);
+                    } else {
+                        $(this).gmap3({
+                            infowindow: {
+                                anchor: marker,
+                                options: { content: context.data }
+                            }
+                        });
+                    }
+                },
+                mouseout: function () {
+                    var infowindow = $(this).gmap3({ get: { name: "infowindow" } });
+                    if (infowindow) {
+                        infowindow.close();
+                    }
+                },
+                click: function () {
+                    if (id) {
+                        if (key) showTrackByKey(key, id);
+                        else showTrack(id, true, "green");
+                    }
+                }
+            }
         }
     });
 }
@@ -125,7 +170,31 @@ function getZoom(min, max) {
     return zoom;
 }
 
-function showTrackByKey(key) {
+function showTrack(id, centerAndZoom,color) {
+
+    $.getJSON('/Home/GetTrack/' + id + '/', function (trackInfo) {
+        var trackCoordsLatLng = [];
+        $.each(trackInfo.Path, function (i, item) {
+            trackCoordsLatLng.push(new window.google.maps.LatLng(item.Latitude, item.Longitude));
+        });
+
+        if (centerAndZoom) {
+
+            clearMap();
+
+            addPolyline(trackCoordsLatLng, color);
+            SetZoomAndCenter(trackInfo.Center, getZoom(trackInfo.Min, trackInfo.Max));
+        }
+        else {
+            addPolyline(trackCoordsLatLng, color);
+        }
+        
+        addMarker(trackInfo.Start, "Start " + trackInfo.Name + " - " + trackInfo.DateText, "start", trackInfo.Id);
+        addMarker(trackInfo.End, "End " + trackInfo.Name + " - " + trackInfo.DateText, "end", trackInfo.Id);
+    });
+}
+
+function showTrackByKey(key,id) {
 
     $.getJSON('/Home/GetTrackByKey/' + key + '/', function (shareTrackInfo) {
 
@@ -134,11 +203,14 @@ function showTrackByKey(key) {
         $.each(shareTrackInfo.Data, function (i, item)
         {
             var trackCoordsLatLng = [];
-            $.each(item, function (ip, itemp)
+            $.each(item.Path, function (ip, itemp)
             {
                 trackCoordsLatLng.push(new window.google.maps.LatLng(itemp.Latitude, itemp.Longitude));
             });
-            addPolyline(trackCoordsLatLng);
+
+            addPolyline(trackCoordsLatLng, id === item.Id ? "green" : "");
+            addMarker(item.Start, "Start " + item.Name + " - " + item.DateText, "start", item.Id, key);
+            addMarker(item.End, "End " + item.Name + " - " + item.DateText, "end", item.Id, key);
         });
 
         SetZoomAndCenter(shareTrackInfo.Center, getZoom(shareTrackInfo.Min, shareTrackInfo.Max));

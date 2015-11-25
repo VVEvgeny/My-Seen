@@ -260,6 +260,7 @@
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
+    <Compile Include="Models\HomeViewModelTrackEditor.cs" />
     <Compile Include="Models\ShareViewModelTracks.cs" />
     <Compile Include="Models\TablesViews\ShareTrackInfo.cs" />
     <Compile Include="Models\TablesViews\ITrackInfo.cs" />
@@ -308,6 +309,7 @@
     <Content Include="Content\Images\browser-opera.png" />
     <Content Include="Content\Images\browser-safari.png" />
     <Content Include="Content\Images\loading_small.gif" />
+    <Content Include="Content\myseen\gmap3-menu.css" />
     <Content Include="Content\themes\base\accordion.css" />
     <Content Include="Content\themes\base\all.css" />
     <Content Include="Content\themes\base\autocomplete.css" />
@@ -442,6 +444,8 @@
     <Content Include="Scripts\moment-with-locales.min.js" />
     <Content Include="Scripts\moment.js" />
     <Content Include="Scripts\moment.min.js" />
+    <Content Include="Scripts\myseen\gmap3menu.js" />
+    <Content Include="Scripts\myseen\gmap.editor.js" />
     <Content Include="Scripts\myseen\gmap.js" />
     <Content Include="Scripts\myseen\table.js" />
     <Content Include="Scripts\jquery-2.1.4.js" />
@@ -503,6 +507,7 @@
     <Content Include="Views\BrowserFilter\Index.cshtml" />
     <Content Include="Views\Home\Parts\About.cshtml" />
     <Content Include="Views\Share\Tracks.cshtml" />
+    <Content Include="Views\Home\TrackEditor.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

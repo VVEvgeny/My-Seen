@@ -100,6 +100,7 @@ namespace MySeenWeb.Models
             var track = ac.Tracks.First(t => t.UserId == userId && t.Id == id);
             ti.Name = track.Name;
             ti.Date = track.Date;
+            ti.Id = track.Id;
             foreach (var s in track.Coordinates.Split(';'))
             {
                 ti.Path.Add(new Location { Latitude = double.Parse(s.Split(',')[0], CultureInfo.InvariantCulture), Longitude = double.Parse(s.Split(',')[1], CultureInfo.InvariantCulture) });
@@ -109,7 +110,7 @@ namespace MySeenWeb.Models
         }
         public static ShareTrackInfo GetTrackByKey(string key)
         {
-            var list =new List<List<Location>>();
+            var list =new List<TrackInfo>();
             var ac = new ApplicationDbContext();
 
             if (ac.Users.Any(u => u.ShareTracksFootKey != null && u.ShareTracksFootKey == key))
@@ -119,7 +120,23 @@ namespace MySeenWeb.Models
 
                 foreach (var item in ac.Tracks.Where(t => t.UserId == userId && t.Type == type))
                 {
-                    list.Add(new List<Location>(item.Coordinates.Split(';').Select(s => new Location { Latitude = double.Parse(s.Split(',')[0], CultureInfo.InvariantCulture), Longitude = double.Parse(s.Split(',')[1], CultureInfo.InvariantCulture) }).ToList()));
+                    list.Add(new TrackInfo
+                    {
+                        Path =
+                            new List<Location>(
+                                item.Coordinates.Split(';')
+                                    .Select(
+                                        s =>
+                                            new Location
+                                            {
+                                                Latitude = double.Parse(s.Split(',')[0], CultureInfo.InvariantCulture),
+                                                Longitude = double.Parse(s.Split(',')[1], CultureInfo.InvariantCulture)
+                                            })
+                                    .ToList()),
+                        Name = item.Name,
+                        Date = item.Date,
+                        Id = item.Id
+                    });
                 }
             }
             else if (ac.Users.Any(u => u.ShareTracksCarKey != null && u.ShareTracksCarKey == key))
@@ -129,7 +146,23 @@ namespace MySeenWeb.Models
 
                 foreach (var item in ac.Tracks.Where(t => t.UserId == userId && t.Type == type))
                 {
-                    list.Add(new List<Location>(item.Coordinates.Split(';').Select(s => new Location { Latitude = double.Parse(s.Split(',')[0], CultureInfo.InvariantCulture), Longitude = double.Parse(s.Split(',')[1], CultureInfo.InvariantCulture) }).ToList()));
+                    list.Add(new TrackInfo
+                    {
+                        Path =
+                            new List<Location>(
+                                item.Coordinates.Split(';')
+                                    .Select(
+                                        s =>
+                                            new Location
+                                            {
+                                                Latitude = double.Parse(s.Split(',')[0], CultureInfo.InvariantCulture),
+                                                Longitude = double.Parse(s.Split(',')[1], CultureInfo.InvariantCulture)
+                                            })
+                                    .ToList()),
+                        Name = item.Name,
+                        Date = item.Date,
+                        Id = item.Id
+                    });
                 }
             }
             else if (ac.Users.Any(u => u.ShareTracksAllKey != null && u.ShareTracksAllKey == key))
@@ -138,14 +171,46 @@ namespace MySeenWeb.Models
 
                 foreach (var item in ac.Tracks.Where(t => t.UserId == userId))
                 {
-                    list.Add(new List<Location>(item.Coordinates.Split(';').Select(s => new Location { Latitude = double.Parse(s.Split(',')[0], CultureInfo.InvariantCulture), Longitude = double.Parse(s.Split(',')[1], CultureInfo.InvariantCulture) }).ToList()));
+                    list.Add(new TrackInfo
+                    {
+                        Path =
+                            new List<Location>(
+                                item.Coordinates.Split(';')
+                                    .Select(
+                                        s =>
+                                            new Location
+                                            {
+                                                Latitude = double.Parse(s.Split(',')[0], CultureInfo.InvariantCulture),
+                                                Longitude = double.Parse(s.Split(',')[1], CultureInfo.InvariantCulture)
+                                            })
+                                    .ToList()),
+                        Name = item.Name,
+                        Date = item.Date,
+                        Id = item.Id
+                    });
                 }
             }
             else
             {
                 foreach (var item in ac.Tracks.Where(t => t.ShareKey == key))
                 {
-                    list.Add(new List<Location>(item.Coordinates.Split(';').Select(s => new Location {Latitude = double.Parse(s.Split(',')[0], CultureInfo.InvariantCulture), Longitude = double.Parse(s.Split(',')[1], CultureInfo.InvariantCulture)}).ToList()));
+                    list.Add(new TrackInfo
+                    {
+                        Path =
+                            new List<Location>(
+                                item.Coordinates.Split(';')
+                                    .Select(
+                                        s =>
+                                            new Location
+                                            {
+                                                Latitude = double.Parse(s.Split(',')[0], CultureInfo.InvariantCulture),
+                                                Longitude = double.Parse(s.Split(',')[1], CultureInfo.InvariantCulture)
+                                            })
+                                    .ToList()),
+                        Name = item.Name,
+                        Date = item.Date,
+                        Id = item.Id
+                    });
                 }
             }
             var obj = new ShareTrackInfo {Data = list};

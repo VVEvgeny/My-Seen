@@ -8,6 +8,14 @@ namespace MySeenWeb.Models.TablesViews
         public Location Min { get; set; }
         public Location Center { get; set; }
         public Location Max { get; set; }
+        public Location Start
+        {
+            get { return Path[0]; }
+        }
+        public Location End
+        {
+            get { return Path[Path.Count - 1]; }
+        }
 
         public virtual void CallcMinMaxCenter()
         {
