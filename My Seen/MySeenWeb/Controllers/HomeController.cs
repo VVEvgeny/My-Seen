@@ -18,10 +18,10 @@ namespace MySeenWeb.Controllers
         {
             LogSave.Save(User.Identity.IsAuthenticated ? User.Identity.GetUserId() : "", Request.UserHostAddress, Request.UserAgent, "Home/Index");
 
-            if (!User.Identity.IsAuthenticated) return View();
+            //if (!User.Identity.IsAuthenticated) return View();
             return View(new HomeViewModel(
                 ReadCookie(CookieKeys.HomeCategory, Defaults.CategoryBase.FilmIndex).ToString(),
-                User.Identity.GetUserId(),
+                User.Identity.IsAuthenticated?User.Identity.GetUserId():string.Empty,
                 page ?? 1,
                 Rpp,
                 ReadCookie(CookieKeys.ImprovementsCategory, Defaults.ComplexBase.IndexAll),

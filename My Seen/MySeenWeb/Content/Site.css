@@ -1,4 +1,12 @@
-﻿.gmap{
+﻿body .modal-images {
+    /* new custom width */
+    width: 1000px;
+    height: 1000px;
+    /* must be half of the width, minus scrollbar on the left (30px) */
+    margin-left: 0;
+}
+
+.gmap{
         margin: 20px auto;
         border: 1px dashed #C0C0C0;
         width: 100%;

@@ -87,24 +87,41 @@ namespace MySeenWeb.Models
         public HomeViewModelUsers Users;
         public HomeViewModelLogs Logs;
         public HomeViewModelImprovements Improvements;
+        public HomeViewModelAbout About;
 
         public string Search { get; set; }
 
-
         public HomeViewModel(string selected, string userId, int page, int countInPage, int complex, string search)
         {
-            Search = search;
-            Selected = selected;
-            if (PageSerials) Serials = new HomeViewModelSerials(userId, page, countInPage, search);
-            else if (PageBooks) Books = new HomeViewModelBooks(userId, page, countInPage, search);
-            else if (PageTracks) Tracks = new HomeViewModelTracks(userId);
-            else if (PageUsers) Users = new HomeViewModelUsers(page, countInPage);
-            else if (PageLogs) Logs = new HomeViewModelLogs(page, countInPage);
-            else if (PageImprovements) Improvements = new HomeViewModelImprovements(complex, page, countInPage);
-            else Films = new HomeViewModelFilms(userId, page, countInPage, search);
+            if (!string.IsNullOrEmpty(userId))
+            {
+                Search = search;
+                Selected = selected;
+                if (PageSerials) Serials = new HomeViewModelSerials(userId, page, countInPage, search);
+                else if (PageBooks) Books = new HomeViewModelBooks(userId, page, countInPage, search);
+                else if (PageTracks) Tracks = new HomeViewModelTracks(userId);
+                else if (PageUsers) Users = new HomeViewModelUsers(page, countInPage);
+                else if (PageLogs) Logs = new HomeViewModelLogs(page, countInPage);
+                else if (PageImprovements) Improvements = new HomeViewModelImprovements(complex, page, countInPage);
+                else Films = new HomeViewModelFilms(userId, page, countInPage, search);
 
-            List<SelectListItem> listItems = Defaults.Categories.GetAll().Select(sel => new SelectListItem {Text = sel, Value = Defaults.Categories.GetId(sel).ToString(), Selected = (Defaults.Categories.GetId(sel).ToString() == Selected)}).ToList();
-            SelectList = listItems;
+                var listItems =
+                    Defaults.Categories.GetAll()
+                        .Select(
+                            sel =>
+                                new SelectListItem
+                                {
+                                    Text = sel,
+                                    Value = Defaults.Categories.GetId(sel).ToString(),
+                                    Selected = (Defaults.Categories.GetId(sel).ToString() == Selected)
+                                })
+                        .ToList();
+                SelectList = listItems;
+            }
+            else
+            {
+                About = new HomeViewModelAbout();
+            }
         }
     }
 }

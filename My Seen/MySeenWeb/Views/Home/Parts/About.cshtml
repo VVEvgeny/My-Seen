@@ -1,5 +1,125 @@
 ﻿@using MySeenWeb.Models;
 
-@model HomeViewModel
+@model HomeViewModelAbout
 
-<br />
+@Scripts.Render("~/bundles/jquery", "~/bundles/bootstrap")
+
+<h3 class="align-center">О Сайте инфа</h3>
+
+<div class="all">
+    Создан специально для хранения информации о прошедших действиях
+    <br/>
+    На данный момент храним информацию о:
+    <br />
+    <button type="button" class="btn btn-info btn-md" id="seenFilm">
+        <span class="glyphicon glyphicon-picture"></span>
+        &nbsp;Просмотреных фильмов
+    </button>
+    <br/>
+    <button type="button" class="btn btn-warning btn-md" id="addFilm">
+        <span class="glyphicon glyphicon-picture"></span>
+        &nbsp;Добавление с указанием Названия, даты и время просмотра, жанра и оценки
+    </button>
+    <br/>
+    <br />
+    <button type="button" class="btn btn-info btn-md" id="seenSerial">
+        <span class="glyphicon glyphicon-picture"></span>
+        &nbsp;Просмотреных сериалов
+    </button>
+    <br />
+    <button type="button" class="btn btn-warning btn-md" id="addSerial">
+        <span class="glyphicon glyphicon-picture"></span>
+        &nbsp;Добавление с указанием Названия, номера сезона и серии, дат и время первого и последнего просмотра, жанра и оценки
+    </button>
+    <br />
+    <br />
+    <button type="button" class="btn btn-info btn-md" id="readedBook">
+        <span class="glyphicon glyphicon-picture"></span>
+        &nbsp;Прочитанных книг
+    </button>
+    <br />
+    <button type="button" class="btn btn-warning btn-md" id="addBook">
+        <span class="glyphicon glyphicon-picture"></span>
+        &nbsp;Добавление с указанием Названия, авторов, даты и время, жанра и оценки
+    </button>
+    <br />
+    <br />
+
+    <button type="button" class="btn btn-info btn-md" id="beenRoads">
+        <span class="glyphicon glyphicon-picture"></span>
+        &nbsp;Проеханых дорогах
+    </button>
+    <br />
+    <button type="button" class="btn btn-warning btn-md" id="addRoad">
+        <span class="glyphicon glyphicon-picture"></span>
+        &nbsp;Добавление с указанием Названия, типа, даты и время, координат
+    </button>
+    <button type="button" class="btn btn-warning btn-md" id="addRoadEditor">
+        <span class="glyphicon glyphicon-picture"></span>
+        &nbsp;Через редактор
+    </button>
+    <br />
+    <br />
+    <h4>Данные возможно редактировать и удалять</h4>
+    <button type="button" class="btn btn-info btn-md" id="editFilm">
+        <span class="glyphicon glyphicon-picture"></span>
+        &nbsp;Фильмы
+    </button>
+    <br />
+    <button type="button" class="btn btn-info btn-md" id="editSerial">
+        <span class="glyphicon glyphicon-picture"></span>
+        &nbsp;Сериалы
+    </button>
+    <br />
+    <button type="button" class="btn btn-info btn-md" id="editBook">
+        <span class="glyphicon glyphicon-picture"></span>
+        &nbsp;Книги
+    </button>
+    <br/>
+    <button type="button" class="btn btn-info btn-md" id="editRoad">
+        <span class="glyphicon glyphicon-picture"></span>
+        &nbsp;Дороги
+    </button>
+    <button type="button" class="btn btn-info btn-md" id="editRoadEditor">
+        <span class="glyphicon glyphicon-picture"></span>
+        &nbsp;Дороги в редакторе
+    </button>
+    <br />
+    <h4>Все данные можно синхронизировать с ПК или Телефоном/Планшетом (Пока только Андрюха)</h4>
+</div>
+
+
+<div class="modal fade modal-window modal-images" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" id="ModalWindow">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="col-sm-12" id="data">
+                <img id="image" src="@Url.Content("~/Content/Images/browser-chrome.png")" />
+            </div>
+        </div>
+    </div>
+</div>
+
+<script language="javascript" type="text/javascript">
+    (function($) {
+        $(function() {
+            var $modal = $('#ModalWindow');
+
+            var $image = $("#image");
+            $image.off('click');
+            $image.on('click', function () {
+                $modal.modal('hide');
+                return false;
+            });
+
+            var $samples = $('.all');
+            $samples.off('click', '.btn-info,.btn-warning');
+            $samples.on('click', '.btn-info,.btn-warning', function () {
+                var $button = $(this);
+                var id = $button.attr('id');
+                $modal.modal('show');
+                $image.attr("src", "/Content/Images/About/" + "@MySeenLib.CultureInfoTool.GetCulture()" + "/" + id + ".jpg");
+                return false;
+            });
+        });
+    })(jQuery);
+</script>

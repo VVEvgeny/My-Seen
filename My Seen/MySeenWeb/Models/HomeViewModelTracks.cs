@@ -80,7 +80,7 @@ namespace MySeenWeb.Models
             DataFoot = ac.Tracks.Where(t => t.UserId == userId && t.Type == (int)TrackTypes.Foot).OrderByDescending(t => t.Date).Select(TracksView.Map);
             DataCar = ac.Tracks.Where(t => t.UserId == userId && t.Type == (int)TrackTypes.Car).OrderByDescending(t => t.Date).Select(TracksView.Map);
 
-            var listItemsTypes = new List<SelectListItem>
+            TypeList = new List<SelectListItem>
             {
                 new SelectListItem
                 {
@@ -89,8 +89,7 @@ namespace MySeenWeb.Models
                     Selected = true
                 },
                 new SelectListItem {Text = Resource.Car, Value = ((int) TrackTypes.Car).ToString(), Selected = false}
-            };
-            TypeList = listItemsTypes;
+            }; 
         }
 
         public static TrackInfo GetTrack(int id, string userId)
@@ -101,6 +100,8 @@ namespace MySeenWeb.Models
             ti.Name = track.Name;
             ti.Date = track.Date;
             ti.Id = track.Id;
+            if (track.Coordinates[track.Coordinates.Length - 1] == ';')
+                track.Coordinates = track.Coordinates.Remove(track.Coordinates.Length - 1);
             foreach (var s in track.Coordinates.Split(';'))
             {
                 ti.Path.Add(new Location { Latitude = double.Parse(s.Split(',')[0], CultureInfo.InvariantCulture), Longitude = double.Parse(s.Split(',')[1], CultureInfo.InvariantCulture) });
@@ -120,6 +121,8 @@ namespace MySeenWeb.Models
 
                 foreach (var item in ac.Tracks.Where(t => t.UserId == userId && t.Type == type))
                 {
+                    if (item.Coordinates[item.Coordinates.Length - 1] == ';')
+                        item.Coordinates = item.Coordinates.Remove(item.Coordinates.Length - 1);
                     list.Add(new TrackInfo
                     {
                         Path =
@@ -146,6 +149,8 @@ namespace MySeenWeb.Models
 
                 foreach (var item in ac.Tracks.Where(t => t.UserId == userId && t.Type == type))
                 {
+                    if (item.Coordinates[item.Coordinates.Length - 1] == ';')
+                        item.Coordinates = item.Coordinates.Remove(item.Coordinates.Length - 1);
                     list.Add(new TrackInfo
                     {
                         Path =
@@ -171,6 +176,8 @@ namespace MySeenWeb.Models
 
                 foreach (var item in ac.Tracks.Where(t => t.UserId == userId))
                 {
+                    if (item.Coordinates[item.Coordinates.Length - 1] == ';')
+                        item.Coordinates = item.Coordinates.Remove(item.Coordinates.Length - 1);
                     list.Add(new TrackInfo
                     {
                         Path =
@@ -194,10 +201,11 @@ namespace MySeenWeb.Models
             {
                 foreach (var item in ac.Tracks.Where(t => t.ShareKey == key))
                 {
+                    if (item.Coordinates[item.Coordinates.Length - 1] == ';')
+                        item.Coordinates = item.Coordinates.Remove(item.Coordinates.Length - 1);
                     list.Add(new TrackInfo
                     {
-                        Path =
-                            new List<Location>(
+                        Path =new List<Location>(
                                 item.Coordinates.Split(';')
                                     .Select(
                                         s =>
@@ -253,7 +261,7 @@ namespace MySeenWeb.Models
                 var iid = Convert.ToInt32(id);
                 key = ac.Tracks.First(t => t.UserId == userId && t.Id == iid).ShareKey;
             }
-            if (string.IsNullOrEmpty(key)) return key;
+            if (string.IsNullOrEmpty(key)) return "-";
             return MySeenWebApi.ApiHost + MySeenWebApi.ShareTracks + key;
         }
         public static string GenerateTrackShare(string id, string userId)

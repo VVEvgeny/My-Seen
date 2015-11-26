@@ -2,34 +2,127 @@
 
 @model HomeViewModelTrackEditor
 
-<br/>
+<br />
 
 @Scripts.Render("~/bundles/jquery", "~/bundles/bootstrap")
 @Scripts.Render("~/bundles/gmap3", "~/bundles/myseen.gmap.editor")
 @Styles.Render("~/Content/css.gmap3menu")
+@Scripts.Render("~/bundles/datetimepicker")
+@Styles.Render("~/Content/datetimepicker.css")
 
 <!-- надо геометрия для расчета расстояний и путей <script type="text/javascript" src="http://maps.google.com/maps/api/js"></script>-->
 <script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?libraries=geometry"></script>
 
 <div class="row">
-    <div class="panel panel-primary col-md-3">
+    <div class="panel panel-primary col-md-2">
         <div class="panel panel-default">
-            <div class="panel-heading">Координаты</div>
+            <div class="panel-heading">
+                Координаты
+                <button type="button" class="btn btn-success" id="saveButtonMain" style="display: none;">
+                    <span class="glyphicon glyphicon-ok"></span>
+                    &nbsp;@Resource.SaveСhanges
+                </button>
+            </div>
+            <div id="panelCoordinates" class="page-size-gmap page-scrolable"></div>
         </div>
     </div>
-    <div class="panel panel-primary col-md-9">
+    <div class="panel panel-primary col-md-10">
         <div class="panel panel-default">
-            <div class="panel-heading">@Resource.Map</div>
-            <div id="my_map" class="gmap page-size-gmap"></div>
+            <div class="panel-heading align-center">
+                @Resource.Map
+                <div class="align-left" id="mapStatisticPoints">Точек: 0</div>
+                <div class="align-left" id="mapStatisticDistance">Расстояние: 0</div>
+                <div id="my_map" class="gmap page-size-gmap"></div>
+            </div>
         </div>
     </div>
 </div>
 
+@Html.Partial("Parts/Parts/TracksModalAddEdit", Model.TypeList)
+
 <script language="javascript" type="text/javascript">
     (function ($) {
         $(function () {
-          
+            var $panel = $("#panelCoordinates");
+
+            $panel.off('click', '.btn-danger');
+            $panel.on('click', '.btn-danger', function () {
+                var $item = $(this);
+                var id = $item.attr('id');
+                //console.log(" id=", id);
+                $(".track-id-" + id).remove();
+                removeMarker(id);
+            });
+
+            var $modal = $('#ModalAddWindow');
+            var saveButtonMain = $("#saveButtonMain");
+            var $datetimepicker = $('#datetimepicker');
+            $datetimepicker.datetimepicker({
+                //viewMode: 'years',
+                locale: '@CultureInfoTool.GetCulture()'
+            });
+            var $modalBody = $modal.find('.modal-body');
+            var $trackCoords = $modalBody.find('.track-coords');
+
+            var url = '';
+            var data = {};
+            function sendRequest(innerUrl, innerData, noRedirect) {
+                $.ajax({
+                    type: 'POST',
+                    url: innerUrl,
+                    data: innerData,
+                    dataType: 'json',
+                    success: function (response) {
+                        if (response.error) {
+                            alert(response.error);
+                        }
+                        else {
+                            $modal.modal('hide');
+                            if (!noRedirect) window.location.href = '/';
+                        }
+                    },
+                    error: function (err) {
+                        alert(err);
+                    }
+                });
+
+                return false;
+            }
+            var $submitAddButton = $('#submitAddButton');
+            $submitAddButton.off('click');
+            $submitAddButton.on('click', function () {
+
+                url = '/Home/AddTrack';
+                data = {
+                    name: $('#trackName').val(),
+                    datetime: $('#datetimepicker').val(),
+                    type: $('#type').val(),
+                    coordinates: $('#trackCoords').val(),
+                    distance: CalcDistanceFromTxt($('#trackCoords').val())
+                };
+                sendRequest(url, data);
+                return false;
+            });
             
+
+            saveButtonMain.off('click');
+            saveButtonMain.on('click', function () {
+                $datetimepicker.val('@DateTime.Now');
+
+                var $rows = $panel.find("div");
+                $rows.each(function (index, element) {
+                    var $row = $(element);
+                    var id = $row.attr("id");
+                    //console.log("id=", id);
+                    id = id.replace('(', '');
+                    id = id.replace(')', '');
+                    $trackCoords.val($trackCoords.val() + id + ";");
+                });
+
+
+                $modal.modal('show');
+                return false;
+            });
         });
     })(jQuery);
 </script>
