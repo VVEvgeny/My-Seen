@@ -5,10 +5,12 @@
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                <h4 class="modal-title">
-                    @Resource.AddNew @Resource.Track
-                    <span class="alert-info small">
-                        <button class="btn btn-xs btn-info" id="Map-Editor"><small><span class="glyphicon glyphicon-picture"></span></small>&nbsp;Перейти в редактор</button>
+                <h4 class="modal-title-head">
+                    <div class="modal-title">
+                        @Resource.AddNew @Resource.Track
+                    </div>
+                    <span class="alert-info small" id="buttonToEditor" style="display: none;">
+                        <button class="btn btn-xs btn-info" id="Map-Editor"><small><span class="glyphicon glyphicon-picture"></span></small>&nbsp;@Resource.GoToTheEditor</button>
                     </span>
                 </h4>
             </div>

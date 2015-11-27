@@ -67,6 +67,20 @@ namespace MySeenWeb.Controllers
             return View();
         }
 
+
+        //
+        // POST: /Account/Login
+        [HttpPost]
+        [AllowAnonymous]
+        public async Task<JsonResult> LoginMain(string userName, string password, string remember)
+        {
+            var errorMessage = string.Empty;
+            if (string.IsNullOrEmpty(errorMessage) && await SignInManager.PasswordSignInAsync(userName.ToLower(), password, bool.Parse(remember), shouldLockout: false) != SignInStatus.Success)
+            {
+                errorMessage = Resource.EmailIncorrect;
+            }
+            return !string.IsNullOrEmpty(errorMessage) ? new JsonResult { Data = new { success = false, error = errorMessage } } : Json(new { success = true });
+        }
         //
         // POST: /Account/Login
         [HttpPost]
@@ -82,7 +96,7 @@ namespace MySeenWeb.Controllers
 
             // This doesn't count login failures towards account lockout
             // To enable password failures to trigger account lockout, change to shouldLockout: true
-            var result = await SignInManager.PasswordSignInAsync(model.Email, model.Password, model.RememberMe, shouldLockout: false);
+            var result = await SignInManager.PasswordSignInAsync(model.Email.ToLower(), model.Password, model.RememberMe, shouldLockout: false);
             switch (result)
             {
                 case SignInStatus.Success:

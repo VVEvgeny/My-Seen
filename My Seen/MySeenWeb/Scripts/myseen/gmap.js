@@ -117,7 +117,7 @@ function addMarker(markerCoords, data, icon, id, key) {
                 },
                 click: function () {
                     if (id) {
-                        console.log("key="+key);
+                        //console.log("key="+key);
                         if (key) showTrackByKey(key, id);
                         else showTrack(id, true, "green");
                     }
@@ -144,6 +144,7 @@ function getZoom(min, max) {
     else if (maxLen >= 600 && maxLen < 1000) zoom = 6;
     else if (maxLen >= 1000 && maxLen < 1300) zoom = 5;
     else if (maxLen >= 1300 && maxLen < 3500) zoom = 3;
+    else if (maxLen >= 3500) zoom = 2;
     console.log("zoom=", zoom);
     return zoom;
 }

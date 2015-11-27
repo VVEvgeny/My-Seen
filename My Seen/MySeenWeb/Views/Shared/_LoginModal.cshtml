@@ -1,0 +1,154 @@
+﻿@using Microsoft.Owin.Security
+
+<div class="modal fade modal-window modal-images" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" id="LoginModalWindow">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">@Resource.Login</h4>
+                <button type="button" class="btn btn-danger btn-md" id="LoginExternalModalButton">
+                    <span class="glyphicon glyphicon-log-in"></span>
+                    &nbsp;@Resource.UseAnotherServiceToLogIn
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="form-horizontal">
+                    <div class="form-group">
+                        <label for="userName" class="col-sm-2 control-label">@Resource.Email</label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" id="userName" placeholder="@Resource.Email">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="password" class="col-sm-2 control-label">@Resource.Password</label>
+                        <div class="col-sm-10">
+                            <input type="password" class="form-control" id="password" placeholder="@Resource.Password" />
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="RememberMe" class="col-sm-2 control-label">@Resource.Remember</label>
+                        <div class="col-sm-10">
+                            @Html.CheckBox("RememberMe",true)
+                        </div>
+                    </div>
+                    <p>
+                        @Html.ActionLink(Resource.TxtForLogin2, "../Account/Register")
+                    </p>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">
+                    <span class="glyphicon glyphicon-remove"></span>
+                    &nbsp;@Resource.Close
+                </button>
+                <button type="button" class="btn btn-success" id="LoginButton">
+                    <span class="glyphicon glyphicon-ok"></span>
+                    &nbsp;@Resource.Login
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade modal-window modal-images" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" id="LoginExternalModalWindow">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-body">
+                <div class="form-horizontal">
+                    @{
+                        var loginProviders = Context.GetOwinContext().Authentication.GetExternalAuthenticationTypes();
+                        var authenticationDescriptions = loginProviders as IList<AuthenticationDescription> ?? loginProviders.ToList();
+                        if (!authenticationDescriptions.Any())
+                        {
+                            <div class="form-group col-sm-12">
+                                <label class="control-label">Нет сторонних сервисов</label>
+                            </div>
+                        }
+                        else
+                        {
+                            using (Html.BeginForm("ExternalLogin", "Account"))
+                            {
+                                @Html.AntiForgeryToken()
+                                foreach (var p in authenticationDescriptions)
+                                {
+                                    <div class="col-sm-4">
+                                        <button type="submit" class="btn btn-primary" id="@p.AuthenticationType" name="provider" value="@p.AuthenticationType" title="@Resource.LogInUsingYour @p.Caption @Resource.Account ">@p.AuthenticationType</button>
+                                    </div>
+                                }
+                            }
+                        }
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script language="javascript" type="text/javascript">
+    (function ($) {
+        $(function () {
+            var $modal = $('#LoginModalWindow');
+            var $modalExt = $('#LoginExternalModalWindow');
+
+            var $LoginModalButton = $("#LoginModalButton");
+            $LoginModalButton.off('click');
+            $LoginModalButton.on('click', function () {
+                $modal.modal('show');
+                return false;
+            });
+
+            var $LoginExternalModalButton = $("#LoginExternalModalButton");
+            $LoginExternalModalButton.off('click');
+            $LoginExternalModalButton.on('click', function () {
+                $modalExt.modal('show');
+                return false;
+            });
+
+            var $RememberMe = $("#RememberMe");
+            $RememberMe.change(function() {
+
+                if ($RememberMe.val() === "true") {
+                    $RememberMe.val("false");
+                } else $RememberMe.val("true");
+            });
+
+            function sendRequest(innerUrl, innerData) {
+                $.ajax({
+                    type: 'POST',
+                    url: innerUrl,
+                    data: innerData,
+                    dataType: 'json',
+                    success: function (response) {
+                        if (response.error) {
+                            alert(response.error);
+                        }
+                        else {
+                            window.location.href = '/';
+                        }
+                    },
+                    error: function (err) {
+                        alert(err);
+                    }
+                });
+
+                return false;
+            }
+
+            var url = '';
+            var data = {};
+            var $LoginButton = $("#LoginButton");
+            $LoginButton.off('click');
+            $LoginButton.on('click', function () {
+                url = '/Account/LoginMain';
+                data = {
+                    userName: $('#userName').val(),
+                    password: $('#password').val(),
+                    remember: $('#RememberMe').val()
+                };
+                sendRequest(url, data);
+
+                return false;
+            });
+        });
+    })(jQuery);
+</script>

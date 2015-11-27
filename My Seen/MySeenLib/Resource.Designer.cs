@@ -61,6 +61,195 @@ namespace MySeenLib {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Created specifically for the storage of information about past actions.
+        /// </summary>
+        public static string AboutText1 {
+            get {
+                return ResourceManager.GetString("AboutText1", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Adding with the name, type, date, time, coordinates.
+        /// </summary>
+        public static string AboutText10 {
+            get {
+                return ResourceManager.GetString("AboutText10", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Through editor.
+        /// </summary>
+        public static string AboutText11 {
+            get {
+                return ResourceManager.GetString("AboutText11", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to These may edit or delete.
+        /// </summary>
+        public static string AboutText12 {
+            get {
+                return ResourceManager.GetString("AboutText12", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Roads in the editor.
+        /// </summary>
+        public static string AboutText13 {
+            get {
+                return ResourceManager.GetString("AboutText13", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to All data can be synchronized with the PC and the phone / tablet (only Android).
+        /// </summary>
+        public static string AboutText14 {
+            get {
+                return ResourceManager.GetString("AboutText14", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to About the Site.
+        /// </summary>
+        public static string AboutText15 {
+            get {
+                return ResourceManager.GetString("AboutText15", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Roads can be shared.
+        /// </summary>
+        public static string AboutText16 {
+            get {
+                return ResourceManager.GetString("AboutText16", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Available settings:.
+        /// </summary>
+        public static string AboutText17 {
+            get {
+                return ResourceManager.GetString("AboutText17", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Create a password to login.
+        /// </summary>
+        public static string AboutText18 {
+            get {
+                return ResourceManager.GetString("AboutText18", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Manage third-party services.
+        /// </summary>
+        public static string AboutText19 {
+            get {
+                return ResourceManager.GetString("AboutText19", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Currently we keep information about:.
+        /// </summary>
+        public static string AboutText2 {
+            get {
+                return ResourceManager.GetString("AboutText2", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Change language.
+        /// </summary>
+        public static string AboutText20 {
+            get {
+                return ResourceManager.GetString("AboutText20", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Changing the Display records per page.
+        /// </summary>
+        public static string AboutText21 {
+            get {
+                return ResourceManager.GetString("AboutText21", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Movie Reviews.
+        /// </summary>
+        public static string AboutText3 {
+            get {
+                return ResourceManager.GetString("AboutText3", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Adding with the name, date and time of viewing, genre and evaluation.
+        /// </summary>
+        public static string AboutText4 {
+            get {
+                return ResourceManager.GetString("AboutText4", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Watched TV series.
+        /// </summary>
+        public static string AboutText5 {
+            get {
+                return ResourceManager.GetString("AboutText5", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Adding indicating the name, number and series of the season, the dates and times of the first and last view, genre and evaluation.
+        /// </summary>
+        public static string AboutText6 {
+            get {
+                return ResourceManager.GetString("AboutText6", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Readed books.
+        /// </summary>
+        public static string AboutText7 {
+            get {
+                return ResourceManager.GetString("AboutText7", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Adding indicating the title, author, date and time, genre and evaluation.
+        /// </summary>
+        public static string AboutText8 {
+            get {
+                return ResourceManager.GetString("AboutText8", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Drove roads.
+        /// </summary>
+        public static string AboutText9 {
+            get {
+                return ResourceManager.GetString("AboutText9", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to account.
         /// </summary>
         public static string Account {
@@ -781,6 +970,15 @@ namespace MySeenLib {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Go to the Editor.
+        /// </summary>
+        public static string GoToTheEditor {
+            get {
+                return ResourceManager.GetString("GoToTheEditor", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Hello.
         /// </summary>
         public static string Hello {
@@ -822,6 +1020,15 @@ namespace MySeenLib {
         public static string LastEpisode {
             get {
                 return ResourceManager.GetString("LastEpisode", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Legend.
+        /// </summary>
+        public static string Legend {
+            get {
+                return ResourceManager.GetString("Legend", resourceCulture);
             }
         }
         
@@ -1015,6 +1222,15 @@ namespace MySeenLib {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Points.
+        /// </summary>
+        public static string Points {
+            get {
+                return ResourceManager.GetString("Points", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Quick Search.
         /// </summary>
         public static string QuickSearch {
@@ -1029,6 +1245,15 @@ namespace MySeenLib {
         public static string Rating {
             get {
                 return ResourceManager.GetString("Rating", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Record per page.
+        /// </summary>
+        public static string RecordPerPage {
+            get {
+                return ResourceManager.GetString("RecordPerPage", resourceCulture);
             }
         }
         
@@ -1195,6 +1420,15 @@ namespace MySeenLib {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Set Point Here.
+        /// </summary>
+        public static string SetPointHere {
+            get {
+                return ResourceManager.GetString("SetPointHere", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Share.
         /// </summary>
         public static string Share {
@@ -1276,7 +1510,7 @@ namespace MySeenLib {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Track.
+        ///   Looks up a localized string similar to Road.
         /// </summary>
         public static string Track {
             get {
@@ -1285,7 +1519,7 @@ namespace MySeenLib {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Tracks.
+        ///   Looks up a localized string similar to Roads.
         /// </summary>
         public static string Tracks {
             get {
@@ -1294,7 +1528,7 @@ namespace MySeenLib {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Tracks.
+        ///   Looks up a localized string similar to Roads.
         /// </summary>
         public static string TracksCount {
             get {

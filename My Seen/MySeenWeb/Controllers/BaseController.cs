@@ -164,15 +164,52 @@ namespace MySeenWeb.Controllers
             }
         }
 
+        private void SaveBotLog()
+        {
+            var user = Request.UserAgent != null && Request.UserAgent.Contains("YandexMetrika")
+                ? "YandexMetrika"
+                : Request.UserAgent != null && Request.UserAgent.Contains("Googlebot")
+                    ? "Googlebot"
+                    : Request.UserAgent != null && Request.UserAgent.Contains("Google favicon")
+                        ? "Google favicon"
+                        : Request.UserAgent;
+            LogSave.Save(user, Request.UserHostAddress, Request.UserAgent, "Base"
+                ,
+                Request.Path + " " +
+                (Request.QueryString.HasKeys()
+                    ? Request.QueryString.Cast<object>().Aggregate(string.Empty, (current, str) => current + str)
+                    : ""));
+        }
+
         protected override void ExecuteCore()
         {
-            LogSave.Save(User.Identity.IsAuthenticated ? User.Identity.GetUserId() : "", Request.UserHostAddress, Request.UserAgent, "Base");
+            if (Request.UserAgent != null &&
+                (Request.UserAgent.Contains("YandexMetrika") || Request.UserAgent.Contains("Googlebot") ||
+                 Request.UserAgent.Contains("Google favicon")))
+            {
+                SaveBotLog();
+            }
+            else
+            {
+                LogSave.Save(User.Identity.IsAuthenticated ? User.Identity.GetUserId() : "", Request.UserHostAddress,
+                    Request.UserAgent, "Base");
+            }
             SetLang();
             base.ExecuteCore();
         }
         protected override IAsyncResult BeginExecuteCore(AsyncCallback callback, object state)
         {
-            LogSave.Save(User.Identity.IsAuthenticated ? User.Identity.GetUserId() : "", Request.UserHostAddress, Request.UserAgent, "Base");
+            if (Request.UserAgent != null &&
+                (Request.UserAgent.Contains("YandexMetrika") || Request.UserAgent.Contains("Googlebot") ||
+                 Request.UserAgent.Contains("Google favicon")))
+            {
+                SaveBotLog();
+            }
+            else
+            {
+                LogSave.Save(User.Identity.IsAuthenticated ? User.Identity.GetUserId() : "", Request.UserHostAddress,
+                    Request.UserAgent, "BaseA", Request.Path);
+            }
             SetLang();
             return base.BeginExecuteCore(callback, state);
         }

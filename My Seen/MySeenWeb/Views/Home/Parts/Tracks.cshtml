@@ -9,7 +9,7 @@
 @Styles.Render("~/Content/datetimepicker.css")
 
 <!-- надо геометрия для расчета расстояний и путей <script type="text/javascript" src="http://maps.google.com/maps/api/js"></script>-->
-<script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?libraries=geometry"></script>
+<script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?libraries=geometry&amp;language=@CultureInfoTool.GetCulture()"></script>
 
 <div class="row">
     <div class="panel panel-primary col-md-3">
@@ -160,6 +160,7 @@
             var $modalBody = $modal.find('.modal-body');
             var $saveButton = $('#saveButton');
             var $toEditor = $('#Map-Editor');
+            var $buttonToEditor = $('#buttonToEditor');
             var url = '';
             var data = {};
             var $datetimepicker = $('#datetimepicker');
@@ -202,6 +203,7 @@
             $addButton.off('click');
             $addButton.on('click', function () {
                 $datetimepicker.val('@DateTime.Now');
+                $buttonToEditor.show();
                 $modal.modal('show');
                 return false;
             });
@@ -241,12 +243,12 @@
                 $shareDeleteGetButton.hide();
                 $shareTryButton.hide();
                 $shareGetButton.show();
-                console.log('GetTrackShare=' + id);
+                //console.log('GetTrackShare=' + id);
                 $.getJSON('/Home/GetTrackShare/' + id + '/', function (data)
                 {
                     $loadingtrackLinkBegin.hide();
                     $loadingtrackLinkEnd.show();
-                    console.log('GetTrackShare data=', data);
+                    //console.log('GetTrackShare data=', data);
                     if (data === '-') return;
                     $shareGetButton.hide();
                     $shareTryButton.show();
@@ -256,6 +258,7 @@
                 var $modalTitle = $modalShare.find('.modal-title');
                 $modalTitle.text('@Resource.Share @Resource.Track');
 
+                $buttonToEditor.hide();
                 $modalShare.modal('show');
 
                 $trackLink.val('');

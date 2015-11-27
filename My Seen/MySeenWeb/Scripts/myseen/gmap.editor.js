@@ -5,10 +5,19 @@
 var current;// current click event
 var coordinates = 0;
 
-$(document).ready(function () {
-    var menu = new Gmap3Menu($("#my_map"));
+var Language;//en/ru
+var LanguagePoints;
+var LanguageDistance;
+var LanguageDistanceL;
 
-    menu.add("SET POINT HERE", "itemA",
+function initialGmap(language, setPointHereText, languagePoints, languageDistance, languageDistanceL) {
+    Language = language;
+    LanguagePoints = languagePoints;
+    LanguageDistance = languageDistance;
+    LanguageDistanceL = languageDistanceL;
+
+    var menu = new Gmap3Menu($("#my_map"));
+    menu.add(setPointHereText, "itemA",
         function() {
             menu.close();
             addMarker();
@@ -39,7 +48,7 @@ $(document).ready(function () {
             }
         }
     });
-});
+}
 
 // add marker and manage which one it is (A, B)
 function addMarker() {
@@ -135,8 +144,8 @@ function calculateRoute() {
 
     var $mapStatisticPoints = $("#mapStatisticPoints");
     var $mapStatisticDistance = $("#mapStatisticDistance");
-    $mapStatisticPoints.text("Points: " + trackCoordsLatLng.length);
-    $mapStatisticDistance.text("Distance: 0");
+    $mapStatisticPoints.text(LanguagePoints+": " + trackCoordsLatLng.length);
+    $mapStatisticDistance.text(LanguageDistance + ": 0 " + LanguageDistanceL);
 
     if (trackCoordsLatLng.length === 0) {
         coordinates = 0;
@@ -149,8 +158,9 @@ function calculateRoute() {
             path: trackCoordsLatLng
         });
         var distance = window.google.maps.geometry.spherical.computeLength(polyline.getPath()) / 1000;
-        $mapStatisticDistance.text("Distance: " + parseInt(distance) + " Km");
-
+        $mapStatisticDistance.text(LanguageDistance + ": " +
+            (parseInt(distance) / (Language === "en" ? 1.66 : 1))
+            + " " + LanguageDistanceL);
         $saveButton.show();
     } else {
         $saveButton.hide();

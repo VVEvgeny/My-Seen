@@ -31,7 +31,7 @@
         </dd>
     </dl>
     <dl class="dl-horizontal">
-        <dt>Записей на страницу</dt>
+        <dt>@Resource.RecordPerPage</dt>
         <dd>
             @Html.DropDownList("Rpp", Model.RppList, new {@class = "form-control", @id = "lstRpp", @style = "width: 200px;"})
             <div id="RPPSaved" style="display: none;" class="text-success">@Resource.Saved</div>
@@ -64,7 +64,7 @@
             $(function () {
                 var $delDataButton = $('#delDataButton');
                 var $select = $('#lstLang');
-                var $selectRpp = $('#lstRPP');
+                var $selectRpp = $('#lstRpp');
 
                 $select.on('change', function ()
                 {

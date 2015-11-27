@@ -532,7 +532,7 @@
     <value>Км</value>
   </data>
   <data name="Tracks" xml:space="preserve">
-    <value>Треки</value>
+    <value>Дороги</value>
   </data>
   <data name="Map" xml:space="preserve">
     <value>Карта</value>
@@ -550,7 +550,7 @@
     <value>Улучшения</value>
   </data>
   <data name="TracksCount" xml:space="preserve">
-    <value>Треков</value>
+    <value>Дорог</value>
   </data>
   <data name="Seen" xml:space="preserve">
     <value>Просмотрено</value>
@@ -571,7 +571,7 @@
     <value>Действия</value>
   </data>
   <data name="Track" xml:space="preserve">
-    <value>Трек</value>
+    <value>Дорога</value>
   </data>
   <data name="Share" xml:space="preserve">
     <value>Доступ</value>
@@ -584,5 +584,83 @@
   </data>
   <data name="When" xml:space="preserve">
     <value>Когда</value>
+  </data>
+  <data name="AboutText1" xml:space="preserve">
+    <value>Создан специально для хранения информации о прошедших действиях</value>
+  </data>
+  <data name="AboutText10" xml:space="preserve">
+    <value>Добавление с указанием Названия, типа, даты и время, координат</value>
+  </data>
+  <data name="AboutText11" xml:space="preserve">
+    <value>Через редактор</value>
+  </data>
+  <data name="AboutText12" xml:space="preserve">
+    <value>Данные возможно редактировать и удалять</value>
+  </data>
+  <data name="AboutText13" xml:space="preserve">
+    <value>Дороги в редакторе</value>
+  </data>
+  <data name="AboutText14" xml:space="preserve">
+    <value>Все данные можно синхронизировать с ПК или Телефоном/Планшетом (Пока только Андрюха)</value>
+  </data>
+  <data name="AboutText15" xml:space="preserve">
+    <value>О Сайте инфа</value>
+  </data>
+  <data name="AboutText2" xml:space="preserve">
+    <value>На данный момент храним информацию о:</value>
+  </data>
+  <data name="AboutText3" xml:space="preserve">
+    <value>Просмотреных фильмов</value>
+  </data>
+  <data name="AboutText4" xml:space="preserve">
+    <value>Добавление с указанием Названия, даты и время просмотра, жанра и оценки</value>
+  </data>
+  <data name="AboutText5" xml:space="preserve">
+    <value>Просмотреных сериалов</value>
+  </data>
+  <data name="AboutText6" xml:space="preserve">
+    <value>Добавление с указанием Названия, номера сезона и серии, дат и время первого и последнего просмотра, жанра и оценки</value>
+  </data>
+  <data name="AboutText7" xml:space="preserve">
+    <value>Прочитанных книг</value>
+  </data>
+  <data name="AboutText8" xml:space="preserve">
+    <value>Добавление с указанием Названия, авторов, даты и время, жанра и оценки</value>
+  </data>
+  <data name="AboutText9" xml:space="preserve">
+    <value>Проеханых дорогах</value>
+  </data>
+  <data name="GoToTheEditor" xml:space="preserve">
+    <value>Перейти в редактор</value>
+  </data>
+  <data name="Points" xml:space="preserve">
+    <value>Точек</value>
+  </data>
+  <data name="RecordPerPage" xml:space="preserve">
+    <value>Записей на страницу</value>
+  </data>
+  <data name="SetPointHere" xml:space="preserve">
+    <value>Установить точку</value>
+  </data>
+  <data name="AboutText16" xml:space="preserve">
+    <value>Дорогами можно делиться</value>
+  </data>
+  <data name="AboutText17" xml:space="preserve">
+    <value>Доступные настройки:</value>
+  </data>
+  <data name="AboutText18" xml:space="preserve">
+    <value>Создание пароля для входа</value>
+  </data>
+  <data name="AboutText19" xml:space="preserve">
+    <value>Управление сторонними сервисами</value>
+  </data>
+  <data name="AboutText20" xml:space="preserve">
+    <value>Изменение языка</value>
+  </data>
+  <data name="AboutText21" xml:space="preserve">
+    <value>Изменение отображения записей на страницу</value>
+  </data>
+  <data name="Legend" xml:space="preserve">
+    <value>Легенда</value>
   </data>
 </root>

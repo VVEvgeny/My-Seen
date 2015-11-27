@@ -23,7 +23,7 @@
         { 
             <li><a href='https://play.google.com/store/apps/details?id=com.vve.myseen'>@Resource.OurAndroidApp</a></li>
         }
-        @{string userName = User.Identity.GetUserName();}
+        @{var userName = User.Identity.GetUserName();}
         @if (userName.Contains("@")) { userName = userName.Remove(userName.IndexOf('@')); }
         <li>@Html.ActionLink(userName , "Index", "Manage", routeValues: null, htmlAttributes: new { title = Resource.Manage })</li>
         <li><a href="javascript:document.getElementById('logoutForm').submit()">@Resource.LogOff</a></li>
@@ -37,7 +37,9 @@ else
         {
             <li><a href='https://play.google.com/store/apps/details?id=com.vve.myseen'>@Resource.OurAndroidApp</a></li>
         }
-        <li>@Html.ActionLink(Resource.Register, "Register", "Account", routeValues: null, htmlAttributes: new { id = "registerLink" })</li>
-        <li>@Html.ActionLink(Resource.Login, "Login", "Account", routeValues: null, htmlAttributes: new { id = "loginLink" })</li>
+        <!--<li>@Html.ActionLink(Resource.Register, "Register", "Account", routeValues: null, htmlAttributes: new {id = "registerLink"})</li>-->
+        <!--<li>@Html.ActionLink(Resource.Login, "Login", "Account", routeValues: null, htmlAttributes: new {id = "loginLink"})</li>-->
+        <li>@Html.ActionLink(Resource.Login, "", "", routeValues: null, htmlAttributes: new {id = "LoginModalButton"})</li>
     </ul>
+    @Html.Partial("_LoginModal")
 }
