@@ -80,10 +80,11 @@ namespace MySeenWeb.Controllers
 
             if (User.Identity.IsAuthenticated)
             {
-                ApplicationDbContext ac = new ApplicationDbContext();
-                ApplicationUser user = ac.Users.First(u => u.Id == userId);
+                var ac = new ApplicationDbContext();
+                var user = ac.Users.First(u => u.Id == userId);
                 model.Lang = Defaults.Languages.GetIdDb(user.Culture);
                 model.Rpp = user.RecordPerPage;
+                model.Markers = user.MarkersOnRoads;
                 model.LoadSelectList();
 
                 model.HaveData = (ac.Films.Any(f => f.UserId == userId)
@@ -136,13 +137,25 @@ namespace MySeenWeb.Controllers
         public JsonResult ChangeRpp(string selected)
         {
             LogSave.Save(User.Identity.IsAuthenticated ? User.Identity.GetUserId() : "", Request.UserHostAddress, Request.UserAgent, "Manage/ChangeRpp", selected);
-            ApplicationDbContext ac = new ApplicationDbContext();
+            var ac = new ApplicationDbContext();
             var userId = User.Identity.GetUserId();
             ac.Users.First(u => u.Id == userId).RecordPerPage = Convert.ToInt32(selected);
             ac.SaveChanges();
             Rpp = Convert.ToInt32(selected);
             return Json(new { success = true });
         }
+        [HttpPost]
+        public JsonResult ChangeMoR(string selected)
+        {
+            LogSave.Save(User.Identity.IsAuthenticated ? User.Identity.GetUserId() : "", Request.UserHostAddress, Request.UserAgent, "Manage/ChangeMoR", selected);
+            var ac = new ApplicationDbContext();
+            var userId = User.Identity.GetUserId();
+            ac.Users.First(u => u.Id == userId).MarkersOnRoads = Convert.ToInt32(selected);
+            ac.SaveChanges();
+            MarkersOnRoads = Convert.ToInt32(selected);
+            return Json(new { success = true });
+        }
+        
         private void DeleteUserData()
         {
             ApplicationDbContext ac = new ApplicationDbContext();

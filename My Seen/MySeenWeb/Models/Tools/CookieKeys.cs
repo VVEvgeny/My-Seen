@@ -2,6 +2,7 @@
 {
     public static class CookieKeys
     {
+        public static string MarkersOnRoads = "MarkersOnRoads";
         public static string RecordPerPage = "RecordPerPage";
         public static string Language = "Language";
         public static string HomeCategory = "HomeCategory";

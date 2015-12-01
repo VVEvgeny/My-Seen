@@ -10,7 +10,10 @@ namespace MySeenWeb.Models
         public IEnumerable<BooksView> Data { get; set; }
         public PaginationViewModel Pages { get; set; }
         public RatingGenreViewModel RatinngGenre { get; set; }
-
+        public bool HaveData
+        {
+            get { return Data.Any(); }
+        }
         public HomeViewModelBooks(string userId, int page, int countInPage, string search)
         {
             var routeValues = new Dictionary<string, object>();

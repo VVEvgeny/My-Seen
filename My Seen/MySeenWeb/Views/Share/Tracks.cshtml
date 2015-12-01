@@ -46,8 +46,9 @@
 
 <script language="javascript" type="text/javascript">
     (function ($) {
+        initialGmap('@CultureInfoTool.GetCulture()', '@Model.Markers');
         $(function () {
-            showTrackByKey('@Model.Key');
+            showTrackByKey('@Model.Key', '@Model.Key');
         });
     })(jQuery);
 </script>

@@ -8,8 +8,8 @@ namespace MySeenWeb.ActionFilters
     {
         void IActionFilter.OnActionExecuting(ActionExecutingContext filterContext)
         {
-            string browserName = filterContext.RequestContext.HttpContext.Request.Browser.Browser.ToLowerInvariant();
-            int majorVersion = filterContext.RequestContext.HttpContext.Request.Browser.MajorVersion;
+            var browserName = filterContext.RequestContext.HttpContext.Request.Browser.Browser.ToLowerInvariant();
+            var majorVersion = filterContext.RequestContext.HttpContext.Request.Browser.MajorVersion;
 
             if (browserName != BrowserTypes.Chrome.ToString().ToLowerInvariant()
                 && browserName != BrowserTypes.Firefox.ToString().ToLowerInvariant()

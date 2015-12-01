@@ -17,5 +17,6 @@ namespace MySeenWeb.Models.Tables
         public int Rating { get; set; }
         public DateTime DateChange { get; set; }
         public bool? isDeleted { get; set; }
+        public int Year { get; set; }
     }
 }

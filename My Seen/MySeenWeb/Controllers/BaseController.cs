@@ -55,6 +55,53 @@ namespace MySeenWeb.Controllers
             //ControllerContext.HttpContext.Session[key] = cookie;
         }
 
+        public int MarkersOnRoads
+        {
+            get
+            {
+                if (TryReadCookie(CookieKeys.MarkersOnRoads))
+                {
+                    var ret = ReadCookie(CookieKeys.MarkersOnRoads, 0);
+                    if (!string.IsNullOrEmpty(Defaults.MarkersOnRoads.GetById(ret))) return ret;
+                    var userId = string.Empty;
+                    try
+                    {
+                        var ac = new ApplicationDbContext();
+                        userId = User.Identity.GetUserId();
+                        var au = ac.Users.First(u => u.Id == userId);
+                        ret = au.MarkersOnRoads;
+                        WriteCookie(CookieKeys.RecordPerPage, ret);
+                    }
+                    catch
+                    {
+                        LogSave.Save(User.Identity.IsAuthenticated ? User.Identity.GetUserId() : "", Request.UserHostAddress, Request.UserAgent, "MarkersOnRoads catch No USER", userId);
+                    }
+                    return ret;
+                }
+                else
+                {
+                    var userId = string.Empty;
+                    var ret = 0;
+                    try
+                    {
+                        var ac = new ApplicationDbContext();
+                        userId = User.Identity.GetUserId();
+                        var au = ac.Users.First(u => u.Id == userId);
+                        ret = au.MarkersOnRoads;
+                        WriteCookie(CookieKeys.MarkersOnRoads, au.MarkersOnRoads);
+                    }
+                    catch
+                    {
+                        LogSave.Save(User.Identity.IsAuthenticated ? User.Identity.GetUserId() : "", Request.UserHostAddress, Request.UserAgent, "MarkersOnRoads catch No USER", userId);
+                    }
+                    return ret;
+                }
+            }
+            set
+            {
+                WriteCookie(CookieKeys.MarkersOnRoads, value);
+            }
+        }
         public int Rpp
         {
             get

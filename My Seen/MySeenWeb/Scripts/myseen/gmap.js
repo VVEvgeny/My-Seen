@@ -1,14 +1,19 @@
-$(document).ready(function () {
-    $('#my_map').gmap3(
-        {
-            map: {
-                options: {
-                    zoom: 2,
-                    mapTypeId: window.google.maps.MapTypeId.ROADMAP
-                }
+var Language;//en/ru
+var Markers;
+
+function initialGmap(language,markers) {
+    Language = language;
+    Markers = markers;
+
+    $("#my_map").gmap3({
+        map: {
+            options: {
+                zoom: 2,
+                mapTypeId: window.google.maps.MapTypeId.ROADMAP
             }
-        });
-});
+        }
+    });
+}
 
 function CalcDistance(data)
 {
@@ -38,43 +43,9 @@ function clearMap() {
     clearMarkers();
 }
 
-function SetZoom(zoom) {
-    jQuery("#my_map").gmap3(
-    {
-        map: {
-            options: {
-                zoom: zoom
-            }
-        }
-    });
-}
-function SetCenter(center) {
-    jQuery("#my_map").gmap3(
-    {
-        map: {
-            options: {
-                center: new window.google.maps.LatLng(center.Latitude, center.Longitude)
-            }
-        }
-    });
-}
-function SetCenterDefault(center) {
-    jQuery("#my_map").gmap3(
-    {
-        map: {
-            options: {
-                center: new window.google.maps.LatLng(48.86745543642139, 2.1407350835937677)
-            }
-        }
-    });
-}
-
-function SetZoomAndCenter(center, zoom) {
-    SetZoom(zoom);
-    SetCenter(center);
-}
-
 function addMarker(markerCoords, data, icon, id, key) {
+
+    if (Markers==="False") return;
 
     var trackCoordsLatLng = new window.google.maps.LatLng(markerCoords.Latitude, markerCoords.Longitude);
 
@@ -127,28 +98,6 @@ function addMarker(markerCoords, data, icon, id, key) {
     });
 }
 
-function getZoom(min, max) {
-
-    var p1 = new window.google.maps.LatLng(max.Latitude, max.Longitude);
-    var p2 = new window.google.maps.LatLng(min.Latitude, min.Longitude);
-    var maxLen = window.google.maps.geometry.spherical.computeDistanceBetween(p1, p2) / 1000;
-    console.log("len=", maxLen);
-
-    var zoom = 12;
-    if (maxLen < 10) zoom = 14;
-    else if (maxLen >= 10 && maxLen < 30) zoom = 11;
-    else if (maxLen >= 30 && maxLen < 100) zoom = 10;
-    else if (maxLen >= 100 && maxLen < 160) zoom = 9;
-    else if (maxLen >= 160 && maxLen < 400) zoom = 8;
-    else if (maxLen >= 400 && maxLen < 600) zoom = 7;
-    else if (maxLen >= 600 && maxLen < 1000) zoom = 6;
-    else if (maxLen >= 1000 && maxLen < 1300) zoom = 5;
-    else if (maxLen >= 1300 && maxLen < 3500) zoom = 3;
-    else if (maxLen >= 3500) zoom = 2;
-    console.log("zoom=", zoom);
-    return zoom;
-}
-
 function showTrack(id, centerAndZoom,color) {
 
     $.getJSON('/Home/GetTrack/' + id + '/', function (trackInfo) {
@@ -173,25 +122,31 @@ function showTrack(id, centerAndZoom,color) {
     });
 }
 
-function showTrackByKey(key,id) {
+function showTracks(id, key, shareTrackInfo) {
+    clearMap();
 
-    $.getJSON('/Home/GetTrackByKey/' + key + '/', function (shareTrackInfo) {
-
-        clearMap();
-
-        $.each(shareTrackInfo.Data, function (i, item)
-        {
-            var trackCoordsLatLng = [];
-            $.each(item.Path, function (ip, itemp)
-            {
-                trackCoordsLatLng.push(new window.google.maps.LatLng(itemp.Latitude, itemp.Longitude));
-            });
-
-            addPolyline(trackCoordsLatLng, id === item.Id ? "green" : "");
-            addMarker(item.Start, "Start " + item.Name + " - " + item.DateText, "start", item.Id, key);
-            addMarker(item.End, "End " + item.Name + " - " + item.DateText, "end", item.Id, key);
+    $.each(shareTrackInfo.Data, function (i, item) {
+        var trackCoordsLatLng = [];
+        $.each(item.Path, function (ip, itemp) {
+            trackCoordsLatLng.push(new window.google.maps.LatLng(itemp.Latitude, itemp.Longitude));
         });
 
-        SetZoomAndCenter(shareTrackInfo.Center, getZoom(shareTrackInfo.Min, shareTrackInfo.Max));
+        addPolyline(trackCoordsLatLng, id === item.Id ? "green" : "");
+        addMarker(item.Start, "Start " + item.Name + " - " + item.DateText, "start", item.Id, key);
+        addMarker(item.End, "End " + item.Name + " - " + item.DateText, "end", item.Id, key);
+    });
+
+    SetZoomAndCenter(shareTrackInfo.Center, getZoom(shareTrackInfo.Min, shareTrackInfo.Max));
+}
+
+function showTrackByKey(id, key) {
+    $.getJSON('/Home/GetTrackByKey/' + key + '/', function (shareTrackInfo) {
+        showTracks(id, key, shareTrackInfo);
+    });
+}
+
+function showTrackByType(id, type) {
+    $.getJSON('/Home/GetTrackByType/' + type + '/', function (shareTrackInfo) {
+        showTracks(id, type, shareTrackInfo);
     });
 }

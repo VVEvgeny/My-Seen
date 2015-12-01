@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 
 namespace MySeenWeb.Models.TablesViews
 {
@@ -19,6 +20,7 @@ namespace MySeenWeb.Models.TablesViews
 
         public virtual void CallcMinMaxCenter()
         {
+            if (!Path.Any()) return;
             var minX = Path[0].Latitude;
             var maxX = Path[0].Latitude;
 

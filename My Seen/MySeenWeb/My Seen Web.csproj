@@ -255,11 +255,32 @@
     <Compile Include="Migrations\201511241238224_14.Designer.cs">
       <DependentUpon>201511241238224_14.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201511300850461_15.cs" />
+    <Compile Include="Migrations\201511300850461_15.Designer.cs">
+      <DependentUpon>201511300850461_15.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201511300852411_16.cs" />
+    <Compile Include="Migrations\201511300852411_16.Designer.cs">
+      <DependentUpon>201511300852411_16.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201511301352069_17.cs" />
+    <Compile Include="Migrations\201511301352069_17.Designer.cs">
+      <DependentUpon>201511301352069_17.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201511301449154_18.cs" />
+    <Compile Include="Migrations\201511301449154_18.Designer.cs">
+      <DependentUpon>201511301449154_18.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\HomeViewModelAbout.cs" />
     <Compile Include="Models\HomeViewModelTrackEditor.cs" />
     <Compile Include="Models\ShareViewModelTracks.cs" />
+    <Compile Include="Models\TablesLogic\BooksLogic.cs" />
+    <Compile Include="Models\TablesLogic\TracksLogic.cs" />
+    <Compile Include="Models\TablesLogic\ImprovementLogic.cs" />
+    <Compile Include="Models\TablesLogic\SerialsLogic.cs" />
+    <Compile Include="Models\TablesLogic\FilmsLogic.cs" />
     <Compile Include="Models\TablesViews\ShareTrackInfo.cs" />
     <Compile Include="Models\TablesViews\ITrackInfo.cs" />
     <Compile Include="Models\TablesViews\TrackInfo.cs" />
@@ -301,6 +322,46 @@
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\fonts\glyphicons-halflings-regular.svg" />
+    <Content Include="Content\Images\About\En\addBook.jpg" />
+    <Content Include="Content\Images\About\En\addFilm.jpg" />
+    <Content Include="Content\Images\About\En\addRoad.jpg" />
+    <Content Include="Content\Images\About\En\addRoadEditor.jpg" />
+    <Content Include="Content\Images\About\En\addSerial.jpg" />
+    <Content Include="Content\Images\About\En\addShareRoad.jpg" />
+    <Content Include="Content\Images\About\En\beenRoads.jpg" />
+    <Content Include="Content\Images\About\En\configChangeExtServices.jpg" />
+    <Content Include="Content\Images\About\En\configChangeLanguage.jpg" />
+    <Content Include="Content\Images\About\En\configChangeRpp.jpg" />
+    <Content Include="Content\Images\About\En\configCreatePassword.jpg" />
+    <Content Include="Content\Images\About\En\editBook.jpg" />
+    <Content Include="Content\Images\About\En\editFilm.jpg" />
+    <Content Include="Content\Images\About\En\editRoad.jpg" />
+    <Content Include="Content\Images\About\En\editRoadEditor.jpg" />
+    <Content Include="Content\Images\About\En\editSerial.jpg" />
+    <Content Include="Content\Images\About\En\readedBook.jpg" />
+    <Content Include="Content\Images\About\En\seenFilm.jpg" />
+    <Content Include="Content\Images\About\En\seenSerial.jpg" />
+    <Content Include="Content\Images\About\En\shareRoad.jpg" />
+    <Content Include="Content\Images\About\Ru\addBook.jpg" />
+    <Content Include="Content\Images\About\Ru\addFilm.jpg" />
+    <Content Include="Content\Images\About\Ru\addRoad.jpg" />
+    <Content Include="Content\Images\About\Ru\addRoadEditor.jpg" />
+    <Content Include="Content\Images\About\Ru\addSerial.jpg" />
+    <Content Include="Content\Images\About\Ru\addShareRoad.jpg" />
+    <Content Include="Content\Images\About\Ru\beenRoads.jpg" />
+    <Content Include="Content\Images\About\Ru\configChangeExtServices.jpg" />
+    <Content Include="Content\Images\About\Ru\configChangeLanguage.jpg" />
+    <Content Include="Content\Images\About\Ru\configChangeRpp.jpg" />
+    <Content Include="Content\Images\About\Ru\configCreatePassword.jpg" />
+    <Content Include="Content\Images\About\Ru\editBook.jpg" />
+    <Content Include="Content\Images\About\Ru\editFilm.jpg" />
+    <Content Include="Content\Images\About\Ru\editRoad.jpg" />
+    <Content Include="Content\Images\About\Ru\editRoadEditor.jpg" />
+    <Content Include="Content\Images\About\Ru\editSerial.jpg" />
+    <Content Include="Content\Images\About\Ru\readedBook.jpg" />
+    <Content Include="Content\Images\About\Ru\seenFilm.jpg" />
+    <Content Include="Content\Images\About\Ru\seenSerial.jpg" />
+    <Content Include="Content\Images\About\Ru\shareRoad.jpg" />
     <Content Include="Content\Images\browser-chrome.png" />
     <Content Include="Content\Images\browser-ff.png" />
     <Content Include="Content\Images\browser-ie.png" />
@@ -512,8 +573,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Content\Images\About\En\" />
-    <Folder Include="Content\Images\About\Ru\" />
     <Folder Include="Views\Base\" />
   </ItemGroup>
   <ItemGroup>
@@ -566,6 +625,18 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201511241238224_14.resx">
       <DependentUpon>201511241238224_14.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201511300850461_15.resx">
+      <DependentUpon>201511300850461_15.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201511300852411_16.resx">
+      <DependentUpon>201511300852411_16.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201511301352069_17.resx">
+      <DependentUpon>201511301352069_17.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201511301449154_18.resx">
+      <DependentUpon>201511301449154_18.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

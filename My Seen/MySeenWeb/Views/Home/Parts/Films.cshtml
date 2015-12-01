@@ -7,20 +7,22 @@
 @Styles.Render("~/Content/datetimepicker.css")
 
 <br />
-
-<table class="table table-striped" id="table">
-    <thead>
+@if (Model.HaveData)
+{
+    <table class="table table-striped" id="table">
+        <thead>
         <tr>
             <th class="col-sm-1"></th>
-            <th class="col-sm-7">@Resource.Name</th>
+            <th class="col-sm-6">@Resource.Name</th>
+            <th class="col-sm-1">@Resource.Year</th>
             <th class="col-sm-2">@Resource.Seen</th>
             <th class="col-sm-1">@Resource.Genre</th>
             <th class="col-sm-1">@Resource.Rating</th>
         </tr>
-    </thead>
-    <tbody>
+        </thead>
+        <tbody>
 
-    @foreach (FilmsView elem in Model.Data)
+        @foreach (var elem in Model.Data)
         {
             <tr>
                 <td class="align-center">
@@ -30,17 +32,19 @@
                     </button>
                 </td>
                 <td class="align-left">@elem.Name</td>
+                <td class="align-center">@elem.YearText</td>
                 <td class="align-center">@elem.DateSee</td>
                 <td class="align-center">@elem.GenreText</td>
                 <td class="align-center">@elem.RatingText</td>
             </tr>
         }
-    </tbody>
-</table>
+        </tbody>
+    </table>
 
-<div class="text-center">
-    @Html.Partial("Parts/Tools/Pagination", Model.Pages)
-</div>
+    <div class="text-center">
+        @Html.Partial("Parts/Tools/Pagination", Model.Pages)
+    </div>
+}
 
 <div class="modal fade modal-window" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" id="ModalAddWindow">
     <div class="modal-dialog">
@@ -55,6 +59,12 @@
                         <label for="filmName" class="col-sm-2 control-label">@Resource.Name</label>
                         <div class="col-sm-10">
                             <input type="text" class="form-control movie-name" id="filmName" placeholder="@Resource.Name">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="filmYear" class="col-sm-2 control-label">@Resource.Year</label>
+                        <div class="col-sm-10">
+                            <input type="number" min="1900" max="@(DateTime.Now.Year)" class="form-control movie-year" id="filmYear" placeholder="@Resource.Year" value="@(DateTime.Now.Year)">
                         </div>
                     </div>
                     <div class="form-group">
@@ -114,6 +124,12 @@
                 locale: '@CultureInfoTool.GetCulture()'
             });
 
+            var $filmYear = $('#filmYear');
+            $filmYear.on('input', function () {
+                if (this.value.length > 4) this.value = this.value.slice(0, 4);
+                return false;
+            });
+
             function sendRequest(innerUrl, innerData) {
                 $.ajax({
                     type: 'POST',
@@ -125,7 +141,16 @@
                             alert(response.error);
                         }
                         else {
-                            window.location.href = '/';
+                            var $quickSearch = $('#quickSearch');
+                            var location = "";
+                            if ($quickSearch.val() !== "") location += "/?search=" + $quickSearch.val();
+                            if ("@Model.Pages.CurentPage"!=="1")
+                            {
+                                if (location.length === 0) location += "/?";
+                                else location += "&";
+                                location += "page=" + "@Model.Pages.CurentPage";
+                            }
+                            window.location.href = location;
                             $modal.modal('hide');
                         }
                     },
@@ -149,6 +174,7 @@
                 url = '/Home/AddFilm';
                 data = {
                     name: $('#filmName').val(),
+                    year: $('#filmYear').val(),
                     datetime: $('#datetimepicker').val(),
                     genre: $('#filmGenre').val(),
                     rating: $('#filmRating').val()
@@ -167,6 +193,7 @@
                 var $modalTitle = $modal.find('.modal-title');
                 var $modalBody = $modal.find('.modal-body');
                 var $movieName = $modalBody.find('.movie-name');
+                var $movieYear = $modalBody.find('.movie-year');
                 var $movieGenre = $modalBody.find('.movie-genre');
                 var $movieRating = $modalBody.find('.movie-rating');
                 var $serialSeason = $('#serialSeason') || $('<input id="serialSeason" value="" />');
@@ -178,11 +205,13 @@
                 var defaultModalRating = $movieRating.find('option:selected').text();
                 var id = $button.attr('id');
                 var name = $tds.eq(1).text();
-                var date = $tds.eq(2).text();
+                var year = $tds.eq(2).text();
+                var date = $tds.eq(3).text();
                 var genre = $tds.eq(-2).text();
                 var rating = $tds.eq(-1).text();
 
                 $movieName.val(name);
+                $movieYear.val(year);
                 $datetimepicker.val(date);
 
                 $movieGenre.find('option')
@@ -206,6 +235,7 @@
                 $modal.on('hidden.bs.modal', function () {
                     $modalTitle.text(defaultModalTitle);
                     $movieName.val('');
+                    $movieYear.val('');
                     $serialSeason.val('');
                     $serialSeries.val('');
                     $movieGenre.find('option')
@@ -231,6 +261,7 @@
                     data = {
                         id: id,
                         name: $('#filmName').val(),
+                        year: $('#filmYear').val(),
                         datetime: $('#datetimepicker').val(),
                         genre: $('#filmGenre').val(),
                         rating: $('#filmRating').val()

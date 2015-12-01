@@ -13,6 +13,7 @@ namespace MySeenWeb.Models.TablesViews
             {
                 Id = model.Id,
                 Name = model.Name,
+                Year = model.Year,
                 UserId = model.UserId,
                 DateChange = UmtTime.From(model.DateChange),
                 Genre = model.Genre,
@@ -24,17 +25,15 @@ namespace MySeenWeb.Models.TablesViews
         }
         public string GenreText
         {
-            get
-            {
-                return Defaults.Genres.GetById(Genre);
-            }
+            get { return Defaults.Genres.GetById(Genre); }
         }
         public string RatingText
         {
-            get
-            {
-                return Defaults.Ratings.GetById(Rating);
-            }
+            get { return Defaults.Ratings.GetById(Rating); }
+        }
+        public string YearText
+        {
+            get { return Year == 0 ? "" : Year.ToString(); }
         }
     }
 }

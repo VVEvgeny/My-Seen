@@ -6,7 +6,8 @@ namespace MySeenWeb.Models.TablesViews
     public enum TrackTypes
     {
         Foot = 1,
-        Car = 2
+        Car = 2,
+        Bike = 3
     }
     public class Location
     {
@@ -33,6 +34,7 @@ namespace MySeenWeb.Models.TablesViews
             return new TracksView
             {
                 Id = model.Id,
+                UserId = model.UserId,
                 Date = UmtTime.From(model.Date),
                 Distance = model.Distance,
                 Name = model.Name,

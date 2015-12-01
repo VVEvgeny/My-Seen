@@ -42,7 +42,12 @@
 
 <script language="javascript" type="text/javascript">
     (function ($) {
-        initialGmap("@CultureInfoTool.GetCulture()","@Resource.SetPointHere", "@Resource.Points", "@Resource.Distance", "@Resource.Km");
+        initialGmap("@CultureInfoTool.GetCulture()", "@Resource.SetPointHere", "@Resource.Points", "@Resource.Distance", "@Resource.Km");
+
+        @if (!Model.NewTrack)
+        {
+            @:showTrack('@Model.Id', true);
+                                                                                }
 
         $(function () {
             var $panel = $("#panelCoordinates");
@@ -57,6 +62,8 @@
             });
 
             var $modal = $('#ModalAddWindow');
+            var $modalTitle = $modal.find('.modal-title');
+            var defaultModalTitle = $modalTitle.text();
             var saveButtonMain = $("#saveButtonMain");
             var $datetimepicker = $('#datetimepicker');
             $datetimepicker.datetimepicker({
@@ -106,10 +113,35 @@
                 return false;
             });
 
-
+            var $saveButton = $('#saveButton');
             saveButtonMain.off('click');
             saveButtonMain.on('click', function () {
-                $datetimepicker.val('@DateTime.Now');
+
+                var $trackName = $modalBody.find('.track-name');
+                var $trackDate = $modalBody.find('.track-date');
+                var $loadingTrackNameBegin = $('#loadingtrackNameModal');
+                var $loadingTrackNameEnd = $('#trackNameModal');
+                var $loadingTrackDatesBegin = $('#loadingdatetimepickerModal');
+                var $loadingTrackDateEnd = $('#datetimepickerModal');
+
+                @if (Model.NewTrack)
+                {
+                    @:$datetimepicker.val('@DateTime.Now');
+                    @:$modalTitle.text(defaultModalTitle);
+                }
+                else
+                {
+                    @:$loadingTrackNameBegin.show();
+                    @:$loadingTrackNameEnd.hide();
+                    @:$.getJSON('/Home/GetTrackNameById/' + '@Model.Id' + '/', function (name) { $trackName.val(name); $loadingTrackNameBegin.hide(); $loadingTrackNameEnd.show(); });
+                    @:$loadingTrackDatesBegin.show();
+                    @:$loadingTrackDateEnd.hide();
+                    @:$.getJSON('/Home/GetTrackDateById/' + '@Model.Id' + '/', function (date) { $trackDate.val(date); $loadingTrackDatesBegin.hide(); $loadingTrackDateEnd.show(); });
+                    @:$submitAddButton.hide();
+                    @:$saveButton.show();
+                    @:$modalTitle.text('@Resource.Edit @Resource.Track');
+                }
+                $trackCoords.val('');
 
                 var $rows = $panel.find("div");
                 $rows.each(function (index, element) {
@@ -124,6 +156,24 @@
                 $modal.modal('show');
                 return false;
             });
+
+            $saveButton.off('click');
+            $saveButton.on('click', function () {
+                url = '/Home/EditTrack';
+                data = {
+                    id: '@Model.Id',
+                    name: $('#trackName').val(),
+                    datetime: $('#datetimepicker').val(),
+                    type: $('#type').val(),
+                    coordinates: $('#trackCoords').val(),
+                    distance: CalcDistanceFromTxt($('#trackCoords').val())
+                };
+
+                sendRequest(url, data);
+
+                return false;
+            });
+
         });
     })(jQuery);
 </script>

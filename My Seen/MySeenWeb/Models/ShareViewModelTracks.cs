@@ -33,8 +33,11 @@ namespace MySeenWeb.Models
             }
         }
 
-        public ShareViewModelTracks(string key)
+        public bool Markers { get; set; }
+
+        public ShareViewModelTracks(string key, int markersOnRoads)
         {
+            Markers = markersOnRoads == Defaults.MarkersOnRoadsBase.IndexEnabled;
             Key = key;
             var ac=new ApplicationDbContext();
             if (ac.Users.Any(u => u.ShareTracksFootKey != null && u.ShareTracksFootKey == key))
@@ -49,6 +52,13 @@ namespace MySeenWeb.Models
                 AllUsersTracks = true;
                 var userId = ac.Users.First(u => u.ShareTracksCarKey == key).Id;
                 const int type = (int)TrackTypes.Car;
+                Data = ac.Tracks.Where(t => t.UserId == userId && t.Type == type).Select(TracksView.Map);
+            }
+            else if (ac.Users.Any(u => u.ShareTracksCarKey != null && u.ShareTracksBikeKey == key))
+            {
+                AllUsersTracks = true;
+                var userId = ac.Users.First(u => u.ShareTracksBikeKey == key).Id;
+                const int type = (int)TrackTypes.Bike;
                 Data = ac.Tracks.Where(t => t.UserId == userId && t.Type == type).Select(TracksView.Map);
             }
             else if (ac.Users.Any(u => u.ShareTracksAllKey != null && u.ShareTracksAllKey == key))

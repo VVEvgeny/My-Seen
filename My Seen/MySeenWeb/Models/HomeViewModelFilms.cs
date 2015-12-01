@@ -11,6 +11,11 @@ namespace MySeenWeb.Models
         public PaginationViewModel Pages { get; set; }
         public RatingGenreViewModel RatinngGenre { get; set; }
 
+        public bool HaveData
+        {
+            get { return Data.Any(); }
+        }
+
         public HomeViewModelFilms(string userId, int page, int countInPage, string search)
         {
             ApplicationDbContext ac = new ApplicationDbContext();

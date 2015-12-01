@@ -22,17 +22,28 @@
             <ul class="nav nav-tabs">
                 @if (Model.HaveFoot)
                 {
-                    <li class="active"><a data-toggle="tab" href="#menu1">@Resource.FootBike</a></li>
+                    <li class="active"><a data-toggle="tab" href="#menu1">@Resource.Foot</a></li>
                 }
-                @if (Model.HaveCar)
+                @if (Model.HaveBike)
                 {
                     if (Model.HaveFoot)
                     {
-                        <li><a data-toggle="tab" href="#menu2">@Resource.Car</a></li>
+                        <li><a data-toggle="tab" href="#menu2">@Resource.Bike</a></li>
                     }
                     else
                     {
-                        <li class="active"><a data-toggle="tab" href="#menu2">@Resource.Car</a></li>
+                        <li class="active"><a data-toggle="tab" href="#menu2">@Resource.Bike</a></li>
+                    }
+                }
+                @if (Model.HaveCar)
+                {
+                    if (Model.HaveFoot || Model.HaveBike)
+                    {
+                        <li><a data-toggle="tab" href="#menu3">@Resource.Car</a></li>
+                    }
+                    else
+                    {
+                        <li class="active"><a data-toggle="tab" href="#menu3">@Resource.Car</a></li>
                     }
                 }
             </ul>
@@ -67,9 +78,39 @@
                         }
                     </div>
                 }
+                @if (Model.HaveBike)
+                {
+                    <div id="menu2" class="list-group tab-pane fade @(Model.HaveFoot)?:in active">
+                        <a href="" class="list-group-item track-id" id="All Bike">
+                            <h5 class="list-group-item-heading align-center">@Resource.All<span class="badge pull-right">@Model.CountBike</span></h5>
+                            <h6 class="list-group-item-text align-center">@Resource.Distance :<span class="badge pull-right alert-info small">@Model.DistanceBikeText</span></h6>
+                            <h6 class="list-group-item-text align-left">
+                                @Resource.Actions :
+                                <span class="pull-right alert-info small">
+                                    <button class="btn btn-xs btn-info" id="All Bike"><small><span class="glyphicon glyphicon-share"></span></small></button>
+                                </span>
+                            </h6>
+                        </a>
+                        @foreach (var track in Model.DataBike)
+                        {
+                            <a href="" class="list-group-item track-id" id=@track.Id>
+                                <h5 class="list-group-item-heading">@track.Name<span class="badge pull-right">@track.DateText</span></h5>
+                                <h6 class="list-group-item-text align-center">@Resource.Distance :<span class="badge pull-right alert-info small">@track.DistanceText</span></h6>
+                                <h6 class="list-group-item-text align-left">
+                                    @Resource.Actions :
+                                    <span class="pull-right alert-info small">
+                                        <button class="btn btn-xs btn-info" id=@track.Id><small><span class="glyphicon glyphicon-share"></span></small></button>
+                                        <button class="btn btn-xs btn-warning" id=@track.Id><small><span class="glyphicon glyphicon-pencil"></span></small></button>
+                                        <!--<button class="btn btn-xs btn-warning" id=@track.Id><small><span class="glyphicon glyphicon-trash"></span></small></button>-->
+                                    </span>
+                                </h6>
+                            </a>
+                        }
+                    </div>
+                }
                 @if (Model.HaveCar)
                 {
-                    <div id="menu2" class="list-group tab-pane fade @Model.HaveFoot?:in active">
+                    <div id="menu3" class="list-group tab-pane fade @(Model.HaveFoot||Model.HaveBike)?:in active">
                         <a href="" class="list-group-item track-id" id="All Car">
                             <h5 class="list-group-item-heading align-center">@Resource.All<span class="badge pull-right">@Model.CountCar</span></h5>
                             <h6 class="list-group-item-text align-center">@Resource.Distance :<span class="badge pull-right alert-info small">@Model.DistanceCarText</span></h6>
@@ -151,6 +192,7 @@
 
 <script language="javascript" type="text/javascript">
     (function ($) {
+        initialGmap('@CultureInfoTool.GetCulture()','@Model.Markers');
         $(function () {
             var $list = $('.tab-content,.panel-heading');
             var $addButton = $('#addButton');
@@ -161,6 +203,7 @@
             var $saveButton = $('#saveButton');
             var $toEditor = $('#Map-Editor');
             var $buttonToEditor = $('#buttonToEditor');
+            $buttonToEditor.show();
             var url = '';
             var data = {};
             var $datetimepicker = $('#datetimepicker');
@@ -194,16 +237,19 @@
                 return false;
             }
 
+            var toEditorTextDefault = '/Home/TrackEditor';
+            var toEditorText = toEditorTextDefault;
+
             $toEditor.off('click');
             $toEditor.on('click', function () {
-                window.location.href = '/Home/TrackEditor';
+                window.location.href = toEditorText;
                 return false;
             });
 
             $addButton.off('click');
             $addButton.on('click', function () {
                 $datetimepicker.val('@DateTime.Now');
-                $buttonToEditor.show();
+                toEditorText = toEditorTextDefault;
                 $modal.modal('show');
                 return false;
             });
@@ -258,7 +304,6 @@
                 var $modalTitle = $modalShare.find('.modal-title');
                 $modalTitle.text('@Resource.Share @Resource.Track');
 
-                $buttonToEditor.hide();
                 $modalShare.modal('show');
 
                 $trackLink.val('');
@@ -309,6 +354,7 @@
             $list.on('click', '.btn-warning', function () {
                 var $item = $(this);
                 var id = $item.attr('id');
+                toEditorText = toEditorTextDefault + "/" + id;
                 var $trackName = $modalBody.find('.track-name');
                 var $modalTitle = $modal.find('.modal-title');
                 var $trackType = $modalBody.find('.track-type');
@@ -431,56 +477,14 @@
                 var $item = $(this);
                 var id = $item.attr('id');
                 //console.log("track-id id=", id);
-                var $rows;
-                var skip;
-                var skipOnce;
                 if (id === 'All Foot') {
-                    clearMap();
-                    $rows = $list.find('a');
-                    //console.log("rows=", $rows);
-                    skip = false;
-                    skipOnce = false;
-                    $rows.each(function (index, element) {
-                        var $row = $(element);
-                        //console.log("row=", $row);
-                        var id = $row.attr('id');
-                        skipOnce = false;
-
-                        if (id === 'All Foot') skipOnce = true;
-                        if (id === 'All Car') skip = true;
-
-                        if (!(skip || skipOnce)) {
-                            showTrack(id);
-                        }
-                    });
-                    //Просто перебрать все пехо треки и показать их без очистки
-                    SetZoom(2);
-                    SetCenterDefault();
+                    showTrackByType(id, "Foot");
                 }
                 else if (id === 'All Car') {
-                    clearMap();
-                    $rows = $list.find('a');
-                    //console.log("rows=", $rows);
-                    skip = false;
-                    skipOnce = false;
-                    $rows.each(function (index, element) {
-                        var $row = $(element);
-                        //console.log("row=", $row);
-                        var id = $row.attr('id');
-                        skipOnce = false;
-
-                        if (id === 'All Foot') skip = true;
-                        if (id === 'All Car') {
-                            skip = false;
-                            skipOnce = true;
-                        }
-
-                        if (!(skip || skipOnce)) {
-                            showTrack(id);
-                        }
-                    });
-                    SetZoom(2);
-                    SetCenterDefault();
+                    showTrackByType(id, "Car");
+                }
+                else if (id === 'All Bike') {
+                    showTrackByType(id, "Bike");
                 }
                 else showTrack(id, true);
                 return false;

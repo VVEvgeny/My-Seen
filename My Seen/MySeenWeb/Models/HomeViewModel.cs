@@ -91,7 +91,7 @@ namespace MySeenWeb.Models
 
         public string Search { get; set; }
 
-        public HomeViewModel(string selected, string userId, int page, int countInPage, int complex, string search)
+        public HomeViewModel(string selected, string userId, int page, int countInPage, int complex, string search, int markersOnRoads)
         {
             if (!string.IsNullOrEmpty(userId))
             {
@@ -99,7 +99,7 @@ namespace MySeenWeb.Models
                 Selected = selected;
                 if (PageSerials) Serials = new HomeViewModelSerials(userId, page, countInPage, search);
                 else if (PageBooks) Books = new HomeViewModelBooks(userId, page, countInPage, search);
-                else if (PageTracks) Tracks = new HomeViewModelTracks(userId);
+                else if (PageTracks) Tracks = new HomeViewModelTracks(userId, markersOnRoads);
                 else if (PageUsers) Users = new HomeViewModelUsers(page, countInPage);
                 else if (PageLogs) Logs = new HomeViewModelLogs(page, countInPage);
                 else if (PageImprovements) Improvements = new HomeViewModelImprovements(complex, page, countInPage);

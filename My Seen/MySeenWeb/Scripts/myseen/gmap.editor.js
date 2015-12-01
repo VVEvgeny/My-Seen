@@ -50,20 +50,52 @@ function initialGmap(language, setPointHereText, languagePoints, languageDistanc
     });
 }
 
+function updateMarker(marker, event, context)
+{
+    //понять кто именно обновился и переписать координаты в левом меню, найти по трек айди
+    //console.log("new position=" + marker.position);
+    var $div = $(".track-id-" + context.data);
+    var id = $div.attr("id");
+    //console.log("old position="+id);
+    $div.attr("id", marker.position);
+    id = $div.attr("id");
+    //console.log("updated position=" + id);
+    calculateRoute();
+}
+
+function showTrack(id, centerAndZoom) {
+
+    $.getJSON('/Home/GetTrack/' + id + '/', function (trackInfo) {
+        //var trackCoordsLatLng = [];
+        $.each(trackInfo.Path, function (i, item) {
+            //trackCoordsLatLng.push(new window.google.maps.LatLng(item.Latitude, item.Longitude));
+            //console.log(item.Latitude, item.Longitude);
+            current = new window.google.maps.Marker;
+            current.latLng = new window.google.maps.LatLng(item.Latitude, item.Longitude);
+            addMarker();
+        });
+
+        if (centerAndZoom) {
+
+            SetZoomAndCenter(trackInfo.Center, getZoom(trackInfo.Min, trackInfo.Max));
+        }
+    });
+}
+
 // add marker and manage which one it is (A, B)
 function addMarker() {
 
-    var info = ""+(coordinates + 1);
+    var info = "" + (coordinates + 1);
     var tag = "marker-" + (coordinates + 1);
     var latlng = current.latLng;
-    //console.log("addMarker tag="+tag);
+    //console.log("addMarker tag=" + tag, " latlng=" + latlng);
     // add marker and store it
     $("#my_map").gmap3({
         marker: {
             latLng: latlng,
             data: info,
             options: {
-                draggable: false, //пок анельзя двигать
+                draggable: true, //пока нельзя двигать
                 icon: getMarkerIcon("next")
             },
             tag: tag,
@@ -89,12 +121,9 @@ function addMarker() {
                         infowindow.close();
                     }
                 },
-                dragend: function (marker) {
-                    //updateMarker(marker);
+                dragend: function (marker, event, context) {
+                    updateMarker(marker, event, context);
                 }
-            },
-            callback: function (marker) {
-                //updateMarker(marker);
             }
         }
     });

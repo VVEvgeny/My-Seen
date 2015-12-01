@@ -367,6 +367,15 @@ namespace MySeenLib {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Bike.
+        /// </summary>
+        public static string Bike {
+            get {
+                return ResourceManager.GetString("Bike", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Book.
         /// </summary>
         public static string Book {
@@ -421,7 +430,7 @@ namespace MySeenLib {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Car + Moto.
+        ///   Looks up a localized string similar to Car.
         /// </summary>
         public static string Car {
             get {
@@ -673,6 +682,15 @@ namespace MySeenLib {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Disabled.
+        /// </summary>
+        public static string Disabled {
+            get {
+                return ResourceManager.GetString("Disabled", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Distance.
         /// </summary>
         public static string Distance {
@@ -714,6 +732,15 @@ namespace MySeenLib {
         public static string EmailIncorrect {
             get {
                 return ResourceManager.GetString("EmailIncorrect", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Enabled.
+        /// </summary>
+        public static string Enabled {
+            get {
+                return ResourceManager.GetString("Enabled", resourceCulture);
             }
         }
         
@@ -808,6 +835,15 @@ namespace MySeenLib {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Error calculating the distance, recheck position.
+        /// </summary>
+        public static string ErrorCalculating {
+            get {
+                return ResourceManager.GetString("ErrorCalculating", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Error work with DB.
         /// </summary>
         public static string ErrorWorkWithDB {
@@ -871,11 +907,11 @@ namespace MySeenLib {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Foot + Bike.
+        ///   Looks up a localized string similar to Foot.
         /// </summary>
-        public static string FootBike {
+        public static string Foot {
             get {
-                return ResourceManager.GetString("FootBike", resourceCulture);
+                return ResourceManager.GetString("Foot", resourceCulture);
             }
         }
         
@@ -1042,7 +1078,7 @@ namespace MySeenLib {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to 6.
+        ///   Looks up a localized string similar to 7.
         /// </summary>
         public static string LibVersionNum {
             get {
@@ -1123,6 +1159,15 @@ namespace MySeenLib {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Markers On Roads.
+        /// </summary>
+        public static string MarkersOnRoads {
+            get {
+                return ResourceManager.GetString("MarkersOnRoads", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Name.
         /// </summary>
         public static string Name {
@@ -1137,6 +1182,15 @@ namespace MySeenLib {
         public static string NewPassword {
             get {
                 return ResourceManager.GetString("NewPassword", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to No Coordinates.
+        /// </summary>
+        public static string NoCoordinates {
+            get {
+                return ResourceManager.GetString("NoCoordinates", resourceCulture);
             }
         }
         
@@ -1438,6 +1492,15 @@ namespace MySeenLib {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Short Name.
+        /// </summary>
+        public static string ShortName {
+            get {
+                return ResourceManager.GetString("ShortName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Too Short User Name.
         /// </summary>
         public static string ShortUserName {
@@ -1695,6 +1758,15 @@ namespace MySeenLib {
         public static string WrongVersion {
             get {
                 return ResourceManager.GetString("WrongVersion", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Year.
+        /// </summary>
+        public static string Year {
+            get {
+                return ResourceManager.GetString("Year", resourceCulture);
             }
         }
     }

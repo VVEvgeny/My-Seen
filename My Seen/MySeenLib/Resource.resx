@@ -520,13 +520,13 @@
     <value>No Longer Supported Version</value>
   </data>
   <data name="Car" xml:space="preserve">
-    <value>Car + Moto</value>
+    <value>Car</value>
   </data>
   <data name="Distance" xml:space="preserve">
     <value>Distance</value>
   </data>
-  <data name="FootBike" xml:space="preserve">
-    <value>Foot + Bike</value>
+  <data name="Bike" xml:space="preserve">
+    <value>Bike</value>
   </data>
   <data name="Km" xml:space="preserve">
     <value>Ml</value>
@@ -544,7 +544,7 @@
     <value>Type</value>
   </data>
   <data name="LibVersionNum" xml:space="preserve">
-    <value>6</value>
+    <value>7</value>
   </data>
   <data name="Improvements" xml:space="preserve">
     <value>Improvements</value>
@@ -662,5 +662,29 @@
   </data>
   <data name="AboutText21" xml:space="preserve">
     <value>Changing the Display records per page</value>
+  </data>
+  <data name="ErrorCalculating" xml:space="preserve">
+    <value>Error calculating the distance, recheck position</value>
+  </data>
+  <data name="NoCoordinates" xml:space="preserve">
+    <value>No Coordinates</value>
+  </data>
+  <data name="ShortName" xml:space="preserve">
+    <value>Short Name</value>
+  </data>
+  <data name="Year" xml:space="preserve">
+    <value>Year</value>
+  </data>
+  <data name="Foot" xml:space="preserve">
+    <value>Foot</value>
+  </data>
+  <data name="Disabled" xml:space="preserve">
+    <value>Disabled</value>
+  </data>
+  <data name="Enabled" xml:space="preserve">
+    <value>Enabled</value>
+  </data>
+  <data name="MarkersOnRoads" xml:space="preserve">
+    <value>Markers On Roads</value>
   </data>
 </root>

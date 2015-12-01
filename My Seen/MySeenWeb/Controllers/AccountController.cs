@@ -62,9 +62,13 @@ namespace MySeenWeb.Controllers
         [AllowAnonymous]
         public ActionResult Login(string returnUrl)
         {
+            return RedirectToAction("Index", "Home");
+            //Вход только по модальной 
+            /*
             LogSave.Save(User.Identity.IsAuthenticated ? User.Identity.GetUserId() : "", Request.UserHostAddress, Request.UserAgent, "Account/Login");
             ViewBag.ReturnUrl = returnUrl;
             return View();
+             * */
         }
 
 
@@ -85,9 +89,13 @@ namespace MySeenWeb.Controllers
         // POST: /Account/Login
         [HttpPost]
         [AllowAnonymous]
-        ////[ValidateAntiForgeryToken]
-        public async Task<ActionResult> Login(LoginViewModel model, string returnUrl)
+        //[ValidateAntiForgeryToken]
+        //public async Task<ActionResult> Login(LoginViewModel model, string returnUrl)
+        public ActionResult Login(LoginViewModel model, string returnUrl)
         {
+            return RedirectToAction("Index", "Home");
+            //Вход только по модальной 
+            /*
             LogSave.Save(User.Identity.IsAuthenticated ? User.Identity.GetUserId() : "", Request.UserHostAddress, Request.UserAgent, "Account/LoginAsync");
             if (!ModelState.IsValid)
             {
@@ -110,6 +118,7 @@ namespace MySeenWeb.Controllers
                     ModelState.AddModelError("", "Invalid login attempt.");
                     return View(model);
             }
+             * */
         }
 
         //

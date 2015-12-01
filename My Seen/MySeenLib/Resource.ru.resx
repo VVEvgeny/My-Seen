@@ -520,13 +520,13 @@
     <value>Данная версия не поддерживается</value>
   </data>
   <data name="Car" xml:space="preserve">
-    <value>Авто + Мото</value>
+    <value>Авто</value>
   </data>
   <data name="Distance" xml:space="preserve">
     <value>Расстояние</value>
   </data>
-  <data name="FootBike" xml:space="preserve">
-    <value>Вело + Пехо</value>
+  <data name="Bike" xml:space="preserve">
+    <value>Велом</value>
   </data>
   <data name="Km" xml:space="preserve">
     <value>Км</value>
@@ -544,7 +544,7 @@
     <value>Тип</value>
   </data>
   <data name="LibVersionNum" xml:space="preserve">
-    <value>6</value>
+    <value>7</value>
   </data>
   <data name="Improvements" xml:space="preserve">
     <value>Улучшения</value>
@@ -662,5 +662,29 @@
   </data>
   <data name="Legend" xml:space="preserve">
     <value>Легенда</value>
+  </data>
+  <data name="ErrorCalculating" xml:space="preserve">
+    <value>Ошибка вычисления расстояния, перепроверьте координаты</value>
+  </data>
+  <data name="NoCoordinates" xml:space="preserve">
+    <value>Нет координат</value>
+  </data>
+  <data name="ShortName" xml:space="preserve">
+    <value>Короткое название</value>
+  </data>
+  <data name="Year" xml:space="preserve">
+    <value>Год</value>
+  </data>
+  <data name="Foot" xml:space="preserve">
+    <value>Пехом</value>
+  </data>
+  <data name="Disabled" xml:space="preserve">
+    <value>Выключено</value>
+  </data>
+  <data name="Enabled" xml:space="preserve">
+    <value>Включено</value>
+  </data>
+  <data name="MarkersOnRoads" xml:space="preserve">
+    <value>Маркеры на дорогах</value>
   </data>
 </root>
