@@ -2,6 +2,7 @@
 {
     public static class CookieKeys
     {
+        public static string RoadsYear = "RoadsYear";
         public static string MarkersOnRoads = "MarkersOnRoads";
         public static string RecordPerPage = "RecordPerPage";
         public static string Language = "Language";

@@ -24,7 +24,8 @@ namespace MySeenWeb.Controllers
                 Rpp,
                 ReadCookie(CookieKeys.ImprovementsCategory, Defaults.ComplexBase.IndexAll),
                 search,
-                MarkersOnRoads
+                MarkersOnRoads,
+                ReadCookie(CookieKeys.RoadsYear, 0)
                 ));
         }
         [Authorize]
@@ -36,9 +37,17 @@ namespace MySeenWeb.Controllers
             return Json(new { success = true });
         }
         [Authorize]
+        [HttpPost]
         public JsonResult ChangeCookiesImprovement(string selected)
         {
             WriteCookie(CookieKeys.ImprovementsCategory, selected);
+            return Json(new { success = true });
+        }
+        [Authorize]
+        [HttpPost]
+        public JsonResult ChangeCookiesRoads(string selected)
+        {
+            WriteCookie(CookieKeys.RoadsYear, selected);
             return Json(new { success = true });
         }
         [Authorize]
@@ -176,7 +185,7 @@ namespace MySeenWeb.Controllers
         [Authorize]
         public ActionResult GetTrackByKey(string id)
         {
-            return Json(HomeViewModelTracks.GetTrackByKey(id), JsonRequestBehavior.AllowGet);
+            return Json(HomeViewModelTracks.GetTrackByKey(id, ReadCookie(CookieKeys.RoadsYear, 0)), JsonRequestBehavior.AllowGet);
         }
         [Authorize]
         public ActionResult GetTrackByType(string id)

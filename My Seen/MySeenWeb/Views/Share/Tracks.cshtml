@@ -11,7 +11,12 @@
 
 <div class="panel panel-primary col-md-12">
     <div class="panel panel-default">
-        <div class="panel-heading">@Resource.Legend</div>
+        <div class="panel-heading">
+            @Resource.Legend
+            <span class="alert-info small">
+                @Html.DropDownList("Years", Model.YearsList, new { @class = "input-sm", @id = "lstYears", @style = "width: 100px;" })
+            </span>
+        </div>
         <div class="tab-content">
             @if (Model.AllUsersTracks)
             {
@@ -48,7 +53,48 @@
     (function ($) {
         initialGmap('@CultureInfoTool.GetCulture()', '@Model.Markers');
         $(function () {
+            var $select = $('#lstYears');
+
+            setYear($select.val());
             showTrackByKey('@Model.Key', '@Model.Key');
+
+            var url = '';
+            var data = {};
+            function sendRequest(innerUrl, innerData, noRedirect) {
+                $.ajax({
+                    type: 'POST',
+                    url: innerUrl,
+                    data: innerData,
+                    dataType: 'json',
+                    success: function (response) {
+                        if (response.error) {
+                            alert(response.error);
+                        }
+                        else {
+                            if (!noRedirect) window.location.href = window.location.href;
+                        }
+                    },
+                    error: function (err) {
+                        alert(err);
+                    }
+                });
+
+                return false;
+            }
+
+            $select.on('change', function () {
+                var value = $(this).val();
+
+                url = '/Home/ChangeCookiesRoads';
+                data = {
+                    selected: value
+                };
+
+                sendRequest(url, data);
+
+                return false;
+            });
+
         });
     })(jQuery);
 </script>

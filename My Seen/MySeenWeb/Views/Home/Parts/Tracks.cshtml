@@ -14,7 +14,11 @@
 <div class="row">
     <div class="panel panel-primary col-md-3">
         <div class="panel panel-default">
-            <div class="panel-heading">@Resource.Tracks
+            <div class="panel-heading">
+                @Resource.Tracks
+                <span class="alert-info small">
+                    @Html.DropDownList("Years", Model.YearsList, new { @class = "input-sm", @id = "lstYears", @style = "width: 100px;" })
+                </span>
                 <span class="pull-right alert-info small">
                     <button class="btn btn-xs btn-info" id="All All"><small><span class="glyphicon glyphicon-share"></span></small></button>
                 </span>
@@ -192,7 +196,7 @@
 
 <script language="javascript" type="text/javascript">
     (function ($) {
-        initialGmap('@CultureInfoTool.GetCulture()','@Model.Markers');
+        initialGmap('@CultureInfoTool.GetCulture()', '@Model.Markers');
         $(function () {
             var $list = $('.tab-content,.panel-heading');
             var $addButton = $('#addButton');
@@ -212,7 +216,7 @@
                 locale: '@CultureInfoTool.GetCulture()'
             });
 
-            function sendRequest(innerUrl, innerData,noRedirect) {
+            function sendRequest(innerUrl, innerData, noRedirect) {
                 $.ajax({
                     type: 'POST',
                     url: innerUrl,
@@ -222,11 +226,10 @@
                         if (response.error) {
                             alert(response.error);
                         }
-                        else
-                        {
+                        else {
                             $modal.modal('hide');
                             $modalShare.modal('hide');
-                            if (!noRedirect)window.location.href = '/';
+                            if (!noRedirect) window.location.href = '/';
                         }
                     },
                     error: function (err) {
@@ -236,6 +239,20 @@
 
                 return false;
             }
+
+            var $select = $('#lstYears');
+            $select.on('change', function () {
+                var value = $(this).val();
+
+                url = '/Home/ChangeCookiesRoads';
+                data = {
+                    selected: value
+                };
+
+                sendRequest(url, data);
+
+                return false;
+            });
 
             var toEditorTextDefault = '/Home/TrackEditor';
             var toEditorText = toEditorTextDefault;
@@ -288,12 +305,12 @@
 
                 $shareDeleteGetButton.hide();
                 $shareTryButton.hide();
-                $shareGetButton.show();
+                $shareGetButton.hide();
                 //console.log('GetTrackShare=' + id);
-                $.getJSON('/Home/GetTrackShare/' + id + '/', function (data)
-                {
+                $.getJSON('/Home/GetTrackShare/' + id + '/', function (data) {
                     $loadingtrackLinkBegin.hide();
                     $loadingtrackLinkEnd.show();
+                    $shareGetButton.show();
                     //console.log('GetTrackShare data=', data);
                     if (data === '-') return;
                     $shareGetButton.hide();
@@ -312,8 +329,7 @@
                 $shareGetButton.on('click', function () {
                     //console.log("shareGetButton id=", id);
 
-                    $.getJSON('/Home/GenerateTrackShare/' + id + '/', function (data)
-                    {
+                    $.getJSON('/Home/GenerateTrackShare/' + id + '/', function (data) {
                         //console.log('GetTrackShare=', data);
                         $shareGetButton.hide();
                         $shareDeleteGetButton.show();
@@ -375,8 +391,7 @@
 
                 $loadingTrackNameBegin.show();
                 $loadingTrackNameEnd.hide();
-                $.getJSON('/Home/GetTrackNameById/' + id + '/', function (name)
-                {
+                $.getJSON('/Home/GetTrackNameById/' + id + '/', function (name) {
                     $trackName.val(name);
 
                     $loadingTrackNameBegin.hide();
@@ -385,8 +400,7 @@
 
                 $loadingTrackDatesBegin.show();
                 $loadingTrackDateEnd.hide();
-                $.getJSON('/Home/GetTrackDateById/' + id + '/', function (date)
-                {
+                $.getJSON('/Home/GetTrackDateById/' + id + '/', function (date) {
                     $trackDate.val(date);
 
                     $loadingTrackDatesBegin.hide();
@@ -406,6 +420,9 @@
                 var typeinmenu = $item.parent().parent().parent().parent().attr('id');
                 //console.log('type=', typeinmenu);
                 if (typeinmenu === 'menu2') {
+                    $trackType.find('option').filter(function (index) { return index === 2; }).prop('selected', true);
+                }
+                if (typeinmenu === 'menu3') {
                     $trackType.find('option').filter(function (index) { return index === 1; }).prop('selected', true);
                 }
 
