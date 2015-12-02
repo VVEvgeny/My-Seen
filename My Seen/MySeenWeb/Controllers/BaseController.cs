@@ -11,57 +11,99 @@ namespace MySeenWeb.Controllers
 {
     public class BaseController : Controller
     {
-        public int ReadCookie(string key, int defaultValue)
+        public class MySessionObject
         {
-            int readed;
-            try
+            public string Value;
+
+            public MySessionObject(string value)
             {
-                readed = Convert.ToInt32(ReadCookie(key, defaultValue.ToString()));
+                Value = value;
             }
-            catch
-            {
-                WriteCookie(key, defaultValue);
-                readed = defaultValue;
-            }
-            return readed;
         }
-        public string ReadCookie(string key, string defaultValue)
+        public bool IsCookieEnabled
         {
-            var cookie = ControllerContext.HttpContext.Request.Cookies[key];
-            if (cookie != null) return cookie.Value;
-            cookie = new HttpCookie(key)
-            {
-                Value = defaultValue,
-                Expires = DateTime.Now.AddDays(1)
-            };
-            ControllerContext.HttpContext.Response.Cookies.Add(cookie);
-            return defaultValue;
+            get { return TryReadCookies("TestCookes"); }
+            //get { return false; }
         }
-        public bool TryReadCookie(string key)
+        private bool TryReadCookies(string key)
         {
-            var cookie = ControllerContext.HttpContext.Request.Cookies[key];
-            return cookie != null;
+            return ControllerContext.HttpContext.Request.Cookies[key] != null;
         }
-        public void WriteCookie(string key, object value)
+        private bool TryReadSession(string key)
         {
-            WriteCookie(key, value.ToString());
+            return ControllerContext.HttpContext.Session != null && ControllerContext.HttpContext.Session[key] != null;
         }
-        public void WriteCookie(string key, string value)
+
+        private bool TryReadUserSideStorage(string key)
+        {
+            return IsCookieEnabled ? TryReadCookies(key) : TryReadSession(key);
+        }
+
+        private void WriteCookie(string key, string value)
         {
             var cookie = ControllerContext.HttpContext.Request.Cookies[key] ?? new HttpCookie(key);
             cookie.Value = value;
             cookie.Expires = DateTime.Now.AddDays(14);
             ControllerContext.HttpContext.Response.Cookies.Add(cookie);
-            //ControllerContext.HttpContext.Session[key] = cookie;
+        }
+        private void WriteSession(string key, string value)
+        {
+            if (ControllerContext.HttpContext.Session != null) ControllerContext.HttpContext.Session.Add(key, new MySessionObject(value));
+        }
+        private void WriteUserSideStorage(string key, string value)
+        {
+            if (IsCookieEnabled) WriteCookie(key, value);
+            else WriteSession(key, value);
         }
 
+        private string ReadCookie(string key, string defaultValue)
+        {
+            var cookie = ControllerContext.HttpContext.Request.Cookies[key];
+            if (cookie != null) return cookie.Value;
+            WriteCookie(key, defaultValue);
+            return defaultValue;
+        }
+        private string ReadSession(string key, string defaultValue)
+        {
+            if (ControllerContext.HttpContext.Session == null) return string.Empty;
+
+            var obj = (MySessionObject)ControllerContext.HttpContext.Session[key];
+            if (obj != null) return obj.Value;
+            WriteSession(key, defaultValue);
+
+            return string.Empty;
+        }
+        private string ReadUserSideStorage(string key, string defaultValue)
+        {
+            return IsCookieEnabled ? ReadCookie(key, defaultValue) : ReadSession(key, defaultValue);
+        }
+
+
+        public int ReadUserSideStorage(string key, int defaultValue)
+        {
+            int readed;
+            try
+            {
+                readed = Convert.ToInt32(ReadUserSideStorage(key, defaultValue.ToString()));
+            }
+            catch
+            {
+                WriteUserSideStorage(key, defaultValue);
+                readed = defaultValue;
+            }
+            return readed;
+        }
+        public void WriteUserSideStorage(string key, object value)
+        {
+            WriteUserSideStorage(key, value.ToString());
+        }
         public int MarkersOnRoads
         {
             get
             {
-                if (TryReadCookie(CookieKeys.MarkersOnRoads))
+                if (TryReadUserSideStorage(UserSideStorageKeys.MarkersOnRoads))
                 {
-                    var ret = ReadCookie(CookieKeys.MarkersOnRoads, 0);
+                    var ret = ReadUserSideStorage(UserSideStorageKeys.MarkersOnRoads, 0);
                     if (!string.IsNullOrEmpty(Defaults.MarkersOnRoads.GetById(ret))) return ret;
                     var userId = string.Empty;
                     try
@@ -70,7 +112,7 @@ namespace MySeenWeb.Controllers
                         userId = User.Identity.GetUserId();
                         var au = ac.Users.First(u => u.Id == userId);
                         ret = au.MarkersOnRoads;
-                        WriteCookie(CookieKeys.RecordPerPage, ret);
+                        WriteUserSideStorage(UserSideStorageKeys.RecordPerPage, ret);
                     }
                     catch
                     {
@@ -88,7 +130,7 @@ namespace MySeenWeb.Controllers
                         userId = User.Identity.GetUserId();
                         var au = ac.Users.First(u => u.Id == userId);
                         ret = au.MarkersOnRoads;
-                        WriteCookie(CookieKeys.MarkersOnRoads, au.MarkersOnRoads);
+                        WriteUserSideStorage(UserSideStorageKeys.MarkersOnRoads, au.MarkersOnRoads);
                     }
                     catch
                     {
@@ -99,16 +141,16 @@ namespace MySeenWeb.Controllers
             }
             set
             {
-                WriteCookie(CookieKeys.MarkersOnRoads, value);
+                WriteUserSideStorage(UserSideStorageKeys.MarkersOnRoads, value);
             }
         }
         public int Rpp
         {
             get
             {
-                if (TryReadCookie(CookieKeys.RecordPerPage))
+                if (TryReadUserSideStorage(UserSideStorageKeys.RecordPerPage))
                 {
-                    var ret = ReadCookie(CookieKeys.RecordPerPage, Defaults.RecordPerPageBase.IndexAll);
+                    var ret = ReadUserSideStorage(UserSideStorageKeys.RecordPerPage, Defaults.RecordPerPageBase.IndexAll);
                     if (!string.IsNullOrEmpty(Defaults.RecordPerPage.GetById(ret)))
                         return ret == Defaults.RecordPerPageBase.IndexAll
                             ? Defaults.RecordPerPageBase.ValAll
@@ -120,7 +162,7 @@ namespace MySeenWeb.Controllers
                         userId = User.Identity.GetUserId();
                         var au = ac.Users.First(u => u.Id == userId);
                         ret = au.RecordPerPage;
-                        WriteCookie(CookieKeys.RecordPerPage, ret);
+                        WriteUserSideStorage(UserSideStorageKeys.RecordPerPage, ret);
                     }
                     catch
                     {
@@ -138,7 +180,7 @@ namespace MySeenWeb.Controllers
                         userId = User.Identity.GetUserId();
                         var au = ac.Users.First(u => u.Id == userId);
                         ret = au.RecordPerPage;
-                        WriteCookie(CookieKeys.RecordPerPage, au.RecordPerPage);
+                        WriteUserSideStorage(UserSideStorageKeys.RecordPerPage, au.RecordPerPage);
                     }
                     catch
                     {
@@ -149,14 +191,14 @@ namespace MySeenWeb.Controllers
             }
             set
             {
-                WriteCookie(CookieKeys.RecordPerPage, value);
+                WriteUserSideStorage(UserSideStorageKeys.RecordPerPage, value);
             }
         }
         private void SetLang()
         {
-            if (TryReadCookie(CookieKeys.Language))
+            if (TryReadUserSideStorage(UserSideStorageKeys.Language))
             {
-                var lang = ReadCookie(CookieKeys.Language, Defaults.LanguagesBase.Indexes.English);
+                var lang = ReadUserSideStorage(UserSideStorageKeys.Language, Defaults.LanguagesBase.Indexes.English);
                 try
                 {
                     CultureInfoTool.SetCulture(Defaults.Languages.GetValDb(lang));

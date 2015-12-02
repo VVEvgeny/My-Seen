@@ -13,7 +13,7 @@ namespace MySeenWeb.Controllers
         public ActionResult Tracks(string id)
         {
             LogSave.Save(User.Identity.IsAuthenticated ? User.Identity.GetUserId() : "", Request.UserHostAddress, Request.UserAgent, "Share/Tracks", id);
-            var model = new ShareViewModelTracks(id, MarkersOnRoads, ReadCookie(CookieKeys.RoadsYear, 0));
+            var model = new ShareViewModelTracks(id, MarkersOnRoads, ReadUserSideStorage(UserSideStorageKeys.RoadsYear, 0));
             return View(model);
         }
     }

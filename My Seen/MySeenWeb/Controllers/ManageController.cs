@@ -129,7 +129,7 @@ namespace MySeenWeb.Controllers
             ac.Users.First(u => u.Id == userId).Culture = Defaults.Languages.GetValDb(Convert.ToInt32(selected));
             ac.SaveChanges();
             CultureInfoTool.SetCulture(Defaults.Languages.GetValDb(Convert.ToInt32(selected)));
-            WriteCookie(CookieKeys.Language, selected);
+            WriteUserSideStorage(UserSideStorageKeys.Language, selected);
             Defaults.ReloadResources();
             return Json(new { success = true });
         }

@@ -3,13 +3,15 @@
 
 @model HomeViewModelBooks
 
-@Scripts.Render("~/bundles/myseen.table", "~/bundles/datetimepicker")
+@Scripts.Render("~/bundles/datetimepicker")
 @Styles.Render("~/Content/datetimepicker.css")
 
 <br />
 
 @if (Model.HaveData)
 {
+    @Scripts.Render("~/bundles/myseen.table")
+    
     <table class="table table-striped" id="table">
         <thead>
         <tr>

@@ -18,36 +18,36 @@ namespace MySeenWeb.Controllers
 
             //if (!User.Identity.IsAuthenticated) return View();
             return View(new HomeViewModel(
-                ReadCookie(CookieKeys.HomeCategory, Defaults.CategoryBase.FilmIndex).ToString(),
+                ReadUserSideStorage(UserSideStorageKeys.HomeCategory, Defaults.CategoryBase.FilmIndex).ToString(),
                 User.Identity.IsAuthenticated?User.Identity.GetUserId():string.Empty,
                 page ?? 1,
                 Rpp,
-                ReadCookie(CookieKeys.ImprovementsCategory, Defaults.ComplexBase.IndexAll),
+                ReadUserSideStorage(UserSideStorageKeys.ImprovementsCategory, Defaults.ComplexBase.IndexAll),
                 search,
                 MarkersOnRoads,
-                ReadCookie(CookieKeys.RoadsYear, 0)
+                ReadUserSideStorage(UserSideStorageKeys.RoadsYear, 0)
                 ));
         }
         [Authorize]
         [HttpPost]
         public JsonResult ChangeCookies(string selected)
         {
-            WriteCookie(CookieKeys.HomeCategory, selected);
-            WriteCookie(CookieKeys.HomeCategoryPrev, selected);
+            WriteUserSideStorage(UserSideStorageKeys.HomeCategory, selected);
+            WriteUserSideStorage(UserSideStorageKeys.HomeCategoryPrev, selected);
             return Json(new { success = true });
         }
         [Authorize]
         [HttpPost]
         public JsonResult ChangeCookiesImprovement(string selected)
         {
-            WriteCookie(CookieKeys.ImprovementsCategory, selected);
+            WriteUserSideStorage(UserSideStorageKeys.ImprovementsCategory, selected);
             return Json(new { success = true });
         }
         [Authorize]
         [HttpPost]
         public JsonResult ChangeCookiesRoads(string selected)
         {
-            WriteCookie(CookieKeys.RoadsYear, selected);
+            WriteUserSideStorage(UserSideStorageKeys.RoadsYear, selected);
             return Json(new { success = true });
         }
         [Authorize]
@@ -185,7 +185,7 @@ namespace MySeenWeb.Controllers
         [Authorize]
         public ActionResult GetTrackByKey(string id)
         {
-            return Json(HomeViewModelTracks.GetTrackByKey(id, ReadCookie(CookieKeys.RoadsYear, 0)), JsonRequestBehavior.AllowGet);
+            return Json(HomeViewModelTracks.GetTrackByKey(id, ReadUserSideStorage(UserSideStorageKeys.RoadsYear, 0)), JsonRequestBehavior.AllowGet);
         }
         [Authorize]
         public ActionResult GetTrackByType(string id)
@@ -232,35 +232,35 @@ namespace MySeenWeb.Controllers
         [BrowserActionFilter]
         public ActionResult Home()
         {
-            WriteCookie(CookieKeys.HomeCategory, ReadCookie(CookieKeys.HomeCategoryPrev, Defaults.CategoryBase.FilmIndex));
+            WriteUserSideStorage(UserSideStorageKeys.HomeCategory, ReadUserSideStorage(UserSideStorageKeys.HomeCategoryPrev, Defaults.CategoryBase.FilmIndex));
             return RedirectToAction("Index");
         }
         [BrowserActionFilter]
         [Authorize]
         public ActionResult Logs()
         {
-            if (!HomeViewModel.IsCategoryExt(ReadCookie(CookieKeys.HomeCategory, Defaults.CategoryBase.FilmIndex)))
-                WriteCookie(CookieKeys.HomeCategoryPrev, ReadCookie(CookieKeys.HomeCategory, Defaults.CategoryBase.FilmIndex));
-            WriteCookie(CookieKeys.HomeCategory, (int)HomeViewModel.CategoryExt.Logs);
+            if (!HomeViewModel.IsCategoryExt(ReadUserSideStorage(UserSideStorageKeys.HomeCategory, Defaults.CategoryBase.FilmIndex)))
+                WriteUserSideStorage(UserSideStorageKeys.HomeCategoryPrev, ReadUserSideStorage(UserSideStorageKeys.HomeCategory, Defaults.CategoryBase.FilmIndex));
+            WriteUserSideStorage(UserSideStorageKeys.HomeCategory, (int)HomeViewModel.CategoryExt.Logs);
             return RedirectToAction("Index");
         }
         [BrowserActionFilter]
         [Authorize]
         public ActionResult Users()
         {
-            if (!HomeViewModel.IsCategoryExt(ReadCookie(CookieKeys.HomeCategory, Defaults.CategoryBase.FilmIndex)))
-                WriteCookie(CookieKeys.HomeCategoryPrev, ReadCookie(CookieKeys.HomeCategory, Defaults.CategoryBase.FilmIndex));
+            if (!HomeViewModel.IsCategoryExt(ReadUserSideStorage(UserSideStorageKeys.HomeCategory, Defaults.CategoryBase.FilmIndex)))
+                WriteUserSideStorage(UserSideStorageKeys.HomeCategoryPrev, ReadUserSideStorage(UserSideStorageKeys.HomeCategory, Defaults.CategoryBase.FilmIndex));
 
-            WriteCookie(CookieKeys.HomeCategory, (int)HomeViewModel.CategoryExt.Users);
+            WriteUserSideStorage(UserSideStorageKeys.HomeCategory, (int)HomeViewModel.CategoryExt.Users);
             return RedirectToAction("Index");
         }
         [BrowserActionFilter]
         [Authorize]
         public ActionResult Improvements()
         {
-            if (!HomeViewModel.IsCategoryExt(ReadCookie(CookieKeys.HomeCategory, Defaults.CategoryBase.FilmIndex)))
-                WriteCookie(CookieKeys.HomeCategoryPrev, ReadCookie(CookieKeys.HomeCategory, Defaults.CategoryBase.FilmIndex));
-            WriteCookie(CookieKeys.HomeCategory, (int)HomeViewModel.CategoryExt.Improvements);
+            if (!HomeViewModel.IsCategoryExt(ReadUserSideStorage(UserSideStorageKeys.HomeCategory, Defaults.CategoryBase.FilmIndex)))
+                WriteUserSideStorage(UserSideStorageKeys.HomeCategoryPrev, ReadUserSideStorage(UserSideStorageKeys.HomeCategory, Defaults.CategoryBase.FilmIndex));
+            WriteUserSideStorage(UserSideStorageKeys.HomeCategory, (int)HomeViewModel.CategoryExt.Improvements);
             return RedirectToAction("Index");
         }
         [BrowserActionFilter]

@@ -1,6 +1,6 @@
 ﻿namespace MySeenWeb.Models.Tools
 {
-    public static class CookieKeys
+    public static class UserSideStorageKeys
     {
         public static string RoadsYear = "RoadsYear";
         public static string MarkersOnRoads = "MarkersOnRoads";

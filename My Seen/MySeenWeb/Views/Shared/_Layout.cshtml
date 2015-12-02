@@ -72,13 +72,25 @@
             m = s.getElementsByTagName(o)[0];
         a.async = 1;
         a.src = g;
-        m.parentNode.insertBefore(a, m)
+        m.parentNode.insertBefore(a, m);
     })(window, document, 'script', '//www.google-analytics.com/analytics.js', 'ga');
 
     ga('create', 'UA-70283015-1', 'auto');
     ga('send', 'pageview');
 
 </script>
+
+
+    <script language="javascript" type="text/javascript">
+    (function ($) {
+        $(function () {
+            var expires = new Date();
+            expires.setTime(expires.getTime() + (1 * 24 * 60 * 60 * 1000));//Сутки
+            document.cookie = 'TestCookes' + '=' + 'ok' + ';expires=' + expires.toUTCString();
+        });
+    })(jQuery);
+    </script>
+
 
 </body>
 </html>
