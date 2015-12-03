@@ -143,16 +143,7 @@
                             alert(response.error);
                         }
                         else {
-                            var $quickSearch = $('#quickSearch');
-                            var location = "";
-                            if ($quickSearch.val() !== "") location += "/?search=" + $quickSearch.val();
-                            if ("@Model.Pages.CurentPage"!=="1")
-                            {
-                                if (location.length === 0) location += "/?";
-                                else location += "&";
-                                location += "page=" + "@Model.Pages.CurentPage";
-                            }
-                            window.location.href = location;
+                            window.location.href = window.location.href;
                             $modal.modal('hide');
                         }
                     },

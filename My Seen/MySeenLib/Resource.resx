@@ -687,4 +687,31 @@
   <data name="MarkersOnRoads" xml:space="preserve">
     <value>Markers On Roads</value>
   </data>
+  <data name="Day" xml:space="preserve">
+    <value>Day</value>
+  </data>
+  <data name="EnterEventName" xml:space="preserve">
+    <value>Enter Event Name</value>
+  </data>
+  <data name="Event" xml:space="preserve">
+    <value>Event</value>
+  </data>
+  <data name="EventNameAlreadyExists" xml:space="preserve">
+    <value>Event Name Already Exists</value>
+  </data>
+  <data name="Events" xml:space="preserve">
+    <value>Events</value>
+  </data>
+  <data name="IncorrectEventType" xml:space="preserve">
+    <value>Incorrect Event Type</value>
+  </data>
+  <data name="Last" xml:space="preserve">
+    <value>Last</value>
+  </data>
+  <data name="To" xml:space="preserve">
+    <value>To</value>
+  </data>
+  <data name="EventsCount" xml:space="preserve">
+    <value>Events</value>
+  </data>
 </root>

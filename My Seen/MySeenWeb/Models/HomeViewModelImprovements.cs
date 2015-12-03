@@ -17,7 +17,7 @@ namespace MySeenWeb.Models
         public HomeViewModelImprovements(int complex, int page, int countInPage)
         {
             ApplicationDbContext ac = new ApplicationDbContext();
-            if (complex == Defaults.ComplexBase.IndexAll)
+            if (complex == Defaults.ComplexBase.Indexes.All)
             {
                 Pages = new PaginationViewModel(page, ac.Bugs.Count(), countInPage, "Home", "");
                 Bugs = ac.Bugs.Select(BugsView.Map).OrderByDescending(b => b.DateEnd == null).ThenByDescending(b => b.DateEnd).ThenByDescending(b => b.DateFound).Skip((Pages.CurentPage - 1) * countInPage).Take(countInPage);

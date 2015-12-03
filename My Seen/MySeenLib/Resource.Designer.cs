@@ -619,6 +619,15 @@ namespace MySeenLib {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Day.
+        /// </summary>
+        public static string Day {
+            get {
+                return ResourceManager.GetString("Day", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Base Clear.
         /// </summary>
         public static string DBDeleted {
@@ -781,6 +790,15 @@ namespace MySeenLib {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Enter Event Name.
+        /// </summary>
+        public static string EnterEventName {
+            get {
+                return ResourceManager.GetString("EnterEventName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Enter film name.
         /// </summary>
         public static string EnterFilmName {
@@ -849,6 +867,42 @@ namespace MySeenLib {
         public static string ErrorWorkWithDB {
             get {
                 return ResourceManager.GetString("ErrorWorkWithDB", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Event.
+        /// </summary>
+        public static string Event {
+            get {
+                return ResourceManager.GetString("Event", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Event Name Already Exists.
+        /// </summary>
+        public static string EventNameAlreadyExists {
+            get {
+                return ResourceManager.GetString("EventNameAlreadyExists", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Events.
+        /// </summary>
+        public static string Events {
+            get {
+                return ResourceManager.GetString("Events", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Events.
+        /// </summary>
+        public static string EventsCount {
+            get {
+                return ResourceManager.GetString("EventsCount", resourceCulture);
             }
         }
         
@@ -1033,6 +1087,15 @@ namespace MySeenLib {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Incorrect Event Type.
+        /// </summary>
+        public static string IncorrectEventType {
+            get {
+                return ResourceManager.GetString("IncorrectEventType", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to IP Adress.
         /// </summary>
         public static string IPAdress {
@@ -1047,6 +1110,15 @@ namespace MySeenLib {
         public static string Km {
             get {
                 return ResourceManager.GetString("Km", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Last.
+        /// </summary>
+        public static string Last {
+            get {
+                return ResourceManager.GetString("Last", resourceCulture);
             }
         }
         
@@ -1560,6 +1632,15 @@ namespace MySeenLib {
         public static string TimeFormat {
             get {
                 return ResourceManager.GetString("TimeFormat", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to To.
+        /// </summary>
+        public static string To {
+            get {
+                return ResourceManager.GetString("To", resourceCulture);
             }
         }
         

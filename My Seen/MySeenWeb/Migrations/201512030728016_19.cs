@@ -1,0 +1,34 @@
+namespace MySeenWeb.Migrations
+{
+    using System;
+    using System.Data.Entity.Migrations;
+    
+    public partial class _19 : DbMigration
+    {
+        public override void Up()
+        {
+            CreateTable(
+                "dbo.Events",
+                c => new
+                    {
+                        Id = c.Int(nullable: false, identity: true),
+                        UserId = c.String(maxLength: 128),
+                        Name = c.String(),
+                        RepeatType = c.Int(nullable: false),
+                        Date = c.DateTime(nullable: false),
+                        DateChange = c.DateTime(nullable: false),
+                    })
+                .PrimaryKey(t => t.Id)
+                .ForeignKey("dbo.AspNetUsers", t => t.UserId)
+                .Index(t => t.UserId);
+            
+        }
+        
+        public override void Down()
+        {
+            DropForeignKey("dbo.Events", "UserId", "dbo.AspNetUsers");
+            DropIndex("dbo.Events", new[] { "UserId" });
+            DropTable("dbo.Events");
+        }
+    }
+}

@@ -1,4 +1,8 @@
-﻿body .modal-images {
+﻿.width-450 {
+    width: 450px;
+  }
+
+body .modal-images {
     /* new custom width */
     width: 1000px;
     height: 1000px;

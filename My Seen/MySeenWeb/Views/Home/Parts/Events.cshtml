@@ -1,7 +1,7 @@
 ﻿@using MySeenWeb.Models;
 @using MySeenWeb.Models.TablesViews
 
-@model HomeViewModelBooks
+@model HomeViewModelEvents
 
 @Scripts.Render("~/bundles/datetimepicker")
 @Styles.Render("~/Content/datetimepicker.css")
@@ -16,12 +16,16 @@
         <thead>
         <tr>
             <th class="col-sm-1"></th>
-            <th class="col-sm-4">@Resource.Name</th>
-            <th class="col-sm-1">@Resource.Year</th>
-            <th class="col-sm-2">@Resource.Author</th>
-            <th class="col-sm-2">@Resource.DateRead</th>
-            <th class="col-sm-1">@Resource.Genre</th>
-            <th class="col-sm-1">@Resource.Rating</th>
+            <th class="col-sm-2">@Resource.Event</th>
+            <th class="col-sm-2">@Resource.To</th>
+            <th class="col-sm-2">@Resource.When</th>
+            <th class="col-sm-1">@Resource.Day</th>
+            <th style="display: none;"></th>
+            <th style="display: none;"></th>
+            <th>|</th>
+            <th class="col-sm-2">@Resource.Last</th>
+            <th class="col-sm-2">@Resource.When</th>
+            <th class="col-sm-1">@Resource.Day</th>
         </tr>
         </thead>
         <tbody>
@@ -32,15 +36,18 @@
                 <td class="align-center">
                     <button type="button" class="btn btn-info btn-edit btn-xs" id=@elem.Id>
                         <span class="glyphicon glyphicon-pencil"></span>
-                        &nbsp;@Resource.Edit
                     </button>
                 </td>
                 <td class="align-center">@elem.Name</td>
-                <td class="align-center">@elem.YearText</td>
-                <td class="align-center">@elem.Authors</td>
-                <td class="align-center">@elem.DateRead</td>
-                <td class="align-center">@elem.GenreText</td>
-                <td class="align-center">@elem.RatingText</td>
+                <td class="align-center">@elem.EstimatedTo</td>
+                <td class="align-center">@elem.DateTo</td>
+                <td class="align-center">@elem.DayOfWeekTo</td>
+                <td style="display: none;">@elem.RepeatType</td>
+                <td style="display: none;">@elem.Date</td>
+                <td class="align-center">|</td>
+                <td class="align-center">@(elem.HaveHistory ? elem.EstimatedLast : "")</td>
+                <td class="align-center">@(elem.HaveHistory ? elem.DateLast.ToString() : "")</td>
+                <td class="align-center">@(elem.HaveHistory ? elem.DayOfWeekLast : "")</td>
             </tr>
         }
         </tbody>
@@ -56,44 +63,26 @@
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                <h4 class="modal-title">@Resource.AddNew @Resource.Book</h4>
+                <h4 class="modal-title">@Resource.AddNew @Resource.Event</h4>
             </div>
             <div class="modal-body">
                 <div class="form-horizontal">
                     <div class="form-group">
-                        <label for="bookName" class="col-sm-2 control-label">@Resource.Name</label>
+                        <label for="eventName" class="col-sm-2 control-label">@Resource.Name</label>
                         <div class="col-sm-10">
-                            <input type="text" class="form-control movie-name" id="bookName" placeholder="@Resource.Name">
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label for="bookYear" class="col-sm-2 control-label">@Resource.Year</label>
-                        <div class="col-sm-10">
-                            <input type="number" min="1900" max="@(DateTime.Now.Year)" class="form-control movie-year" id="bookYear" placeholder="@Resource.Year" value="@(DateTime.Now.Year)">
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label for="bookAuthor" class="col-sm-2 control-label">@Resource.Author</label>
-                        <div class="col-sm-10">
-                            <input type="text" class="form-control" id="bookAuthor" placeholder="@Resource.Author">
+                            <input type="text" class="form-control event-name" id="eventName" placeholder="@Resource.Name">
                         </div>
                     </div>
                     <div class="form-group">
                         <label for="datetimepicker" class="col-sm-2 control-label">@Resource.When</label>
                         <div class="col-sm-10">
-                            <input type="text" class="form-control" id="datetimepicker" placeholder="@DateTime.Now" />
+                            <input type="text" class="form-control" id="datetimepicker" placeholder="@DateTime.Now"/>
                         </div>
                     </div>
                     <div class="form-group">
-                        <label class="col-sm-2 control-label">@Resource.Genre</label>
+                        <label class="col-sm-2 control-label">@Resource.Type</label>
                         <div class="col-sm-10">
-                            @Html.DropDownList("Genre", Model.RatinngGenre.GenreList, new { @class = "form-control movie-genre", @id = "bookGenre" })
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label class="col-sm-2 control-label">@Resource.Rating</label>
-                        <div class="col-sm-10">
-                            @Html.DropDownList("Rating", Model.RatinngGenre.RatingList, new { @class = "form-control movie-rating", @id = "bookRating" })
+                            @Html.DropDownList("Type", Model.TypeList, new { @class = "form-control event-type", @id = "eventType" })
                         </div>
                     </div>
                 </div>
@@ -135,12 +124,6 @@
                 locale: '@CultureInfoTool.GetCulture()'
             });
 
-            var $bookYear = $('#bookYear');
-            $bookYear.on('input', function () {
-                if (this.value.length > 4) this.value = this.value.slice(0, 4);
-                return false;
-            });
-
             function sendRequest(innerUrl, innerData) {
                 $.ajax({
                     type: 'POST',
@@ -174,14 +157,11 @@
             $submitAddButton.off('click');
             $submitAddButton.on('click', function () {
 
-                url = '/Home/AddBook';
+                url = '/Home/AddEvent';
                 data = {
-                    name: $('#bookName').val(),
-                    year: $('#bookYear').val(),
-                    authors: $('#bookAuthor').val(),
+                    name: $('#eventName').val(),
                     datetime: $('#datetimepicker').val(),
-                    genre: $('#bookGenre').val(),
-                    rating: $('#bookRating').val()
+                    type: $('#eventType').val()
                 };
 
                 sendRequest(url, data);
@@ -196,41 +176,29 @@
                 var $tds = $tr.find('td');
                 var $modalTitle = $modal.find('.modal-title');
                 var $modalBody = $modal.find('.modal-body');
-                var $movieName = $modalBody.find('.movie-name');
-                var $movieYear = $modalBody.find('.movie-year');
-                var $movieGenre = $modalBody.find('.movie-genre');
-                var $movieRating = $modalBody.find('.movie-rating');
-                var $bookAuthors = $('#bookAuthor');
+                var $eventName = $modalBody.find('.event-name');
+                var $eventType = $modalBody.find('.event-type');
+                
                 var $saveButton = $('#saveButton');
                 var $deleteButton = $('#deleteButton');
                 var defaultModalTitle = $modalTitle.text();
-                var defaultModalGenre = $movieGenre.find('option:selected').text();
-                var defaultModalRating = $movieRating.find('option:selected').text();
+
                 var id = $button.attr('id');
                 var name = $tds.eq(1).text();
-                var year = $tds.eq(2).text();
-                var authors = $tds.eq(3).text();
-                var date = $tds.eq(4).text();
-                var genre = $tds.eq(-2).text();
-                var rating = $tds.eq(-1).text();
+                var date = $tds.eq(6).text();
+                var event = $tds.eq(5).text();
 
-                $movieName.val(name);
-                $movieYear.val(year);
-                $bookAuthors.val(authors);
+                $eventName.val(name);
                 $datetimepicker.val(date);
 
-                $movieGenre.find('option')
+                
+                $eventType.find('option')
                     .filter(function () {
-                        return $(this).text() === genre;
-                    })
-                    .prop('selected', true);
-                $movieRating.find('option')
-                    .filter(function () {
-                        return $(this).text() === rating;
+                        return $(this).val() === event;
                     })
                     .prop('selected', true);
 
-                $modalTitle.text('@Resource.Edit @Resource.Book');
+                $modalTitle.text('@Resource.Edit @Resource.Event');
 
                 $submitAddButton.hide();
                 $saveButton.show();
@@ -239,19 +207,8 @@
 
                 $modal.on('hidden.bs.modal', function () {
                     $modalTitle.text(defaultModalTitle);
-                    $movieName.val('');
-                    $movieYear.val('');
-                    $bookAuthors.val('');
-                    $movieGenre.find('option')
-                        .filter(function () {
-                            return $(this).text() === defaultModalGenre;
-                        })
-                        .prop('selected', true);
-                    $movieRating.find('option')
-                        .filter(function () {
-                            return $(this).text() === defaultModalRating;
-                        })
-                        .prop('selected', true);
+                    $eventName.val('');
+
                     $saveButton.hide();
                     $deleteButton.hide();
                     $submitAddButton.show();
@@ -262,15 +219,12 @@
                 $saveButton.off('click');
                 $saveButton.on('click', function () {
 
-                    url = '/Home/EditBook';
+                    url = '/Home/EditEvent';
                     data = {
                         id: id,
-                        name: $('#bookName').val(),
-                        year: $('#bookYear').val(),
-                        authors: $('#bookAuthor').val(),
+                        name: $('#eventName').val(),
                         datetime: $('#datetimepicker').val(),
-                        genre: $('#bookGenre').val(),
-                        rating: $('#bookRating').val()
+                        type: $('#eventType').val()
                     };
 
                     sendRequest(url, data);
@@ -280,7 +234,7 @@
                 $deleteButton.off('click');
                 $deleteButton.on('click', function () {
 
-                    url = '/Home/DeleteBook';
+                    url = '/Home/DeleteEvent';
                     data = {
                         id: id
                     };

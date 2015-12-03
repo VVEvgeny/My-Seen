@@ -165,7 +165,7 @@
                                 alert(response.error);
                             }
                             else {
-                                window.location.href = '/Home/Improvements';
+                                window.location.href = window.location.href;
                                 $modalAdd.modal('hide');
                             }
                         },
@@ -241,7 +241,7 @@
                         },
                         dataType: 'json',
                         success: function () {
-                            window.location.href = '/Home/Improvements';
+                            window.location.href = window.location.href;
                         },
                         error: function () {
                             alert('Error');

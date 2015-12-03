@@ -150,10 +150,10 @@ namespace MySeenWeb.Controllers
             {
                 if (TryReadUserSideStorage(UserSideStorageKeys.RecordPerPage))
                 {
-                    var ret = ReadUserSideStorage(UserSideStorageKeys.RecordPerPage, Defaults.RecordPerPageBase.IndexAll);
+                    var ret = ReadUserSideStorage(UserSideStorageKeys.RecordPerPage, Defaults.RecordPerPageBase.Indexes.All);
                     if (!string.IsNullOrEmpty(Defaults.RecordPerPage.GetById(ret)))
-                        return ret == Defaults.RecordPerPageBase.IndexAll
-                            ? Defaults.RecordPerPageBase.ValAll
+                        return ret == Defaults.RecordPerPageBase.Indexes.All
+                            ? Defaults.RecordPerPageBase.Values.All
                             : Convert.ToInt32(Defaults.RecordPerPage.GetById(ret));
                     var userId = string.Empty;
                     try
@@ -168,12 +168,12 @@ namespace MySeenWeb.Controllers
                     {
                         LogSave.Save(User.Identity.IsAuthenticated ? User.Identity.GetUserId() : "", Request.UserHostAddress, Request.UserAgent, "RecordPerPage catch No USER", userId);
                     }
-                    return ret == Defaults.RecordPerPageBase.IndexAll ? Defaults.RecordPerPageBase.ValAll : Convert.ToInt32(Defaults.RecordPerPage.GetById(ret));
+                    return ret == Defaults.RecordPerPageBase.Indexes.All ? Defaults.RecordPerPageBase.Values.All : Convert.ToInt32(Defaults.RecordPerPage.GetById(ret));
                 }
                 else
                 {
                     var userId = string.Empty;
-                    var ret = Defaults.RecordPerPageBase.IndexAll;
+                    var ret = Defaults.RecordPerPageBase.Indexes.All;
                     try
                     {
                         var ac = new ApplicationDbContext();
@@ -186,7 +186,7 @@ namespace MySeenWeb.Controllers
                     {
                         LogSave.Save(User.Identity.IsAuthenticated ? User.Identity.GetUserId() : "", Request.UserHostAddress, Request.UserAgent, "RecordPerPage catch No USER", userId);
                     }
-                    return ret == Defaults.RecordPerPageBase.IndexAll ? Defaults.RecordPerPageBase.ValAll : Convert.ToInt32(Defaults.RecordPerPage.GetById(ret));
+                    return ret == Defaults.RecordPerPageBase.Indexes.All ? Defaults.RecordPerPageBase.Values.All : Convert.ToInt32(Defaults.RecordPerPage.GetById(ret));
                 }
             }
             set

@@ -5,25 +5,22 @@ using MySeenWeb.Models.Tables;
 
 namespace MySeenWeb.Models.TablesLogic
 {
-    public class BooksLogic : Books
+    public class EventsLogic : Events
     {
         private readonly ApplicationDbContext _ac;
         public string ErrorMessage;
-        public BooksLogic()
+        public EventsLogic()
         {
             ErrorMessage = string.Empty;
             _ac = new ApplicationDbContext();
         }
-        private bool Fill(string name, string year, string authors, string datetime, string genre, string rating, string userId)
+        private bool Fill(string name, string datetime, string type, string userId)
         {
             try
             {
                 Name = name;
-                Authors = authors;
-                DateRead = UmtTime.To(Convert.ToDateTime(datetime));
-                Year = string.IsNullOrEmpty(year) ? 0 : Convert.ToInt32(year);
-                Genre = Convert.ToInt32(genre);                
-                Rating = Convert.ToInt32(rating);
+                Date = UmtTime.To(Convert.ToDateTime(datetime));
+                RepeatType = Convert.ToInt32(type);                
                 DateChange = UmtTime.To(DateTime.Now);
                 UserId = userId;
             }
@@ -34,7 +31,7 @@ namespace MySeenWeb.Models.TablesLogic
             }
             return true;
         }
-        private bool Fill(string id, string name, string year, string authors, string datetime, string genre, string rating, string userId)
+        private bool Fill(string id, string name, string datetime, string type, string userId)
         {
             try
             {
@@ -45,25 +42,25 @@ namespace MySeenWeb.Models.TablesLogic
                 ErrorMessage = e.Message;
                 return false;
             }
-            return Fill(name, year, authors, datetime, genre, rating, userId);
+            return Fill(name,  datetime, type, userId);
         }
         private bool Contains()
         {
-            return _ac.Books.Any(f => f.Name == Name && f.UserId == UserId && f.Id != Id);
+            return _ac.Events.Any(f => f.Name == Name && f.UserId == UserId && f.Id != Id);
         }
         private bool Verify()
         {
             if (string.IsNullOrEmpty(Name))
             {
-                ErrorMessage = Resource.EnterBookName;
+                ErrorMessage = Resource.EnterEventName;
             }
-            if (string.IsNullOrEmpty(Authors))
+            if (string.IsNullOrEmpty(Defaults.EventTypes.GetById(RepeatType)))
             {
-                ErrorMessage = Resource.EnterBookAuthors;
+                ErrorMessage = Resource.IncorrectEventType;
             }
             else if (Contains())
             {
-                ErrorMessage = Resource.BookNameAlreadyExists;
+                ErrorMessage = Resource.EventNameAlreadyExists;
             }
             else return true;
 
@@ -73,7 +70,7 @@ namespace MySeenWeb.Models.TablesLogic
         {
             try
             {
-                _ac.Books.Add(this);
+                _ac.Events.Add(this);
                 _ac.SaveChanges();
             }
             catch (Exception e)
@@ -87,14 +84,11 @@ namespace MySeenWeb.Models.TablesLogic
         {
             try
             {
-                var film = _ac.Books.First(f => f.UserId == UserId && f.Id == Id);
+                var film = _ac.Events.First(f => f.UserId == UserId && f.Id == Id);
                 film.Name = Name;
-                film.Year = Year;
-                film.Authors = Authors;
-                film.Genre = Genre;
-                film.Rating = Rating;
+                film.Date = Date;
                 film.DateChange = DateChange;
-                film.DateRead = DateRead;
+                film.RepeatType = RepeatType;
                 _ac.SaveChanges();
             }
             catch (Exception e)
@@ -104,20 +98,20 @@ namespace MySeenWeb.Models.TablesLogic
             }
             return true;
         }
-        public bool Add(string name, string year, string authors, string datetime, string genre, string rating, string userId)
+        public bool Add(string name, string datetime, string type, string userId)
         {
-            return Fill(name, year, authors, datetime, genre, rating, userId) && Verify() && Add();
+            return Fill(name, datetime, type, userId) && Verify() && Add();
         }
-        public bool Update(string id, string name, string year, string authors, string datetime, string genre, string rating, string userId)
+        public bool Update(string id, string name, string datetime, string type, string userId)
         {
-            return Fill(id, name, year, authors, datetime, genre, rating, userId) && Verify() && Update();
+            return Fill(id, name, datetime, type, userId) && Verify() && Update();
         }
-        public bool MarkDeleted(string id, string userId)
+        public bool Delete(string id, string userId)
         {
             try
             {
                 Id = Convert.ToInt32(id);
-                _ac.Books.First(f => f.UserId == userId && f.Id == Id).isDeleted = true;
+                _ac.Events.RemoveRange(_ac.Events.Where(f => f.UserId == userId && f.Id == Id));
                 _ac.SaveChanges();
             }
             catch (Exception e)

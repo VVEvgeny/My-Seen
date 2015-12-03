@@ -687,4 +687,31 @@
   <data name="MarkersOnRoads" xml:space="preserve">
     <value>Маркеры на дорогах</value>
   </data>
+  <data name="Day" xml:space="preserve">
+    <value>День</value>
+  </data>
+  <data name="EnterEventName" xml:space="preserve">
+    <value>Введите имя события</value>
+  </data>
+  <data name="Event" xml:space="preserve">
+    <value>Событие</value>
+  </data>
+  <data name="EventNameAlreadyExists" xml:space="preserve">
+    <value>Событие уже существует</value>
+  </data>
+  <data name="Events" xml:space="preserve">
+    <value>События</value>
+  </data>
+  <data name="IncorrectEventType" xml:space="preserve">
+    <value>Неверный тип события</value>
+  </data>
+  <data name="Last" xml:space="preserve">
+    <value>Прошлый</value>
+  </data>
+  <data name="To" xml:space="preserve">
+    <value>До</value>
+  </data>
+  <data name="EventsCount" xml:space="preserve">
+    <value>Событий</value>
+  </data>
 </root>

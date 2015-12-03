@@ -20,7 +20,7 @@
                     &nbsp;@Resource.AddNew
                 </button>
                 &nbsp;
-                @if (Model.PageFilms || Model.PageSerials || Model.PageBooks)
+                @if (Model.PageFilms || Model.PageSerials || Model.PageBooks || Model.PageEvents)
                 {
                     <div class="form-group">
                         <!--Переделать на поиск по БД-->
@@ -64,6 +64,10 @@
     else if (Model.PageImprovements)
     {
         @Html.Partial("Parts/Ext/Improvements", Model.Improvements)
+    }
+    else if (Model.PageEvents)
+    {
+        @Html.Partial("Parts/Events", Model.Events)
     }
     if (!Model.ExtPage)
     {

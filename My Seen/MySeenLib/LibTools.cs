@@ -202,6 +202,7 @@ namespace MySeenLib
         public abstract class ListStringBase
         {
             public abstract void Load();
+
             public List<string> All;
             public void Reload()
             {
@@ -217,32 +218,45 @@ namespace MySeenLib
             public int GetId(string str)
             {
                 if (All == null) Load();
-                if (All != null) return All.IndexOf(str);
-                return -1;
+                return All != null ? All.IndexOf(str) : -1;
             }
 
             public string GetById(int id)
             {
                 if (All == null) Load();
-                if (All != null && id >= All.Count) return "";
-                if (All != null) return All[id];
-                return "";
+                if (All != null && (id >= All.Count || id < 0)) return "";
+                return All != null ? All[id] : "";
             }
             public int GetMaxId()
             {
                 if (All == null) Load();
-                if (All != null) return All.Count - 1;
-                return 0;
+                return All != null ? All.Count - 1 : 0;
             }
 
             public string GetMaxValue()
             {
                 if (All == null) Load();
                 if (All != null && All.Count == 0) return "";
-                if (All != null) return All[GetMaxId()];
-                return "";
+                return All != null ? All[GetMaxId()] : "";
             }
         }
+        public abstract class ListStringBoolBase: ListStringBase
+        {
+            public List<bool> Type;
+
+            public bool GetTypeById(int id)
+            {
+                if (All == null) Load();
+                if (All != null && id >= All.Count) return false;
+                return All != null && Type[id];
+            }
+            public new virtual void Reload()
+            {
+                Type = null;
+                base.Reload();
+            }
+        }
+
         public class GenresBase : ListStringBase
         {
             public override void Load()
@@ -275,15 +289,27 @@ namespace MySeenLib
         }
         public class CategoryBase : ListStringBase
         {
-            public static int FilmIndex = 0;
-            public static int SerialIndex = 1;
-            public static int BookIndex = 2;
-            public static int TrackIndex = 3;
+            public static class Indexes
+            {
+                public static int Films = 0;
+                public static int Serials = 1;
+                public static int Books = 2;
+                public static int Tracks = 3;
+                public static int Events = 4;
+            }
+
             public override void Load()
             {
                 if (All == null)
                 {
-                    All = new List<string> {Resource.Films, Resource.Serials, Resource.Books, Resource.Tracks};
+                    All = new List<string>
+                    {
+                        Resource.Films,
+                        Resource.Serials,
+                        Resource.Books,
+                        Resource.Tracks,
+                        Resource.Events
+                    };
                 }
             }
         }
@@ -314,7 +340,11 @@ namespace MySeenLib
         }
         public class ComplexBase : ListStringBase
         {
-            public static int IndexAll = 0;
+            public static class Indexes
+            {
+                public static int All = 0;
+            }
+
             public override void Load()
             {
                 if (All == null)
@@ -325,8 +355,15 @@ namespace MySeenLib
         }
         public class RecordPerPageBase : ListStringBase
         {
-            public static int IndexAll = 0;
-            public static int ValAll = int.MaxValue;
+            public static class Indexes
+            {
+                public static int All = 0;
+            }
+            public static class Values
+            {
+                public static int All = int.MaxValue;
+            }
+
             public override void Load()
             {
                 if (All == null)
@@ -337,12 +374,49 @@ namespace MySeenLib
         }
         public class MarkersOnRoadsBase : ListStringBase
         {
-            public static int IndexEnabled = 0;
+            public static class Indexes
+            {
+                public static int Enabled = 0;
+            }
+
             public override void Load()
             {
                 if (All == null)
                 {
                     All = new List<string> { Resource.Enabled, Resource.Disabled };
+                }
+            }
+        }
+        public class EventsTypesBase : ListStringBoolBase
+        {
+            public static class Indexes
+            {
+                public const int OneTime = 0; //1 раз в указанную дату
+                public const int OneTimeWithPast = 1; //1 раз в указанную дату + показывать пройденное
+                public const int EveryMonthInNeedDayWithWhenSundayOrSaturdayThenMonday = 2;
+                public const int EveryMonthInNeedDayWithWhenSaturdayOrFridayThenThursdayWhenSundayOrMondayThenTuesday =
+                    3; //Каждый месяц нужного числа, если ПТ или СБ значит ЧТ если ВС или ПН значит ВТ
+                public const int EveryMonthInNeedDayWithWhenSaturdayThenFridayWhenSundayThenMonday = 4;
+                //Каждый месяц нужного числа, если СБ или ВСКР значит в ПН
+                public const int EveryYear = 5; //Каждый год без погрешности
+                public const int EveryYearWithWhenSaturdayThenFridayAndWhenSundayThenMonday = 6;
+            }
+
+            public override void Load()
+            {
+                if (All == null)
+                {
+                    All = new List<string>
+                    {
+                        "1 раз в указанную дату",
+                        "1 раз в указанную дату, не скрывать пройденное",
+                        "Каждый месяц нужного числа, если СБ или ВСКР значит в ПН",
+                        "Каждый месяц нужного числа, если ПТ или СБ значит ЧТ если ВС или ПН значит ВТ",
+                        "Каждый месяц, если СБ то ПТ, если ВС то ПН",
+                        "Каждый год без погрешности",
+                        "Каждый год, если СБ то ПТ, если ВС то ПН"
+                    };
+                    Type = new List<bool> { false, false, true, true, true, true, true };
                 }
             }
         }
@@ -353,9 +427,20 @@ namespace MySeenLib
         public static LanguagesBase Languages = new LanguagesBase();
         public static ComplexBase Complexes = new ComplexBase();
         public static RecordPerPageBase RecordPerPage = new RecordPerPageBase();
-        public static MarkersOnRoadsBase MarkersOnRoads =new MarkersOnRoadsBase();
+        public static MarkersOnRoadsBase MarkersOnRoads = new MarkersOnRoadsBase();
+        public static EventsTypesBase EventTypes = new EventsTypesBase();
 
-        private static readonly List<ListStringBase> AllResourcesLink = new List<ListStringBase> { Genres, Ratings, Categories, Languages, Complexes, RecordPerPage, MarkersOnRoads };
+        private static readonly List<ListStringBase> AllResourcesLink = new List<ListStringBase>
+        {
+            Genres,
+            Ratings,
+            Categories,
+            Languages,
+            Complexes,
+            RecordPerPage,
+            MarkersOnRoads,
+            EventTypes
+        };
 
         public static void ReloadResources()
         {

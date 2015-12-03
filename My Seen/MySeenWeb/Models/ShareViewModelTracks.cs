@@ -39,7 +39,7 @@ namespace MySeenWeb.Models
 
         public ShareViewModelTracks(string key, int markersOnRoads, int roadsYear)
         {
-            Markers = markersOnRoads == Defaults.MarkersOnRoadsBase.IndexEnabled;
+            Markers = markersOnRoads == Defaults.MarkersOnRoadsBase.Indexes.Enabled;
             Key = key;
             var ac=new ApplicationDbContext();
             var years = new List<SelectListItem> { 

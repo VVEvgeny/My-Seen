@@ -229,7 +229,7 @@
                         else {
                             $modal.modal('hide');
                             $modalShare.modal('hide');
-                            if (!noRedirect) window.location.href = '/';
+                            if (!noRedirect) window.location.href = window.location.href;
                         }
                     },
                     error: function (err) {

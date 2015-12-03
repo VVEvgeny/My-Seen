@@ -32,28 +32,28 @@ namespace MySeenWeb.Models
         {
             get
             {
-                return Selected == Defaults.CategoryBase.FilmIndex.ToString();
+                return Selected == Defaults.CategoryBase.Indexes.Films.ToString();
             }
         }
         public bool PageSerials
         {
             get
             {
-                return Selected == Defaults.CategoryBase.SerialIndex.ToString();
+                return Selected == Defaults.CategoryBase.Indexes.Serials.ToString();
             }
         }
         public bool PageBooks
         {
             get
             {
-                return Selected == Defaults.CategoryBase.BookIndex.ToString();
+                return Selected == Defaults.CategoryBase.Indexes.Books.ToString();
             }
         }
         public bool PageTracks
         {
             get
             {
-                return Selected == Defaults.CategoryBase.TrackIndex.ToString();
+                return Selected == Defaults.CategoryBase.Indexes.Tracks.ToString();
             }
         }
         public bool PageUsers
@@ -77,7 +77,13 @@ namespace MySeenWeb.Models
                 return Selected == ((int)CategoryExt.Improvements).ToString();
             }
         }
-
+        public bool PageEvents
+        {
+            get
+            {
+                return Selected == Defaults.CategoryBase.Indexes.Events.ToString();
+            }
+        }
         public IEnumerable<SelectListItem> SelectList { get; set; }
 
         public HomeViewModelFilms Films;
@@ -88,6 +94,7 @@ namespace MySeenWeb.Models
         public HomeViewModelLogs Logs;
         public HomeViewModelImprovements Improvements;
         public HomeViewModelAbout About;
+        public HomeViewModelEvents Events;
 
         public string Search { get; set; }
 
@@ -103,6 +110,7 @@ namespace MySeenWeb.Models
                 else if (PageUsers) Users = new HomeViewModelUsers(page, countInPage);
                 else if (PageLogs) Logs = new HomeViewModelLogs(page, countInPage);
                 else if (PageImprovements) Improvements = new HomeViewModelImprovements(complex, page, countInPage);
+                else if (PageEvents) Events = new HomeViewModelEvents(userId, page, countInPage, search);
                 else Films = new HomeViewModelFilms(userId, page, countInPage, search);
 
                 var listItems =

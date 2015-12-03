@@ -25,7 +25,8 @@ namespace MySeenWeb.Models
                 FilmsCount = ap.Films.Count(f => f.UserId == model.Id),
                 SerialsCount = ap.Serials.Count(f => f.UserId == model.Id),
                 BooksCount = ap.Books.Count(f => f.UserId == model.Id),
-                TracksCount = ap.Tracks.Count(f => f.UserId == model.Id)
+                TracksCount = ap.Tracks.Count(f => f.UserId == model.Id),
+                EventsCount = ap.Events.Count(f => f.UserId == model.Id)
             };
         }
 
@@ -33,7 +34,7 @@ namespace MySeenWeb.Models
         public PaginationViewModel Pages { get; set; }
         public HomeViewModelUsers(int page, int countInPage)
         {
-            ApplicationDbContext ac = new ApplicationDbContext();
+            var ac = new ApplicationDbContext();
             Pages = new PaginationViewModel(page, ac.Users.Count(), countInPage, "Home", "");
             Users = ac.Users.Select(Map).OrderBy(l => l.RegiserDate).Skip((Pages.CurentPage - 1) * countInPage).Take(countInPage);
         }

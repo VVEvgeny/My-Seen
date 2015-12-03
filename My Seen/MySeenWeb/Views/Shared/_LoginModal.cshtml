@@ -1,7 +1,7 @@
 ﻿@using Microsoft.Owin.Security
 
-<div class="modal fade modal-window modal-images" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" id="LoginModalWindow">
-    <div class="modal-dialog">
+<div class="modal fade modal-window" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" id="LoginModalWindow">
+    <div class="modal-dialog width-450">
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
@@ -28,7 +28,7 @@
                     <div class="form-group">
                         <label for="RememberMe" class="col-sm-2 control-label">@Resource.Remember</label>
                         <div class="col-sm-10">
-                            @Html.CheckBox("RememberMe",true)
+                            @Html.CheckBox("RememberMe", true)
                         </div>
                     </div>
                     <p>
@@ -50,7 +50,7 @@
     </div>
 </div>
 
-<div class="modal fade modal-window modal-images" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" id="LoginExternalModalWindow">
+<div class="modal fade modal-window" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" id="LoginExternalModalWindow">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-body">
@@ -123,7 +123,7 @@
                             alert(response.error);
                         }
                         else {
-                            window.location.href = '/';
+                            window.location.href = window.location.href;
                         }
                     },
                     error: function (err) {

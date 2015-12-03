@@ -18,11 +18,11 @@ namespace MySeenWeb.Controllers
 
             //if (!User.Identity.IsAuthenticated) return View();
             return View(new HomeViewModel(
-                ReadUserSideStorage(UserSideStorageKeys.HomeCategory, Defaults.CategoryBase.FilmIndex).ToString(),
+                ReadUserSideStorage(UserSideStorageKeys.HomeCategory, Defaults.CategoryBase.Indexes.Films).ToString(),
                 User.Identity.IsAuthenticated?User.Identity.GetUserId():string.Empty,
                 page ?? 1,
                 Rpp,
-                ReadUserSideStorage(UserSideStorageKeys.ImprovementsCategory, Defaults.ComplexBase.IndexAll),
+                ReadUserSideStorage(UserSideStorageKeys.ImprovementsCategory, Defaults.ComplexBase.Indexes.All),
                 search,
                 MarkersOnRoads,
                 ReadUserSideStorage(UserSideStorageKeys.RoadsYear, 0)
@@ -94,6 +94,33 @@ namespace MySeenWeb.Controllers
 
             var logic = new BooksLogic();
             return !logic.Add(name, year, authors, datetime, genre, rating, User.Identity.GetUserId()) ? new JsonResult { Data = new { success = false, error = logic.ErrorMessage } } : Json(new { success = true });
+        }
+        [Authorize]
+        [HttpPost]
+        public JsonResult AddEvent(string name, string datetime, string type)
+        {
+            LogSave.Save(User.Identity.IsAuthenticated ? User.Identity.GetUserId() : "", Request.UserHostAddress, Request.UserAgent, "Home/AddEvent", name);
+            var logic = new EventsLogic();
+            return !logic.Add(name, datetime, type, User.Identity.GetUserId()) ? new JsonResult { Data = new { success = false, error = logic.ErrorMessage } } : Json(new { success = true });
+        }
+        [Authorize]
+        [HttpPost]
+        public JsonResult EditEvent(string id, string name, string datetime, string type)
+        {
+            LogSave.Save(User.Identity.IsAuthenticated ? User.Identity.GetUserId() : "", Request.UserHostAddress, Request.UserAgent, "Home/EditEvent", id);
+
+            var logic = new EventsLogic();
+            return !logic.Update(id, name, datetime, type, User.Identity.GetUserId())
+                ? new JsonResult { Data = new { success = false, error = logic.ErrorMessage } } : Json(new { success = true });
+        }
+        [Authorize]
+        [HttpPost]
+        public JsonResult DeleteEvent(string id)
+        {
+            LogSave.Save(User.Identity.IsAuthenticated ? User.Identity.GetUserId() : "", Request.UserHostAddress, Request.UserAgent, "Home/DeleteEvent", id);
+
+            var logic = new EventsLogic();
+            return !logic.Delete(id, User.Identity.GetUserId()) ? new JsonResult { Data = new { success = false, error = logic.ErrorMessage } } : Json(new { success = true });
         }
         [Authorize]
         [HttpPost]
@@ -232,15 +259,15 @@ namespace MySeenWeb.Controllers
         [BrowserActionFilter]
         public ActionResult Home()
         {
-            WriteUserSideStorage(UserSideStorageKeys.HomeCategory, ReadUserSideStorage(UserSideStorageKeys.HomeCategoryPrev, Defaults.CategoryBase.FilmIndex));
+            WriteUserSideStorage(UserSideStorageKeys.HomeCategory, ReadUserSideStorage(UserSideStorageKeys.HomeCategoryPrev, Defaults.CategoryBase.Indexes.Films));
             return RedirectToAction("Index");
         }
         [BrowserActionFilter]
         [Authorize]
         public ActionResult Logs()
         {
-            if (!HomeViewModel.IsCategoryExt(ReadUserSideStorage(UserSideStorageKeys.HomeCategory, Defaults.CategoryBase.FilmIndex)))
-                WriteUserSideStorage(UserSideStorageKeys.HomeCategoryPrev, ReadUserSideStorage(UserSideStorageKeys.HomeCategory, Defaults.CategoryBase.FilmIndex));
+            if (!HomeViewModel.IsCategoryExt(ReadUserSideStorage(UserSideStorageKeys.HomeCategory, Defaults.CategoryBase.Indexes.Films)))
+                WriteUserSideStorage(UserSideStorageKeys.HomeCategoryPrev, ReadUserSideStorage(UserSideStorageKeys.HomeCategory, Defaults.CategoryBase.Indexes.Films));
             WriteUserSideStorage(UserSideStorageKeys.HomeCategory, (int)HomeViewModel.CategoryExt.Logs);
             return RedirectToAction("Index");
         }
@@ -248,8 +275,8 @@ namespace MySeenWeb.Controllers
         [Authorize]
         public ActionResult Users()
         {
-            if (!HomeViewModel.IsCategoryExt(ReadUserSideStorage(UserSideStorageKeys.HomeCategory, Defaults.CategoryBase.FilmIndex)))
-                WriteUserSideStorage(UserSideStorageKeys.HomeCategoryPrev, ReadUserSideStorage(UserSideStorageKeys.HomeCategory, Defaults.CategoryBase.FilmIndex));
+            if (!HomeViewModel.IsCategoryExt(ReadUserSideStorage(UserSideStorageKeys.HomeCategory, Defaults.CategoryBase.Indexes.Films)))
+                WriteUserSideStorage(UserSideStorageKeys.HomeCategoryPrev, ReadUserSideStorage(UserSideStorageKeys.HomeCategory, Defaults.CategoryBase.Indexes.Films));
 
             WriteUserSideStorage(UserSideStorageKeys.HomeCategory, (int)HomeViewModel.CategoryExt.Users);
             return RedirectToAction("Index");
@@ -258,8 +285,8 @@ namespace MySeenWeb.Controllers
         [Authorize]
         public ActionResult Improvements()
         {
-            if (!HomeViewModel.IsCategoryExt(ReadUserSideStorage(UserSideStorageKeys.HomeCategory, Defaults.CategoryBase.FilmIndex)))
-                WriteUserSideStorage(UserSideStorageKeys.HomeCategoryPrev, ReadUserSideStorage(UserSideStorageKeys.HomeCategory, Defaults.CategoryBase.FilmIndex));
+            if (!HomeViewModel.IsCategoryExt(ReadUserSideStorage(UserSideStorageKeys.HomeCategory, Defaults.CategoryBase.Indexes.Films)))
+                WriteUserSideStorage(UserSideStorageKeys.HomeCategoryPrev, ReadUserSideStorage(UserSideStorageKeys.HomeCategory, Defaults.CategoryBase.Indexes.Films));
             WriteUserSideStorage(UserSideStorageKeys.HomeCategory, (int)HomeViewModel.CategoryExt.Improvements);
             return RedirectToAction("Index");
         }

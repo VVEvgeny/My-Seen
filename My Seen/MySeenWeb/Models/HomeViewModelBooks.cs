@@ -22,9 +22,9 @@ namespace MySeenWeb.Models
                 routeValues.Add("search", search);
             }
 
-            ApplicationDbContext ac = new ApplicationDbContext();
-            Pages = new PaginationViewModel(page, ac.Books.Count(f => f.UserId == userId && f.isDeleted != true && (string.IsNullOrEmpty(search) || f.Name.Contains(search))), countInPage, "Home", "", routeValues);
+            var ac = new ApplicationDbContext();
             RatinngGenre = new RatingGenreViewModel();
+            Pages = new PaginationViewModel(page, ac.Books.Count(f => f.UserId == userId && f.isDeleted != true && (string.IsNullOrEmpty(search) || f.Name.Contains(search))), countInPage, "Home", "", routeValues);
             Data = ac.Books.Where(f => f.UserId == userId && f.isDeleted != true && (string.IsNullOrEmpty(search) || f.Name.Contains(search))).OrderByDescending(f => f.DateRead).Select(BooksView.Map).Skip((Pages.CurentPage - 1) * countInPage).Take(countInPage);
         }
     }
