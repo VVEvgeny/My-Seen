@@ -1,0 +1,139 @@
+﻿@model string
+
+<br />
+
+<div class="modal fade modal-window" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" id="ModalShareWindow">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">@Resource.Share</h4>
+            </div>
+            <div class="modal-body">
+                <div class="form-horizontal">
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">@Resource.Link</label>
+                        <div id="loadingtrackLinkModalShare" style="display: none;" align="center">
+                            <img src="~/Content/Images/loading_small.gif" />
+                        </div>
+                        <div id="trackLinkModalShare">
+                            <input type="text" class="form-control share-name col-sm-7" id="shareLink" placeholder="@Resource.Link">
+                            <button type="button" class="btn btn-info col-sm-3" id="shareTryButton">@Resource.Try&nbsp;<span class="glyphicon glyphicon-arrow-right"></span></button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-info" id="shareGetButton">
+                    <span class="glyphicon glyphicon-plus"></span>
+                    &nbsp;@Resource.Add @Resource.Share
+                </button>
+                <button type="button" class="btn btn-danger" id="shareDeleteGetButton">
+                    <span class="glyphicon glyphicon-trash"></span>
+                    &nbsp;@Resource.Delete @Resource.Share
+                </button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">
+                    <span class="glyphicon glyphicon-remove"></span>
+                    &nbsp;@Resource.Close
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script language="javascript" type="text/javascript">
+    function modalShareWork(id) {
+        var $modalShare = $('#ModalShareWindow');
+        var $loadingtrackLinkBegin = $('#loadingtrackLinkModalShare');
+        var $loadingtrackLinkEnd = $('#trackLinkModalShare');
+        $loadingtrackLinkBegin.show();
+        $loadingtrackLinkEnd.hide();
+        var $shareGetButton = $('#shareGetButton');
+        var $shareDeleteGetButton = $('#shareDeleteGetButton');
+        var $shareTryButton = $('#shareTryButton');
+        var $shareLink = $('#shareLink');
+        var data = { name: '@Model', id: id };
+
+        $shareDeleteGetButton.hide();
+        $shareTryButton.hide();
+        $shareGetButton.hide();
+        //console.log('GetTrackShare=' + id);
+
+        $.post('/Json/GetShare/', data, function (jsonData) {
+
+            $loadingtrackLinkBegin.hide();
+            $loadingtrackLinkEnd.show();
+            $shareGetButton.show();
+
+            //console.log('GetEventShare data=', jsonData);
+            if (jsonData === '-') return;
+            $shareGetButton.hide();
+            $shareTryButton.show();
+            $shareDeleteGetButton.show();
+            $shareLink.val(jsonData);
+
+        }, "json");
+
+        $modalShare.modal('show');
+        $shareLink.val('');
+
+        $shareGetButton.off('click');
+        $shareGetButton.on('click', function () {
+            //console.log("shareGetButton id=", id);
+
+            $.post('/Json/GenerateShare/', data, function (jsonData) {
+
+                //console.log('GetTrackShare=', data);
+                $shareGetButton.hide();
+                $shareDeleteGetButton.show();
+                $shareTryButton.show();
+                $shareLink.val(jsonData);
+
+                window.location.href = window.location.href;
+
+            }, "json");
+
+            return false;
+        });
+
+        $shareDeleteGetButton.off('click');
+        $shareDeleteGetButton.on('click', function () {
+            //console.log("shareDeleteGetButton id=", id);
+
+            $.post('/Json/DeleteShare/', data, function (jsonData) {
+
+                window.location.href = window.location.href;
+
+            }, "json");
+
+            return false;
+        });
+
+        $shareTryButton.off('click');
+        $shareTryButton.on('click', function () {
+            //console.log("$shareTryButton id=", id);
+
+            window.open($shareLink.val(), '_blank');
+
+            $modalShare.modal('hide');
+            return false;
+        });
+
+    }
+
+    (function ($) {
+        $(function () {
+            var $table = $('.table.table-striped');
+
+            $table.off('click', '.btn-share');
+            $table.on('click', '.btn-share', function () {
+                var $item = $(this);
+                var id = $item.attr('id');
+                modalShareWork(id);
+
+                return false;
+            });
+
+        });
+    })(jQuery);
+</script>

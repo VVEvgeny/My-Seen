@@ -22,7 +22,8 @@ namespace MySeenWeb.Models.TablesViews
                 DateLast = UmtTime.From(model.DateLast),
                 LastSeason = model.LastSeason,
                 LastSeries = model.LastSeries,
-                isDeleted = model.isDeleted
+                isDeleted = model.isDeleted,
+                Shared = model.Shared
             };
         }
         public string GenreText

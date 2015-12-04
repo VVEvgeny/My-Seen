@@ -116,6 +116,14 @@ namespace MySeenWeb.Models
             {
                 AllUsersTracks = false;
                 Data = ac.Tracks.Where(t => t.ShareKey == key).Select(TracksView.Map);
+                if (Data.Any())
+                {
+                    years.Clear();
+                    years.Add(new SelectListItem
+                    {
+                        Text = Data.First().Date.Year.ToString(), Value = Data.First().Date.Year.ToString(), Selected = true
+                    });
+                }
             }
             YearsList = years.OrderByDescending(y => y.Text);
         }

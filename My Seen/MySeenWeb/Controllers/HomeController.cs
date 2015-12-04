@@ -1,4 +1,5 @@
-﻿using System.Web.Mvc;
+﻿using System;
+using System.Web.Mvc;
 using MySeenWeb.Models;
 using Microsoft.AspNet.Identity;
 using MySeenLib;
@@ -233,6 +234,23 @@ namespace MySeenWeb.Controllers
         public ActionResult GetTrackShare(string id)
         {
             return Json(HomeViewModelTracks.GetTrackShare(id, User.Identity.GetUserId()), JsonRequestBehavior.AllowGet);
+        }
+        [Authorize]
+        public ActionResult GetEventShare(string id)
+        {
+            return Json(HomeViewModelEvents.GetShare(id, User.Identity.GetUserId()), JsonRequestBehavior.AllowGet);
+        }
+        [Authorize]
+        public ActionResult GenerateEventShare(string id)
+        {
+            return Json(HomeViewModelEvents.GenerateShare(id, User.Identity.GetUserId()), JsonRequestBehavior.AllowGet);
+        }
+        [Authorize]
+        public ActionResult DeleteEventShare(string id)
+        {
+            HomeViewModelEvents.DeleteShare(id, User.Identity.GetUserId());
+            //return Json(new { success = true }, JsonRequestBehavior.AllowGet);
+            return Json(HomeViewModelEvents.DeleteShare(id, User.Identity.GetUserId()), JsonRequestBehavior.AllowGet);
         }
         [Authorize]
         public ActionResult GenerateTrackShare(string id)

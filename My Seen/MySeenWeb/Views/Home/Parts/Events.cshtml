@@ -34,9 +34,11 @@
         {
             <tr>
                 <td class="align-center">
-                    <button type="button" class="btn btn-info btn-edit btn-xs" id=@elem.Id>
-                        <span class="glyphicon glyphicon-pencil"></span>
-                    </button>
+                    <button type="button" class="btn btn-warning btn-edit btn-xs" id=@elem.Id><span class="glyphicon glyphicon-pencil"></span></button>
+                    @if (elem.Shared)
+                    {
+                        <button class="btn btn-xs btn-info btn-share" id=@elem.Id><span class="glyphicon glyphicon-share"></span></button>
+                    }
                 </td>
                 <td class="align-center">@elem.Name</td>
                 <td class="align-center">@elem.EstimatedTo</td>
@@ -82,19 +84,19 @@
                     <div class="form-group">
                         <label class="col-sm-2 control-label">@Resource.Type</label>
                         <div class="col-sm-10">
-                            @Html.DropDownList("Type", Model.TypeList, new { @class = "form-control event-type", @id = "eventType" })
+                            @Html.DropDownList("Type", Model.TypeList, new {@class = "form-control event-type", @id = "eventType"})
                         </div>
                     </div>
                 </div>
             </div>
             <div class="modal-footer">
+                <button type="button" class="btn btn-info btn-share" id="shareGetInModalButton">
+                    <span class="glyphicon glyphicon-plus"></span>
+                    &nbsp;@Resource.Share
+                </button>
                 <button type="button" class="btn btn-danger" id="deleteButton" style="display: none;">
                     <span class="glyphicon glyphicon-trash"></span>
                     &nbsp;@Resource.Delete
-                </button>
-                <button type="button" class="btn btn-default" data-dismiss="modal">
-                    <span class="glyphicon glyphicon-remove"></span>
-                    &nbsp;@Resource.Close
                 </button>
                 <button type="button" class="btn btn-success" id="submitAddButton">
                     <span class="glyphicon glyphicon-ok"></span>
@@ -104,10 +106,16 @@
                     <span class="glyphicon glyphicon-ok"></span>
                     &nbsp;@Resource.SaveСhanges
                 </button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">
+                    <span class="glyphicon glyphicon-remove"></span>
+                    &nbsp;@Resource.Close
+                </button>
             </div>
         </div>
     </div>
 </div>
+
+@Html.Partial("Parts/Parts/ModalShare", "events")
 
 <script language="javascript" type="text/javascript">
     (function ($) {
@@ -123,6 +131,7 @@
                 //viewMode: 'years',
                 locale: '@CultureInfoTool.GetCulture()'
             });
+            var $shareGetInModalButton = $('#shareGetInModalButton');
 
             function sendRequest(innerUrl, innerData) {
                 $.ajax({
@@ -147,9 +156,11 @@
                 return false;
             }
 
+
             $addButton.off('click');
             $addButton.on('click', function () {
                 $datetimepicker.val('@DateTime.Now');
+                $shareGetInModalButton.hide();
                 $modal.modal('show');
                 return false;
             });
@@ -171,6 +182,7 @@
 
             $table.off('click', '.btn-edit');
             $table.on('click', '.btn-edit', function () {
+                $shareGetInModalButton.show();
                 var $button = $(this);
                 var $tr = $button.parent().parent();
                 var $tds = $tr.find('td');
@@ -178,12 +190,19 @@
                 var $modalBody = $modal.find('.modal-body');
                 var $eventName = $modalBody.find('.event-name');
                 var $eventType = $modalBody.find('.event-type');
-                
+
                 var $saveButton = $('#saveButton');
                 var $deleteButton = $('#deleteButton');
                 var defaultModalTitle = $modalTitle.text();
 
                 var id = $button.attr('id');
+
+                $shareGetInModalButton.off('click');
+                $shareGetInModalButton.on('click', function () {
+                    modalShareWork(id);
+                    return false;
+                });
+
                 var name = $tds.eq(1).text();
                 var date = $tds.eq(6).text();
                 var event = $tds.eq(5).text();
@@ -191,7 +210,7 @@
                 $eventName.val(name);
                 $datetimepicker.val(date);
 
-                
+
                 $eventType.find('option')
                     .filter(function () {
                         return $(this).val() === event;
@@ -244,6 +263,16 @@
                 });
                 return false;
             });
+
+            $table.off('click', '.btn-share');
+            $table.on('click', '.btn-share', function () {
+                var $item = $(this);
+                var id = $item.attr('id');
+                modalShareWork(id);
+
+                return false;
+            });
+
         });
     })(jQuery);
 </script>

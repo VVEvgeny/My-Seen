@@ -9,7 +9,7 @@ namespace MySeenLib
     public static class Versions
     {
         //Строка с версией библиотеки в ресурсах LibVersionNum
-        public static int Web = 7;
+        public static int Web = 8;
         public static int Android = 1;
         public static int AndroidLib = 1;
         public static int Pc = 1;
@@ -106,6 +106,10 @@ namespace MySeenLib
         public static string ApiUsers = @"/api/ApiUsers/";
         public static string ApiSync = @"/api/ApiSync/";
         public static string ShareTracks = @"/Share/Tracks/";
+        public static string ShareEvents = @"/Share/Events/";
+        public static string ShareFilms = @"/Share/Films/";
+        public static string ShareSerials = @"/Share/Serials/";
+        public static string ShareBooks = @"/Share/Books/";
 
         public enum SyncModesApiUsers
         {

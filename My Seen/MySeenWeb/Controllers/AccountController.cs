@@ -188,7 +188,11 @@ namespace MySeenWeb.Controllers
                 {
                     UserName = model.Email,
                     Email = model.Email,
-                    UniqueKey = Md5Tools.GetMd5Hash(model.Email.ToLower()),
+                    UniqueKey = Md5Tools.Get(model.Email.ToLower()),
+                    ShareBooksKey = Md5Tools.Generate(model.Email, model.Password, 1),
+                    ShareEventsKey = Md5Tools.Generate(model.Email, model.Password, 2),
+                    ShareFilmsKey = Md5Tools.Generate(model.Email, model.Password, 3),
+                    ShareSerialsKey = Md5Tools.Generate(model.Email, model.Password, 4),
                     Culture = CultureInfoTool.GetCulture(),
                     RegisterDate = DateTime.Now
                 };
@@ -394,7 +398,7 @@ namespace MySeenWeb.Controllers
                             return View("ExternalLoginFailure");
                         }
                         var user = new ApplicationUser { UserName = loginInfo.Email, Email = loginInfo.Email
-                            , UniqueKey = Md5Tools.GetMd5Hash(loginInfo.Email), Culture = CultureInfoTool.GetCulture(), RegisterDate=DateTime.Now };
+                            , UniqueKey = Md5Tools.Get(loginInfo.Email), Culture = CultureInfoTool.GetCulture(), RegisterDate=DateTime.Now };
                         var result2 = await UserManager.CreateAsync(user);
                         if (result2.Succeeded)
                         {
@@ -438,9 +442,12 @@ namespace MySeenWeb.Controllers
                 var user = new ApplicationUser
                 {
                     UserName = model.Email,
-                    Email = model.Email
-                    ,
-                    UniqueKey = Md5Tools.GetMd5Hash(model.Email),
+                    Email = model.Email,
+                    UniqueKey = Md5Tools.Get(model.Email),
+                    ShareBooksKey = Md5Tools.Generate(model.Email, 1, 1),
+                    ShareEventsKey = Md5Tools.Generate(model.Email, 2, 2),
+                    ShareFilmsKey = Md5Tools.Generate(model.Email, 3, 3),
+                    ShareSerialsKey = Md5Tools.Generate(model.Email, 4, 4),
                     Culture = CultureInfoTool.GetCulture(),
                     RegisterDate = DateTime.Now
                 };

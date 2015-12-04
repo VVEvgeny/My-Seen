@@ -1,4 +1,6 @@
 ﻿@using MySeenWeb.Models;
+@using MySeenWeb.Models.Parts
+@* ReSharper disable once RedundantUsingDirective *@
 @using MySeenWeb.Models.TablesViews
 
 @model HomeViewModelFilms
@@ -27,12 +29,7 @@
         @foreach (var elem in Model.Data)
         {
             <tr>
-                <td class="align-center">
-                    <button type="button" class="btn btn-info btn-edit btn-xs" id=@elem.Id>
-                        <span class="glyphicon glyphicon-pencil"></span>
-                        &nbsp;@Resource.Edit
-                    </button>
-                </td>
+                @Html.Partial("Parts/Parts/TableButtons", new TableButtons(elem.Id, elem.Shared))
                 <td class="align-left">@elem.Name</td>
                 <td class="align-center">@elem.YearText</td>
                 <td class="align-center">@elem.DateSee</td>
@@ -48,7 +45,7 @@
     </div>
 }
 
-<div class="modal fade modal-window" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" id="ModalAddWindow">
+<div class="modal fade modal-window" tabindex="-2" role="dialog" aria-labelledby="mySmallModalLabel" id="ModalAddWindow">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
@@ -72,31 +69,31 @@
                     <div class="form-group">
                         <label for="datetimepicker" class="col-sm-2 control-label">@Resource.When</label>
                         <div class="col-sm-10">
-                            <input type="text" class="form-control" id="datetimepicker" placeholder="@DateTime.Now" />
+                            <input type="text" class="form-control" id="datetimepicker" placeholder="@DateTime.Now"/>
                         </div>
                     </div>
                     <div class="form-group">
                         <label class="col-sm-2 control-label">@Resource.Genre</label>
                         <div class="col-sm-10">
-                            @Html.DropDownList("Genre", Model.RatinngGenre.GenreList, new { @class = "form-control movie-genre", @id = "filmGenre" })
+                            @Html.DropDownList("Genre", Model.RatinngGenre.GenreList, new {@class = "form-control movie-genre", @id = "filmGenre"})
                         </div>
                     </div>
                     <div class="form-group">
                         <label class="col-sm-2 control-label">@Resource.Rating</label>
                         <div class="col-sm-10">
-                            @Html.DropDownList("Rating", Model.RatinngGenre.RatingList, new { @class = "form-control movie-rating", @id = "filmRating" })
+                            @Html.DropDownList("Rating", Model.RatinngGenre.RatingList, new {@class = "form-control movie-rating", @id = "filmRating"})
                         </div>
                     </div>
                 </div>
             </div>
             <div class="modal-footer">
+                <button type="button" class="btn btn-info btn-share" id="shareGetInModalButton">
+                    <span class="glyphicon glyphicon-plus"></span>
+                    &nbsp;@Resource.Share
+                </button>
                 <button type="button" class="btn btn-danger" id="deleteButton" style="display: none;">
                     <span class="glyphicon glyphicon-trash"></span>
                     &nbsp;@Resource.Delete
-                </button>
-                <button type="button" class="btn btn-default" data-dismiss="modal">
-                    <span class="glyphicon glyphicon-remove"></span>
-                    &nbsp;@Resource.Close
                 </button>
                 <button type="button" class="btn btn-success" id="submitAddButton">
                     <span class="glyphicon glyphicon-ok"></span>
@@ -106,10 +103,16 @@
                     <span class="glyphicon glyphicon-ok"></span>
                     &nbsp;@Resource.SaveСhanges
                 </button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">
+                    <span class="glyphicon glyphicon-remove"></span>
+                    &nbsp;@Resource.Close
+                </button>
             </div>
         </div>
     </div>
 </div>
+
+@Html.Partial("Parts/Parts/ModalShare", "films")
 
 <script language="javascript" type="text/javascript">
     (function ($) {
@@ -125,6 +128,8 @@
                 //viewMode: 'years',
                 locale: '@CultureInfoTool.GetCulture()'
             });
+
+            var $shareGetInModalButton = $('#shareGetInModalButton');
 
             var $filmYear = $('#filmYear');
             $filmYear.on('input', function () {
@@ -158,6 +163,8 @@
             $addButton.off('click');
             $addButton.on('click', function () {
                 $datetimepicker.val('@DateTime.Now');
+                $filmYear.val('@DateTime.Now.Year');
+                $shareGetInModalButton.hide();
                 $modal.modal('show');
                 return false;
             });
@@ -180,6 +187,7 @@
 
             $table.off('click', '.btn-edit');
             $table.on('click', '.btn-edit', function () {
+                $shareGetInModalButton.show();
                 var $button = $(this);
                 var $tr = $button.parent().parent();
                 var $tds = $tr.find('td');
@@ -202,6 +210,12 @@
                 var date = $tds.eq(3).text();
                 var genre = $tds.eq(-2).text();
                 var rating = $tds.eq(-1).text();
+
+                $shareGetInModalButton.off('click');
+                $shareGetInModalButton.on('click', function () {
+                    modalShareWork(id);
+                    return false;
+                });
 
                 $movieName.val(name);
                 $movieYear.val(year);

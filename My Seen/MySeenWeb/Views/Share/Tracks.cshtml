@@ -55,9 +55,7 @@
         $(function () {
             var $select = $('#lstYears');
 
-            setYear($select.val());
             showTrackByKey('@Model.Key', '@Model.Key');
-
             var url = '';
             var data = {};
             function sendRequest(innerUrl, innerData, noRedirect) {

@@ -192,6 +192,7 @@
     <Compile Include="Controllers\ApiUsersController.cs" />
     <Compile Include="Controllers\BaseController.cs" />
     <Compile Include="Controllers\BrowserFilterController.cs" />
+    <Compile Include="Controllers\JsonController.cs" />
     <Compile Include="Controllers\ShareController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
@@ -283,11 +284,20 @@
     <Compile Include="Migrations\201512031321284_21.Designer.cs">
       <DependentUpon>201512031321284_21.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201512031357595_22.cs" />
+    <Compile Include="Migrations\201512031357595_22.Designer.cs">
+      <DependentUpon>201512031357595_22.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201512031424025_23.cs" />
+    <Compile Include="Migrations\201512031424025_23.Designer.cs">
+      <DependentUpon>201512031424025_23.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\HomeViewModelEvents.cs" />
     <Compile Include="Models\HomeViewModelAbout.cs" />
     <Compile Include="Models\HomeViewModelTrackEditor.cs" />
+    <Compile Include="Models\Parts\TableButtons.cs" />
     <Compile Include="Models\ShareViewModelTracks.cs" />
     <Compile Include="Models\TablesLogic\EventsLogic.cs" />
     <Compile Include="Models\TablesLogic\BooksLogic.cs" />
@@ -580,13 +590,22 @@
     <Content Include="Views\Home\Parts\Books.cshtml" />
     <Content Include="Views\Home\Parts\Tracks.cshtml" />
     <Content Include="Views\_ViewStart.cshtml" />
-    <Content Include="Views\BrowserFilter\Index.cshtml" />
+    <Content Include="Views\Home\BrowserFilter\Index.cshtml" />
     <Content Include="Views\Home\Parts\About.cshtml" />
     <Content Include="Views\Share\Tracks.cshtml" />
     <Content Include="Views\Home\TrackEditor.cshtml" />
     <Content Include="Views\Home\Parts\Parts\TracksModalAddEdit.cshtml" />
     <Content Include="Views\Shared\_LoginModal.cshtml" />
     <Content Include="Views\Home\Parts\Events.cshtml" />
+    <Content Include="Views\Home\Parts\Parts\ModalShare.cshtml" />
+    <Content Include="Views\Home\Parts\Parts\TableButtons.cshtml" />
+    <Content Include="Views\Share\Films.cshtml" />
+    <Content Include="Views\Share\Serials.cshtml" />
+    <Content Include="Views\Share\Books.cshtml" />
+    <Content Include="Views\Share\Events.cshtml" />
+    <Content Include="Views\Analytics\Google.cshtml" />
+    <Content Include="Views\Analytics\Yandex.cshtml" />
+    <Content Include="Views\Tools\TestCookie.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -663,6 +682,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201512031321284_21.resx">
       <DependentUpon>201512031321284_21.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201512031357595_22.resx">
+      <DependentUpon>201512031357595_22.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201512031424025_23.resx">
+      <DependentUpon>201512031424025_23.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

@@ -161,17 +161,21 @@ namespace MySeenWeb.Models
             ti.CallcMinMaxCenter();
             return ti;
         }
+
         public static ShareTrackInfo GetTrackByKey(string key, int year)
         {
-            var list =new List<TrackInfo>();
+            var list = new List<TrackInfo>();
             var ac = new ApplicationDbContext();
 
             if (ac.Users.Any(u => u.ShareTracksFootKey != null && u.ShareTracksFootKey == key))
             {
                 var userId = ac.Users.First(u => u.ShareTracksFootKey == key).Id;
-                const int type = (int)TrackTypes.Foot;
+                const int type = (int) TrackTypes.Foot;
 
-                foreach (var item in ac.Tracks.Where(t => t.UserId == userId && t.Type == type && (year == 0 || t.Date.Year == year)))
+                foreach (
+                    var item in
+                        ac.Tracks.Where(t => t.UserId == userId && t.Type == type && (year == 0 || t.Date.Year == year))
+                    )
                 {
                     if (item.Coordinates[item.Coordinates.Length - 1] == ';')
                         item.Coordinates = item.Coordinates.Remove(item.Coordinates.Length - 1);
@@ -197,9 +201,12 @@ namespace MySeenWeb.Models
             else if (ac.Users.Any(u => u.ShareTracksCarKey != null && u.ShareTracksCarKey == key))
             {
                 var userId = ac.Users.First(u => u.ShareTracksCarKey == key).Id;
-                const int type = (int)TrackTypes.Car;
+                const int type = (int) TrackTypes.Car;
 
-                foreach (var item in ac.Tracks.Where(t => t.UserId == userId && t.Type == type && (year == 0 || t.Date.Year == year)))
+                foreach (
+                    var item in
+                        ac.Tracks.Where(t => t.UserId == userId && t.Type == type && (year == 0 || t.Date.Year == year))
+                    )
                 {
                     if (item.Coordinates[item.Coordinates.Length - 1] == ';')
                         item.Coordinates = item.Coordinates.Remove(item.Coordinates.Length - 1);
@@ -225,9 +232,12 @@ namespace MySeenWeb.Models
             else if (ac.Users.Any(u => u.ShareTracksCarKey != null && u.ShareTracksBikeKey == key))
             {
                 var userId = ac.Users.First(u => u.ShareTracksBikeKey == key).Id;
-                const int type = (int)TrackTypes.Bike;
+                const int type = (int) TrackTypes.Bike;
 
-                foreach (var item in ac.Tracks.Where(t => t.UserId == userId && t.Type == type && (year == 0 || t.Date.Year == year)))
+                foreach (
+                    var item in
+                        ac.Tracks.Where(t => t.UserId == userId && t.Type == type && (year == 0 || t.Date.Year == year))
+                    )
                 {
                     if (item.Coordinates[item.Coordinates.Length - 1] == ';')
                         item.Coordinates = item.Coordinates.Remove(item.Coordinates.Length - 1);
@@ -279,22 +289,22 @@ namespace MySeenWeb.Models
             }
             else
             {
-                foreach (var item in ac.Tracks.Where(t => t.ShareKey == key && (year == 0 || t.Date.Year == year)))
+                foreach (var item in ac.Tracks.Where(t => t.ShareKey == key)) //тут проверка года лишняя
                 {
                     if (item.Coordinates[item.Coordinates.Length - 1] == ';')
                         item.Coordinates = item.Coordinates.Remove(item.Coordinates.Length - 1);
                     list.Add(new TrackInfo
                     {
-                        Path =new List<Location>(
-                                item.Coordinates.Split(';')
-                                    .Select(
-                                        s =>
-                                            new Location
-                                            {
-                                                Latitude = double.Parse(s.Split(',')[0], CultureInfo.InvariantCulture),
-                                                Longitude = double.Parse(s.Split(',')[1], CultureInfo.InvariantCulture)
-                                            })
-                                    .ToList()),
+                        Path = new List<Location>(
+                            item.Coordinates.Split(';')
+                                .Select(
+                                    s =>
+                                        new Location
+                                        {
+                                            Latitude = double.Parse(s.Split(',')[0], CultureInfo.InvariantCulture),
+                                            Longitude = double.Parse(s.Split(',')[1], CultureInfo.InvariantCulture)
+                                        })
+                                .ToList()),
                         Name = item.Name,
                         Date = item.Date,
                         Id = item.Id
@@ -392,7 +402,7 @@ namespace MySeenWeb.Models
             {
                 genkey += r.Next().ToString();
             }
-            genkey = Md5Tools.GetMd5Hash(genkey);
+            genkey = Md5Tools.Get(genkey);
 
             if (id.ToLower().Contains("all foot"))
             {
@@ -433,6 +443,10 @@ namespace MySeenWeb.Models
             else if (id.ToLower().Contains("all bike"))
             {
                 ac.Users.First(t => t.Id == userId).ShareTracksBikeKey = string.Empty;
+            }
+            else if (id.ToLower().Contains("all all"))
+            {
+                ac.Users.First(t => t.Id == userId).ShareTracksAllKey = string.Empty;
             }
             else
             {

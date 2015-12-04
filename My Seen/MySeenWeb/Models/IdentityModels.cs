@@ -20,6 +20,9 @@ namespace MySeenWeb.Models
         public string ShareTracksFootKey { get; set; }
         public string ShareTracksCarKey { get; set; }
         public string ShareTracksBikeKey { get; set; }
+        public string ShareFilmsKey { get; set; }
+        public string ShareSerialsKey { get; set; }
+        public string ShareBooksKey { get; set; }
         public string ShareEventsKey { get; set; }
         public async Task<ClaimsIdentity> GenerateUserIdentityAsync(UserManager<ApplicationUser> manager)
         {

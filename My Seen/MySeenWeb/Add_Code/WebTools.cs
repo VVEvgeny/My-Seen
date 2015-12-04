@@ -1,10 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
-using System.Web;
-using System.Web.Mvc;
 
 namespace MySeenWeb.Add_Code
 {
@@ -21,29 +18,33 @@ namespace MySeenWeb.Add_Code
     #region Md5Tools
     public static class Md5Tools
     {
-        public static string GetMd5Hash(string input)
+        public static string Generate(params object[] values)
         {
-            MD5 md5Hash = MD5.Create();
-            byte[] data = md5Hash.ComputeHash(Encoding.UTF8.GetBytes(input));
-            StringBuilder sBuilder = new StringBuilder();
-            for (int i = 0; i < data.Length; i++)
+            var genkey = values.Aggregate(string.Empty, (current, el) => current + el);
+            var r = new Random(DateTime.Now.Millisecond);
+            for (var i = 0; i < 20; i++)
             {
-                sBuilder.Append(data[i].ToString("x2"));
+                genkey += r.Next().ToString();
+            }
+            genkey = Get(genkey);
+            return genkey;
+        }
+        public static string Get(string input)
+        {
+            var md5Hash = MD5.Create();
+            byte[] data = md5Hash.ComputeHash(Encoding.UTF8.GetBytes(input));
+            var sBuilder = new StringBuilder();
+            foreach (var t in data)
+            {
+                sBuilder.Append(t.ToString("x2"));
             }
             return sBuilder.ToString();
         }
-        public static bool VerifyMd5Hash(string input, string hash)
+        public static bool Verify(string input, string hash)
         {
-            string hashOfInput = GetMd5Hash(input);
-            StringComparer comparer = StringComparer.OrdinalIgnoreCase;
-            if (0 == comparer.Compare(hashOfInput, hash))
-            {
-                return true;
-            }
-            else
-            {
-                return false;
-            }
+            var hashOfInput = Get(input);
+            var comparer = StringComparer.OrdinalIgnoreCase;
+            return 0 == comparer.Compare(hashOfInput, hash);
         }
     }
     #endregion

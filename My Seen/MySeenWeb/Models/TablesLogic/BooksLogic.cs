@@ -127,5 +127,39 @@ namespace MySeenWeb.Models.TablesLogic
             }
             return true;
         }
+        public string GetShare(string id, string userId)
+        {
+            try
+            {
+                Id = Convert.ToInt32(id);
+                if (_ac.Books.First(f => f.UserId == userId && f.Id == Id).Shared)
+                {
+                    var key = _ac.Users.First(t => t.Id == userId).ShareBooksKey;
+                    return MySeenWebApi.ApiHost + MySeenWebApi.ShareBooks + key;
+                }
+            }
+            catch (Exception e)
+            {
+                ErrorMessage = Resource.ErrorWorkWithDB + "=" + e.Message;
+            }
+            return "-";
+        }
+        public string GenerateShare(string id, string userId)
+        {
+            var ac = new ApplicationDbContext();
+            var iid = Convert.ToInt32(id);
+            var key = ac.Users.First(t => t.Id == userId).ShareBooksKey;
+            ac.Books.First(e => e.Id == iid).Shared = true;
+            ac.SaveChanges();
+            return MySeenWebApi.ApiHost + MySeenWebApi.ShareBooks + key;
+        }
+        public string DeleteShare(string id, string userId)
+        {
+            var ac = new ApplicationDbContext();
+            var iid = Convert.ToInt32(id);
+            ac.Books.First(e => e.Id == iid).Shared = false;
+            ac.SaveChanges();
+            return "-";
+        }
     }
 }

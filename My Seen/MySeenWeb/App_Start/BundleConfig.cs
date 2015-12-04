@@ -7,6 +7,8 @@ namespace MySeenWeb
         // For more information on bundling, visit http://go.microsoft.com/fwlink/?LinkId=301862
         public static void RegisterBundles(BundleCollection bundles)
         {
+
+            BundleTable.EnableOptimizations = false;// чтобы небыло жести типа <script src="/bundles/modernizr?v=inCVuEFe6J4Q07A0AcRsbJic_UE5MwpRMNGcOtk94TE1"></script>
             bundles.Add(new ScriptBundle("~/bundles/jquery").Include(
                         "~/Scripts/jquery-{version}.js"));
 
@@ -56,13 +58,6 @@ namespace MySeenWeb
 
             bundles.Add(new StyleBundle("~/Content/css.gmap3menu").Include(
                        "~/Content/myseen/gmap3-menu.css"));
-
-
-            bundles.Add(new ScriptBundle("~/bundles/analytics.yandex").Include(
-                        "~/Scripts/Analytics/yandex.js"));
-
-            bundles.Add(new ScriptBundle("~/bundles/analytics.google").Include(
-                        "~/Scripts/Analytics/google.js"));
 
         }
     }

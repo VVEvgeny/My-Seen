@@ -11,16 +11,16 @@ namespace MySeenWeb.Models.TablesViews
         public Location Max { get; set; }
         public Location Start
         {
-            get { return Path[0]; }
+            get { return Path != null ? Path[0] : new Location(); }
         }
         public Location End
         {
-            get { return Path[Path.Count - 1]; }
+            get { return Path != null ? Path[Path.Count - 1] : new Location(); }
         }
 
         public virtual void CallcMinMaxCenter()
         {
-            if (!Path.Any()) return;
+            if (Path == null || !Path.Any()) return;
             var minX = Path[0].Latitude;
             var maxX = Path[0].Latitude;
 

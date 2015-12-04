@@ -19,7 +19,8 @@ namespace MySeenWeb.Models.TablesViews
                 DateSee = UmtTime.From(model.DateSee),
                 Genre = model.Genre,
                 Rating = model.Rating,
-                isDeleted = model.isDeleted
+                isDeleted = model.isDeleted,
+                Shared = model.Shared
             };
         }
         public string GenreText

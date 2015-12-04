@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
 using MySeenLib;
@@ -16,6 +17,8 @@ namespace MySeenWeb.Models
             get { return Data.Any(); }
         }
         public IEnumerable<SelectListItem> TypeList { get; set; }
+        public string ShareKey { get; set; }
+
         public HomeViewModelEvents(string userId, int page, int countInPage, string search)
         {
             var routeValues = new Dictionary<string, object>();
@@ -35,8 +38,36 @@ namespace MySeenWeb.Models
                     .Where(e => e.EstimatedTicks > 0 || e.RepeatType == Defaults.EventsTypesBase.Indexes.OneTimeWithPast)
                     .OrderBy(e => e.EstimatedTicks);
 
+            ShareKey = ac.Users.First(u => u.Id == userId).ShareEventsKey;
+
             Pages = new PaginationViewModel(page, data.Count(), countInPage, "Home", "", routeValues);
             Data = data.Skip((Pages.CurentPage - 1) * countInPage).Take(countInPage);
         }
+        public static string GetShare(string id, string userId)
+        {
+            var ac = new ApplicationDbContext();
+            var iid = Convert.ToInt32(id);
+            var key = ac.Users.First(t => t.Id == userId).ShareEventsKey;
+            if (!ac.Events.First(e => e.Id == iid).Shared) return "-";
+            return MySeenWebApi.ApiHost + MySeenWebApi.ShareEvents + key;
+        }
+        public static string GenerateShare(string id, string userId)
+        {
+            var ac = new ApplicationDbContext();
+            var iid = Convert.ToInt32(id);
+            var key = ac.Users.First(t => t.Id == userId).ShareEventsKey;
+            ac.Events.First(e => e.Id == iid).Shared = true;
+            ac.SaveChanges();
+            return MySeenWebApi.ApiHost + MySeenWebApi.ShareEvents + key;
+        }
+        public static string DeleteShare(string id, string userId)
+        {
+            var ac = new ApplicationDbContext();
+            var iid = Convert.ToInt32(id);
+            ac.Events.First(e => e.Id == iid).Shared = false;
+            ac.SaveChanges();
+            return "-";
+        }
+        
     }
 }

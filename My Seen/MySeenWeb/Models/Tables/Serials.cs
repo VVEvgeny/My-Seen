@@ -21,5 +21,6 @@ namespace MySeenWeb.Models.Tables
         public DateTime DateChange { get; set; }
         public bool? isDeleted { get; set; }
         public int Year { get; set; }
+        public bool Shared { get; set; }
     }
 }
