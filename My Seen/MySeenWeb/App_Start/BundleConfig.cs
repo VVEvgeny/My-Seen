@@ -8,7 +8,8 @@ namespace MySeenWeb
         public static void RegisterBundles(BundleCollection bundles)
         {
 
-            BundleTable.EnableOptimizations = false;// чтобы небыло жести типа <script src="/bundles/modernizr?v=inCVuEFe6J4Q07A0AcRsbJic_UE5MwpRMNGcOtk94TE1"></script>
+            BundleTable.EnableOptimizations = false;// чтобы небыло жести типа <script src="/bundles/modernizr?v=inCVuEFe6J4Q07A0AcRsbJic_UE5MwpRMNGcOtk94TE1"></script>
+
             bundles.Add(new ScriptBundle("~/bundles/jquery").Include(
                         "~/Scripts/jquery-{version}.js"));
 
@@ -29,7 +30,7 @@ namespace MySeenWeb
 
             bundles.Add(new StyleBundle("~/Content/css").Include(
                       "~/Content/bootstrap.css",
-                      "~/Content/site.css"));
+                      "~/Content/myseen/site.css"));
 
             bundles.Add(new ScriptBundle("~/bundles/datetimepicker").Include(
                       "~/Scripts/moment-with-locales.js",

@@ -17,7 +17,6 @@ namespace MySeenWeb.Models
             get { return Data.Any(); }
         }
         public IEnumerable<SelectListItem> TypeList { get; set; }
-        public string ShareKey { get; set; }
 
         public HomeViewModelEvents(string userId, int page, int countInPage, string search)
         {
@@ -37,8 +36,6 @@ namespace MySeenWeb.Models
                     .Select(EventsView.Map)
                     .Where(e => e.EstimatedTicks > 0 || e.RepeatType == Defaults.EventsTypesBase.Indexes.OneTimeWithPast)
                     .OrderBy(e => e.EstimatedTicks);
-
-            ShareKey = ac.Users.First(u => u.Id == userId).ShareEventsKey;
 
             Pages = new PaginationViewModel(page, data.Count(), countInPage, "Home", "", routeValues);
             Data = data.Skip((Pages.CurentPage - 1) * countInPage).Take(countInPage);

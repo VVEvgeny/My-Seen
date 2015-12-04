@@ -289,7 +289,7 @@ namespace MySeenWeb.Models
             }
             else
             {
-                foreach (var item in ac.Tracks.Where(t => t.ShareKey == key)) //тут проверка года лишняя
+                foreach (var item in ac.Tracks.Where(t => t.ShareKey == key))
                 {
                     if (item.Coordinates[item.Coordinates.Length - 1] == ';')
                         item.Coordinates = item.Coordinates.Remove(item.Coordinates.Length - 1);
@@ -316,7 +316,7 @@ namespace MySeenWeb.Models
             return obj;
         }
 
-        public static ShareTrackInfo GetTrackByType(string type)
+        public static ShareTrackInfo GetTrackByType(string type, int year)
         {
             var list = new List<TrackInfo>();
             var ac = new ApplicationDbContext();
@@ -324,7 +324,7 @@ namespace MySeenWeb.Models
                 ? (int) TrackTypes.Foot
                 : type == "Car" ? (int) TrackTypes.Car : (int) TrackTypes.Bike;
 
-            foreach (var item in ac.Tracks.Where(t => t.Type == tType))
+            foreach (var item in ac.Tracks.Where(t => t.Type == tType && (year == 0 || t.Date.Year == year)))
             {
                 if (item.Coordinates[item.Coordinates.Length - 1] == ';')
                     item.Coordinates = item.Coordinates.Remove(item.Coordinates.Length - 1);

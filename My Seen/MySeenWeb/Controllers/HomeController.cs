@@ -218,7 +218,7 @@ namespace MySeenWeb.Controllers
         [Authorize]
         public ActionResult GetTrackByType(string id)
         {
-            return Json(HomeViewModelTracks.GetTrackByType(id), JsonRequestBehavior.AllowGet);
+            return Json(HomeViewModelTracks.GetTrackByType(id, ReadUserSideStorage(UserSideStorageKeys.RoadsYear, 0)), JsonRequestBehavior.AllowGet);
         }
         [Authorize]
         public ActionResult GetTrackNameById(int id)
