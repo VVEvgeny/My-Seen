@@ -384,7 +384,11 @@ namespace MySeenLib
             {
                 if (All == null)
                 {
-                    All = new List<string> {Resource.All, "20", "50", "100", "500"};
+                    #if DEBUG
+                        All = new List<string> { Resource.All, "3", "5", "20", "500" };
+                    #else
+                        All = new List<string> {Resource.All, "20", "50", "100", "500"};
+                    #endif
                 }
             }
         }

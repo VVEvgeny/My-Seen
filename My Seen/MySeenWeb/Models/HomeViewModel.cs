@@ -86,9 +86,9 @@ namespace MySeenWeb.Models
         }
         public IEnumerable<SelectListItem> SelectList { get; set; }
 
-        public HomeViewModelFilms Films;
-        public HomeViewModelSerials Serials;
-        public HomeViewModelBooks Books;
+        public HomeViewModelFilmsMin Films;
+        public HomeViewModelSerialsMin Serials;
+        public HomeViewModelBooksMin Books;
         public HomeViewModelTracks Tracks;
         public HomeViewModelUsers Users;
         public HomeViewModelLogs Logs;
@@ -104,14 +104,14 @@ namespace MySeenWeb.Models
             {
                 Search = search;
                 Selected = selected;
-                if (PageSerials) Serials = new HomeViewModelSerials(userId, page, countInPage, search);
-                else if (PageBooks) Books = new HomeViewModelBooks(userId, page, countInPage, search);
+                if (PageSerials) Serials = new HomeViewModelSerialsMin();
+                else if (PageBooks) Books = new HomeViewModelBooksMin();
                 else if (PageTracks) Tracks = new HomeViewModelTracks(userId, markersOnRoads, roadsYear);
                 else if (PageUsers) Users = new HomeViewModelUsers(page, countInPage);
                 else if (PageLogs) Logs = new HomeViewModelLogs(page, countInPage);
                 else if (PageImprovements) Improvements = new HomeViewModelImprovements(complex, page, countInPage);
                 else if (PageEvents) Events = new HomeViewModelEventsMin();
-                else Films = new HomeViewModelFilms(userId, page, countInPage, search);
+                else Films = new HomeViewModelFilmsMin();
 
                 var listItems =
                     Defaults.Categories.GetAll()

@@ -9,7 +9,6 @@ namespace MySeenWeb.Models
     {
         public IEnumerable<FilmsView> Data { get; set; }
         public PaginationViewModel Pages { get; set; }
-        public RatingGenreViewModel RatinngGenre { get; set; }
 
         public bool HaveData
         {
@@ -18,7 +17,7 @@ namespace MySeenWeb.Models
 
         public HomeViewModelFilms(string userId, int page, int countInPage, string search)
         {
-            ApplicationDbContext ac = new ApplicationDbContext();
+            var ac = new ApplicationDbContext();
 
             var routeValues = new Dictionary<string, object>();
             if (!string.IsNullOrEmpty(search))
@@ -30,7 +29,6 @@ namespace MySeenWeb.Models
                 ac.Films.Count(f => f.UserId == userId && f.isDeleted != true && (string.IsNullOrEmpty(search) || f.Name.Contains(search)))
                 , countInPage, "Home", "", routeValues);
 
-            RatinngGenre = new RatingGenreViewModel();
             Data = ac.Films.Where(f => f.UserId == userId && f.isDeleted != true && (string.IsNullOrEmpty(search) || f.Name.Contains(search)))
                 .OrderByDescending(f => f.DateSee)
                 .Select(FilmsView.Map)

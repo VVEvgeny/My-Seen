@@ -3,47 +3,33 @@
 @* ReSharper disable once RedundantUsingDirective *@
 @using MySeenWeb.Models.TablesViews
 
-@model HomeViewModelFilms
+@model HomeViewModelFilmsMin
 
 @Scripts.Render("~/bundles/datetimepicker")
 @Styles.Render("~/Content/datetimepicker.css")
 
-<br />
-@if (Model.HaveData)
-{
-    @Scripts.Render("~/bundles/myseen.table")
-    
+<br/>
+
+@Scripts.Render("~/bundles/myseen.table")
+
+<div class="data" style="display: none;">
     <table class="table table-striped" id="table">
         <thead>
-        <tr>
-            <th class="col-sm-1"></th>
-            <th class="col-sm-6">@Resource.Name</th>
-            <th class="col-sm-1">@Resource.Year</th>
-            <th class="col-sm-2">@Resource.Seen</th>
-            <th class="col-sm-1">@Resource.Genre</th>
-            <th class="col-sm-1">@Resource.Rating</th>
-        </tr>
-        </thead>
-        <tbody>
-
-        @foreach (var elem in Model.Data)
-        {
             <tr>
-                @Html.Partial("Parts/Parts/TableButtons", new TableButtons(elem.Id, elem.Shared))
-                <td class="align-left">@elem.Name</td>
-                <td class="align-center">@elem.YearText</td>
-                <td class="align-center">@elem.DateSee</td>
-                <td class="align-center">@elem.GenreText</td>
-                <td class="align-center">@elem.RatingText</td>
+                <th class="col-sm-1"></th>
+                <th class="col-sm-6">@Resource.Name</th>
+                <th class="col-sm-1">@Resource.Year</th>
+                <th class="col-sm-2">@Resource.Seen</th>
+                <th class="col-sm-1">@Resource.Genre</th>
+                <th class="col-sm-1">@Resource.Rating</th>
             </tr>
-        }
-        </tbody>
+        </thead>
+        <tbody class="table-data"></tbody>
     </table>
+    @Html.Partial("Parts/Tools/PaginationJson")
+</div>
 
-    <div class="text-center">
-        @Html.Partial("Parts/Tools/Pagination", Model.Pages)
-    </div>
-}
+@Html.Partial("Parts/Parts/JsonGetPage", "events")
 
 <div class="modal fade modal-window" tabindex="-2" role="dialog" aria-labelledby="mySmallModalLabel" id="ModalAddWindow">
     <div class="modal-dialog">
@@ -115,8 +101,43 @@
 @Html.Partial("Parts/Parts/ModalShare", "films")
 
 <script language="javascript" type="text/javascript">
+    
+    function showPage(data) {
+        var $divTableData = $('.table-data');
+
+        $divTableData.empty();
+
+        //console.log('showPage data=', data);
+        $.each(data.Data, function (i, item) {
+            //console.log("item=",item.Id);
+            $divTableData.append(
+                "<tr>" +
+                "<td class=\"align-center\"> " +
+                "  <button type=\"button\" class=\"btn btn-warning btn-edit btn-xs\" id=" + item.Id + ">" +
+                "    <span class=\"glyphicon glyphicon-pencil\"></span>" +
+                "  </button>" +
+                (item.Shared ? "<button class=\"btn btn-xs btn-info btn-share\" id=" + item.Id + "><span class=\"glyphicon glyphicon-share\"></span></button>" : "") +
+                "</td>" +
+                "<td class=\"align-center\">" + item.Name + "</td>" +
+                "<td class=\"align-center\">" + item.YearText + "</td>" +
+                "<td class=\"align-center\">" + item.DateSeeText + "</td>" +
+                "<td class=\"align-center\">" + item.GenreText + "</td>" +
+                "<td class=\"align-center\">" + item.RatingText + "</td>" +
+                "</tr>"
+            );
+        });
+        if (data.HaveData === true) {
+            var $divData = $('.data');
+            $divData.show();
+        }
+        window.showPagination(data.Pages);
+    }
+
     (function ($) {
         $(function () {
+
+            window.getPage(); //Запрос на сервер
+
             var $addButton = $('#addButton');
             var $submitAddButton = $('#submitAddButton');
             var $table = $('.table.table-striped');
@@ -148,7 +169,8 @@
                             alert(response.error);
                         }
                         else {
-                            window.location.href = window.location.href;
+                            //window.location.href = window.location.href;
+                            window.getPage(); //Запрос на сервер
                             $modal.modal('hide');
                         }
                     },
@@ -213,7 +235,8 @@
 
                 $shareGetInModalButton.off('click');
                 $shareGetInModalButton.on('click', function () {
-                    modalShareWork(id);
+                    window.modalShareWork(id);
+                    $modal.modal('hide');
                     return false;
                 });
 

@@ -1,4 +1,5 @@
-﻿using MySeenLib;
+﻿using System.Globalization;
+using MySeenLib;
 using MySeenWeb.Models.Tables;
 
 namespace MySeenWeb.Models.TablesViews
@@ -34,6 +35,11 @@ namespace MySeenWeb.Models.TablesViews
         public string YearText
         {
             get { return Year == 0 ? "" : Year.ToString(); }
+        }
+
+        public string DateSeeText
+        {
+            get { return DateSee.ToString(CultureInfo.CurrentCulture); }
         }
     }
 }
