@@ -1,17 +1,16 @@
 ﻿@using MySeenWeb.Models;
 @using MySeenWeb.Models.TablesViews
 
-@model HomeViewModelEvents
+@model IEnumerable<SelectListItem>
 
 @Scripts.Render("~/bundles/datetimepicker")
 @Styles.Render("~/Content/datetimepicker.css")
 
-<br />
+<br/>
 
-@if (Model.HaveData)
-{
-    @Scripts.Render("~/bundles/myseen.table")
-    
+@Scripts.Render("~/bundles/myseen.table")
+
+<div class="data" style="display: none;">
     <table class="table table-striped" id="table">
         <thead>
         <tr>
@@ -28,39 +27,15 @@
             <th class="col-sm-1">@Resource.Day</th>
         </tr>
         </thead>
-        <tbody>
-
-        @foreach (var elem in Model.Data)
-        {
-            <tr>
-                <td class="align-center">
-                    <button type="button" class="btn btn-warning btn-edit btn-xs" id=@elem.Id><span class="glyphicon glyphicon-pencil"></span></button>
-                    @if (elem.Shared)
-                    {
-                        <button class="btn btn-xs btn-info btn-share" id=@elem.Id><span class="glyphicon glyphicon-share"></span></button>
-                    }
-                </td>
-                <td class="align-center">@elem.Name</td>
-                <td class="align-center">@elem.EstimatedTo</td>
-                <td class="align-center">@elem.DateTo</td>
-                <td class="align-center">@elem.DayOfWeekTo</td>
-                <td style="display: none;">@elem.RepeatType</td>
-                <td style="display: none;">@elem.Date</td>
-                <td class="align-center">|</td>
-                <td class="align-center">@(elem.HaveHistory ? elem.EstimatedLast : "")</td>
-                <td class="align-center">@(elem.HaveHistory ? elem.DateLast.ToString() : "")</td>
-                <td class="align-center">@(elem.HaveHistory ? elem.DayOfWeekLast : "")</td>
-            </tr>
-        }
+        <tbody class="table-data">
         </tbody>
     </table>
+    @Html.Partial("Parts/Tools/PaginationJson")
+</div>
 
-    <div class="text-center">
-        @Html.Partial("Parts/Tools/Pagination", Model.Pages)
-    </div>
-}
+@Html.Partial("Parts/Parts/JsonGetPage", "events")
 
-<div class="modal fade modal-window" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" id="ModalAddWindow">
+    <div class="modal fade modal-window" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" id="ModalAddWindow">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
@@ -78,13 +53,13 @@
                     <div class="form-group">
                         <label for="datetimepicker" class="col-sm-2 control-label">@Resource.When</label>
                         <div class="col-sm-10">
-                            <input type="text" class="form-control" id="datetimepicker" placeholder="@DateTime.Now"/>
+                            <input type="text" class="form-control" id="datetimepicker" placeholder="@DateTime.Now" />
                         </div>
                     </div>
                     <div class="form-group">
                         <label class="col-sm-2 control-label">@Resource.Type</label>
                         <div class="col-sm-10">
-                            @Html.DropDownList("Type", Model.TypeList, new {@class = "form-control event-type", @id = "eventType"})
+                            @Html.DropDownList("Type", Model, new { @class = "form-control event-type", @id = "eventType" })
                         </div>
                     </div>
                 </div>
@@ -115,164 +90,202 @@
     </div>
 </div>
 
-@Html.Partial("Parts/Parts/ModalShare", "events")
+    @Html.Partial("Parts/Parts/ModalShare", "events")
 
 <script language="javascript" type="text/javascript">
-    (function ($) {
-        $(function () {
-            var $addButton = $('#addButton');
-            var $submitAddButton = $('#submitAddButton');
-            var $table = $('.table.table-striped');
-            var $modal = $('#ModalAddWindow');
-            var url = '';
-            var data = {};
-            var $datetimepicker = $('#datetimepicker');
-            $datetimepicker.datetimepicker({
-                //viewMode: 'years',
-                locale: '@CultureInfoTool.GetCulture()'
-            });
-            var $shareGetInModalButton = $('#shareGetInModalButton');
 
-            function sendRequest(innerUrl, innerData) {
-                $.ajax({
-                    type: 'POST',
-                    url: innerUrl,
-                    data: innerData,
-                    dataType: 'json',
-                    success: function (response) {
-                        if (response.error) {
-                            alert(response.error);
-                        }
-                        else {
-                            window.location.href = window.location.href;
-                            $modal.modal('hide');
-                        }
-                    },
-                    error: function (err) {
-                        alert(err);
-                    }
+        function showPage(data) {
+            var $divTableData = $('.table-data');
+
+            $divTableData.empty();
+
+            //console.log('showPage data=', data);
+            $.each(data.Data, function (i, item) {
+                //console.log("item=",item.Id);
+                $divTableData.append(
+                    "<tr>" +
+                    "<td class=\"align-center\"> " +
+                    "  <button type=\"button\" class=\"btn btn-warning btn-edit btn-xs\" id=" + item.Id + ">" +
+                    "    <span class=\"glyphicon glyphicon-pencil\"></span>" +
+                    "  </button>" +
+                    (item.Shared ? "<button class=\"btn btn-xs btn-info btn-share\" id=" + item.Id + "><span class=\"glyphicon glyphicon-share\"></span></button>" : "") +
+                    "</td>" +
+                    "<td class=\"align-center\">" + item.Name + "</td>" +
+                    "<td class=\"align-center\">" + item.EstimatedTo + "</td>" +
+                    "<td class=\"align-center\">" + item.DateToText + "</td>" +
+                    "<td class=\"align-center\">" + item.DayOfWeekTo + "</td>" +
+                    "<td style=\"display: none;\">" + item.RepeatType + "</td>" +
+                    "<td style=\"display: none;\">" + item.DateText + "</td>" +
+                    "<td class=\"align-center\">|</td>" +
+                    "<td class=\"align-center\">" + (item.HaveHistory ? item.EstimatedLast : "") + "</td>" +
+                    "<td class=\"align-center\">" + (item.HaveHistory ? item.DateLastText : "") + "</td>" +
+                    "<td class=\"align-center\">" + (item.HaveHistory ? item.DayOfWeekLast : "") + "</td>" +
+                    "</tr>"
+                );
+            });
+
+            window.showPagination(data.Pages);
+        }
+
+        (function ($) {
+            $(function () {
+
+                window.getPage();//Запрос на сервер
+
+                var $addButton = $('#addButton');
+                var $submitAddButton = $('#submitAddButton');
+                var $table = $('.table.table-striped');
+                var $modal = $('#ModalAddWindow');
+                var url = '';
+                var data = {};
+                var $datetimepicker = $('#datetimepicker');
+                $datetimepicker.datetimepicker({
+                    //viewMode: 'years',
+                    locale: '@CultureInfoTool.GetCulture()'
                 });
+                var $shareGetInModalButton = $('#shareGetInModalButton');
 
-                return false;
-            }
+                function sendRequest(innerUrl, innerData) {
+                    $.ajax({
+                        type: 'POST',
+                        url: innerUrl,
+                        data: innerData,
+                        dataType: 'json',
+                        success: function (response) {
+                            if (response.error) {
+                                alert(response.error);
+                            }
+                            else {
+                                //window.location.href = window.location.href;
+                                window.getPage();
+                                $modal.modal('hide');
+                            }
+                        },
+                        error: function (err) {
+                            alert(err);
+                        }
+                    });
+
+                    return false;
+                }
 
 
-            $addButton.off('click');
-            $addButton.on('click', function () {
-                $datetimepicker.val('@DateTime.Now');
-                $shareGetInModalButton.hide();
-                $modal.modal('show');
-                return false;
-            });
-
-            $submitAddButton.off('click');
-            $submitAddButton.on('click', function () {
-
-                url = '/Home/AddEvent';
-                data = {
-                    name: $('#eventName').val(),
-                    datetime: $('#datetimepicker').val(),
-                    type: $('#eventType').val()
-                };
-
-                sendRequest(url, data);
-
-                return false;
-            });
-
-            $table.off('click', '.btn-edit');
-            $table.on('click', '.btn-edit', function () {
-                $shareGetInModalButton.show();
-                var $button = $(this);
-                var $tr = $button.parent().parent();
-                var $tds = $tr.find('td');
-                var $modalTitle = $modal.find('.modal-title');
-                var $modalBody = $modal.find('.modal-body');
-                var $eventName = $modalBody.find('.event-name');
-                var $eventType = $modalBody.find('.event-type');
-
-                var $saveButton = $('#saveButton');
-                var $deleteButton = $('#deleteButton');
-                var defaultModalTitle = $modalTitle.text();
-
-                var id = $button.attr('id');
-
-                $shareGetInModalButton.off('click');
-                $shareGetInModalButton.on('click', function () {
-                    modalShareWork(id);
+                $addButton.off('click');
+                $addButton.on('click', function () {
+                    $datetimepicker.val('@DateTime.Now');
+                    $shareGetInModalButton.hide();
+                    $modal.modal('show');
                     return false;
                 });
 
-                var name = $tds.eq(1).text();
-                var date = $tds.eq(6).text();
-                var event = $tds.eq(5).text();
+                $submitAddButton.off('click');
+                $submitAddButton.on('click', function () {
 
-                $eventName.val(name);
-                $datetimepicker.val(date);
-
-
-                $eventType.find('option')
-                    .filter(function () {
-                        return $(this).val() === event;
-                    })
-                    .prop('selected', true);
-
-                $modalTitle.text('@Resource.Edit @Resource.Event');
-
-                $submitAddButton.hide();
-                $saveButton.show();
-                $deleteButton.show();
-                $modal.modal('show');
-
-                $modal.on('hidden.bs.modal', function () {
-                    $modalTitle.text(defaultModalTitle);
-                    $eventName.val('');
-
-                    $saveButton.hide();
-                    $deleteButton.hide();
-                    $submitAddButton.show();
-
-                    return false;
-                });
-
-                $saveButton.off('click');
-                $saveButton.on('click', function () {
-
-                    url = '/Home/EditEvent';
+                    url = '/Home/AddEvent';
                     data = {
-                        id: id,
                         name: $('#eventName').val(),
                         datetime: $('#datetimepicker').val(),
                         type: $('#eventType').val()
                     };
 
                     sendRequest(url, data);
+
                     return false;
                 });
 
-                $deleteButton.off('click');
-                $deleteButton.on('click', function () {
+                $table.off('click', '.btn-edit');
+                $table.on('click', '.btn-edit', function () {
+                    $shareGetInModalButton.show();
+                    var $button = $(this);
+                    var $tr = $button.parent().parent();
+                    var $tds = $tr.find('td');
+                    var $modalTitle = $modal.find('.modal-title');
+                    var $modalBody = $modal.find('.modal-body');
+                    var $eventName = $modalBody.find('.event-name');
+                    var $eventType = $modalBody.find('.event-type');
 
-                    url = '/Home/DeleteEvent';
-                    data = {
-                        id: id
-                    };
+                    var $saveButton = $('#saveButton');
+                    var $deleteButton = $('#deleteButton');
+                    var defaultModalTitle = $modalTitle.text();
 
-                    sendRequest(url, data);
+                    var id = $button.attr('id');
+
+                    $shareGetInModalButton.off('click');
+                    $shareGetInModalButton.on('click', function () {
+                        window.modalShareWork(id);
+                        return false;
+                    });
+
+                    var name = $tds.eq(1).text();
+                    var date = $tds.eq(6).text();
+                    var event = $tds.eq(5).text();
+
+                    $eventName.val(name);
+                    $datetimepicker.val(date);
+
+
+                    $eventType.find('option')
+                        .filter(function () {
+                            return $(this).val() === event;
+                        })
+                        .prop('selected', true);
+
+                    $modalTitle.text('@Resource.Edit @Resource.Event');
+
+                    $submitAddButton.hide();
+                    $saveButton.show();
+                    $deleteButton.show();
+                    $modal.modal('show');
+
+                    $modal.on('hidden.bs.modal', function () {
+                        $modalTitle.text(defaultModalTitle);
+                        $eventName.val('');
+
+                        $saveButton.hide();
+                        $deleteButton.hide();
+                        $submitAddButton.show();
+
+                        return false;
+                    });
+
+                    $saveButton.off('click');
+                    $saveButton.on('click', function () {
+
+                        url = '/Home/EditEvent';
+                        data = {
+                            id: id,
+                            name: $('#eventName').val(),
+                            datetime: $('#datetimepicker').val(),
+                            type: $('#eventType').val()
+                        };
+
+                        sendRequest(url, data);
+                        return false;
+                    });
+
+                    $deleteButton.off('click');
+                    $deleteButton.on('click', function () {
+
+                        url = '/Home/DeleteEvent';
+                        data = {
+                            id: id
+                        };
+
+                        sendRequest(url, data);
+                        return false;
+                    });
                     return false;
                 });
-                return false;
+
+                $table.off('click', '.btn-share');
+                $table.on('click', '.btn-share', function () {
+                    var $item = $(this);
+                    var id = $item.attr('id');
+                    window.modalShareWork(id);
+
+                    return false;
+                });
+
             });
-
-            $table.off('click', '.btn-share');
-            $table.on('click', '.btn-share', function () {
-                var $item = $(this);
-                var id = $item.attr('id');
-                modalShareWork(id);
-
-                return false;
-            });
-
-        });
-    })(jQuery);
-</script>
+        })(jQuery);
+    </script>

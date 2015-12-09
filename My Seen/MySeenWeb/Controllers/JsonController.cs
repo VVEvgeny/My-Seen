@@ -1,6 +1,9 @@
 ﻿using System.Web.Mvc;
 using Microsoft.AspNet.Identity;
+using MySeenLib;
+using MySeenWeb.Models;
 using MySeenWeb.Models.TablesLogic;
+using MySeenWeb.Models.Tools;
 
 namespace MySeenWeb.Controllers
 {
@@ -94,6 +97,20 @@ namespace MySeenWeb.Controllers
                 }
             }
             return Json("-");
+        }
+
+        [Authorize]
+        [HttpPost]
+        public JsonResult GetPage(int? page,string search)
+        {
+            //Восстановить  Rpp вместо 3х записей
+            if (ReadUserSideStorage(UserSideStorageKeys.HomeCategory, Defaults.CategoryBase.Indexes.Films) ==
+                Defaults.CategoryBase.Indexes.Events)
+            {
+                //Thread.Sleep(5000);
+                return Json(new HomeViewModelEvents(User.Identity.GetUserId(), page ?? 1, Rpp , search));
+            }
+            return Json("NOT REALIZED");
         }
     }
 }

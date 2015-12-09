@@ -58,8 +58,8 @@ namespace MySeenWeb.Models.Tools
 
 
             //если пропуск между страницами всего 1 которую заменили бы на "..." лучше покажу страничку...
-            int iPrev = -5;
-            List<int> addList = new List<int>();
+            var iPrev = -5;
+            var addList = new List<int>();
 
             listI.Sort();
             foreach (var i in listI)
@@ -72,8 +72,9 @@ namespace MySeenWeb.Models.Tools
             }
 
             listI.AddRange(addList);
-
             listI.Sort();
+            if (IsFirstPage && IsLastPage)listI.Clear();
+
             List = listI.Distinct();
         }
         public bool IsFirstPage { get; set; }

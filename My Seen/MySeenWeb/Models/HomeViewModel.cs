@@ -94,7 +94,7 @@ namespace MySeenWeb.Models
         public HomeViewModelLogs Logs;
         public HomeViewModelImprovements Improvements;
         public HomeViewModelAbout About;
-        public HomeViewModelEvents Events;
+        public HomeViewModelEventsMin Events;
 
         public string Search { get; set; }
 
@@ -110,7 +110,7 @@ namespace MySeenWeb.Models
                 else if (PageUsers) Users = new HomeViewModelUsers(page, countInPage);
                 else if (PageLogs) Logs = new HomeViewModelLogs(page, countInPage);
                 else if (PageImprovements) Improvements = new HomeViewModelImprovements(complex, page, countInPage);
-                else if (PageEvents) Events = new HomeViewModelEvents(userId, page, countInPage, search);
+                else if (PageEvents) Events = new HomeViewModelEventsMin();
                 else Films = new HomeViewModelFilms(userId, page, countInPage, search);
 
                 var listItems =

@@ -32,10 +32,11 @@
 
 @RenderSection("scripts", required: false)
 
-@Html.Partial("../Analytics/Yandex")
-
-@Html.Partial("../Analytics/Google")
-
+@if(!Admin.IsDebug)
+{
+    @Html.Partial("../Analytics/Yandex")
+    @Html.Partial("../Analytics/Google")
+}
 @Html.Partial("../Tools/TestCookie")
 
 </body>

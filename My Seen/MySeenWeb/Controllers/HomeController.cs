@@ -210,7 +210,7 @@ namespace MySeenWeb.Controllers
         {
             return Json(HomeViewModelTracks.GetTrack(id, User.Identity.GetUserId()), JsonRequestBehavior.AllowGet);
         }
-        [Authorize]
+        //[Authorize]
         public ActionResult GetTrackByKey(string id)
         {
             return Json(HomeViewModelTracks.GetTrackByKey(id, ReadUserSideStorage(UserSideStorageKeys.RoadsYear, 0)), JsonRequestBehavior.AllowGet);

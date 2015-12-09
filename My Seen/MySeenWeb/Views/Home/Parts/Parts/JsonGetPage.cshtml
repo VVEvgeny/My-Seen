@@ -1,0 +1,24 @@
+﻿@model string
+
+<div id="loadingData" style="display: none;" align="center">
+    <img src="~/Content/Images/loading_small.gif" />
+</div>
+
+<script language="javascript" type="text/javascript">
+    function getPage(data) {
+        var $divData = $('.data');
+        var $loadingData = $('#loadingData');
+        $divData.hide();
+        $loadingData.show();
+
+        $.post('/Json/GetPage/', data, function(jsonData) {
+            //console.log('GetEvents data=', jsonData);
+            $loadingData.hide();
+            //if (jsonData === '-') return;
+
+            window.showPage(jsonData);
+
+            $divData.show();
+        }, "json");
+    };
+</script>

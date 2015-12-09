@@ -67,7 +67,7 @@
     }
     else if (Model.PageEvents)
     {
-        @Html.Partial("Parts/Events", Model.Events)
+        @Html.Partial("Parts/Events", Model.Events.TypeList)
     }
     if (!Model.ExtPage)
     {
@@ -103,13 +103,16 @@
                     $search.off('click');
                     $search.on('click', function() {
 
-                        window.location.href = '/?search=' + $quickSearch.val();
-
+                        //window.location.href = '/?search=' + $quickSearch.val();
+                        var data = { search: $quickSearch.val() };
+                        window.getPage(data);
                     });
                     $quickSearch.on('keypress', function (event) {
                         if (event.which === 13) {
 
-                            window.location.href = '/?search=' + $quickSearch.val();
+                            //window.location.href = '/?search=' + $quickSearch.val();
+                            var data = { search:$quickSearch.val() };
+                            window.getPage(data);
                         }
                     });
 

@@ -44,6 +44,19 @@ namespace MySeenWeb.Models.TablesViews
             get { return GetTimeSpan(DateLast); }
         }
 
+        public string DateToText
+        {
+            get { return DateTo.ToString(); }
+        }
+        public string DateText
+        {
+            get { return Date.ToString(); }
+        }
+        public string DateLastText
+        {
+            get { return DateLast.ToString(); }
+        }
+
         private static string GetTimeSpan(DateTime date)
         {
             var ts = date - DateTime.Now;

@@ -294,6 +294,7 @@
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
+    <Compile Include="Models\HomeViewModelEventsMin.cs" />
     <Compile Include="Models\HomeViewModelEvents.cs" />
     <Compile Include="Models\HomeViewModelAbout.cs" />
     <Compile Include="Models\HomeViewModelTrackEditor.cs" />
@@ -604,6 +605,8 @@
     <Content Include="Views\Analytics\Google.cshtml" />
     <Content Include="Views\Analytics\Yandex.cshtml" />
     <Content Include="Views\Tools\TestCookie.cshtml" />
+    <Content Include="Views\Home\Parts\Parts\JsonGetPage.cshtml" />
+    <Content Include="Views\Home\Parts\Tools\PaginationJson.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

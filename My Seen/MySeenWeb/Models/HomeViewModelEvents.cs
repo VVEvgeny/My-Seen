@@ -12,11 +12,11 @@ namespace MySeenWeb.Models
     {
         public IEnumerable<EventsView> Data { get; set; }
         public PaginationViewModel Pages { get; set; }
+
         public bool HaveData
         {
             get { return Data.Any(); }
         }
-        public IEnumerable<SelectListItem> TypeList { get; set; }
 
         public HomeViewModelEvents(string userId, int page, int countInPage, string search)
         {
@@ -27,8 +27,6 @@ namespace MySeenWeb.Models
             }
 
             var ac = new ApplicationDbContext();
-            var listItems = Defaults.EventTypes.GetAll().Select(sel => new SelectListItem { Text = sel, Value = Defaults.EventTypes.GetId(sel).ToString(), Selected = Defaults.EventTypes.GetId(sel) == Defaults.EventsTypesBase.Indexes.OneTime }).ToList();
-            TypeList = listItems;
 
             //пока не знаю как 2 условие, причем 1 из них не по пол. таблицы а высчитываемое на основании двух других завернуть в Count
             var data =

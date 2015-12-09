@@ -9,16 +9,28 @@ namespace MySeenLib
     public static class Versions
     {
         //Строка с версией библиотеки в ресурсах LibVersionNum
-        public static int Web = 7;
+        public static int Web = 8;
         public static int Android = 1;
         public static int AndroidLib = 1;
         public static int Pc = 1;
     }
+
     public static class Admin
     {
         public static bool IsAdmin(string userName)
         {
             return userName.ToLower() == "vvevgeny@gmail.com";
+        }
+        public static bool IsDebug
+        {
+            get
+            {
+                #if DEBUG
+                    return true;
+                #else
+                    return false;
+                #endif
+            }
         }
     }
     public static class UmtTime

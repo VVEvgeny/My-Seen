@@ -3,7 +3,7 @@
 @if (!(Model.IsFirstPage && Model.IsLastPage))
 {
     <ul class="pagination pagination-sm">
-        @{int last = 0;}
+        @{var last = 0;}
         @if (Model.IsFirstPage)
         {
             <li class="disabled"><a href="#">←</a></li>
@@ -13,7 +13,7 @@
             var routes = new RouteValueDictionary(Model.RouteValues) {{"page", (Model.CurentPage - 1).ToString()}};
             <li>@Html.ActionLink("←", Model.Page, Model.Controller, routeValues: new RouteValueDictionary(routes), htmlAttributes: new Dictionary<string, object>())</li>
         }
-        @foreach (int i in Model.List)
+        @foreach (var i in Model.List)
         {
             if ((last + 1) != i)
             {
