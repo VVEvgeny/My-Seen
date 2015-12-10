@@ -12,12 +12,12 @@ namespace MySeenWeb.Models
         {
             if (model == null) return new UsersView();
 
-            ApplicationDbContext ap = new ApplicationDbContext();
+            var ap = new ApplicationDbContext();
 
             return new UsersView
             {
                 Name = model.UserName.Remove(model.UserName.IndexOf('@')),
-                RegiserDate = model.RegisterDate.ToShortDateString(),
+                RegisterDate = model.RegisterDate.ToShortDateString(),
                 //Culture = model.Culture,
                 Culture = (model.Culture == CultureInfoTool.Cultures.English ?
                         Defaults.Languages.GetById(Defaults.LanguagesBase.Indexes.English) : Defaults.Languages.GetById(Defaults.LanguagesBase.Indexes.Russian)
@@ -30,13 +30,19 @@ namespace MySeenWeb.Models
             };
         }
 
-        public IEnumerable<UsersView> Users;
+        public IEnumerable<UsersView> Data;
         public PaginationViewModel Pages { get; set; }
+
+        public bool HaveData
+        {
+            get { return Data.Any(); }
+        }
+
         public HomeViewModelUsers(int page, int countInPage)
         {
             var ac = new ApplicationDbContext();
             Pages = new PaginationViewModel(page, ac.Users.Count(), countInPage, "Home", "");
-            Users = ac.Users.Select(Map).OrderBy(l => l.RegiserDate).Skip((Pages.CurentPage - 1) * countInPage).Take(countInPage);
+            Data = ac.Users.Select(Map).OrderBy(l => l.RegisterDate).Skip((Pages.CurentPage - 1) * countInPage).Take(countInPage);
         }
     }
 }

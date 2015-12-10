@@ -1,45 +1,71 @@
-﻿@using MySeenWeb.Models;
-@using MySeenWeb.Models.TablesViews
-
-@model HomeViewModelUsers
-
-@Scripts.Render("~/bundles/jquery", "~/bundles/bootstrap", "~/bundles/myseen.table")
+﻿@Scripts.Render("~/bundles/jquery", "~/bundles/bootstrap", "~/bundles/myseen.table")
+@Scripts.Render("~/bundles/knockout")
 
 @{
     ViewBag.Title = Resource.Users;
 }
-<br />
-<table class="table table-striped" id="table">
-    <thead>
-        <tr>
-            <th class="col-sm-5">@Resource.UserName</th>
-            <th class="col-sm-1">@Resource.RegisterDate</th>
-            <th class="col-sm-1">@Resource.CultureName</th>
-            <th class="col-sm-1">@Resource.FilmsCount</th>
-            <th class="col-sm-1">@Resource.SerialsCount</th>
-            <th class="col-sm-1">@Resource.BooksCount</th>
-            <th class="col-sm-1">@Resource.TracksCount</th>
-            <th class="col-sm-1">@Resource.EventsCount</th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var user in Model.Users)
-        {
-            <tr>
-                <td class="align-center">@user.Name</td>
-                <td class="align-center">@user.RegiserDate</td>
-                <td class="align-center">@user.Culture</td>
-                <td class="align-center">@user.FilmsCount</td>
-                <td class="align-center">@user.SerialsCount</td>
-                <td class="align-center">@user.BooksCount</td>
-                <td class="align-center">@user.TracksCount</td>
-                <td class="align-center">@user.EventsCount</td>
-            </tr>
-        }
-    </tbody>
-</table>
+<br/>
 
-<div class="text-center">
-    @Html.Partial("Parts/Tools/Pagination", Model.Pages)
+<div class="data" data-bind="visible: users().length > 0">
+    <table class="table table-striped" id="table">
+        <thead>
+            <tr>
+                <th class="col-sm-5">@Resource.UserName</th>
+                <th class="col-sm-1">@Resource.RegisterDate</th>
+                <th class="col-sm-1">@Resource.CultureName</th>
+                <th class="col-sm-1">@Resource.FilmsCount</th>
+                <th class="col-sm-1">@Resource.SerialsCount</th>
+                <th class="col-sm-1">@Resource.BooksCount</th>
+                <th class="col-sm-1">@Resource.TracksCount</th>
+                <th class="col-sm-1">@Resource.EventsCount</th>
+            </tr>
+        </thead>
+        <tbody data-bind="foreach: users">
+            <tr>
+                <td class="align-center" data-bind="text: name"></td>
+                <td class="align-center" data-bind="text: registerDate"></td>
+                <td class="align-center" data-bind="text: culture"></td>
+                <td class="align-center" data-bind="text: filmsCount"></td>
+                <td class="align-center" data-bind="text: serialsCount"></td>
+                <td class="align-center" data-bind="text: booksCount"></td>
+                <td class="align-center" data-bind="text: tracksCount"></td>
+                <td class="align-center" data-bind="text: eventsCount"></td>
+            </tr>
+        </tbody>
+    </table>
 </div>
 
+<script language="javascript" type="text/javascript">
+    
+    function User(data) {
+
+        this.name = ko.observable(data.Name);
+        this.registerDate = ko.observable(data.RegisterDate);
+        this.culture = ko.observable(data.Culture);
+        this.filmsCount = ko.observable(data.FilmsCount);
+        this.serialsCount = ko.observable(data.SerialsCount);
+        this.booksCount = ko.observable(data.BooksCount);
+        this.tracksCount = ko.observable(data.TracksCount);
+        this.eventsCount = ko.observable(data.EventsCount);
+    }
+
+    function UsersViewModel() {
+
+        var self = this;
+        self.users = ko.observableArray([]);
+
+        var data = {};//Тут страница и поиск, если будут
+        $.post('/Json/GetPage/', data, function (jsonData) {
+            var mapped = $.map(jsonData.Data, function (item) { return new User(item) });
+            self.users(mapped);
+        }, "json");
+    }
+
+    (function ($) {
+        $(function () {
+
+            ko.applyBindings(new UsersViewModel());
+
+        });
+    })(jQuery);
+</script>

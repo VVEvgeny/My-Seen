@@ -129,6 +129,12 @@ namespace MySeenWeb.Controllers
                 //Thread.Sleep(2000);
                 return Json(new HomeViewModelFilms(User.Identity.GetUserId(), page ?? 1, Rpp, search));
             }
+            else if (ReadUserSideStorage(UserSideStorageKeys.HomeCategory, Defaults.CategoryBase.Indexes.Films) ==
+                 Defaults.CategoryBase.IndexesExt.Users)
+            {
+                Thread.Sleep(2000);
+                return Json(new HomeViewModelUsers(page ?? 1, Rpp));
+            }
             return Json("NOT REALIZED");
         }
     }

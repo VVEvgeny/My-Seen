@@ -9,17 +9,6 @@ namespace MySeenWeb.Models
     {
         public string Selected { get; set; }
 
-        public enum CategoryExt
-        {
-            Users = 101,
-            Logs = 102,
-            Improvements = 103
-        }
-        public static bool IsCategoryExt(int category)
-        {
-            return category == (int)CategoryExt.Users || category == (int)CategoryExt.Logs || category == (int)CategoryExt.Improvements;
-        }
-
         public bool ExtPage
         {
             get
@@ -60,21 +49,21 @@ namespace MySeenWeb.Models
         {
             get
             {
-                return Selected == ((int)CategoryExt.Users).ToString();
+                return Selected == Defaults.CategoryBase.IndexesExt.Users.ToString();
             }
         }
         public bool PageLogs
         {
             get
             {
-                return Selected == ((int)CategoryExt.Logs).ToString();
+                return Selected == Defaults.CategoryBase.IndexesExt.Logs.ToString();
             }
         }
         public bool PageImprovements
         {
             get
             {
-                return Selected == ((int)CategoryExt.Improvements).ToString();
+                return Selected == Defaults.CategoryBase.IndexesExt.Improvements.ToString();
             }
         }
         public bool PageEvents
@@ -90,7 +79,6 @@ namespace MySeenWeb.Models
         public HomeViewModelSerialsMin Serials;
         public HomeViewModelBooksMin Books;
         public HomeViewModelTracks Tracks;
-        public HomeViewModelUsers Users;
         public HomeViewModelLogs Logs;
         public HomeViewModelImprovements Improvements;
         public HomeViewModelAbout About;
@@ -107,7 +95,7 @@ namespace MySeenWeb.Models
                 if (PageSerials) Serials = new HomeViewModelSerialsMin();
                 else if (PageBooks) Books = new HomeViewModelBooksMin();
                 else if (PageTracks) Tracks = new HomeViewModelTracks(userId, markersOnRoads, roadsYear);
-                else if (PageUsers) Users = new HomeViewModelUsers(page, countInPage);
+                else if (PageUsers) { }
                 else if (PageLogs) Logs = new HomeViewModelLogs(page, countInPage);
                 else if (PageImprovements) Improvements = new HomeViewModelImprovements(complex, page, countInPage);
                 else if (PageEvents) Events = new HomeViewModelEventsMin();

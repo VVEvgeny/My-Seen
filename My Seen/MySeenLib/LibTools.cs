@@ -314,6 +314,17 @@ namespace MySeenLib
                 public static int Events = 4;
             }
 
+            public static class IndexesExt
+            {
+                public static int Users = 101;
+                public static int Logs = 102;
+                public static int Improvements = 103;
+            }
+            public static bool IsCategoryExt(int category)
+            {
+                return category == IndexesExt.Users || category == IndexesExt.Logs || category == IndexesExt.Improvements;
+            }
+
             public override void Load()
             {
                 if (All == null)

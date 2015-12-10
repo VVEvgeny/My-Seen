@@ -1,0 +1,66 @@
+﻿@Scripts.Render("~/bundles/jquery", "~/bundles/bootstrap", "~/bundles/myseen.table")
+
+@{
+    ViewBag.Title = Resource.Users;
+}
+<br/>
+
+<div class="data" style="display: none;">
+    <table class="table table-striped" id="table">
+        <thead>
+            <tr>
+                <th class="col-sm-5">@Resource.UserName</th>
+                <th class="col-sm-1">@Resource.RegisterDate</th>
+                <th class="col-sm-1">@Resource.CultureName</th>
+                <th class="col-sm-1">@Resource.FilmsCount</th>
+                <th class="col-sm-1">@Resource.SerialsCount</th>
+                <th class="col-sm-1">@Resource.BooksCount</th>
+                <th class="col-sm-1">@Resource.TracksCount</th>
+                <th class="col-sm-1">@Resource.EventsCount</th>
+            </tr>
+        </thead>
+        <tbody class="table-data"></tbody>
+    </table>
+    @Html.Partial("Parts/Tools/PaginationJson")
+</div>
+
+@Html.Partial("Parts/Parts/JsonGetPage", "events")
+
+<script language="javascript" type="text/javascript">
+
+    function showPage(data) {
+
+        var $divTableData = $('.table-data');
+        $divTableData.empty();
+
+        //console.log('showPage data=', data);
+        $.each(data.Data, function (i, item) {
+            //console.log("item=", item.Name);
+            $divTableData.append(
+                "<tr>" +
+                "<td class=\"align-center\">" + item.Name + "</td>" +
+                "<td class=\"align-center\">" + item.RegisterDate + "</td>" +
+                "<td class=\"align-center\">" + item.Culture + "</td>" +
+                "<td class=\"align-center\">" + item.FilmsCount + "</td>" +
+                "<td class=\"align-center\">" + item.SerialsCount + "</td>" +
+                "<td class=\"align-center\">" + item.BooksCount + "</td>" +
+                "<td class=\"align-center\">" + item.TracksCount + "</td>" +
+                "<td class=\"align-center\">" + item.EventsCount + "</td>" +
+                "</tr>"
+            );
+        });
+        if (data.HaveData === true) {
+            var $divData = $('.data');
+            $divData.show();
+        }
+        window.showPagination(data.Pages);
+    }
+
+    (function ($) {
+        $(function () {
+
+            window.getPage(); //Запрос на сервер
+
+        });
+    })(jQuery);
+</script>

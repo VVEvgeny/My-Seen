@@ -60,6 +60,10 @@ namespace MySeenWeb
             bundles.Add(new StyleBundle("~/Content/css.gmap3menu").Include(
                        "~/Content/myseen/gmap3-menu.css"));
 
+            bundles.Add(new ScriptBundle("~/bundles/knockout").Include(
+                       "~/Scripts/knockout-{version}.js"
+           ));
+
         }
     }
 }

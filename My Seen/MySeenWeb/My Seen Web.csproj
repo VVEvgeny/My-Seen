@@ -527,6 +527,8 @@
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="Scripts\gmap3.js" />
     <Content Include="Scripts\gmap3.min.js" />
+    <Content Include="Scripts\knockout-3.4.0.debug.js" />
+    <Content Include="Scripts\knockout-3.4.0.js" />
     <Content Include="Scripts\moment-with-locales.js" />
     <Content Include="Scripts\moment-with-locales.min.js" />
     <Content Include="Scripts\moment.js" />
@@ -610,6 +612,7 @@
     <Content Include="Views\Tools\TestCookie.cshtml" />
     <Content Include="Views\Home\Parts\Parts\JsonGetPage.cshtml" />
     <Content Include="Views\Home\Parts\Tools\PaginationJson.cshtml" />
+    <Content Include="Views\Home\Parts\Ext\Users - Copy.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

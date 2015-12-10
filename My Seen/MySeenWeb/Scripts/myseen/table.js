@@ -10,15 +10,17 @@
         var $thead = $table.find('thead');
         var $ths = $thead.find('tr th');
         var offsetTop = $thead.offset().top;
-        var thWidths = [];
-
-        $ths.each(function (index, element) {
-            var $th = $(element);
-
-            thWidths.push($th.width());
-        });
 
         $(window).on('scroll', function () {
+
+            var thWidths = [];
+
+            $ths.each(function (index, element) {
+                var $th = $(element);
+
+                thWidths.push($th.width());
+            });
+
             var scrollTop = $(window).scrollTop() + 50;
 
             if (scrollTop >= offsetTop) {

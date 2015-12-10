@@ -284,28 +284,28 @@ namespace MySeenWeb.Controllers
         [Authorize]
         public ActionResult Logs()
         {
-            if (!HomeViewModel.IsCategoryExt(ReadUserSideStorage(UserSideStorageKeys.HomeCategory, Defaults.CategoryBase.Indexes.Films)))
+            if (!Defaults.CategoryBase.IsCategoryExt(ReadUserSideStorage(UserSideStorageKeys.HomeCategory, Defaults.CategoryBase.Indexes.Films)))
                 WriteUserSideStorage(UserSideStorageKeys.HomeCategoryPrev, ReadUserSideStorage(UserSideStorageKeys.HomeCategory, Defaults.CategoryBase.Indexes.Films));
-            WriteUserSideStorage(UserSideStorageKeys.HomeCategory, (int)HomeViewModel.CategoryExt.Logs);
+            WriteUserSideStorage(UserSideStorageKeys.HomeCategory, Defaults.CategoryBase.IndexesExt.Logs);
             return RedirectToAction("Index");
         }
         [BrowserActionFilter]
         [Authorize]
         public ActionResult Users()
         {
-            if (!HomeViewModel.IsCategoryExt(ReadUserSideStorage(UserSideStorageKeys.HomeCategory, Defaults.CategoryBase.Indexes.Films)))
+            if (!Defaults.CategoryBase.IsCategoryExt(ReadUserSideStorage(UserSideStorageKeys.HomeCategory, Defaults.CategoryBase.Indexes.Films)))
                 WriteUserSideStorage(UserSideStorageKeys.HomeCategoryPrev, ReadUserSideStorage(UserSideStorageKeys.HomeCategory, Defaults.CategoryBase.Indexes.Films));
 
-            WriteUserSideStorage(UserSideStorageKeys.HomeCategory, (int)HomeViewModel.CategoryExt.Users);
+            WriteUserSideStorage(UserSideStorageKeys.HomeCategory, Defaults.CategoryBase.IndexesExt.Users);
             return RedirectToAction("Index");
         }
         [BrowserActionFilter]
         [Authorize]
         public ActionResult Improvements()
         {
-            if (!HomeViewModel.IsCategoryExt(ReadUserSideStorage(UserSideStorageKeys.HomeCategory, Defaults.CategoryBase.Indexes.Films)))
+            if (!Defaults.CategoryBase.IsCategoryExt(ReadUserSideStorage(UserSideStorageKeys.HomeCategory, Defaults.CategoryBase.Indexes.Films)))
                 WriteUserSideStorage(UserSideStorageKeys.HomeCategoryPrev, ReadUserSideStorage(UserSideStorageKeys.HomeCategory, Defaults.CategoryBase.Indexes.Films));
-            WriteUserSideStorage(UserSideStorageKeys.HomeCategory, (int)HomeViewModel.CategoryExt.Improvements);
+            WriteUserSideStorage(UserSideStorageKeys.HomeCategory, Defaults.CategoryBase.IndexesExt.Improvements);
             return RedirectToAction("Index");
         }
         [BrowserActionFilter]

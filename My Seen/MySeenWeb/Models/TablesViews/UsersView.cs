@@ -9,6 +9,6 @@ namespace MySeenWeb.Models.TablesViews
         public int BooksCount { get; set; }
         public int TracksCount { get; set; }
         public int EventsCount { get; set; }
-        public string RegiserDate { get; set; }
+        public string RegisterDate { get; set; }
     }
 }
