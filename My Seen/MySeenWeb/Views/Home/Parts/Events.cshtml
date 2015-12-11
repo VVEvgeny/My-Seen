@@ -1,39 +1,62 @@
 ﻿@using MySeenWeb.Models;
-@using MySeenWeb.Models.TablesViews
 
 @model HomeViewModelEventsMin
 
 @Scripts.Render("~/bundles/datetimepicker")
 @Styles.Render("~/Content/datetimepicker.css")
+@Scripts.Render("~/bundles/myseen.table")
+@Scripts.Render("~/bundles/knockout")
 
 <br/>
 
-@Scripts.Render("~/bundles/myseen.table")
-
-<div class="data" style="display: none;">
-    <table class="table table-striped" id="table">
-        <thead>
-        <tr>
-            <th class="col-sm-1"></th>
-            <th class="col-sm-2">@Resource.Event</th>
-            <th class="col-sm-2">@Resource.To</th>
-            <th class="col-sm-2">@Resource.When</th>
-            <th class="col-sm-1">@Resource.Day</th>
-            <th style="display: none;"></th>
-            <th style="display: none;"></th>
-            <th>|</th>
-            <th class="col-sm-2">@Resource.Last</th>
-            <th class="col-sm-2">@Resource.When</th>
-            <th class="col-sm-1">@Resource.Day</th>
-        </tr>
-        </thead>
-        <tbody class="table-data">
-        </tbody>
-    </table>
-    @Html.Partial("Parts/Tools/PaginationJson")
+<div data-bind="visible: events().length < 1 " align="center">
+    <img src="~/Content/Images/loading_small.gif" />
 </div>
 
-@Html.Partial("Parts/Parts/JsonGetPage", "events")
+<div data-bind="visible: events().length > 0">
+    <table class="table table-striped" id="table">
+        <thead>
+            <tr>
+                <th class="col-sm-1"></th>
+                <th class="col-sm-2">@Resource.Event</th>
+                <th class="col-sm-2">@Resource.To</th>
+                <th class="col-sm-2">@Resource.When</th>
+                <th class="col-sm-1">@Resource.Day</th>
+                <th style="display: none;"></th>
+                <th style="display: none;"></th>
+                <th>|</th>
+                <th class="col-sm-2">@Resource.Last</th>
+                <th class="col-sm-2">@Resource.When</th>
+                <th class="col-sm-1">@Resource.Day</th>
+            </tr>
+        </thead>
+        <tbody data-bind="foreach: events">
+            <tr>
+                <td class="align-center">
+                    <button type="button" class="btn btn-warning btn-edit btn-xs" data-bind="attr: {id: id}"> <span class=" glyphicon glyphicon-pencil"></span></button>
+                    <button class="btn btn-xs btn-info btn-share" data-bind=" visible: shared, attr: {id: id}"><span class="glyphicon glyphicon-share"></span></button>
+                </td>
+                <td class="align-center" data-bind="text: name"></td>
+                <td class="align-center" data-bind="text: estimatedTo"></td>
+                <td class="align-center" data-bind="text: dateTo"></td>
+                <td class="align-center" data-bind="text: dayOfWeekTo"></td>
+                <td style="display: none;" data-bind="text: repeatType"></td>
+                <td style="display: none;" data-bind="text: date"></td>
+                <td class="align-center">|</td>
+                <!-- ko if: haveHistory -->
+                <td class="align-center" data-bind="text: estimatedLast"></td>
+                <td class="align-center" data-bind="text: estimatedLast"></td>
+                <td class="align-center" data-bind="text: dayOfWeekLast"></td>
+                <!-- /ko -->
+            </tr>
+        </tbody>
+    </table>
+
+    @Html.Partial("Parts/Tools/PaginationKO")
+
+</div>
+
+@Html.Partial("Parts/Parts/JsonGetPage")
 
 <div class="modal fade modal-window" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" id="ModalAddWindow">
     <div class="modal-dialog">
@@ -94,44 +117,52 @@
 
 <script language="javascript" type="text/javascript">
 
+    function Event(data) {
+
+        this.id = ko.observable(data.Id);
+        this.shared = ko.observable(data.Shared);
+        this.name = ko.observable(data.Name);
+        this.estimatedTo = ko.observable(data.EstimatedTo);
+        this.dateTo = ko.observable(data.DateToText);
+        this.dayOfWeekTo = ko.observable(data.DayOfWeekTo);
+        this.repeatType = ko.observable(data.RepeatType);
+        this.date = ko.observable(data.DateText);
+        this.haveHistory = ko.observable(data.HaveHistory);
+        this.estimatedLast = ko.observable(data.EstimatedLast);
+        this.dateLast = ko.observable(data.DateLastText);
+        this.dayOfWeekLast = ko.observable(data.DayOfWeekLast);
+    }
+
+    function EventsViewModel() {
+
+        var self = this;
+        self.events = ko.observableArray([]);
+
+        self.loadData = function (data) {
+
+            var mapped = $.map(data.Data, function (item) { return new Event(item) });
+            self.events(mapped);
+
+            window.showPagination(data.Pages);
+        };
+
+        self.resetData = function () {
+            self.events.removeAll();
+        };
+    }
+
+    var model;
+
     function showPage(data) {
-        var $divTableData = $('.table-data');
 
-        $divTableData.empty();
-
-        //console.log('showPage data=', data);
-        $.each(data.Data, function(i, item) {
-            //console.log("item=",item.Id);
-            $divTableData.append(
-                "<tr>" +
-                "<td class=\"align-center\"> " +
-                "  <button type=\"button\" class=\"btn btn-warning btn-edit btn-xs\" id=" + item.Id + ">" +
-                "    <span class=\"glyphicon glyphicon-pencil\"></span>" +
-                "  </button>" +
-                (item.Shared ? "<button class=\"btn btn-xs btn-info btn-share\" id=" + item.Id + "><span class=\"glyphicon glyphicon-share\"></span></button>" : "") +
-                "</td>" +
-                "<td class=\"align-center\">" + item.Name + "</td>" +
-                "<td class=\"align-center\">" + item.EstimatedTo + "</td>" +
-                "<td class=\"align-center\">" + item.DateToText + "</td>" +
-                "<td class=\"align-center\">" + item.DayOfWeekTo + "</td>" +
-                "<td style=\"display: none;\">" + item.RepeatType + "</td>" +
-                "<td style=\"display: none;\">" + item.DateText + "</td>" +
-                "<td class=\"align-center\">|</td>" +
-                "<td class=\"align-center\">" + (item.HaveHistory ? item.EstimatedLast : "") + "</td>" +
-                "<td class=\"align-center\">" + (item.HaveHistory ? item.DateLastText : "") + "</td>" +
-                "<td class=\"align-center\">" + (item.HaveHistory ? item.DayOfWeekLast : "") + "</td>" +
-                "</tr>"
-            );
-        });
-        if (data.HaveData === true) {
-            var $divData = $('.data');
-            $divData.show();
-        }
-        window.showPagination(data.Pages);
+        model.loadData(data);
     }
 
     (function($) {
         $(function() {
+
+            model = new EventsViewModel();
+            ko.applyBindings(model);
 
             window.getPage(); //Запрос на сервер
 
@@ -159,7 +190,9 @@
                             alert(response.error);
                         } else {
                             //window.location.href = window.location.href;
-                            window.getPage();
+                            var data = { page: $('#pagination-curent-page').val(), search: $('#quickSearch').val() };
+                            window.getPage(data); //Запрос на сервер
+
                             $modal.modal('hide');
                         }
                     },

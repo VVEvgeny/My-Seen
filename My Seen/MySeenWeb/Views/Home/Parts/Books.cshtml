@@ -1,35 +1,52 @@
 ﻿@using MySeenWeb.Models;
-@* ReSharper disable once RedundantUsingDirective *@
-@using MySeenWeb.Models.TablesViews
 
 @model HomeViewModelBooksMin
 
 @Scripts.Render("~/bundles/datetimepicker")
 @Styles.Render("~/Content/datetimepicker.css")
+@Scripts.Render("~/bundles/myseen.table")
+@Scripts.Render("~/bundles/knockout")
 
 <br />
 
-@Scripts.Render("~/bundles/myseen.table")
-
-<div class="data" style="display: none;">
-    <table class="table table-striped" id="table">
-        <thead>
-            <tr>
-                <th class="col-sm-1"></th>
-                <th class="col-sm-4">@Resource.Name</th>
-                <th class="col-sm-1">@Resource.Year</th>
-                <th class="col-sm-2">@Resource.Author</th>
-                <th class="col-sm-2">@Resource.DateRead</th>
-                <th class="col-sm-1">@Resource.Genre</th>
-                <th class="col-sm-1">@Resource.Rating</th>
-            </tr>
-        </thead>
-        <tbody class="table-data"></tbody>
-    </table>
-    @Html.Partial("Parts/Tools/PaginationJson")
+<div data-bind="visible: books().length < 1 " align="center">
+    <img src="~/Content/Images/loading_small.gif" />
 </div>
 
-@Html.Partial("Parts/Parts/JsonGetPage", "events")
+<div data-bind="visible: books().length > 0">
+    <table class="table table-striped" id="table">
+        <thead>
+        <tr>
+            <th class="col-sm-1"></th>
+            <th class="col-sm-4">@Resource.Name</th>
+            <th class="col-sm-1">@Resource.Year</th>
+            <th class="col-sm-2">@Resource.Author</th>
+            <th class="col-sm-2">@Resource.DateRead</th>
+            <th class="col-sm-1">@Resource.Genre</th>
+            <th class="col-sm-1">@Resource.Rating</th>
+        </tr>
+        </thead>
+        <tbody data-bind="foreach: books">
+        <tr>
+            <td class="align-center">
+                <button type="button" class="btn btn-warning btn-edit btn-xs" data-bind="attr: {id: id}"> <span class=" glyphicon glyphicon-pencil"></span></button>
+                <button class="btn btn-xs btn-info btn-share" data-bind=" visible: shared, attr: {id: id}"><span class="glyphicon glyphicon-share"></span></button>
+            </td>
+            <td class="align-center" data-bind="text: name"></td>
+            <td class="align-center" data-bind="text: year"></td>
+            <td class="align-center" data-bind="text: authors"></td>
+            <td class="align-center" data-bind="text: dateRead"></td>
+            <td class="align-center" data-bind="text: genre"></td>
+            <td class="align-center" data-bind="text: rating"></td>
+        </tr>
+        </tbody>
+    </table>
+
+    @Html.Partial("Parts/Tools/PaginationKO")
+
+</div>
+
+@Html.Partial("Parts/Parts/JsonGetPage")
 
 <div class="modal fade modal-window" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" id="ModalAddWindow">
     <div class="modal-dialog">
@@ -108,40 +125,48 @@
 
 <script language="javascript" type="text/javascript">
     
+    function Book(data) {
+
+        this.id = ko.observable(data.Id);
+        this.shared = ko.observable(data.Shared);
+        this.name = ko.observable(data.Name);
+        this.year = ko.observable(data.YearText);
+        this.authors = ko.observable(data.Authors);
+        this.dateRead = ko.observable(data.DateReadText);
+        this.genre = ko.observable(data.GenreText);
+        this.rating = ko.observable(data.RatingText);
+    }
+
+    function BooksViewModel() {
+
+        var self = this;
+        self.books = ko.observableArray([]);
+
+        self.loadData = function (data) {
+
+            var mapped = $.map(data.Data, function (item) { return new Book(item) });
+            self.books(mapped);
+
+            window.showPagination(data.Pages);
+        };
+
+        self.resetData = function () {
+            self.books.removeAll();
+        };
+    }
+
+    var model;
+
     function showPage(data) {
-        var $divTableData = $('.table-data');
 
-        $divTableData.empty();
-
-        //console.log('showPage data=', data);
-        $.each(data.Data, function (i, item) {
-            //console.log("item=",item.Id);
-            $divTableData.append(
-                "<tr>" +
-                "<td class=\"align-center\"> " +
-                "  <button type=\"button\" class=\"btn btn-warning btn-edit btn-xs\" id=" + item.Id + ">" +
-                "    <span class=\"glyphicon glyphicon-pencil\"></span>" +
-                "  </button>" +
-                (item.Shared ? "<button class=\"btn btn-xs btn-info btn-share\" id=" + item.Id + "><span class=\"glyphicon glyphicon-share\"></span></button>" : "") +
-                "</td>" +
-                "<td class=\"align-center\">" + item.Name + "</td>" +
-                "<td class=\"align-center\">" + item.YearText + "</td>" +
-                "<td class=\"align-center\">" + item.Authors + "</td>" +
-                "<td class=\"align-center\">" + item.DateReadText + "</td>" +
-                "<td class=\"align-center\">" + item.GenreText + "</td>" +
-                "<td class=\"align-center\">" + item.RatingText + "</td>" +
-                "</tr>"
-            );
-        });
-        if (data.HaveData === true) {
-            var $divData = $('.data');
-            $divData.show();
-        }
-        window.showPagination(data.Pages);
+        model.loadData(data);
     }
 
     (function ($) {
         $(function () {
+
+            model = new BooksViewModel();
+            ko.applyBindings(model);
 
             window.getPage(); //Запрос на сервер
 
@@ -175,7 +200,9 @@
                         }
                         else {
                             //window.location.href = window.location.href;
-                            window.getPage();
+                            var data = { page: $('#pagination-curent-page').val(), search: $('#quickSearch').val() };
+                            window.getPage(data); //Запрос на сервер
+
                             $modal.modal('hide');
                         }
                     },

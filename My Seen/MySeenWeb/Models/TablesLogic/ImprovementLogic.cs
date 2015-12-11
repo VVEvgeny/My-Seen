@@ -53,9 +53,9 @@ namespace MySeenWeb.Models.TablesLogic
         }
         private bool Verify()
         {
-            if (string.IsNullOrEmpty(Text)) ErrorMessage = Resource.DescToShort;
-            else if (Contains()) ErrorMessage = Resource.BugAlreadyExists;   
-            else if (Id != 0 && TextEnd.Length == 0) ErrorMessage = Resource.DescToShort;
+            if (Id == 0 && string.IsNullOrEmpty(Text)) ErrorMessage = Resource.DescToShort;
+            else if (Contains()) ErrorMessage = Resource.BugAlreadyExists;
+            else if (Id != 0 && string.IsNullOrEmpty(TextEnd)) ErrorMessage = Resource.DescToShort;
             else return true;
 
             return false;

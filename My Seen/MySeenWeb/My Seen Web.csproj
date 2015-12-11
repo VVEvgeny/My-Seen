@@ -613,6 +613,7 @@
     <Content Include="Views\Home\Parts\Parts\JsonGetPage.cshtml" />
     <Content Include="Views\Home\Parts\Tools\PaginationJson.cshtml" />
     <Content Include="Views\Home\Parts\Ext\Users - Copy.cshtml" />
+    <Content Include="Views\Home\Parts\Tools\PaginationKO.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

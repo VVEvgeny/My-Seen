@@ -6,7 +6,11 @@
 }
 <br/>
 
-<div class="data" data-bind="visible: users().length > 0">
+<div data-bind="visible: users().length < 1 " align="center">
+    <img src="~/Content/Images/loading_small.gif" />
+</div>
+
+<div data-bind="visible: users().length > 0">
     <table class="table table-striped" id="table">
         <thead>
             <tr>
@@ -33,7 +37,12 @@
             </tr>
         </tbody>
     </table>
+
+    @Html.Partial("Parts/Tools/PaginationKO")
+
 </div>
+
+@Html.Partial("Parts/Parts/JsonGetPage")
 
 <script language="javascript" type="text/javascript">
     
@@ -54,17 +63,34 @@
         var self = this;
         self.users = ko.observableArray([]);
 
-        var data = {};//Тут страница и поиск, если будут
-        $.post('/Json/GetPage/', data, function (jsonData) {
-            var mapped = $.map(jsonData.Data, function (item) { return new User(item) });
+        self.loadData = function (data) {
+
+            var mapped = $.map(data.Data, function (item) { return new User(item) });
             self.users(mapped);
-        }, "json");
+
+            window.showPagination(data.Pages);
+        };
+
+        self.resetData = function () {
+            self.users.removeAll();
+        };
+    }
+
+    var model;
+
+    function showPage(data) {
+
+        model.loadData(data);
     }
 
     (function ($) {
+
         $(function () {
 
-            ko.applyBindings(new UsersViewModel());
+            model = new UsersViewModel();
+            ko.applyBindings(model);
+
+            window.getPage(); //Запрос на сервер
 
         });
     })(jQuery);

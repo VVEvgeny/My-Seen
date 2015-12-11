@@ -1,18 +1,19 @@
 ﻿@using MySeenWeb.Models;
-@using MySeenWeb.Models.Parts
-@* ReSharper disable once RedundantUsingDirective *@
-@using MySeenWeb.Models.TablesViews
 
 @model HomeViewModelSerialsMin
 
 @Scripts.Render("~/bundles/datetimepicker")
 @Styles.Render("~/Content/datetimepicker.css")
+@Scripts.Render("~/bundles/myseen.table")
+@Scripts.Render("~/bundles/knockout")
 
 <br/>
 
-@Scripts.Render("~/bundles/myseen.table")
+<div data-bind="visible: serials().length < 1 " align="center">
+    <img src="~/Content/Images/loading_small.gif" />
+</div>
 
-<div class="data" style="display: none;">
+<div data-bind="visible: serials().length > 0">
     <table class="table table-striped" id="table">
         <thead>
             <tr>
@@ -26,12 +27,28 @@
                 <th class="col-sm-1">@Resource.Rating</th>
             </tr>
         </thead>
-        <tbody class="table-data"></tbody>
+        <tbody data-bind="foreach: serials">
+            <tr>
+                <td class="align-center">
+                    <button type="button" class="btn btn-warning btn-edit btn-xs" data-bind="attr: {id: id}"> <span class=" glyphicon glyphicon-pencil"></span></button>
+                    <button class="btn btn-xs btn-info btn-share" data-bind=" visible: shared, attr: {id: id}"><span class="glyphicon glyphicon-share"></span></button>
+                </td>
+                <td class="align-center" data-bind="text: name"></td>
+                <td class="align-center" data-bind="text: year"></td>
+                <td class="align-center" data-bind="text: season"></td>
+                <td class="align-center" data-bind="text: dateLast"></td>
+                <td class="align-center" data-bind="text: dateBegin"></td>
+                <td class="align-center" data-bind="text: genre"></td>
+                <td class="align-center" data-bind="text: rating"></td>
+            </tr>
+        </tbody>
     </table>
-    @Html.Partial("Parts/Tools/PaginationJson")
+
+    @Html.Partial("Parts/Tools/PaginationKO")
+
 </div>
 
-@Html.Partial("Parts/Parts/JsonGetPage", "events")
+@Html.Partial("Parts/Parts/JsonGetPage")
 
 <div class="modal fade modal-window" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" id="ModalAddWindow">
     <div class="modal-dialog">
@@ -116,41 +133,49 @@
 
 <script language="javascript" type="text/javascript">
     
+    function Serial(data) {
+
+        this.id = ko.observable(data.Id);
+        this.shared = ko.observable(data.Shared);
+        this.name = ko.observable(data.Name);
+        this.year = ko.observable(data.YearText);
+        this.season = ko.observable(data.SeasonSeries);
+        this.dateLast = ko.observable(data.DateLastText);
+        this.dateBegin = ko.observable(data.DateBeginText);
+        this.genre = ko.observable(data.GenreText);
+        this.rating = ko.observable(data.RatingText);
+    }
+
+    function SerialsViewModel() {
+
+        var self = this;
+        self.serials = ko.observableArray([]);
+
+        self.loadData = function (data) {
+
+            var mapped = $.map(data.Data, function (item) { return new Serial(item) });
+            self.serials(mapped);
+
+            window.showPagination(data.Pages);
+        };
+
+        self.resetData = function () {
+            self.serials.removeAll();
+        };
+    }
+
+    var model;
+
     function showPage(data) {
-        var $divTableData = $('.table-data');
 
-        $divTableData.empty();
-
-        //console.log('showPage data=', data);
-        $.each(data.Data, function (i, item) {
-            //console.log("item=",item.Id);
-            $divTableData.append(
-                "<tr>" +
-                "<td class=\"align-center\"> " +
-                "  <button type=\"button\" class=\"btn btn-warning btn-edit btn-xs\" id=" + item.Id + ">" +
-                "    <span class=\"glyphicon glyphicon-pencil\"></span>" +
-                "  </button>" +
-                (item.Shared ? "<button class=\"btn btn-xs btn-info btn-share\" id=" + item.Id + "><span class=\"glyphicon glyphicon-share\"></span></button>" : "") +
-                "</td>" +
-                "<td class=\"align-center\">" + item.Name + "</td>" +
-                "<td class=\"align-center\">" + item.YearText + "</td>" +
-                "<td class=\"align-center\">" + item.SeasonSeries + "</td>" +
-                "<td class=\"align-center\">" + item.DateLastText + "</td>" +
-                "<td class=\"align-center\">" + item.DateBeginText + "</td>" +
-                "<td class=\"align-center\">" + item.GenreText + "</td>" +
-                "<td class=\"align-center\">" + item.RatingText + "</td>" +
-                "</tr>"
-            );
-        });
-        if (data.HaveData === true) {
-            var $divData = $('.data');
-            $divData.show();
-        }
-        window.showPagination(data.Pages);
+        model.loadData(data);
     }
 
     (function ($) {
         $(function () {
+
+            model = new SerialsViewModel();
+            ko.applyBindings(model);
 
             window.getPage(); //Запрос на сервер
 
@@ -184,7 +209,9 @@
                         }
                         else {
                             //window.location.href = window.location.href;
-                            window.getPage(); //Запрос на сервер
+                            var data = { page: $('#pagination-curent-page').val(), search: $('#quickSearch').val() };
+                            window.getPage(data); //Запрос на сервер
+
                             $modal.modal('hide');
                         }
                     },
@@ -247,7 +274,7 @@
                 var year = $tds.eq(2).text();
                 var genre = $tds.eq(-2).text();
                 var rating = $tds.eq(-1).text();
-                var date = $tds.eq(4).text();
+                var date = $tds.eq(5).text();
                 $shareGetInModalButton.off('click');
                 $shareGetInModalButton.on('click', function () {
                     window.modalShareWork(id);

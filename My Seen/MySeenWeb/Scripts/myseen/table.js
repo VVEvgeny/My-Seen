@@ -10,6 +10,7 @@
         var $thead = $table.find('thead');
         var $ths = $thead.find('tr th');
         var offsetTop = $thead.offset().top;
+        //console.log("1 offsetTop=", offsetTop);
 
         $(window).on('scroll', function () {
 
@@ -21,9 +22,11 @@
                 thWidths.push($th.width());
             });
 
-            var scrollTop = $(window).scrollTop() + 50;
+            var scrollTop = $(window).scrollTop();
+            //console.log("offsetTop=", offsetTop);
+            //console.log("scrollTop=", scrollTop);
 
-            if (scrollTop >= offsetTop) {
+            if (scrollTop > offsetTop) {
                 $thead.css({ 'position': 'fixed', 'top': '50px' });
 
                 var $firstTr = $table.find('tbody tr:first');

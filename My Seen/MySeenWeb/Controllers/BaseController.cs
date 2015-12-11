@@ -106,17 +106,21 @@ namespace MySeenWeb.Controllers
                     var ret = ReadUserSideStorage(UserSideStorageKeys.MarkersOnRoads, 0);
                     if (!string.IsNullOrEmpty(Defaults.MarkersOnRoads.GetById(ret))) return ret;
                     var userId = string.Empty;
-                    try
+                    if (User.Identity.IsAuthenticated)
                     {
-                        var ac = new ApplicationDbContext();
-                        userId = User.Identity.GetUserId();
-                        var au = ac.Users.First(u => u.Id == userId);
-                        ret = au.MarkersOnRoads;
-                        WriteUserSideStorage(UserSideStorageKeys.RecordPerPage, ret);
-                    }
-                    catch
-                    {
-                        LogSave.Save(User.Identity.IsAuthenticated ? User.Identity.GetUserId() : "", Request.UserHostAddress, Request.UserAgent, "MarkersOnRoads catch No USER", userId);
+                        try
+                        {
+                            var ac = new ApplicationDbContext();
+                            userId = User.Identity.GetUserId();
+                            var au = ac.Users.First(u => u.Id == userId);
+                            ret = au.MarkersOnRoads;
+                            WriteUserSideStorage(UserSideStorageKeys.RecordPerPage, ret);
+                        }
+                        catch
+                        {
+                            LogSave.Save(User.Identity.IsAuthenticated ? User.Identity.GetUserId() : "",
+                                Request.UserHostAddress, Request.UserAgent, "MarkersOnRoads catch No USER", userId);
+                        }
                     }
                     return ret;
                 }
@@ -124,17 +128,21 @@ namespace MySeenWeb.Controllers
                 {
                     var userId = string.Empty;
                     var ret = 0;
-                    try
+                    if (User.Identity.IsAuthenticated)
                     {
-                        var ac = new ApplicationDbContext();
-                        userId = User.Identity.GetUserId();
-                        var au = ac.Users.First(u => u.Id == userId);
-                        ret = au.MarkersOnRoads;
-                        WriteUserSideStorage(UserSideStorageKeys.MarkersOnRoads, au.MarkersOnRoads);
-                    }
-                    catch
-                    {
-                        LogSave.Save(User.Identity.IsAuthenticated ? User.Identity.GetUserId() : "", Request.UserHostAddress, Request.UserAgent, "MarkersOnRoads catch No USER", userId);
+                        try
+                        {
+                            var ac = new ApplicationDbContext();
+                            userId = User.Identity.GetUserId();
+                            var au = ac.Users.First(u => u.Id == userId);
+                            ret = au.MarkersOnRoads;
+                            WriteUserSideStorage(UserSideStorageKeys.MarkersOnRoads, au.MarkersOnRoads);
+                        }
+                        catch
+                        {
+                            LogSave.Save(User.Identity.IsAuthenticated ? User.Identity.GetUserId() : "",
+                                Request.UserHostAddress, Request.UserAgent, "MarkersOnRoads catch No USER", userId);
+                        }
                     }
                     return ret;
                 }
@@ -156,17 +164,21 @@ namespace MySeenWeb.Controllers
                             ? Defaults.RecordPerPageBase.Values.All
                             : Convert.ToInt32(Defaults.RecordPerPage.GetById(ret));
                     var userId = string.Empty;
-                    try
+                    if (User.Identity.IsAuthenticated)
                     {
-                        var ac = new ApplicationDbContext();
-                        userId = User.Identity.GetUserId();
-                        var au = ac.Users.First(u => u.Id == userId);
-                        ret = au.RecordPerPage;
-                        WriteUserSideStorage(UserSideStorageKeys.RecordPerPage, ret);
-                    }
-                    catch
-                    {
-                        LogSave.Save(User.Identity.IsAuthenticated ? User.Identity.GetUserId() : "", Request.UserHostAddress, Request.UserAgent, "RecordPerPage catch No USER", userId);
+                        try
+                        {
+                            var ac = new ApplicationDbContext();
+                            userId = User.Identity.GetUserId();
+                            var au = ac.Users.First(u => u.Id == userId);
+                            ret = au.RecordPerPage;
+                            WriteUserSideStorage(UserSideStorageKeys.RecordPerPage, ret);
+                        }
+                        catch
+                        {
+                            LogSave.Save(User.Identity.IsAuthenticated ? User.Identity.GetUserId() : "",
+                                Request.UserHostAddress, Request.UserAgent, "RecordPerPage catch No USER", userId);
+                        }
                     }
                     return ret == Defaults.RecordPerPageBase.Indexes.All ? Defaults.RecordPerPageBase.Values.All : Convert.ToInt32(Defaults.RecordPerPage.GetById(ret));
                 }
@@ -174,17 +186,21 @@ namespace MySeenWeb.Controllers
                 {
                     var userId = string.Empty;
                     var ret = Defaults.RecordPerPageBase.Indexes.All;
-                    try
+                    if (User.Identity.IsAuthenticated)
                     {
-                        var ac = new ApplicationDbContext();
-                        userId = User.Identity.GetUserId();
-                        var au = ac.Users.First(u => u.Id == userId);
-                        ret = au.RecordPerPage;
-                        WriteUserSideStorage(UserSideStorageKeys.RecordPerPage, au.RecordPerPage);
-                    }
-                    catch
-                    {
-                        LogSave.Save(User.Identity.IsAuthenticated ? User.Identity.GetUserId() : "", Request.UserHostAddress, Request.UserAgent, "RecordPerPage catch No USER", userId);
+                        try
+                        {
+                            var ac = new ApplicationDbContext();
+                            userId = User.Identity.GetUserId();
+                            var au = ac.Users.First(u => u.Id == userId);
+                            ret = au.RecordPerPage;
+                            WriteUserSideStorage(UserSideStorageKeys.RecordPerPage, au.RecordPerPage);
+                        }
+                        catch
+                        {
+                            LogSave.Save(User.Identity.IsAuthenticated ? User.Identity.GetUserId() : "",
+                                Request.UserHostAddress, Request.UserAgent, "RecordPerPage catch No USER", userId);
+                        }
                     }
                     return ret == Defaults.RecordPerPageBase.Indexes.All ? Defaults.RecordPerPageBase.Values.All : Convert.ToInt32(Defaults.RecordPerPage.GetById(ret));
                 }

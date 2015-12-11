@@ -90,7 +90,8 @@
                 $shareLink.val(jsonData);
 
                 //window.location.href = window.location.href;
-                window.getPage(); //Запрос на сервер
+                var data = { page: $('#pagination-curent-page').val(), search: $('#quickSearch').val() };
+                window.getPage(data); //Запрос на сервер
 
                 //$modalShare.modal('hide');
 
@@ -106,7 +107,9 @@
             $.post('/Json/DeleteShare/', data, function (jsonData) {
 
                 //window.location.href = window.location.href;
-                window.getPage(); //Запрос на сервер
+
+                var data = { page: $('#pagination-curent-page').val(), search: $('#quickSearch').val() };
+                window.getPage(data); //Запрос на сервер
 
                 $modalShare.modal('hide');
             }, "json");

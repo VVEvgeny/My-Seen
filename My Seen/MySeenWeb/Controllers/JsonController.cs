@@ -104,35 +104,31 @@ namespace MySeenWeb.Controllers
         [HttpPost]
         public JsonResult GetPage(int? page,string search)
         {
-            //Восстановить  Rpp вместо 3х записей
+            Thread.Sleep(2000);//чтобы увидеть загрузку
+
             if (ReadUserSideStorage(UserSideStorageKeys.HomeCategory, Defaults.CategoryBase.Indexes.Films) ==
                 Defaults.CategoryBase.Indexes.Events)
             {
-                //Thread.Sleep(5000);
                 return Json(new HomeViewModelEvents(User.Identity.GetUserId(), page ?? 1, Rpp , search));
             }
             else if (ReadUserSideStorage(UserSideStorageKeys.HomeCategory, Defaults.CategoryBase.Indexes.Films) ==
                 Defaults.CategoryBase.Indexes.Books)
             {
-                //Thread.Sleep(5000);
                 return Json(new HomeViewModelBooks(User.Identity.GetUserId(), page ?? 1, Rpp, search));
             }
             else if (ReadUserSideStorage(UserSideStorageKeys.HomeCategory, Defaults.CategoryBase.Indexes.Films) ==
                 Defaults.CategoryBase.Indexes.Serials)
             {
-                //Thread.Sleep(2000);
                 return Json(new HomeViewModelSerials(User.Identity.GetUserId(), page ?? 1, Rpp, search));
             }
             else if (ReadUserSideStorage(UserSideStorageKeys.HomeCategory, Defaults.CategoryBase.Indexes.Films) ==
                 Defaults.CategoryBase.Indexes.Films)
             {
-                //Thread.Sleep(2000);
                 return Json(new HomeViewModelFilms(User.Identity.GetUserId(), page ?? 1, Rpp, search));
             }
             else if (ReadUserSideStorage(UserSideStorageKeys.HomeCategory, Defaults.CategoryBase.Indexes.Films) ==
                  Defaults.CategoryBase.IndexesExt.Users)
             {
-                Thread.Sleep(2000);
                 return Json(new HomeViewModelUsers(page ?? 1, Rpp));
             }
             return Json("NOT REALIZED");
