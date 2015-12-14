@@ -1,5 +1,9 @@
-﻿<div class="text-center pagination-div" style="display: none;">
-    <ul class="pagination pagination-sm"></ul>
+﻿<div class="text-center pagination-more-div" style="display: none;">
+    <ul class="pagination pagination-more pagination-sm"></ul>
+</div>
+
+<div class="text-center pagination-div" style="display: none;">
+    <ul class="pagination pagination-main pagination-sm"></ul>
 </div>
 
 <input type="text" class="form-control" id="pagination-curent-page" style="display: none;">
@@ -7,15 +11,21 @@
 <script language="javascript" type="text/javascript">
 
     function showPagination(model) {
-        var pagination = $('.pagination');
+        var pagination = $('.pagination-main');
         var $divPagination = $('.pagination-div');
         var $divPaginationCp = $('#pagination-curent-page');
         pagination.html('');
         $divPaginationCp.val(model.CurentPage);
 
+        var $divPaginationMore = $('.pagination-more-div');
+        var paginationMore = $('.pagination-more');
+        paginationMore.html('');
+        $divPaginationMore.hide();
+
         if (!(model.IsFirstPage === true && model.IsLastPage === true))
         {
             $divPagination.show();
+            if (model.IsLastPage !== true) $divPaginationMore.show();
 
             if (model.IsFirstPage === true) {
                 pagination.append("<li class=\"disabled\"><a href=\"#\">←</a></li>");
@@ -43,6 +53,8 @@
             } else {
                 pagination.append("<li class=\"pagination-page\" id=\"" + (model.CurentPage + 1) + "\"><a href=\"#\">→</a></li>");
             }
+
+            paginationMore.append("<li class=\"pagination-page-more\" id=\"" + (model.CurentPage + 1) + "\"><a href=\"#\">@Resource.Load</a></li>");
         }
     }
 
@@ -55,11 +67,20 @@
             $divPagination.on('click', '.pagination-page', function () {
                 var $item = $(this);
                 var id = $item.attr('id');
-                
-                //console.log(" press =", id);
 
                 var data = { page: id, search: $('#quickSearch').val() };
                 window.getPage(data); //Запрос на сервер
+
+                return false;
+            });
+
+            $divPagination.off('click', '.pagination-page-more');
+            $divPagination.on('click', '.pagination-page-more', function () {
+                var $item = $(this);
+                var id = $item.attr('id');
+
+                var data = { page: id, search: $('#quickSearch').val() };
+                window.getPage(data, true); //Запрос на сервер с добавлением в конец новых данных
 
                 return false;
             });

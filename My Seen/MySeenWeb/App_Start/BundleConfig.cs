@@ -61,8 +61,7 @@ namespace MySeenWeb
                        "~/Content/myseen/gmap3-menu.css"));
 
             bundles.Add(new ScriptBundle("~/bundles/knockout").Include(
-                       "~/Scripts/knockout-{version}.js"
-           ));
+                       "~/Scripts/knockout-{version}.js"));
 
         }
     }

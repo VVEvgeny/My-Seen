@@ -107,7 +107,7 @@ namespace MySeenWeb.Controllers
 
             if (Admin.IsDebug)
             {
-                //Thread.Sleep(2000); //чтобы увидеть загрузку
+                Thread.Sleep(2000); //чтобы увидеть загрузку
             }
 
             if (ReadUserSideStorage(UserSideStorageKeys.HomeCategory, Defaults.CategoryBase.Indexes.Films) ==

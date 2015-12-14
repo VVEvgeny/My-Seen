@@ -143,7 +143,11 @@
         self.loadData = function (data) {
 
             var mapped = $.map(data.Data, function (item) { return new Book(item) });
-            self.books(mapped);
+            if (self.books().length > 0) {
+                self.books.push.apply(self.books, mapped);
+            } else {
+                self.books(mapped);
+            }
 
             window.showPagination(data.Pages);
 

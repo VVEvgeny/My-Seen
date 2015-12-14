@@ -1,11 +1,15 @@
 ﻿<script language="javascript" type="text/javascript">
-    
-    function getPage(data) {
+
+    function getPage(data, noReset) {
+
+        //console.log("getPage data=" + data + " noReset=" + noReset);
 
         if (window.model) window.model.setLoadingData();
-        if (window.model) window.model.resetData();
+        if (window.model && noReset !== true) {
+            window.model.resetData();
+        }
 
-        $.post('/Json/GetPage/', data, function (jsonData) {
+        $.post('/Json/GetPage/', data, function(jsonData) {
 
             if (jsonData === '@Auth.NoAuth') window.location = '/';
 

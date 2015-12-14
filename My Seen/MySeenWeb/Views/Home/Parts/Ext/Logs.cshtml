@@ -69,7 +69,11 @@
         self.loadData = function (data) {
 
             var mapped = $.map(data.Data, function (item) { return new Log(item) });
-            self.logs(mapped);
+            if (self.logs().length > 0) {
+                self.logs.push.apply(self.logs, mapped);
+            } else {
+                self.logs(mapped);
+            }
 
             window.showPagination(data.Pages);
 

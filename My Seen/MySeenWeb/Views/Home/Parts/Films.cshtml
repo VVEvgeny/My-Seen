@@ -134,7 +134,11 @@
         self.loadData = function (data) {
 
             var mapped = $.map(data.Data, function (item) { return new Film(item) });
-            self.films(mapped);
+            if (self.films().length > 0) {
+                self.films.push.apply(self.films, mapped);
+            } else {
+                self.films(mapped);
+            }
 
             window.showPagination(data.Pages);
 

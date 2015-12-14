@@ -160,7 +160,11 @@
         self.loadData = function (data) {
 
             var mapped = $.map(data.Data, function (item) { return new Improvement(item) });
-            self.improvements(mapped);
+            if (self.improvements().length > 0) {
+                self.improvements.push.apply(self.improvements, mapped);
+            } else {
+                self.improvements(mapped);
+            }
 
             window.showPagination(data.Pages);
 

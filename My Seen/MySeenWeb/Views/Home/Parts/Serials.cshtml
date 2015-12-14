@@ -152,7 +152,11 @@
         self.loadData = function (data) {
 
             var mapped = $.map(data.Data, function (item) { return new Serial(item) });
-            self.serials(mapped);
+            if (self.serials().length > 0) {
+                self.serials.push.apply(self.serials, mapped);
+            } else {
+                self.serials(mapped);
+            }
 
             window.showPagination(data.Pages);
 

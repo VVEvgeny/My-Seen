@@ -714,4 +714,7 @@
   <data name="EventsCount" xml:space="preserve">
     <value>Событий</value>
   </data>
+  <data name="Load" xml:space="preserve">
+    <value>Ещё</value>
+  </data>
 </root>
