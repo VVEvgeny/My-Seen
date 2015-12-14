@@ -34,7 +34,7 @@ namespace MySeenWeb.Models.TablesViews
             {
                 if (!string.IsNullOrEmpty(UserId))
                 {
-                    ApplicationDbContext ac = new ApplicationDbContext();
+                    var ac = new ApplicationDbContext();
                     var firstOrDefault = ac.Users.FirstOrDefault(u => u.Id == UserId);
                     if (firstOrDefault != null)
                     {
@@ -51,27 +51,24 @@ namespace MySeenWeb.Models.TablesViews
         {
             get
             {
-                if (DateEnd != null)
-                {
-                    return DateEnd.Value.ToShortDateString();
-                }
-                return string.Empty;
+                return DateEnd != null ? DateEnd.Value.ToShortDateString() : string.Empty;
             }
         }
         public string DateFoundText
         {
-            get
-            {
-                return DateFound.ToShortDateString();
-            }
+            get { return DateFound.ToShortDateString(); }
         }
         public string VersionText
         {
             get
             {
-                if (Version != 0) return Version.ToString();
-                return string.Empty;
+                return Version != 0 ? Version.ToString() : string.Empty;
             }
+        }
+
+        public bool Ended
+        {
+            get { return !string.IsNullOrEmpty(TextEnd); }
         }
     }
 }

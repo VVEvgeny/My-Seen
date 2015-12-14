@@ -79,8 +79,8 @@ namespace MySeenWeb.Models
         public HomeViewModelSerialsMin Serials;
         public HomeViewModelBooksMin Books;
         public HomeViewModelTracks Tracks;
-        public HomeViewModelLogs Logs;
-        public HomeViewModelImprovements Improvements;
+        public HomeViewModelLogsMin Logs;
+        public HomeViewModelImprovementsMin Improvements;
         public HomeViewModelAbout About;
         public HomeViewModelEventsMin Events;
 
@@ -96,8 +96,8 @@ namespace MySeenWeb.Models
                 else if (PageBooks) Books = new HomeViewModelBooksMin();
                 else if (PageTracks) Tracks = new HomeViewModelTracks(userId, markersOnRoads, roadsYear);
                 else if (PageUsers) { }
-                else if (PageLogs) Logs = new HomeViewModelLogs(page, countInPage);
-                else if (PageImprovements) Improvements = new HomeViewModelImprovements(complex, page, countInPage);
+                else if (PageLogs) Logs = new HomeViewModelLogsMin();
+                else if (PageImprovements) Improvements = new HomeViewModelImprovementsMin();
                 else if (PageEvents) Events = new HomeViewModelEventsMin();
                 else Films = new HomeViewModelFilmsMin();
 

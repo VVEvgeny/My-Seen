@@ -2,9 +2,12 @@
     
     function getPage(data) {
 
+        if (window.model) window.model.setLoadingData();
         if (window.model) window.model.resetData();
 
         $.post('/Json/GetPage/', data, function (jsonData) {
+
+            if (jsonData === '@Auth.NoAuth') window.location = '/';
 
             window.showPage(jsonData);
 

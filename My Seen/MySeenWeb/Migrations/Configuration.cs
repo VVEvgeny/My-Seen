@@ -16,6 +16,9 @@ namespace MySeenWeb.Migrations
 
         protected override void Seed(ApplicationDbContext context)
         {
+            /*
+             * Ќа данный момент правильно работает  ќƒ который при создании пользовател€
+             * 
             //23 миграци€
             //ќбновим старых пользователей, посчитаем им ключи открыти€ доступа к фильмам, сериалам, книгам, событи€м, остальным названичим создание в момент создани€ пользовател€
             var ac =new ApplicationDbContext();
@@ -39,6 +42,7 @@ namespace MySeenWeb.Migrations
                 }
                 ac.SaveChanges();
             }
+             * */
 
             //  This method will be called after migrating to the latest version.
 

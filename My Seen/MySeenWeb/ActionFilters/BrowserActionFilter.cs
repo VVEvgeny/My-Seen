@@ -8,6 +8,7 @@ namespace MySeenWeb.ActionFilters
     {
         void IActionFilter.OnActionExecuting(ActionExecutingContext filterContext)
         {
+            /*
             var browserName = filterContext.RequestContext.HttpContext.Request.Browser.Browser.ToLowerInvariant();
             var majorVersion = filterContext.RequestContext.HttpContext.Request.Browser.MajorVersion;
 
@@ -17,6 +18,7 @@ namespace MySeenWeb.ActionFilters
                 && browserName != BrowserTypes.Safari.ToString().ToLowerInvariant()
                 && ((browserName != BrowserTypes.Ie.ToString().ToLowerInvariant() && browserName != BrowserTypes.InternetExplorer.ToString().ToLowerInvariant()) || majorVersion < 9))
                 filterContext.Result = new RedirectToRouteResult(new RouteValueDictionary(new { controller = "BrowserFilter" }));
+            */
 
             OnActionExecuting(filterContext);
         }

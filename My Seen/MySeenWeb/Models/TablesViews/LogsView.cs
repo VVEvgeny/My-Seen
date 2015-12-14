@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System.Globalization;
+using System.Linq;
 using MySeenWeb.Models.Tables;
 
 namespace MySeenWeb.Models.TablesViews
@@ -29,7 +30,7 @@ namespace MySeenWeb.Models.TablesViews
             {
                 if (!string.IsNullOrEmpty(UserId))
                 {
-                    ApplicationDbContext ac = new ApplicationDbContext();
+                    var ac = new ApplicationDbContext();
                     var firstOrDefault = ac.Users.FirstOrDefault(u => u.Id == UserId);
                     if (firstOrDefault != null)
                     {
@@ -40,6 +41,27 @@ namespace MySeenWeb.Models.TablesViews
                     }
                 }
                 return string.Empty;
+            }
+        }
+
+        public string DateFirstText 
+        {
+            get { return DateFirst.ToString(CultureInfo.CurrentCulture); }
+        }
+
+        public string DateLastText
+        {
+            get { return DateLast.ToString(CultureInfo.CurrentCulture); }
+        }
+
+        public string AddDataText
+        {
+            get
+            {
+                var result = string.Empty;
+                AddData = AddData.Replace("_", " ");
+                AddData = AddData.Replace("!%!", "_");
+                return AddData.Split('_').Aggregate(result, (current, str) => current + (str + '\n'.ToString()));
             }
         }
     }

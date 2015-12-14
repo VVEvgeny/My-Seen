@@ -100,11 +100,15 @@ namespace MySeenWeb.Controllers
             return Json("-");
         }
 
-        [Authorize]
         [HttpPost]
         public JsonResult GetPage(int? page,string search)
         {
-            Thread.Sleep(2000);//чтобы увидеть загрузку
+            if (!User.Identity.IsAuthenticated) return Json(Auth.NoAuth);
+
+            if (Admin.IsDebug)
+            {
+                //Thread.Sleep(2000); //чтобы увидеть загрузку
+            }
 
             if (ReadUserSideStorage(UserSideStorageKeys.HomeCategory, Defaults.CategoryBase.Indexes.Films) ==
                 Defaults.CategoryBase.Indexes.Events)
@@ -130,6 +134,16 @@ namespace MySeenWeb.Controllers
                  Defaults.CategoryBase.IndexesExt.Users)
             {
                 return Json(new HomeViewModelUsers(page ?? 1, Rpp));
+            }
+            else if (ReadUserSideStorage(UserSideStorageKeys.HomeCategory, Defaults.CategoryBase.Indexes.Films) ==
+                 Defaults.CategoryBase.IndexesExt.Logs)
+            {
+                return Json(new HomeViewModelLogs(page ?? 1, Rpp));
+            }
+            else if (ReadUserSideStorage(UserSideStorageKeys.HomeCategory, Defaults.CategoryBase.Indexes.Films) ==
+                 Defaults.CategoryBase.IndexesExt.Improvements)
+            {
+                return Json(new HomeViewModelImprovements(ReadUserSideStorage(UserSideStorageKeys.ImprovementsCategory, Defaults.ComplexBase.Indexes.All), page ?? 1, Rpp));
             }
             return Json("NOT REALIZED");
         }

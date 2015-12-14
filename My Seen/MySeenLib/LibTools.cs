@@ -9,7 +9,7 @@ namespace MySeenLib
     public static class Versions
     {
         //Строка с версией библиотеки в ресурсах LibVersionNum
-        public static int Web = 8;
+        public static int Web = 9;
         public static int Android = 1;
         public static int AndroidLib = 1;
         public static int Pc = 1;
@@ -32,6 +32,11 @@ namespace MySeenLib
                 #endif
             }
         }
+    }
+
+    public static class Auth
+    {
+        public static string NoAuth = "NoAuth";
     }
     public static class UmtTime
     {
@@ -96,22 +101,14 @@ namespace MySeenLib
         {
             get
             {
-                #if DEBUG
-                    return "http://localhost:44301";
-                #else
-                    return "http://myseen.by/";
-                #endif
+                return Admin.IsDebug ? "http://localhost:44301" : "http://myseen.by";
             }
         }
         public static string ApiHostAndroid
         {
             get
             {
-                #if DEBUG
-                    return "https://10.0.2.2:443";
-                #else
-                    return ApiHost;
-                #endif
+                return Admin.IsDebug ? "https://10.0.2.2:443" : ApiHost;
             }
         }
 
@@ -395,11 +392,9 @@ namespace MySeenLib
             {
                 if (All == null)
                 {
-                    #if DEBUG
-                        All = new List<string> { Resource.All, "3", "5", "20", "500" };
-                    #else
-                        All = new List<string> {Resource.All, "20", "50", "100", "500"};
-                    #endif
+                    All = Admin.IsDebug
+                        ? new List<string> {Resource.All, "3", "5", "20", "500"}
+                        : new List<string> {Resource.All, "20", "50", "100", "500"};
                 }
             }
         }

@@ -9,7 +9,7 @@
 
 <br/>
 
-<div data-bind="visible: events().length < 1 " align="center">
+<div data-bind="visible: dataLoading " align="center">
     <img src="~/Content/Images/loading_small.gif" />
 </div>
 
@@ -104,10 +104,6 @@
                     <span class="glyphicon glyphicon-ok"></span>
                     &nbsp;@Resource.SaveСhanges
                 </button>
-                <button type="button" class="btn btn-default" data-dismiss="modal">
-                    <span class="glyphicon glyphicon-remove"></span>
-                    &nbsp;@Resource.Close
-                </button>
             </div>
         </div>
     </div>
@@ -137,6 +133,8 @@
 
         var self = this;
         self.events = ko.observableArray([]);
+        self.dataLoading = ko.observable();
+        self.dataLoading(true);
 
         self.loadData = function (data) {
 
@@ -144,10 +142,16 @@
             self.events(mapped);
 
             window.showPagination(data.Pages);
+
+            self.dataLoading(false);
         };
 
         self.resetData = function () {
             self.events.removeAll();
+        };
+
+        self.setLoadingData = function () {
+            self.dataLoading(true);
         };
     }
 

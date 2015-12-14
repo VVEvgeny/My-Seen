@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using MySeenLib;
 using MySeenWeb.Models.Tables;
 
@@ -8,7 +9,7 @@ namespace MySeenWeb.Models.TablesViews
     {
         public bool HaveHistory
         {
-            get { return Defaults.EventTypes.GetTypeById(RepeatType); }
+            get { return Defaults.EventTypes.GetTypeById(RepeatType) && Date < DateTime.Now; }
         }
         public DateTime DateTo
         {
@@ -46,15 +47,15 @@ namespace MySeenWeb.Models.TablesViews
 
         public string DateToText
         {
-            get { return DateTo.ToString(); }
+            get { return DateTo.ToString(CultureInfo.CurrentCulture); }
         }
         public string DateText
         {
-            get { return Date.ToString(); }
+            get { return Date.ToString(CultureInfo.CurrentCulture); }
         }
         public string DateLastText
         {
-            get { return DateLast.ToString(); }
+            get { return DateLast.ToString(CultureInfo.CurrentCulture); }
         }
 
         private static string GetTimeSpan(DateTime date)

@@ -6,7 +6,7 @@
 }
 <br/>
 
-<div data-bind="visible: users().length < 1 " align="center">
+<div data-bind="visible: dataLoading " align="center">
     <img src="~/Content/Images/loading_small.gif" />
 </div>
 
@@ -62,6 +62,8 @@
 
         var self = this;
         self.users = ko.observableArray([]);
+        self.dataLoading = ko.observable();
+        self.dataLoading(true);
 
         self.loadData = function (data) {
 
@@ -69,10 +71,16 @@
             self.users(mapped);
 
             window.showPagination(data.Pages);
+
+            self.dataLoading(false);
         };
 
         self.resetData = function () {
             self.users.removeAll();
+        };
+
+        self.setLoadingData = function () {
+            self.dataLoading(true);
         };
     }
 
