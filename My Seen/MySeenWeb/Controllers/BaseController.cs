@@ -78,7 +78,6 @@ namespace MySeenWeb.Controllers
             return IsCookieEnabled ? ReadCookie(key, defaultValue) : ReadSession(key, defaultValue);
         }
 
-
         public int ReadUserSideStorage(string key, int defaultValue)
         {
             int readed;

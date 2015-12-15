@@ -10,10 +10,10 @@ namespace MySeenWeb.Models
         public IEnumerable<SelectListItem> ComplexList { get; set; }
         public string Complex;
 
-        public HomeViewModelImprovementsMin()
+        public HomeViewModelImprovementsMin(int complex)
         {
-            Complex = Defaults.ComplexBase.Indexes.All.ToString();
-            var listItems = Defaults.Complexes.GetAll().Select(sel => new SelectListItem { Text = sel, Value = Defaults.Complexes.GetId(sel).ToString(), Selected = (Defaults.Complexes.GetId(sel) == Defaults.ComplexBase.Indexes.All) }).ToList();
+            Complex = complex.ToString();
+            var listItems = Defaults.Complexes.GetAll().Select(sel => new SelectListItem { Text = sel, Value = Defaults.Complexes.GetId(sel).ToString(), Selected = Defaults.Complexes.GetId(sel) == complex }).ToList();
             ComplexList = listItems;
         }
     }

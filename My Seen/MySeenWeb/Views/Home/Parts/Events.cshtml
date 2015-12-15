@@ -109,14 +109,9 @@
     </div>
 </div>
 
-
-<div id="defaultCountdown">
-
-</div>
-
     @Html.Partial("Parts/Parts/ModalShare", "events")
 
-    <script language="javascript" type="text/javascript">
+<script language="javascript" type="text/javascript">
 
         function Event(data) {
 
@@ -141,9 +136,9 @@
             self.dataLoading = ko.observable();
             self.dataLoading(true);
 
-            self.loadData = function (data) {
+            self.loadData = function(data) {
 
-                var mapped = $.map(data.Data, function (item) { return new Event(item) });
+                var mapped = $.map(data.Data, function(item) { return new Event(item) });
                 if (self.events().length > 0) {
                     self.events.push.apply(self.events, mapped);
                 } else {
@@ -155,11 +150,11 @@
                 self.dataLoading(false);
             };
 
-            self.resetData = function () {
+            self.resetData = function() {
                 self.events.removeAll();
             };
 
-            self.setLoadingData = function () {
+            self.setLoadingData = function() {
                 self.dataLoading(true);
             };
         }
@@ -175,114 +170,121 @@
             //console.log("recalcEstimated events=", model.events().length);
             if (model.events().length > 0) {
 
-                for(var i = 0;i<model.events().length; i++)
-                {
-                   
-                //console.log("EstimatedTo=", model.events()[i].estimatedTo());
-                var estimatedTo = model.events()[i].estimatedTo();
+                for (var i = 0; i < model.events().length; i++) {
 
-                var years = 0;
-                var days = 0;
-                var hours = 0;
-                var minutes = 0;
-                var seconds = 0;
+                    if(model.events()[i].estimatedTo() === '@Resource.Ready') continue;
 
-                var isMinus = false;
-                if (estimatedTo[0] === '-') { //Накапливаем
-                    isMinus = true;
-                    estimatedTo = estimatedTo.slice(2);
-                }
+                    //console.log("EstimatedTo=", model.events()[i].estimatedTo());
+                    var estimatedTo = model.events()[i].estimatedTo();
 
-                //console.log("имею строку=", estimatedTo);
-                //console.log("формат=", estimatedTo.split(":").length);
+                    var years = 0;
+                    var days = 0;
+                    var hours = 0;
+                    var minutes = 0;
+                    var seconds = 0;
+
+                    var isMinus = false;
+                    if (estimatedTo[0] === '-') { //Накапливаем
+                        isMinus = true;
+                        estimatedTo = estimatedTo.slice(2);
+                    }
+
+                    //console.log("имею строку=", estimatedTo);
+                    //console.log("формат=", estimatedTo.split(":").length);
 
 
-                //1 есть секунды
-                //2 есть и минуты
-                //3 есть и часы
-                //4 есть и дни
-                //5 есть и год
+                    //1 есть секунды
+                    //2 есть и минуты
+                    //3 есть и часы
+                    //4 есть и дни
+                    //5 есть и год
 
-                if (estimatedTo.split(":").length === 5) {
-                    years = estimatedTo.split(":")[0];
-                    days = estimatedTo.split(":")[1];
-                    hours = estimatedTo.split(":")[2];
-                    minutes = estimatedTo.split(":")[3];
-                    seconds = estimatedTo.split(":")[4];
-                }
-                if (estimatedTo.split(":").length === 4) {
-                    days = estimatedTo.split(":")[0];
-                    hours = estimatedTo.split(":")[1];
-                    minutes = estimatedTo.split(":")[2];
-                    seconds = estimatedTo.split(":")[3];
-                }
-                if (estimatedTo.split(":").length === 3) {
-                    hours = estimatedTo.split(":")[0];
-                    minutes = estimatedTo.split(":")[1];
-                    seconds = estimatedTo.split(":")[2];
-                }
-                if (estimatedTo.split(":").length === 2) {
-                    minutes = estimatedTo.split(":")[0];
-                    seconds = estimatedTo.split(":")[1];
-                }
-                if (estimatedTo.split(":").length === 1) {
-                    seconds = estimatedTo.split(":")[0];
-                }
+                    if (estimatedTo.split(":").length === 5) {
+                        years = estimatedTo.split(":")[0];
+                        days = estimatedTo.split(":")[1];
+                        hours = estimatedTo.split(":")[2];
+                        minutes = estimatedTo.split(":")[3];
+                        seconds = estimatedTo.split(":")[4];
+                    }
+                    if (estimatedTo.split(":").length === 4) {
+                        days = estimatedTo.split(":")[0];
+                        hours = estimatedTo.split(":")[1];
+                        minutes = estimatedTo.split(":")[2];
+                        seconds = estimatedTo.split(":")[3];
+                    }
+                    if (estimatedTo.split(":").length === 3) {
+                        hours = estimatedTo.split(":")[0];
+                        minutes = estimatedTo.split(":")[1];
+                        seconds = estimatedTo.split(":")[2];
+                    }
+                    if (estimatedTo.split(":").length === 2) {
+                        minutes = estimatedTo.split(":")[0];
+                        seconds = estimatedTo.split(":")[1];
+                    }
+                    if (estimatedTo.split(":").length === 1) {
+                        seconds = estimatedTo.split(":")[0];
+                    }
 
-                if (isMinus) {
-                    seconds++;
-                } else {
-                    seconds--;
-                }
+                    //console.log(years+":"+days + ":" + hours + ":" + minutes + ":" + seconds);
+                    if (years === 0 && days === 0 && hours === 0 && minutes === 0 && (seconds === 0 || seconds === '00')) {
+                            model.events()[i].estimatedTo('@Resource.Ready');
+                    }
+                    else {
+                    if (isMinus) {
+                        seconds++;
+                    } else {
+                        seconds--;
+                    }
 
-                //скорректировать
-                //60 сек => 0 сек +1 мин
-                if (seconds >= 60) {
-                    seconds -= 60;
-                    minutes++;
-                }
-                if (seconds < 0) {
-                    seconds = 59;
-                    minutes--;
-                }
+                        //скорректировать
+                        //60 сек => 0 сек +1 мин
+                    if (seconds >= 60) {
+                        seconds -= 60;
+                        minutes++;
+                    }
+                    if (seconds < 0) {
+                        seconds = 59;
+                        minutes--;
+                    }
 
-                if (minutes >= 60) {
-                    minutes -= 60;
-                    hours++;
-                }
-                if (minutes < 0) {
-                    minutes = 59;
-                    hours--;
-                }
+                    if (minutes >= 60) {
+                        minutes -= 60;
+                        hours++;
+                    }
+                    if (minutes < 0) {
+                        minutes = 59;
+                        hours--;
+                    }
 
-                if (hours >= 24) {
-                    hours -= 24;
-                    days++;
-                }
-                if (hours < 0) {
-                    hours = 23;
-                    days--;
-                }
+                    if (hours >= 24) {
+                        hours -= 24;
+                        days++;
+                    }
+                    if (hours < 0) {
+                        hours = 23;
+                        days--;
+                    }
 
-                if (days >= 365) {
-                    days -= 365;
-                    years++;
-                }
+                    if (days >= 365) {
+                        days -= 365;
+                        years++;
+                    }
 
-                model.events()[i].estimatedTo(
-                    (isMinus === true ?"- ":"")
-                    + (years === 0 ? "" : (years + ":"))
-                    + (years === 0 && days === 0 ? "" : (days + ":"))
-                    + (years === 0 && days === 0 && hours === 0 ? "" : (hours.length <2 ? ("0" + hours+":") : (hours + ":")))
-                    + (years === 0 && days === 0 && hours === 0 && minutes === 0 ? "" : (minutes.length < 2 ? ("0" + minutes + ":") : (minutes + ":")))
-                    + (seconds < 10 ? "0" + seconds : seconds)
-                );
+                    model.events()[i].estimatedTo(
+                        (isMinus === true ? "- " : "")
+                        + (years === 0 ? "" : (years + ":"))
+                        + (years === 0 && days === 0 ? "" : (days + ":"))
+                        + (years === 0 && days === 0 && hours === 0 ? "" : (hours.length < 2 ? ("0" + hours + ":") : (hours + ":")))
+                        + (years === 0 && days === 0 && hours === 0 && minutes === 0 ? "" : (minutes.length < 2 ? ("0" + minutes + ":") : (minutes + ":")))
+                        + (seconds < 10 ? "0" + seconds : seconds)
+                    );
                 }
             }
         }
+    }
 
-        (function ($) {
-            $(function () {
+        (function($) {
+            $(function() {
 
                 model = new EventsViewModel();
                 ko.applyBindings(model);
@@ -310,7 +312,7 @@
                         url: innerUrl,
                         data: innerData,
                         dataType: 'json',
-                        success: function (response) {
+                        success: function(response) {
                             if (response.error) {
                                 alert(response.error);
                             } else {
@@ -321,7 +323,7 @@
                                 $modal.modal('hide');
                             }
                         },
-                        error: function (err) {
+                        error: function(err) {
                             alert(err);
                         }
                     });
@@ -331,7 +333,7 @@
 
 
                 $addButton.off('click');
-                $addButton.on('click', function () {
+                $addButton.on('click', function() {
                     $datetimepicker.val('@DateTime.Now');
                     $shareGetInModalButton.hide();
                     $modal.modal('show');
@@ -339,7 +341,7 @@
                 });
 
                 $submitAddButton.off('click');
-                $submitAddButton.on('click', function () {
+                $submitAddButton.on('click', function() {
 
                     url = '/Home/AddEvent';
                     data = {
@@ -354,7 +356,7 @@
                 });
 
                 $table.off('click', '.btn-edit');
-                $table.on('click', '.btn-edit', function () {
+                $table.on('click', '.btn-edit', function() {
                     $shareGetInModalButton.show();
                     var $button = $(this);
                     var $tr = $button.parent().parent();
@@ -371,7 +373,7 @@
                     var id = $button.attr('id');
 
                     $shareGetInModalButton.off('click');
-                    $shareGetInModalButton.on('click', function () {
+                    $shareGetInModalButton.on('click', function() {
                         window.modalShareWork(id);
                         $modal.modal('hide');
                         return false;
@@ -386,7 +388,7 @@
 
 
                     $eventType.find('option')
-                        .filter(function () {
+                        .filter(function() {
                             return $(this).val() === event;
                         })
                         .prop('selected', true);
@@ -398,7 +400,7 @@
                     $deleteButton.show();
                     $modal.modal('show');
 
-                    $modal.on('hidden.bs.modal', function () {
+                    $modal.on('hidden.bs.modal', function() {
                         $modalTitle.text(defaultModalTitle);
                         $eventName.val('');
 
@@ -410,7 +412,7 @@
                     });
 
                     $saveButton.off('click');
-                    $saveButton.on('click', function () {
+                    $saveButton.on('click', function() {
 
                         url = '/Home/EditEvent';
                         data = {
@@ -425,7 +427,7 @@
                     });
 
                     $deleteButton.off('click');
-                    $deleteButton.on('click', function () {
+                    $deleteButton.on('click', function() {
 
                         url = '/Home/DeleteEvent';
                         data = {
@@ -439,7 +441,7 @@
                 });
 
                 $table.off('click', '.btn-share');
-                $table.on('click', '.btn-share', function () {
+                $table.on('click', '.btn-share', function() {
                     var $item = $(this);
                     var id = $item.attr('id');
                     window.modalShareWork(id);
@@ -449,4 +451,4 @@
 
             });
         })(jQuery);
-    </script>
+</script>

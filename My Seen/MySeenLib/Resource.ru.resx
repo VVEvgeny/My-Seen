@@ -717,4 +717,13 @@
   <data name="Load" xml:space="preserve">
     <value>Ещё</value>
   </data>
+  <data name="Ready" xml:space="preserve">
+    <value>Готово</value>
+  </data>
+  <data name="LastLogin" xml:space="preserve">
+    <value>Последний вход</value>
+  </data>
+  <data name="LastAction" xml:space="preserve">
+    <value>Последнее действие</value>
+  </data>
 </root>

@@ -1123,11 +1123,29 @@ namespace MySeenLib {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Last Action.
+        /// </summary>
+        public static string LastAction {
+            get {
+                return ResourceManager.GetString("LastAction", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Last Ep.
         /// </summary>
         public static string LastEpisode {
             get {
                 return ResourceManager.GetString("LastEpisode", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Last Login.
+        /// </summary>
+        public static string LastLogin {
+            get {
+                return ResourceManager.GetString("LastLogin", resourceCulture);
             }
         }
         
@@ -1380,6 +1398,15 @@ namespace MySeenLib {
         public static string Rating {
             get {
                 return ResourceManager.GetString("Rating", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Ready.
+        /// </summary>
+        public static string Ready {
+            get {
+                return ResourceManager.GetString("Ready", resourceCulture);
             }
         }
         

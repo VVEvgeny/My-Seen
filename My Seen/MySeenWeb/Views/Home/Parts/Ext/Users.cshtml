@@ -14,8 +14,9 @@
     <table class="table table-striped" id="table">
         <thead>
             <tr>
-                <th class="col-sm-5">@Resource.UserName</th>
+                <th class="col-sm-4">@Resource.UserName</th>
                 <th class="col-sm-1">@Resource.RegisterDate</th>
+                <th class="col-sm-1">@Resource.LastAction</th>
                 <th class="col-sm-1">@Resource.CultureName</th>
                 <th class="col-sm-1">@Resource.FilmsCount</th>
                 <th class="col-sm-1">@Resource.SerialsCount</th>
@@ -28,6 +29,7 @@
             <tr>
                 <td class="align-center" data-bind="text: name"></td>
                 <td class="align-center" data-bind="text: registerDate"></td>
+                <td class="align-center" data-bind="text: lastAction"></td>
                 <td class="align-center" data-bind="text: culture"></td>
                 <td class="align-center" data-bind="text: filmsCount"></td>
                 <td class="align-center" data-bind="text: serialsCount"></td>
@@ -50,6 +52,7 @@
 
         this.name = ko.observable(data.Name);
         this.registerDate = ko.observable(data.RegisterDate);
+        this.lastAction = ko.observable(data.LastActionText);
         this.culture = ko.observable(data.Culture);
         this.filmsCount = ko.observable(data.FilmsCount);
         this.serialsCount = ko.observable(data.SerialsCount);

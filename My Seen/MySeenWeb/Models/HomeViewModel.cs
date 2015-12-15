@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Web.Mvc;
 using MySeenLib;
+using MySeenWeb.Models.Tools;
 
 namespace MySeenWeb.Models
 {
@@ -97,7 +98,7 @@ namespace MySeenWeb.Models
                 else if (PageTracks) Tracks = new HomeViewModelTracks(userId, markersOnRoads, roadsYear);
                 else if (PageUsers) { }
                 else if (PageLogs) Logs = new HomeViewModelLogsMin();
-                else if (PageImprovements) Improvements = new HomeViewModelImprovementsMin();
+                else if (PageImprovements) Improvements = new HomeViewModelImprovementsMin(complex);
                 else if (PageEvents) Events = new HomeViewModelEventsMin();
                 else Films = new HomeViewModelFilmsMin();
 

@@ -292,6 +292,22 @@
     <Compile Include="Migrations\201512031424025_23.Designer.cs">
       <DependentUpon>201512031424025_23.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201512150837259_24.cs" />
+    <Compile Include="Migrations\201512150837259_24.Designer.cs">
+      <DependentUpon>201512150837259_24.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201512150907368_25.cs" />
+    <Compile Include="Migrations\201512150907368_25.Designer.cs">
+      <DependentUpon>201512150907368_25.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201512150914587_26.cs" />
+    <Compile Include="Migrations\201512150914587_26.Designer.cs">
+      <DependentUpon>201512150914587_26.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201512150921250_27.cs" />
+    <Compile Include="Migrations\201512150921250_27.Designer.cs">
+      <DependentUpon>201512150921250_27.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\HomeViewModelBooksMin.cs" />
@@ -693,6 +709,18 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201512031424025_23.resx">
       <DependentUpon>201512031424025_23.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201512150837259_24.resx">
+      <DependentUpon>201512150837259_24.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201512150907368_25.resx">
+      <DependentUpon>201512150907368_25.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201512150914587_26.resx">
+      <DependentUpon>201512150914587_26.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201512150921250_27.resx">
+      <DependentUpon>201512150921250_27.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

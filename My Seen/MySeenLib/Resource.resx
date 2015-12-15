@@ -717,4 +717,13 @@
   <data name="Load" xml:space="preserve">
     <value>Load</value>
   </data>
+  <data name="Ready" xml:space="preserve">
+    <value>Ready</value>
+  </data>
+  <data name="LastLogin" xml:space="preserve">
+    <value>Last Login</value>
+  </data>
+  <data name="LastAction" xml:space="preserve">
+    <value>Last Action</value>
+  </data>
 </root>
