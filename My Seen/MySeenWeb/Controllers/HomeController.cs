@@ -26,7 +26,8 @@ namespace MySeenWeb.Controllers
                 ReadUserSideStorage(UserSideStorageKeys.ImprovementsCategory, Defaults.ComplexBase.Indexes.All),
                 search,
                 MarkersOnRoads,
-                ReadUserSideStorage(UserSideStorageKeys.RoadsYear, 0)
+                ReadUserSideStorage(UserSideStorageKeys.RoadsYear, 0),
+                ReadUserSideStorage(UserSideStorageKeys.EndedEvents, 0) == 1
                 ));
         }
         [Authorize]
@@ -140,7 +141,7 @@ namespace MySeenWeb.Controllers
             LogSave.Save(User.Identity.IsAuthenticated ? User.Identity.GetUserId() : "", Request.UserHostAddress, Request.UserAgent, "Home/DeleteFilm", id);
            
             var logic= new FilmsLogic();
-            return !logic.MarkDeleted(id, User.Identity.GetUserId()) ? new JsonResult { Data = new { success = false, error = logic.ErrorMessage } } : Json(new { success = true });
+            return !logic.Delete(id, User.Identity.GetUserId()) ? new JsonResult { Data = new { success = false, error = logic.ErrorMessage } } : Json(new { success = true });
         }
         [Authorize]
         [HttpPost]
@@ -149,7 +150,7 @@ namespace MySeenWeb.Controllers
             LogSave.Save(User.Identity.IsAuthenticated ? User.Identity.GetUserId() : "", Request.UserHostAddress, Request.UserAgent, "Home/DeleteSerial", id);
 
             var logic = new SerialsLogic();
-            return !logic.MarkDeleted(id, User.Identity.GetUserId()) ? new JsonResult { Data = new { success = false, error = logic.ErrorMessage } } : Json(new { success = true });
+            return !logic.Delete(id, User.Identity.GetUserId()) ? new JsonResult { Data = new { success = false, error = logic.ErrorMessage } } : Json(new { success = true });
         }
         [Authorize]
         [HttpPost]
@@ -158,7 +159,7 @@ namespace MySeenWeb.Controllers
             LogSave.Save(User.Identity.IsAuthenticated ? User.Identity.GetUserId() : "", Request.UserHostAddress, Request.UserAgent, "Home/DeleteBook", id);
 
             var logic = new BooksLogic();
-            return !logic.MarkDeleted(id, User.Identity.GetUserId()) ? new JsonResult { Data = new { success = false, error = logic.ErrorMessage } } : Json(new { success = true });
+            return !logic.Delete(id, User.Identity.GetUserId()) ? new JsonResult { Data = new { success = false, error = logic.ErrorMessage } } : Json(new { success = true });
         }
         [Authorize]
         [HttpPost]

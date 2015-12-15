@@ -26,10 +26,10 @@ namespace MySeenWeb.Models
             }
 
             Pages = new PaginationViewModel(page,
-                ac.Films.Count(f => f.UserId == userId && f.isDeleted != true && (string.IsNullOrEmpty(search) || f.Name.Contains(search)))
+                ac.Films.Count(f => f.UserId == userId && (string.IsNullOrEmpty(search) || f.Name.Contains(search)))
                 , countInPage, "Home", "", routeValues);
 
-            Data = ac.Films.Where(f => f.UserId == userId && f.isDeleted != true && (string.IsNullOrEmpty(search) || f.Name.Contains(search)))
+            Data = ac.Films.Where(f => f.UserId == userId && (string.IsNullOrEmpty(search) || f.Name.Contains(search)))
                 .OrderByDescending(f => f.DateSee)
                 .Select(FilmsView.Map)
                 .Skip((Pages.CurentPage - 1) * countInPage)

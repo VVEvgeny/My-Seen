@@ -115,13 +115,21 @@ namespace MySeenWeb.Models.TablesLogic
         {
             return Fill(id, name, year, season, series, datetime, genre, rating, userId) && Verify() && Update();
         }
-        public bool MarkDeleted(string id, string userId)
+        public bool Delete(string id, string userId)
         {
             try
             {
                 Id = Convert.ToInt32(id);
-                _ac.Serials.First(f => f.UserId == userId && f.Id == Id).isDeleted = true;
-                _ac.SaveChanges();
+                if (_ac.Serials.Any(f => f.UserId == userId && f.Id == Id))
+                {
+                    _ac.Serials.RemoveRange(_ac.Serials.Where(f => f.UserId == userId && f.Id == Id));
+                    _ac.SaveChanges();
+                }
+                else
+                {
+                    ErrorMessage = Resource.NoData;
+                    return false;
+                }
             }
             catch (Exception e)
             {

@@ -100,6 +100,12 @@ namespace MySeenWeb.Controllers
             return Json("-");
         }
 
+        public JsonResult ChangeShowEndedEvents(string selected)
+        {
+            WriteUserSideStorage(UserSideStorageKeys.EndedEvents, selected);
+            return Json(new { success = true });
+        }
+
         [HttpPost]
         public JsonResult GetPage(int? page,string search)
         {
@@ -113,37 +119,43 @@ namespace MySeenWeb.Controllers
             if (ReadUserSideStorage(UserSideStorageKeys.HomeCategory, Defaults.CategoryBase.Indexes.Films) ==
                 Defaults.CategoryBase.Indexes.Events)
             {
-                return Json(new HomeViewModelEvents(User.Identity.GetUserId(), page ?? 1, Rpp , search));
+                return
+                    Json(new HomeViewModelEvents(User.Identity.GetUserId(), page ?? 1, Rpp, search,
+                        ReadUserSideStorage(UserSideStorageKeys.EndedEvents, 0) == 1 ));
             }
             else if (ReadUserSideStorage(UserSideStorageKeys.HomeCategory, Defaults.CategoryBase.Indexes.Films) ==
-                Defaults.CategoryBase.Indexes.Books)
+                     Defaults.CategoryBase.Indexes.Books)
             {
                 return Json(new HomeViewModelBooks(User.Identity.GetUserId(), page ?? 1, Rpp, search));
             }
             else if (ReadUserSideStorage(UserSideStorageKeys.HomeCategory, Defaults.CategoryBase.Indexes.Films) ==
-                Defaults.CategoryBase.Indexes.Serials)
+                     Defaults.CategoryBase.Indexes.Serials)
             {
                 return Json(new HomeViewModelSerials(User.Identity.GetUserId(), page ?? 1, Rpp, search));
             }
             else if (ReadUserSideStorage(UserSideStorageKeys.HomeCategory, Defaults.CategoryBase.Indexes.Films) ==
-                Defaults.CategoryBase.Indexes.Films)
+                     Defaults.CategoryBase.Indexes.Films)
             {
                 return Json(new HomeViewModelFilms(User.Identity.GetUserId(), page ?? 1, Rpp, search));
             }
             else if (ReadUserSideStorage(UserSideStorageKeys.HomeCategory, Defaults.CategoryBase.Indexes.Films) ==
-                 Defaults.CategoryBase.IndexesExt.Users)
+                     Defaults.CategoryBase.IndexesExt.Users)
             {
                 return Json(new HomeViewModelUsers(page ?? 1, Rpp));
             }
             else if (ReadUserSideStorage(UserSideStorageKeys.HomeCategory, Defaults.CategoryBase.Indexes.Films) ==
-                 Defaults.CategoryBase.IndexesExt.Logs)
+                     Defaults.CategoryBase.IndexesExt.Logs)
             {
                 return Json(new HomeViewModelLogs(page ?? 1, Rpp));
             }
             else if (ReadUserSideStorage(UserSideStorageKeys.HomeCategory, Defaults.CategoryBase.Indexes.Films) ==
-                 Defaults.CategoryBase.IndexesExt.Improvements)
+                     Defaults.CategoryBase.IndexesExt.Improvements)
             {
-                return Json(new HomeViewModelImprovements(ReadUserSideStorage(UserSideStorageKeys.ImprovementsCategory, Defaults.ComplexBase.Indexes.All), page ?? 1, Rpp));
+                return
+                    Json(
+                        new HomeViewModelImprovements(
+                            ReadUserSideStorage(UserSideStorageKeys.ImprovementsCategory,
+                                Defaults.ComplexBase.Indexes.All), page ?? 1, Rpp));
             }
             return Json("NOT REALIZED");
         }

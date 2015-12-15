@@ -18,7 +18,7 @@ namespace MySeenWeb.Models
             get { return Data.Any(); }
         }
 
-        public HomeViewModelEvents(string userId, int page, int countInPage, string search)
+        public HomeViewModelEvents(string userId, int page, int countInPage, string search, bool onlyEnded)
         {
             var routeValues = new Dictionary<string, object>();
             if (!string.IsNullOrEmpty(search))
@@ -32,7 +32,13 @@ namespace MySeenWeb.Models
             var data =
                 ac.Events.Where(f => f.UserId == userId && (string.IsNullOrEmpty(search) || f.Name.Contains(search)))
                     .Select(EventsView.Map)
-                    .Where(e => e.EstimatedTicks > 0 || e.RepeatType == Defaults.EventsTypesBase.Indexes.OneTimeWithPast)
+                    .Where(
+                        e =>
+                            onlyEnded
+                                ? e.EstimatedTicks <= 0 &&
+                                  e.RepeatType != Defaults.EventsTypesBase.Indexes.OneTimeWithPast
+                                : e.EstimatedTicks > 0 ||
+                                  e.RepeatType == Defaults.EventsTypesBase.Indexes.OneTimeWithPast)
                     .OrderBy(e => e.EstimatedTicks);
 
             Pages = new PaginationViewModel(page, data.Count(), countInPage, "Home", "", routeValues);

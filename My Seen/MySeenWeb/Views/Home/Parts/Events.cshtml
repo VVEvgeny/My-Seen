@@ -9,11 +9,13 @@
 
 <br/>
 
+@Html.DropDownList("Selected", Model.SelectListEvents, new { @class = "form-control", @id = "lstSelectedEvents", @style = "width: 200px;" })
+
 <div data-bind="visible: dataLoading " align="center">
         <img src="~/Content/Images/loading_small.gif" />
     </div>
 
-    <div data-bind="visible: events().length > 0">
+<div data-bind="visible: events().length > 0">
     <table class="table table-striped" id="table">
         <thead>
             <tr>
@@ -113,131 +115,131 @@
 
 <script language="javascript" type="text/javascript">
 
-        function Event(data) {
+    function Event(data) {
 
-            this.id = ko.observable(data.Id);
-            this.shared = ko.observable(data.Shared);
-            this.name = ko.observable(data.Name);
-            this.estimatedTo = ko.observable(data.EstimatedTo);
-            this.dateTo = ko.observable(data.DateToText);
-            this.dayOfWeekTo = ko.observable(data.DayOfWeekTo);
-            this.repeatType = ko.observable(data.RepeatType);
-            this.date = ko.observable(data.DateText);
-            this.haveHistory = ko.observable(data.HaveHistory);
-            this.estimatedLast = ko.observable(data.EstimatedLast);
-            this.dateLast = ko.observable(data.DateLastText);
-            this.dayOfWeekLast = ko.observable(data.DayOfWeekLast);
-        }
+        this.id = ko.observable(data.Id);
+        this.shared = ko.observable(data.Shared);
+        this.name = ko.observable(data.Name);
+        this.estimatedTo = ko.observable(data.EstimatedTo);
+        this.dateTo = ko.observable(data.DateToText);
+        this.dayOfWeekTo = ko.observable(data.DayOfWeekTo);
+        this.repeatType = ko.observable(data.RepeatType);
+        this.date = ko.observable(data.DateText);
+        this.haveHistory = ko.observable(data.HaveHistory);
+        this.estimatedLast = ko.observable(data.EstimatedLast);
+        this.dateLast = ko.observable(data.DateLastText);
+        this.dayOfWeekLast = ko.observable(data.DayOfWeekLast);
+    }
 
-        function EventsViewModel() {
+    function EventsViewModel() {
 
-            var self = this;
-            self.events = ko.observableArray([]);
-            self.dataLoading = ko.observable();
+        var self = this;
+        self.events = ko.observableArray([]);
+        self.dataLoading = ko.observable();
+        self.dataLoading(true);
+
+        self.loadData = function (data) {
+
+            var mapped = $.map(data.Data, function (item) { return new Event(item) });
+            if (self.events().length > 0) {
+                self.events.push.apply(self.events, mapped);
+            } else {
+                self.events(mapped);
+            }
+
+            window.showPagination(data.Pages);
+
+            self.dataLoading(false);
+        };
+
+        self.resetData = function () {
+            self.events.removeAll();
+        };
+
+        self.setLoadingData = function () {
             self.dataLoading(true);
+        };
+    }
 
-            self.loadData = function(data) {
+    var model;
 
-                var mapped = $.map(data.Data, function(item) { return new Event(item) });
-                if (self.events().length > 0) {
-                    self.events.push.apply(self.events, mapped);
-                } else {
-                    self.events(mapped);
+    function showPage(data) {
+
+        model.loadData(data);
+    }
+
+    function recalcEstimated() {
+        //console.log("recalcEstimated events=", model.events().length);
+        if (model.events().length > 0) {
+
+            for (var i = 0; i < model.events().length; i++) {
+
+                if (model.events()[i].estimatedTo() === '@Resource.Ready') continue;
+
+                //console.log("EstimatedTo=", model.events()[i].estimatedTo());
+                var estimatedTo = model.events()[i].estimatedTo();
+
+                var years = 0;
+                var days = 0;
+                var hours = 0;
+                var minutes = 0;
+                var seconds = 0;
+
+                var isMinus = false;
+                if (estimatedTo[0] === '-') { //Накапливаем
+                    isMinus = true;
+                    estimatedTo = estimatedTo.slice(2);
                 }
 
-                window.showPagination(data.Pages);
-
-                self.dataLoading(false);
-            };
-
-            self.resetData = function() {
-                self.events.removeAll();
-            };
-
-            self.setLoadingData = function() {
-                self.dataLoading(true);
-            };
-        }
-
-        var model;
-
-        function showPage(data) {
-
-            model.loadData(data);
-        }
-
-        function recalcEstimated() {
-            //console.log("recalcEstimated events=", model.events().length);
-            if (model.events().length > 0) {
-
-                for (var i = 0; i < model.events().length; i++) {
-
-                    if(model.events()[i].estimatedTo() === '@Resource.Ready') continue;
-
-                    //console.log("EstimatedTo=", model.events()[i].estimatedTo());
-                    var estimatedTo = model.events()[i].estimatedTo();
-
-                    var years = 0;
-                    var days = 0;
-                    var hours = 0;
-                    var minutes = 0;
-                    var seconds = 0;
-
-                    var isMinus = false;
-                    if (estimatedTo[0] === '-') { //Накапливаем
-                        isMinus = true;
-                        estimatedTo = estimatedTo.slice(2);
-                    }
-
-                    //console.log("имею строку=", estimatedTo);
-                    //console.log("формат=", estimatedTo.split(":").length);
+                //console.log("имею строку=", estimatedTo);
+                //console.log("формат=", estimatedTo.split(":").length);
 
 
-                    //1 есть секунды
-                    //2 есть и минуты
-                    //3 есть и часы
-                    //4 есть и дни
-                    //5 есть и год
+                //1 есть секунды
+                //2 есть и минуты
+                //3 есть и часы
+                //4 есть и дни
+                //5 есть и год
 
-                    if (estimatedTo.split(":").length === 5) {
-                        years = estimatedTo.split(":")[0];
-                        days = estimatedTo.split(":")[1];
-                        hours = estimatedTo.split(":")[2];
-                        minutes = estimatedTo.split(":")[3];
-                        seconds = estimatedTo.split(":")[4];
-                    }
-                    if (estimatedTo.split(":").length === 4) {
-                        days = estimatedTo.split(":")[0];
-                        hours = estimatedTo.split(":")[1];
-                        minutes = estimatedTo.split(":")[2];
-                        seconds = estimatedTo.split(":")[3];
-                    }
-                    if (estimatedTo.split(":").length === 3) {
-                        hours = estimatedTo.split(":")[0];
-                        minutes = estimatedTo.split(":")[1];
-                        seconds = estimatedTo.split(":")[2];
-                    }
-                    if (estimatedTo.split(":").length === 2) {
-                        minutes = estimatedTo.split(":")[0];
-                        seconds = estimatedTo.split(":")[1];
-                    }
-                    if (estimatedTo.split(":").length === 1) {
-                        seconds = estimatedTo.split(":")[0];
-                    }
+                if (estimatedTo.split(":").length === 5) {
+                    years = estimatedTo.split(":")[0];
+                    days = estimatedTo.split(":")[1];
+                    hours = estimatedTo.split(":")[2];
+                    minutes = estimatedTo.split(":")[3];
+                    seconds = estimatedTo.split(":")[4];
+                }
+                if (estimatedTo.split(":").length === 4) {
+                    days = estimatedTo.split(":")[0];
+                    hours = estimatedTo.split(":")[1];
+                    minutes = estimatedTo.split(":")[2];
+                    seconds = estimatedTo.split(":")[3];
+                }
+                if (estimatedTo.split(":").length === 3) {
+                    hours = estimatedTo.split(":")[0];
+                    minutes = estimatedTo.split(":")[1];
+                    seconds = estimatedTo.split(":")[2];
+                }
+                if (estimatedTo.split(":").length === 2) {
+                    minutes = estimatedTo.split(":")[0];
+                    seconds = estimatedTo.split(":")[1];
+                }
+                if (estimatedTo.split(":").length === 1) {
+                    seconds = estimatedTo.split(":")[0];
+                }
 
-                    //console.log(years+":"+days + ":" + hours + ":" + minutes + ":" + seconds);
-                    if (years === 0 && days === 0 && hours === 0 && minutes === 0 && (seconds === 0 || seconds === '00')) {
-                            model.events()[i].estimatedTo('@Resource.Ready');
-                    }
-                    else {
+                //console.log(years+":"+days + ":" + hours + ":" + minutes + ":" + seconds);
+                if (years === 0 && days === 0 && hours === 0 && minutes === 0 && (seconds === 0 || seconds === '00')) {
+                    model.events()[i].estimatedTo('@Resource.Ready');
+                }
+                else {
                     if (isMinus) {
                         seconds++;
                     } else {
                         seconds--;
                     }
 
-                        //скорректировать
-                        //60 сек => 0 сек +1 мин
+                    //скорректировать
+                    //60 сек => 0 сек +1 мин
                     if (seconds >= 60) {
                         seconds -= 60;
                         minutes++;
@@ -283,172 +285,182 @@
         }
     }
 
-        (function($) {
-            $(function() {
+    (function ($) {
+        $(function () {
 
-                model = new EventsViewModel();
-                ko.applyBindings(model);
+            model = new EventsViewModel();
+            ko.applyBindings(model);
 
-                window.getPage(); //Запрос на сервер
+            window.getPage(); //Запрос на сервер
 
-                setInterval(recalcEstimated, 1000);
+            setInterval(recalcEstimated, 1000);
 
-                var $addButton = $('#addButton');
-                var $submitAddButton = $('#submitAddButton');
-                var $table = $('.table.table-striped');
-                var $modal = $('#ModalAddWindow');
-                var url = '';
-                var data = {};
-                var $datetimepicker = $('#datetimepicker');
-                $datetimepicker.datetimepicker({
-                    //viewMode: 'years',
-                    locale: '@CultureInfoTool.GetCulture()'
-                });
-                var $shareGetInModalButton = $('#shareGetInModalButton');
+            var $addButton = $('#addButton');
+            var $submitAddButton = $('#submitAddButton');
+            var $table = $('.table.table-striped');
+            var $modal = $('#ModalAddWindow');
+            var url = '';
+            var data = {};
+            var $datetimepicker = $('#datetimepicker');
+            $datetimepicker.datetimepicker({
+                //viewMode: 'years',
+                locale: '@CultureInfoTool.GetCulture()'
+            });
+            var $shareGetInModalButton = $('#shareGetInModalButton');
 
-                function sendRequest(innerUrl, innerData) {
-                    $.ajax({
-                        type: 'POST',
-                        url: innerUrl,
-                        data: innerData,
-                        dataType: 'json',
-                        success: function(response) {
-                            if (response.error) {
-                                alert(response.error);
-                            } else {
-                                //window.location.href = window.location.href;
-                                var data = { page: $('#pagination-curent-page').val(), search: $('#quickSearch').val() };
-                                window.getPage(data); //Запрос на сервер
+            function sendRequest(innerUrl, innerData) {
+                $.ajax({
+                    type: 'POST',
+                    url: innerUrl,
+                    data: innerData,
+                    dataType: 'json',
+                    success: function (response) {
+                        if (response.error) {
+                            alert(response.error);
+                        } else {
+                            //window.location.href = window.location.href;
+                            var data = { page: $('#pagination-curent-page').val(), search: $('#quickSearch').val() };
+                            window.getPage(data); //Запрос на сервер
 
-                                $modal.modal('hide');
-                            }
-                        },
-                        error: function(err) {
-                            alert(err);
+                            $modal.modal('hide');
                         }
-                    });
+                    },
+                    error: function (err) {
+                        alert(err);
+                    }
+                });
 
-                    return false;
-                }
+                return false;
+            }
 
 
-                $addButton.off('click');
-                $addButton.on('click', function() {
-                    $datetimepicker.val('@DateTime.Now');
-                    $shareGetInModalButton.hide();
-                    $modal.modal('show');
+            var $select = $('#lstSelectedEvents');
+            $select.on('change', function () {
+                var value = $(this).val();
+                var data = { selected: value };
+                url = '/Json/ChangeShowEndedEvents';
+                sendRequest(url, data);
+
+                return false;
+            });
+
+            $addButton.off('click');
+            $addButton.on('click', function () {
+                $datetimepicker.val('@DateTime.Now');
+                $shareGetInModalButton.hide();
+                $modal.modal('show');
+                return false;
+            });
+
+            $submitAddButton.off('click');
+            $submitAddButton.on('click', function () {
+
+                url = '/Home/AddEvent';
+                data = {
+                    name: $('#eventName').val(),
+                    datetime: $('#datetimepicker').val(),
+                    type: $('#eventType').val()
+                };
+
+                sendRequest(url, data);
+
+                return false;
+            });
+
+            $table.off('click', '.btn-edit');
+            $table.on('click', '.btn-edit', function () {
+                $shareGetInModalButton.show();
+                var $button = $(this);
+                var $tr = $button.parent().parent();
+                var $tds = $tr.find('td');
+                var $modalTitle = $modal.find('.modal-title');
+                var $modalBody = $modal.find('.modal-body');
+                var $eventName = $modalBody.find('.event-name');
+                var $eventType = $modalBody.find('.event-type');
+
+                var $saveButton = $('#saveButton');
+                var $deleteButton = $('#deleteButton');
+                var defaultModalTitle = $modalTitle.text();
+
+                var id = $button.attr('id');
+
+                $shareGetInModalButton.off('click');
+                $shareGetInModalButton.on('click', function () {
+                    window.modalShareWork(id);
+                    $modal.modal('hide');
                     return false;
                 });
 
-                $submitAddButton.off('click');
-                $submitAddButton.on('click', function() {
+                var name = $tds.eq(1).text();
+                var date = $tds.eq(6).text();
+                var event = $tds.eq(5).text();
 
-                    url = '/Home/AddEvent';
+                $eventName.val(name);
+                $datetimepicker.val(date);
+
+
+                $eventType.find('option')
+                    .filter(function () {
+                        return $(this).val() === event;
+                    })
+                    .prop('selected', true);
+
+                $modalTitle.text('@Resource.Edit @Resource.Event');
+
+                $submitAddButton.hide();
+                $saveButton.show();
+                $deleteButton.show();
+                $modal.modal('show');
+
+                $modal.on('hidden.bs.modal', function () {
+                    $modalTitle.text(defaultModalTitle);
+                    $eventName.val('');
+
+                    $saveButton.hide();
+                    $deleteButton.hide();
+                    $submitAddButton.show();
+
+                    return false;
+                });
+
+                $saveButton.off('click');
+                $saveButton.on('click', function () {
+
+                    url = '/Home/EditEvent';
                     data = {
+                        id: id,
                         name: $('#eventName').val(),
                         datetime: $('#datetimepicker').val(),
                         type: $('#eventType').val()
                     };
 
                     sendRequest(url, data);
-
                     return false;
                 });
 
-                $table.off('click', '.btn-edit');
-                $table.on('click', '.btn-edit', function() {
-                    $shareGetInModalButton.show();
-                    var $button = $(this);
-                    var $tr = $button.parent().parent();
-                    var $tds = $tr.find('td');
-                    var $modalTitle = $modal.find('.modal-title');
-                    var $modalBody = $modal.find('.modal-body');
-                    var $eventName = $modalBody.find('.event-name');
-                    var $eventType = $modalBody.find('.event-type');
+                $deleteButton.off('click');
+                $deleteButton.on('click', function () {
 
-                    var $saveButton = $('#saveButton');
-                    var $deleteButton = $('#deleteButton');
-                    var defaultModalTitle = $modalTitle.text();
+                    url = '/Home/DeleteEvent';
+                    data = {
+                        id: id
+                    };
 
-                    var id = $button.attr('id');
-
-                    $shareGetInModalButton.off('click');
-                    $shareGetInModalButton.on('click', function() {
-                        window.modalShareWork(id);
-                        $modal.modal('hide');
-                        return false;
-                    });
-
-                    var name = $tds.eq(1).text();
-                    var date = $tds.eq(6).text();
-                    var event = $tds.eq(5).text();
-
-                    $eventName.val(name);
-                    $datetimepicker.val(date);
-
-
-                    $eventType.find('option')
-                        .filter(function() {
-                            return $(this).val() === event;
-                        })
-                        .prop('selected', true);
-
-                    $modalTitle.text('@Resource.Edit @Resource.Event');
-
-                    $submitAddButton.hide();
-                    $saveButton.show();
-                    $deleteButton.show();
-                    $modal.modal('show');
-
-                    $modal.on('hidden.bs.modal', function() {
-                        $modalTitle.text(defaultModalTitle);
-                        $eventName.val('');
-
-                        $saveButton.hide();
-                        $deleteButton.hide();
-                        $submitAddButton.show();
-
-                        return false;
-                    });
-
-                    $saveButton.off('click');
-                    $saveButton.on('click', function() {
-
-                        url = '/Home/EditEvent';
-                        data = {
-                            id: id,
-                            name: $('#eventName').val(),
-                            datetime: $('#datetimepicker').val(),
-                            type: $('#eventType').val()
-                        };
-
-                        sendRequest(url, data);
-                        return false;
-                    });
-
-                    $deleteButton.off('click');
-                    $deleteButton.on('click', function() {
-
-                        url = '/Home/DeleteEvent';
-                        data = {
-                            id: id
-                        };
-
-                        sendRequest(url, data);
-                        return false;
-                    });
+                    sendRequest(url, data);
                     return false;
                 });
-
-                $table.off('click', '.btn-share');
-                $table.on('click', '.btn-share', function() {
-                    var $item = $(this);
-                    var id = $item.attr('id');
-                    window.modalShareWork(id);
-
-                    return false;
-                });
-
+                return false;
             });
-        })(jQuery);
+
+            $table.off('click', '.btn-share');
+            $table.on('click', '.btn-share', function () {
+                var $item = $(this);
+                var id = $item.attr('id');
+                window.modalShareWork(id);
+
+                return false;
+            });
+
+        });
+    })(jQuery);
 </script>

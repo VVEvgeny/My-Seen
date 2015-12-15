@@ -22,8 +22,7 @@ namespace MySeenWeb.Controllers
                 DateChange = model.DateChange,
                 DateSee = model.DateSee,
                 Genre = model.Genre,
-                Rating = model.Rating,
-                IsDeleted = model.isDeleted
+                Rating = model.Rating
             };
         }
         public static Films MapToFilm(MySeenWebApi.SyncJsonData model, string userId)
@@ -37,7 +36,6 @@ namespace MySeenWeb.Controllers
                 DateSee = model.DateSee,
                 Genre = model.Genre,
                 Rating = model.Rating,
-                isDeleted = model.IsDeleted,
                 UserId = userId
             };
         }
@@ -56,8 +54,7 @@ namespace MySeenWeb.Controllers
                 DateBegin = model.DateBegin,
                 DateLast = model.DateLast,
                 LastSeason = model.LastSeason,
-                LastSeries = model.LastSeries,
-                IsDeleted = model.isDeleted
+                LastSeries = model.LastSeries
             };
         }
         public static Serials MapToSerial(MySeenWebApi.SyncJsonData model, string userId)
@@ -74,7 +71,6 @@ namespace MySeenWeb.Controllers
                 DateLast = model.DateLast,
                 LastSeason = model.LastSeason,
                 LastSeries = model.LastSeries,
-                isDeleted = model.IsDeleted,
                 UserId = userId
             };
         }
@@ -90,7 +86,6 @@ namespace MySeenWeb.Controllers
                 DateChange = model.DateChange,
                 Genre = model.Genre,
                 Rating = model.Rating,
-                IsDeleted = model.isDeleted,
                 Authors = model.Authors,
                 DateRead = model.DateRead
             };
@@ -107,8 +102,7 @@ namespace MySeenWeb.Controllers
                 Rating = model.Rating,
                 UserId = userId,
                 Authors = model.Authors,
-                DateRead = model.DateRead,
-                isDeleted = model.IsDeleted
+                DateRead = model.DateRead
             };
         }
         public string GetUserId(string userKey)
@@ -217,7 +211,6 @@ namespace MySeenWeb.Controllers
                                     filmDb.DateChange = film.DateChange;
                                     filmDb.DateSee = film.DateSee;
                                     filmDb.Genre = film.Genre;
-                                    filmDb.isDeleted = film.IsDeleted;
                                     filmDb.Rating = film.Rating;
                                 }
                             }
@@ -236,7 +229,6 @@ namespace MySeenWeb.Controllers
                                     filmDb.DateChange = film.DateChange;
                                     filmDb.DateSee = film.DateSee;
                                     filmDb.Genre = film.Genre;
-                                    filmDb.isDeleted = film.IsDeleted;
                                     filmDb.Rating = film.Rating;
                                     filmDb.Name = film.Name;
                                 }
@@ -258,7 +250,6 @@ namespace MySeenWeb.Controllers
                                 {
                                     filmDb.DateChange = film.DateChange;
                                     filmDb.Genre = film.Genre;
-                                    filmDb.isDeleted = film.IsDeleted;
                                     filmDb.Rating = film.Rating;
                                     filmDb.DateBegin = film.DateBegin;
                                     filmDb.DateLast = film.DateLast;
@@ -280,7 +271,6 @@ namespace MySeenWeb.Controllers
                                 {
                                     filmDb.DateChange = film.DateChange;
                                     filmDb.Genre = film.Genre;
-                                    filmDb.isDeleted = film.IsDeleted;
                                     filmDb.Rating = film.Rating;
                                     filmDb.DateBegin = film.DateBegin;
                                     filmDb.DateLast = film.DateLast;
@@ -306,7 +296,6 @@ namespace MySeenWeb.Controllers
                                 {
                                     filmDb.DateChange = film.DateChange;
                                     filmDb.Genre = film.Genre;
-                                    filmDb.isDeleted = film.IsDeleted;
                                     filmDb.Rating = film.Rating;
                                     filmDb.DateRead = film.DateRead;
                                     filmDb.Authors = film.Authors;
@@ -326,7 +315,6 @@ namespace MySeenWeb.Controllers
                                 {
                                     filmDb.DateChange = film.DateChange;
                                     filmDb.Genre = film.Genre;
-                                    filmDb.isDeleted = film.IsDeleted;
                                     filmDb.Rating = film.Rating;
                                     filmDb.DateRead = film.DateRead;
                                     filmDb.Authors = film.Authors;

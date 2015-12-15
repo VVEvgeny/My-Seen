@@ -87,7 +87,7 @@ namespace MySeenWeb.Models
 
         public string Search { get; set; }
 
-        public HomeViewModel(string selected, string userId, int page, int countInPage, int complex, string search, int markersOnRoads, int roadsYear)
+        public HomeViewModel(string selected, string userId, int page, int countInPage, int complex, string search, int markersOnRoads, int roadsYear,bool onlyEnded)
         {
             if (!string.IsNullOrEmpty(userId))
             {
@@ -99,7 +99,7 @@ namespace MySeenWeb.Models
                 else if (PageUsers) { }
                 else if (PageLogs) Logs = new HomeViewModelLogsMin();
                 else if (PageImprovements) Improvements = new HomeViewModelImprovementsMin(complex);
-                else if (PageEvents) Events = new HomeViewModelEventsMin();
+                else if (PageEvents) Events = new HomeViewModelEventsMin(onlyEnded);
                 else Films = new HomeViewModelFilmsMin();
 
                 var listItems =

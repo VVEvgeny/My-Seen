@@ -20,7 +20,6 @@ namespace MySeenWeb.Models.TablesViews
                 Genre = model.Genre,
                 Rating = model.Rating,
                 DateRead = UmtTime.From(model.DateRead),
-                isDeleted = model.isDeleted,
                 Authors = model.Authors,
                 Shared = model.Shared
             };

@@ -268,6 +268,15 @@ namespace MySeenLib {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Active.
+        /// </summary>
+        public static string Active {
+            get {
+                return ResourceManager.GetString("Active", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Add.
         /// </summary>
         public static string Add {
@@ -750,6 +759,15 @@ namespace MySeenLib {
         public static string Enabled {
             get {
                 return ResourceManager.GetString("Enabled", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Ended.
+        /// </summary>
+        public static string Ended {
+            get {
+                return ResourceManager.GetString("Ended", resourceCulture);
             }
         }
         

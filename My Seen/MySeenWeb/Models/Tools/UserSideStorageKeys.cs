@@ -9,5 +9,7 @@
         public static string HomeCategory = "HomeCategory";
         public static string HomeCategoryPrev = "HomeCategoryPrev";
         public static string ImprovementsCategory = "ImprovementsCategory";
+
+        public static string EndedEvents = "EndedEvents"; //0 - не показывать, 1 - показывать
     }
 }

@@ -726,4 +726,10 @@
   <data name="LastAction" xml:space="preserve">
     <value>Last Action</value>
   </data>
+  <data name="Active" xml:space="preserve">
+    <value>Active</value>
+  </data>
+  <data name="Ended" xml:space="preserve">
+    <value>Ended</value>
+  </data>
 </root>
