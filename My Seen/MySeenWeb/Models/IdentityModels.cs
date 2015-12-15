@@ -49,6 +49,7 @@ namespace MySeenWeb.Models
         public DbSet<Books> Books { get; set; }
         public DbSet<Tracks> Tracks { get; set; }
         public DbSet<Events> Events { get; set; }
+        public DbSet<UserCredits> UserCredits { get; set; }
 
         public static ApplicationDbContext Create()
         {

@@ -312,6 +312,10 @@
     <Compile Include="Migrations\201512150942293_28.Designer.cs">
       <DependentUpon>201512150942293_28.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201512151330245_29.cs" />
+    <Compile Include="Migrations\201512151330245_29.Designer.cs">
+      <DependentUpon>201512151330245_29.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\HomeViewModelBooksMin.cs" />
@@ -330,11 +334,13 @@
     <Compile Include="Models\TablesLogic\ImprovementLogic.cs" />
     <Compile Include="Models\TablesLogic\SerialsLogic.cs" />
     <Compile Include="Models\TablesLogic\FilmsLogic.cs" />
+    <Compile Include="Models\TablesLogic\UserCreditsLogic.cs" />
     <Compile Include="Models\TablesViews\EventsView.cs" />
     <Compile Include="Models\TablesViews\ShareTrackInfo.cs" />
     <Compile Include="Models\TablesViews\ITrackInfo.cs" />
     <Compile Include="Models\TablesViews\TrackInfo.cs" />
     <Compile Include="Models\Tables\Events.cs" />
+    <Compile Include="Models\Tables\UserCredits.cs" />
     <Compile Include="Models\Tools\UserSideStorageKeys.cs" />
     <Compile Include="Models\Tables\Bugs.cs" />
     <Compile Include="Models\TablesViews\BugsView.cs" />
@@ -728,6 +734,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201512150942293_28.resx">
       <DependentUpon>201512150942293_28.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201512151330245_29.resx">
+      <DependentUpon>201512151330245_29.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

@@ -1,10 +1,16 @@
 ﻿using System;
 using System.Linq;
+using System.Security.Principal;
+using System.Threading;
+using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
+using System.Web.Security;
 using MySeenWeb.Models;
 using Microsoft.AspNet.Identity;
+using Microsoft.AspNet.Identity.Owin;
 using MySeenLib;
+using MySeenWeb.Models.TablesLogic;
 using MySeenWeb.Models.Tools;
 
 namespace MySeenWeb.Controllers
@@ -311,8 +317,42 @@ namespace MySeenWeb.Controllers
             }
             else
             {
-                LogSave.Save(User.Identity.IsAuthenticated ? User.Identity.GetUserId() : "", Request.UserHostAddress,
-                    Request.UserAgent, "BaseA", Request.Path);
+                LogSave.Save(User.Identity.IsAuthenticated ? User.Identity.GetUserId() : "", Request.UserHostAddress,Request.UserAgent, "BaseA", Request.Path);
+                if (!User.Identity.IsAuthenticated)
+                {
+                    var privateKey = ReadUserSideStorage(UserSideStorageKeys.UserCreditsForAutologin, string.Empty);
+                    if (!string.IsNullOrEmpty(privateKey))
+                    {
+                        var logic = new UserCreditsLogic();
+                        if (logic.Verify(privateKey, Request.UserAgent))
+                        {
+                            //LogSave.Save("", "", "", "логин проверка пройдена");
+
+                            var userManager = HttpContext.GetOwinContext().GetUserManager<ApplicationUserManager>();
+                            var signInManager = HttpContext.GetOwinContext().Get<ApplicationSignInManager>();
+
+                            var user = userManager.FindByName(logic.UserName);
+
+                            //LogSave.Save("", "", "", "авторизуемся с", logic.UserName);
+
+                            if (user != null)
+                            {
+                                //LogSave.Save(User.Identity.IsAuthenticated ? User.Identity.GetUserId() : "",Request.UserHostAddress, Request.UserAgent, "AutoLogin", user.UserName);
+                                signInManager.SignIn(user, true, true);
+
+                                var identity = userManager.CreateIdentity(user,DefaultAuthenticationTypes.ApplicationCookie);
+                                var myPrincipal = new GenericPrincipal(identity, new string[] { });
+                                //LogSave.Save("", "", "", "авторизуемся myPrincipal GetUserId", myPrincipal.Identity.GetUserId());
+                                ControllerContext.HttpContext.User = myPrincipal;
+                                HttpContext.User = myPrincipal;
+                                Thread.CurrentPrincipal = myPrincipal;
+
+                                //цель чтоб тут у него уже был пользователь
+                                //LogSave.Save(User.Identity.IsAuthenticated ? User.Identity.GetUserId() : "",Request.UserHostAddress, Request.UserAgent, "AutoLoginTest", user.UserName);
+                            }
+                        }
+                    }
+                }
             }
             SetLang();
             return base.BeginExecuteCore(callback, state);

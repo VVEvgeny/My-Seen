@@ -11,5 +11,6 @@
         public static string ImprovementsCategory = "ImprovementsCategory";
 
         public static string EndedEvents = "EndedEvents"; //0 - не показывать, 1 - показывать
+        public static string UserCreditsForAutologin = "UserCreditsForAutologin";
     }
 }

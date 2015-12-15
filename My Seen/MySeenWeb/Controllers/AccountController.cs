@@ -10,6 +10,7 @@ using MySeenWeb.Models;
 using MySeenLib;
 using MySeenWeb.ActionFilters;
 using MySeenWeb.Add_Code;
+using MySeenWeb.Models.TablesLogic;
 using MySeenWeb.Models.Tools;
 
 namespace MySeenWeb.Controllers
@@ -82,6 +83,12 @@ namespace MySeenWeb.Controllers
             if (string.IsNullOrEmpty(errorMessage) && await SignInManager.PasswordSignInAsync(userName.ToLower(), password, bool.Parse(remember), shouldLockout: false) != SignInStatus.Success)
             {
                 errorMessage = Resource.EmailIncorrect;
+            }
+            else
+            {
+                var logic = new UserCreditsLogic();
+                WriteUserSideStorage(UserSideStorageKeys.UserCreditsForAutologin,
+                    logic.GetNew(userName, Request.UserAgent));
             }
             return !string.IsNullOrEmpty(errorMessage) ? new JsonResult { Data = new { success = false, error = errorMessage } } : Json(new { success = true });
         }
@@ -379,6 +386,9 @@ namespace MySeenWeb.Controllers
             switch (result)
             {
                 case SignInStatus.Success:
+                    var logic = new UserCreditsLogic();
+                    WriteUserSideStorage(UserSideStorageKeys.UserCreditsForAutologin, logic.GetNew(loginInfo.Email, Request.UserAgent));
+
                     return RedirectToLocal(returnUrl);
                 case SignInStatus.LockedOut:
                     return View("Lockout");
@@ -476,6 +486,11 @@ namespace MySeenWeb.Controllers
         {
             LogSave.Save(User.Identity.IsAuthenticated ? User.Identity.GetUserId() : "", Request.UserHostAddress, Request.UserAgent, "Account/LogOff");
             AuthenticationManager.SignOut(DefaultAuthenticationTypes.ApplicationCookie);
+
+            var logic = new UserCreditsLogic();
+            logic.Remove(User.Identity.GetUserId(), Request.UserAgent);
+            WriteUserSideStorage(UserSideStorageKeys.UserCreditsForAutologin,string.Empty);
+
             return RedirectToAction("Index", "Home");
         }
 
