@@ -327,6 +327,8 @@
     <Compile Include="Models\HomeViewModelLogsMin.cs" />
     <Compile Include="Models\HomeViewModelSerialsMin.cs" />
     <Compile Include="Models\HomeViewModelTrackEditor.cs" />
+    <Compile Include="Models\ShareViewModelFilms.cs" />
+    <Compile Include="Models\ShareViewModelFilmsMin.cs" />
     <Compile Include="Models\ShareViewModelTracks.cs" />
     <Compile Include="Models\TablesLogic\EventsLogic.cs" />
     <Compile Include="Models\TablesLogic\BooksLogic.cs" />
@@ -637,6 +639,7 @@
     <Content Include="Views\Tools\TestCookie.cshtml" />
     <Content Include="Views\Home\Parts\Parts\JsonGetPage.cshtml" />
     <Content Include="Views\Home\Parts\Tools\PaginationKO.cshtml" />
+    <Content Include="Views\Share\Tools\GetPage.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

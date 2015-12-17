@@ -13,7 +13,8 @@ namespace MySeenWeb.Controllers
         public ActionResult Films(string id)
         {
             LogSave.Save(User.Identity.IsAuthenticated ? User.Identity.GetUserId() : "", Request.UserHostAddress, Request.UserAgent, "Share/Films", id);
-            return View();
+            var model = new ShareViewModelFilmsMin(id);
+            return View(model);
         }
 
         [BrowserActionFilter]

@@ -117,8 +117,8 @@ function showTrack(id, centerAndZoom,color) {
             addPolyline(trackCoordsLatLng, color);
         }
         
-        addMarker(trackInfo.Start, "Start " + trackInfo.Name + " - " + trackInfo.DateText, "start", trackInfo.Id);
-        addMarker(trackInfo.End, "End " + trackInfo.Name + " - " + trackInfo.DateText, "end", trackInfo.Id);
+        addMarker(trackInfo.Start, trackInfo.Name + " - " + trackInfo.DateText, "start", trackInfo.Id);
+        addMarker(trackInfo.End, trackInfo.Name + " - " + trackInfo.DateText, "end", trackInfo.Id);
     });
 }
 

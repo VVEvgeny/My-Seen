@@ -103,11 +103,11 @@ namespace MySeenWeb.Controllers
         public JsonResult ChangeShowEndedEvents(string selected)
         {
             WriteUserSideStorage(UserSideStorageKeys.EndedEvents, selected);
-            return Json(new { success = true });
+            return Json(new {success = true});
         }
 
         [HttpPost]
-        public JsonResult GetPage(int? page,string search)
+        public JsonResult GetPage(int? page, string search)
         {
             if (!User.Identity.IsAuthenticated) return Json(Auth.NoAuth);
 
@@ -121,7 +121,7 @@ namespace MySeenWeb.Controllers
             {
                 return
                     Json(new HomeViewModelEvents(User.Identity.GetUserId(), page ?? 1, Rpp, search,
-                        ReadUserSideStorage(UserSideStorageKeys.EndedEvents, 0) == 1 ));
+                        ReadUserSideStorage(UserSideStorageKeys.EndedEvents, 0) == 1));
             }
             else if (ReadUserSideStorage(UserSideStorageKeys.HomeCategory, Defaults.CategoryBase.Indexes.Films) ==
                      Defaults.CategoryBase.Indexes.Books)
@@ -159,5 +159,15 @@ namespace MySeenWeb.Controllers
             }
             return Json("NOT REALIZED");
         }
-    }
+
+        [HttpPost]
+        public JsonResult GetSharedPage(string pageName, string key, int? page, string search)
+        {
+            if (pageName.ToLower() == "films")
+            {
+                return Json(new ShareViewModelFilms(key, page ?? 1, Rpp));
+            }
+            return Json("NOT REALIZED");
+        }
+}
 }

@@ -1,0 +1,30 @@
+﻿<script language="javascript" type="text/javascript">
+
+    var sharedKey = '';
+    var sharedPageName = '';
+
+    function getPage(data, noReset) {
+
+        //console.log("getPage data=" + data + " noReset=" + noReset);
+
+        if (window.model) window.model.setLoadingData();
+        if (window.model && noReset !== true) {
+            window.model.resetData();
+        }
+        var addData = { key: sharedKey, pageName: sharedPageName };
+        if (data) {
+            $.extend(addData, data);
+        }
+        data = addData;
+
+        //console.log("GetSharedPage data=", data);
+
+        $.post('/Json/GetSharedPage/', data, function(jsonData) {
+
+            //console.log("GetSharedPage jsonData=", jsonData);
+
+            window.showPage(jsonData);
+
+        }, "json");
+    };
+</script>

@@ -1,3 +1,102 @@
-﻿<br />
+﻿@model MySeenWeb.Models.ShareViewModelFilmsMin
 
-пока не сделано
+@Scripts.Render("~/bundles/jquery", "~/bundles/bootstrap")
+@Scripts.Render("~/bundles/myseen.table")
+@Scripts.Render("~/bundles/knockout")
+
+<br />
+
+<div data-bind="visible: dataLoading " align="center">
+    <img src="~/Content/Images/loading_small.gif" />
+</div>
+
+<div data-bind="visible: films().length > 0">
+    <table class="table table-striped" id="table">
+        <thead>
+            <tr>
+                <th class="col-sm-7">@Resource.Name</th>
+                <th class="col-sm-1">@Resource.Year</th>
+                <th class="col-sm-2">@Resource.Seen</th>
+                <th class="col-sm-1">@Resource.Genre</th>
+                <th class="col-sm-1">@Resource.Rating</th>
+            </tr>
+        </thead>
+        <tbody data-bind="foreach: films">
+            <tr>
+                <td class="align-center" data-bind="text: name"></td>
+                <td class="align-center" data-bind="text: year"></td>
+                <td class="align-center" data-bind="text: seen"></td>
+                <td class="align-center" data-bind="text: genre"></td>
+                <td class="align-center" data-bind="text: rating"></td>
+            </tr>
+        </tbody>
+    </table>
+
+    @Html.Partial("../Home/Parts/Tools/PaginationKO")
+
+</div>
+
+@Html.Partial("Tools/GetPage")
+
+<script language="javascript" type="text/javascript">
+
+    function Film(data) {
+
+        this.name = ko.observable(data.Name);
+        this.year = ko.observable(data.YearText);
+        this.seen = ko.observable(data.DateSeeText);
+        this.genre = ko.observable(data.GenreText);
+        this.rating = ko.observable(data.RatingText);
+    }
+
+    function FilmsViewModel() {
+
+        var self = this;
+        self.films = ko.observableArray([]);
+        self.dataLoading = ko.observable();
+        self.dataLoading(true);
+
+        self.loadData = function (data) {
+
+            var mapped = $.map(data.Data, function (item) { return new Film(item) });
+            if (self.films().length > 0) {
+                self.films.push.apply(self.films, mapped);
+            } else {
+                self.films(mapped);
+            }
+
+            window.showPagination(data.Pages);
+
+            self.dataLoading(false);
+        };
+
+        self.resetData = function () {
+            self.films.removeAll();
+        };
+
+        self.setLoadingData = function () {
+            self.dataLoading(true);
+        };
+    }
+
+    var model;
+
+    function showPage(data) {
+
+        model.loadData(data);
+    }
+
+    (function ($) {
+        $(function () {
+
+            model = new FilmsViewModel();
+            ko.applyBindings(model);
+
+            window.sharedKey = '@Model.Key';
+            window.sharedPageName = 'films';
+
+            window.getPage(); //Запрос на сервер
+
+        });
+    })(jQuery);
+</script>
