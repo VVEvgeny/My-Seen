@@ -2,14 +2,13 @@
 using System.Linq;
 using System.Security.Principal;
 using System.Threading;
-using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
-using System.Web.Security;
 using MySeenWeb.Models;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using MySeenLib;
+using MySeenWeb.Models.OtherViewModels;
 using MySeenWeb.Models.TablesLogic;
 using MySeenWeb.Models.Tools;
 
@@ -29,7 +28,6 @@ namespace MySeenWeb.Controllers
         public bool IsCookieEnabled
         {
             get { return TryReadCookies("TestCookes"); }
-            //get { return false; }
         }
         private bool TryReadCookies(string key)
         {
@@ -276,11 +274,11 @@ namespace MySeenWeb.Controllers
 
         private void SaveBotLog()
         {
-            var user = Request.UserAgent != null && Request.UserAgent.Contains("YandexMetrika")
+            var user = Request.UserAgent != null && Request.UserAgent.ToLower().Contains("YandexMetrika".ToLower())
                 ? "YandexMetrika"
-                : Request.UserAgent != null && Request.UserAgent.Contains("Googlebot")
+                : Request.UserAgent != null && Request.UserAgent.ToLower().Contains("Googlebot".ToLower())
                     ? "Googlebot"
-                    : Request.UserAgent != null && Request.UserAgent.Contains("Google favicon")
+                    : Request.UserAgent != null && Request.UserAgent.ToLower().Contains("Google favicon".ToLower())
                         ? "Google favicon"
                         : Request.UserAgent;
             LogSave.Save(user, Request.UserHostAddress, Request.UserAgent, "Base"
@@ -294,8 +292,8 @@ namespace MySeenWeb.Controllers
         protected override void ExecuteCore()
         {
             if (Request.UserAgent != null &&
-                (Request.UserAgent.Contains("YandexMetrika") || Request.UserAgent.Contains("Googlebot") ||
-                 Request.UserAgent.Contains("Google favicon")))
+                (Request.UserAgent.ToLower().Contains("YandexMetrika".ToLower()) || Request.UserAgent.ToLower().Contains("Googlebot".ToLower()) ||
+                 Request.UserAgent.ToLower().Contains("Google favicon".ToLower())))
             {
                 SaveBotLog();
             }
@@ -310,8 +308,8 @@ namespace MySeenWeb.Controllers
         protected override IAsyncResult BeginExecuteCore(AsyncCallback callback, object state)
         {
             if (Request.UserAgent != null &&
-                (Request.UserAgent.Contains("YandexMetrika") || Request.UserAgent.Contains("Googlebot") ||
-                 Request.UserAgent.Contains("Google favicon")))
+                (Request.UserAgent.ToLower().Contains("YandexMetrika".ToLower()) || Request.UserAgent.ToLower().Contains("Googlebot".ToLower()) ||
+                 Request.UserAgent.ToLower().Contains("Google favicon".ToLower())))
             {
                 SaveBotLog();
             }

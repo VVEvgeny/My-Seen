@@ -2,6 +2,7 @@
 using System.Web.Http;
 using MySeenWeb.Models;
 using MySeenLib;
+using MySeenWeb.Models.OtherViewModels;
 using MySeenWeb.Models.Tools;
 
 namespace MySeenWeb.Controllers

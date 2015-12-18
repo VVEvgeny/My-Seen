@@ -1,4 +1,14 @@
-﻿.width-450 {
+﻿.myseen-button-mobile-about {
+    margin-bottom:4px;
+    white-space: normal;
+  }
+
+.myseen-modal-close {
+    color: #ff0000;
+    opacity: 1; 
+}
+
+.width-450 {
     width: 450px;
   }
 

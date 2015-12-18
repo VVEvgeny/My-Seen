@@ -7,65 +7,66 @@
 @Scripts.Render("~/bundles/myseen.table")
 @Scripts.Render("~/bundles/knockout")
 
-<br/>
-
-@Html.DropDownList("Selected", Model.SelectListEvents, new { @class = "form-control", @id = "lstSelectedEvents", @style = "width: 200px;" })
+@Html.DropDownList("Selected", Model.SelectListEvents, new { @class = "form-control", @id = "lstSelectedEvents", @style = "width: 150px;" })
 
 <div data-bind="visible: dataLoading " align="center">
-        <img src="~/Content/Images/loading_small.gif" />
+    <img src="~/Content/Images/loading_small.gif" />
+</div>
+
+<div data-bind="visible: events().length > 0" style="display: none;">
+
+    <div class="table-responsive">
+        <table class="table table-striped" id="table">
+            <thead>
+                <tr>
+                    <th class="col-sm-1"></th>
+                    <th class="col-sm-2">@Resource.Event</th>
+                    <th class="col-sm-2">@Resource.To</th>
+                    <th class="col-sm-2">@Resource.When</th>
+                    <th class="col-sm-1">@Resource.Day</th>
+                    <th style="display: none;"></th>
+                    <th style="display: none;"></th>
+                    <th>|</th>
+                    <th class="col-sm-2">@Resource.Last</th>
+                    <th class="col-sm-2">@Resource.When</th>
+                    <th class="col-sm-1">@Resource.Day</th>
+                </tr>
+            </thead>
+            <tbody data-bind="foreach: events">
+                <tr>
+                    <td class="align-center">
+                        <button type="button" class="btn btn-warning btn-edit btn-xs" data-bind="attr: {id: id}"> <span class=" glyphicon glyphicon-pencil"></span></button>
+                        <button class="btn btn-xs btn-info btn-share" data-bind=" visible: shared, attr: {id: id}"><span class="glyphicon glyphicon-share"></span></button>
+                    </td>
+                    <td class="align-center" data-bind="text: name"></td>
+                    <td class="align-center" data-bind="text: estimatedTo"></td>
+                    <td class="align-center" data-bind="text: dateTo"></td>
+                    <td class="align-center" data-bind="text: dayOfWeekTo"></td>
+                    <td style="display: none;" data-bind="text: repeatType"></td>
+                    <td style="display: none;" data-bind="text: date"></td>
+                    <td class="align-center">|</td>
+                    <!-- ko if: haveHistory -->
+                    <td class="align-center" data-bind="text: estimatedLast"></td>
+                    <td class="align-center" data-bind="text: dateLast"></td>
+                    <td class="align-center" data-bind="text: dayOfWeekLast"></td>
+                    <!-- /ko -->
+                </tr>
+            </tbody>
+        </table>
     </div>
 
-<div data-bind="visible: events().length > 0">
-    <table class="table table-striped" id="table">
-        <thead>
-            <tr>
-                <th class="col-sm-1"></th>
-                <th class="col-sm-2">@Resource.Event</th>
-                <th class="col-sm-2">@Resource.To</th>
-                <th class="col-sm-2">@Resource.When</th>
-                <th class="col-sm-1">@Resource.Day</th>
-                <th style="display: none;"></th>
-                <th style="display: none;"></th>
-                <th>|</th>
-                <th class="col-sm-2">@Resource.Last</th>
-                <th class="col-sm-2">@Resource.When</th>
-                <th class="col-sm-1">@Resource.Day</th>
-            </tr>
-        </thead>
-        <tbody data-bind="foreach: events">
-            <tr>
-                <td class="align-center">
-                    <button type="button" class="btn btn-warning btn-edit btn-xs" data-bind="attr: {id: id}"> <span class=" glyphicon glyphicon-pencil"></span></button>
-                    <button class="btn btn-xs btn-info btn-share" data-bind=" visible: shared, attr: {id: id}"><span class="glyphicon glyphicon-share"></span></button>
-                </td>
-                <td class="align-center" data-bind="text: name"></td>
-                <td class="align-center" data-bind="text: estimatedTo"></td>
-                <td class="align-center" data-bind="text: dateTo"></td>
-                <td class="align-center" data-bind="text: dayOfWeekTo"></td>
-                <td style="display: none;" data-bind="text: repeatType"></td>
-                <td style="display: none;" data-bind="text: date"></td>
-                <td class="align-center">|</td>
-                <!-- ko if: haveHistory -->
-                <td class="align-center" data-bind="text: estimatedLast"></td>
-                <td class="align-center" data-bind="text: dateLast"></td>
-                <td class="align-center" data-bind="text: dayOfWeekLast"></td>
-                <!-- /ko -->
-            </tr>
-        </tbody>
-    </table>
-
-    @Html.Partial("Parts/Tools/PaginationKO")
+    @Html.Partial("../Tools/PaginationKO")
 
 </div>
 
-@Html.Partial("Parts/Parts/JsonGetPage")
+@Html.Partial("Parts/Tools/JsonGetPage")
 
 <div class="modal fade modal-window" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" id="ModalAddWindow">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                <h4 class="modal-title">@Resource.AddNew @Resource.Event</h4>
+                <button type="button" class="close myseen-modal-close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title text-center">@Resource.AddNew @Resource.Event</h4>
             </div>
             <div class="modal-body">
                 <div class="form-horizontal">
@@ -98,7 +99,7 @@
                     <span class="glyphicon glyphicon-trash"></span>
                     &nbsp;@Resource.Delete
                 </button>
-                <button type="button" class="btn btn-success" id="submitAddButton">
+                <button type="button" class="btn btn-success btn-block" id="submitAddButton">
                     <span class="glyphicon glyphicon-ok"></span>
                     &nbsp;@Resource.Add
                 </button>
@@ -111,7 +112,7 @@
     </div>
 </div>
 
-    @Html.Partial("Parts/Parts/ModalShare", "events")
+@Html.Partial("Parts/Parts/ModalShare", "events")
 
 <script language="javascript" type="text/javascript">
 

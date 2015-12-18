@@ -9,6 +9,7 @@ using Microsoft.Owin.Security;
 using MySeenWeb.Models;
 using MySeenLib;
 using MySeenWeb.ActionFilters;
+using MySeenWeb.Models.OtherViewModels;
 using MySeenWeb.Models.Tools;
 
 namespace MySeenWeb.Controllers
@@ -58,7 +59,6 @@ namespace MySeenWeb.Controllers
         // GET: /Manage/Index
         public async Task<ActionResult> Index(ManageMessageId? message)
         {
-            LogSave.Save(User.Identity.IsAuthenticated ? User.Identity.GetUserId() : "", Request.UserHostAddress, Request.UserAgent, "Manage/Index");
             ViewBag.StatusMessage =
                 message == ManageMessageId.ChangePasswordSuccess ? "Your password has been changed."
                 : message == ManageMessageId.SetPasswordSuccess ? "Your password has been set."
@@ -102,7 +102,6 @@ namespace MySeenWeb.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> RemoveLogin(string loginProvider, string providerKey)
         {
-            LogSave.Save(User.Identity.IsAuthenticated ? User.Identity.GetUserId() : "", Request.UserHostAddress, Request.UserAgent, "Manage/RemoveLogin", loginProvider);
             ManageMessageId? message;
             var result = await UserManager.RemoveLoginAsync(User.Identity.GetUserId(), new UserLoginInfo(loginProvider, providerKey));
             if (result.Succeeded)
@@ -123,8 +122,7 @@ namespace MySeenWeb.Controllers
         [HttpPost]
         public JsonResult ChangeLanguage(string selected)
         {
-            LogSave.Save(User.Identity.IsAuthenticated ? User.Identity.GetUserId() : "", Request.UserHostAddress, Request.UserAgent, "Manage/ChangeLanguage", selected);
-            ApplicationDbContext ac = new ApplicationDbContext();
+            var ac = new ApplicationDbContext();
             var userId = User.Identity.GetUserId();
             ac.Users.First(u => u.Id == userId).Culture = Defaults.Languages.GetValDb(Convert.ToInt32(selected));
             ac.SaveChanges();
@@ -136,7 +134,6 @@ namespace MySeenWeb.Controllers
         [HttpPost]
         public JsonResult ChangeRpp(string selected)
         {
-            LogSave.Save(User.Identity.IsAuthenticated ? User.Identity.GetUserId() : "", Request.UserHostAddress, Request.UserAgent, "Manage/ChangeRpp", selected);
             var ac = new ApplicationDbContext();
             var userId = User.Identity.GetUserId();
             ac.Users.First(u => u.Id == userId).RecordPerPage = Convert.ToInt32(selected);
@@ -147,7 +144,6 @@ namespace MySeenWeb.Controllers
         [HttpPost]
         public JsonResult ChangeMoR(string selected)
         {
-            LogSave.Save(User.Identity.IsAuthenticated ? User.Identity.GetUserId() : "", Request.UserHostAddress, Request.UserAgent, "Manage/ChangeMoR", selected);
             var ac = new ApplicationDbContext();
             var userId = User.Identity.GetUserId();
             ac.Users.First(u => u.Id == userId).MarkersOnRoads = Convert.ToInt32(selected);
@@ -158,7 +154,7 @@ namespace MySeenWeb.Controllers
         
         private void DeleteUserData()
         {
-            ApplicationDbContext ac = new ApplicationDbContext();
+            var ac = new ApplicationDbContext();
             var userId = User.Identity.GetUserId();
             ac.Films.RemoveRange(ac.Films.Where(f => f.UserId == userId));
             ac.Serials.RemoveRange(ac.Serials.Where(f => f.UserId == userId));
@@ -169,7 +165,6 @@ namespace MySeenWeb.Controllers
         [HttpPost]
         public JsonResult DeleteData()
         {
-            LogSave.Save(User.Identity.IsAuthenticated ? User.Identity.GetUserId() : "", Request.UserHostAddress, Request.UserAgent, "Manage/DeleteData");
             DeleteUserData();
             return Json(new { success = true });
         }
@@ -299,7 +294,6 @@ namespace MySeenWeb.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> ChangePassword(ChangePasswordViewModel model)
         {
-            LogSave.Save(User.Identity.IsAuthenticated ? User.Identity.GetUserId() : "", Request.UserHostAddress, Request.UserAgent, "Manage/ChangePassword");
             if (!ModelState.IsValid)
             {
                 return View(model);
@@ -331,7 +325,6 @@ namespace MySeenWeb.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> SetPassword(SetPasswordViewModel model)
         {
-            LogSave.Save(User.Identity.IsAuthenticated ? User.Identity.GetUserId() : "", Request.UserHostAddress, Request.UserAgent, "Manage/SetPassword");
             if (ModelState.IsValid)
             {
                 var result = await UserManager.AddPasswordAsync(User.Identity.GetUserId(), model.NewPassword);
@@ -355,7 +348,6 @@ namespace MySeenWeb.Controllers
         // GET: /Manage/ManageLogins
         public async Task<ActionResult> ManageLogins(ManageMessageId? message)
         {
-            LogSave.Save(User.Identity.IsAuthenticated ? User.Identity.GetUserId() : "", Request.UserHostAddress, Request.UserAgent, "Manage/ManageLogins");
             ViewBag.StatusMessage =
                 message == ManageMessageId.RemoveLoginSuccess ? Resource.TheExternalLoginWasRemoved
                 : message == ManageMessageId.Error ? Resource.AnErrorHasOccurred

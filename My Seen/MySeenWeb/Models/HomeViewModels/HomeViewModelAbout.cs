@@ -2,9 +2,5 @@
 {
     public class HomeViewModelAbout
     {
-        public HomeViewModelAbout()
-        {
-
-        }
     }
 }

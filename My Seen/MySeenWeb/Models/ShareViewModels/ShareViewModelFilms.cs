@@ -1,9 +1,10 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using MySeenWeb.Models.OtherViewModels;
 using MySeenWeb.Models.TablesViews;
 using MySeenWeb.Models.Tools;
 
-namespace MySeenWeb.Models
+namespace MySeenWeb.Models.ShareViewModels
 {
     public class ShareViewModelFilms
     {
@@ -18,7 +19,7 @@ namespace MySeenWeb.Models
         {
             var ac = new ApplicationDbContext();
 
-            Pages = new PaginationViewModel(page,ac.Films.Count(f => f.User.ShareFilmsKey == key && f.Shared), countInPage, "Home", "");
+            Pages = new PaginationViewModel(page,ac.Films.Count(f => f.User.ShareFilmsKey == key && f.Shared), countInPage);
             Data = ac.Films.Where(f => f.User.ShareFilmsKey == key && f.Shared)
                 .OrderByDescending(f => f.DateSee)
                 .Select(FilmsView.Map)

@@ -2,6 +2,7 @@ using System;
 using System.Globalization;
 using System.Linq;
 using MySeenLib;
+using MySeenWeb.Models.OtherViewModels;
 
 namespace MySeenWeb.Models.TablesViews
 {

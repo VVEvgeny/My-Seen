@@ -104,13 +104,13 @@ namespace MySeenWeb.Models.TablesViews
         {
             switch (date.DayOfWeek)
             {
-                case DayOfWeek.Monday: return "Понедельник";
-                case DayOfWeek.Tuesday: return "Вторник";
-                case DayOfWeek.Wednesday: return "Среда";
-                case DayOfWeek.Thursday: return "Четверг";
-                case DayOfWeek.Friday: return "Пятница";
-                case DayOfWeek.Saturday: return "Суббота";
-                case DayOfWeek.Sunday: return "Воскресенье";
+                case DayOfWeek.Monday: return Resource.Monday;
+                case DayOfWeek.Tuesday: return Resource.Tuesday;
+                case DayOfWeek.Wednesday: return Resource.Wednesday;
+                case DayOfWeek.Thursday: return Resource.Thursday;
+                case DayOfWeek.Friday: return Resource.Friday;
+                case DayOfWeek.Saturday: return Resource.Saturday;
+                case DayOfWeek.Sunday: return Resource.Sunday;
             }
             return string.Empty;
         }

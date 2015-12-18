@@ -3,6 +3,7 @@ using System.Web.Mvc;
 using Microsoft.AspNet.Identity;
 using MySeenLib;
 using MySeenWeb.Models;
+using MySeenWeb.Models.ShareViewModels;
 using MySeenWeb.Models.TablesLogic;
 using MySeenWeb.Models.Tools;
 
@@ -167,7 +168,19 @@ namespace MySeenWeb.Controllers
             {
                 return Json(new ShareViewModelFilms(key, page ?? 1, Rpp));
             }
+            else if (pageName.ToLower() == "serials")
+            {
+                return Json(new ShareViewModelSerials(key, page ?? 1, Rpp));
+            }
+            else if (pageName.ToLower() == "books")
+            {
+                return Json(new ShareViewModelBooks(key, page ?? 1, Rpp));
+            }
+            else if (pageName.ToLower() == "events")
+            {
+                return Json(new ShareViewModelEvents(key, page ?? 1, Rpp));
+            }
             return Json("NOT REALIZED");
         }
-}
+    }
 }

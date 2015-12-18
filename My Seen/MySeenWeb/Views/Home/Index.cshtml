@@ -12,29 +12,32 @@
     {
         <div class="form-inline">
             <div class="form-group">
-                <label style="display: block;">@Resource.SelectTheCategory</label>
-                @Html.DropDownList("Selected", Model.SelectList, new {@class = "form-control", @id = "lstSelected", @style = "width: 200px;"})
-
-                <button type="button" class="btn btn-primary" id="addButton">
-                    <span class="glyphicon glyphicon-plus"></span>
-                    &nbsp;@Resource.AddNew
-                </button>
-                &nbsp;
-                @if (Model.PageFilms || Model.PageSerials || Model.PageBooks || Model.PageEvents)
-                {
-                    <div class="form-group">
-                        <!--Переделать на поиск по БД-->
-                        <label for="quickSearch">@Resource.QuickSearch:</label>
-                        <input type="text" class="form-control" id="quickSearch">
-                        <button type="button" class="btn btn-info" id="searchButton">
-                            <span class="glyphicon glyphicon-search"></span>
-                            &nbsp;@Resource.QuickSearch
-                        </button>
+                <div class="container">
+                    <div class="row">
+                        <div class="form-group">
+                            <label style="display: block;">@Resource.SelectTheCategory</label>
+                            @Html.DropDownList("Selected", Model.SelectList, new { @class = "form-control", @id = "lstSelected", @style = "width: 150px;" })
+                            <button type="button" class="btn btn-primary" id="addButton">
+                                <span class="glyphicon glyphicon-plus"></span>
+                                &nbsp;@Resource.AddNew
+                            </button>
+                        </div>
+                        @if (Model.PageFilms || Model.PageSerials || Model.PageBooks || Model.PageEvents)
+                        {
+                            <div class="form-group">
+                                <!--Переделать на поиск по БД-->
+                                <label for="quickSearch" style="display: block;">@Resource.QuickSearch:</label>
+                                <input type="text" class="form-control" id="quickSearch" style="width: 150px;">
+                                <button type="button" class="btn btn-info" id="searchButton">
+                                    <span class="glyphicon glyphicon-search"></span>
+                                    &nbsp;@Resource.QuickSearch
+                                </button>
+                            </div>
+                        }
                     </div>
-                }
+                </div>
             </div>
         </div>
-        <br/>
     }
 
     if (Model.PageFilms)

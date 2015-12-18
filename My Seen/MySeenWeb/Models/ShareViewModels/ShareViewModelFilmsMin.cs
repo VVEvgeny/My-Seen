@@ -1,4 +1,4 @@
-﻿namespace MySeenWeb.Models
+﻿namespace MySeenWeb.Models.ShareViewModels
 {
     public class ShareViewModelFilmsMin
     {

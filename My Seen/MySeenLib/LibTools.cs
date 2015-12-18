@@ -434,13 +434,13 @@ namespace MySeenLib
                 {
                     All = new List<string>
                     {
-                        "1 раз в указанную дату",
-                        "1 раз в указанную дату, не скрывать пройденное",
-                        "Каждый месяц нужного числа, если СБ или ВСКР значит в ПН",
-                        "Каждый месяц нужного числа, если ПТ или СБ значит ЧТ если ВС или ПН значит ВТ",
-                        "Каждый месяц, если СБ то ПТ, если ВС то ПН",
-                        "Каждый год без погрешности",
-                        "Каждый год, если СБ то ПТ, если ВС то ПН"
+                        Resource.OneTimeOnASpecifiedDate,
+                        Resource.OneTimeOnASpecifiedDateObscureEnded,
+                        Resource.EachMonthTheRequiredNumberIfTheSaturdayOrSundayThenOnMonday,
+                        Resource.EachMonthTheRequiredNumberIfFridayOrSaturdayThenThursdayIfSundayOrMondayThenTuesday,
+                        Resource.EachMonthIfSaturdayIsFridayIfSundayIsMonday,
+                        Resource.EveryYearWithoutError,
+                        Resource.EveryYearIfSaturdayIsFridayIfSundayIsMonday
                     };
                     Type = new List<bool> { false, false, true, true, true, true, true };
                 }

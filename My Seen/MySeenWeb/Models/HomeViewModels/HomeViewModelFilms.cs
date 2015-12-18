@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using MySeenWeb.Models.OtherViewModels;
 using MySeenWeb.Models.TablesViews;
 using MySeenWeb.Models.Tools;
 
@@ -19,15 +20,9 @@ namespace MySeenWeb.Models
         {
             var ac = new ApplicationDbContext();
 
-            var routeValues = new Dictionary<string, object>();
-            if (!string.IsNullOrEmpty(search))
-            {
-                routeValues.Add("search", search);
-            }
-
             Pages = new PaginationViewModel(page,
-                ac.Films.Count(f => f.UserId == userId && (string.IsNullOrEmpty(search) || f.Name.Contains(search)))
-                , countInPage, "Home", "", routeValues);
+                ac.Films.Count(f => f.UserId == userId && (string.IsNullOrEmpty(search) || f.Name.Contains(search))),
+                countInPage);
 
             Data = ac.Films.Where(f => f.UserId == userId && (string.IsNullOrEmpty(search) || f.Name.Contains(search)))
                 .OrderByDescending(f => f.DateSee)

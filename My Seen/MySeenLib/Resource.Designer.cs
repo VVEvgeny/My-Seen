@@ -727,6 +727,34 @@ namespace MySeenLib {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Each month, if Saturday is Friday, if Sunday is Monday.
+        /// </summary>
+        public static string EachMonthIfSaturdayIsFridayIfSundayIsMonday {
+            get {
+                return ResourceManager.GetString("EachMonthIfSaturdayIsFridayIfSundayIsMonday", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Each month, the required number if Friday or Saturday then Thursday if Sunday or Monday then Tuesday.
+        /// </summary>
+        public static string EachMonthTheRequiredNumberIfFridayOrSaturdayThenThursdayIfSundayOrMondayThenTuesday {
+            get {
+                return ResourceManager.GetString("EachMonthTheRequiredNumberIfFridayOrSaturdayThenThursdayIfSundayOrMondayThenTuesd" +
+                        "ay", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Each month, the required number if the Saturday or Sunday then on Monday.
+        /// </summary>
+        public static string EachMonthTheRequiredNumberIfTheSaturdayOrSundayThenOnMonday {
+            get {
+                return ResourceManager.GetString("EachMonthTheRequiredNumberIfTheSaturdayOrSundayThenOnMonday", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Edit.
         /// </summary>
         public static string Edit {
@@ -768,6 +796,15 @@ namespace MySeenLib {
         public static string Ended {
             get {
                 return ResourceManager.GetString("Ended", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Ending.
+        /// </summary>
+        public static string Ending {
+            get {
+                return ResourceManager.GetString("Ending", resourceCulture);
             }
         }
         
@@ -925,6 +962,24 @@ namespace MySeenLib {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Every year, if Saturday is Friday, if Sunday is Monday.
+        /// </summary>
+        public static string EveryYearIfSaturdayIsFridayIfSundayIsMonday {
+            get {
+                return ResourceManager.GetString("EveryYearIfSaturdayIsFridayIfSundayIsMonday", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Every year without error.
+        /// </summary>
+        public static string EveryYearWithoutError {
+            get {
+                return ResourceManager.GetString("EveryYearWithoutError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to External Logins.
         /// </summary>
         public static string ExternalLogins {
@@ -993,6 +1048,15 @@ namespace MySeenLib {
         public static string Found {
             get {
                 return ResourceManager.GetString("Found", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Friday.
+        /// </summary>
+        public static string Friday {
+            get {
+                return ResourceManager.GetString("Friday", resourceCulture);
             }
         }
         
@@ -1092,6 +1156,15 @@ namespace MySeenLib {
         public static string Hello {
             get {
                 return ResourceManager.GetString("Hello", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Improvement.
+        /// </summary>
+        public static string Improvement {
+            get {
+                return ResourceManager.GetString("Improvement", resourceCulture);
             }
         }
         
@@ -1285,6 +1358,15 @@ namespace MySeenLib {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Monday.
+        /// </summary>
+        public static string Monday {
+            get {
+                return ResourceManager.GetString("Monday", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Name.
         /// </summary>
         public static string Name {
@@ -1326,6 +1408,24 @@ namespace MySeenLib {
         public static string NoLongerSupportedVersion {
             get {
                 return ResourceManager.GetString("NoLongerSupportedVersion", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 1 time on a specified date.
+        /// </summary>
+        public static string OneTimeOnASpecifiedDate {
+            get {
+                return ResourceManager.GetString("OneTimeOnASpecifiedDate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 1 time on a specified date, obscure ended.
+        /// </summary>
+        public static string OneTimeOnASpecifiedDateObscureEnded {
+            get {
+                return ResourceManager.GetString("OneTimeOnASpecifiedDateObscureEnded", resourceCulture);
             }
         }
         
@@ -1492,6 +1592,15 @@ namespace MySeenLib {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Saturday.
+        /// </summary>
+        public static string Saturday {
+            get {
+                return ResourceManager.GetString("Saturday", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Saved.
         /// </summary>
         public static string Saved {
@@ -1645,6 +1754,15 @@ namespace MySeenLib {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Sunday.
+        /// </summary>
+        public static string Sunday {
+            get {
+                return ResourceManager.GetString("Sunday", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Sync OK.
         /// </summary>
         public static string SyncOK {
@@ -1677,6 +1795,15 @@ namespace MySeenLib {
         public static string ThePasswordAndConfirmationPasswordDoNotMatch {
             get {
                 return ResourceManager.GetString("ThePasswordAndConfirmationPasswordDoNotMatch", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Thursday.
+        /// </summary>
+        public static string Thursday {
+            get {
+                return ResourceManager.GetString("Thursday", resourceCulture);
             }
         }
         
@@ -1740,6 +1867,15 @@ namespace MySeenLib {
         public static string Try {
             get {
                 return ResourceManager.GetString("Try", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Tuesday.
+        /// </summary>
+        public static string Tuesday {
+            get {
+                return ResourceManager.GetString("Tuesday", resourceCulture);
             }
         }
         
@@ -1857,6 +1993,15 @@ namespace MySeenLib {
         public static string WEB {
             get {
                 return ResourceManager.GetString("WEB", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Wednesday.
+        /// </summary>
+        public static string Wednesday {
+            get {
+                return ResourceManager.GetString("Wednesday", resourceCulture);
             }
         }
         

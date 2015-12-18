@@ -10,6 +10,7 @@ using MySeenWeb.Models;
 using MySeenLib;
 using MySeenWeb.ActionFilters;
 using MySeenWeb.Add_Code;
+using MySeenWeb.Models.OtherViewModels;
 using MySeenWeb.Models.TablesLogic;
 using MySeenWeb.Models.Tools;
 
@@ -177,7 +178,6 @@ namespace MySeenWeb.Controllers
         [AllowAnonymous]
         public ActionResult Register()
         {
-            LogSave.Save(User.Identity.IsAuthenticated ? User.Identity.GetUserId() : "", Request.UserHostAddress, Request.UserAgent, "Account/Register");
             return View();
         }
 
@@ -188,7 +188,6 @@ namespace MySeenWeb.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Register(RegisterViewModel model)
         {
-            LogSave.Save(User.Identity.IsAuthenticated ? User.Identity.GetUserId() : "", Request.UserHostAddress, Request.UserAgent, "Account/RegisterAsync");
             if (ModelState.IsValid)
             {
                 var user = new ApplicationUser
@@ -330,7 +329,6 @@ namespace MySeenWeb.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult ExternalLogin(string provider, string returnUrl)
         {
-            LogSave.Save(User.Identity.IsAuthenticated ? User.Identity.GetUserId() : "", Request.UserHostAddress, Request.UserAgent, "Account/ExternalLogin", provider);
             // Request a redirect to the external login provider
             return new ChallengeResult(provider, Url.Action("ExternalLoginCallback", "Account", new { ReturnUrl = returnUrl }));
         }
@@ -484,7 +482,6 @@ namespace MySeenWeb.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult LogOff()
         {
-            LogSave.Save(User.Identity.IsAuthenticated ? User.Identity.GetUserId() : "", Request.UserHostAddress, Request.UserAgent, "Account/LogOff");
             AuthenticationManager.SignOut(DefaultAuthenticationTypes.ApplicationCookie);
 
             var logic = new UserCreditsLogic();

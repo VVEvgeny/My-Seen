@@ -331,7 +331,7 @@
     <value>Регистрация нового пользователя</value>
   </data>
   <data name="UseAnotherServiceToLogIn" xml:space="preserve">
-    <value>Используйте сторонний сервис для входа</value>
+    <value>Используйте сторонний сервис</value>
   </data>
   <data name="AnErrorHasOccurred" xml:space="preserve">
     <value>Непредвиденная ошибка</value>
@@ -731,5 +731,53 @@
   </data>
   <data name="Ended" xml:space="preserve">
     <value>Завершенные</value>
+  </data>
+  <data name="Ending" xml:space="preserve">
+    <value>Завершить</value>
+  </data>
+  <data name="Improvement" xml:space="preserve">
+    <value>Улучшение</value>
+  </data>
+  <data name="EachMonthIfSaturdayIsFridayIfSundayIsMonday" xml:space="preserve">
+    <value>Каждый месяц, если СБ то ПТ, если ВС то ПН</value>
+  </data>
+  <data name="EachMonthTheRequiredNumberIfFridayOrSaturdayThenThursdayIfSundayOrMondayThenTuesday" xml:space="preserve">
+    <value>Каждый месяц нужного числа, если ПТ или СБ значит ЧТ если ВС или ПН значит ВТ</value>
+  </data>
+  <data name="EachMonthTheRequiredNumberIfTheSaturdayOrSundayThenOnMonday" xml:space="preserve">
+    <value>Каждый месяц нужного числа, если СБ или ВСКР значит в ПН</value>
+  </data>
+  <data name="EveryYearIfSaturdayIsFridayIfSundayIsMonday" xml:space="preserve">
+    <value>Каждый год, если СБ то ПТ, если ВС то ПН</value>
+  </data>
+  <data name="EveryYearWithoutError" xml:space="preserve">
+    <value>Каждый год без погрешности</value>
+  </data>
+  <data name="OneTimeOnASpecifiedDate" xml:space="preserve">
+    <value>1 раз в указанную дату</value>
+  </data>
+  <data name="OneTimeOnASpecifiedDateObscureEnded" xml:space="preserve">
+    <value>1 раз в указанную дату, не скрывать пройденное</value>
+  </data>
+  <data name="Friday" xml:space="preserve">
+    <value>Пятница</value>
+  </data>
+  <data name="Monday" xml:space="preserve">
+    <value>Понедельник</value>
+  </data>
+  <data name="Saturday" xml:space="preserve">
+    <value>Суббота</value>
+  </data>
+  <data name="Sunday" xml:space="preserve">
+    <value>Воскресенье</value>
+  </data>
+  <data name="Thursday" xml:space="preserve">
+    <value>Четверг</value>
+  </data>
+  <data name="Tuesday" xml:space="preserve">
+    <value>Вторник</value>
+  </data>
+  <data name="Wednesday" xml:space="preserve">
+    <value>Среда</value>
   </data>
 </root>

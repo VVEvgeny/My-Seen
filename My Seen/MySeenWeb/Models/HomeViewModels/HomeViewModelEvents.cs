@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
 using MySeenLib;
+using MySeenWeb.Models.OtherViewModels;
 using MySeenWeb.Models.TablesViews;
 using MySeenWeb.Models.Tools;
 
@@ -20,12 +21,6 @@ namespace MySeenWeb.Models
 
         public HomeViewModelEvents(string userId, int page, int countInPage, string search, bool onlyEnded)
         {
-            var routeValues = new Dictionary<string, object>();
-            if (!string.IsNullOrEmpty(search))
-            {
-                routeValues.Add("search", search);
-            }
-
             var ac = new ApplicationDbContext();
 
             //пока не знаю как 2 условие, причем 1 из них не по пол. таблицы а высчитываемое на основании двух других завернуть в Count
@@ -41,7 +36,7 @@ namespace MySeenWeb.Models
                                   e.RepeatType == Defaults.EventsTypesBase.Indexes.OneTimeWithPast)
                     .OrderBy(e => e.EstimatedTicks);
 
-            Pages = new PaginationViewModel(page, data.Count(), countInPage, "Home", "", routeValues);
+            Pages = new PaginationViewModel(page, data.Count(), countInPage);
             Data = data.Skip((Pages.CurentPage - 1) * countInPage).Take(countInPage);
         }
         public static string GetShare(string id, string userId)

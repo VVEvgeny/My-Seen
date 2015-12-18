@@ -1,13 +1,14 @@
 using System;
 using System.Linq;
 using MySeenWeb.Add_Code;
+using MySeenWeb.Models.OtherViewModels;
 
 namespace MySeenWeb.Migrations
 {
     using System.Data.Entity.Migrations;
     using Models;
 
-    internal sealed class Configuration : DbMigrationsConfiguration<MySeenWeb.Models.ApplicationDbContext>
+    internal sealed class Configuration : DbMigrationsConfiguration<ApplicationDbContext>
     {
         public Configuration()
         {

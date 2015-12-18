@@ -7,55 +7,58 @@
 @Scripts.Render("~/bundles/myseen.table")
 @Scripts.Render("~/bundles/knockout")
 
-<br/>
+<br />
 
 <div data-bind="visible: dataLoading " align="center">
     <img src="~/Content/Images/loading_small.gif" />
 </div>
 
-<div data-bind="visible: serials().length > 0">
-    <table class="table table-striped" id="table">
-        <thead>
-            <tr>
-                <th class="col-sm-1"></th>
-                <th class="col-sm-3">@Resource.Name</th>
-                <th class="col-sm-1">@Resource.Year</th>
-                <th class="col-sm-1">@Resource.LastEpisode</th>
-                <th class="col-sm-2">@Resource.DateLast</th>
-                <th class="col-sm-2">@Resource.DateBegin</th>
-                <th class="col-sm-1">@Resource.Genre</th>
-                <th class="col-sm-1">@Resource.Rating</th>
-            </tr>
-        </thead>
-        <tbody data-bind="foreach: serials">
-            <tr>
-                <td class="align-center">
-                    <button type="button" class="btn btn-warning btn-edit btn-xs" data-bind="attr: {id: id}"> <span class=" glyphicon glyphicon-pencil"></span></button>
-                    <button class="btn btn-xs btn-info btn-share" data-bind=" visible: shared, attr: {id: id}"><span class="glyphicon glyphicon-share"></span></button>
-                </td>
-                <td class="align-center" data-bind="text: name"></td>
-                <td class="align-center" data-bind="text: year"></td>
-                <td class="align-center" data-bind="text: season"></td>
-                <td class="align-center" data-bind="text: dateLast"></td>
-                <td class="align-center" data-bind="text: dateBegin"></td>
-                <td class="align-center" data-bind="text: genre"></td>
-                <td class="align-center" data-bind="text: rating"></td>
-            </tr>
-        </tbody>
-    </table>
+<div data-bind="visible: serials().length > 0" style="display: none;">
 
-    @Html.Partial("Parts/Tools/PaginationKO")
+    <div class="table-responsive">
+        <table class="table table-striped" id="table">
+            <thead>
+                <tr>
+                    <th class="col-sm-1"></th>
+                    <th class="col-sm-3">@Resource.Name</th>
+                    <th class="col-sm-1">@Resource.Year</th>
+                    <th class="col-sm-1">@Resource.LastEpisode</th>
+                    <th class="col-sm-2">@Resource.DateLast</th>
+                    <th class="col-sm-2">@Resource.DateBegin</th>
+                    <th class="col-sm-1">@Resource.Genre</th>
+                    <th class="col-sm-1">@Resource.Rating</th>
+                </tr>
+            </thead>
+            <tbody data-bind="foreach: serials">
+                <tr>
+                    <td class="align-center">
+                        <button type="button" class="btn btn-warning btn-edit btn-xs" data-bind="attr: {id: id}"> <span class=" glyphicon glyphicon-pencil"></span></button>
+                        <button class="btn btn-xs btn-info btn-share" data-bind=" visible: shared, attr: {id: id}"><span class="glyphicon glyphicon-share"></span></button>
+                    </td>
+                    <td class="align-center" data-bind="text: name"></td>
+                    <td class="align-center" data-bind="text: year"></td>
+                    <td class="align-center" data-bind="text: season"></td>
+                    <td class="align-center" data-bind="text: dateLast"></td>
+                    <td class="align-center" data-bind="text: dateBegin"></td>
+                    <td class="align-center" data-bind="text: genre"></td>
+                    <td class="align-center" data-bind="text: rating"></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    @Html.Partial("../Tools/PaginationKO")
 
 </div>
 
-@Html.Partial("Parts/Parts/JsonGetPage")
+@Html.Partial("Parts/Tools/JsonGetPage")
 
 <div class="modal fade modal-window" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" id="ModalAddWindow">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                <h4 class="modal-title">@Resource.AddNew @Resource.Serial</h4>
+                <button type="button" class="close myseen-modal-close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title text-center">@Resource.AddNew @Resource.Serial</h4>
             </div>
             <div class="modal-body">
                 <div class="form-horizontal">
@@ -86,19 +89,19 @@
                     <div class="form-group">
                         <label for="datetimepicker" class="col-sm-2 control-label">@Resource.When</label>
                         <div class="col-sm-10">
-                            <input type="text" class="form-control" id="datetimepicker" placeholder="@DateTime.Now"/>
+                            <input type="text" class="form-control" id="datetimepicker" placeholder="@DateTime.Now" />
                         </div>
                     </div>
                     <div class="form-group">
                         <label class="col-sm-2 control-label">@Resource.Genre</label>
                         <div class="col-sm-10">
-                            @Html.DropDownList("Genre", Model.RatinngGenre.GenreList, new {@class = "form-control movie-genre", @id = "serialGenre"})
+                            @Html.DropDownList("Genre", Model.RatinngGenre.GenreList, new { @class = "form-control movie-genre", @id = "serialGenre" })
                         </div>
                     </div>
                     <div class="form-group">
                         <label class="col-sm-2 control-label">@Resource.Rating</label>
                         <div class="col-sm-10">
-                            @Html.DropDownList("Rating", Model.RatinngGenre.RatingList, new {@class = "form-control movie-rating", @id = "serialRating"})
+                            @Html.DropDownList("Rating", Model.RatinngGenre.RatingList, new { @class = "form-control movie-rating", @id = "serialRating" })
                         </div>
                     </div>
                 </div>
@@ -112,7 +115,7 @@
                     <span class="glyphicon glyphicon-trash"></span>
                     &nbsp;@Resource.Delete
                 </button>
-                <button type="button" class="btn btn-success" id="submitAddButton">
+                <button type="button" class="btn btn-success btn-block" id="submitAddButton">
                     <span class="glyphicon glyphicon-ok"></span>
                     &nbsp;@Resource.Add
                 </button>
@@ -128,7 +131,7 @@
 @Html.Partial("Parts/Parts/ModalShare", "serials")
 
 <script language="javascript" type="text/javascript">
-    
+
     function Serial(data) {
 
         this.id = ko.observable(data.Id);

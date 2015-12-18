@@ -1,6 +1,6 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
+using MySeenWeb.Models.OtherViewModels;
 
 namespace MySeenWeb.Models.Tables
 {

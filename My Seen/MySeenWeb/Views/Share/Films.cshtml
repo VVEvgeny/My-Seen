@@ -1,4 +1,4 @@
-﻿@model MySeenWeb.Models.ShareViewModelFilmsMin
+﻿@model MySeenWeb.Models.ShareViewModels.ShareViewModelFilmsMin
 
 @Scripts.Render("~/bundles/jquery", "~/bundles/bootstrap")
 @Scripts.Render("~/bundles/myseen.table")
@@ -10,29 +10,32 @@
     <img src="~/Content/Images/loading_small.gif" />
 </div>
 
-<div data-bind="visible: films().length > 0">
-    <table class="table table-striped" id="table">
-        <thead>
-            <tr>
-                <th class="col-sm-7">@Resource.Name</th>
-                <th class="col-sm-1">@Resource.Year</th>
-                <th class="col-sm-2">@Resource.Seen</th>
-                <th class="col-sm-1">@Resource.Genre</th>
-                <th class="col-sm-1">@Resource.Rating</th>
-            </tr>
-        </thead>
-        <tbody data-bind="foreach: films">
-            <tr>
-                <td class="align-center" data-bind="text: name"></td>
-                <td class="align-center" data-bind="text: year"></td>
-                <td class="align-center" data-bind="text: seen"></td>
-                <td class="align-center" data-bind="text: genre"></td>
-                <td class="align-center" data-bind="text: rating"></td>
-            </tr>
-        </tbody>
-    </table>
+<div data-bind="visible: films().length > 0" style="display: none;">
 
-    @Html.Partial("../Home/Parts/Tools/PaginationKO")
+    <div class="table-responsive">
+        <table class="table table-striped" id="table">
+            <thead>
+                <tr>
+                    <th class="col-sm-7">@Resource.Name</th>
+                    <th class="col-sm-1">@Resource.Year</th>
+                    <th class="col-sm-2">@Resource.Seen</th>
+                    <th class="col-sm-1">@Resource.Genre</th>
+                    <th class="col-sm-1">@Resource.Rating</th>
+                </tr>
+            </thead>
+            <tbody data-bind="foreach: films">
+                <tr>
+                    <td class="align-center" data-bind="text: name"></td>
+                    <td class="align-center" data-bind="text: year"></td>
+                    <td class="align-center" data-bind="text: seen"></td>
+                    <td class="align-center" data-bind="text: genre"></td>
+                    <td class="align-center" data-bind="text: rating"></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    @Html.Partial("../Tools/PaginationKO")
 
 </div>
 

@@ -2,8 +2,8 @@
 using System.Linq;
 using MySeenLib;
 using MySeenWeb.Add_Code;
+using MySeenWeb.Models.OtherViewModels;
 using MySeenWeb.Models.Tables;
-using MySeenWeb.Models.Tools;
 
 namespace MySeenWeb.Models.TablesLogic
 {

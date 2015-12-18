@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using MySeenLib;
+using MySeenWeb.Models.OtherViewModels;
 using MySeenWeb.Models.TablesViews;
 using MySeenWeb.Models.Tools;
 
@@ -16,12 +17,12 @@ namespace MySeenWeb.Models
             var ac = new ApplicationDbContext();
             if (complex == Defaults.ComplexBase.Indexes.All)
             {
-                Pages = new PaginationViewModel(page, ac.Bugs.Count(), countInPage, "Home", "");
+                Pages = new PaginationViewModel(page, ac.Bugs.Count(), countInPage);
                 Data = ac.Bugs.Select(BugsView.Map).OrderByDescending(b => b.DateEnd == null).ThenByDescending(b => b.DateEnd).ThenByDescending(b => b.DateFound).Skip((Pages.CurentPage - 1) * countInPage).Take(countInPage);
             }
             else
             {
-                Pages = new PaginationViewModel(page, ac.Bugs.Count(b => b.Complex == complex), countInPage, "Home", "");
+                Pages = new PaginationViewModel(page, ac.Bugs.Count(b => b.Complex == complex), countInPage);
                 Data = ac.Bugs.Select(BugsView.Map).Where(b => b.Complex == complex).OrderByDescending(b => b.DateEnd == null).ThenByDescending(b => b.DateEnd).ThenByDescending(b => b.DateFound).Skip((Pages.CurentPage - 1) * countInPage).Take(countInPage);
             }
         }

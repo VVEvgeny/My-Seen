@@ -5,6 +5,7 @@ using System.Web.Mvc;
 using MySeenLib;
 using System.Globalization;
 using MySeenWeb.Add_Code;
+using MySeenWeb.Models.OtherViewModels;
 using MySeenWeb.Models.TablesViews;
 
 namespace MySeenWeb.Models

@@ -5,7 +5,7 @@ using Microsoft.AspNet.Identity;
 using Microsoft.Owin.Security;
 using MySeenLib;
 
-namespace MySeenWeb.Models
+namespace MySeenWeb.Models.OtherViewModels
 {
     public class IndexViewModel
     {

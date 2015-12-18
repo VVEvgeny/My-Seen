@@ -1,5 +1,4 @@
-﻿using System;
-using System.Web.Mvc;
+﻿using System.Web.Mvc;
 using MySeenWeb.Models;
 using Microsoft.AspNet.Identity;
 using MySeenLib;
@@ -15,14 +14,9 @@ namespace MySeenWeb.Controllers
         [BrowserActionFilter]
         public ActionResult Index(string search, int? page)
         {
-            LogSave.Save(User.Identity.IsAuthenticated ? User.Identity.GetUserId() : "", Request.UserHostAddress, Request.UserAgent, "Home/Index");
-
-            //if (!User.Identity.IsAuthenticated) return View();
             return View(new HomeViewModel(
                 ReadUserSideStorage(UserSideStorageKeys.HomeCategory, Defaults.CategoryBase.Indexes.Films).ToString(),
                 User.Identity.IsAuthenticated?User.Identity.GetUserId():string.Empty,
-                page ?? 1,
-                Rpp,
                 ReadUserSideStorage(UserSideStorageKeys.ImprovementsCategory, Defaults.ComplexBase.Indexes.All),
                 search,
                 MarkersOnRoads,
@@ -56,8 +50,6 @@ namespace MySeenWeb.Controllers
         [HttpPost]
         public JsonResult AddFilm(string name, string year, string datetime, string genre, string rating)
         {
-            LogSave.Save(User.Identity.IsAuthenticated ? User.Identity.GetUserId() : "", Request.UserHostAddress, Request.UserAgent, "Home/AddFilm", name);
-
             var logic = new FilmsLogic();
             return !logic.Add(name, year, datetime, genre, rating, User.Identity.GetUserId()) ? new JsonResult { Data = new { success = false, error = logic.ErrorMessage } } : Json(new { success = true });
         }
@@ -65,8 +57,6 @@ namespace MySeenWeb.Controllers
         [HttpPost]
         public JsonResult EditFilm(string id, string name, string year, string datetime, string genre, string rating)
         {
-            LogSave.Save(User.Identity.IsAuthenticated ? User.Identity.GetUserId() : "", Request.UserHostAddress, Request.UserAgent, "Home/EditFilm", id);
-
             var logic = new FilmsLogic();
             return !logic.Update(id, name, year, datetime, genre, rating, User.Identity.GetUserId()) ? new JsonResult { Data = new { success = false, error = logic.ErrorMessage } } : Json(new { success = true });
         }
@@ -74,8 +64,6 @@ namespace MySeenWeb.Controllers
         [HttpPost]
         public JsonResult AddSerial(string name, string year, string season, string series, string datetime, string genre, string rating)
         {
-            LogSave.Save(User.Identity.IsAuthenticated ? User.Identity.GetUserId() : "", Request.UserHostAddress, Request.UserAgent, "Home/AddSerial", name);
-
             var logic=new SerialsLogic();
             return !logic.Add(name, year, season, series, datetime, genre, rating, User.Identity.GetUserId()) ? new JsonResult { Data = new { success = false, error = logic.ErrorMessage } } : Json(new { success = true });
         }
@@ -83,8 +71,6 @@ namespace MySeenWeb.Controllers
         [HttpPost]
         public JsonResult EditSerial(string id, string name, string year, string season, string series, string datetime, string genre, string rating)
         {
-            LogSave.Save(User.Identity.IsAuthenticated ? User.Identity.GetUserId() : "", Request.UserHostAddress, Request.UserAgent, "Home/EditSerial", id);
-
             var logic = new SerialsLogic();
             return !logic.Update(id, name, year, season, series, datetime, genre, rating, User.Identity.GetUserId()) ? new JsonResult { Data = new { success = false, error = logic.ErrorMessage } } : Json(new { success = true });
         }
@@ -92,8 +78,6 @@ namespace MySeenWeb.Controllers
         [HttpPost]
         public JsonResult AddBook(string name, string year, string authors, string datetime, string genre, string rating)
         {
-            LogSave.Save(User.Identity.IsAuthenticated ? User.Identity.GetUserId() : "", Request.UserHostAddress, Request.UserAgent, "Home/AddBook", name);
-
             var logic = new BooksLogic();
             return !logic.Add(name, year, authors, datetime, genre, rating, User.Identity.GetUserId()) ? new JsonResult { Data = new { success = false, error = logic.ErrorMessage } } : Json(new { success = true });
         }
@@ -101,7 +85,6 @@ namespace MySeenWeb.Controllers
         [HttpPost]
         public JsonResult AddEvent(string name, string datetime, string type)
         {
-            LogSave.Save(User.Identity.IsAuthenticated ? User.Identity.GetUserId() : "", Request.UserHostAddress, Request.UserAgent, "Home/AddEvent", name);
             var logic = new EventsLogic();
             return !logic.Add(name, datetime, type, User.Identity.GetUserId()) ? new JsonResult { Data = new { success = false, error = logic.ErrorMessage } } : Json(new { success = true });
         }
@@ -109,8 +92,6 @@ namespace MySeenWeb.Controllers
         [HttpPost]
         public JsonResult EditEvent(string id, string name, string datetime, string type)
         {
-            LogSave.Save(User.Identity.IsAuthenticated ? User.Identity.GetUserId() : "", Request.UserHostAddress, Request.UserAgent, "Home/EditEvent", id);
-
             var logic = new EventsLogic();
             return !logic.Update(id, name, datetime, type, User.Identity.GetUserId())
                 ? new JsonResult { Data = new { success = false, error = logic.ErrorMessage } } : Json(new { success = true });
@@ -119,8 +100,6 @@ namespace MySeenWeb.Controllers
         [HttpPost]
         public JsonResult DeleteEvent(string id)
         {
-            LogSave.Save(User.Identity.IsAuthenticated ? User.Identity.GetUserId() : "", Request.UserHostAddress, Request.UserAgent, "Home/DeleteEvent", id);
-
             var logic = new EventsLogic();
             return !logic.Delete(id, User.Identity.GetUserId()) ? new JsonResult { Data = new { success = false, error = logic.ErrorMessage } } : Json(new { success = true });
         }
@@ -128,8 +107,6 @@ namespace MySeenWeb.Controllers
         [HttpPost]
         public JsonResult EditBook(string id, string name, string year, string authors, string datetime, string genre, string rating)
         {
-            LogSave.Save(User.Identity.IsAuthenticated ? User.Identity.GetUserId() : "", Request.UserHostAddress, Request.UserAgent, "Home/EditBook", id);
-
             var logic = new BooksLogic();
             return !logic.Update(id, name, year, authors, datetime, genre, rating, User.Identity.GetUserId())
                 ? new JsonResult { Data = new { success = false, error = logic.ErrorMessage } } : Json(new { success = true });
@@ -138,8 +115,6 @@ namespace MySeenWeb.Controllers
         [HttpPost]
         public JsonResult DeleteFilm(string id)
         {
-            LogSave.Save(User.Identity.IsAuthenticated ? User.Identity.GetUserId() : "", Request.UserHostAddress, Request.UserAgent, "Home/DeleteFilm", id);
-           
             var logic= new FilmsLogic();
             return !logic.Delete(id, User.Identity.GetUserId()) ? new JsonResult { Data = new { success = false, error = logic.ErrorMessage } } : Json(new { success = true });
         }
@@ -147,8 +122,6 @@ namespace MySeenWeb.Controllers
         [HttpPost]
         public JsonResult DeleteSerial(string id)
         {
-            LogSave.Save(User.Identity.IsAuthenticated ? User.Identity.GetUserId() : "", Request.UserHostAddress, Request.UserAgent, "Home/DeleteSerial", id);
-
             var logic = new SerialsLogic();
             return !logic.Delete(id, User.Identity.GetUserId()) ? new JsonResult { Data = new { success = false, error = logic.ErrorMessage } } : Json(new { success = true });
         }
@@ -156,8 +129,6 @@ namespace MySeenWeb.Controllers
         [HttpPost]
         public JsonResult DeleteBook(string id)
         {
-            LogSave.Save(User.Identity.IsAuthenticated ? User.Identity.GetUserId() : "", Request.UserHostAddress, Request.UserAgent, "Home/DeleteBook", id);
-
             var logic = new BooksLogic();
             return !logic.Delete(id, User.Identity.GetUserId()) ? new JsonResult { Data = new { success = false, error = logic.ErrorMessage } } : Json(new { success = true });
         }
@@ -165,8 +136,6 @@ namespace MySeenWeb.Controllers
         [HttpPost]
         public JsonResult AddImprovement(string desc, string complex)
         {
-            LogSave.Save(User.Identity.IsAuthenticated ? User.Identity.GetUserId() : "", Request.UserHostAddress, Request.UserAgent, "Home/AddImprovement", desc);
-
             var logic = new ImprovementLogic();
             return !logic.Add(desc, complex, User.Identity.GetUserId()) ? new JsonResult { Data = new { success = false, error = logic.ErrorMessage } } : Json(new { success = true });
         }
@@ -174,8 +143,6 @@ namespace MySeenWeb.Controllers
         [HttpPost]
         public JsonResult EndImprovement(string id, string desc, string version)
         {
-            LogSave.Save(User.Identity.IsAuthenticated ? User.Identity.GetUserId() : "", Request.UserHostAddress, Request.UserAgent, "Home/EndImprovement", id + " " + desc + " " + version);
-
             var logic = new ImprovementLogic();
             return !logic.Update(id, desc, version, User.Identity.GetUserId()) ? new JsonResult { Data = new { success = false, error = logic.ErrorMessage } } : Json(new { success = true });
         }
@@ -183,8 +150,6 @@ namespace MySeenWeb.Controllers
         [HttpPost]
         public JsonResult DeleteImprovement(string id)
         {
-            LogSave.Save(User.Identity.IsAuthenticated ? User.Identity.GetUserId() : "", Request.UserHostAddress, Request.UserAgent, "Home/DeleteImprovement", id);
-
             var logic = new ImprovementLogic();
             return !logic.Delete(id, User.Identity.GetUserId()) ? new JsonResult { Data = new { success = false, error = logic.ErrorMessage } } : Json(new { success = true });
         }
@@ -192,8 +157,6 @@ namespace MySeenWeb.Controllers
         [HttpPost]
         public JsonResult AddTrack(string name, string datetime, string type, string coordinates, string distance)
         {
-            LogSave.Save(User.Identity.IsAuthenticated ? User.Identity.GetUserId() : "", Request.UserHostAddress, Request.UserAgent, "Home/AddTrack", name);
-
             var logic = new TracksLogic();
             return !logic.Add(name, datetime, type, coordinates, distance, User.Identity.GetUserId()) ? new JsonResult { Data = new { success = false, error = logic.ErrorMessage } } : Json(new { success = true });
         }
@@ -201,8 +164,6 @@ namespace MySeenWeb.Controllers
         [HttpPost]
         public JsonResult EditTrack(string id, string name, string datetime, string type, string coordinates, string distance)
         {
-            LogSave.Save(User.Identity.IsAuthenticated ? User.Identity.GetUserId() : "", Request.UserHostAddress, Request.UserAgent, "Home/EditTrack", name);
-
             var logic = new TracksLogic();
             return !logic.Update(id, name, datetime, type, coordinates, distance, User.Identity.GetUserId()) ? new JsonResult { Data = new { success = false, error = logic.ErrorMessage } } : Json(new { success = true });
         }
@@ -250,7 +211,6 @@ namespace MySeenWeb.Controllers
         public ActionResult DeleteEventShare(string id)
         {
             HomeViewModelEvents.DeleteShare(id, User.Identity.GetUserId());
-            //return Json(new { success = true }, JsonRequestBehavior.AllowGet);
             return Json(HomeViewModelEvents.DeleteShare(id, User.Identity.GetUserId()), JsonRequestBehavior.AllowGet);
         }
         [Authorize]
@@ -313,7 +273,6 @@ namespace MySeenWeb.Controllers
         [Authorize]
         public ActionResult TrackEditor(string id)
         {
-            LogSave.Save(User.Identity.IsAuthenticated ? User.Identity.GetUserId() : "", Request.UserHostAddress, Request.UserAgent, "Home/TrackEditor");
             return View(new HomeViewModelTrackEditor(id, User.Identity.GetUserId()));
         }
         

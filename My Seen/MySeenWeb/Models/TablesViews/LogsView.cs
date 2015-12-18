@@ -1,5 +1,6 @@
 ﻿using System.Globalization;
 using System.Linq;
+using MySeenWeb.Models.OtherViewModels;
 using MySeenWeb.Models.Tables;
 
 namespace MySeenWeb.Models.TablesViews

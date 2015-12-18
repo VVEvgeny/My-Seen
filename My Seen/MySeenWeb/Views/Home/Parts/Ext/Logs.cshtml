@@ -10,39 +10,42 @@
     <img src="~/Content/Images/loading_small.gif"/>
 </div>
 
-<div data-bind="visible: logs().length > 0">
-    <table class="table table-striped" id="table">
-        <thead>
-            <tr>
-                <th class="col-sm-1">@Resource.UserName</th>
-                <th class="col-sm-2">@Resource.UserAgent</th>
-                <th class="col-sm-1">@Resource.IPAdress</th>
-                <th class="col-sm-1">@Resource.FirstCall</th>
-                <th class="col-sm-1">@Resource.DateLast</th>
-                <th class="col-sm-1">@Resource.Amount</th>
-                <th class="col-sm-1">@Resource.PageName</th>
-                <th class="col-sm-4">@Resource.AddData</th>
-            </tr>
-        </thead>
-        <tbody data-bind="foreach: logs">
-            <tr>
-                <td class="align-center" data-bind="text: userName"></td>
-                <td class="align-center" data-bind="text: userAgent"></td>
-                <td class="align-center" data-bind="text: ipAdress"></td>
-                <td class="align-center" data-bind="text: dateFirst"></td>
-                <td class="align-center" data-bind="text: dateLast"></td>
-                <td class="align-center" data-bind="text: count"></td>
-                <td class="align-center" data-bind="text: pageName"></td>
-                <td class="align-center" data-bind="text: addData"></td>
-            </tr>
-        </tbody>
-    </table>
+<div data-bind="visible: logs().length > 0" style="display: none;">
 
-    @Html.Partial("Parts/Tools/PaginationKO")
+    <div class="table-responsive">
+        <table class="table table-striped" id="table">
+            <thead>
+                <tr>
+                    <th class="col-sm-1">@Resource.UserName</th>
+                    <th class="col-sm-2">@Resource.UserAgent</th>
+                    <th class="col-sm-1">@Resource.IPAdress</th>
+                    <th class="col-sm-1">@Resource.FirstCall</th>
+                    <th class="col-sm-1">@Resource.DateLast</th>
+                    <th class="col-sm-1">@Resource.Amount</th>
+                    <th class="col-sm-1">@Resource.PageName</th>
+                    <th class="col-sm-4">@Resource.AddData</th>
+                </tr>
+            </thead>
+            <tbody data-bind="foreach: logs">
+                <tr>
+                    <td class="align-center" data-bind="text: userName"></td>
+                    <td class="align-center" data-bind="text: userAgent"></td>
+                    <td class="align-center" data-bind="text: ipAdress"></td>
+                    <td class="align-center" data-bind="text: dateFirst"></td>
+                    <td class="align-center" data-bind="text: dateLast"></td>
+                    <td class="align-center" data-bind="text: count"></td>
+                    <td class="align-center" data-bind="text: pageName"></td>
+                    <td class="align-center" data-bind="text: addData"></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    @Html.Partial("../Tools/PaginationKO")
 
 </div>
 
-@Html.Partial("Parts/Parts/JsonGetPage")
+@Html.Partial("Parts/Tools/JsonGetPage")
 
 
 <script language="javascript" type="text/javascript">

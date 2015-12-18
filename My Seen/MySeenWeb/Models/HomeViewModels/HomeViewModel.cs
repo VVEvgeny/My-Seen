@@ -2,7 +2,6 @@
 using System.Linq;
 using System.Web.Mvc;
 using MySeenLib;
-using MySeenWeb.Models.Tools;
 
 namespace MySeenWeb.Models
 {
@@ -87,7 +86,7 @@ namespace MySeenWeb.Models
 
         public string Search { get; set; }
 
-        public HomeViewModel(string selected, string userId, int page, int countInPage, int complex, string search, int markersOnRoads, int roadsYear,bool onlyEnded)
+        public HomeViewModel(string selected, string userId, int complex, string search, int markersOnRoads, int roadsYear,bool onlyEnded)
         {
             if (!string.IsNullOrEmpty(userId))
             {

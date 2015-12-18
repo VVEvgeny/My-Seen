@@ -3,6 +3,7 @@ using System.Linq;
 using System.Web.Http;
 using MySeenWeb.Models;
 using MySeenLib;
+using MySeenWeb.Models.OtherViewModels;
 using MySeenWeb.Models.Tables;
 using MySeenWeb.Models.Tools;
 
@@ -107,7 +108,7 @@ namespace MySeenWeb.Controllers
         }
         public string GetUserId(string userKey)
         {
-            ApplicationDbContext ac = new ApplicationDbContext();
+            var ac = new ApplicationDbContext();
             if (ac.Users.Any(u => u.UniqueKey == userKey))
             {
                 return ac.Users.First(u => u.UniqueKey == userKey).Id;
@@ -134,15 +135,15 @@ namespace MySeenWeb.Controllers
                 return Ok(new MySeenWebApi.SyncJsonAnswer { Value = MySeenWebApi.SyncJsonAnswer.Values.NoLongerSupportedVersion });
             }
 
-            ApplicationDbContext ac = new ApplicationDbContext();
-            string userId = GetUserId(userKey);
+            var ac = new ApplicationDbContext();
+            var userId = GetUserId(userKey);
             if (string.IsNullOrEmpty(userId))
             {
                 return Ok(new MySeenWebApi.SyncJsonAnswer { Value = MySeenWebApi.SyncJsonAnswer.Values.UserNotExist });
             }
             if ((MySeenWebApi.SyncModesApiData)mode == MySeenWebApi.SyncModesApiData.GetAll)
             {
-                List<MySeenWebApi.SyncJsonData> film = new List<MySeenWebApi.SyncJsonData>();
+                var film = new List<MySeenWebApi.SyncJsonData>();
                 film.AddRange(ac.Films.Where(f => f.UserId == userId).Select(Map)
                     .Union(ac.Serials.Where(f => f.UserId == userId).Select(Map))
                     .Union(ac.Books.Where(f => f.UserId == userId).Select(Map)));
@@ -188,7 +189,7 @@ namespace MySeenWeb.Controllers
             {
                 return Ok(new MySeenWebApi.SyncJsonAnswer { Value = MySeenWebApi.SyncJsonAnswer.Values.BadRequestMode });
             }
-            string userId = GetUserId(userKey);
+            var userId = GetUserId(userKey);
             if (string.IsNullOrEmpty(userId))
             {
                 return Ok(new MySeenWebApi.SyncJsonAnswer { Value = MySeenWebApi.SyncJsonAnswer.Values.UserNotExist });
@@ -196,8 +197,8 @@ namespace MySeenWeb.Controllers
             var syncJsonDatas = data as MySeenWebApi.SyncJsonData[] ?? data.ToArray();
             if (syncJsonDatas.Any())
             {
-                ApplicationDbContext ac = new ApplicationDbContext();
-                foreach (MySeenWebApi.SyncJsonData film in syncJsonDatas)
+                var ac = new ApplicationDbContext();
+                foreach (var film in syncJsonDatas)
                 {
                     if (film.DataMode == (int)MySeenWebApi.DataModes.Film)
                     {

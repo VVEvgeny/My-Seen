@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using MySeenLib;
+using MySeenWeb.Models.OtherViewModels;
 using MySeenWeb.Models.Tables;
 
 namespace MySeenWeb.Models.TablesLogic
@@ -25,7 +26,7 @@ namespace MySeenWeb.Models.TablesLogic
                 Type = Convert.ToInt32(type);
                 Coordinates = coordinates;
                 if (distance.Contains('.')) distance = distance.Remove(distance.IndexOf('.'));//Только кол-во КМ запишем
-                Distance = Convert.ToDouble(distance); ;
+                Distance = Convert.ToDouble(distance);
                 UserId = userId;
             }
             catch (Exception e)

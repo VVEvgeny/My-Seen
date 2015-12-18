@@ -2,7 +2,7 @@
 using System.ComponentModel.DataAnnotations;
 using MySeenLib;
 
-namespace MySeenWeb.Models
+namespace MySeenWeb.Models.OtherViewModels
 {
     public class ExternalLoginConfirmationViewModel
     {

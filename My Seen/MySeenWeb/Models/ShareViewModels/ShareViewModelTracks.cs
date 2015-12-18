@@ -2,9 +2,10 @@
 using System.Linq;
 using System.Web.Mvc;
 using MySeenLib;
+using MySeenWeb.Models.OtherViewModels;
 using MySeenWeb.Models.TablesViews;
 
-namespace MySeenWeb.Models
+namespace MySeenWeb.Models.ShareViewModels
 {
     /// <summary>
     /// Он грузит только легенду 

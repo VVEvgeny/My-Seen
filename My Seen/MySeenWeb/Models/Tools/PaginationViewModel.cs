@@ -5,22 +5,12 @@ namespace MySeenWeb.Models.Tools
 {
     public class PaginationViewModel
     {
-        public IDictionary<string, object> RouteValues { get; set; }
-
-        public PaginationViewModel(int pageNum, int totalRecords, int countInPage, string controller, string page)
+        public PaginationViewModel(int pageNum, int totalRecords, int countInPage)
         {
-            Load(pageNum, totalRecords, countInPage, controller, page, new Dictionary<string, object>());
+            Load(pageNum, totalRecords, countInPage);
         }
-        public PaginationViewModel(int pageNum, int totalRecords, int countInPage, string controller, string page, Dictionary<string, object> routes)
+        private void Load(int pageNum, int totalRecords, int countInPage)
         {
-            Load(pageNum, totalRecords, countInPage, controller, page, routes);
-        }
-        private void Load(int pageNum, int totalRecords, int countInPage, string controller, string page, Dictionary<string, object> routes)
-        {
-            RouteValues = routes;
-            Controller = controller;
-            Page = page;
-
             CurentPage = pageNum;
             if (CurentPage < 1) CurentPage = 1;
             IsFirstPage = CurentPage == 1;
@@ -34,7 +24,7 @@ namespace MySeenWeb.Models.Tools
             IsMiddlePage = MiddlePage == CurentPage;
 
             //Хочу считать сам странички которые надо отобразить
-            List<int> listI = new List<int> {1};
+            var listI = new List<int> {1};
             if (IsFirstPage && totalRecords > 1 && !listI.Contains(2)) listI.Add(2);
 
             if (!listI.Contains(CurentPage)) listI.Add(CurentPage);
@@ -83,9 +73,6 @@ namespace MySeenWeb.Models.Tools
         public int CurentPage { get; set; }
         public int LastPage { get; set; }
         public int MiddlePage { get; set; }
-
-        public string Controller { get; set; }
-        public string Page { get; set; }
 
         public IEnumerable<int> List { get; set; }
     }

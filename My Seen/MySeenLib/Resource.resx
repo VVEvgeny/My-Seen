@@ -732,4 +732,52 @@
   <data name="Ended" xml:space="preserve">
     <value>Ended</value>
   </data>
+  <data name="Ending" xml:space="preserve">
+    <value>Ending</value>
+  </data>
+  <data name="Improvement" xml:space="preserve">
+    <value>Improvement</value>
+  </data>
+  <data name="EachMonthIfSaturdayIsFridayIfSundayIsMonday" xml:space="preserve">
+    <value>Each month, if Saturday is Friday, if Sunday is Monday</value>
+  </data>
+  <data name="EachMonthTheRequiredNumberIfFridayOrSaturdayThenThursdayIfSundayOrMondayThenTuesday" xml:space="preserve">
+    <value>Each month, the required number if Friday or Saturday then Thursday if Sunday or Monday then Tuesday</value>
+  </data>
+  <data name="EachMonthTheRequiredNumberIfTheSaturdayOrSundayThenOnMonday" xml:space="preserve">
+    <value>Each month, the required number if the Saturday or Sunday then on Monday</value>
+  </data>
+  <data name="EveryYearIfSaturdayIsFridayIfSundayIsMonday" xml:space="preserve">
+    <value>Every year, if Saturday is Friday, if Sunday is Monday</value>
+  </data>
+  <data name="EveryYearWithoutError" xml:space="preserve">
+    <value>Every year without error</value>
+  </data>
+  <data name="OneTimeOnASpecifiedDate" xml:space="preserve">
+    <value>1 time on a specified date</value>
+  </data>
+  <data name="OneTimeOnASpecifiedDateObscureEnded" xml:space="preserve">
+    <value>1 time on a specified date, obscure ended</value>
+  </data>
+  <data name="Friday" xml:space="preserve">
+    <value>Friday</value>
+  </data>
+  <data name="Monday" xml:space="preserve">
+    <value>Monday</value>
+  </data>
+  <data name="Saturday" xml:space="preserve">
+    <value>Saturday</value>
+  </data>
+  <data name="Sunday" xml:space="preserve">
+    <value>Sunday</value>
+  </data>
+  <data name="Thursday" xml:space="preserve">
+    <value>Thursday</value>
+  </data>
+  <data name="Tuesday" xml:space="preserve">
+    <value>Tuesday</value>
+  </data>
+  <data name="Wednesday" xml:space="preserve">
+    <value>Wednesday</value>
+  </data>
 </root>

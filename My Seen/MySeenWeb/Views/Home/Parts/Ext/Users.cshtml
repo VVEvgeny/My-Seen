@@ -10,41 +10,44 @@
     <img src="~/Content/Images/loading_small.gif" />
 </div>
 
-<div data-bind="visible: users().length > 0">
-    <table class="table table-striped" id="table">
-        <thead>
-            <tr>
-                <th class="col-sm-4">@Resource.UserName</th>
-                <th class="col-sm-1">@Resource.RegisterDate</th>
-                <th class="col-sm-1">@Resource.LastAction</th>
-                <th class="col-sm-1">@Resource.CultureName</th>
-                <th class="col-sm-1">@Resource.FilmsCount</th>
-                <th class="col-sm-1">@Resource.SerialsCount</th>
-                <th class="col-sm-1">@Resource.BooksCount</th>
-                <th class="col-sm-1">@Resource.TracksCount</th>
-                <th class="col-sm-1">@Resource.EventsCount</th>
-            </tr>
-        </thead>
-        <tbody data-bind="foreach: users">
-            <tr>
-                <td class="align-center" data-bind="text: name"></td>
-                <td class="align-center" data-bind="text: registerDate"></td>
-                <td class="align-center" data-bind="text: lastAction"></td>
-                <td class="align-center" data-bind="text: culture"></td>
-                <td class="align-center" data-bind="text: filmsCount"></td>
-                <td class="align-center" data-bind="text: serialsCount"></td>
-                <td class="align-center" data-bind="text: booksCount"></td>
-                <td class="align-center" data-bind="text: tracksCount"></td>
-                <td class="align-center" data-bind="text: eventsCount"></td>
-            </tr>
-        </tbody>
-    </table>
+<div data-bind="visible: users().length > 0" style="display: none;">
 
-    @Html.Partial("Parts/Tools/PaginationKO")
+    <div class="table-responsive">
+        <table class="table table-striped" id="table">
+            <thead>
+                <tr>
+                    <th class="col-sm-4">@Resource.UserName</th>
+                    <th class="col-sm-1">@Resource.RegisterDate</th>
+                    <th class="col-sm-1">@Resource.LastAction</th>
+                    <th class="col-sm-1">@Resource.CultureName</th>
+                    <th class="col-sm-1">@Resource.FilmsCount</th>
+                    <th class="col-sm-1">@Resource.SerialsCount</th>
+                    <th class="col-sm-1">@Resource.BooksCount</th>
+                    <th class="col-sm-1">@Resource.TracksCount</th>
+                    <th class="col-sm-1">@Resource.EventsCount</th>
+                </tr>
+            </thead>
+            <tbody data-bind="foreach: users">
+                <tr>
+                    <td class="align-center" data-bind="text: name"></td>
+                    <td class="align-center" data-bind="text: registerDate"></td>
+                    <td class="align-center" data-bind="text: lastAction"></td>
+                    <td class="align-center" data-bind="text: culture"></td>
+                    <td class="align-center" data-bind="text: filmsCount"></td>
+                    <td class="align-center" data-bind="text: serialsCount"></td>
+                    <td class="align-center" data-bind="text: booksCount"></td>
+                    <td class="align-center" data-bind="text: tracksCount"></td>
+                    <td class="align-center" data-bind="text: eventsCount"></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    @Html.Partial("../Tools/PaginationKO")
 
 </div>
 
-@Html.Partial("Parts/Parts/JsonGetPage")
+@Html.Partial("Parts/Tools/JsonGetPage")
 
 <script language="javascript" type="text/javascript">
     
