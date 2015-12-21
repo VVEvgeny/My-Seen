@@ -1,4 +1,8 @@
-﻿.myseen-button-mobile-about {
+﻿.fb-comments{
+   width: 90% !important;
+}
+
+.myseen-button-mobile-about {
     margin-bottom:4px;
     white-space: normal;
   }

@@ -6,11 +6,11 @@
         
         @if (Admin.IsAdmin(User.Identity.GetUserName()))
         {
-            <li><a href="Home/Users"><span class="glyphicon glyphicon-user"></span> @Resource.Users</a></li>
-            <li><a href="Home/Logs"><span class="glyphicon glyphicon-scale"></span> @Resource.Logs</a></li>
+            <li><a href="/Home/Users"><span class="glyphicon glyphicon-user"></span> @Resource.Users</a></li>
+            <li><a href="/Home/Logs"><span class="glyphicon glyphicon-scale"></span> @Resource.Logs</a></li>
         }
 
-        <li><a href="Home/Improvements"><span class="glyphicon glyphicon-signal"></span> @Resource.Improvements</a></li>
+        <li><a href="/Home/Improvements"><span class="glyphicon glyphicon-signal"></span> @Resource.Improvements</a></li>
 
         @if (Request.Browser.IsMobileDevice)
         {
@@ -21,7 +21,7 @@
         {
             userName = userName.Remove(userName.IndexOf('@'));
         }
-        <li><a href="Manage"><span class="glyphicon glyphicon-lock"></span> @userName</a></li>
+        <li><a href="/Manage"><span class="glyphicon glyphicon-lock"></span> @userName</a></li>
     </ul>
     using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new {id = "logoutForm", @class = "navbar-right"}))
     {
