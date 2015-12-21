@@ -780,4 +780,10 @@
   <data name="Wednesday" xml:space="preserve">
     <value>Среда</value>
   </data>
+  <data name="Save" xml:space="preserve">
+    <value>Сохранить</value>
+  </data>
+  <data name="ShareBooksTitle" xml:space="preserve">
+    <value>прочитанные книги</value>
+  </data>
 </root>

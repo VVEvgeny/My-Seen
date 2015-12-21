@@ -238,6 +238,7 @@
 
             $addButton.off('click');
             $addButton.on('click', function () {
+                $('#bugDesc').val('');
                 $modalAdd.modal('show');
                 return false;
             });
@@ -260,6 +261,7 @@
                 var id = $button.attr('id');
                 var $saveButton = $('#submitEndButton');
                 var $deleteButton = $('#deleteButton');
+                $('#bugDescEnd').val('');
 
                 $modalEnd.modal('show');
 

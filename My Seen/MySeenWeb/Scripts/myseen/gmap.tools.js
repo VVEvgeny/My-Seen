@@ -55,13 +55,15 @@ function getZoom(min, max) {
     var p1 = new window.google.maps.LatLng(max.Latitude, max.Longitude);
     var p2 = new window.google.maps.LatLng(min.Latitude, min.Longitude);
     var maxLen = window.google.maps.geometry.spherical.computeDistanceBetween(p1, p2) / 1000;
+
+    console.log(".width()=", $(window).width());
     console.log("len=", maxLen);
 
     var zoom = 12;
     if (maxLen < 10) zoom = 14;
     else if (maxLen >= 10 && maxLen < 30) zoom = 11;
-    else if (maxLen >= 30 && maxLen < 100) zoom = 10;
-    else if (maxLen >= 100 && maxLen < 160) zoom = 9;
+    else if (maxLen >= 30 && maxLen < 100) zoom = 9;
+    else if (maxLen >= 100 && maxLen < 160) zoom = 8;
     else if (maxLen >= 160 && maxLen < 400) zoom = 8;
     else if (maxLen >= 400 && maxLen < 600) zoom = 7;
     else if (maxLen >= 600 && maxLen < 1000) zoom = 6;
@@ -69,6 +71,14 @@ function getZoom(min, max) {
     else if (maxLen >= 1300 && maxLen < 3500) zoom = 3;
     else if (maxLen >= 3500) zoom = 2;
     console.log("zoom=", zoom);
+    if ($(window).width() < 400) {
+        zoom -= 1;
+        //console.log("zoom width() < 400=", zoom);
+        if (maxLen > 300) {
+            zoom -= 1;
+            //console.log("zoom maxLen > 300=", zoom);
+        }
+    }
     return zoom;
 }
 function SetZoom(zoom) {

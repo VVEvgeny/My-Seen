@@ -432,6 +432,7 @@
     <Content Include="Content\Images\browser-ie.png" />
     <Content Include="Content\Images\browser-opera.png" />
     <Content Include="Content\Images\browser-safari.png" />
+    <Content Include="Content\Images\Icon-512.png" />
     <Content Include="Content\Images\loading_small.gif" />
     <Content Include="Content\myseen\gmap3-menu.css" />
     <Content Include="Content\themes\base\accordion.css" />
@@ -646,6 +647,8 @@
     <Content Include="Views\Home\Parts\Tools\JsonGetPage.cshtml" />
     <Content Include="Views\Tools\PaginationKO.cshtml" />
     <Content Include="Views\Share\Tools\GetPage.cshtml" />
+    <Content Include="Views\Ads\Google.cshtml" />
+    <Content Include="Views\Tools\VKShare.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

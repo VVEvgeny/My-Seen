@@ -1601,6 +1601,15 @@ namespace MySeenLib {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Save.
+        /// </summary>
+        public static string Save {
+            get {
+                return ResourceManager.GetString("Save", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Saved.
         /// </summary>
         public static string Saved {
@@ -1723,6 +1732,15 @@ namespace MySeenLib {
         public static string Share {
             get {
                 return ResourceManager.GetString("Share", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to readed books.
+        /// </summary>
+        public static string ShareBooksTitle {
+            get {
+                return ResourceManager.GetString("ShareBooksTitle", resourceCulture);
             }
         }
         

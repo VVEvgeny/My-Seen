@@ -1,0 +1,15 @@
+﻿    <!-- Put this script tag to the <head> of your page -->
+<script type="text/javascript" src="http://vk.com/js/api/share.js?93" charset="windows-1251"></script>
+
+<!-- Put this script tag to the place, where the Share button will be -->
+<script type="text/javascript">
+    document.write('<center>');
+    document.write(VK.Share.button(
+    { url: window.location.href },
+    {
+        type: "button",
+        text: "@Resource.Save",
+        eng: ('@CultureInfoTool.GetCulture()' === '@CultureInfoTool.Cultures.English' ? 1 : 0)
+    }));
+    document.write('</center>');
+</script>

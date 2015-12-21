@@ -6,6 +6,10 @@
 
 +function ($) {
     $(function () {
+
+        //потом подумать как быть с таблицами responsive
+        return false;
+
         var $table = $('.table.table-striped');
         var $thead = $table.find('thead');
         var $ths = $thead.find('tr th');

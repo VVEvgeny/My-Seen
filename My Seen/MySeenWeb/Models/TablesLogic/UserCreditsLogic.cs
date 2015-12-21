@@ -25,7 +25,7 @@ namespace MySeenWeb.Models.TablesLogic
             var user = _ac.Users.First(u => u.UserName == userName);
             UserId = user.Id;
             User = user;
-            DateTo = DateTime.Now.AddDays(1);
+            DateTo = DateTime.Now.AddDays(14);
             PrivateKey = Md5Tools.Get(User.Email.ToLower() + userAgent + User.UniqueKey.ToLower());
             if (Exists(PrivateKey)) Delete(PrivateKey);
             Add();                
