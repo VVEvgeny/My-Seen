@@ -648,7 +648,10 @@
     <Content Include="Views\Tools\PaginationKO.cshtml" />
     <Content Include="Views\Share\Tools\GetPage.cshtml" />
     <Content Include="Views\Ads\Google.cshtml" />
-    <Content Include="Views\Tools\VKShare.cshtml" />
+    <Content Include="Views\Tools\VK\Share.cshtml" />
+    <Content Include="Views\Tools\VK\Comments.cshtml" />
+    <Content Include="Views\Tools\VK\Like.cshtml" />
+    <Content Include="Views\Tools\VK\Subscribe.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

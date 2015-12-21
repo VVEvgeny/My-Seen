@@ -15,33 +15,35 @@
     <div class="table-responsive">
         <table class="table table-striped" id="table">
             <thead>
-                <tr>
-                    <th class="col-sm-5">@Resource.Name</th>
-                    <th class="col-sm-1">@Resource.Year</th>
-                    <th class="col-sm-2">@Resource.Author</th>
-                    <th class="col-sm-2">@Resource.DateRead</th>
-                    <th class="col-sm-1">@Resource.Genre</th>
-                    <th class="col-sm-1">@Resource.Rating</th>
-                </tr>
+            <tr>
+                <th class="col-sm-5">@Resource.Name</th>
+                <th class="col-sm-1">@Resource.Year</th>
+                <th class="col-sm-2">@Resource.Author</th>
+                <th class="col-sm-2">@Resource.DateRead</th>
+                <th class="col-sm-1">@Resource.Genre</th>
+                <th class="col-sm-1">@Resource.Rating</th>
+            </tr>
             </thead>
             <tbody data-bind="foreach: books">
-                <tr>
-                    <td class="align-center" data-bind="text: name"></td>
-                    <td class="align-center" data-bind="text: year"></td>
-                    <td class="align-center" data-bind="text: authors"></td>
-                    <td class="align-center" data-bind="text: dateRead"></td>
-                    <td class="align-center" data-bind="text: genre"></td>
-                    <td class="align-center" data-bind="text: rating"></td>
-                </tr>
+            <tr>
+                <td class="align-center" data-bind="text: name"></td>
+                <td class="align-center" data-bind="text: year"></td>
+                <td class="align-center" data-bind="text: authors"></td>
+                <td class="align-center" data-bind="text: dateRead"></td>
+                <td class="align-center" data-bind="text: genre"></td>
+                <td class="align-center" data-bind="text: rating"></td>
+            </tr>
             </tbody>
         </table>
     </div>
 
     @Html.Partial("../Tools/PaginationKO")
 
-    @Html.Partial("../Tools/VKShare")
-
 </div>
+
+@Html.Partial("../Tools/VK/Like")
+@Html.Partial("../Tools/VK/Share")
+@Html.Partial("../Tools/VK/Comments")
 
 @Html.Partial("Tools/GetPage")
 

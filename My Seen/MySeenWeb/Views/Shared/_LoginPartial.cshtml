@@ -2,32 +2,34 @@
 
 @if (Request.IsAuthenticated)
 {
-    if (Admin.IsAdmin(User.Identity.GetUserName()))
-    {
-        <ul class="nav navbar-nav">
-            <li>@Html.ActionLink(Resource.Users, "Users", "", routeValues: null, htmlAttributes: new { id = "usersLink" })</li>
-        </ul>
-        <ul class="nav navbar-nav">
-            <li>@Html.ActionLink(Resource.Logs, "Logs", "", routeValues: null, htmlAttributes: new { id = "usersLink" })</li>
-        </ul>
-    }
     <ul class="nav navbar-nav">
-        <li>@Html.ActionLink(Resource.Improvements, "Improvements", "Home", routeValues: null, htmlAttributes: new { id = "usersLink" })</li>
-    </ul>
-    using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { id = "logoutForm", @class = "navbar-right" }))
-    {
-    @Html.AntiForgeryToken()
+        
+        @if (Admin.IsAdmin(User.Identity.GetUserName()))
+        {
+            <li><a href="Home/Users"><span class="glyphicon glyphicon-user"></span> @Resource.Users</a></li>
+            <li><a href="Home/Logs"><span class="glyphicon glyphicon-scale"></span> @Resource.Logs</a></li>
+        }
 
-    <ul class="nav navbar-nav navbar-right">
-        @if(Request.Browser.IsMobileDevice)
-        { 
+        <li><a href="Home/Improvements"><span class="glyphicon glyphicon-signal"></span> @Resource.Improvements</a></li>
+
+        @if (Request.Browser.IsMobileDevice)
+        {
             <li><a href='https://play.google.com/store/apps/details?id=com.vve.myseen'>@Resource.OurAndroidApp</a></li>
         }
-        @{var userName = User.Identity.GetUserName();}
-        @if (userName.Contains("@")) { userName = userName.Remove(userName.IndexOf('@')); }
-        <li>@Html.ActionLink(userName , "Index", "Manage", routeValues: null, htmlAttributes: new { title = Resource.Manage })</li>
-        <li><a href="javascript:document.getElementById('logoutForm').submit()">@Resource.LogOff</a></li>
+        @{ var userName = User.Identity.GetUserName(); }
+        @if (userName.Contains("@"))
+        {
+            userName = userName.Remove(userName.IndexOf('@'));
+        }
+        <li><a href="Manage"><span class="glyphicon glyphicon-lock"></span> @userName</a></li>
     </ul>
+    using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new {id = "logoutForm", @class = "navbar-right"}))
+    {
+
+        @Html.AntiForgeryToken()
+        <ul class="nav navbar-nav">
+            <li><a href="javascript:document.getElementById('logoutForm').submit()"><span class="glyphicon glyphicon-off"></span> @Resource.LogOff</a></li>
+        </ul>
     }
 }
 else
@@ -39,7 +41,8 @@ else
         }
         <!--<li>@Html.ActionLink(Resource.Register, "Register", "Account", routeValues: null, htmlAttributes: new {id = "registerLink"})</li>-->
         <!--<li>@Html.ActionLink(Resource.Login, "Login", "Account", routeValues: null, htmlAttributes: new {id = "loginLink"})</li>-->
-        <li>@Html.ActionLink(Resource.Login, "", "", routeValues: null, htmlAttributes: new {id = "LoginModalButton"})</li>
+        <!--<li>@Html.ActionLink(Resource.Login, "", "", routeValues: null, htmlAttributes: new {id = "LoginModalButton"})</li>-->
+        <li><a href='#' id="LoginModalButton"><span class="glyphicon glyphicon-log-in"></span> @Resource.Login</a></li>
     </ul>
     @Html.Partial("_LoginModal")
 }
