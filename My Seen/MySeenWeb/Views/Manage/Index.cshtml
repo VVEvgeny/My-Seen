@@ -11,7 +11,7 @@
 <p class="text-success">@ViewBag.StatusMessage</p>
 <div>
     <h4>@Resource.ChangeYourAccountSettings</h4>
-    <hr />
+    <hr/>
     <dl class="dl-horizontal">
         <dt>@Resource.Password:</dt>
         <dd>
@@ -28,7 +28,7 @@
     <dl class="dl-horizontal">
         <dt>@Resource.SelectLanguage</dt>
         <dd>
-            @Html.DropDownList("Lang", Model.LangList, new { @class = "form-control", @id = "lstLang", @style = "width: 200px;" })
+            @Html.DropDownList("Lang", Model.LangList, new {@class = "form-control", @id = "lstLang", @style = "width: 200px;"})
         </dd>
     </dl>
     <dl class="dl-horizontal">
@@ -41,29 +41,61 @@
     <dl class="dl-horizontal">
         <dt>@Resource.MarkersOnRoads</dt>
         <dd>
-            @Html.DropDownList("MarkersOnRoads", Model.MarkersOnRoadsList, new { @class = "form-control", @id = "lstMoR", @style = "width: 200px;" })
+            @Html.DropDownList("MarkersOnRoads", Model.MarkersOnRoadsList, new {@class = "form-control", @id = "lstMoR", @style = "width: 200px;"})
             <div id="MarkersOnRoadsSaved" style="display: none;" class="text-success">@Resource.Saved</div>
         </dd>
     </dl>
+    <dl class="dl-horizontal">
+        <dt>Сервисы ВК</dt>
+        <dd>
+            @Html.DropDownList("VkServiceEnabledInt", Model.VkServiceEnabledList, new {@class = "form-control", @id = "lstVk", @style = "width: 200px;"})
+            <div id="VkServiceEnabledSaved" style="display: none;" class="text-success">@Resource.Saved</div>
+        </dd>
+    </dl>
+    <dl class="dl-horizontal">
+        <dt>Сервисы Гугл</dt>
+        <dd>
+            @Html.DropDownList("GoogleServiceEnabledInt", Model.GoogleServiceEnabledList, new { @class = "form-control", @id = "lstGoogle", @style = "width: 200px;" })
+            <div id="GoogleServiceEnabledSaved" style="display: none;" class="text-success">@Resource.Saved</div>
+        </dd>
+    </dl>
+    <dl class="dl-horizontal">
+        <dt>Сервисы фейсбук</dt>
+        <dd>
+            @Html.DropDownList("FacebookServiceEnabledInt", Model.FacebookServiceEnabledList, new { @class = "form-control", @id = "lstFacebook", @style = "width: 200px;" })
+            <div id="FacebookServiceEnabledSaved" style="display: none;" class="text-success">@Resource.Saved</div>
+        </dd>
+    </dl>
     <!--
-        @if (Model.HaveData)
-        {
-            <dl class="dl-horizontal">
-                <dt>@Resource.DeleteData</dt>
-                <dd>
-                    <button type="button" class="btn btn-danger btn-xs" id="delDataButton" style="width: 200px;">
-                        <span class="glyphicon glyphicon-trash"></span>
-                        &nbsp;@Resource.DeleteData
-                    </button>
-                </dd>
-            </dl>
-        }
-        -->
+    @if (Model.HaveData)
+    {
+        <dl class="dl-horizontal">
+            <dt>@Resource.DeleteData</dt>
+            <dd>
+                <button type="button" class="btn btn-danger btn-xs" id="delDataButton" style="width: 200px;">
+                    <span class="glyphicon glyphicon-trash"></span>
+                    &nbsp;@Resource.DeleteData
+                </button>
+            </dd>
+        </dl>
+    }
+    -->
 </div>
 
-@Html.Partial("../Tools/VK/Subscribe")
-
-@Html.Partial("../Tools/Google/Follow")
+@if (Model.VkServiceEnabled)
+{
+    <div id="vkServicesDiv">
+        @Html.Partial("../Tools/VK/_Base")
+        @Html.Partial("../Tools/VK/Subscribe")
+    </div>
+}
+@if (Model.GoogleServiceEnabled)
+{
+    <div id="googleServicesDiv">
+        @Html.Partial("../Tools/Google/_Base")
+        @Html.Partial("../Tools/Google/Follow")
+    </div>
+}
 
 <footer class="row">
     <div class="text-center">
@@ -72,102 +104,197 @@
 </footer>
 
 <script language="javascript" type="text/javascript">
-        (function ($) {
-            $(function () {
-                var $delDataButton = $('#delDataButton');
-                var $select = $('#lstLang');
-                var $selectRpp = $('#lstRpp');
-                var $selectMoR = $('#lstMoR');
+    (function($) {
+        $(function() {
+            var $delDataButton = $('#delDataButton');
+            var $select = $('#lstLang');
+            var $selectRpp = $('#lstRpp');
+            var $selectMoR = $('#lstMoR');
 
-                $select.on('change', function ()
-                {
-                    var value = $(this).val();
+            var $selectVk = $('#lstVk');
+            var $selectGoogle = $('#lstGoogle');
+            var $selectFacebook = $('#lstFacebook');
 
-                    $.ajax({
-                        type: 'POST',
-                        url: '/Manage/ChangeLanguage',
-                        data: {
-                            selected: value
-                        },
-                        dataType: 'json',
-                        success: function () {
-                            window.location.href = '/Manage';
-                        },
-                        error: function () {
-                            alert('Error');
-                        }
-                    });
-                    return false;
+            $select.on('change', function() {
+                var value = $(this).val();
+
+                $.ajax({
+                    type: 'POST',
+                    url: '/Manage/ChangeLanguage',
+                    data: {
+                        selected: value
+                    },
+                    dataType: 'json',
+                    success: function() {
+                        window.location.href = '/Manage';
+                    },
+                    error: function() {
+                        alert('Error');
+                    }
                 });
-
-                $selectRpp.on('change', function () {
-                    var value = $(this).val();
-
-                    $.ajax({
-                        type: 'POST',
-                        url: '/Manage/ChangeRpp',
-                        data: {
-                            selected: value
-                        },
-                        dataType: 'json',
-                        success: function ()
-                        {
-                            var $div = $('#RPPSaved');
-                            $div.show();
-                            window.setTimeout(hideRppSaved, 2000);
-                        },
-                        error: function () {
-                            alert('Error');
-                        }
-                    });
-                    return false;
-                });
-
-                $selectMoR.on('change', function () {
-                    var value = $(this).val();
-
-                    $.ajax({
-                        type: 'POST',
-                        url: '/Manage/ChangeMoR',
-                        data: {
-                            selected: value
-                        },
-                        dataType: 'json',
-                        success: function () {
-                            var $div = $('#MarkersOnRoadsSaved');
-                            $div.show();
-                            window.setTimeout(hideMoRSaved, 2000);
-                        },
-                        error: function () {
-                            alert('Error');
-                        }
-                    });
-                    return false;
-                });
-
-                $delDataButton.on('click', function () {
-                    $.ajax({
-                        type: 'POST',
-                        url: '/Manage/DeleteData',
-                        dataType: 'json',
-                        success: function () {
-                            window.location.href = '/Manage';
-                        },
-                        error: function () {
-                            alert('Error');
-                        }
-                    });
-                    return false;
-                });
+                return false;
             });
-            function hideRppSaved()
-            {
-                var $div = $('#RPPSaved');
-                $div.hide();
-            }
-            function hideMoRSaved() {
-                var $div = $('#MarkersOnRoadsSaved');
-                $div.hide();
-            }
-        })(jQuery);
+
+            $selectRpp.on('change', function() {
+                var value = $(this).val();
+
+                $.ajax({
+                    type: 'POST',
+                    url: '/Manage/ChangeRpp',
+                    data: {
+                        selected: value
+                    },
+                    dataType: 'json',
+                    success: function() {
+                        var $div = $('#RPPSaved');
+                        $div.show();
+                        window.setTimeout(hideRppSaved, 2000);
+                    },
+                    error: function() {
+                        alert('Error');
+                    }
+                });
+                return false;
+            });
+
+            $selectMoR.on('change', function() {
+                var value = $(this).val();
+
+                $.ajax({
+                    type: 'POST',
+                    url: '/Manage/ChangeMoR',
+                    data: {
+                        selected: value
+                    },
+                    dataType: 'json',
+                    success: function() {
+                        var $div = $('#MarkersOnRoadsSaved');
+                        $div.show();
+                        window.setTimeout(hideMoRSaved, 2000);
+                    },
+                    error: function() {
+                        alert('Error');
+                    }
+                });
+                return false;
+            });
+
+            $selectVk.on('change', function() {
+                var value = $(this).val();
+
+                if (value === '1') {
+                    $('#vkServicesDiv').hide();
+                } else {
+                    $('#vkServicesDiv').show();
+                }
+
+                $.ajax({
+                    type: 'POST',
+                    url: '/Manage/ChangeVk',
+                    data: {
+                        selected: value
+                    },
+                    dataType: 'json',
+                    success: function() {
+                        var $div = $('#VkServiceEnabledSaved');
+                        $div.show();
+                        window.setTimeout(hideVkSaved, 2000);
+                    },
+                    error: function() {
+                        alert('Error');
+                    }
+                });
+                return false;
+            });
+            $selectGoogle.on('change', function() {
+                var value = $(this).val();
+
+                if (value === '1') {
+                    $('#googleServicesDiv').hide();
+                } else {
+                    $('#googleServicesDiv').show();
+                }
+
+                $.ajax({
+                    type: 'POST',
+                    url: '/Manage/ChangeGoogle',
+                    data: {
+                        selected: value
+                    },
+                    dataType: 'json',
+                    success: function() {
+                        var $div = $('#GoogleServiceEnabledSaved');
+                        $div.show();
+                        window.setTimeout(hideGoogleSaved, 2000);
+                    },
+                    error: function() {
+                        alert('Error');
+                    }
+                });
+                return false;
+            });
+            $selectFacebook.on('change', function() {
+                var value = $(this).val();
+
+                $.ajax({
+                    type: 'POST',
+                    url: '/Manage/ChangeFacebook',
+                    data: {
+                        selected: value
+                    },
+                    dataType: 'json',
+                    success: function() {
+                        var $div = $('#FacebookServiceEnabledSaved');
+                        $div.show();
+                        window.setTimeout(hideFacebookSaved, 2000);
+                    },
+                    error: function() {
+                        alert('Error');
+                    }
+                });
+                return false;
+            });
+
+
+            $delDataButton.on('click', function() {
+                $.ajax({
+                    type: 'POST',
+                    url: '/Manage/DeleteData',
+                    dataType: 'json',
+                    success: function() {
+                        window.location.href = '/Manage';
+                    },
+                    error: function() {
+                        alert('Error');
+                    }
+                });
+                return false;
+            });
+        });
+
+        function hideRppSaved() {
+            var $div = $('#RPPSaved');
+            $div.hide();
+        }
+
+        function hideMoRSaved() {
+            var $div = $('#MarkersOnRoadsSaved');
+            $div.hide();
+        }
+
+        function hideVkSaved() {
+            var $div = $('#VkServiceEnabledSaved');
+            $div.hide();
+        }
+
+        function hideGoogleSaved() {
+            var $div = $('#GoogleServiceEnabledSaved');
+            $div.hide();
+        }
+
+        function hideFacebookSaved() {
+            var $div = $('#FacebookServiceEnabledSaved');
+            $div.hide();
+        }
+    })(jQuery);
 </script>

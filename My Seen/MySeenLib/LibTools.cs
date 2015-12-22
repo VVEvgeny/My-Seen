@@ -9,7 +9,7 @@ namespace MySeenLib
     public static class Versions
     {
         //Строка с версией библиотеки в ресурсах LibVersionNum
-        public static int Web = 9;
+        public static int Web = 10;
         public static int Android = 1;
         public static int AndroidLib = 1;
         public static int Pc = 1;
@@ -398,11 +398,12 @@ namespace MySeenLib
                 }
             }
         }
-        public class MarkersOnRoadsBase : ListStringBase
+        public class EnabledDisabledBase : ListStringBase
         {
             public static class Indexes
             {
                 public static int Enabled = 0;
+                public static int Disabled = 1;
             }
 
             public override void Load()
@@ -453,7 +454,7 @@ namespace MySeenLib
         public static LanguagesBase Languages = new LanguagesBase();
         public static ComplexBase Complexes = new ComplexBase();
         public static RecordPerPageBase RecordPerPage = new RecordPerPageBase();
-        public static MarkersOnRoadsBase MarkersOnRoads = new MarkersOnRoadsBase();
+        public static EnabledDisabledBase EnabledDisabled = new EnabledDisabledBase();
         public static EventsTypesBase EventTypes = new EventsTypesBase();
 
         private static readonly List<ListStringBase> AllResourcesLink = new List<ListStringBase>
@@ -464,7 +465,7 @@ namespace MySeenLib
             Languages,
             Complexes,
             RecordPerPage,
-            MarkersOnRoads,
+            EnabledDisabled,
             EventTypes
         };
 

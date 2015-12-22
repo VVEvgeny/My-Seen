@@ -316,6 +316,10 @@
     <Compile Include="Migrations\201512151330245_29.Designer.cs">
       <DependentUpon>201512151330245_29.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201512221225435_30.cs" />
+    <Compile Include="Migrations\201512221225435_30.Designer.cs">
+      <DependentUpon>201512221225435_30.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\OtherViewModels\AccountViewModels.cs" />
     <Compile Include="Models\HomeViewModels\HomeViewModelBooksMin.cs" />
@@ -327,6 +331,7 @@
     <Compile Include="Models\HomeViewModels\HomeViewModelLogsMin.cs" />
     <Compile Include="Models\HomeViewModels\HomeViewModelSerialsMin.cs" />
     <Compile Include="Models\HomeViewModels\HomeViewModelTrackEditor.cs" />
+    <Compile Include="Models\ShareViewModels\ShareViewModelBaseMin.cs" />
     <Compile Include="Models\ShareViewModels\ShareViewModelEventsMin.cs" />
     <Compile Include="Models\ShareViewModels\ShareViewModelBooks.cs" />
     <Compile Include="Models\ShareViewModels\ShareViewModelEvents.cs" />
@@ -662,6 +667,7 @@
     <Content Include="Views\Tools\Facebook\_Base.cshtml" />
     <Content Include="Views\Tools\Google\_Base.cshtml" />
     <Content Include="Views\Tools\VK\_Base.cshtml" />
+    <Content Include="Views\Share\Tools\Services.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -762,6 +768,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201512151330245_29.resx">
       <DependentUpon>201512151330245_29.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201512221225435_30.resx">
+      <DependentUpon>201512221225435_30.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

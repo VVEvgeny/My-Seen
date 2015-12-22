@@ -4,7 +4,6 @@ using System.Security.Principal;
 using System.Threading;
 using System.Web;
 using System.Web.Mvc;
-using MySeenWeb.Models;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using MySeenLib;
@@ -107,7 +106,7 @@ namespace MySeenWeb.Controllers
                 if (TryReadUserSideStorage(UserSideStorageKeys.MarkersOnRoads))
                 {
                     var ret = ReadUserSideStorage(UserSideStorageKeys.MarkersOnRoads, 0);
-                    if (!string.IsNullOrEmpty(Defaults.MarkersOnRoads.GetById(ret))) return ret;
+                    if (!string.IsNullOrEmpty(Defaults.EnabledDisabled.GetById(ret))) return ret;
                     var userId = string.Empty;
                     if (User.Identity.IsAuthenticated)
                     {

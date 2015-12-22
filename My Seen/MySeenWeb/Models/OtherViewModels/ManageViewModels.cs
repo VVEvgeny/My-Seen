@@ -24,6 +24,40 @@ namespace MySeenWeb.Models.OtherViewModels
         public IEnumerable<System.Web.Mvc.SelectListItem> MarkersOnRoadsList { get; set; }
         public bool HaveData { get; set; }
 
+        public bool VkServiceEnabled { get; set; }
+        public int VkServiceEnabledInt
+        {
+            get
+            {
+                return VkServiceEnabled
+                    ? Defaults.EnabledDisabledBase.Indexes.Enabled
+                    : Defaults.EnabledDisabledBase.Indexes.Disabled;
+            }
+        }
+        public IEnumerable<System.Web.Mvc.SelectListItem> VkServiceEnabledList { get; set; }
+        public bool GoogleServiceEnabled { get; set; }
+        public int GoogleServiceEnabledInt
+        {
+            get
+            {
+                return GoogleServiceEnabled
+                    ? Defaults.EnabledDisabledBase.Indexes.Enabled
+                    : Defaults.EnabledDisabledBase.Indexes.Disabled;
+            }
+        }
+        public IEnumerable<System.Web.Mvc.SelectListItem> GoogleServiceEnabledList { get; set; }
+        public bool FacebookServiceEnabled { get; set; }
+        public int FacebookServiceEnabledInt
+        {
+            get
+            {
+                return FacebookServiceEnabled
+                    ? Defaults.EnabledDisabledBase.Indexes.Enabled
+                    : Defaults.EnabledDisabledBase.Indexes.Disabled;
+            }
+        }
+        public IEnumerable<System.Web.Mvc.SelectListItem> FacebookServiceEnabledList { get; set; }
+
         public void LoadSelectList()
         {
             var listItems =
@@ -53,17 +87,56 @@ namespace MySeenWeb.Models.OtherViewModels
             RppList = listItems;
 
             listItems =
-                Defaults.MarkersOnRoads.GetAll()
+                Defaults.EnabledDisabled.GetAll()
                     .Select(
                         sel =>
                             new System.Web.Mvc.SelectListItem
                             {
                                 Text = sel,
-                                Value = Defaults.MarkersOnRoads.GetId(sel).ToString(),
-                                Selected = Defaults.MarkersOnRoads.GetId(sel) == Markers
+                                Value = Defaults.EnabledDisabled.GetId(sel).ToString(),
+                                Selected = Defaults.EnabledDisabled.GetId(sel) == Markers
                             })
                     .ToList();
             MarkersOnRoadsList = listItems;
+
+            listItems =
+                Defaults.EnabledDisabled.GetAll()
+                    .Select(
+                        sel =>
+                            new System.Web.Mvc.SelectListItem
+                            {
+                                Text = sel,
+                                Value = Defaults.EnabledDisabled.GetId(sel).ToString(),
+                                Selected = Defaults.EnabledDisabled.GetId(sel) == (VkServiceEnabled ? Defaults.EnabledDisabledBase.Indexes.Enabled : Defaults.EnabledDisabledBase.Indexes.Disabled)
+                            })
+                    .ToList();
+            VkServiceEnabledList = listItems;
+
+            listItems =
+                Defaults.EnabledDisabled.GetAll()
+                    .Select(
+                        sel =>
+                            new System.Web.Mvc.SelectListItem
+                            {
+                                Text = sel,
+                                Value = Defaults.EnabledDisabled.GetId(sel).ToString(),
+                                Selected = Defaults.EnabledDisabled.GetId(sel) == (GoogleServiceEnabled ? Defaults.EnabledDisabledBase.Indexes.Enabled : Defaults.EnabledDisabledBase.Indexes.Disabled)
+                            })
+                    .ToList();
+            GoogleServiceEnabledList = listItems;
+
+            listItems =
+                Defaults.EnabledDisabled.GetAll()
+                    .Select(
+                        sel =>
+                            new System.Web.Mvc.SelectListItem
+                            {
+                                Text = sel,
+                                Value = Defaults.EnabledDisabled.GetId(sel).ToString(),
+                                Selected = Defaults.EnabledDisabled.GetId(sel) == (FacebookServiceEnabled ? Defaults.EnabledDisabledBase.Indexes.Enabled : Defaults.EnabledDisabledBase.Indexes.Disabled)
+                            })
+                    .ToList();
+            FacebookServiceEnabledList = listItems;
         }
     }
 

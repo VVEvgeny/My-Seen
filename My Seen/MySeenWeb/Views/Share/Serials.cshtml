@@ -43,40 +43,7 @@
 
 </div>
 
-@Html.Partial("../Tools/VK/_Base")
-@Html.Partial("../Tools/Google/_Base")
-@Html.Partial("../Tools/Facebook/_Base")
-
-<table class="table table-striped" id="table_shares_likes">
-    <tbody>
-        <tr>
-            <td class="align-center">@Html.Partial("../Tools/VK/Like")</td>
-            <td class="align-center">@Html.Partial("../Tools/VK/Share")</td>
-        </tr>
-        <tr>
-            <td class="align-center">@Html.Partial("../Tools/Google/Like")</td>
-            <td class="align-center">@Html.Partial("../Tools/Google/Share")</td>
-        </tr>
-        <tr>
-            <td class="align-center">@Html.Partial("../Tools/Facebook/Like")</td>
-            <td class="align-center">@Html.Partial("../Tools/Facebook/Share")</td>
-        </tr>
-    </tbody>
-</table>
-
-<table class="table table-striped" id="table_comments">
-    <tbody>
-        <tr>
-            <td class="align-center">@Html.Partial("../Tools/VK/Comments")</td>
-        </tr>
-        <tr>
-            <td class="align-center">@Html.Partial("../Tools/Google/Comments")</td>
-        </tr>
-        <tr>
-            <td class="align-center">@Html.Partial("../Tools/Facebook/Comments")</td>
-        </tr>
-    </tbody>
-</table>
+@Html.Partial("Tools/Services", Model)
 
 @Html.Partial("Tools/GetPage")
 

@@ -14,7 +14,7 @@
 
         @if (Request.Browser.IsMobileDevice)
         {
-            <li><a href='https://play.google.com/store/apps/details?id=com.vve.myseen'>@Resource.OurAndroidApp</a></li>
+            <li><a href='https://play.google.com/store/apps/details?id=com.vve.myseen'><span class="glyphicon glyphicon-phone"></span> @Resource.OurAndroidApp</a></li>
         }
         @{ var userName = User.Identity.GetUserName(); }
         @if (userName.Contains("@"))
@@ -37,7 +37,7 @@ else
     <ul class="nav navbar-nav navbar-right">
         @if (Request.Browser.IsMobileDevice)
         {
-            <li><a href='https://play.google.com/store/apps/details?id=com.vve.myseen'>@Resource.OurAndroidApp</a></li>
+            <li><a href='https://play.google.com/store/apps/details?id=com.vve.myseen'><span class="glyphicon glyphicon-phone"></span> @Resource.OurAndroidApp</a></li>
         }
         <!--<li>@Html.ActionLink(Resource.Register, "Register", "Account", routeValues: null, htmlAttributes: new {id = "registerLink"})</li>-->
         <!--<li>@Html.ActionLink(Resource.Login, "Login", "Account", routeValues: null, htmlAttributes: new {id = "loginLink"})</li>-->

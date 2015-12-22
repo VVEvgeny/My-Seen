@@ -6,7 +6,6 @@ using System.Web.Mvc;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
-using MySeenWeb.Models;
 using MySeenLib;
 using MySeenWeb.ActionFilters;
 using MySeenWeb.Models.OtherViewModels;
@@ -85,6 +84,10 @@ namespace MySeenWeb.Controllers
                 model.Lang = Defaults.Languages.GetIdDb(user.Culture);
                 model.Rpp = user.RecordPerPage;
                 model.Markers = user.MarkersOnRoads;
+                model.VkServiceEnabled = user.VkServiceEnabled;
+                model.GoogleServiceEnabled = user.GoogleServiceEnabled;
+                model.FacebookServiceEnabled = user.FacebookServiceEnabled;
+
                 model.LoadSelectList();
 
                 model.HaveData = (ac.Films.Any(f => f.UserId == userId)
@@ -151,7 +154,34 @@ namespace MySeenWeb.Controllers
             MarkersOnRoads = Convert.ToInt32(selected);
             return Json(new { success = true });
         }
-        
+        [HttpPost]
+        public JsonResult ChangeVk(string selected)
+        {
+            var ac = new ApplicationDbContext();
+            var userId = User.Identity.GetUserId();
+            ac.Users.First(u => u.Id == userId).VkServiceEnabled = Convert.ToInt32(selected) == Defaults.EnabledDisabledBase.Indexes.Enabled;
+            ac.SaveChanges();
+            return Json(new { success = true });
+        }
+        [HttpPost]
+        public JsonResult ChangeGoogle(string selected)
+        {
+            var ac = new ApplicationDbContext();
+            var userId = User.Identity.GetUserId();
+            ac.Users.First(u => u.Id == userId).GoogleServiceEnabled = Convert.ToInt32(selected) == Defaults.EnabledDisabledBase.Indexes.Enabled;
+            ac.SaveChanges();
+            return Json(new { success = true });
+        }
+        [HttpPost]
+        public JsonResult ChangeFacebook(string selected)
+        {
+            var ac = new ApplicationDbContext();
+            var userId = User.Identity.GetUserId();
+            ac.Users.First(u => u.Id == userId).FacebookServiceEnabled = Convert.ToInt32(selected) == Defaults.EnabledDisabledBase.Indexes.Enabled;
+            ac.SaveChanges();
+            return Json(new { success = true });
+        }
+
         private void DeleteUserData()
         {
             var ac = new ApplicationDbContext();

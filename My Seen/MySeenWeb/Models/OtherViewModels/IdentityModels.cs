@@ -24,6 +24,9 @@ namespace MySeenWeb.Models.OtherViewModels
         public string ShareSerialsKey { get; set; }
         public string ShareBooksKey { get; set; }
         public string ShareEventsKey { get; set; }
+        public bool VkServiceEnabled { get; set; }
+        public bool GoogleServiceEnabled { get; set; }
+        public bool FacebookServiceEnabled { get; set; }
 
         public async Task<ClaimsIdentity> GenerateUserIdentityAsync(UserManager<ApplicationUser> manager)
         {

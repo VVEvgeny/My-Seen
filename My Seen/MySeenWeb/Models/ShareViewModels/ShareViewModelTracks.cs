@@ -11,7 +11,7 @@ namespace MySeenWeb.Models.ShareViewModels
     /// Он грузит только легенду 
     /// основная работа уже при загрузке страницы пойдет работать метод Home/GetTrackByKey(string id)
     /// </summary>
-    public class ShareViewModelTracks
+    public class ShareViewModelTracks : ShareViewModelBaseMin
     {
         public string Key { get; set; }
         public IEnumerable<TracksView> Data { get; set; }
@@ -40,8 +40,9 @@ namespace MySeenWeb.Models.ShareViewModels
 
         public ShareViewModelTracks(string key, int markersOnRoads, int roadsYear)
         {
-            Markers = markersOnRoads == Defaults.MarkersOnRoadsBase.Indexes.Enabled;
+            Markers = markersOnRoads == Defaults.EnabledDisabledBase.Indexes.Enabled;
             Key = key;
+            var userId = string.Empty;
             var ac=new ApplicationDbContext();
             var years = new List<SelectListItem> { 
                 new SelectListItem
@@ -50,10 +51,11 @@ namespace MySeenWeb.Models.ShareViewModels
                     Value = "0",
                     Selected = roadsYear == 0
                 } };
+
             if (ac.Users.Any(u => u.ShareTracksFootKey != null && u.ShareTracksFootKey == key))
             {
                 AllUsersTracks = true;
-                var userId = ac.Users.First(u => u.ShareTracksFootKey == key).Id;
+                userId = ac.Users.First(u => u.ShareTracksFootKey == key).Id;
                 const int type = (int)TrackTypes.Foot;
                 Data = ac.Tracks.Where(t => t.UserId == userId && t.Type == type && (roadsYear == 0 || t.Date.Year == roadsYear)).Select(TracksView.Map);
                 foreach (var elem in ac.Tracks.Where(t => t.UserId == userId && t.Type == type).Select(t => t.Date.Year).Distinct())
@@ -69,7 +71,7 @@ namespace MySeenWeb.Models.ShareViewModels
             else if (ac.Users.Any(u => u.ShareTracksCarKey != null && u.ShareTracksCarKey == key))
             {
                 AllUsersTracks = true;
-                var userId = ac.Users.First(u => u.ShareTracksCarKey == key).Id;
+                userId = ac.Users.First(u => u.ShareTracksCarKey == key).Id;
                 const int type = (int)TrackTypes.Car;
                 Data = ac.Tracks.Where(t => t.UserId == userId && t.Type == type && (roadsYear == 0 || t.Date.Year == roadsYear)).Select(TracksView.Map);
                 foreach (var elem in ac.Tracks.Where(t => t.UserId == userId && t.Type == type).Select(t => t.Date.Year).Distinct())
@@ -85,7 +87,7 @@ namespace MySeenWeb.Models.ShareViewModels
             else if (ac.Users.Any(u => u.ShareTracksCarKey != null && u.ShareTracksBikeKey == key))
             {
                 AllUsersTracks = true;
-                var userId = ac.Users.First(u => u.ShareTracksBikeKey == key).Id;
+                userId = ac.Users.First(u => u.ShareTracksBikeKey == key).Id;
                 const int type = (int)TrackTypes.Bike;
                 Data = ac.Tracks.Where(t => t.UserId == userId && t.Type == type && (roadsYear == 0 || t.Date.Year == roadsYear)).Select(TracksView.Map);
                 foreach (var elem in ac.Tracks.Where(t => t.UserId == userId && t.Type == type).Select(t => t.Date.Year).Distinct())
@@ -101,7 +103,7 @@ namespace MySeenWeb.Models.ShareViewModels
             else if (ac.Users.Any(u => u.ShareTracksAllKey != null && u.ShareTracksAllKey == key))
             {
                 AllUsersTracks = true;
-                var userId = ac.Users.First(u => u.ShareTracksAllKey == key).Id;
+                userId = ac.Users.First(u => u.ShareTracksAllKey == key).Id;
                 Data = ac.Tracks.Where(t => t.UserId == userId && (roadsYear == 0 || t.Date.Year == roadsYear)).Select(TracksView.Map);
                 foreach (var elem in ac.Tracks.Where(t => t.UserId == userId).Select(t => t.Date.Year).Distinct())
                 {
@@ -116,7 +118,7 @@ namespace MySeenWeb.Models.ShareViewModels
             else
             {
                 AllUsersTracks = false;
-                Data = ac.Tracks.Where(t => t.ShareKey == key).Select(TracksView.Map);
+                Data = ac.Tracks.Where(t => t.ShareKey == key).Select(TracksView.Map).ToList();
                 if (Data.Any())
                 {
                     years.Clear();
@@ -124,9 +126,12 @@ namespace MySeenWeb.Models.ShareViewModels
                     {
                         Text = Data.First().Date.Year.ToString(), Value = Data.First().Date.Year.ToString(), Selected = true
                     });
+                    userId = Data.First().UserId;
                 }
             }
             YearsList = years.OrderByDescending(y => y.Text);
+
+            if (!string.IsNullOrEmpty(userId)) LoadFromUserId(userId);
         }
     }
 }
