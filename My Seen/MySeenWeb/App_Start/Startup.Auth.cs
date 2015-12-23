@@ -4,9 +4,15 @@ using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin;
 using Microsoft.Owin.Security.Cookies;
 using Microsoft.Owin.Security.Google;
+using MySeenLib;
 using MySeenWeb.Add_Code;
 using Owin;
 using MySeenWeb.Models.OtherViewModels;
+using Owin.Security.Providers.Dropbox;
+using Owin.Security.Providers.GitHub;
+using Owin.Security.Providers.LinkedIn;
+using Owin.Security.Providers.Steam;
+using Owin.Security.Providers.Yahoo;
 
 namespace MySeenWeb
 {
@@ -48,19 +54,31 @@ namespace MySeenWeb
             // This is similar to the RememberMe option when you log in.
             app.UseTwoFactorRememberBrowserCookie(DefaultAuthenticationTypes.TwoFactorRememberBrowserCookie);
 
-            // Uncomment the following lines to enable logging in with third party login providers
-            //app.UseMicrosoftAccountAuthentication(
-            //    clientId: "",
-            //    clientSecret: "");
+            //Dropbox
+            if (Admin.IsDebug)
+            {
+                //не поддерживает HTTP (только для локального), только HTTPS
+                app.UseDropboxAuthentication(Auths.Dropbox.Id, Auths.Dropbox.Secret);
+            }
+            //Yahoo
+            app.UseYahooAuthentication(Auths.Yahoo.Id, Auths.Yahoo.Secret);
+            //LinkedIn
+            app.UseLinkedInAuthentication(Auths.LinkedIn.Id, Auths.LinkedIn.Secret);
+            //Microsoft
+            app.UseMicrosoftAccountAuthentication(Auths.Microsoft.Id, Auths.Microsoft.Secret);
+            //Steam
+            app.UseSteamAuthentication(Auths.Steam.Id);
+            //GitHub
+            app.UseGitHubAuthentication(Auths.GitHub.Id, Auths.GitHub.Secret);
+            //Facebook
+            app.UseFacebookAuthentication(Auths.Facebook.Id, Auths.Facebook.Secret);
+            //Twitter
+            app.UseTwitterAuthentication(Auths.Twitter.Id, Auths.Twitter.Secret);
+            //Vkontakte
+            app.UseVkontakteAuthentication(Auths.Vkontakte.Id, Auths.Vkontakte.Secret, Auths.Vkontakte.Flag);
+            //Google
+            app.UseGoogleAuthentication(new GoogleOAuth2AuthenticationOptions() { ClientId = Auths.Google.Id, ClientSecret = Auths.Google.Secret });
 
-            //app.UseTwitterAuthentication(
-            //   consumerKey: "",
-            //   consumerSecret: "");
-
-
-            app.UseVkontakteAuthentication(Auths.VkId, Auths.VkSecret, "4194304");
-            app.UseFacebookAuthentication(appId: Auths.FacebookId, appSecret: Auths.FacebookSecret);
-            app.UseGoogleAuthentication(new GoogleOAuth2AuthenticationOptions() { ClientId = Auths.GoogleId, ClientSecret = Auths.GoogleSecret });
         }
     }
 }
