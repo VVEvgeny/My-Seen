@@ -7,7 +7,9 @@ using System.Web.Mvc;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using MySeenLib;
+using MySeenWeb.Add_Code.Services.Logging.NLog;
 using MySeenWeb.Models.OtherViewModels;
+using MySeenWeb.Models.ShareViewModels;
 using MySeenWeb.Models.TablesLogic;
 using MySeenWeb.Models.Tools;
 
@@ -290,68 +292,87 @@ namespace MySeenWeb.Controllers
 
         protected override void ExecuteCore()
         {
-            if (Request.UserAgent != null &&
-                (Request.UserAgent.ToLower().Contains("YandexMetrika".ToLower()) || Request.UserAgent.ToLower().Contains("Googlebot".ToLower()) ||
-                 Request.UserAgent.ToLower().Contains("Google favicon".ToLower())))
+            var logger = new NLogLogger();
+            const string methodName = "protected override void ExecuteCore()";
+            try
             {
-                SaveBotLog();
+                if (Request.UserAgent != null &&
+                    (Request.UserAgent.ToLower().Contains("YandexMetrika".ToLower()) ||
+                     Request.UserAgent.ToLower().Contains("Googlebot".ToLower()) ||
+                     Request.UserAgent.ToLower().Contains("Google favicon".ToLower())))
+                {
+                    SaveBotLog();
+                }
+                else
+                {
+                    LogSave.Save(User.Identity.IsAuthenticated ? User.Identity.GetUserId() : "", Request.UserHostAddress,
+                        Request.UserAgent, "Base");
+                }
+                SetLang();
             }
-            else
+            catch (Exception ex)
             {
-                LogSave.Save(User.Identity.IsAuthenticated ? User.Identity.GetUserId() : "", Request.UserHostAddress,
-                    Request.UserAgent, "Base");
+                logger.Error(methodName, ex);
             }
-            SetLang();
             base.ExecuteCore();
         }
         protected override IAsyncResult BeginExecuteCore(AsyncCallback callback, object state)
         {
-            if (Request.UserAgent != null &&
+            var logger = new NLogLogger();
+            const string methodName = "protected override IAsyncResult BeginExecuteCore(AsyncCallback callback, object state)";
+            try
+            {
+                if (Request.UserAgent != null &&
                 (Request.UserAgent.ToLower().Contains("YandexMetrika".ToLower()) || Request.UserAgent.ToLower().Contains("Googlebot".ToLower()) ||
                  Request.UserAgent.ToLower().Contains("Google favicon".ToLower())))
-            {
-                SaveBotLog();
-            }
-            else
-            {
-                LogSave.Save(User.Identity.IsAuthenticated ? User.Identity.GetUserId() : "", Request.UserHostAddress,Request.UserAgent, "BaseA", Request.Path);
-                if (!User.Identity.IsAuthenticated)
                 {
-                    var privateKey = ReadUserSideStorage(UserSideStorageKeys.UserCreditsForAutologin, string.Empty);
-                    if (!string.IsNullOrEmpty(privateKey))
+                    SaveBotLog();
+                }
+                else
+                {
+                    LogSave.Save(User.Identity.IsAuthenticated ? User.Identity.GetUserId() : "", Request.UserHostAddress, Request.UserAgent, "BaseA", Request.Path);
+                    if (!User.Identity.IsAuthenticated)
                     {
-                        var logic = new UserCreditsLogic();
-                        if (logic.Verify(privateKey, Request.UserAgent))
+                        var privateKey = ReadUserSideStorage(UserSideStorageKeys.UserCreditsForAutologin, string.Empty);
+                        if (!string.IsNullOrEmpty(privateKey))
                         {
-                            //LogSave.Save("", "", "", "логин проверка пройдена");
-
-                            var userManager = HttpContext.GetOwinContext().GetUserManager<ApplicationUserManager>();
-                            var signInManager = HttpContext.GetOwinContext().Get<ApplicationSignInManager>();
-
-                            var user = userManager.FindByName(logic.UserName);
-
-                            //LogSave.Save("", "", "", "авторизуемся с", logic.UserName);
-
-                            if (user != null)
+                            var logic = new UserCreditsLogic();
+                            if (logic.Verify(privateKey, Request.UserAgent))
                             {
-                                //LogSave.Save(User.Identity.IsAuthenticated ? User.Identity.GetUserId() : "",Request.UserHostAddress, Request.UserAgent, "AutoLogin", user.UserName);
-                                signInManager.SignIn(user, true, true);
+                                //LogSave.Save("", "", "", "логин проверка пройдена");
 
-                                var identity = userManager.CreateIdentity(user,DefaultAuthenticationTypes.ApplicationCookie);
-                                var myPrincipal = new GenericPrincipal(identity, new string[] { });
-                                //LogSave.Save("", "", "", "авторизуемся myPrincipal GetUserId", myPrincipal.Identity.GetUserId());
-                                ControllerContext.HttpContext.User = myPrincipal;
-                                HttpContext.User = myPrincipal;
-                                Thread.CurrentPrincipal = myPrincipal;
+                                var userManager = HttpContext.GetOwinContext().GetUserManager<ApplicationUserManager>();
+                                var signInManager = HttpContext.GetOwinContext().Get<ApplicationSignInManager>();
 
-                                //цель чтоб тут у него уже был пользователь
-                                //LogSave.Save(User.Identity.IsAuthenticated ? User.Identity.GetUserId() : "",Request.UserHostAddress, Request.UserAgent, "AutoLoginTest", user.UserName);
+                                var user = userManager.FindByName(logic.UserName);
+
+                                //LogSave.Save("", "", "", "авторизуемся с", logic.UserName);
+
+                                if (user != null)
+                                {
+                                    //LogSave.Save(User.Identity.IsAuthenticated ? User.Identity.GetUserId() : "",Request.UserHostAddress, Request.UserAgent, "AutoLogin", user.UserName);
+                                    signInManager.SignIn(user, true, true);
+
+                                    var identity = userManager.CreateIdentity(user, DefaultAuthenticationTypes.ApplicationCookie);
+                                    var myPrincipal = new GenericPrincipal(identity, new string[] { });
+                                    //LogSave.Save("", "", "", "авторизуемся myPrincipal GetUserId", myPrincipal.Identity.GetUserId());
+                                    ControllerContext.HttpContext.User = myPrincipal;
+                                    HttpContext.User = myPrincipal;
+                                    Thread.CurrentPrincipal = myPrincipal;
+
+                                    //цель чтоб тут у него уже был пользователь
+                                    //LogSave.Save(User.Identity.IsAuthenticated ? User.Identity.GetUserId() : "",Request.UserHostAddress, Request.UserAgent, "AutoLoginTest", user.UserName);
+                                }
                             }
                         }
                     }
                 }
+                SetLang();
             }
-            SetLang();
+            catch (Exception ex)
+            {
+                logger.Error(methodName, ex);
+            }
             return base.BeginExecuteCore(callback, state);
         }
     }

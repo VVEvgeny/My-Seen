@@ -8,6 +8,8 @@ using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using MySeenLib;
 using MySeenWeb.ActionFilters;
+using MySeenWeb.Add_Code.Services.Logging.NLog;
+using MySeenWeb.Models;
 using MySeenWeb.Models.OtherViewModels;
 using MySeenWeb.Models.Tools;
 
@@ -58,7 +60,11 @@ namespace MySeenWeb.Controllers
         // GET: /Manage/Index
         public async Task<ActionResult> Index(ManageMessageId? message)
         {
-            ViewBag.StatusMessage =
+            var logger = new NLogLogger();
+            const string methodName = "public async Task<ActionResult> Index(ManageMessageId? message)";
+            try
+            {
+                ViewBag.StatusMessage =
                 message == ManageMessageId.ChangePasswordSuccess ? "Your password has been changed."
                 : message == ManageMessageId.SetPasswordSuccess ? "Your password has been set."
                 : message == ManageMessageId.SetTwoFactorSuccess ? "Your two-factor authentication provider has been set."
@@ -67,36 +73,42 @@ namespace MySeenWeb.Controllers
                 : message == ManageMessageId.RemovePhoneSuccess ? "Your phone number was removed."
                 : "";
 
-            var userId = User.Identity.GetUserId();
-            var model = new IndexViewModel
-            {
-                HasPassword = HasPassword(),
-                PhoneNumber = await UserManager.GetPhoneNumberAsync(userId),
-                TwoFactor = await UserManager.GetTwoFactorEnabledAsync(userId),
-                Logins = await UserManager.GetLoginsAsync(userId),
-                BrowserRemembered = await AuthenticationManager.TwoFactorBrowserRememberedAsync(userId)
-            };
+                var userId = User.Identity.GetUserId();
+                var model = new IndexViewModel
+                {
+                    HasPassword = HasPassword(),
+                    PhoneNumber = await UserManager.GetPhoneNumberAsync(userId),
+                    TwoFactor = await UserManager.GetTwoFactorEnabledAsync(userId),
+                    Logins = await UserManager.GetLoginsAsync(userId),
+                    BrowserRemembered = await AuthenticationManager.TwoFactorBrowserRememberedAsync(userId)
+                };
 
-            if (User.Identity.IsAuthenticated)
-            {
-                var ac = new ApplicationDbContext();
-                var user = ac.Users.First(u => u.Id == userId);
-                model.Lang = Defaults.Languages.GetIdDb(user.Culture);
-                model.Rpp = user.RecordPerPage;
-                model.Markers = user.MarkersOnRoads;
-                model.VkServiceEnabled = user.VkServiceEnabled;
-                model.GoogleServiceEnabled = user.GoogleServiceEnabled;
-                model.FacebookServiceEnabled = user.FacebookServiceEnabled;
+                if (User.Identity.IsAuthenticated)
+                {
+                    var ac = new ApplicationDbContext();
+                    var user = ac.Users.First(u => u.Id == userId);
+                    model.Lang = Defaults.Languages.GetIdDb(user.Culture);
+                    model.Rpp = user.RecordPerPage;
+                    model.Markers = user.MarkersOnRoads;
+                    model.VkServiceEnabled = user.VkServiceEnabled;
+                    model.GoogleServiceEnabled = user.GoogleServiceEnabled;
+                    model.FacebookServiceEnabled = user.FacebookServiceEnabled;
 
-                model.LoadSelectList();
+                    model.LoadSelectList();
 
-                model.HaveData = (ac.Films.Any(f => f.UserId == userId)
-                    || ac.Serials.Any(f => f.UserId == userId)
-                    || ac.Books.Any(f => f.UserId == userId)
-                    || ac.Tracks.Any(f => f.UserId == userId)
-                    );
+                    model.HaveData = (ac.Films.Any(f => f.UserId == userId)
+                        || ac.Serials.Any(f => f.UserId == userId)
+                        || ac.Books.Any(f => f.UserId == userId)
+                        || ac.Tracks.Any(f => f.UserId == userId)
+                        );
+                }
+                return View(model);
             }
-            return View(model);
+            catch (Exception ex)
+            {
+                logger.Error(methodName, ex);
+            }
+            return RedirectToAction("Index","Home");
         }
 
         //
@@ -105,98 +117,169 @@ namespace MySeenWeb.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> RemoveLogin(string loginProvider, string providerKey)
         {
-            ManageMessageId? message;
-            var result = await UserManager.RemoveLoginAsync(User.Identity.GetUserId(), new UserLoginInfo(loginProvider, providerKey));
-            if (result.Succeeded)
+            var logger = new NLogLogger();
+            const string methodName = "public async Task<ActionResult> Index(ManageMessageId? message)";
+            ManageMessageId? message = ManageMessageId.Error;
+            try
             {
-                var user = await UserManager.FindByIdAsync(User.Identity.GetUserId());
-                if (user != null)
+                var result = await UserManager.RemoveLoginAsync(User.Identity.GetUserId(), new UserLoginInfo(loginProvider, providerKey));
+                if (result.Succeeded)
                 {
-                    await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
+                    var user = await UserManager.FindByIdAsync(User.Identity.GetUserId());
+                    if (user != null)
+                    {
+                        await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
+                    }
+                    message = ManageMessageId.RemoveLoginSuccess;
                 }
-                message = ManageMessageId.RemoveLoginSuccess;
             }
-            else
+            catch (Exception ex)
             {
-                message = ManageMessageId.Error;
+                logger.Error(methodName, ex);
             }
             return RedirectToAction("ManageLogins", new { Message = message });
         }
         [HttpPost]
         public JsonResult ChangeLanguage(string selected)
         {
-            var ac = new ApplicationDbContext();
-            var userId = User.Identity.GetUserId();
-            ac.Users.First(u => u.Id == userId).Culture = Defaults.Languages.GetValDb(Convert.ToInt32(selected));
-            ac.SaveChanges();
-            CultureInfoTool.SetCulture(Defaults.Languages.GetValDb(Convert.ToInt32(selected)));
-            WriteUserSideStorage(UserSideStorageKeys.Language, selected);
-            Defaults.ReloadResources();
-            return Json(new { success = true });
+            var logger = new NLogLogger();
+            const string methodName = "public JsonResult ChangeLanguage(string selected)";
+            try
+            {
+                var ac = new ApplicationDbContext();
+                var userId = User.Identity.GetUserId();
+                ac.Users.First(u => u.Id == userId).Culture = Defaults.Languages.GetValDb(Convert.ToInt32(selected));
+                ac.SaveChanges();
+                CultureInfoTool.SetCulture(Defaults.Languages.GetValDb(Convert.ToInt32(selected)));
+                WriteUserSideStorage(UserSideStorageKeys.Language, selected);
+                Defaults.ReloadResources();
+                return Json(new { success = true });
+            }
+            catch (Exception ex)
+            {
+                logger.Error(methodName, ex);
+            }
+            return new JsonResult { Data = new { success = false, error = methodName } };
         }
         [HttpPost]
         public JsonResult ChangeRpp(string selected)
         {
-            var ac = new ApplicationDbContext();
-            var userId = User.Identity.GetUserId();
-            ac.Users.First(u => u.Id == userId).RecordPerPage = Convert.ToInt32(selected);
-            ac.SaveChanges();
-            Rpp = Convert.ToInt32(selected);
-            return Json(new { success = true });
+            var logger = new NLogLogger();
+            const string methodName = "public JsonResult ChangeRpp(string selected)";
+            try
+            {
+                var ac = new ApplicationDbContext();
+                var userId = User.Identity.GetUserId();
+                ac.Users.First(u => u.Id == userId).RecordPerPage = Convert.ToInt32(selected);
+                ac.SaveChanges();
+                Rpp = Convert.ToInt32(selected);
+                return Json(new { success = true });
+            }
+            catch (Exception ex)
+            {
+                logger.Error(methodName, ex);
+            }
+            return new JsonResult { Data = new { success = false, error = methodName } };
         }
         [HttpPost]
         public JsonResult ChangeMoR(string selected)
         {
-            var ac = new ApplicationDbContext();
-            var userId = User.Identity.GetUserId();
-            ac.Users.First(u => u.Id == userId).MarkersOnRoads = Convert.ToInt32(selected);
-            ac.SaveChanges();
-            MarkersOnRoads = Convert.ToInt32(selected);
-            return Json(new { success = true });
+            var logger = new NLogLogger();
+            const string methodName = "public JsonResult ChangeMoR(string selected)";
+            try
+            {
+                var ac = new ApplicationDbContext();
+                var userId = User.Identity.GetUserId();
+                ac.Users.First(u => u.Id == userId).MarkersOnRoads = Convert.ToInt32(selected);
+                ac.SaveChanges();
+                MarkersOnRoads = Convert.ToInt32(selected);
+                return Json(new { success = true });
+            }
+            catch (Exception ex)
+            {
+                logger.Error(methodName, ex);
+            }
+            return new JsonResult { Data = new { success = false, error = methodName } };
         }
         [HttpPost]
         public JsonResult ChangeVk(string selected)
         {
-            var ac = new ApplicationDbContext();
-            var userId = User.Identity.GetUserId();
-            ac.Users.First(u => u.Id == userId).VkServiceEnabled = Convert.ToInt32(selected) == Defaults.EnabledDisabledBase.Indexes.Enabled;
-            ac.SaveChanges();
-            return Json(new { success = true });
+            var logger = new NLogLogger();
+            const string methodName = "public JsonResult ChangeVk(string selected)";
+            try
+            {
+                var ac = new ApplicationDbContext();
+                var userId = User.Identity.GetUserId();
+                ac.Users.First(u => u.Id == userId).VkServiceEnabled = Convert.ToInt32(selected) == Defaults.EnabledDisabledBase.Indexes.Enabled;
+                ac.SaveChanges();
+                return Json(new { success = true });
+            }
+            catch (Exception ex)
+            {
+                logger.Error(methodName, ex);
+            }
+            return new JsonResult { Data = new { success = false, error = methodName } };
         }
         [HttpPost]
         public JsonResult ChangeGoogle(string selected)
         {
-            var ac = new ApplicationDbContext();
-            var userId = User.Identity.GetUserId();
-            ac.Users.First(u => u.Id == userId).GoogleServiceEnabled = Convert.ToInt32(selected) == Defaults.EnabledDisabledBase.Indexes.Enabled;
-            ac.SaveChanges();
-            return Json(new { success = true });
+            var logger = new NLogLogger();
+            const string methodName = "public JsonResult ChangeGoogle(string selected)";
+            try
+            {
+                var ac = new ApplicationDbContext();
+                var userId = User.Identity.GetUserId();
+                ac.Users.First(u => u.Id == userId).GoogleServiceEnabled = Convert.ToInt32(selected) == Defaults.EnabledDisabledBase.Indexes.Enabled;
+                ac.SaveChanges();
+                return Json(new { success = true });
+            }
+            catch (Exception ex)
+            {
+                logger.Error(methodName, ex);
+            }
+            return new JsonResult { Data = new { success = false, error = methodName } };
         }
         [HttpPost]
         public JsonResult ChangeFacebook(string selected)
         {
-            var ac = new ApplicationDbContext();
-            var userId = User.Identity.GetUserId();
-            ac.Users.First(u => u.Id == userId).FacebookServiceEnabled = Convert.ToInt32(selected) == Defaults.EnabledDisabledBase.Indexes.Enabled;
-            ac.SaveChanges();
-            return Json(new { success = true });
+            var logger = new NLogLogger();
+            const string methodName = "public JsonResult ChangeFacebook(string selected)";
+            try
+            {
+                var ac = new ApplicationDbContext();
+                var userId = User.Identity.GetUserId();
+                ac.Users.First(u => u.Id == userId).FacebookServiceEnabled = Convert.ToInt32(selected) == Defaults.EnabledDisabledBase.Indexes.Enabled;
+                ac.SaveChanges();
+                return Json(new { success = true });
+            }
+            catch (Exception ex)
+            {
+                logger.Error(methodName, ex);
+            }
+            return new JsonResult { Data = new { success = false, error = methodName } };
         }
 
-        private void DeleteUserData()
-        {
-            var ac = new ApplicationDbContext();
-            var userId = User.Identity.GetUserId();
-            ac.Films.RemoveRange(ac.Films.Where(f => f.UserId == userId));
-            ac.Serials.RemoveRange(ac.Serials.Where(f => f.UserId == userId));
-            ac.Books.RemoveRange(ac.Books.Where(f => f.UserId == userId));
-            ac.Tracks.RemoveRange(ac.Tracks.Where(f => f.UserId == userId));
-            ac.SaveChanges();
-        }
         [HttpPost]
         public JsonResult DeleteData()
         {
-            DeleteUserData();
-            return Json(new { success = true });
+            var logger = new NLogLogger();
+            const string methodName = "public JsonResult DeleteData()";
+            try
+            {
+                var ac = new ApplicationDbContext();
+                var userId = User.Identity.GetUserId();
+                ac.Films.RemoveRange(ac.Films.Where(f => f.UserId == userId));
+                ac.Serials.RemoveRange(ac.Serials.Where(f => f.UserId == userId));
+                ac.Books.RemoveRange(ac.Books.Where(f => f.UserId == userId));
+                ac.Tracks.RemoveRange(ac.Tracks.Where(f => f.UserId == userId));
+                ac.SaveChanges();
+                return Json(new { success = true });
+            }
+            catch (Exception ex)
+            {
+                logger.Error(methodName, ex);
+            }
+            return new JsonResult { Data = new { success = false, error = methodName } };
         }
         //
         // GET: /Manage/AddPhoneNumber
@@ -324,22 +407,32 @@ namespace MySeenWeb.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> ChangePassword(ChangePasswordViewModel model)
         {
-            if (!ModelState.IsValid)
+            var logger = new NLogLogger();
+            const string methodName = "public async Task<ActionResult> ChangePassword(ChangePasswordViewModel model)";
+            try
             {
+                if (!ModelState.IsValid)
+                {
+                    return View(model);
+                }
+                var result = await UserManager.ChangePasswordAsync(User.Identity.GetUserId(), model.OldPassword, model.NewPassword);
+                if (result.Succeeded)
+                {
+                    var user = await UserManager.FindByIdAsync(User.Identity.GetUserId());
+                    if (user != null)
+                    {
+                        await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
+                    }
+                    return RedirectToAction("Index", new { Message = ManageMessageId.ChangePasswordSuccess });
+                }
+                AddErrors(result);
                 return View(model);
             }
-            var result = await UserManager.ChangePasswordAsync(User.Identity.GetUserId(), model.OldPassword, model.NewPassword);
-            if (result.Succeeded)
+            catch (Exception ex)
             {
-                var user = await UserManager.FindByIdAsync(User.Identity.GetUserId());
-                if (user != null)
-                {
-                    await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
-                }
-                return RedirectToAction("Index", new { Message = ManageMessageId.ChangePasswordSuccess });
+                logger.Error(methodName, ex);
             }
-            AddErrors(result);
-            return View(model);
+            return RedirectToAction("Index","Home");
         }
 
         //
@@ -355,46 +448,71 @@ namespace MySeenWeb.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> SetPassword(SetPasswordViewModel model)
         {
-            if (ModelState.IsValid)
+            var logger = new NLogLogger();
+            const string methodName = "public async Task<ActionResult> SetPassword(SetPasswordViewModel model)";
+            try
             {
-                var result = await UserManager.AddPasswordAsync(User.Identity.GetUserId(), model.NewPassword);
-                if (result.Succeeded)
+                if (ModelState.IsValid)
                 {
-                    var user = await UserManager.FindByIdAsync(User.Identity.GetUserId());
-                    if (user != null)
+                    var result = await UserManager.AddPasswordAsync(User.Identity.GetUserId(), model.NewPassword);
+                    if (result.Succeeded)
                     {
-                        await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
+                        var user = await UserManager.FindByIdAsync(User.Identity.GetUserId());
+                        if (user != null)
+                        {
+                            await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
+                        }
+                        return RedirectToAction("Index", new { Message = ManageMessageId.SetPasswordSuccess });
                     }
-                    return RedirectToAction("Index", new { Message = ManageMessageId.SetPasswordSuccess });
+                    AddErrors(result);
                 }
-                AddErrors(result);
-            }
 
-            // If we got this far, something failed, redisplay form
-            return View(model);
+                // If we got this far, something failed, redisplay form
+                return View(model);
+            }
+            catch (Exception ex)
+            {
+                logger.Error(methodName, ex);
+            }
+            return RedirectToAction("Index", "Home");
         }
 
         //
         // GET: /Manage/ManageLogins
         public async Task<ActionResult> ManageLogins(ManageMessageId? message)
         {
-            ViewBag.StatusMessage =
-                message == ManageMessageId.RemoveLoginSuccess ? Resource.TheExternalLoginWasRemoved
-                : message == ManageMessageId.Error ? Resource.AnErrorHasOccurred
-                : "";
-            var user = await UserManager.FindByIdAsync(User.Identity.GetUserId());
-            if (user == null)
+            var logger = new NLogLogger();
+            const string methodName = "public async Task<ActionResult> ManageLogins(ManageMessageId? message)";
+            try
             {
-                return View("Error");
+                ViewBag.StatusMessage =
+                    message == ManageMessageId.RemoveLoginSuccess
+                        ? Resource.TheExternalLoginWasRemoved
+                        : message == ManageMessageId.Error
+                            ? Resource.AnErrorHasOccurred
+                            : "";
+                var user = await UserManager.FindByIdAsync(User.Identity.GetUserId());
+                if (user == null)
+                {
+                    return View("Error");
+                }
+                var userLogins = await UserManager.GetLoginsAsync(User.Identity.GetUserId());
+                var otherLogins =
+                    AuthenticationManager.GetExternalAuthenticationTypes()
+                        .Where(auth => userLogins.All(ul => auth.AuthenticationType != ul.LoginProvider))
+                        .ToList();
+                ViewBag.ShowRemoveButton = user.PasswordHash != null || userLogins.Count > 1;
+                return View(new ManageLoginsViewModel
+                {
+                    CurrentLogins = userLogins,
+                    OtherLogins = otherLogins
+                });
             }
-            var userLogins = await UserManager.GetLoginsAsync(User.Identity.GetUserId());
-            var otherLogins = AuthenticationManager.GetExternalAuthenticationTypes().Where(auth => userLogins.All(ul => auth.AuthenticationType != ul.LoginProvider)).ToList();
-            ViewBag.ShowRemoveButton = user.PasswordHash != null || userLogins.Count > 1;
-            return View(new ManageLoginsViewModel
+            catch (Exception ex)
             {
-                CurrentLogins = userLogins,
-                OtherLogins = otherLogins
-            });
+                logger.Error(methodName, ex);
+            }
+            return RedirectToAction("Index", "Home");
         }
 
         //
@@ -403,21 +521,41 @@ namespace MySeenWeb.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult LinkLogin(string provider)
         {
-            // Request a redirect to the external login provider to link a login for the current user
-            return new AccountController.ChallengeResult(provider, Url.Action("LinkLoginCallback", "Manage"), User.Identity.GetUserId());
+            var logger = new NLogLogger();
+            const string methodName = "public ActionResult LinkLogin(string provider)";
+            try
+            {
+                // Request a redirect to the external login provider to link a login for the current user
+                return new AccountController.ChallengeResult(provider, Url.Action("LinkLoginCallback", "Manage"), User.Identity.GetUserId());
+            }
+            catch (Exception ex)
+            {
+                logger.Error(methodName, ex);
+            }
+            return RedirectToAction("Index", "Home");
         }
 
         //
         // GET: /Manage/LinkLoginCallback
         public async Task<ActionResult> LinkLoginCallback()
         {
-            var loginInfo = await AuthenticationManager.GetExternalLoginInfoAsync(XsrfKey, User.Identity.GetUserId());
-            if (loginInfo == null)
+            var logger = new NLogLogger();
+            const string methodName = "public ActionResult LinkLogin(string provider)";
+            try
             {
-                return RedirectToAction("ManageLogins", new { Message = ManageMessageId.Error });
+                var loginInfo = await AuthenticationManager.GetExternalLoginInfoAsync(XsrfKey, User.Identity.GetUserId());
+                if (loginInfo == null)
+                {
+                    return RedirectToAction("ManageLogins", new { Message = ManageMessageId.Error });
+                }
+                var result = await UserManager.AddLoginAsync(User.Identity.GetUserId(), loginInfo.Login);
+                return result.Succeeded ? RedirectToAction("ManageLogins") : RedirectToAction("ManageLogins", new { Message = ManageMessageId.Error });
             }
-            var result = await UserManager.AddLoginAsync(User.Identity.GetUserId(), loginInfo.Login);
-            return result.Succeeded ? RedirectToAction("ManageLogins") : RedirectToAction("ManageLogins", new { Message = ManageMessageId.Error });
+            catch (Exception ex)
+            {
+                logger.Error(methodName, ex);
+            }
+            return RedirectToAction("Index", "Home");
         }
 
         protected override void Dispose(bool disposing)

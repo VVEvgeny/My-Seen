@@ -58,6 +58,14 @@
       <HintPath>..\packages\Newtonsoft.Json.7.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="NLog, Version=4.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c, processorArchitecture=MSIL">
+      <HintPath>..\packages\NLog.4.2.3\lib\net45\NLog.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="NLog.Web, Version=4.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c, processorArchitecture=MSIL">
+      <HintPath>..\packages\NLog.Web.4.1\lib\net35\NLog.Web.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -181,6 +189,10 @@
   <ItemGroup>
     <Compile Include="ActionFilters\BrowserActionFilter.cs" />
     <Compile Include="Add_Code\Auths.cs" />
+    <Compile Include="Add_Code\Services\Logging\LogUtility.cs" />
+    <Compile Include="Add_Code\Services\Logging\ILogger.cs" />
+    <Compile Include="Add_Code\Services\Logging\NLog\NLogLogger.cs" />
+    <Compile Include="Add_Code\Services\Logging\NLog\WebVariablesRenderer.cs" />
     <Compile Include="Add_Code\WebTools.cs" />
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
@@ -320,6 +332,10 @@
     <Compile Include="Migrations\201512221225435_30.Designer.cs">
       <DependentUpon>201512221225435_30.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201512231013378_31.cs" />
+    <Compile Include="Migrations\201512231013378_31.Designer.cs">
+      <DependentUpon>201512231013378_31.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\OtherViewModels\AccountViewModels.cs" />
     <Compile Include="Models\HomeViewModels\HomeViewModelBooksMin.cs" />
@@ -349,9 +365,11 @@
     <Compile Include="Models\TablesLogic\FilmsLogic.cs" />
     <Compile Include="Models\TablesLogic\UserCreditsLogic.cs" />
     <Compile Include="Models\TablesViews\EventsView.cs" />
+    <Compile Include="Models\TablesViews\NLogErrorsView.cs" />
     <Compile Include="Models\TablesViews\ShareTrackInfo.cs" />
     <Compile Include="Models\TablesViews\ITrackInfo.cs" />
     <Compile Include="Models\TablesViews\TrackInfo.cs" />
+    <Compile Include="Models\Tables\NLogErrors.cs" />
     <Compile Include="Models\Tables\Events.cs" />
     <Compile Include="Models\Tables\UserCredits.cs" />
     <Compile Include="Models\Tools\UserSideStorageKeys.cs" />
@@ -560,6 +578,12 @@
     <Content Include="fonts\glyphicons-halflings-regular.ttf" />
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />
+    <Content Include="NLog.config">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <None Include="NLog.xsd">
+      <SubType>Designer</SubType>
+    </None>
     <None Include="Properties\PublishProfiles\myseen.pubxml" />
     <None Include="Scripts\jquery-2.1.4.intellisense.js" />
     <Content Include="Scripts\bootstrap-datetimepicker.js" />
@@ -595,7 +619,9 @@
     <Content Include="Scripts\respond.matchmedia.addListener.min.js" />
     <Content Include="Scripts\respond.min.js" />
     <Content Include="Scripts\_references.js" />
-    <Content Include="Web.config" />
+    <Content Include="Web.config">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </Content>
@@ -771,6 +797,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201512221225435_30.resx">
       <DependentUpon>201512221225435_30.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201512231013378_31.resx">
+      <DependentUpon>201512231013378_31.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

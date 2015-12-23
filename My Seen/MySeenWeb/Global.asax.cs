@@ -3,6 +3,7 @@ using System.Web.Mvc;
 using System.Web.Optimization;
 using System.Web.Routing;
 using System.Web.Helpers;
+using NLog.Config;
 
 namespace MySeenWeb
 {
@@ -16,6 +17,9 @@ namespace MySeenWeb
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
+
+            // Register custom NLog Layout renderers
+            ConfigurationItemFactory.Default.LayoutRenderers.RegisterDefinition("web_variables", typeof(Add_Code.Services.Logging.NLog.WebVariablesRenderer));
         }
     }
 }

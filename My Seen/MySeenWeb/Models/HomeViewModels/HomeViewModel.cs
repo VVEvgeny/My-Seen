@@ -84,13 +84,10 @@ namespace MySeenWeb.Models
         public HomeViewModelAbout About;
         public HomeViewModelEventsMin Events;
 
-        public string Search { get; set; }
-
-        public HomeViewModel(string selected, string userId, int complex, string search, int markersOnRoads, int roadsYear,bool onlyEnded)
+        public HomeViewModel(string selected, string userId, int complex, int markersOnRoads, int roadsYear,bool onlyEnded)
         {
             if (!string.IsNullOrEmpty(userId))
             {
-                Search = search;
                 Selected = selected;
                 if (PageSerials) Serials = new HomeViewModelSerialsMin();
                 else if (PageBooks) Books = new HomeViewModelBooksMin();

@@ -10,6 +10,7 @@ using MySeenWeb.Models;
 using MySeenLib;
 using MySeenWeb.ActionFilters;
 using MySeenWeb.Add_Code;
+using MySeenWeb.Add_Code.Services.Logging.NLog;
 using MySeenWeb.Models.OtherViewModels;
 using MySeenWeb.Models.TablesLogic;
 using MySeenWeb.Models.Tools;
@@ -80,18 +81,28 @@ namespace MySeenWeb.Controllers
         [AllowAnonymous]
         public async Task<JsonResult> LoginMain(string userName, string password, string remember)
         {
-            var errorMessage = string.Empty;
-            if (string.IsNullOrEmpty(errorMessage) && await SignInManager.PasswordSignInAsync(userName.ToLower(), password, bool.Parse(remember), shouldLockout: false) != SignInStatus.Success)
+            var logger = new NLogLogger();
+            const string methodName = "public async Task<JsonResult> LoginMain(string userName, string password, string remember)";
+            try
             {
-                errorMessage = Resource.EmailIncorrect;
+                var errorMessage = string.Empty;
+                if (string.IsNullOrEmpty(errorMessage) && await SignInManager.PasswordSignInAsync(userName.ToLower(), password, bool.Parse(remember), shouldLockout: false) != SignInStatus.Success)
+                {
+                    errorMessage = Resource.EmailIncorrect;
+                }
+                else
+                {
+                    var logic = new UserCreditsLogic();
+                    WriteUserSideStorage(UserSideStorageKeys.UserCreditsForAutologin,
+                        logic.GetNew(userName, Request.UserAgent));
+                }
+                return !string.IsNullOrEmpty(errorMessage) ? new JsonResult { Data = new { success = false, error = errorMessage } } : Json(new { success = true });
             }
-            else
+            catch (Exception ex)
             {
-                var logic = new UserCreditsLogic();
-                WriteUserSideStorage(UserSideStorageKeys.UserCreditsForAutologin,
-                    logic.GetNew(userName, Request.UserAgent));
+                logger.Error(methodName, ex);
             }
-            return !string.IsNullOrEmpty(errorMessage) ? new JsonResult { Data = new { success = false, error = errorMessage } } : Json(new { success = true });
+            return new JsonResult { Data = new { success = false, error = methodName } };
         }
         //
         // POST: /Account/Login
@@ -188,39 +199,49 @@ namespace MySeenWeb.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Register(RegisterViewModel model)
         {
-            if (ModelState.IsValid)
+            var logger = new NLogLogger();
+            const string methodName = "public async Task<ActionResult> Register(RegisterViewModel model)";
+            try
             {
-                var user = new ApplicationUser
+                if (ModelState.IsValid)
                 {
-                    UserName = model.Email,
-                    Email = model.Email,
-                    UniqueKey = Md5Tools.Get(model.Email.ToLower()),
-                    ShareBooksKey = Md5Tools.Generate(model.Email, model.Password, 1),
-                    ShareEventsKey = Md5Tools.Generate(model.Email, model.Password, 2),
-                    ShareFilmsKey = Md5Tools.Generate(model.Email, model.Password, 3),
-                    ShareSerialsKey = Md5Tools.Generate(model.Email, model.Password, 4),
-                    Culture = CultureInfoTool.GetCulture(),
-                    RegisterDate = DateTime.Now
-                };
-                var result = await UserManager.CreateAsync(user, model.Password);
-                if (result.Succeeded)
-                {
-                    await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
+                    var user = new ApplicationUser
+                    {
+                        UserName = model.Email,
+                        Email = model.Email,
+                        UniqueKey = Md5Tools.Get(model.Email.ToLower()),
+                        ShareBooksKey = Md5Tools.Generate(model.Email, model.Password, 1),
+                        ShareEventsKey = Md5Tools.Generate(model.Email, model.Password, 2),
+                        ShareFilmsKey = Md5Tools.Generate(model.Email, model.Password, 3),
+                        ShareSerialsKey = Md5Tools.Generate(model.Email, model.Password, 4),
+                        Culture = CultureInfoTool.GetCulture(),
+                        RegisterDate = DateTime.Now
+                    };
+                    var result = await UserManager.CreateAsync(user, model.Password);
+                    if (result.Succeeded)
+                    {
+                        await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
 
-                    // For more information on how to enable account confirmation and password reset please visit http://go.microsoft.com/fwlink/?LinkID=320771
-                    // Send an email with this link
-                    // string code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
-                    // var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
-                    // await UserManager.SendEmailAsync(user.Id, "Confirm your account", "Please confirm your account by clicking <a href=\"" + callbackUrl + "\">here</a>");
+                        // For more information on how to enable account confirmation and password reset please visit http://go.microsoft.com/fwlink/?LinkID=320771
+                        // Send an email with this link
+                        // string code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
+                        // var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
+                        // await UserManager.SendEmailAsync(user.Id, "Confirm your account", "Please confirm your account by clicking <a href=\"" + callbackUrl + "\">here</a>");
 
-                    return RedirectToAction("Index", "Home");
+                        return RedirectToAction("Index", "Home");
+                    }
+
+                    AddErrors(result);
                 }
 
-                AddErrors(result);
+                // If we got this far, something failed, redisplay form
+                return View(model);
             }
-
-            // If we got this far, something failed, redisplay form
-            return View(model);
+            catch (Exception ex)
+            {
+                logger.Error(methodName, ex);
+            }
+            return RedirectToAction("Index", "Home");
         }
 
         //
@@ -329,8 +350,18 @@ namespace MySeenWeb.Controllers
         //[ValidateAntiForgeryToken]
         public ActionResult ExternalLogin(string provider, string returnUrl)
         {
-            // Request a redirect to the external login provider
-            return new ChallengeResult(provider, Url.Action("ExternalLoginCallback", "Account", new { ReturnUrl = returnUrl }));
+            var logger = new NLogLogger();
+            const string methodName = "public ActionResult ExternalLogin(string provider, string returnUrl)";
+            try
+            {
+                // Request a redirect to the external login provider
+                return new ChallengeResult(provider, Url.Action("ExternalLoginCallback", "Account", new { ReturnUrl = returnUrl }));
+            }
+            catch (Exception ex)
+            {
+                logger.Error(methodName, ex);
+            }
+            return RedirectToAction("Index", "Home");
         }
 
         //
@@ -373,58 +404,68 @@ namespace MySeenWeb.Controllers
         [AllowAnonymous]
         public async Task<ActionResult> ExternalLoginCallback(string returnUrl)
         {
-            var loginInfo = await AuthenticationManager.GetExternalLoginInfoAsync();
-            if (loginInfo == null)
+            var logger = new NLogLogger();
+            const string methodName = "public ActionResult ExternalLogin(string provider, string returnUrl)";
+            try
             {
-                return RedirectToAction("Login");
-            }
+                var loginInfo = await AuthenticationManager.GetExternalLoginInfoAsync();
+                if (loginInfo == null)
+                {
+                    return RedirectToAction("Login");
+                }
 
-            // Sign in the user with this external login provider if the user already has a login
-            var result = await SignInManager.ExternalSignInAsync(loginInfo, isPersistent: false);
-            switch (result)
-            {
-                case SignInStatus.Success:
-                    var logic = new UserCreditsLogic();
-                    WriteUserSideStorage(UserSideStorageKeys.UserCreditsForAutologin, logic.GetNew(loginInfo.Email, Request.UserAgent));
+                // Sign in the user with this external login provider if the user already has a login
+                var result = await SignInManager.ExternalSignInAsync(loginInfo, isPersistent: false);
+                switch (result)
+                {
+                    case SignInStatus.Success:
+                        var logic = new UserCreditsLogic();
+                        WriteUserSideStorage(UserSideStorageKeys.UserCreditsForAutologin, logic.GetNew(loginInfo.Email, Request.UserAgent));
 
-                    return RedirectToLocal(returnUrl);
-                case SignInStatus.LockedOut:
-                    return View("Lockout");
-                case SignInStatus.RequiresVerification:
-                    return RedirectToAction("SendCode", new { ReturnUrl = returnUrl, RememberMe = false });
-                case SignInStatus.Failure:
-                default:
-                    /*
-                     * Пока убираю, странная хрень с мобильной авторизацией сторонними
-                    //Это кусок кода взят ниже, убираю лишнее действие по подтверждению
-                    if (ModelState.IsValid && !string.IsNullOrEmpty(loginInfo.Email))
-                    {
-                        // Get the information about the user from the external login provider
-                        var info = await AuthenticationManager.GetExternalLoginInfoAsync();
-                        if (info == null)
+                        return RedirectToLocal(returnUrl);
+                    case SignInStatus.LockedOut:
+                        return View("Lockout");
+                    case SignInStatus.RequiresVerification:
+                        return RedirectToAction("SendCode", new { ReturnUrl = returnUrl, RememberMe = false });
+                    case SignInStatus.Failure:
+                    default:
+                        /*
+                         * Пока убираю, странная хрень с мобильной авторизацией сторонними
+                        //Это кусок кода взят ниже, убираю лишнее действие по подтверждению
+                        if (ModelState.IsValid && !string.IsNullOrEmpty(loginInfo.Email))
                         {
-                            return View("ExternalLoginFailure");
-                        }
-                        var user = new ApplicationUser { UserName = loginInfo.Email, Email = loginInfo.Email
-                            , UniqueKey = Md5Tools.Get(loginInfo.Email), Culture = CultureInfoTool.GetCulture(), RegisterDate=DateTime.Now };
-                        var result2 = await UserManager.CreateAsync(user);
-                        if (result2.Succeeded)
-                        {
-                            result2 = await UserManager.AddLoginAsync(user.Id, info.Login);
+                            // Get the information about the user from the external login provider
+                            var info = await AuthenticationManager.GetExternalLoginInfoAsync();
+                            if (info == null)
+                            {
+                                return View("ExternalLoginFailure");
+                            }
+                            var user = new ApplicationUser { UserName = loginInfo.Email, Email = loginInfo.Email
+                                , UniqueKey = Md5Tools.Get(loginInfo.Email), Culture = CultureInfoTool.GetCulture(), RegisterDate=DateTime.Now };
+                            var result2 = await UserManager.CreateAsync(user);
                             if (result2.Succeeded)
                             {
-                                await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
-                                return RedirectToLocal(returnUrl);
+                                result2 = await UserManager.AddLoginAsync(user.Id, info.Login);
+                                if (result2.Succeeded)
+                                {
+                                    await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
+                                    return RedirectToLocal(returnUrl);
+                                }
                             }
+                            AddErrors(result2);
                         }
-                        AddErrors(result2);
-                    }
-                    */
-                    // If the user does not have an account, then prompt the user to create an account
-                    ViewBag.ReturnUrl = returnUrl;
-                    ViewBag.LoginProvider = loginInfo.Login.LoginProvider;
-                    return View("ExternalLoginConfirmation", new ExternalLoginConfirmationViewModel { Email = loginInfo.Email });
+                        */
+                        // If the user does not have an account, then prompt the user to create an account
+                        ViewBag.ReturnUrl = returnUrl;
+                        ViewBag.LoginProvider = loginInfo.Login.LoginProvider;
+                        return View("ExternalLoginConfirmation", new ExternalLoginConfirmationViewModel { Email = loginInfo.Email });
+                }
             }
+            catch (Exception ex)
+            {
+                logger.Error(methodName, ex);
+            }
+            return RedirectToAction("Index", "Home");
         }
 
         //
@@ -434,46 +475,56 @@ namespace MySeenWeb.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> ExternalLoginConfirmation(ExternalLoginConfirmationViewModel model, string returnUrl)
         {
-            if (User.Identity.IsAuthenticated)
+            var logger = new NLogLogger();
+            const string methodName = "public async Task<ActionResult> ExternalLoginConfirmation(ExternalLoginConfirmationViewModel model, string returnUrl)";
+            try
             {
-                return RedirectToAction("Index", "Manage");
-            }
-
-            if (ModelState.IsValid)
-            {
-                // Get the information about the user from the external login provider
-                var info = await AuthenticationManager.GetExternalLoginInfoAsync();
-                if (info == null)
+                if (User.Identity.IsAuthenticated)
                 {
-                    return View("ExternalLoginFailure");
+                    return RedirectToAction("Index", "Manage");
                 }
-                var user = new ApplicationUser
+
+                if (ModelState.IsValid)
                 {
-                    UserName = model.Email,
-                    Email = model.Email,
-                    UniqueKey = Md5Tools.Get(model.Email),
-                    ShareBooksKey = Md5Tools.Generate(model.Email, 1, 1),
-                    ShareEventsKey = Md5Tools.Generate(model.Email, 2, 2),
-                    ShareFilmsKey = Md5Tools.Generate(model.Email, 3, 3),
-                    ShareSerialsKey = Md5Tools.Generate(model.Email, 4, 4),
-                    Culture = CultureInfoTool.GetCulture(),
-                    RegisterDate = DateTime.Now
-                };
-                var result = await UserManager.CreateAsync(user);
-                if (result.Succeeded)
-                {
-                    result = await UserManager.AddLoginAsync(user.Id, info.Login);
+                    // Get the information about the user from the external login provider
+                    var info = await AuthenticationManager.GetExternalLoginInfoAsync();
+                    if (info == null)
+                    {
+                        return View("ExternalLoginFailure");
+                    }
+                    var user = new ApplicationUser
+                    {
+                        UserName = model.Email,
+                        Email = model.Email,
+                        UniqueKey = Md5Tools.Get(model.Email),
+                        ShareBooksKey = Md5Tools.Generate(model.Email, 1, 1),
+                        ShareEventsKey = Md5Tools.Generate(model.Email, 2, 2),
+                        ShareFilmsKey = Md5Tools.Generate(model.Email, 3, 3),
+                        ShareSerialsKey = Md5Tools.Generate(model.Email, 4, 4),
+                        Culture = CultureInfoTool.GetCulture(),
+                        RegisterDate = DateTime.Now
+                    };
+                    var result = await UserManager.CreateAsync(user);
                     if (result.Succeeded)
                     {
-                        await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
-                        return RedirectToLocal(returnUrl);
+                        result = await UserManager.AddLoginAsync(user.Id, info.Login);
+                        if (result.Succeeded)
+                        {
+                            await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
+                            return RedirectToLocal(returnUrl);
+                        }
                     }
+                    AddErrors(result);
                 }
-                AddErrors(result);
-            }
 
-            ViewBag.ReturnUrl = returnUrl;
-            return View(model);
+                ViewBag.ReturnUrl = returnUrl;
+                return View(model);
+            }
+            catch (Exception ex)
+            {
+                logger.Error(methodName, ex);
+            }
+            return RedirectToAction("Index", "Home");
         }
 
         //
@@ -482,12 +533,20 @@ namespace MySeenWeb.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult LogOff()
         {
-            AuthenticationManager.SignOut(DefaultAuthenticationTypes.ApplicationCookie);
+            var logger = new NLogLogger();
+            const string methodName = "public async Task<ActionResult> ExternalLoginConfirmation(ExternalLoginConfirmationViewModel model, string returnUrl)";
+            try
+            {
+                AuthenticationManager.SignOut(DefaultAuthenticationTypes.ApplicationCookie);
 
-            var logic = new UserCreditsLogic();
-            logic.Remove(User.Identity.GetUserId(), Request.UserAgent);
-            WriteUserSideStorage(UserSideStorageKeys.UserCreditsForAutologin,string.Empty);
-
+                var logic = new UserCreditsLogic();
+                logic.Remove(User.Identity.GetUserId(), Request.UserAgent);
+                WriteUserSideStorage(UserSideStorageKeys.UserCreditsForAutologin, string.Empty);
+            }
+            catch (Exception ex)
+            {
+                logger.Error(methodName, ex);
+            }
             return RedirectToAction("Index", "Home");
         }
 

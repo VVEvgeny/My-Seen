@@ -209,14 +209,14 @@ namespace MySeenWeb.Models.TablesViews
                     case Defaults.EventsTypesBase.Indexes.EveryMonthInNeedDayWithWhenSaturdayThenFridayWhenSundayThenMonday:
 
                         d = new DateTime(DateTime.Now.Year, DateTime.Now.Month, beginDate.Day, beginDate.Hour, beginDate.Minute, beginDate.Second);
-                        d = d.AddMonths(-i);
+                        if (d > DateTime.Now)d = d.AddMonths(-i);
                         d = Correct(typeRepeat, d);
                         return d;
 
                     case Defaults.EventsTypesBase.Indexes.EveryYear:
                     case Defaults.EventsTypesBase.Indexes.EveryYearWithWhenSaturdayThenFridayAndWhenSundayThenMonday:
                         d = new DateTime(DateTime.Now.Year, beginDate.Month, beginDate.Day, beginDate.Hour, beginDate.Minute, beginDate.Second);
-                        //d = d.AddYears(-i);
+                        if (d > DateTime.Now) d = d.AddYears(-i);
                         d = Correct(typeRepeat, d);
                         return d;
                 }

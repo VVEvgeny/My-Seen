@@ -53,6 +53,7 @@ namespace MySeenWeb.Models.OtherViewModels
         public DbSet<Tracks> Tracks { get; set; }
         public DbSet<Events> Events { get; set; }
         public DbSet<UserCredits> UserCredits { get; set; }
+        public DbSet<NLogErrors> NLogErrors { get; set; }
 
         public static ApplicationDbContext Create()
         {

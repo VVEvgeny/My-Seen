@@ -1,8 +1,12 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Web.Http;
+using System.Web.UI.WebControls;
+using Microsoft.AspNet.Identity;
 using MySeenWeb.Models;
 using MySeenLib;
+using MySeenWeb.Add_Code.Services.Logging.NLog;
 using MySeenWeb.Models.OtherViewModels;
 using MySeenWeb.Models.Tables;
 using MySeenWeb.Models.Tools;
@@ -129,32 +133,41 @@ namespace MySeenWeb.Controllers
         }
         public IHttpActionResult Get(string userKey, int mode, int apiVersion)
         {
-            LogSave.Save(userKey, string.Empty, string.Empty, "ApiSync/Get", mode.ToString());
-            if (apiVersion != MySeenWebApi.ApiVersion)
+            var logger = new NLogLogger();
+            const string methodName = "public IHttpActionResult Get(string userKey, int mode, int apiVersion)";
+            try
             {
-                return Ok(new MySeenWebApi.SyncJsonAnswer { Value = MySeenWebApi.SyncJsonAnswer.Values.NoLongerSupportedVersion });
-            }
-
-            var ac = new ApplicationDbContext();
-            var userId = GetUserId(userKey);
-            if (string.IsNullOrEmpty(userId))
-            {
-                return Ok(new MySeenWebApi.SyncJsonAnswer { Value = MySeenWebApi.SyncJsonAnswer.Values.UserNotExist });
-            }
-            if ((MySeenWebApi.SyncModesApiData)mode == MySeenWebApi.SyncModesApiData.GetAll)
-            {
-                var film = new List<MySeenWebApi.SyncJsonData>();
-                film.AddRange(ac.Films.Where(f => f.UserId == userId).Select(Map)
-                    .Union(ac.Serials.Where(f => f.UserId == userId).Select(Map))
-                    .Union(ac.Books.Where(f => f.UserId == userId).Select(Map)));
-
-                if (film.Any())
+                if (apiVersion != MySeenWebApi.ApiVersion)
                 {
-                    return Ok(film.AsEnumerable());
+                    return Ok(new MySeenWebApi.SyncJsonAnswer { Value = MySeenWebApi.SyncJsonAnswer.Values.NoLongerSupportedVersion });
                 }
-                return Ok(new MySeenWebApi.SyncJsonAnswer { Value = MySeenWebApi.SyncJsonAnswer.Values.NoData });
+
+                var ac = new ApplicationDbContext();
+                var userId = GetUserId(userKey);
+                if (string.IsNullOrEmpty(userId))
+                {
+                    return Ok(new MySeenWebApi.SyncJsonAnswer { Value = MySeenWebApi.SyncJsonAnswer.Values.UserNotExist });
+                }
+                if ((MySeenWebApi.SyncModesApiData)mode == MySeenWebApi.SyncModesApiData.GetAll)
+                {
+                    var film = new List<MySeenWebApi.SyncJsonData>();
+                    film.AddRange(ac.Films.Where(f => f.UserId == userId).Select(Map)
+                        .Union(ac.Serials.Where(f => f.UserId == userId).Select(Map))
+                        .Union(ac.Books.Where(f => f.UserId == userId).Select(Map)));
+
+                    if (film.Any())
+                    {
+                        return Ok(film.AsEnumerable());
+                    }
+                    return Ok(new MySeenWebApi.SyncJsonAnswer { Value = MySeenWebApi.SyncJsonAnswer.Values.NoData });
+                }
+                return Ok(new MySeenWebApi.SyncJsonAnswer { Value = MySeenWebApi.SyncJsonAnswer.Values.BadRequestMode });
             }
-            return Ok(new MySeenWebApi.SyncJsonAnswer { Value = MySeenWebApi.SyncJsonAnswer.Values.BadRequestMode });
+            catch (Exception ex)
+            {
+                logger.Error(methodName, ex);
+            }
+            return Ok(new MySeenWebApi.SyncJsonAnswer { Value = MySeenWebApi.SyncJsonAnswer.Values.SomeErrorObtained });
         }
 
         [HttpPost]
@@ -180,159 +193,168 @@ namespace MySeenWeb.Controllers
         [HttpPost]
         public IHttpActionResult Post([FromUri]string userKey, [FromUri]int mode, [FromUri]int apiVersion, [FromBody] IEnumerable<MySeenWebApi.SyncJsonData> data)
         {
-            LogSave.Save(userKey, string.Empty, string.Empty, "ApiSync/Post", mode.ToString());
-            if (apiVersion != MySeenWebApi.ApiVersion)
+            var logger = new NLogLogger();
+            const string methodName = "public IHttpActionResult Get(string userKey, int mode, int apiVersion)";
+            try
             {
-                return Ok(new MySeenWebApi.SyncJsonAnswer { Value = MySeenWebApi.SyncJsonAnswer.Values.NoLongerSupportedVersion });
-            }
-            if (data == null || (MySeenWebApi.SyncModesApiData)mode != MySeenWebApi.SyncModesApiData.PostAll)
-            {
+                if (apiVersion != MySeenWebApi.ApiVersion)
+                {
+                    return Ok(new MySeenWebApi.SyncJsonAnswer { Value = MySeenWebApi.SyncJsonAnswer.Values.NoLongerSupportedVersion });
+                }
+                if (data == null || (MySeenWebApi.SyncModesApiData)mode != MySeenWebApi.SyncModesApiData.PostAll)
+                {
+                    return Ok(new MySeenWebApi.SyncJsonAnswer { Value = MySeenWebApi.SyncJsonAnswer.Values.BadRequestMode });
+                }
+                var userId = GetUserId(userKey);
+                if (string.IsNullOrEmpty(userId))
+                {
+                    return Ok(new MySeenWebApi.SyncJsonAnswer { Value = MySeenWebApi.SyncJsonAnswer.Values.UserNotExist });
+                }
+                var syncJsonDatas = data as MySeenWebApi.SyncJsonData[] ?? data.ToArray();
+                if (syncJsonDatas.Any())
+                {
+                    var ac = new ApplicationDbContext();
+                    foreach (var film in syncJsonDatas)
+                    {
+                        if (film.DataMode == (int)MySeenWebApi.DataModes.Film)
+                        {
+                            if (film.Id == null)
+                            {
+                                if (ac.Films.Any(f => f.Name == film.Name && f.UserId == userId))//с таким именем у нас уже есть
+                                {
+                                    var filmDb = ac.Films.First(f => f.Name == film.Name && f.UserId == userId);
+                                    if (filmDb.DateChange < film.DateChange)//есть не изменненый или изменен ранее чем обновляем
+                                    {
+                                        filmDb.DateChange = film.DateChange;
+                                        filmDb.DateSee = film.DateSee;
+                                        filmDb.Genre = film.Genre;
+                                        filmDb.Rating = film.Rating;
+                                    }
+                                }
+                                else //нету нового с таким именем
+                                {
+                                    ac.Films.Add(MapToFilm(film, userId));
+                                }
+                            }
+                            else //старый обновился
+                            {
+                                if (ac.Films.Any(f => f.Id == film.Id && f.UserId == userId))//с таким ID есть в БД, обновим
+                                {
+                                    var filmDb = ac.Films.First(f => f.Id == film.Id && f.UserId == userId);
+                                    if (filmDb.DateChange < film.DateChange)//есть не изменненый или изменен ранее чем обновляем
+                                    {
+                                        filmDb.DateChange = film.DateChange;
+                                        filmDb.DateSee = film.DateSee;
+                                        filmDb.Genre = film.Genre;
+                                        filmDb.Rating = film.Rating;
+                                        filmDb.Name = film.Name;
+                                    }
+                                }
+                                else
+                                {
+                                    ac.Films.Add(MapToFilm(film, userId));
+                                }
+                            }
+                        }
+                        else if (film.DataMode == (int)MySeenWebApi.DataModes.Serial)
+                        {
+                            if (film.Id == null)//Новый 
+                            {
+                                if (ac.Serials.Any(f => f.Name == film.Name && f.UserId == userId))//с таким именем у нас уже есть
+                                {
+                                    var filmDb = ac.Serials.First(f => f.Name == film.Name && f.UserId == userId);
+                                    if (filmDb.DateChange < film.DateChange)//есть не изменненый или изменен ранее чем обновляем
+                                    {
+                                        filmDb.DateChange = film.DateChange;
+                                        filmDb.Genre = film.Genre;
+                                        filmDb.Rating = film.Rating;
+                                        filmDb.DateBegin = film.DateBegin;
+                                        filmDb.DateLast = film.DateLast;
+                                        filmDb.LastSeason = film.LastSeason;
+                                        filmDb.LastSeries = film.LastSeries;
+                                    }
+                                }
+                                else //нету нового с таким именем
+                                {
+                                    ac.Serials.Add(MapToSerial(film, userId));
+                                }
+                            }
+                            else //старый обновился
+                            {
+                                if (ac.Serials.Any(f => f.Id == film.Id && f.UserId == userId))//с таким ID есть в БД, обновим
+                                {
+                                    var filmDb = ac.Serials.First(f => f.Id == film.Id && f.UserId == userId);
+                                    if (filmDb.DateChange < film.DateChange)//есть не изменненый или изменен ранее чем обновляем
+                                    {
+                                        filmDb.DateChange = film.DateChange;
+                                        filmDb.Genre = film.Genre;
+                                        filmDb.Rating = film.Rating;
+                                        filmDb.DateBegin = film.DateBegin;
+                                        filmDb.DateLast = film.DateLast;
+                                        filmDb.LastSeason = film.LastSeason;
+                                        filmDb.LastSeries = film.LastSeries;
+                                        filmDb.Name = film.Name;
+                                    }
+                                }
+                                else
+                                {
+                                    ac.Serials.Add(MapToSerial(film, userId));
+                                }
+                            }
+                        }
+                        else
+                        {
+                            if (film.Id == null)//Новый 
+                            {
+                                if (ac.Books.Any(f => f.Name == film.Name && f.UserId == userId))//с таким именем у нас уже есть
+                                {
+                                    var filmDb = ac.Books.First(f => f.Name == film.Name && f.UserId == userId);
+                                    if (filmDb.DateChange < film.DateChange)//есть не изменненый или изменен ранее чем обновляем
+                                    {
+                                        filmDb.DateChange = film.DateChange;
+                                        filmDb.Genre = film.Genre;
+                                        filmDb.Rating = film.Rating;
+                                        filmDb.DateRead = film.DateRead;
+                                        filmDb.Authors = film.Authors;
+                                    }
+                                }
+                                else //нету нового с таким именем
+                                {
+                                    ac.Books.Add(MapToBook(film, userId));
+                                }
+                            }
+                            else //старый обновился
+                            {
+                                if (ac.Books.Any(f => f.Id == film.Id && f.UserId == userId))//с таким ID есть в БД, обновим
+                                {
+                                    var filmDb = ac.Books.First(f => f.Id == film.Id && f.UserId == userId);
+                                    if (filmDb.DateChange < film.DateChange)//есть не изменненый или изменен ранее чем обновляем
+                                    {
+                                        filmDb.DateChange = film.DateChange;
+                                        filmDb.Genre = film.Genre;
+                                        filmDb.Rating = film.Rating;
+                                        filmDb.DateRead = film.DateRead;
+                                        filmDb.Authors = film.Authors;
+                                        filmDb.Name = film.Name;
+                                    }
+                                }
+                                else
+                                {
+                                    ac.Books.Add(MapToBook(film, userId));
+                                }
+                            }
+                        }
+                    }
+                    ac.SaveChanges();
+                    return Ok(new MySeenWebApi.SyncJsonAnswer { Value = MySeenWebApi.SyncJsonAnswer.Values.NewDataRecieved });
+                }
                 return Ok(new MySeenWebApi.SyncJsonAnswer { Value = MySeenWebApi.SyncJsonAnswer.Values.BadRequestMode });
             }
-            var userId = GetUserId(userKey);
-            if (string.IsNullOrEmpty(userId))
+            catch (Exception ex)
             {
-                return Ok(new MySeenWebApi.SyncJsonAnswer { Value = MySeenWebApi.SyncJsonAnswer.Values.UserNotExist });
+                logger.Error(methodName, ex);
             }
-            var syncJsonDatas = data as MySeenWebApi.SyncJsonData[] ?? data.ToArray();
-            if (syncJsonDatas.Any())
-            {
-                var ac = new ApplicationDbContext();
-                foreach (var film in syncJsonDatas)
-                {
-                    if (film.DataMode == (int)MySeenWebApi.DataModes.Film)
-                    {
-                        if (film.Id == null)
-                        {
-                            if (ac.Films.Any(f => f.Name == film.Name && f.UserId == userId))//с таким именем у нас уже есть
-                            {
-                                var filmDb = ac.Films.First(f => f.Name == film.Name && f.UserId == userId);
-                                if (filmDb.DateChange < film.DateChange)//есть не изменненый или изменен ранее чем обновляем
-                                {
-                                    filmDb.DateChange = film.DateChange;
-                                    filmDb.DateSee = film.DateSee;
-                                    filmDb.Genre = film.Genre;
-                                    filmDb.Rating = film.Rating;
-                                }
-                            }
-                            else //нету нового с таким именем
-                            {
-                                ac.Films.Add(MapToFilm(film, userId));
-                            }
-                        }
-                        else //старый обновился
-                        {
-                            if (ac.Films.Any(f => f.Id == film.Id && f.UserId == userId))//с таким ID есть в БД, обновим
-                            {
-                                var filmDb = ac.Films.First(f => f.Id == film.Id && f.UserId == userId);
-                                if (filmDb.DateChange < film.DateChange)//есть не изменненый или изменен ранее чем обновляем
-                                {
-                                    filmDb.DateChange = film.DateChange;
-                                    filmDb.DateSee = film.DateSee;
-                                    filmDb.Genre = film.Genre;
-                                    filmDb.Rating = film.Rating;
-                                    filmDb.Name = film.Name;
-                                }
-                            }
-                            else
-                            {
-                                ac.Films.Add(MapToFilm(film, userId));
-                            }
-                        }
-                    }
-                    else if (film.DataMode == (int)MySeenWebApi.DataModes.Serial)
-                    {
-                        if (film.Id == null)//Новый 
-                        {
-                            if (ac.Serials.Any(f => f.Name == film.Name && f.UserId == userId))//с таким именем у нас уже есть
-                            {
-                                var filmDb = ac.Serials.First(f => f.Name == film.Name && f.UserId == userId);
-                                if (filmDb.DateChange < film.DateChange)//есть не изменненый или изменен ранее чем обновляем
-                                {
-                                    filmDb.DateChange = film.DateChange;
-                                    filmDb.Genre = film.Genre;
-                                    filmDb.Rating = film.Rating;
-                                    filmDb.DateBegin = film.DateBegin;
-                                    filmDb.DateLast = film.DateLast;
-                                    filmDb.LastSeason = film.LastSeason;
-                                    filmDb.LastSeries = film.LastSeries;
-                                }
-                            }
-                            else //нету нового с таким именем
-                            {
-                                ac.Serials.Add(MapToSerial(film, userId));
-                            }
-                        }
-                        else //старый обновился
-                        {
-                            if (ac.Serials.Any(f => f.Id == film.Id && f.UserId == userId))//с таким ID есть в БД, обновим
-                            {
-                                var filmDb = ac.Serials.First(f => f.Id == film.Id && f.UserId == userId);
-                                if (filmDb.DateChange < film.DateChange)//есть не изменненый или изменен ранее чем обновляем
-                                {
-                                    filmDb.DateChange = film.DateChange;
-                                    filmDb.Genre = film.Genre;
-                                    filmDb.Rating = film.Rating;
-                                    filmDb.DateBegin = film.DateBegin;
-                                    filmDb.DateLast = film.DateLast;
-                                    filmDb.LastSeason = film.LastSeason;
-                                    filmDb.LastSeries = film.LastSeries;
-                                    filmDb.Name = film.Name;
-                                }
-                            }
-                            else
-                            {
-                                ac.Serials.Add(MapToSerial(film, userId));
-                            }
-                        }
-                    }
-                    else
-                    {
-                        if (film.Id == null)//Новый 
-                        {
-                            if (ac.Books.Any(f => f.Name == film.Name && f.UserId == userId))//с таким именем у нас уже есть
-                            {
-                                var filmDb = ac.Books.First(f => f.Name == film.Name && f.UserId == userId);
-                                if (filmDb.DateChange < film.DateChange)//есть не изменненый или изменен ранее чем обновляем
-                                {
-                                    filmDb.DateChange = film.DateChange;
-                                    filmDb.Genre = film.Genre;
-                                    filmDb.Rating = film.Rating;
-                                    filmDb.DateRead = film.DateRead;
-                                    filmDb.Authors = film.Authors;
-                                }
-                            }
-                            else //нету нового с таким именем
-                            {
-                                ac.Books.Add(MapToBook(film, userId));
-                            }
-                        }
-                        else //старый обновился
-                        {
-                            if (ac.Books.Any(f => f.Id == film.Id && f.UserId == userId))//с таким ID есть в БД, обновим
-                            {
-                                var filmDb = ac.Books.First(f => f.Id == film.Id && f.UserId == userId);
-                                if (filmDb.DateChange < film.DateChange)//есть не изменненый или изменен ранее чем обновляем
-                                {
-                                    filmDb.DateChange = film.DateChange;
-                                    filmDb.Genre = film.Genre;
-                                    filmDb.Rating = film.Rating;
-                                    filmDb.DateRead = film.DateRead;
-                                    filmDb.Authors = film.Authors;
-                                    filmDb.Name = film.Name;
-                                }
-                            }
-                            else
-                            {
-                                ac.Books.Add(MapToBook(film, userId));
-                            }
-                        }
-                    }
-                }
-                ac.SaveChanges();
-                return Ok(new MySeenWebApi.SyncJsonAnswer { Value = MySeenWebApi.SyncJsonAnswer.Values.NewDataRecieved });
-            }
-            return Ok(new MySeenWebApi.SyncJsonAnswer { Value = MySeenWebApi.SyncJsonAnswer.Values.BadRequestMode });
+            return Ok(new MySeenWebApi.SyncJsonAnswer { Value = MySeenWebApi.SyncJsonAnswer.Values.SomeErrorObtained });
         }
     }
 }

@@ -138,7 +138,8 @@ namespace MySeenLib
                 BadRequestMode = 3,
                 UserNotExist = 4,
                 NewDataRecieved = 5,
-                NoLongerSupportedVersion = 6
+                NoLongerSupportedVersion = 6,
+                SomeErrorObtained = 7
             }
             [JsonProperty("Value")]
             public Values Value { get; set; }

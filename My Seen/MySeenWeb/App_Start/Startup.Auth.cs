@@ -6,7 +6,6 @@ using Microsoft.Owin.Security.Cookies;
 using Microsoft.Owin.Security.Google;
 using MySeenWeb.Add_Code;
 using Owin;
-using MySeenWeb.Models;
 using MySeenWeb.Models.OtherViewModels;
 
 namespace MySeenWeb
