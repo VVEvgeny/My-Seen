@@ -56,9 +56,13 @@
                 @Html.AntiForgeryToken()
                 <div id="socialLoginList">
                 <p>
-                    @foreach (AuthenticationDescription p in Model.OtherLogins)
+                    @foreach (var p in Model.OtherLogins)
                     {
                         <button type="submit" class="btn btn-default" id="@p.AuthenticationType" name="provider" value="@p.AuthenticationType" title="@Resource.LogInUsingYour @p.Caption @Resource.Account ">@p.AuthenticationType</button>
+                    }
+                    @foreach (var p in Nemiro.OAuth.OAuthManager.RegisteredClients)
+                    {
+                        <button type="submit" class="btn btn-default" id="@p.Key" name="provider" value="@p.Key" title="@Resource.LogInUsingYour @p.Value.ProviderName @Resource.Account ">@p.Key</button>
                     }
                 </p>
                 </div>

@@ -45,6 +45,7 @@ namespace MySeenWeb.Models.OtherViewModels
             Database.SetInitializer(new MigrateDatabaseToLatestVersion<ApplicationDbContext, Migrations.Configuration>("DefaultConnection"));
         }
 
+        public IDbSet<IdentityUserLogin> UserLogins { get; set; }
         public DbSet<Films> Films { get; set; }
         public DbSet<Serials> Serials { get; set; }
         public DbSet<Logs> Logs { get; set; }

@@ -19,17 +19,19 @@
 -Web Api 2.0
 -Globalization
 
--Yandex Api    (Metrika)
--Google Api    (Authorization, Share, Like, Comments, Analytics, Adsence, Maps)
--Facebook Api  (Authorization, Share, Like, Comments)
--Vkontakte Api (Authorization, Share, Like, Comments)
--Microsoft Api (Authorization)
--LinkedIn Api  (Authorization)
--Yahoo Api     (Authorization)
--Twitter Api   (Authorization)
--Dropbox Api   (Authorization)
--Steam Api     (Authorization)
--GitHub Api    (Authorization)
+
+-Yandex Api    (Authorization (oauth2), Metrika)
+-Google Api    (Authorization (owin), Share, Like, Comments, Analytics, Adsence, Maps)
+-Facebook Api  (Authorization (owin), Share, Like, Comments)
+-Vkontakte Api (Authorization (owin), Share, Like, Comments)
+-Microsoft Api (Authorization (owin))
+-LinkedIn Api  (Authorization (owin))
+-Yahoo Api     (Authorization (owin))
+-Twitter Api   (Authorization (owin))
+-Dropbox Api   (Authorization (owin))
+-Steam Api     (Authorization (owin))
+-GitHub Api    (Authorization (owin))
+
 
 =======================================ANDROID xamarin
 -SqLite

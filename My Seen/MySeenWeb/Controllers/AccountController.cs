@@ -6,7 +6,6 @@ using System.Web.Mvc;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
-using MySeenWeb.Models;
 using MySeenLib;
 using MySeenWeb.ActionFilters;
 using MySeenWeb.Add_Code;
@@ -14,6 +13,7 @@ using MySeenWeb.Add_Code.Services.Logging.NLog;
 using MySeenWeb.Models.OtherViewModels;
 using MySeenWeb.Models.TablesLogic;
 using MySeenWeb.Models.Tools;
+using Nemiro.OAuth;
 
 namespace MySeenWeb.Controllers
 {
@@ -68,7 +68,6 @@ namespace MySeenWeb.Controllers
             return RedirectToAction("Index", "Home");
             //Вход только по модальной 
             /*
-            LogSave.Save(User.Identity.IsAuthenticated ? User.Identity.GetUserId() : "", Request.UserHostAddress, Request.UserAgent, "Account/Login");
             ViewBag.ReturnUrl = returnUrl;
             return View();
              * */
@@ -115,7 +114,6 @@ namespace MySeenWeb.Controllers
             return RedirectToAction("Index", "Home");
             //Вход только по модальной 
             /*
-            LogSave.Save(User.Identity.IsAuthenticated ? User.Identity.GetUserId() : "", Request.UserHostAddress, Request.UserAgent, "Account/LoginAsync");
             if (!ModelState.IsValid)
             {
                 return View(model);
@@ -205,18 +203,7 @@ namespace MySeenWeb.Controllers
             {
                 if (ModelState.IsValid)
                 {
-                    var user = new ApplicationUser
-                    {
-                        UserName = model.Email,
-                        Email = model.Email,
-                        UniqueKey = Md5Tools.Get(model.Email.ToLower()),
-                        ShareBooksKey = Md5Tools.Generate(model.Email, model.Password, 1),
-                        ShareEventsKey = Md5Tools.Generate(model.Email, model.Password, 2),
-                        ShareFilmsKey = Md5Tools.Generate(model.Email, model.Password, 3),
-                        ShareSerialsKey = Md5Tools.Generate(model.Email, model.Password, 4),
-                        Culture = CultureInfoTool.GetCulture(),
-                        RegisterDate = DateTime.Now
-                    };
+                    var user = CreateUser(model.Email);
                     var result = await UserManager.CreateAsync(user, model.Password);
                     if (result.Succeeded)
                     {
@@ -352,8 +339,15 @@ namespace MySeenWeb.Controllers
         {
             var logger = new NLogLogger();
             const string methodName = "public ActionResult ExternalLogin(string provider, string returnUrl)";
+
             try
             {
+                if (provider == ExternalNotOwinProviders.Yandex)
+                {
+                    //logger.Info("provider YANDEX");
+                    returnUrl = MySeenWebApi.ApiHost + "/Account/ExternalLoginCallback";
+                    return Redirect(OAuthWeb.GetAuthorizationUrl(provider, returnUrl));
+                }
                 // Request a redirect to the external login provider
                 return new ChallengeResult(provider, Url.Action("ExternalLoginCallback", "Account", new { ReturnUrl = returnUrl }));
             }
@@ -399,6 +393,21 @@ namespace MySeenWeb.Controllers
             return RedirectToAction("VerifyCode", new { Provider = model.SelectedProvider, model.ReturnUrl, model.RememberMe });
         }
 
+        public static ApplicationUser CreateUser(string email)
+        {
+            return new ApplicationUser
+            {
+                UserName = email,
+                Email = email,
+                UniqueKey = Md5Tools.Get(email),
+                ShareBooksKey = Md5Tools.Generate(email, 1, 1),
+                ShareEventsKey = Md5Tools.Generate(email, 2, 2),
+                ShareFilmsKey = Md5Tools.Generate(email, 3, 3),
+                ShareSerialsKey = Md5Tools.Generate(email, 4, 4),
+                Culture = CultureInfoTool.GetCulture(),
+                RegisterDate = DateTime.Now
+            };
+        }
         //
         // GET: /Account/ExternalLoginCallback
         [AllowAnonymous]
@@ -406,12 +415,67 @@ namespace MySeenWeb.Controllers
         {
             var logger = new NLogLogger();
             const string methodName = "public ActionResult ExternalLogin(string provider, string returnUrl)";
+
             try
             {
                 var loginInfo = await AuthenticationManager.GetExternalLoginInfoAsync();
                 if (loginInfo == null)
                 {
-                    return RedirectToAction("Login");
+                    var authorizationResult = OAuthWeb.VerifyAuthorization();
+                    if (authorizationResult.IsSuccessfully)
+                    {
+                        var userLogic = new UserLogic();
+                        //logger.Info("authorizationResult.UserInfo.Email=" + authorizationResult.UserInfo.Email);
+
+                        if (userLogic.IsExist(authorizationResult.UserInfo.Email) || userLogic.IsExistInProvider(authorizationResult.ProviderName, authorizationResult.UserInfo.Email))
+                        {
+                            //logger.Info("Создаю кредиты для автоавторизации");
+                            var logic = new UserCreditsLogic();
+                            var email = authorizationResult.UserInfo.Email;
+                            if (userLogic.IsExistInProvider(authorizationResult.ProviderName, authorizationResult.UserInfo.Email))//если по провайдеру то его рейалынй эмейл будет другим
+                            {
+                                email = userLogic.GetEmailByProvider(authorizationResult.ProviderName,
+                                    authorizationResult.UserInfo.Email);
+                            }
+                            WriteUserSideStorage(UserSideStorageKeys.UserCreditsForAutologin, logic.GetNew(email, Request.UserAgent));
+                            //Дальше разбереться UserCredits и авторизует его по имени
+                            //Проверим, может это добавление нового сервиса
+                            if (!userLogic.IsExistInProvider(authorizationResult.ProviderName, authorizationResult.UserInfo.Email))
+                            {
+                                //logger.Info("Пользователь есть, добавим ему ещё авторизацию");
+                                var info = new ExternalLoginInfo
+                                {
+                                    Login =
+                                        new UserLoginInfo(authorizationResult.ProviderName,
+                                            authorizationResult.UserInfo.Email)
+                                };
+                                var resultAddLoginAsync = UserManager.AddLogin(User.Identity.GetUserId(), info.Login);
+                                if (resultAddLoginAsync.Succeeded) return RedirectToAction("ManageLogins", "Manage");
+                            }
+                        }
+                        else //первичная регистрация, обойдусь без страницы подтверждения почты, она и так есть
+                        {
+                            var info = new ExternalLoginInfo { Login = new UserLoginInfo(authorizationResult.ProviderName, authorizationResult.UserInfo.Email) };
+                            var user = CreateUser(authorizationResult.UserInfo.Email);
+                            //logger.Info("Перед созданием пользователя");
+                            var resultCreateAsync = await UserManager.CreateAsync(user);
+                            //logger.Info("После созданием пользователя");
+                            if (resultCreateAsync.Succeeded)
+                            {
+                                //logger.Info("Успех созданием пользователя");
+                                resultCreateAsync = await UserManager.AddLoginAsync(user.Id, info.Login);
+                                //logger.Info("После авторизации пользователя");
+                                if (resultCreateAsync.Succeeded)
+                                {
+                                    //logger.Info("Успех авторизации пользователя");
+                                    await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
+                                    return RedirectToLocal(returnUrl);
+                                }
+                            }
+                        }
+                        return RedirectToLocal(returnUrl);
+                    }
+                    return RedirectToAction("Index", "Home");
                 }
 
                 // Sign in the user with this external login provider if the user already has a login
@@ -429,32 +493,6 @@ namespace MySeenWeb.Controllers
                         return RedirectToAction("SendCode", new { ReturnUrl = returnUrl, RememberMe = false });
                     case SignInStatus.Failure:
                     default:
-                        /*
-                         * Пока убираю, странная хрень с мобильной авторизацией сторонними
-                        //Это кусок кода взят ниже, убираю лишнее действие по подтверждению
-                        if (ModelState.IsValid && !string.IsNullOrEmpty(loginInfo.Email))
-                        {
-                            // Get the information about the user from the external login provider
-                            var info = await AuthenticationManager.GetExternalLoginInfoAsync();
-                            if (info == null)
-                            {
-                                return View("ExternalLoginFailure");
-                            }
-                            var user = new ApplicationUser { UserName = loginInfo.Email, Email = loginInfo.Email
-                                , UniqueKey = Md5Tools.Get(loginInfo.Email), Culture = CultureInfoTool.GetCulture(), RegisterDate=DateTime.Now };
-                            var result2 = await UserManager.CreateAsync(user);
-                            if (result2.Succeeded)
-                            {
-                                result2 = await UserManager.AddLoginAsync(user.Id, info.Login);
-                                if (result2.Succeeded)
-                                {
-                                    await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
-                                    return RedirectToLocal(returnUrl);
-                                }
-                            }
-                            AddErrors(result2);
-                        }
-                        */
                         // If the user does not have an account, then prompt the user to create an account
                         ViewBag.ReturnUrl = returnUrl;
                         ViewBag.LoginProvider = loginInfo.Login.LoginProvider;
@@ -483,27 +521,24 @@ namespace MySeenWeb.Controllers
                 {
                     return RedirectToAction("Index", "Manage");
                 }
-
                 if (ModelState.IsValid)
                 {
                     // Get the information about the user from the external login provider
                     var info = await AuthenticationManager.GetExternalLoginInfoAsync();
                     if (info == null)
                     {
-                        return View("ExternalLoginFailure");
+                        logger.Info("ViewBag.LoginProvider =" + ViewBag.LoginProvider);
+                        if (ViewBag.LoginProvider == "Yandex")
+                        {
+                            logger.Info("ViewBag.LoginProvider == Yandex");
+                            info = new ExternalLoginInfo {Login = new UserLoginInfo("Yandex", model.Email)};
+                        }
+                        else
+                        {
+                            return View("ExternalLoginFailure");                            
+                        }
                     }
-                    var user = new ApplicationUser
-                    {
-                        UserName = model.Email,
-                        Email = model.Email,
-                        UniqueKey = Md5Tools.Get(model.Email),
-                        ShareBooksKey = Md5Tools.Generate(model.Email, 1, 1),
-                        ShareEventsKey = Md5Tools.Generate(model.Email, 2, 2),
-                        ShareFilmsKey = Md5Tools.Generate(model.Email, 3, 3),
-                        ShareSerialsKey = Md5Tools.Generate(model.Email, 4, 4),
-                        Culture = CultureInfoTool.GetCulture(),
-                        RegisterDate = DateTime.Now
-                    };
+                    var user = CreateUser(model.Email);
                     var result = await UserManager.CreateAsync(user);
                     if (result.Succeeded)
                     {

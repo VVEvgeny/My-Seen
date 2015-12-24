@@ -8,6 +8,8 @@ using MySeenLib;
 using MySeenWeb.Add_Code;
 using Owin;
 using MySeenWeb.Models.OtherViewModels;
+using Nemiro.OAuth;
+using Nemiro.OAuth.Clients;
 using Owin.Security.Providers.Dropbox;
 using Owin.Security.Providers.GitHub;
 using Owin.Security.Providers.LinkedIn;
@@ -78,6 +80,9 @@ namespace MySeenWeb
             app.UseVkontakteAuthentication(Auths.Vkontakte.Id, Auths.Vkontakte.Secret, Auths.Vkontakte.Flag);
             //Google
             app.UseGoogleAuthentication(new GoogleOAuth2AuthenticationOptions() { ClientId = Auths.Google.Id, ClientSecret = Auths.Google.Secret });
+
+            //oauth2 Yandex
+            OAuthManager.RegisterClient(new YandexClient(Auths.Yandex.Id, Auths.Yandex.Secret));
         }
     }
 }

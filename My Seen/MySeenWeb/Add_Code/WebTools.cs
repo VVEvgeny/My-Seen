@@ -15,6 +15,11 @@ namespace MySeenWeb.Add_Code
         InternetExplorer
     }
 
+    public static class ExternalNotOwinProviders
+    {
+        public static string Yandex = "Yandex";
+    }
+
     #region Md5Tools
     public static class Md5Tools
     {
