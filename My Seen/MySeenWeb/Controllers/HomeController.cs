@@ -320,8 +320,13 @@ namespace MySeenWeb.Controllers
             const string methodName = "public JsonResult EndImprovement(string id, string desc, string version)";
             try
             {
-                var logic = new ImprovementLogic();
-                return !logic.Update(id, desc, version, User.Identity.GetUserId()) ? new JsonResult { Data = new { success = false, error = logic.ErrorMessage } } : Json(new { success = true });
+                if (Admin.IsAdmin(User.Identity.Name))
+                {
+                    var logic = new ImprovementLogic();
+                    return !logic.Update(id, desc, version, User.Identity.GetUserId())
+                        ? new JsonResult {Data = new {success = false, error = logic.ErrorMessage}}
+                        : Json(new {success = true});
+                }
             }
             catch (Exception ex)
             {

@@ -48,9 +48,12 @@
                     <!-- ko if: ended -->
                     <td class="align-center" data-bind="text: textEnd"></td>
                     <!-- /ko -->
-                    <!-- ko ifnot: ended -->
-                    <td class="align-center"><button type="button" class="btn btn-success btn-xs btn-block" data-bind="attr: {id: id}"><span class=" glyphicon glyphicon-ok"></span>&nbsp;@Resource.Close</button></td>
-                    <!-- /ko -->
+                    @if (Admin.IsAdmin(User.Identity.Name))
+                    {
+                        <!-- ko ifnot: ended -->
+                        <td class="align-center"><button type="button" class="btn btn-success btn-xs btn-block" data-bind="attr: {id: id}"><span class=" glyphicon glyphicon-ok"></span>&nbsp;@Resource.Close</button></td>
+                        <!-- /ko -->
+                    }
                 </tr>
             </tbody>
         </table>

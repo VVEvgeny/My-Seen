@@ -20,7 +20,7 @@ namespace MySeenWeb.Models
         {
             var ac = new ApplicationDbContext();
             Pages = new PaginationViewModel(page, ac.Users.Count(), countInPage);
-            Data = ac.Users.Select(UsersView.Map).OrderBy(l => l.RegisterDate).Skip((Pages.CurentPage - 1) * countInPage).Take(countInPage);
+            Data = ac.Users.Select(UsersView.Map).OrderByDescending(l => l.LastAction).Skip((Pages.CurentPage - 1) * countInPage).Take(countInPage);
         }
     }
 }

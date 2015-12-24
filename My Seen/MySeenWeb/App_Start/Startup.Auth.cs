@@ -78,7 +78,6 @@ namespace MySeenWeb
             app.UseVkontakteAuthentication(Auths.Vkontakte.Id, Auths.Vkontakte.Secret, Auths.Vkontakte.Flag);
             //Google
             app.UseGoogleAuthentication(new GoogleOAuth2AuthenticationOptions() { ClientId = Auths.Google.Id, ClientSecret = Auths.Google.Secret });
-
         }
     }
 }
