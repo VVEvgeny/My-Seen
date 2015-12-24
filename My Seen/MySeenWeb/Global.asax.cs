@@ -20,6 +20,7 @@ namespace MySeenWeb
 
             // Register custom NLog Layout renderers
             ConfigurationItemFactory.Default.LayoutRenderers.RegisterDefinition("web_variables", typeof(Add_Code.Services.Logging.NLog.WebVariablesRenderer));
+            ConfigurationItemFactory.Default.LayoutRenderers.RegisterDefinition("utc_date", typeof(Add_Code.Services.Logging.NLog.UtcDateRenderer));
         }
     }
 }

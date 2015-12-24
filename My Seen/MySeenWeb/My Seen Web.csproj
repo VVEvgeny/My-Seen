@@ -200,6 +200,7 @@
     <Compile Include="Add_Code\Services\Logging\LogUtility.cs" />
     <Compile Include="Add_Code\Services\Logging\ILogger.cs" />
     <Compile Include="Add_Code\Services\Logging\NLog\NLogLogger.cs" />
+    <Compile Include="Add_Code\Services\Logging\NLog\UtcDateRenderer.cs" />
     <Compile Include="Add_Code\Services\Logging\NLog\WebVariablesRenderer.cs" />
     <Compile Include="Add_Code\WebTools.cs" />
     <Compile Include="App_Start\BundleConfig.cs" />

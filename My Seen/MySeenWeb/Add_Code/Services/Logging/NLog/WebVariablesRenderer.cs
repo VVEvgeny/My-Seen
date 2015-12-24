@@ -47,8 +47,8 @@ namespace MySeenWeb.Add_Code.Services.Logging.NLog
         /// <param name="logEvent">Logging event.
         protected override void Append(StringBuilder builder, LogEventInfo logEvent)
         {
-            StringBuilder sb = new StringBuilder();
-            XmlWriter writer = XmlWriter.Create(sb);
+            var sb = new StringBuilder();
+            var writer = XmlWriter.Create(sb);
 
             writer.WriteStartElement("error");
 
@@ -57,7 +57,7 @@ namespace MySeenWeb.Add_Code.Services.Logging.NLog
             // -----------------------------------------
             writer.WriteStartElement("serverVariables");
 
-            foreach (string key in HttpContext.Current.Request.ServerVariables.AllKeys)
+            foreach (var key in HttpContext.Current.Request.ServerVariables.AllKeys)
             {
                 writer.WriteStartElement("item");
                 writer.WriteAttributeString("name", key);
@@ -76,7 +76,7 @@ namespace MySeenWeb.Add_Code.Services.Logging.NLog
             // -----------------------------------------
             writer.WriteStartElement("cookies");
 
-            foreach (string key in HttpContext.Current.Request.Cookies.AllKeys)
+            foreach (var key in HttpContext.Current.Request.Cookies.AllKeys)
             {
                 writer.WriteStartElement("item");
                 writer.WriteAttributeString("name", key);
@@ -97,7 +97,7 @@ namespace MySeenWeb.Add_Code.Services.Logging.NLog
             writer.Flush();
             writer.Close();
 
-            string xml = sb.ToString();
+            var xml = sb.ToString();
 
             builder.Append(xml);
         }

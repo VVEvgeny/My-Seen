@@ -17,7 +17,7 @@ namespace MySeenWeb.Controllers
         public ActionResult Index()
         {
             var logger = new NLogLogger();
-            var methodName = "public ActionResult Index(string search, int? page)";
+            const string methodName = "public ActionResult Index(string search, int? page)";
             try
             {
                 return View(new HomeViewModel(
