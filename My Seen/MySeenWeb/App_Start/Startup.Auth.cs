@@ -83,6 +83,8 @@ namespace MySeenWeb
 
             //oauth2 Yandex
             OAuthManager.RegisterClient(new YandexClient(Auths.Yandex.Id, Auths.Yandex.Secret));
+            //oauth2 Mail.Ru
+            OAuthManager.RegisterClient(new MailRuClient(Auths.MailRu.Id, Auths.MailRu.Secret));
         }
     }
 }

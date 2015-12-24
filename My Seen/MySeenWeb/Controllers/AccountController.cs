@@ -342,7 +342,8 @@ namespace MySeenWeb.Controllers
 
             try
             {
-                if (provider == ExternalNotOwinProviders.Yandex)
+                if (provider == ExternalNotOwinProviders.Yandex
+                    || provider == ExternalNotOwinProviders.MailRu)
                 {
                     //logger.Info("provider YANDEX");
                     returnUrl = MySeenWebApi.ApiHost + "/Account/ExternalLoginCallback";

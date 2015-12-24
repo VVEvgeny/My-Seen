@@ -31,7 +31,7 @@
 -Dropbox Api   (Authorization (owin))
 -Steam Api     (Authorization (owin))
 -GitHub Api    (Authorization (owin))
-
+-Mail.Ru Api   (Authorization (oauth2))
 
 =======================================ANDROID xamarin
 -SqLite

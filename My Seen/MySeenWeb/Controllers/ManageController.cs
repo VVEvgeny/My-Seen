@@ -527,7 +527,9 @@ namespace MySeenWeb.Controllers
             const string methodName = "public ActionResult LinkLogin(string provider)";
             try
             {
-                if (provider == ExternalNotOwinProviders.Yandex)
+                if (provider == ExternalNotOwinProviders.Yandex
+                    || provider == ExternalNotOwinProviders.MailRu
+                    )
                 {
                     //logger.Info("provider YANDEX");
                     var returnUrl = MySeenWebApi.ApiHost + "/Account/ExternalLoginCallback";

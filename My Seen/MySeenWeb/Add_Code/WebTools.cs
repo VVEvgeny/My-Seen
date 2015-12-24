@@ -18,6 +18,7 @@ namespace MySeenWeb.Add_Code
     public static class ExternalNotOwinProviders
     {
         public static string Yandex = "Yandex";
+        public static string MailRu = "Mail.Ru";
     }
 
     #region Md5Tools
