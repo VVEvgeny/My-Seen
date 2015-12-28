@@ -317,10 +317,12 @@ namespace MySeenLib
                 public static int Users = 101;
                 public static int Logs = 102;
                 public static int Improvements = 103;
+                public static int Errors = 104;
             }
             public static bool IsCategoryExt(int category)
             {
-                return category == IndexesExt.Users || category == IndexesExt.Logs || category == IndexesExt.Improvements;
+                return category == IndexesExt.Users || category == IndexesExt.Logs ||
+                       category == IndexesExt.Improvements || category == IndexesExt.Errors;
             }
 
             public override void Load()

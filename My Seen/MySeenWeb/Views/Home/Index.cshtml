@@ -16,7 +16,7 @@
                     <div class="row">
                         <div class="form-group">
                             <label style="display: block;">@Resource.SelectTheCategory</label>
-                            @Html.DropDownList("Selected", Model.SelectList, new { @class = "form-control", @id = "lstSelected", @style = "width: 150px;" })
+                            @Html.DropDownList("Selected", Model.SelectList, new { @class = "form-control", @id = "lstSelected" })
                             <button type="button" class="btn btn-primary" id="addButton">
                                 <span class="glyphicon glyphicon-plus"></span>
                                 &nbsp;@Resource.AddNew
@@ -63,6 +63,10 @@
     else if (Model.PageLogs)
     {
         @Html.Partial("Parts/Ext/Logs", Model.Logs)
+    }
+    else if (Model.PageErrors)
+    {
+        @Html.Partial("Parts/Ext/Errors", Model.Errors)
     }
     else if (Model.PageImprovements)
     {

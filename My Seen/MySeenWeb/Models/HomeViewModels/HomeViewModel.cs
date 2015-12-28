@@ -13,7 +13,7 @@ namespace MySeenWeb.Models
         {
             get
             {
-                return PageUsers || PageLogs || PageImprovements;
+                return PageUsers || PageLogs || PageImprovements || PageErrors;
             }
         }
 
@@ -73,6 +73,14 @@ namespace MySeenWeb.Models
                 return Selected == Defaults.CategoryBase.Indexes.Events.ToString();
             }
         }
+        public bool PageErrors
+        {
+            get
+            {
+                return Selected == Defaults.CategoryBase.IndexesExt.Errors.ToString();
+            }
+        }
+
         public IEnumerable<SelectListItem> SelectList { get; set; }
 
         public HomeViewModelFilmsMin Films;
@@ -83,6 +91,7 @@ namespace MySeenWeb.Models
         public HomeViewModelImprovementsMin Improvements;
         public HomeViewModelAbout About;
         public HomeViewModelEventsMin Events;
+        public HomeViewModelErrorsMin Errors;
 
         public HomeViewModel(string selected, string userId, int complex, int markersOnRoads, int roadsYear,bool onlyEnded)
         {
@@ -91,10 +100,10 @@ namespace MySeenWeb.Models
                 Selected = selected;
                 if (PageSerials) Serials = new HomeViewModelSerialsMin();
                 else if (PageBooks) Books = new HomeViewModelBooksMin();
-                //else if (PageTracks) Roads = new HomeViewModelRoads(userId, markersOnRoads, roadsYear);
                 else if (PageRoads) Roads = new HomeViewModelRoadsMin();
                 else if (PageUsers) { }
                 else if (PageLogs) Logs = new HomeViewModelLogsMin();
+                else if (PageErrors) Errors = new HomeViewModelErrorsMin();
                 else if (PageImprovements) Improvements = new HomeViewModelImprovementsMin(complex);
                 else if (PageEvents) Events = new HomeViewModelEventsMin(onlyEnded);
                 else Films = new HomeViewModelFilmsMin();

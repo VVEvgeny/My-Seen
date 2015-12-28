@@ -1,4 +1,5 @@
-﻿using System.Globalization;
+﻿using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using MySeenWeb.Models.OtherViewModels;
 using MySeenWeb.Models.Tables;
@@ -55,14 +56,13 @@ namespace MySeenWeb.Models.TablesViews
             get { return DateLast.ToString(CultureInfo.CurrentCulture); }
         }
 
-        public string AddDataText
+        public IEnumerable<string> AddDataText
         {
             get
             {
-                var result = string.Empty;
-                AddData = AddData.Replace("_", " ");
-                AddData = AddData.Replace("!%!", "_");
-                return AddData.Split('_').Aggregate(result, (current, str) => current + (str + '\n'.ToString()));
+                var result = new List<string>();
+                if (AddData.Length != 0) result.AddRange(AddData.Replace("_", " ").Replace("!%!", "_").Split('_'));
+                return result;
             }
         }
     }

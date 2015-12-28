@@ -1,13 +1,12 @@
 ﻿using System;
 using System.Web.Mvc;
-using Microsoft.AspNet.Identity;
 using MySeenWeb.ActionFilters;
 using MySeenWeb.Add_Code.Services.Logging.NLog;
-using MySeenWeb.Models;
+using MySeenWeb.Controllers._Base;
 using MySeenWeb.Models.ShareViewModels;
 using MySeenWeb.Models.Tools;
 
-namespace MySeenWeb.Controllers
+namespace MySeenWeb.Controllers.Home
 {
     //[RequireHttps]
     public class ShareController : BaseController

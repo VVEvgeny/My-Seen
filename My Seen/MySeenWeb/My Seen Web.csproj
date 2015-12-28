@@ -209,15 +209,15 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
-    <Compile Include="Controllers\AccountController.cs" />
-    <Compile Include="Controllers\ApiUsersController.cs" />
-    <Compile Include="Controllers\BaseController.cs" />
-    <Compile Include="Controllers\BrowserFilterController.cs" />
-    <Compile Include="Controllers\JsonController.cs" />
-    <Compile Include="Controllers\ShareController.cs" />
-    <Compile Include="Controllers\HomeController.cs" />
-    <Compile Include="Controllers\ManageController.cs" />
-    <Compile Include="Controllers\ApiSyncController.cs" />
+    <Compile Include="Controllers\Account\AccountController.cs" />
+    <Compile Include="Controllers\Api\ApiUsersController.cs" />
+    <Compile Include="Controllers\_Base\BaseController.cs" />
+    <Compile Include="Controllers\Others\BrowserFilterController.cs" />
+    <Compile Include="Controllers\Home\JsonController.cs" />
+    <Compile Include="Controllers\Home\HomeController.cs" />
+    <Compile Include="Controllers\Home\ShareController.cs" />
+    <Compile Include="Controllers\Account\ManageController.cs" />
+    <Compile Include="Controllers\Api\ApiSyncController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -350,6 +350,8 @@
       <DependentUpon>201512240904315_32.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
+    <Compile Include="Models\HomeViewModels\HomeViewModelErrorsMin.cs" />
+    <Compile Include="Models\HomeViewModels\HomeViewModelErrors.cs" />
     <Compile Include="Models\HomeViewModels\HomeViewModelRoadsMin.cs" />
     <Compile Include="Models\OtherViewModels\AccountViewModels.cs" />
     <Compile Include="Models\HomeViewModels\HomeViewModelBooksMin.cs" />
@@ -373,6 +375,7 @@
     <Compile Include="Models\ShareViewModels\ShareViewModelTracks.cs" />
     <Compile Include="Models\TablesLogic\EventsLogic.cs" />
     <Compile Include="Models\TablesLogic\BooksLogic.cs" />
+    <Compile Include="Models\TablesLogic\NLogErrorsLogic.cs" />
     <Compile Include="Models\TablesLogic\TracksLogic.cs" />
     <Compile Include="Models\TablesLogic\ImprovementLogic.cs" />
     <Compile Include="Models\TablesLogic\SerialsLogic.cs" />
@@ -711,6 +714,7 @@
     <Content Include="Views\Tools\Google\_Base.cshtml" />
     <Content Include="Views\Tools\VK\_Base.cshtml" />
     <Content Include="Views\Share\Tools\Services.cshtml" />
+    <Content Include="Views\Home\Parts\Ext\Errors.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

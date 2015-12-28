@@ -786,4 +786,22 @@
   <data name="ShareBooksTitle" xml:space="preserve">
     <value>прочитанные книги</value>
   </data>
+  <data name="Errors" xml:space="preserve">
+    <value>Ошибки</value>
+  </data>
+  <data name="Host" xml:space="preserve">
+    <value>Адрес</value>
+  </data>
+  <data name="Level" xml:space="preserve">
+    <value>Уровень</value>
+  </data>
+  <data name="Message" xml:space="preserve">
+    <value>Сообщение</value>
+  </data>
+  <data name="StackTrace" xml:space="preserve">
+    <value>Трассировка</value>
+  </data>
+  <data name="Variables" xml:space="preserve">
+    <value>Переменные</value>
+  </data>
 </root>

@@ -35,7 +35,10 @@
                     <td class="align-center" data-bind="text: dateLast"></td>
                     <td class="align-center" data-bind="text: count"></td>
                     <td class="align-center" data-bind="text: pageName"></td>
-                    <td class="align-center" data-bind="text: addData"></td>
+                    <td class="align-center" data-bind="foreach: addData">
+                        <div data-bind="text: $data">
+                        </div>
+                    </td>
                 </tr>
             </tbody>
         </table>
@@ -59,7 +62,7 @@
         this.dateLast = ko.observable(data.DateLastText);
         this.count = ko.observable(data.Count);
         this.pageName = ko.observable(data.PageName);
-        this.addData = ko.observable(data.AddDataText);
+        this.addData = ko.observableArray(data.AddDataText);
     }
 
     function LogsViewModel() {

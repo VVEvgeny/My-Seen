@@ -50,7 +50,7 @@ namespace MySeenWeb.Models.TablesLogic
         }
         private bool Contains()
         {
-            return _ac.Bugs.Any(f => f.Text == Text && f.UserId == UserId && f.Id != Id);
+            return _ac.Bugs.Any(f => f.Text == Text && f.Id != Id);
         }
         private bool Verify()
         {
@@ -79,7 +79,7 @@ namespace MySeenWeb.Models.TablesLogic
         {
             try
             {
-                var elem = _ac.Bugs.First(f => f.UserId == UserId && f.Id == Id);
+                var elem = _ac.Bugs.First(f => f.Id == Id);
                 elem.TextEnd = TextEnd;
                 elem.DateEnd = DateEnd;
                 elem.Version = Version;

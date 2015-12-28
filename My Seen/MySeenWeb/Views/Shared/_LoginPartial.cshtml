@@ -8,6 +8,7 @@
         {
             <li><a href="/Home/Users"><span class="glyphicon glyphicon-user"></span> @Resource.Users</a></li>
             <li><a href="/Home/Logs"><span class="glyphicon glyphicon-scale"></span> @Resource.Logs</a></li>
+            <li><a href="/Home/Errors"><span class="glyphicon glyphicon-random"></span> @Resource.Errors</a></li>
         }
 
         <li><a href="/Home/Improvements"><span class="glyphicon glyphicon-signal"></span> @Resource.Improvements</a></li>
@@ -39,9 +40,6 @@ else
         {
             <li><a href='https://play.google.com/store/apps/details?id=com.vve.myseen'><span class="glyphicon glyphicon-phone"></span> @Resource.OurAndroidApp</a></li>
         }
-        <!--<li>@Html.ActionLink(Resource.Register, "Register", "Account", routeValues: null, htmlAttributes: new {id = "registerLink"})</li>-->
-        <!--<li>@Html.ActionLink(Resource.Login, "Login", "Account", routeValues: null, htmlAttributes: new {id = "loginLink"})</li>-->
-        <!--<li>@Html.ActionLink(Resource.Login, "", "", routeValues: null, htmlAttributes: new {id = "LoginModalButton"})</li>-->
         <li><a href='#' id="LoginModalButton"><span class="glyphicon glyphicon-log-in"></span> @Resource.Login</a></li>
     </ul>
     @Html.Partial("_LoginModal")

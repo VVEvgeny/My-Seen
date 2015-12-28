@@ -4,12 +4,13 @@ using System.Web.Mvc;
 using Microsoft.AspNet.Identity;
 using MySeenLib;
 using MySeenWeb.Add_Code.Services.Logging.NLog;
+using MySeenWeb.Controllers._Base;
 using MySeenWeb.Models;
 using MySeenWeb.Models.ShareViewModels;
 using MySeenWeb.Models.TablesLogic;
 using MySeenWeb.Models.Tools;
 
-namespace MySeenWeb.Controllers
+namespace MySeenWeb.Controllers.Home
 {
     public class JsonController : BaseController
     {
@@ -208,6 +209,11 @@ namespace MySeenWeb.Controllers
                         Json(
                             new HomeViewModelRoads(User.Identity.GetUserId(), MarkersOnRoads,
                                 ReadUserSideStorage(UserSideStorageKeys.RoadsYear, 0)));
+                }
+                else if (ReadUserSideStorage(UserSideStorageKeys.HomeCategory, Defaults.CategoryBase.Indexes.Films) ==
+                        Defaults.CategoryBase.IndexesExt.Errors)
+                {
+                    return Json(new HomeViewModelErrors(page ?? 1, Rpp));
                 }
                 return Json("NOT REALIZED");
             }

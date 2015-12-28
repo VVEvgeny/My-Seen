@@ -10,12 +10,12 @@ using MySeenLib;
 using MySeenWeb.ActionFilters;
 using MySeenWeb.Add_Code;
 using MySeenWeb.Add_Code.Services.Logging.NLog;
-using MySeenWeb.Models;
+using MySeenWeb.Controllers._Base;
 using MySeenWeb.Models.OtherViewModels;
 using MySeenWeb.Models.Tools;
 using Nemiro.OAuth;
 
-namespace MySeenWeb.Controllers
+namespace MySeenWeb.Controllers.Account
 {
     [BrowserActionFilter]
     [Authorize]

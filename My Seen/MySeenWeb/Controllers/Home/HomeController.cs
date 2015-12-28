@@ -1,14 +1,15 @@
 ﻿using System;
 using System.Web.Mvc;
-using MySeenWeb.Models;
 using Microsoft.AspNet.Identity;
 using MySeenLib;
 using MySeenWeb.ActionFilters;
 using MySeenWeb.Add_Code.Services.Logging.NLog;
+using MySeenWeb.Controllers._Base;
+using MySeenWeb.Models;
 using MySeenWeb.Models.TablesLogic;
 using MySeenWeb.Models.Tools;
 
-namespace MySeenWeb.Controllers
+namespace MySeenWeb.Controllers.Home
 {
     //[RequireHttps]
     public class HomeController : BaseController
@@ -498,6 +499,28 @@ namespace MySeenWeb.Controllers
         }
         [Authorize]
         [HttpPost]
+        public ActionResult DeleteNLog(string id)
+        {
+            var logger = new NLogLogger();
+            const string methodName = "public ActionResult DeleteNLog(string id)";
+            try
+            {
+                if (Admin.IsAdmin(User.Identity.Name))
+                {
+                    var logic = new NLogErrorsLogic();
+                    return !logic.Delete(id, User.Identity.GetUserId())
+                        ? new JsonResult {Data = new {success = false, error = logic.ErrorMessage}}
+                        : Json(new {success = true});
+                }
+            }
+            catch (Exception ex)
+            {
+                logger.Error(methodName, ex);
+            }
+            return new JsonResult { Data = new { success = false, error = methodName } };
+        }
+        [Authorize]
+        [HttpPost]
         public ActionResult GetEventShare(string id)
         {
             var logger = new NLogLogger();
@@ -616,7 +639,11 @@ namespace MySeenWeb.Controllers
             const string methodName = "public ActionResult Home()";
             try
             {
-                WriteUserSideStorage(UserSideStorageKeys.HomeCategory, ReadUserSideStorage(UserSideStorageKeys.HomeCategoryPrev, Defaults.CategoryBase.Indexes.Films));
+                WriteUserSideStorage(UserSideStorageKeys.HomeCategory,
+                    Defaults.CategoryBase.IsCategoryExt(ReadUserSideStorage(UserSideStorageKeys.HomeCategoryPrev,
+                        Defaults.CategoryBase.Indexes.Films))
+                        ? Defaults.CategoryBase.Indexes.Films
+                        : ReadUserSideStorage(UserSideStorageKeys.HomeCategoryPrev, Defaults.CategoryBase.Indexes.Films));
             }
             catch (Exception ex)
             {
@@ -635,6 +662,24 @@ namespace MySeenWeb.Controllers
                 if (!Defaults.CategoryBase.IsCategoryExt(ReadUserSideStorage(UserSideStorageKeys.HomeCategory, Defaults.CategoryBase.Indexes.Films)))
                     WriteUserSideStorage(UserSideStorageKeys.HomeCategoryPrev, ReadUserSideStorage(UserSideStorageKeys.HomeCategory, Defaults.CategoryBase.Indexes.Films));
                 WriteUserSideStorage(UserSideStorageKeys.HomeCategory, Defaults.CategoryBase.IndexesExt.Logs);
+            }
+            catch (Exception ex)
+            {
+                logger.Error(methodName, ex);
+            }
+            return RedirectToAction("Index");
+        }
+        [BrowserActionFilter]
+        [Authorize]
+        public ActionResult Errors()
+        {
+            var logger = new NLogLogger();
+            const string methodName = "public ActionResult Errors()";
+            try
+            {
+                if (!Defaults.CategoryBase.IsCategoryExt(ReadUserSideStorage(UserSideStorageKeys.HomeCategory, Defaults.CategoryBase.Indexes.Films)))
+                    WriteUserSideStorage(UserSideStorageKeys.HomeCategoryPrev, ReadUserSideStorage(UserSideStorageKeys.HomeCategory, Defaults.CategoryBase.Indexes.Films));
+                WriteUserSideStorage(UserSideStorageKeys.HomeCategory, Defaults.CategoryBase.IndexesExt.Errors);
             }
             catch (Exception ex)
             {
