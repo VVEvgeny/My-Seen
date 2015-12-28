@@ -350,6 +350,7 @@
       <DependentUpon>201512240904315_32.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
+    <Compile Include="Models\HomeViewModels\HomeViewModelRoadsMin.cs" />
     <Compile Include="Models\OtherViewModels\AccountViewModels.cs" />
     <Compile Include="Models\HomeViewModels\HomeViewModelBooksMin.cs" />
     <Compile Include="Models\HomeViewModels\HomeViewModelEventsMin.cs" />
@@ -389,7 +390,7 @@
     <Compile Include="Models\Tools\UserSideStorageKeys.cs" />
     <Compile Include="Models\Tables\Bugs.cs" />
     <Compile Include="Models\TablesViews\BugsView.cs" />
-    <Compile Include="Models\HomeViewModels\HomeViewModelTracks.cs" />
+    <Compile Include="Models\HomeViewModels\HomeViewModelRoads.cs" />
     <Compile Include="Models\HomeViewModels\HomeViewModelBooks.cs" />
     <Compile Include="Models\HomeViewModels\HomeViewModelSerials.cs" />
     <Compile Include="Models\HomeViewModels\HomeViewModelFilms.cs" />
@@ -674,7 +675,7 @@
     <Content Include="Views\Home\Parts\Films.cshtml" />
     <Content Include="Views\Home\Parts\Serials.cshtml" />
     <Content Include="Views\Home\Parts\Books.cshtml" />
-    <Content Include="Views\Home\Parts\Tracks.cshtml" />
+    <Content Include="Views\Home\Parts\Roads.cshtml" />
     <Content Include="Views\_ViewStart.cshtml" />
     <Content Include="Views\BrowserFilter\Index.cshtml" />
     <Content Include="Views\Home\Parts\About.cshtml" />

@@ -201,6 +201,14 @@ namespace MySeenWeb.Controllers
                                 ReadUserSideStorage(UserSideStorageKeys.ImprovementsCategory,
                                     Defaults.ComplexBase.Indexes.All), page ?? 1, Rpp));
                 }
+                else if (ReadUserSideStorage(UserSideStorageKeys.HomeCategory, Defaults.CategoryBase.Indexes.Films) ==
+                            Defaults.CategoryBase.Indexes.Roads)
+                {
+                    return
+                        Json(
+                            new HomeViewModelRoads(User.Identity.GetUserId(), MarkersOnRoads,
+                                ReadUserSideStorage(UserSideStorageKeys.RoadsYear, 0)));
+                }
                 return Json("NOT REALIZED");
             }
             catch (Exception ex)

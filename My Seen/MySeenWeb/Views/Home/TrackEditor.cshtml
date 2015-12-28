@@ -124,6 +124,7 @@
                 var $loadingTrackDatesBegin = $('#loadingdatetimepickerModal');
                 var $loadingTrackDateEnd = $('#datetimepickerModal');
 
+
                 @if (Model.NewTrack)
                 {
                     @:$datetimepicker.val('@DateTime.Now');
@@ -133,10 +134,10 @@
                 {
                     @:$loadingTrackNameBegin.show();
                     @:$loadingTrackNameEnd.hide();
-                    @:$.getJSON('/Home/GetTrackNameById/' + '@Model.Id' + '/', function (name) { $trackName.val(name); $loadingTrackNameBegin.hide(); $loadingTrackNameEnd.show(); });
+                    @:$.post('/Home/GetTrackNameById/', { id: '@Model.Id' }, function(name) { $trackName.val(name); $loadingTrackNameBegin.hide(); $loadingTrackNameEnd.show(); }, "json");
                     @:$loadingTrackDatesBegin.show();
                     @:$loadingTrackDateEnd.hide();
-                    @:$.getJSON('/Home/GetTrackDateById/' + '@Model.Id' + '/', function (date) { $trackDate.val(date); $loadingTrackDatesBegin.hide(); $loadingTrackDateEnd.show(); });
+                    @:$.post('/Home/GetTrackDateById/', { id: '@Model.Id' }, function(date) { $trackDate.val(date); $loadingTrackDatesBegin.hide(); $loadingTrackDateEnd.show(); }, "json");
                     @:$submitAddButton.hide();
                     @:$saveButton.show();
                     @:$modalTitle.text('@Resource.Edit @Resource.Track');

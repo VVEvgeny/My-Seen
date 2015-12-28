@@ -1,4 +1,5 @@
-﻿using MySeenLib;
+﻿using System;
+using MySeenLib;
 using MySeenWeb.Models.Tables;
 
 namespace MySeenWeb.Models.TablesViews
@@ -45,6 +46,10 @@ namespace MySeenWeb.Models.TablesViews
         {
             get
             {
+                if (Date == new DateTime(1980, 3, 3))
+                {
+                    return UserId;
+                }
                 return Date.ToShortDateString();
             }
         }

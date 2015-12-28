@@ -38,11 +38,11 @@ namespace MySeenWeb.Models
                 return Selected == Defaults.CategoryBase.Indexes.Books.ToString();
             }
         }
-        public bool PageTracks
+        public bool PageRoads
         {
             get
             {
-                return Selected == Defaults.CategoryBase.Indexes.Tracks.ToString();
+                return Selected == Defaults.CategoryBase.Indexes.Roads.ToString();
             }
         }
         public bool PageUsers
@@ -78,7 +78,7 @@ namespace MySeenWeb.Models
         public HomeViewModelFilmsMin Films;
         public HomeViewModelSerialsMin Serials;
         public HomeViewModelBooksMin Books;
-        public HomeViewModelTracks Tracks;
+        public HomeViewModelRoadsMin Roads;
         public HomeViewModelLogsMin Logs;
         public HomeViewModelImprovementsMin Improvements;
         public HomeViewModelAbout About;
@@ -91,7 +91,8 @@ namespace MySeenWeb.Models
                 Selected = selected;
                 if (PageSerials) Serials = new HomeViewModelSerialsMin();
                 else if (PageBooks) Books = new HomeViewModelBooksMin();
-                else if (PageTracks) Tracks = new HomeViewModelTracks(userId, markersOnRoads, roadsYear);
+                //else if (PageTracks) Roads = new HomeViewModelRoads(userId, markersOnRoads, roadsYear);
+                else if (PageRoads) Roads = new HomeViewModelRoadsMin();
                 else if (PageUsers) { }
                 else if (PageLogs) Logs = new HomeViewModelLogsMin();
                 else if (PageImprovements) Improvements = new HomeViewModelImprovementsMin(complex);

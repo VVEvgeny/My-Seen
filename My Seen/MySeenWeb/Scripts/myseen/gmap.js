@@ -1,7 +1,8 @@
 var Language;//en/ru
 var Markers;
 
-function initialGmap(language,markers) {
+function initialGmap(language, markers) {
+    console.log("markers=", markers);
     Language = language;
     Markers = markers;
 
@@ -45,7 +46,7 @@ function clearMap() {
 
 function addMarker(markerCoords, data, icon, id, key) {
 
-    if (Markers==="False") return;
+    if (Markers === false) return;
 
     var trackCoordsLatLng = new window.google.maps.LatLng(markerCoords.Latitude, markerCoords.Longitude);
 
@@ -100,7 +101,10 @@ function addMarker(markerCoords, data, icon, id, key) {
 
 function showTrack(id, centerAndZoom,color) {
 
-    $.getJSON('/Home/GetTrack/' + id + '/', function (trackInfo) {
+    var data = { id: id };
+
+    $.post('/Home/GetTrack/', data, function (trackInfo) {
+
         var trackCoordsLatLng = [];
         $.each(trackInfo.Path, function (i, item) {
             trackCoordsLatLng.push(new window.google.maps.LatLng(item.Latitude, item.Longitude));
@@ -116,10 +120,11 @@ function showTrack(id, centerAndZoom,color) {
         else {
             addPolyline(trackCoordsLatLng, color);
         }
-        
+
         addMarker(trackInfo.Start, trackInfo.Name + " - " + trackInfo.DateText, "start", trackInfo.Id);
         addMarker(trackInfo.End, trackInfo.Name + " - " + trackInfo.DateText, "end", trackInfo.Id);
-    });
+
+    }, "json");
 }
 
 function showTracks(id, key, shareTrackInfo) {
@@ -132,21 +137,31 @@ function showTracks(id, key, shareTrackInfo) {
         });
 
         addPolyline(trackCoordsLatLng, id === item.Id ? "green" : "");
-        addMarker(item.Start, "Start " + item.Name + " - " + item.DateText, "start", item.Id, key);
-        addMarker(item.End, "End " + item.Name + " - " + item.DateText, "end", item.Id, key);
+        addMarker(item.Start, item.Name + " - " + item.DateText, "start", item.Id, key);
+        addMarker(item.End, item.Name + " - " + item.DateText, "end", item.Id, key);
     });
 
     SetZoomAndCenter(shareTrackInfo.Center, getZoom(shareTrackInfo.Min, shareTrackInfo.Max));
 }
 
 function showTrackByKey(id, key) {
-    $.getJSON('/Home/GetTrackByKey/' + key + '/', function (shareTrackInfo) {
-        showTracks(id, key, shareTrackInfo);
-    });
+
+    var data = { id: key };
+
+    $.post('/Home/GetTrackByKey/', data, function (jsonData) {
+
+        showTracks(id, key, jsonData);
+
+    }, "json");
 }
 
-function showTrackByType(id, type) {
-    $.getJSON('/Home/GetTrackByType/' + type + '/', function (shareTrackInfo) {
-        showTracks(id, type, shareTrackInfo);
-    });
+function showTrackByType(id) {
+
+    var data = { id: id };
+
+    $.post('/Home/GetTrackByType/', data, function (jsonData) {
+
+        showTracks(id, id, jsonData);
+
+    }, "json");
 }

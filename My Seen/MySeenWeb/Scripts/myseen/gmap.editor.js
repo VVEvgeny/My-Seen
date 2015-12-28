@@ -65,7 +65,9 @@ function updateMarker(marker, event, context)
 
 function showTrack(id, centerAndZoom) {
 
-    $.getJSON('/Home/GetTrack/' + id + '/', function (trackInfo) {
+    var data = { id: id };
+    $.post('/Home/GetTrack/', data, function (trackInfo) {
+
         //var trackCoordsLatLng = [];
         $.each(trackInfo.Path, function (i, item) {
             //trackCoordsLatLng.push(new window.google.maps.LatLng(item.Latitude, item.Longitude));
@@ -79,7 +81,8 @@ function showTrack(id, centerAndZoom) {
 
             SetZoomAndCenter(trackInfo.Center, getZoom(trackInfo.Min, trackInfo.Max));
         }
-    });
+
+    }, "json");
 }
 
 // add marker and manage which one it is (A, B)

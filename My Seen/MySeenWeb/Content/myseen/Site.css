@@ -90,6 +90,10 @@ table th
 text-align: center;
 }
 
+.alignCenter {
+text-align: center;
+}
+
 .align-left {
 text-align: left;
 }

@@ -36,12 +36,11 @@
 @if(!Admin.IsDebug)
 {
     @Html.Partial("../Analytics/Yandex")
+    
     @Html.Partial("../Analytics/Google")
+    @Html.Partial("../Ads/Google")
 }
 @Html.Partial("../Tools/TestCookie")
-
-
-@Html.Partial("../Ads/Google")
 
 </body>
 </html>

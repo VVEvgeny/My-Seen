@@ -386,13 +386,14 @@ namespace MySeenWeb.Controllers
             return new JsonResult { Data = new { success = false, error = methodName } };
         }
         [Authorize]
+        [HttpPost]
         public ActionResult GetTrack(int id)
         {
             var logger = new NLogLogger();
             const string methodName = "public ActionResult GetTrack(int id)";
             try
             {
-                return Json(HomeViewModelTracks.GetTrack(id, User.Identity.GetUserId()), JsonRequestBehavior.AllowGet);
+                return Json(HomeViewModelRoads.GetTrack(id, User.Identity.GetUserId()));
             }
             catch (Exception ex)
             {
@@ -401,13 +402,14 @@ namespace MySeenWeb.Controllers
             return new JsonResult { Data = new { success = false, error = methodName } };
         }
         //[Authorize]
+        [HttpPost]
         public ActionResult GetTrackByKey(string id)
         {
             var logger = new NLogLogger();
             const string methodName = "public ActionResult GetTrackByKey(string id)";
             try
             {
-                return Json(HomeViewModelTracks.GetTrackByKey(id, ReadUserSideStorage(UserSideStorageKeys.RoadsYear, 0)), JsonRequestBehavior.AllowGet);
+                return Json(HomeViewModelRoads.GetTrackByKey(id, ReadUserSideStorage(UserSideStorageKeys.RoadsYear, 0)));
             }
             catch (Exception ex)
             {
@@ -416,13 +418,29 @@ namespace MySeenWeb.Controllers
             return new JsonResult { Data = new { success = false, error = methodName } };
         }
         [Authorize]
+        [HttpPost]
         public ActionResult GetTrackByType(string id)
         {
             var logger = new NLogLogger();
             const string methodName = "public ActionResult GetTrackByType(string id)";
             try
             {
-                return Json(HomeViewModelTracks.GetTrackByType(id, ReadUserSideStorage(UserSideStorageKeys.RoadsYear, 0)), JsonRequestBehavior.AllowGet);
+                return Json(HomeViewModelRoads.GetTrackByType(id, ReadUserSideStorage(UserSideStorageKeys.RoadsYear, 0)));
+            }
+            catch (Exception ex)
+            {
+                logger.Error(methodName, ex);
+            }
+            return new JsonResult { Data = new { success = false, error = methodName } };
+        }
+        [HttpPost]
+        public ActionResult GetMarkers()
+        {
+            var logger = new NLogLogger();
+            const string methodName = "public ActionResult GetMarkers()";
+            try
+            {
+                return Json(ReadUserSideStorage(UserSideStorageKeys.MarkersOnRoads, 0) == Defaults.EnabledDisabledBase.Indexes.Enabled);
             }
             catch (Exception ex)
             {
@@ -431,13 +449,14 @@ namespace MySeenWeb.Controllers
             return new JsonResult { Data = new { success = false, error = methodName } };
         }
         [Authorize]
+        [HttpPost]
         public ActionResult GetTrackNameById(int id)
         {
             var logger = new NLogLogger();
             const string methodName = "public ActionResult GetTrackNameById(int id)";
             try
             {
-                return Json(HomeViewModelTracks.GetTrackNameById(id, User.Identity.GetUserId()), JsonRequestBehavior.AllowGet);
+                return Json(HomeViewModelRoads.GetTrackNameById(id, User.Identity.GetUserId()));
             }
             catch (Exception ex)
             {
@@ -446,13 +465,14 @@ namespace MySeenWeb.Controllers
             return new JsonResult { Data = new { success = false, error = methodName } };
         }
         [Authorize]
+        [HttpPost]
         public ActionResult GetTrackDateById(int id)
         {
             var logger = new NLogLogger();
             const string methodName = "public ActionResult GetTrackDateById(int id)";
             try
             {
-                return Json(HomeViewModelTracks.GetTrackDateById(id, User.Identity.GetUserId()), JsonRequestBehavior.AllowGet);
+                return Json(HomeViewModelRoads.GetTrackDateById(id, User.Identity.GetUserId()));
             }
             catch (Exception ex)
             {
@@ -461,13 +481,14 @@ namespace MySeenWeb.Controllers
             return new JsonResult { Data = new { success = false, error = methodName } };
         }
         [Authorize]
+        [HttpPost]
         public ActionResult GetTrackShare(string id)
         {
             var logger = new NLogLogger();
             const string methodName = "public ActionResult GetTrackShare(string id)";
             try
             {
-                return Json(HomeViewModelTracks.GetTrackShare(id, User.Identity.GetUserId()), JsonRequestBehavior.AllowGet);
+                return Json(HomeViewModelRoads.GetTrackShare(id, User.Identity.GetUserId()));
             }
             catch (Exception ex)
             {
@@ -476,13 +497,14 @@ namespace MySeenWeb.Controllers
             return new JsonResult { Data = new { success = false, error = methodName } };
         }
         [Authorize]
+        [HttpPost]
         public ActionResult GetEventShare(string id)
         {
             var logger = new NLogLogger();
             const string methodName = "public ActionResult GetEventShare(string id)";
             try
             {
-                return Json(HomeViewModelEvents.GetShare(id, User.Identity.GetUserId()), JsonRequestBehavior.AllowGet);
+                return Json(HomeViewModelEvents.GetShare(id, User.Identity.GetUserId()));
             }
             catch (Exception ex)
             {
@@ -491,13 +513,14 @@ namespace MySeenWeb.Controllers
             return new JsonResult { Data = new { success = false, error = methodName } };
         }
         [Authorize]
+        [HttpPost]
         public ActionResult GenerateEventShare(string id)
         {
             var logger = new NLogLogger();
             const string methodName = "public ActionResult GenerateEventShare(string id)";
             try
             {
-                return Json(HomeViewModelEvents.GenerateShare(id, User.Identity.GetUserId()), JsonRequestBehavior.AllowGet);
+                return Json(HomeViewModelEvents.GenerateShare(id, User.Identity.GetUserId()));
             }
             catch (Exception ex)
             {
@@ -506,13 +529,14 @@ namespace MySeenWeb.Controllers
             return new JsonResult { Data = new { success = false, error = methodName } };
         }
         [Authorize]
+        [HttpPost]
         public ActionResult DeleteEventShare(string id)
         {
             var logger = new NLogLogger();
             const string methodName = "public ActionResult DeleteEventShare(string id)";
             try
             {
-                return Json(HomeViewModelEvents.DeleteShare(id, User.Identity.GetUserId()), JsonRequestBehavior.AllowGet);
+                return Json(HomeViewModelEvents.DeleteShare(id, User.Identity.GetUserId()));
             }
             catch (Exception ex)
             {
@@ -521,13 +545,14 @@ namespace MySeenWeb.Controllers
             return new JsonResult { Data = new { success = false, error = methodName } };
         }
         [Authorize]
+        [HttpPost]
         public ActionResult GenerateTrackShare(string id)
         {
             var logger = new NLogLogger();
             const string methodName = "public ActionResult GenerateTrackShare(string id)";
             try
             {
-                return Json(HomeViewModelTracks.GenerateTrackShare(id, User.Identity.GetUserId()), JsonRequestBehavior.AllowGet);
+                return Json(HomeViewModelRoads.GenerateTrackShare(id, User.Identity.GetUserId()));
             }
             catch (Exception ex)
             {
@@ -536,14 +561,15 @@ namespace MySeenWeb.Controllers
             return new JsonResult { Data = new { success = false, error = methodName } };
         }
         [Authorize]
+        [HttpPost]
         public ActionResult DeleteTrackShare(string id)
         {
             var logger = new NLogLogger();
             const string methodName = "public ActionResult DeleteTrackShare(string id)";
             try
             {
-                HomeViewModelTracks.DeleteTrackShare(id, User.Identity.GetUserId());
-                return Json(new { success = true }, JsonRequestBehavior.AllowGet);
+                HomeViewModelRoads.DeleteTrackShare(id, User.Identity.GetUserId());
+                return Json(new { success = true });
             }
             catch (Exception ex)
             {
@@ -558,8 +584,8 @@ namespace MySeenWeb.Controllers
             const string methodName = "public ActionResult DeleteTrack(string id)";
             try
             {
-                HomeViewModelTracks.DeleteTrack(id, User.Identity.GetUserId());
-                return Json(new { success = true }, JsonRequestBehavior.AllowGet);
+                HomeViewModelRoads.DeleteTrack(id, User.Identity.GetUserId());
+                return Json(new { success = true });
             }
             catch (Exception ex)
             {
@@ -568,13 +594,14 @@ namespace MySeenWeb.Controllers
             return new JsonResult { Data = new { success = false, error = methodName } };
         }
         [Authorize]
+        [HttpPost]
         public ActionResult GetTrackCoordinatesById(int id)
         {
             var logger = new NLogLogger();
             const string methodName = "public ActionResult GetTrackCoordinatesById(int id)";
             try
             {
-                return Json(HomeViewModelTracks.GetTrackCoordinatesById(id, User.Identity.GetUserId()), JsonRequestBehavior.AllowGet);
+                return Json(HomeViewModelRoads.GetTrackCoordinatesById(id, User.Identity.GetUserId()));
             }
             catch (Exception ex)
             {
