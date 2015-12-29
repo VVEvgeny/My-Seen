@@ -247,6 +247,10 @@ namespace MySeenWeb.Controllers.Home
                 {
                     return Json(new ShareViewModelEvents(key, page ?? 1, Rpp));
                 }
+                else if (pageName.ToLower() == "roads")
+                {
+                    return Json(new ShareViewModelTracks(key, MarkersOnRoads, ReadUserSideStorage(UserSideStorageKeys.RoadsYear, 0)));
+                }
                 return Json("NOT REALIZED");
             }
             catch (Exception ex)

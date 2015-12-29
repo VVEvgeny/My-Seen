@@ -82,7 +82,7 @@ namespace MySeenWeb.Controllers.Home
             const string methodName = "public ActionResult Tracks(string id)";
             try
             {
-                return View(new ShareViewModelTracks(id, MarkersOnRoads, ReadUserSideStorage(UserSideStorageKeys.RoadsYear, 0)));
+                return View(new ShareViewModelTracksMin(id));
             }
             catch (Exception ex)
             {

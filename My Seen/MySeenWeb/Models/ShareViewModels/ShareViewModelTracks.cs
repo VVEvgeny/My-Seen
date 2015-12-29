@@ -13,7 +13,6 @@ namespace MySeenWeb.Models.ShareViewModels
     /// </summary>
     public class ShareViewModelTracks : ShareViewModelBaseMin
     {
-        public string Key { get; set; }
         public IEnumerable<TracksView> Data { get; set; }
         public bool AllUsersTracks { get; set; }
         public int Count
@@ -41,7 +40,6 @@ namespace MySeenWeb.Models.ShareViewModels
         public ShareViewModelTracks(string key, int markersOnRoads, int roadsYear)
         {
             Markers = markersOnRoads == Defaults.EnabledDisabledBase.Indexes.Enabled;
-            Key = key;
             var userId = string.Empty;
             var ac=new ApplicationDbContext();
             var years = new List<SelectListItem> { 
@@ -115,7 +113,7 @@ namespace MySeenWeb.Models.ShareViewModels
                     });
                 }
             }
-            else
+            else //Конкретный трек с названием
             {
                 AllUsersTracks = false;
                 Data = ac.Tracks.Where(t => t.ShareKey == key).Select(TracksView.Map).ToList();

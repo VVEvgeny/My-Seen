@@ -22,7 +22,7 @@
             <div class="panel-heading">
                 @Resource.Tracks
                 <span class="alert-info small">
-                    Years list
+                    <select class="input-sm" id="lstYears" data-bind="options: yearsList, optionsText: 'text', optionsValue: 'value', value: selectedYear"></select>
                 </span>
                 <span class="pull-right alert-info small">
                     <button class="btn btn-xs btn-info" id="All"><small><span class="glyphicon glyphicon-share"></span></small></button>
@@ -141,6 +141,12 @@
         this.distance = ko.observable(data.DistanceText);
     }
 
+    function SelectList(data) {
+        this.text = ko.observable(data.Text);
+        this.value = ko.observable(data.Value);
+        this.selected = ko.observable(data.Selected);
+    }
+
     function RoadsViewModel() {
 
         var self = this;
@@ -148,52 +154,59 @@
         self.dataFoot = ko.observableArray([]);
         self.dataBike = ko.observableArray([]);
         self.dataCar = ko.observableArray([]);
+        self.yearsList = ko.observableArray([]);
+        self.selectedYear = ko.observable();
+
+        self.selectedYear.subscribe(function (newValue) {
+            if (self.dataLoading() === true) {
+                //console.log("data loading no need redirect");
+                return;
+            }
+
+            $.post('/Home/ChangeCookiesRoads/', { selected: newValue }, function () {
+                window.getPage(); //Запрос на сервер
+                }, "json");
+        });
 
         self.dataLoading = ko.observable();
         self.dataLoading(true);
 
         self.haveFoot = ko.observable();
-        self.haveFoot(false);
         self.haveBike = ko.observable();
-        self.haveBike(false);
         self.haveCar = ko.observable();
-        self.haveCar(false);
 
         self.mainTabFoot = ko.observable();
-        self.mainTabFoot(false);
         self.mainTabBike = ko.observable();
-        self.mainTabBike(false);
         self.mainTabCar = ko.observable();
-        self.mainTabCar(false);
 
         self.loadData = function(data) {
 
             var mappedFoot = $.map(data.DataFoot, function(item) { return new Road(item) });
             var mappedBike = $.map(data.DataBike, function(item) { return new Road(item) });
-            var mappedCar = $.map(data.DataCar, function(item) { return new Road(item) });
+            var mappedCar = $.map(data.DataCar, function (item) { return new Road(item) });
+            self.yearsList($.map(data.YearsList, function (item) { return new SelectList(item); }));
 
-            if (self.dataFoot().length > 0) {
-                self.dataFoot.push.apply(self.dataFoot, mappedFoot);
-            } else {
-                self.dataFoot(mappedFoot);
+            //console.log("self.yearsList().length=", self.yearsList().length);
+            for (var i = 0; i < self.yearsList().length; i += 1) {
+                var dataYear = self.yearsList()[i];
+                //console.log("selected=", dataYear.selected());
+                if (dataYear.selected() === true) {
+                    //console.log("selectedYear=", dataYear.value());
+                    self.selectedYear(dataYear.value());
+                }
             }
 
-            if (self.dataBike().length > 0) {
-                self.dataBike.push.apply(self.dataBike, mappedBike);
-            } else {
-                self.dataBike(mappedBike);
-            }
+            self.dataFoot(mappedFoot);
+            self.dataBike(mappedBike);
+            self.dataCar(mappedCar);
 
-            if (self.dataCar().length > 0) {
-                self.dataCar.push.apply(self.dataCar, mappedCar);
-            } else {
-                self.dataCar(mappedCar);
-            }
+            self.haveFoot(data.HaveFoot);
+            self.haveBike(data.HaveBike);
+            self.haveCar(data.HaveCar);
 
-            this.haveFoot(data.HaveFoot);
-            this.haveBike(data.HaveBike);
-            this.haveCar(data.HaveCar);
-
+            self.mainTabFoot(false);
+            self.mainTabBike(false);
+            self.mainTabCar(false);
 
             if (self.haveFoot() === true) {
                 self.mainTabFoot(true);
@@ -214,6 +227,8 @@
 
         self.resetData = function() {
             self.dataFoot.removeAll();
+            self.dataBike.removeAll();
+            self.dataCar.removeAll();
         };
 
         self.setLoadingData = function() {
@@ -280,7 +295,9 @@
                         } else {
                             $modal.modal('hide');
                             $modalShare.modal('hide');
-                            if (!noRedirect) window.location.href = window.location.href;
+                            if (!noRedirect)
+                                window.getPage(); //Запрос на сервер
+                                //window.location.href = window.location.href;
                         }
                     },
                     error: function (err) {
@@ -290,20 +307,6 @@
 
                 return false;
             }
-
-            var $select = $('#lstYears');
-            $select.on('change', function () {
-                var value = $(this).val();
-
-                url = '/Home/ChangeCookiesRoads';
-                data = {
-                    selected: value
-                };
-
-                sendRequest(url, data);
-
-                return false;
-            });
 
             var toEditorTextDefault = '/Home/TrackEditor';
             var toEditorText = toEditorTextDefault;

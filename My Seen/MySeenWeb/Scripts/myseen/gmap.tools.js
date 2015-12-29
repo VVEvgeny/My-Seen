@@ -56,8 +56,8 @@ function getZoom(min, max) {
     var p2 = new window.google.maps.LatLng(min.Latitude, min.Longitude);
     var maxLen = window.google.maps.geometry.spherical.computeDistanceBetween(p1, p2) / 1000;
 
-    console.log(".width()=", $(window).width());
-    console.log("len=", maxLen);
+    //console.log(".width()=", $(window).width());
+    //console.log("len=", maxLen);
 
     var zoom = 12;
     if (maxLen < 10) zoom = 14;
@@ -70,7 +70,7 @@ function getZoom(min, max) {
     else if (maxLen >= 1000 && maxLen < 1300) zoom = 5;
     else if (maxLen >= 1300 && maxLen < 3500) zoom = 3;
     else if (maxLen >= 3500) zoom = 2;
-    console.log("zoom=", zoom);
+    //console.log("zoom=", zoom);
     if ($(window).width() < 400) {
         zoom -= 1;
         //console.log("zoom width() < 400=", zoom);

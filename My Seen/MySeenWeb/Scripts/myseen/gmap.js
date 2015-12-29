@@ -2,7 +2,7 @@ var Language;//en/ru
 var Markers;
 
 function initialGmap(language, markers) {
-    console.log("markers=", markers);
+    //console.log("markers=", markers);
     Language = language;
     Markers = markers;
 
@@ -90,7 +90,7 @@ function addMarker(markerCoords, data, icon, id, key) {
                 click: function () {
                     if (id) {
                         //console.log("key="+key);
-                        if (key) showTrackByKey(key, id);
+                        if (key) showTrackByKey(id, key);
                         else showTrack(id, true, "green");
                     }
                 }

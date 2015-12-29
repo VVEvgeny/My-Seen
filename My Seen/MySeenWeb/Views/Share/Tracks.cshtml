@@ -1,99 +1,139 @@
-﻿@using MySeenWeb.Models;
-
-@model MySeenWeb.Models.ShareViewModels.ShareViewModelTracks
-
-<br />
+﻿@model MySeenWeb.Models.ShareViewModels.ShareViewModelTracksMin
 
 @Scripts.Render("~/bundles/jquery", "~/bundles/bootstrap")
 @Scripts.Render("~/bundles/gmap3", "~/bundles/myseen.gmap")
+@Scripts.Render("~/bundles/knockout")
 
 <script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?libraries=geometry&amp;language=@CultureInfoTool.GetCulture()"></script>
 
-<div class="panel panel-primary col-md-12">
-    <div class="panel panel-default">
-        <div class="panel-heading">
-            @Resource.Legend
-            <span class="alert-info small">
-                @Html.DropDownList("Years", Model.YearsList, new { @class = "input-sm", @id = "lstYears", @style = "width: 100px;" })
-            </span>
-        </div>
-        <div class="tab-content">
-            @if (Model.AllUsersTracks)
-            {
-                <div>
-                    <a href="#" class="list-group-item track-id">
-                        <h5 class="list-group-item-text align-center">@Resource.Tracks :<span class="badge pull-right">@Model.Count</span></h5>
-                        <h6 class="list-group-item-text align-center">@Resource.Distance :<span class="badge pull-right alert-info small">@Model.DistanceText</span></h6>
-                    </a>
-                </div>
-            }
-            else
-            {
-                <div>
-                    @foreach (var track in Model.Data)
-                    {
-                        <a href="" class="list-group-item track-id" id=@track.Id>
-                            <h5 class="list-group-item-heading">@track.Name<span class="badge pull-right">@track.DateText</span></h5>
-                            <h6 class="list-group-item-text align-center">@Resource.Distance :<span class="badge pull-right alert-info small">@track.DistanceText</span></h6>
-                        </a>
-                    }
-                </div>
-            }
-        </div>
-    </div>
+<br />
+
+<div data-bind="visible: dataLoading " align="center">
+    <img src="~/Content/Images/loading_small.gif"/>
 </div>
+
 <div class="panel panel-primary col-md-12">
     <div class="panel panel-default">
         <div class="panel-heading">@Resource.Map</div>
         <div id="my_map" class="gmap page-size-gmap"></div>
     </div>
 </div>
+<div class="panel panel-primary col-md-12">
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            @Resource.Legend
+            <span class="alert-info small">
+                <select class="input-sm" id="lstYears" data-bind="options: yearsList, optionsText: 'text', optionsValue: 'value', value: selectedYear"></select>
+            </span>
+        </div>
+        <div class="tab-content">
+            <div data-bind="foreach: data">
+                <a href="#" class="list-group-item track-id">
+                    <h5 class="list-group-item-heading">
+                        <span data-bind="text: name"></span>
+                        <span class="badge pull-right" data-bind="text: date"></span>
+                     </h5>
+                    <h6 class="list-group-item-text align-center">@Resource.Distance :<span class="badge pull-right alert-info small" data-bind="text: distance"></span></h6>
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
 
 @Html.Partial("Tools/Services", Model)
 
+@Html.Partial("Tools/GetPage")
+
 <script language="javascript" type="text/javascript">
-    (function ($) {
-        initialGmap('@CultureInfoTool.GetCulture()', '@Model.Markers');
-        $(function () {
-            var $select = $('#lstYears');
+    function ShareRoad(data) {
 
-            showTrackByKey('@Model.Key', '@Model.Key');
-            var url = '';
-            var data = {};
-            function sendRequest(innerUrl, innerData, noRedirect) {
-                $.ajax({
-                    type: 'POST',
-                    url: innerUrl,
-                    data: innerData,
-                    dataType: 'json',
-                    success: function (response) {
-                        if (response.error) {
-                            alert(response.error);
-                        }
-                        else {
-                            if (!noRedirect) window.location.href = window.location.href;
-                        }
-                    },
-                    error: function (err) {
-                        alert(err);
-                    }
-                });
+        this.name = ko.observable(data.Name);
+        this.date = ko.observable(data.DateText);
+        this.distance = ko.observable(data.DistanceText);
+    }
 
-                return false;
+    function SelectList(data) {
+        this.text = ko.observable(data.Text);
+        this.value = ko.observable(data.Value);
+        this.selected = ko.observable(data.Selected);
+    }
+
+    function ShareRoadsViewModel() {
+
+        var self = this;
+
+        self.data = ko.observableArray([]);
+
+        self.yearsList = ko.observableArray([]);
+        self.selectedYear = ko.observable();
+
+        self.selectedYear.subscribe(function (newValue) {
+            if (self.dataLoading() === true) {
+                //console.log("data loading no need redirect");
+                return;
             }
 
-            $select.on('change', function () {
-                var value = $(this).val();
+            $.post('/Home/ChangeCookiesRoads/', { selected: newValue }, function () {
+                window.getPage(); //Запрос на сервер
+                showTrackByKey('@Model.Key', '@Model.Key');
+            }, "json");
+        });
 
-                url = '/Home/ChangeCookiesRoads';
-                data = {
-                    selected: value
-                };
+        self.dataLoading = ko.observable();
+        self.dataLoading(true);
 
-                sendRequest(url, data);
+        self.loadData = function (data) {
 
-                return false;
-            });
+            var mapped = $.map(data.Data, function (item) { return new ShareRoad(item) });
+            self.yearsList($.map(data.YearsList, function (item) { return new SelectList(item); }));
+
+            //console.log("self.yearsList().length=", self.yearsList().length);
+            for (var i = 0; i < self.yearsList().length; i += 1) {
+                var dataYear = self.yearsList()[i];
+                //console.log("selected=", dataYear.selected());
+                if (dataYear.selected() === true) {
+                    //console.log("selectedYear=", dataYear.value());
+                    self.selectedYear(dataYear.value());
+                }
+            }
+
+            self.data(mapped);
+
+            self.dataLoading(false);
+        };
+
+        self.resetData = function () {
+            self.data.removeAll();
+        };
+
+        self.setLoadingData = function () {
+            self.dataLoading(true);
+        };
+    }
+
+    var model;
+
+    function showPage(data) {
+        model.loadData(data);
+    }
+
+    (function ($) {
+        $(function () {
+
+            model = new ShareRoadsViewModel();
+            ko.applyBindings(model);
+
+            window.sharedKey = '@Model.Key';
+            window.sharedPageName = 'roads';
+            window.getPage(); //Запрос на сервер
+
+            $.post('/Home/GetMarkers/', {}, function (markers) {
+
+                initialGmap('@CultureInfoTool.GetCulture()', markers);
+
+                showTrackByKey('@Model.Key', '@Model.Key');
+
+            }, "json");
 
         });
     })(jQuery);

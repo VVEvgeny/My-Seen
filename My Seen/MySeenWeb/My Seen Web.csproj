@@ -372,6 +372,7 @@
     <Compile Include="Models\ShareViewModels\ShareViewModelBooksMin.cs" />
     <Compile Include="Models\ShareViewModels\ShareViewModelSerialsMin.cs" />
     <Compile Include="Models\ShareViewModels\ShareViewModelFilmsMin.cs" />
+    <Compile Include="Models\ShareViewModels\ShareViewModelTracksMin.cs" />
     <Compile Include="Models\ShareViewModels\ShareViewModelTracks.cs" />
     <Compile Include="Models\TablesLogic\EventsLogic.cs" />
     <Compile Include="Models\TablesLogic\BooksLogic.cs" />
