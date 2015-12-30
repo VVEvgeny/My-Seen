@@ -1,0 +1,37 @@
+﻿
+<script language="javascript" type="text/javascript">
+
+    function LayoutViewModel() {
+
+        var self = this;
+        self.errorCount = ko.observable();
+        self.improvementCount = ko.observable();
+
+        self.reload = function () {
+
+            $.post('/Home/GetLayout/', {}, function (data) {
+                var errCount = data.ErrorCount;
+                if (errCount === 0) errCount = '';
+                self.errorCount(errCount);
+
+                var impCount = data.ImprovementCount;
+                if (impCount === 0) impCount = '';
+                self.improvementCount(impCount);
+
+            }, "json");
+        };
+    }
+
+    var modelLayout;
+
+    (function ($) {
+
+        $(function () {
+
+            modelLayout = new LayoutViewModel();
+            ko.applyBindings(modelLayout, document.getElementById('divLoginPartial'));
+            modelLayout.reload();
+
+        });
+    })(jQuery);
+</script>

@@ -39,7 +39,8 @@ namespace MySeenWeb.Models.TablesViews
                 Date = UmtTime.From(model.Date),
                 Distance = model.Distance,
                 Name = model.Name,
-                Type = model.Type
+                Type = model.Type,
+                ShareKey = model.ShareKey
             };
         }
         public string DateText

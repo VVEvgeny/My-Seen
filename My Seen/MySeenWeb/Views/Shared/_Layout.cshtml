@@ -3,10 +3,14 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1, maximum-scale=1">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
     <title>@Resource.AppName</title>
     @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/modernizr")
     @Scripts.Render("~/bundles/jquery", "~/bundles/bootstrap")
+    @Scripts.Render("~/bundles/knockout")
+    @Scripts.Render("~/bundles/myseen.table")
     
 </head>
 <body>
@@ -20,7 +24,7 @@
                 </button>
                 <a class="navbar-brand" href="/Home/Home">@Resource.AppName</a>
             </div>
-            <div class="navbar-collapse collapse">
+            <div class="navbar-collapse collapse" id="divLoginPartial">
                 @Html.Partial("_LoginPartial")
             </div>
         </div>

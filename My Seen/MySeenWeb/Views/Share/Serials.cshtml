@@ -1,52 +1,50 @@
 ﻿@model MySeenWeb.Models.ShareViewModels.ShareViewModelSerialsMin
 
-@Scripts.Render("~/bundles/jquery", "~/bundles/bootstrap")
-@Scripts.Render("~/bundles/myseen.table")
-@Scripts.Render("~/bundles/knockout")
-
 <br/>
 
-<div data-bind="visible: dataLoading " align="center">
-    <img src="~/Content/Images/loading_small.gif" />
-</div>
+<div id="divDataSerialsShared">
 
-<div data-bind="visible: serials().length > 0" style="display: none;">
-
-    <div class="table-responsive">
-        <table class="table table-striped" id="table">
-            <thead>
-                <tr>
-                    <th class="col-sm-4">@Resource.Name</th>
-                    <th class="col-sm-1">@Resource.Year</th>
-                    <th class="col-sm-1">@Resource.LastEpisode</th>
-                    <th class="col-sm-2">@Resource.DateLast</th>
-                    <th class="col-sm-2">@Resource.DateBegin</th>
-                    <th class="col-sm-1">@Resource.Genre</th>
-                    <th class="col-sm-1">@Resource.Rating</th>
-                </tr>
-            </thead>
-            <tbody data-bind="foreach: serials">
-                <tr>
-                    <td class="align-center" data-bind="text: name"></td>
-                    <td class="align-center" data-bind="text: year"></td>
-                    <td class="align-center" data-bind="text: season"></td>
-                    <td class="align-center" data-bind="text: dateLast"></td>
-                    <td class="align-center" data-bind="text: dateBegin"></td>
-                    <td class="align-center" data-bind="text: genre"></td>
-                    <td class="align-center" data-bind="text: rating"></td>
-                </tr>
-            </tbody>
-        </table>
+    <div data-bind="visible: dataLoading " align="center">
+        <img src="~/Content/Images/loading_small.gif" />
     </div>
 
-    @Html.Partial("../Tools/PaginationKO")
+    <div data-bind="visible: serials().length > 0" style="display: none;">
 
+        <div class="table-responsive">
+            <table class="table table-striped" id="table">
+                <thead>
+                    <tr>
+                        <th class="col-sm-4">@Resource.Name</th>
+                        <th class="col-sm-1">@Resource.Year</th>
+                        <th class="col-sm-1">@Resource.LastEpisode</th>
+                        <th class="col-sm-2">@Resource.DateLast</th>
+                        <th class="col-sm-2">@Resource.DateBegin</th>
+                        <th class="col-sm-1">@Resource.Genre</th>
+                        <th class="col-sm-1">@Resource.Rating</th>
+                    </tr>
+                </thead>
+                <tbody data-bind="foreach: serials">
+                    <tr>
+                        <td class="align-center" data-bind="text: name"></td>
+                        <td class="align-center" data-bind="text: year"></td>
+                        <td class="align-center" data-bind="text: season"></td>
+                        <td class="align-center" data-bind="text: dateLast"></td>
+                        <td class="align-center" data-bind="text: dateBegin"></td>
+                        <td class="align-center" data-bind="text: genre"></td>
+                        <td class="align-center" data-bind="text: rating"></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        @Html.Partial("../Tools/PaginationKO")
+
+    </div>
+
+    @Html.Partial("Tools/Services", Model)
+
+    @Html.Partial("Tools/GetPage")
 </div>
-
-@Html.Partial("Tools/Services", Model)
-
-@Html.Partial("Tools/GetPage")
-
 
 <script language="javascript" type="text/javascript">
 
@@ -102,7 +100,7 @@
         $(function() {
 
             model = new SerialsViewModel();
-            ko.applyBindings(model);
+            ko.applyBindings(model, document.getElementById('divDataSerialsShared'));
 
             window.sharedKey = '@Model.Key';
             window.sharedPageName = 'serials';

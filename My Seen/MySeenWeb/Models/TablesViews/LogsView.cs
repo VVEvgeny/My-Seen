@@ -62,6 +62,7 @@ namespace MySeenWeb.Models.TablesViews
             {
                 var result = new List<string>();
                 if (AddData.Length != 0) result.AddRange(AddData.Replace("_", " ").Replace("!%!", "_").Split('_'));
+                while (result.Contains("/")) result.Remove("/");
                 return result;
             }
         }

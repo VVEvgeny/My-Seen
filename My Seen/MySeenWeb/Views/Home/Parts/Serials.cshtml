@@ -1,23 +1,21 @@
-﻿@using MySeenWeb.Models;
-
-@model HomeViewModelSerialsMin
+﻿@model MySeenWeb.Models.HomeViewModelSerialsMin
 
 @Scripts.Render("~/bundles/datetimepicker")
 @Styles.Render("~/Content/datetimepicker.css")
-@Scripts.Render("~/bundles/myseen.table")
-@Scripts.Render("~/bundles/knockout")
 
 <br />
 
-<div data-bind="visible: dataLoading " align="center">
-    <img src="~/Content/Images/loading_small.gif" />
-</div>
+<div id="divDataSerials">
 
-<div data-bind="visible: serials().length > 0" style="display: none;">
+    <div data-bind="visible: dataLoading " align="center">
+        <img src="~/Content/Images/loading_small.gif"/>
+    </div>
 
-    <div class="table-responsive">
-        <table class="table table-striped" id="table">
-            <thead>
+    <div data-bind="visible: serials().length > 0" style="display: none;">
+
+        <div class="table-responsive">
+            <table class="table table-striped" id="table">
+                <thead>
                 <tr>
                     <th class="col-sm-1"></th>
                     <th class="col-sm-3">@Resource.Name</th>
@@ -28,8 +26,8 @@
                     <th class="col-sm-1">@Resource.Genre</th>
                     <th class="col-sm-1">@Resource.Rating</th>
                 </tr>
-            </thead>
-            <tbody data-bind="foreach: serials">
+                </thead>
+                <tbody data-bind="foreach: serials">
                 <tr>
                     <td class="align-center">
                         <button type="button" class="btn btn-warning btn-edit btn-xs" data-bind="attr: {id: id}"> <span class=" glyphicon glyphicon-pencil"></span></button>
@@ -43,15 +41,16 @@
                     <td class="align-center" data-bind="text: genre"></td>
                     <td class="align-center" data-bind="text: rating"></td>
                 </tr>
-            </tbody>
-        </table>
+                </tbody>
+            </table>
+        </div>
+
+        @Html.Partial("../Tools/PaginationKO")
+
     </div>
 
-    @Html.Partial("../Tools/PaginationKO")
-
+    @Html.Partial("Parts/Tools/JsonGetPage")
 </div>
-
-@Html.Partial("Parts/Tools/JsonGetPage")
 
 <div class="modal fade modal-window" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" id="ModalAddWindow">
     <div class="modal-dialog">
@@ -107,21 +106,23 @@
                 </div>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-info btn-share" id="shareGetInModalButton">
-                    <span class="glyphicon glyphicon-plus"></span>
-                    &nbsp;@Resource.Share
-                </button>
-                <button type="button" class="btn btn-danger" id="deleteButton" style="display: none;">
-                    <span class="glyphicon glyphicon-trash"></span>
-                    &nbsp;@Resource.Delete
-                </button>
+                <div class="align-center row">
+                    <button type="button" class="btn btn-info btn-share" id="shareGetInModalButton">
+                        <span class="glyphicon glyphicon-plus"></span>
+                        &nbsp;@Resource.Share
+                    </button>
+                    <button type="button" class="btn btn-danger" id="deleteButton" style="display: none;">
+                        <span class="glyphicon glyphicon-trash"></span>
+                        &nbsp;@Resource.Delete
+                    </button>
+                    <button type="button" class="btn btn-success" id="saveButton" style="display: none;">
+                        <span class="glyphicon glyphicon-ok"></span>
+                        &nbsp;@Resource.SaveСhanges
+                    </button>
+                </div>
                 <button type="button" class="btn btn-success btn-block" id="submitAddButton">
                     <span class="glyphicon glyphicon-ok"></span>
                     &nbsp;@Resource.Add
-                </button>
-                <button type="button" class="btn btn-success" id="saveButton" style="display: none;">
-                    <span class="glyphicon glyphicon-ok"></span>
-                    &nbsp;@Resource.SaveСhanges
                 </button>
             </div>
         </div>
@@ -186,7 +187,7 @@
         $(function () {
 
             model = new SerialsViewModel();
-            ko.applyBindings(model);
+            ko.applyBindings(model, document.getElementById('divDataSerials'));
 
             window.getPage(); //Запрос на сервер
 

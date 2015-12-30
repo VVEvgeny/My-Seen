@@ -9,6 +9,8 @@
             window.model.resetData();
         }
 
+        if (window.modelLayout) window.modelLayout.reload();
+
         $.post('/Json/GetPage/', data, function(jsonData) {
 
             if (jsonData === '@Auth.NoAuth') window.location = '/';

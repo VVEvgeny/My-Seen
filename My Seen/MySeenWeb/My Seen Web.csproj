@@ -58,8 +58,8 @@
       <HintPath>..\packages\Nemiro.OAuth.1.10\lib\net45\Nemiro.OAuth.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="Newtonsoft.Json, Version=7.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
-      <HintPath>..\packages\Newtonsoft.Json.7.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
+    <Reference Include="Newtonsoft.Json, Version=8.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.8.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="NLog, Version=4.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c, processorArchitecture=MSIL">
@@ -350,6 +350,7 @@
       <DependentUpon>201512240904315_32.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
+    <Compile Include="Models\HomeViewModels\HomeViewModelLayout.cs" />
     <Compile Include="Models\HomeViewModels\HomeViewModelErrorsMin.cs" />
     <Compile Include="Models\HomeViewModels\HomeViewModelErrors.cs" />
     <Compile Include="Models\HomeViewModels\HomeViewModelRoadsMin.cs" />
@@ -374,6 +375,7 @@
     <Compile Include="Models\ShareViewModels\ShareViewModelFilmsMin.cs" />
     <Compile Include="Models\ShareViewModels\ShareViewModelTracksMin.cs" />
     <Compile Include="Models\ShareViewModels\ShareViewModelTracks.cs" />
+    <Compile Include="Models\TablesLogic\RoadsLogic.cs" />
     <Compile Include="Models\TablesLogic\EventsLogic.cs" />
     <Compile Include="Models\TablesLogic\BooksLogic.cs" />
     <Compile Include="Models\TablesLogic\NLogErrorsLogic.cs" />
@@ -388,6 +390,7 @@
     <Compile Include="Models\TablesViews\ShareTrackInfo.cs" />
     <Compile Include="Models\TablesViews\ITrackInfo.cs" />
     <Compile Include="Models\TablesViews\TrackInfo.cs" />
+    <Compile Include="Models\TablesViews\LayoutView.cs" />
     <Compile Include="Models\Tables\NLogErrors.cs" />
     <Compile Include="Models\Tables\Events.cs" />
     <Compile Include="Models\Tables\UserCredits.cs" />
@@ -716,6 +719,7 @@
     <Content Include="Views\Tools\VK\_Base.cshtml" />
     <Content Include="Views\Share\Tools\Services.cshtml" />
     <Content Include="Views\Home\Parts\Ext\Errors.cshtml" />
+    <Content Include="Views\Shared\_LayoutTools.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

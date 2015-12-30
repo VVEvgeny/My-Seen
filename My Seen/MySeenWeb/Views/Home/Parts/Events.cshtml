@@ -1,23 +1,33 @@
-﻿@using MySeenWeb.Models;
-
-@model HomeViewModelEventsMin
+﻿@model MySeenWeb.Models.HomeViewModelEventsMin
 
 @Scripts.Render("~/bundles/datetimepicker")
 @Styles.Render("~/Content/datetimepicker.css")
-@Scripts.Render("~/bundles/myseen.table")
-@Scripts.Render("~/bundles/knockout")
 
-@Html.DropDownList("Selected", Model.SelectListEvents, new { @class = "form-control", @id = "lstSelectedEvents", @style = "width: 150px;" })
-
-<div data-bind="visible: dataLoading " align="center">
-    <img src="~/Content/Images/loading_small.gif" />
+<div class="form-inline">
+    <div class="form-group">
+        <div class="container">
+            <div class="row col-sm-12">
+                <div class="form-group">
+                    @Html.DropDownList("Selected", Model.SelectListEvents, new { @class = "form-control", @id = "lstSelectedEvents" })
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
 
-<div data-bind="visible: events().length > 0" style="display: none;">
 
-    <div class="table-responsive">
-        <table class="table table-striped" id="table">
-            <thead>
+
+<div id="divDataEvents">
+
+    <div data-bind="visible: dataLoading " align="center">
+        <img src="~/Content/Images/loading_small.gif"/>
+    </div>
+
+    <div data-bind="visible: events().length > 0" style="display: none;">
+
+        <div class="table-responsive">
+            <table class="table table-striped" id="table">
+                <thead>
                 <tr>
                     <th class="col-sm-1"></th>
                     <th class="col-sm-2">@Resource.Event</th>
@@ -31,8 +41,8 @@
                     <th class="col-sm-2">@Resource.When</th>
                     <th class="col-sm-1">@Resource.Day</th>
                 </tr>
-            </thead>
-            <tbody data-bind="foreach: events">
+                </thead>
+                <tbody data-bind="foreach: events">
                 <tr>
                     <td class="align-center">
                         <button type="button" class="btn btn-warning btn-edit btn-xs" data-bind="attr: {id: id}"> <span class=" glyphicon glyphicon-pencil"></span></button>
@@ -51,12 +61,13 @@
                     <td class="align-center" data-bind="text: dayOfWeekLast"></td>
                     <!-- /ko -->
                 </tr>
-            </tbody>
-        </table>
+                </tbody>
+            </table>
+        </div>
+
+        @Html.Partial("../Tools/PaginationKO")
+
     </div>
-
-    @Html.Partial("../Tools/PaginationKO")
-
 </div>
 
 @Html.Partial("Parts/Tools/JsonGetPage")
@@ -91,21 +102,23 @@
                 </div>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-info btn-share" id="shareGetInModalButton">
-                    <span class="glyphicon glyphicon-plus"></span>
-                    &nbsp;@Resource.Share
-                </button>
-                <button type="button" class="btn btn-danger" id="deleteButton" style="display: none;">
-                    <span class="glyphicon glyphicon-trash"></span>
-                    &nbsp;@Resource.Delete
-                </button>
+                <div class="align-center row">
+                    <button type="button" class="btn btn-info btn-share" id="shareGetInModalButton">
+                        <span class="glyphicon glyphicon-plus"></span>
+                        &nbsp;@Resource.Share
+                    </button>
+                    <button type="button" class="btn btn-danger" id="deleteButton" style="display: none;">
+                        <span class="glyphicon glyphicon-trash"></span>
+                        &nbsp;@Resource.Delete
+                    </button>
+                    <button type="button" class="btn btn-success" id="saveButton" style="display: none;">
+                        <span class="glyphicon glyphicon-ok"></span>
+                        &nbsp;@Resource.SaveСhanges
+                    </button>
+                </div>
                 <button type="button" class="btn btn-success btn-block" id="submitAddButton">
                     <span class="glyphicon glyphicon-ok"></span>
                     &nbsp;@Resource.Add
-                </button>
-                <button type="button" class="btn btn-success" id="saveButton" style="display: none;">
-                    <span class="glyphicon glyphicon-ok"></span>
-                    &nbsp;@Resource.SaveСhanges
                 </button>
             </div>
         </div>
@@ -290,7 +303,7 @@
         $(function () {
 
             model = new EventsViewModel();
-            ko.applyBindings(model);
+            ko.applyBindings(model, document.getElementById('divDataEvents'));
 
             window.getPage(); //Запрос на сервер
 

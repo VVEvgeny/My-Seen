@@ -2,8 +2,6 @@
 
 @model HomeViewModel
 
-@Scripts.Render("~/bundles/jquery", "~/bundles/bootstrap")
-
 <br />
 
 @if (User.Identity.IsAuthenticated)
@@ -13,11 +11,11 @@
         <div class="form-inline">
             <div class="form-group">
                 <div class="container">
-                    <div class="row">
+                    <div class="row col-sm-12">
                         <div class="form-group">
-                            <label style="display: block;">@Resource.SelectTheCategory</label>
+                            <label style="display: block;" for="lstSelected" class="control-label">@Resource.SelectTheCategory</label>
                             @Html.DropDownList("Selected", Model.SelectList, new { @class = "form-control", @id = "lstSelected" })
-                            <button type="button" class="btn btn-primary" id="addButton">
+                            <button type="button" class="form-control btn btn-primary" id="addButton">
                                 <span class="glyphicon glyphicon-plus"></span>
                                 &nbsp;@Resource.AddNew
                             </button>
@@ -25,10 +23,9 @@
                         @if (Model.PageFilms || Model.PageSerials || Model.PageBooks || Model.PageEvents)
                         {
                             <div class="form-group">
-                                <!--Переделать на поиск по БД-->
-                                <label for="quickSearch" style="display: block;">@Resource.QuickSearch:</label>
+                                <label for="quickSearch" for="quickSearch" style="display: block;">@Resource.QuickSearch:</label>
                                 <input type="text" class="form-control" id="quickSearch" style="width: 150px;">
-                                <button type="button" class="btn btn-info" id="searchButton">
+                                <button type="button" class="form-control btn btn-info" id="searchButton">
                                     <span class="glyphicon glyphicon-search"></span>
                                     &nbsp;@Resource.QuickSearch
                                 </button>

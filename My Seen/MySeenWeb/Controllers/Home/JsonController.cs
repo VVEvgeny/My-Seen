@@ -44,6 +44,11 @@ namespace MySeenWeb.Controllers.Home
                             var logic = new EventsLogic();
                             return Json(logic.GetShare(id, User.Identity.GetUserId()));
                         }
+                    case "roads":
+                        {
+                            var logic = new RoadsLogic();
+                            return Json(logic.GetShare(id, User.Identity.GetUserId()));
+                        }
                 }
             }
             catch (Exception ex)
@@ -83,6 +88,11 @@ namespace MySeenWeb.Controllers.Home
                             var logic = new EventsLogic();
                             return Json(logic.GenerateShare(id, User.Identity.GetUserId()));
                         }
+                    case "roads":
+                        {
+                            var logic = new RoadsLogic();
+                            return Json(logic.GenerateShare(id, User.Identity.GetUserId()));
+                        }
                 }
             }
             catch (Exception ex)
@@ -120,6 +130,11 @@ namespace MySeenWeb.Controllers.Home
                     case "events":
                         {
                             var logic = new EventsLogic();
+                            return Json(logic.DeleteShare(id, User.Identity.GetUserId()));
+                        }
+                    case "roads":
+                        {
+                            var logic = new RoadsLogic();
                             return Json(logic.DeleteShare(id, User.Identity.GetUserId()));
                         }
                 }

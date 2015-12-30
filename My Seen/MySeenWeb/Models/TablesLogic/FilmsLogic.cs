@@ -150,19 +150,17 @@ namespace MySeenWeb.Models.TablesLogic
         }
         public string GenerateShare(string id, string userId)
         {
-            var ac = new ApplicationDbContext();
             var iid = Convert.ToInt32(id);
-            var key = ac.Users.First(t => t.Id == userId).ShareFilmsKey;
-            ac.Films.First(e => e.Id == iid).Shared = true;
-            ac.SaveChanges();
+            var key = _ac.Users.First(t => t.Id == userId).ShareFilmsKey;
+            _ac.Films.First(e => e.Id == iid).Shared = true;
+            _ac.SaveChanges();
             return MySeenWebApi.ApiHost + MySeenWebApi.ShareFilms + key;
         }
         public string DeleteShare(string id, string userId)
         {
-            var ac = new ApplicationDbContext();
             var iid = Convert.ToInt32(id);
-            ac.Films.First(e => e.Id == iid).Shared = false;
-            ac.SaveChanges();
+            _ac.Films.First(e => e.Id == iid && e.UserId == userId).Shared = false;
+            _ac.SaveChanges();
             return "-";
         }
     }

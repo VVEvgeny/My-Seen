@@ -56,7 +56,8 @@ namespace MySeenWeb.Models
                         Name = Resource.All,
                         UserId = DataFoot.Count().ToString(),
                         Date = new DateTime(1980, 3, 3),
-                        Distance = DataFoot.Sum(item => item.Distance)
+                        Distance = DataFoot.Sum(item => item.Distance),
+                        ShareKey = "+"
                     }
                 };
                 DataFoot = dataFootAll.Concat(DataFoot);
@@ -73,7 +74,8 @@ namespace MySeenWeb.Models
                         Name = Resource.All,
                         UserId = DataCar.Count().ToString(),
                         Date = new DateTime(1980, 3, 3),
-                        Distance = DataCar.Sum(item => item.Distance)
+                        Distance = DataCar.Sum(item => item.Distance),
+                        ShareKey = "+"
                     }
                 };
                 DataCar = dataCarAll.Concat(DataCar);
@@ -90,7 +92,8 @@ namespace MySeenWeb.Models
                         Name = Resource.All,
                         UserId = DataBike.Count().ToString(),
                         Date = new DateTime(1980, 3, 3),
-                        Distance = DataBike.Sum(item => item.Distance)
+                        Distance = DataBike.Sum(item => item.Distance),
+                        ShareKey = "+"
                     }
                 };
                 DataBike = dataBikeAll.Concat(DataBike);
@@ -334,112 +337,6 @@ namespace MySeenWeb.Models
         {
             var ac = new ApplicationDbContext();
             return ac.Tracks.First(t => t.UserId == userId && t.Id == id).Coordinates;
-        }
-        public static string GetTrackShare(string id, string userId)
-        {
-            var ac = new ApplicationDbContext();
-            var key = string.Empty;
-            if (id.Contains("-"))
-            {
-                id = id.Remove(0, 1);
-                var iid = Convert.ToInt32(id);
-                switch (iid)
-                {
-                    case (int)TrackTypes.Bike:
-                        key = ac.Users.First(t => t.Id == userId).ShareTracksBikeKey;
-                        break;
-                    case (int)TrackTypes.Car:
-                        key = ac.Users.First(t => t.Id == userId).ShareTracksCarKey;
-                        break;
-                    case (int)TrackTypes.Foot:
-                        key = ac.Users.First(t => t.Id == userId).ShareTracksFootKey;
-                        break;
-                }
-            }
-            else if (id.ToLower().Contains("all"))
-            {
-                key = ac.Users.First(t => t.Id == userId).ShareTracksAllKey;
-            }
-            else
-            {
-                var iid = Convert.ToInt32(id);
-                key = ac.Tracks.First(t => t.UserId == userId && t.Id == iid).ShareKey;
-            }
-            if (string.IsNullOrEmpty(key)) return "-";
-            return MySeenWebApi.ApiHost + MySeenWebApi.ShareTracks + key;
-        }
-        public static string GenerateTrackShare(string id, string userId)
-        {
-            var ac = new ApplicationDbContext();
-            var genkey = string.Empty;
-            genkey += id + userId;
-            var r = new Random(DateTime.Now.Millisecond);
-            for (var i = 0; i < 20; i++)
-            {
-                genkey += r.Next().ToString();
-            }
-            genkey = Md5Tools.Get(genkey);
-
-            if (id.Contains("-"))
-            {
-                id = id.Remove(0, 1);
-                var iid = Convert.ToInt32(id);
-                switch (iid)
-                {
-                    case (int)TrackTypes.Bike:
-                        ac.Users.First(t => t.Id == userId).ShareTracksBikeKey = genkey;
-                        break;
-                    case (int)TrackTypes.Car:
-                        ac.Users.First(t => t.Id == userId).ShareTracksCarKey = genkey;
-                        break;
-                    case (int)TrackTypes.Foot:
-                        ac.Users.First(t => t.Id == userId).ShareTracksFootKey = genkey;
-                        break;
-                }
-            }
-            else if (id.ToLower().Contains("all"))
-            {
-                ac.Users.First(t => t.Id == userId).ShareTracksAllKey = genkey;
-            }
-            else
-            {
-                var iid = Convert.ToInt32(id);
-                if (ac.Tracks != null) ac.Tracks.First(t => t.UserId == userId && t.Id == iid).ShareKey = genkey;
-            }
-            ac.SaveChanges();
-            return MySeenWebApi.ApiHost + MySeenWebApi.ShareTracks + genkey;
-        }
-        public static void DeleteTrackShare(string id, string userId)
-        {
-            var ac = new ApplicationDbContext();
-
-            if (id.Contains("-"))
-            {
-                id = id.Remove(0, 1);
-                var iid = Convert.ToInt32(id);
-                switch (iid)
-                {
-                    case (int)TrackTypes.Bike:
-                        ac.Users.First(t => t.Id == userId).ShareTracksBikeKey = string.Empty;
-                        break;
-                    case (int)TrackTypes.Car:
-                        ac.Users.First(t => t.Id == userId).ShareTracksCarKey = string.Empty;
-                        break;
-                    case (int)TrackTypes.Foot:
-                        ac.Users.First(t => t.Id == userId).ShareTracksFootKey = string.Empty;
-                        break;
-                }
-            }
-            else if (id.ToLower().Contains("all"))
-            {
-                ac.Users.First(t => t.Id == userId).ShareTracksAllKey = string.Empty;
-            }
-            else
-            {
-                var iid = Convert.ToInt32(id);
-                ac.Tracks.First(t => t.UserId == userId && t.Id == iid).ShareKey = string.Empty;
-            }
-            ac.SaveChanges();
         }
         public static void DeleteTrack(string id, string userId)
         {

@@ -1,48 +1,47 @@
 ﻿@model MySeenWeb.Models.ShareViewModels.ShareViewModelTracksMin
 
-@Scripts.Render("~/bundles/jquery", "~/bundles/bootstrap")
-@Scripts.Render("~/bundles/gmap3", "~/bundles/myseen.gmap")
-@Scripts.Render("~/bundles/knockout")
-
 <script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?libraries=geometry&amp;language=@CultureInfoTool.GetCulture()"></script>
 
 <br />
 
-<div data-bind="visible: dataLoading " align="center">
-    <img src="~/Content/Images/loading_small.gif"/>
-</div>
+<div id="divDataRoadsShared">
 
-<div class="panel panel-primary col-md-12">
-    <div class="panel panel-default">
-        <div class="panel-heading">@Resource.Map</div>
-        <div id="my_map" class="gmap page-size-gmap"></div>
+    <div data-bind="visible: dataLoading " align="center">
+        <img src="~/Content/Images/loading_small.gif"/>
     </div>
-</div>
-<div class="panel panel-primary col-md-12">
-    <div class="panel panel-default">
-        <div class="panel-heading">
-            @Resource.Legend
-            <span class="alert-info small">
-                <select class="input-sm" id="lstYears" data-bind="options: yearsList, optionsText: 'text', optionsValue: 'value', value: selectedYear"></select>
-            </span>
+
+    <div class="panel panel-primary col-md-12">
+        <div class="panel panel-default">
+            <div class="panel-heading">@Resource.Map</div>
+            <div id="my_map" class="gmap page-size-gmap"></div>
         </div>
-        <div class="tab-content">
-            <div data-bind="foreach: data">
-                <a href="#" class="list-group-item track-id">
-                    <h5 class="list-group-item-heading">
-                        <span data-bind="text: name"></span>
-                        <span class="badge pull-right" data-bind="text: date"></span>
-                     </h5>
-                    <h6 class="list-group-item-text align-center">@Resource.Distance :<span class="badge pull-right alert-info small" data-bind="text: distance"></span></h6>
-                </a>
+    </div>
+    <div class="panel panel-primary col-md-12">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                @Resource.Legend
+                <span class="alert-info small">
+                    <select class="input-sm" id="lstYears" data-bind="options: yearsList, optionsText: 'text', optionsValue: 'value', value: selectedYear"></select>
+                </span>
+            </div>
+            <div class="tab-content">
+                <div data-bind="foreach: data">
+                    <a href="#" class="list-group-item track-id">
+                        <h5 class="list-group-item-heading">
+                            <span data-bind="text: name"></span>
+                            <span class="badge pull-right" data-bind="text: date"></span>
+                        </h5>
+                        <h6 class="list-group-item-text align-center">@Resource.Distance :<span class="badge pull-right alert-info small" data-bind="text: distance"></span></h6>
+                    </a>
+                </div>
             </div>
         </div>
     </div>
+
+    @Html.Partial("Tools/Services", Model)
+
+    @Html.Partial("Tools/GetPage")
 </div>
-
-@Html.Partial("Tools/Services", Model)
-
-@Html.Partial("Tools/GetPage")
 
 <script language="javascript" type="text/javascript">
     function ShareRoad(data) {
@@ -121,7 +120,7 @@
         $(function () {
 
             model = new ShareRoadsViewModel();
-            ko.applyBindings(model);
+            ko.applyBindings(model, document.getElementById('divDataRoadsShared'));
 
             window.sharedKey = '@Model.Key';
             window.sharedPageName = 'roads';

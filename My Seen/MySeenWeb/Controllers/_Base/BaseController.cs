@@ -16,7 +16,7 @@ namespace MySeenWeb.Controllers._Base
 {
     public class BaseController : Controller
     {
-        public class MySessionObject
+        private class MySessionObject
         {
             public string Value;
 
@@ -25,7 +25,8 @@ namespace MySeenWeb.Controllers._Base
                 Value = value;
             }
         }
-        public bool IsCookieEnabled
+
+        private bool IsCookieEnabled
         {
             get { return TryReadCookies("TestCookes"); }
         }
@@ -100,7 +101,8 @@ namespace MySeenWeb.Controllers._Base
         {
             WriteUserSideStorage(key, value.ToString());
         }
-        public int MarkersOnRoads
+
+        protected int MarkersOnRoads
         {
             get
             {
@@ -155,7 +157,8 @@ namespace MySeenWeb.Controllers._Base
                 WriteUserSideStorage(UserSideStorageKeys.MarkersOnRoads, value);
             }
         }
-        public int Rpp
+
+        protected int Rpp
         {
             get
             {
@@ -255,6 +258,7 @@ namespace MySeenWeb.Controllers._Base
                     var userLanguages = Request.UserLanguages;
                     if (userLanguages != null && userLanguages.Any())
                     {
+                        //LogSave.Save(User.Identity.IsAuthenticated ? User.Identity.GetUserId() : "", Request.UserHostAddress, Request.UserAgent, "languages", Request.UserLanguages.Aggregate(String.Empty, (current, s) => current + (s + "|")));
                         try
                         {
                             CultureInfoTool.SetCulture(userLanguages[0]);

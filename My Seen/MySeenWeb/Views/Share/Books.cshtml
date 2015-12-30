@@ -1,49 +1,48 @@
 ﻿@model MySeenWeb.Models.ShareViewModels.ShareViewModelBooksMin
 
-@Scripts.Render("~/bundles/jquery", "~/bundles/bootstrap")
-@Scripts.Render("~/bundles/myseen.table")
-@Scripts.Render("~/bundles/knockout")
-
 <br/>
 
-<div data-bind="visible: dataLoading " align="center">
-    <img src="~/Content/Images/loading_small.gif" />
-</div>
+<div id="divDataBooksShared">
 
-<div data-bind="visible: books().length > 0" style="display: none;">
-
-    <div class="table-responsive">
-        <table class="table table-striped" id="table">
-            <thead>
-            <tr>
-                <th class="col-sm-5">@Resource.Name</th>
-                <th class="col-sm-1">@Resource.Year</th>
-                <th class="col-sm-2">@Resource.Author</th>
-                <th class="col-sm-2">@Resource.DateRead</th>
-                <th class="col-sm-1">@Resource.Genre</th>
-                <th class="col-sm-1">@Resource.Rating</th>
-            </tr>
-            </thead>
-            <tbody data-bind="foreach: books">
-            <tr>
-                <td class="align-center" data-bind="text: name"></td>
-                <td class="align-center" data-bind="text: year"></td>
-                <td class="align-center" data-bind="text: authors"></td>
-                <td class="align-center" data-bind="text: dateRead"></td>
-                <td class="align-center" data-bind="text: genre"></td>
-                <td class="align-center" data-bind="text: rating"></td>
-            </tr>
-            </tbody>
-        </table>
+    <div data-bind="visible: dataLoading " align="center">
+        <img src="~/Content/Images/loading_small.gif"/>
     </div>
 
-    @Html.Partial("../Tools/PaginationKO")
+    <div data-bind="visible: books().length > 0" style="display: none;">
 
+        <div class="table-responsive">
+            <table class="table table-striped" id="table">
+                <thead>
+                <tr>
+                    <th class="col-sm-5">@Resource.Name</th>
+                    <th class="col-sm-1">@Resource.Year</th>
+                    <th class="col-sm-2">@Resource.Author</th>
+                    <th class="col-sm-2">@Resource.DateRead</th>
+                    <th class="col-sm-1">@Resource.Genre</th>
+                    <th class="col-sm-1">@Resource.Rating</th>
+                </tr>
+                </thead>
+                <tbody data-bind="foreach: books">
+                <tr>
+                    <td class="align-center" data-bind="text: name"></td>
+                    <td class="align-center" data-bind="text: year"></td>
+                    <td class="align-center" data-bind="text: authors"></td>
+                    <td class="align-center" data-bind="text: dateRead"></td>
+                    <td class="align-center" data-bind="text: genre"></td>
+                    <td class="align-center" data-bind="text: rating"></td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+
+        @Html.Partial("../Tools/PaginationKO")
+
+    </div>
+
+    @Html.Partial("Tools/Services", Model)
+
+    @Html.Partial("Tools/GetPage")
 </div>
-
-@Html.Partial("Tools/Services",Model)
-
-@Html.Partial("Tools/GetPage")
 
 <script language="javascript" type="text/javascript">
 
@@ -98,7 +97,8 @@
         $(function () {
 
             model = new BooksViewModel();
-            ko.applyBindings(model);
+            ko.applyBindings(model, document.getElementById('divDataBooksShared'));
+
 
             window.sharedKey = '@Model.Key';
             window.sharedPageName = 'books';

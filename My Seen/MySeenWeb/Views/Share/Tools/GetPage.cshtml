@@ -17,6 +17,7 @@
         }
         data = addData;
 
+        if (window.modelLayout) window.modelLayout.reload();
         //console.log("GetSharedPage data=", data);
 
         $.post('/Json/GetSharedPage/', data, function(jsonData) {

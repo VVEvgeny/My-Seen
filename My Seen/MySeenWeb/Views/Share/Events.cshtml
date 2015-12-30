@@ -1,56 +1,54 @@
 ﻿@model MySeenWeb.Models.ShareViewModels.ShareViewModelEventsMin
 
-@Scripts.Render("~/bundles/jquery", "~/bundles/bootstrap")
-@Scripts.Render("~/bundles/myseen.table")
-@Scripts.Render("~/bundles/knockout")
-
 <br/>
 
-<div data-bind="visible: dataLoading " align="center">
-    <img src="~/Content/Images/loading_small.gif" />
-</div>
+<div id="divDataEventsShared">
 
-<div data-bind="visible: events().length > 0" style="display: none;">
-
-    <div class="table-responsive">
-        <table class="table table-striped" id="table">
-            <thead>
-                <tr>
-                    <th class="col-sm-3">@Resource.Event</th>
-                    <th class="col-sm-2">@Resource.To</th>
-                    <th class="col-sm-2">@Resource.When</th>
-                    <th class="col-sm-1">@Resource.Day</th>
-                    <th>|</th>
-                    <th class="col-sm-2">@Resource.Last</th>
-                    <th class="col-sm-2">@Resource.When</th>
-                    <th class="col-sm-1">@Resource.Day</th>
-                </tr>
-            </thead>
-            <tbody data-bind="foreach: events">
-                <tr>
-                    <td class="align-center" data-bind="text: name"></td>
-                    <td class="align-center" data-bind="text: estimatedTo"></td>
-                    <td class="align-center" data-bind="text: dateTo"></td>
-                    <td class="align-center" data-bind="text: dayOfWeekTo"></td>
-                    <td class="align-center">|</td>
-                    <!-- ko if: haveHistory -->
-                    <td class="align-center" data-bind="text: estimatedLast"></td>
-                    <td class="align-center" data-bind="text: dateLast"></td>
-                    <td class="align-center" data-bind="text: dayOfWeekLast"></td>
-                    <!-- /ko -->
-                </tr>
-            </tbody>
-        </table>
+    <div data-bind="visible: dataLoading " align="center">
+        <img src="~/Content/Images/loading_small.gif" />
     </div>
 
-    @Html.Partial("../Tools/PaginationKO")
+    <div data-bind="visible: events().length > 0" style="display: none;">
 
+        <div class="table-responsive">
+            <table class="table table-striped" id="table">
+                <thead>
+                    <tr>
+                        <th class="col-sm-3">@Resource.Event</th>
+                        <th class="col-sm-2">@Resource.To</th>
+                        <th class="col-sm-2">@Resource.When</th>
+                        <th class="col-sm-1">@Resource.Day</th>
+                        <th>|</th>
+                        <th class="col-sm-2">@Resource.Last</th>
+                        <th class="col-sm-2">@Resource.When</th>
+                        <th class="col-sm-1">@Resource.Day</th>
+                    </tr>
+                </thead>
+                <tbody data-bind="foreach: events">
+                    <tr>
+                        <td class="align-center" data-bind="text: name"></td>
+                        <td class="align-center" data-bind="text: estimatedTo"></td>
+                        <td class="align-center" data-bind="text: dateTo"></td>
+                        <td class="align-center" data-bind="text: dayOfWeekTo"></td>
+                        <td class="align-center">|</td>
+                        <!-- ko if: haveHistory -->
+                        <td class="align-center" data-bind="text: estimatedLast"></td>
+                        <td class="align-center" data-bind="text: dateLast"></td>
+                        <td class="align-center" data-bind="text: dayOfWeekLast"></td>
+                        <!-- /ko -->
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        @Html.Partial("../Tools/PaginationKO")
+
+    </div>
+
+    @Html.Partial("Tools/Services", Model)
+
+    @Html.Partial("Tools/GetPage")
 </div>
-
-@Html.Partial("Tools/Services", Model)
-
-@Html.Partial("Tools/GetPage")
-
 
 <script language="javascript" type="text/javascript">
 
@@ -224,7 +222,8 @@
         $(function () {
 
             model = new EventsViewModel();
-            ko.applyBindings(model);
+            ko.applyBindings(model, document.getElementById('divDataEventsShared'));
+
 
             window.sharedKey = '@Model.Key';
             window.sharedPageName = 'events';

@@ -1,14 +1,9 @@
-﻿@using MySeenWeb.Models;
-
-@model HomeViewModelImprovementsMin
-
-@Scripts.Render("~/bundles/jquery", "~/bundles/bootstrap", "~/bundles/myseen.table")
-@Scripts.Render("~/bundles/knockout")
+﻿@model MySeenWeb.Models.HomeViewModelImprovementsMin
 
 @{
     ViewBag.Title = Resource.Improvements;
 }
-<br />
+<br/>
 <div class="form-inline">
     <div class="form-group">
         <label style="display: block;">@Resource.SelectTheCategory</label>
@@ -18,15 +13,17 @@
 </div>
 <br/>
 
-<div data-bind="visible: dataLoading " align="center">
-    <img src="~/Content/Images/loading_small.gif" />
-</div>
+<div id="divDataImprovements">
 
-<div data-bind="visible: improvements().length > 0" style="display: none;">
+    <div data-bind="visible: dataLoading " align="center">
+        <img src="~/Content/Images/loading_small.gif"/>
+    </div>
 
-    <div class="table-responsive">
-        <table class="table table-striped" id="table">
-            <thead>
+    <div data-bind="visible: improvements().length > 0" style="display: none;">
+
+        <div class="table-responsive">
+            <table class="table table-striped" id="table">
+                <thead>
                 <tr>
                     <th class="col-sm-1">@Resource.Complex</th>
                     <th class="col-sm-1">@Resource.Found</th>
@@ -36,8 +33,8 @@
                     <th class="col-sm-1">@Resource.Version</th>
                     <th class="col-sm-4">@Resource.Description</th>
                 </tr>
-            </thead>
-            <tbody data-bind="foreach: improvements">
+                </thead>
+                <tbody data-bind="foreach: improvements">
                 <tr>
                     <td class="align-center" data-bind="text: complex"></td>
                     <td class="align-center" data-bind="text: userName"></td>
@@ -55,15 +52,17 @@
                         <!-- /ko -->
                     }
                 </tr>
-            </tbody>
-        </table>
+                </tbody>
+            </table>
+        </div>
+
+        @Html.Partial("../Tools/PaginationKO")
+
     </div>
 
-    @Html.Partial("../Tools/PaginationKO")
+    @Html.Partial("Parts/Tools/JsonGetPage")
 
 </div>
-
-@Html.Partial("Parts/Tools/JsonGetPage")
 
 <footer class="row">
     <div class="text-center">
@@ -198,7 +197,8 @@
         $(function () {
 
             model = new ImprovementsViewModel();
-            ko.applyBindings(model);
+            ko.applyBindings(model, document.getElementById('divDataImprovements'));
+
 
             window.getPage(); //Запрос на сервер
 
