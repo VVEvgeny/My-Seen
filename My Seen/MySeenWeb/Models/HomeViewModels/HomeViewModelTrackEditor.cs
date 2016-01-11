@@ -23,7 +23,7 @@ namespace MySeenWeb.Models
             NewTrack = !ac.Tracks.Any(t => t.UserId == userId && t.Id == Id);//Если пустое или с таким айди нет трека
             if (!NewTrack)
             {
-                Data = ac.Tracks.Select(TracksView.Map).First(t => t.UserId == userId && t.Id == Id);
+                Data = ac.Tracks.AsNoTracking().Select(TracksView.Map).First(t => t.UserId == userId && t.Id == Id);
                 typeValue = (TrackTypes)Data.Type;
             }
             TypeList = new List<SelectListItem>

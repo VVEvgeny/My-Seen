@@ -116,7 +116,7 @@ namespace MySeenWeb.Controllers.Account
         //
         // POST: /Manage/RemoveLogin
         [HttpPost]
-        [ValidateAntiForgeryToken]
+        //[ValidateAntiForgeryToken]
         public async Task<ActionResult> RemoveLogin(string loginProvider, string providerKey)
         {
             var logger = new NLogLogger();
@@ -406,7 +406,7 @@ namespace MySeenWeb.Controllers.Account
         //
         // POST: /Manage/ChangePassword
         [HttpPost]
-        [ValidateAntiForgeryToken]
+        //[ValidateAntiForgeryToken]
         public async Task<ActionResult> ChangePassword(ChangePasswordViewModel model)
         {
             var logger = new NLogLogger();
@@ -447,7 +447,7 @@ namespace MySeenWeb.Controllers.Account
         //
         // POST: /Manage/SetPassword
         [HttpPost]
-        [ValidateAntiForgeryToken]
+        //[ValidateAntiForgeryToken]
         public async Task<ActionResult> SetPassword(SetPasswordViewModel model)
         {
             var logger = new NLogLogger();
@@ -520,7 +520,7 @@ namespace MySeenWeb.Controllers.Account
         //
         // POST: /Manage/LinkLogin
         [HttpPost]
-        [ValidateAntiForgeryToken]
+        //[ValidateAntiForgeryToken]
         public ActionResult LinkLogin(string provider)
         {
             var logger = new NLogLogger();

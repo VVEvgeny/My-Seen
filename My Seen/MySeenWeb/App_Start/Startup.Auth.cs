@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Web.Hosting;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin;
@@ -8,9 +9,12 @@ using MySeenLib;
 using MySeenWeb.Add_Code;
 using Owin;
 using MySeenWeb.Models.OtherViewModels;
+using MySeenWeb.Models.Tables;
+using MySeenWeb.Models.Tools;
 using Nemiro.OAuth;
 using Nemiro.OAuth.Clients;
 using Owin.Security.Providers.Dropbox;
+using Owin.Security.Providers.EveOnline;
 using Owin.Security.Providers.GitHub;
 using Owin.Security.Providers.LinkedIn;
 using Owin.Security.Providers.Steam;
@@ -56,35 +60,69 @@ namespace MySeenWeb
             // This is similar to the RememberMe option when you log in.
             app.UseTwoFactorRememberBrowserCookie(DefaultAuthenticationTypes.TwoFactorRememberBrowserCookie);
 
+            var mySeenAuths = new Auths("MySeen", AppDomain.CurrentDomain.BaseDirectory + "bin");
+
             //Dropbox
-            if (Admin.IsDebug)
+            if (Admin.IsDebug && mySeenAuths.Have("Dropbox"))
             {
                 //не поддерживает HTTP (только для локального), только HTTPS
-                app.UseDropboxAuthentication(Auths.Dropbox.Id, Auths.Dropbox.Secret);
+                app.UseDropboxAuthentication(mySeenAuths.Id("Dropbox"), mySeenAuths.Secret("Dropbox"));
+            }
+            //Twitter
+            if (mySeenAuths.Have("Twitter"))
+            {
+                app.UseTwitterAuthentication(mySeenAuths.Id("Twitter"), mySeenAuths.Secret("Twitter"));
             }
             //Yahoo
-            app.UseYahooAuthentication(Auths.Yahoo.Id, Auths.Yahoo.Secret);
-            //LinkedIn
-            app.UseLinkedInAuthentication(Auths.LinkedIn.Id, Auths.LinkedIn.Secret);
-            //Microsoft
-            app.UseMicrosoftAccountAuthentication(Auths.Microsoft.Id, Auths.Microsoft.Secret);
+            if (mySeenAuths.Have("Yahoo"))
+            {
+                app.UseYahooAuthentication(mySeenAuths.Id("Yahoo"), mySeenAuths.Secret("Yahoo"));
+            }
             //Steam
-            app.UseSteamAuthentication(Auths.Steam.Id);
+            if (mySeenAuths.Have("Steam"))
+            {
+                app.UseSteamAuthentication(mySeenAuths.Id("Steam"));
+            }
             //GitHub
-            app.UseGitHubAuthentication(Auths.GitHub.Id, Auths.GitHub.Secret);
+            if (mySeenAuths.Have("GitHub"))
+            {
+                app.UseGitHubAuthentication(mySeenAuths.Id("GitHub"), mySeenAuths.Secret("GitHub"));
+            }
+            //LinkedIn
+            if (mySeenAuths.Have("LinkedIn"))
+            {
+                app.UseLinkedInAuthentication(mySeenAuths.Id("LinkedIn"), mySeenAuths.Secret("LinkedIn"));
+            }
+            //Microsoft
+            if (mySeenAuths.Have("Microsoft"))
+            {
+                app.UseMicrosoftAccountAuthentication(mySeenAuths.Id("Microsoft"), mySeenAuths.Secret("Microsoft"));
+            }
             //Facebook
-            app.UseFacebookAuthentication(Auths.Facebook.Id, Auths.Facebook.Secret);
-            //Twitter
-            app.UseTwitterAuthentication(Auths.Twitter.Id, Auths.Twitter.Secret);
+            if (mySeenAuths.Have("Facebook"))
+            {
+                app.UseFacebookAuthentication(mySeenAuths.Id("Facebook"), mySeenAuths.Secret("Facebook"));
+            }
             //Vkontakte
-            app.UseVkontakteAuthentication(Auths.Vkontakte.Id, Auths.Vkontakte.Secret, Auths.Vkontakte.Flag);
+            if (mySeenAuths.Have("Vkontakte"))
+            {
+                app.UseVkontakteAuthentication(mySeenAuths.Id("Vkontakte"), mySeenAuths.Secret("Vkontakte"), mySeenAuths.Options("Vkontakte"));
+            }
             //Google
-            app.UseGoogleAuthentication(new GoogleOAuth2AuthenticationOptions() { ClientId = Auths.Google.Id, ClientSecret = Auths.Google.Secret });
+            if (mySeenAuths.Have("Google"))
+            {
+                app.UseGoogleAuthentication(new GoogleOAuth2AuthenticationOptions() { ClientId = mySeenAuths.Id("Google"), ClientSecret = mySeenAuths.Secret("Google") });
+            }
 
             //oauth2 Yandex
-            OAuthManager.RegisterClient(new YandexClient(Auths.Yandex.Id, Auths.Yandex.Secret));
-            //oauth2 Mail.Ru
-            OAuthManager.RegisterClient(new MailRuClient(Auths.MailRu.Id, Auths.MailRu.Secret));
+            if (mySeenAuths.Have("Yandex"))
+            {
+                OAuthManager.RegisterClient(new YandexClient(mySeenAuths.Id("Yandex"), mySeenAuths.Secret("Yandex")));
+            }
+            if (mySeenAuths.Have("MailRu"))
+            {
+                OAuthManager.RegisterClient(new MailRuClient(mySeenAuths.Id("MailRu"), mySeenAuths.Secret("MailRu")));
+            }
         }
     }
 }

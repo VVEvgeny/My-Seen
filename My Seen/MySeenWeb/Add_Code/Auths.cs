@@ -1,19 +1,197 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
+using System.Reflection;
 
-namespace MySeenWeb
+namespace MySeenWeb.Add_Code
 {
-    public static class Auths
+    public class VveAuth
     {
-        public static string VK_Id = "5091515";
-        public static string VK_Secret = "iZL64yC3DmwJCP297Z2g";
+        private bool _loaded;
+        private bool _loadError;
 
-        public static string Facebook_Id = "1485611081742857";
-        public static string Facebook_Secret = "d50b6ba93ecf23d28e6e6c3c70810f36";
+        private Assembly _assembly;
+        private Type _type;
+        private object _instance;
 
-        public static string Google_Id = "762614992212-3n90va58k14rnllv7eue4fbj2v4qj2ol.apps.googleusercontent.com";
-        public static string Google_Secret = "_QIaMq3nxpapWW9Z9J-G72I0";
+        private string _path;
+
+        public VveAuth(string path)
+        {
+            _path = path;
+        }
+
+        private bool Load()
+        {
+            if (_loadError) return false;
+            if (_loaded) return true;
+
+            try
+            {
+                _assembly = Assembly.LoadFile(_path + "\\VVEAuths.dll");
+                _type = _assembly.GetType("VVEAuths");
+                _instance = Activator.CreateInstance(_type);
+            }
+            catch
+            {
+                _loadError = true;
+                return false;
+            }
+            _loaded = true;
+            return true;
+        }
+
+        public string Splitter
+        {
+            get { return ";;;"; }
+        }
+
+        public string GetId(string appName, string serviceName)
+        {
+            return GetId(appName, serviceName, Splitter);
+        }
+
+        public string GetId(string appName, string serviceName, string splitter)
+        {
+            var str = Get(appName, serviceName, splitter);
+            if (str != string.Empty)
+            {
+                if (str.Contains(splitter))
+                {
+                    return str.Substring(0, str.IndexOf(splitter, StringComparison.Ordinal));
+                }
+                return str;
+            }
+            return str;
+        }
+
+        public string GetSecret(string appName, string serviceName)
+        {
+            return GetSecret(appName, serviceName, Splitter);
+        }
+
+        public string GetSecret(string appName, string serviceName, string splitter)
+        {
+            var str = Get(appName, serviceName, splitter);
+            if (str != string.Empty)
+            {
+                if (str.Contains(splitter))
+                {
+                    str = str.Remove(0, str.IndexOf(splitter, StringComparison.Ordinal) + splitter.Length);
+                    if (str.Contains(splitter))
+                    {
+                        return str.Substring(0, str.IndexOf(splitter, StringComparison.Ordinal));
+                    }
+                    return str;
+                }
+                return string.Empty;
+            }
+            return str;
+        }
+
+        public string GetOptions(string appName, string serviceName)
+        {
+            return GetOptions(appName, serviceName, Splitter);
+        }
+
+        public string GetOptions(string appName, string serviceName, string splitter)
+        {
+            var str = Get(appName, serviceName, splitter);
+            if (str != string.Empty)
+            {
+                if (str.Contains(splitter))
+                {
+                    str = str.Remove(0, str.IndexOf(splitter, StringComparison.Ordinal) + splitter.Length);
+
+                    if (str.Contains(splitter))
+                    {
+                        str = str.Remove(0, str.IndexOf(splitter, StringComparison.Ordinal) + splitter.Length);
+
+                        if (str.Contains(splitter))
+                        {
+                            return str.Substring(0, str.IndexOf(splitter, StringComparison.Ordinal));
+                        }
+                        return str;
+                    }
+                    return string.Empty;
+                }
+                return string.Empty;
+            }
+            return str;
+        }
+
+        public string Get(string appName, string serviceName)
+        {
+            return Get(appName, serviceName, Splitter);
+        }
+
+        private string Get(string appName, string serviceName, string splitter)
+        {
+            if (Load())
+            {
+                try
+                {
+                    return
+                        _type.InvokeMember("Get",
+                            BindingFlags.InvokeMethod | BindingFlags.Static | BindingFlags.Public,
+                            null, _instance, new object[] {appName, serviceName, splitter}).ToString();
+                }
+                catch
+                {
+                    _loadError = true;
+                }
+            }
+            return "Not loaded " + (_loadError ? "_loadError" : "") + (_loaded ? "_loaded" : "");
+        }
+
+        public bool Have(string appName, string serviceName)
+        {
+            if (Get(appName, serviceName) == string.Empty
+                ||
+                _loadError
+                ||
+                !_loaded)
+            {
+                return false;
+            }
+            return true;
+        }
+
+        ~VveAuth()
+        {
+            _assembly = null;
+            _type = null;
+            _instance = null;
+        }
+    }
+
+    public class Auths
+    {
+        private static VveAuth _vveAuth;
+        private static string _appName;
+
+        public bool Have(string name)
+        {
+            return _vveAuth.Have(_appName, name);
+        }
+
+        public string Id(string name)
+        {
+            return _vveAuth.GetId(_appName, name);
+        }
+
+        public string Secret(string name)
+        {
+            return _vveAuth.GetSecret(_appName, name);
+        }
+
+        public string Options(string name)
+        {
+            return _vveAuth.GetOptions(_appName, name);
+        }
+
+        public Auths(string appName,string path)
+        {
+            _vveAuth = new VveAuth(path);
+            _appName = appName;
+        }
     }
 }

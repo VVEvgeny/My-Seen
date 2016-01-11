@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using MySeenWeb.Models.OtherViewModels;
 using MySeenWeb.Models.TablesViews;
@@ -15,7 +16,12 @@ namespace MySeenWeb.Models
         {
             var ac = new ApplicationDbContext();
             Pages = new PaginationViewModel(page, ac.Logs.Count(), countInPage);
-            Data = ac.Logs.Select(LogsView.Map).OrderByDescending(l => l.DateLast).Skip((Pages.CurentPage - 1) * countInPage).Take(countInPage);
+            Data =
+                ac.Logs.AsNoTracking()
+                    .OrderByDescending(l => l.DateLast)
+                    .Skip(() => (Pages.CurentPage - 1)*countInPage)
+                    .Take(() => countInPage)
+                    .Select(LogsView.Map);
         }
     }
 }

@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
-using System.Web.Mvc;
 using MySeenLib;
 using MySeenWeb.Models.OtherViewModels;
 using MySeenWeb.Models.TablesViews;
@@ -25,7 +25,7 @@ namespace MySeenWeb.Models
 
             //пока не знаю как 2 условие, причем 1 из них не по пол. таблицы а высчитываемое на основании двух других завернуть в Count
             var data =
-                ac.Events.Where(f => f.UserId == userId && (string.IsNullOrEmpty(search) || f.Name.Contains(search)))
+                ac.Events.AsNoTracking().Where(f => f.UserId == userId && (string.IsNullOrEmpty(search) || f.Name.Contains(search)))
                     .Select(EventsView.Map)
                     .Where(
                         e =>
@@ -43,16 +43,16 @@ namespace MySeenWeb.Models
         {
             var ac = new ApplicationDbContext();
             var iid = Convert.ToInt32(id);
-            var key = ac.Users.First(t => t.Id == userId).ShareEventsKey;
-            if (!ac.Events.First(e => e.Id == iid).Shared) return "-";
+            var key = ac.Users.AsNoTracking().First(t => t.Id == userId).ShareEventsKey;
+            if (!ac.Events.AsNoTracking().First(e => e.Id == iid).Shared) return "-";
             return MySeenWebApi.ApiHost + MySeenWebApi.ShareEvents + key;
         }
         public static string GenerateShare(string id, string userId)
         {
             var ac = new ApplicationDbContext();
             var iid = Convert.ToInt32(id);
-            var key = ac.Users.First(t => t.Id == userId).ShareEventsKey;
-            ac.Events.First(e => e.Id == iid).Shared = true;
+            var key = ac.Users.AsNoTracking().First(t => t.Id == userId).ShareEventsKey;
+            ac.Events.AsNoTracking().First(e => e.Id == iid).Shared = true;
             ac.SaveChanges();
             return MySeenWebApi.ApiHost + MySeenWebApi.ShareEvents + key;
         }
@@ -60,7 +60,7 @@ namespace MySeenWeb.Models
         {
             var ac = new ApplicationDbContext();
             var iid = Convert.ToInt32(id);
-            ac.Events.First(e => e.Id == iid).Shared = false;
+            ac.Events.AsNoTracking().First(e => e.Id == iid).Shared = false;
             ac.SaveChanges();
             return "-";
         }

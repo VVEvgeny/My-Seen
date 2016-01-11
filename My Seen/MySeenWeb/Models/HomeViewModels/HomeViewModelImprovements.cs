@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using MySeenLib;
 using MySeenWeb.Models.OtherViewModels;
@@ -18,12 +19,21 @@ namespace MySeenWeb.Models
             if (complex == Defaults.ComplexBase.Indexes.All)
             {
                 Pages = new PaginationViewModel(page, ac.Bugs.Count(), countInPage);
-                Data = ac.Bugs.Select(BugsView.Map).OrderByDescending(b => b.DateEnd == null).ThenByDescending(b => b.DateEnd).ThenByDescending(b => b.DateFound).Skip((Pages.CurentPage - 1) * countInPage).Take(countInPage);
+                Data = ac.Bugs.AsNoTracking()
+                    .OrderByDescending(b => b.DateEnd == null)
+                    .ThenByDescending(b => b.DateEnd)
+                    .ThenByDescending(b => b.DateFound)
+                    .Skip(() => (Pages.CurentPage - 1)*countInPage).Take(() => countInPage).Select(BugsView.Map);
             }
             else
             {
                 Pages = new PaginationViewModel(page, ac.Bugs.Count(b => b.Complex == complex), countInPage);
-                Data = ac.Bugs.Select(BugsView.Map).Where(b => b.Complex == complex).OrderByDescending(b => b.DateEnd == null).ThenByDescending(b => b.DateEnd).ThenByDescending(b => b.DateFound).Skip((Pages.CurentPage - 1) * countInPage).Take(countInPage);
+                Data = ac.Bugs.AsNoTracking()
+                    .Where(b => b.Complex == complex)
+                    .OrderByDescending(b => b.DateEnd == null)
+                    .ThenByDescending(b => b.DateEnd)
+                    .ThenByDescending(b => b.DateFound)
+                    .Skip(() => (Pages.CurentPage - 1)*countInPage).Take(() => countInPage).Select(BugsView.Map);
             }
         }
     }

@@ -14,53 +14,56 @@
     {
         @Html.Partial("../Tools/Facebook/_Base")
     }
+    <div class="table-responsive">
+        <table class="table table-striped" id="table_shares_likes">
+            <tbody>
+                @if (Model.VkontakteServicesEnabled)
+                {
+                    <tr>
+                        <td class="align-center">@Html.Partial("../Tools/VK/Like")</td>
+                        <td class="align-center">@Html.Partial("../Tools/VK/Share")</td>
+                    </tr>
+                }
+                @if (Model.GoogleServicesEnabled)
+                {
+                    <tr>
+                        <td class="align-center">@Html.Partial("../Tools/Google/Like")</td>
+                        <td class="align-center">@Html.Partial("../Tools/Google/Share")</td>
+                    </tr>
+                }
+                @if (Model.FacebookServicesEnabled)
+                {
+                    <tr>
+                        <td class="align-center">@Html.Partial("../Tools/Facebook/Like")</td>
+                        <td class="align-center">@Html.Partial("../Tools/Facebook/Share")</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
 
-    <table class="table table-striped" id="table_shares_likes">
-        <tbody>
-        @if (Model.VkontakteServicesEnabled)
-        {
-            <tr>
-                <td class="align-center">@Html.Partial("../Tools/VK/Like")</td>
-                <td class="align-center">@Html.Partial("../Tools/VK/Share")</td>
-            </tr>
-        }
-        @if (Model.GoogleServicesEnabled)
-        {
-            <tr>
-                <td class="align-center">@Html.Partial("../Tools/Google/Like")</td>
-                <td class="align-center">@Html.Partial("../Tools/Google/Share")</td>
-            </tr>
-        }
-        @if (Model.FacebookServicesEnabled)
-        {
-            <tr>
-                <td class="align-center">@Html.Partial("../Tools/Facebook/Like")</td>
-                <td class="align-center">@Html.Partial("../Tools/Facebook/Share")</td>
-            </tr>
-        }
-        </tbody>
-    </table>
-
-    <table class="table table-striped" id="table_comments">
-        <tbody>
-        @if (Model.VkontakteServicesEnabled)
-        {
-            <tr>
-                <td class="align-center">@Html.Partial("../Tools/VK/Comments")</td>
-            </tr>
-        }
-        @if (Model.GoogleServicesEnabled)
-        {
-            <tr>
-                <td class="align-center">@Html.Partial("../Tools/Google/Comments")</td>
-            </tr>
-        }
-        @if (Model.FacebookServicesEnabled)
-        {
-            <tr>
-                <td class="align-center">@Html.Partial("../Tools/Facebook/Comments")</td>
-            </tr>
-        }
-        </tbody>
-    </table>
+    <div class="table-responsive">
+        <table class="table table-striped" id="table_comments">
+            <tbody>
+                @if (Model.VkontakteServicesEnabled)
+                {
+                    <tr>
+                        <td class="align-center">@Html.Partial("../Tools/VK/Comments")</td>
+                    </tr>
+                }
+                @if (Model.GoogleServicesEnabled)
+                {
+                    <tr>
+                        <td class="align-center">@Html.Partial("../Tools/Google/Comments")</td>
+                    </tr>
+                }
+                @if (Model.FacebookServicesEnabled)
+                {
+                    <tr>
+                        <td class="align-center">@Html.Partial("../Tools/Facebook/Comments")</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
 }

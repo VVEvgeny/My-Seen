@@ -209,8 +209,8 @@
                         (isMinus === true ? "- " : "")
                         + (years === 0 ? "" : (years + ":"))
                         + (years === 0 && days === 0 ? "" : (days + ":"))
-                        + (years === 0 && days === 0 && hours === 0 ? "" : (hours.length < 2 ? ("0" + hours + ":") : (hours + ":")))
-                        + (years === 0 && days === 0 && hours === 0 && minutes === 0 ? "" : (minutes.length < 2 ? ("0" + minutes + ":") : (minutes + ":")))
+                        + (years === 0 && days === 0 && hours === 0 ? "" : (hours.toString().length < 2 ? ("0" + hours + ":") : (hours + ":")))
+                        + (years === 0 && days === 0 && hours === 0 && minutes === 0 ? "" : (minutes.toString().length < 2 ? ("0" + minutes + ":") : (minutes + ":")))
                         + (seconds < 10 ? "0" + seconds : seconds)
                     );
                 }

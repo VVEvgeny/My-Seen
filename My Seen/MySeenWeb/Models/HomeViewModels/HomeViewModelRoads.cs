@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using System.Web.Mvc;
 using MySeenLib;
@@ -45,7 +46,7 @@ namespace MySeenWeb.Models
             Markers = markersOnRoads == Defaults.EnabledDisabledBase.Indexes.Enabled;
             var ac = new ApplicationDbContext();
 
-            DataFoot = ac.Tracks.Where(t => t.UserId == userId && t.Type == (int)TrackTypes.Foot && (roadsYear == 0 || t.Date.Year == roadsYear)).OrderByDescending(t => t.Date).Select(TracksView.Map).ToList();
+            DataFoot = ac.Tracks.AsNoTracking().Where(t => t.UserId == userId && t.Type == (int)TrackTypes.Foot && (roadsYear == 0 || t.Date.Year == roadsYear)).OrderByDescending(t => t.Date).Select(TracksView.Map).ToList();
             if (DataFoot.Any())
             {
                 var dataFootAll = new List<TracksView>
@@ -63,7 +64,7 @@ namespace MySeenWeb.Models
                 DataFoot = dataFootAll.Concat(DataFoot);
             }
 
-            DataCar = ac.Tracks.Where(t => t.UserId == userId && t.Type == (int)TrackTypes.Car && (roadsYear == 0 || t.Date.Year == roadsYear)).OrderByDescending(t => t.Date).Select(TracksView.Map).ToList();
+            DataCar = ac.Tracks.AsNoTracking().Where(t => t.UserId == userId && t.Type == (int)TrackTypes.Car && (roadsYear == 0 || t.Date.Year == roadsYear)).OrderByDescending(t => t.Date).Select(TracksView.Map).ToList();
             if (DataCar.Any())
             {
                 var dataCarAll = new List<TracksView>
@@ -81,7 +82,7 @@ namespace MySeenWeb.Models
                 DataCar = dataCarAll.Concat(DataCar);
             }
 
-            DataBike = ac.Tracks.Where(t => t.UserId == userId && t.Type == (int)TrackTypes.Bike && (roadsYear == 0 || t.Date.Year == roadsYear)).OrderByDescending(t => t.Date).Select(TracksView.Map).ToList();
+            DataBike = ac.Tracks.AsNoTracking().Where(t => t.UserId == userId && t.Type == (int)TrackTypes.Bike && (roadsYear == 0 || t.Date.Year == roadsYear)).OrderByDescending(t => t.Date).Select(TracksView.Map).ToList();
             if (DataBike.Any())
             {
                 var dataBikeAll = new List<TracksView>
@@ -106,7 +107,7 @@ namespace MySeenWeb.Models
                     Value = "0",
                     Selected = roadsYear == 0
                 } };
-            foreach (var elem in ac.Tracks.Where(t => t.UserId == userId).Select(t=>t.Date.Year).Distinct())
+            foreach (var elem in ac.Tracks.AsNoTracking().Where(t => t.UserId == userId).Select(t => t.Date.Year).Distinct())
             {
                 years.Add(new SelectListItem
                 {
@@ -122,7 +123,7 @@ namespace MySeenWeb.Models
         {
             var ti = new TrackInfo {Path = new List<Location>()};
             var ac = new ApplicationDbContext();
-            var track = ac.Tracks.First(t => t.UserId == userId && t.Id == id);
+            var track = ac.Tracks.AsNoTracking().First(t => t.UserId == userId && t.Id == id);
             ti.Name = track.Name;
             ti.Date = track.Date;
             ti.Id = track.Id;
@@ -143,12 +144,12 @@ namespace MySeenWeb.Models
 
             if (ac.Users.Any(u => u.ShareTracksFootKey != null && u.ShareTracksFootKey == key))
             {
-                var userId = ac.Users.First(u => u.ShareTracksFootKey == key).Id;
+                var userId = ac.Users.AsNoTracking().First(u => u.ShareTracksFootKey == key).Id;
                 const int type = (int) TrackTypes.Foot;
 
                 foreach (
                     var item in
-                        ac.Tracks.Where(t => t.UserId == userId && t.Type == type && (year == 0 || t.Date.Year == year))
+                        ac.Tracks.AsNoTracking().Where(t => t.UserId == userId && t.Type == type && (year == 0 || t.Date.Year == year))
                     )
                 {
                     if (item.Coordinates[item.Coordinates.Length - 1] == ';')
@@ -174,12 +175,12 @@ namespace MySeenWeb.Models
             }
             else if (ac.Users.Any(u => u.ShareTracksCarKey != null && u.ShareTracksCarKey == key))
             {
-                var userId = ac.Users.First(u => u.ShareTracksCarKey == key).Id;
+                var userId = ac.Users.AsNoTracking().First(u => u.ShareTracksCarKey == key).Id;
                 const int type = (int) TrackTypes.Car;
 
                 foreach (
                     var item in
-                        ac.Tracks.Where(t => t.UserId == userId && t.Type == type && (year == 0 || t.Date.Year == year))
+                        ac.Tracks.AsNoTracking().Where(t => t.UserId == userId && t.Type == type && (year == 0 || t.Date.Year == year))
                     )
                 {
                     if (item.Coordinates[item.Coordinates.Length - 1] == ';')
@@ -205,12 +206,12 @@ namespace MySeenWeb.Models
             }
             else if (ac.Users.Any(u => u.ShareTracksCarKey != null && u.ShareTracksBikeKey == key))
             {
-                var userId = ac.Users.First(u => u.ShareTracksBikeKey == key).Id;
+                var userId = ac.Users.AsNoTracking().First(u => u.ShareTracksBikeKey == key).Id;
                 const int type = (int) TrackTypes.Bike;
 
                 foreach (
                     var item in
-                        ac.Tracks.Where(t => t.UserId == userId && t.Type == type && (year == 0 || t.Date.Year == year))
+                        ac.Tracks.AsNoTracking().Where(t => t.UserId == userId && t.Type == type && (year == 0 || t.Date.Year == year))
                     )
                 {
                     if (item.Coordinates[item.Coordinates.Length - 1] == ';')
@@ -236,9 +237,9 @@ namespace MySeenWeb.Models
             }
             else if (ac.Users.Any(u => u.ShareTracksAllKey != null && u.ShareTracksAllKey == key))
             {
-                var userId = ac.Users.First(u => u.ShareTracksAllKey == key).Id;
+                var userId = ac.Users.AsNoTracking().First(u => u.ShareTracksAllKey == key).Id;
 
-                foreach (var item in ac.Tracks.Where(t => t.UserId == userId && (year == 0 || t.Date.Year == year)))
+                foreach (var item in ac.Tracks.AsNoTracking().Where(t => t.UserId == userId && (year == 0 || t.Date.Year == year)))
                 {
                     if (item.Coordinates[item.Coordinates.Length - 1] == ';')
                         item.Coordinates = item.Coordinates.Remove(item.Coordinates.Length - 1);
@@ -263,7 +264,7 @@ namespace MySeenWeb.Models
             }
             else
             {
-                foreach (var item in ac.Tracks.Where(t => t.ShareKey == key))
+                foreach (var item in ac.Tracks.AsNoTracking().Where(t => t.ShareKey == key))
                 {
                     if (item.Coordinates[item.Coordinates.Length - 1] == ';')
                         item.Coordinates = item.Coordinates.Remove(item.Coordinates.Length - 1);
@@ -298,7 +299,7 @@ namespace MySeenWeb.Models
             type = type.Remove(0, 1);//Удалим минус
             var tType = Convert.ToInt32(type);
 
-            foreach (var item in ac.Tracks.Where(t => t.Type == tType && (year == 0 || t.Date.Year == year)))
+            foreach (var item in ac.Tracks.AsNoTracking().Where(t => t.Type == tType && (year == 0 || t.Date.Year == year)))
             {
                 if (item.Coordinates[item.Coordinates.Length - 1] == ';')
                     item.Coordinates = item.Coordinates.Remove(item.Coordinates.Length - 1);
@@ -326,17 +327,17 @@ namespace MySeenWeb.Models
         public static string GetTrackNameById(int id, string userId)
         {
             var ac = new ApplicationDbContext();
-            return ac.Tracks.First(t => t.UserId == userId && t.Id == id).Name;
+            return ac.Tracks.AsNoTracking().First(t => t.UserId == userId && t.Id == id).Name;
         }
         public static string GetTrackDateById(int id, string userId)
         {
             var ac = new ApplicationDbContext();
-            return ac.Tracks.First(t => t.UserId == userId && t.Id == id).Date.ToString(CultureInfo.CurrentCulture);
+            return ac.Tracks.AsNoTracking().First(t => t.UserId == userId && t.Id == id).Date.ToString(CultureInfo.CurrentCulture);
         }
         public static string GetTrackCoordinatesById(int id, string userId)
         {
             var ac = new ApplicationDbContext();
-            return ac.Tracks.First(t => t.UserId == userId && t.Id == id).Coordinates;
+            return ac.Tracks.AsNoTracking().First(t => t.UserId == userId && t.Id == id).Coordinates;
         }
         public static void DeleteTrack(string id, string userId)
         {

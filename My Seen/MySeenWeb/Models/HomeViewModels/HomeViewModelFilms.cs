@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using MySeenWeb.Models.OtherViewModels;
 using MySeenWeb.Models.TablesViews;
@@ -24,11 +25,12 @@ namespace MySeenWeb.Models
                 ac.Films.Count(f => f.UserId == userId && (string.IsNullOrEmpty(search) || f.Name.Contains(search))),
                 countInPage);
 
-            Data = ac.Films.Where(f => f.UserId == userId && (string.IsNullOrEmpty(search) || f.Name.Contains(search)))
+            Data = ac.Films.AsNoTracking()
+                .Where(f => f.UserId == userId && (string.IsNullOrEmpty(search) || f.Name.Contains(search)))
                 .OrderByDescending(f => f.DateSee)
-                .Select(FilmsView.Map)
-                .Skip((Pages.CurentPage - 1) * countInPage)
-                .Take(countInPage);
+                .Skip(() => (Pages.CurentPage - 1)*countInPage)
+                .Take(() => countInPage)
+                .Select(FilmsView.Map);
         }
     }
 }

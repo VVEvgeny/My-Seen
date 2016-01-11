@@ -1,4 +1,5 @@
-﻿@model MySeenWeb.Models.OtherViewModels.IndexViewModel
+﻿@using Microsoft.Owin.Security
+@model MySeenWeb.Models.OtherViewModels.IndexViewModel
 
 @{
     ViewBag.Title = Resource.Manage;
@@ -17,11 +18,18 @@
             @(Model.HasPassword ? Html.ActionLink(Resource.ChangeYourPassword, "ChangePassword") : Html.ActionLink(Resource.Create, "SetPassword"))
             ]
         </dd>
-        <dt>@Resource.ExternalLogins:</dt>
-        <dd>
-            @Model.Logins.Count [
-            @Html.ActionLink(Resource.Manage, "ManageLogins") ]
-        </dd>
+        @{
+            var loginProviders = Context.GetOwinContext().Authentication.GetExternalAuthenticationTypes();
+            var authenticationDescriptions = loginProviders as IList<AuthenticationDescription> ?? loginProviders.ToList();
+            if (authenticationDescriptions.Any() || Nemiro.OAuth.OAuthManager.RegisteredClients.Count != 0)
+            {
+                <dt>@Resource.ExternalLogins:</dt>
+                <dd>
+                    @Model.Logins.Count [
+                    @Html.ActionLink(Resource.Manage, "ManageLogins") ]
+                </dd>
+            }
+        }
     </dl>
     <dl class="dl-horizontal">
         <dt>@Resource.SelectLanguage</dt>
