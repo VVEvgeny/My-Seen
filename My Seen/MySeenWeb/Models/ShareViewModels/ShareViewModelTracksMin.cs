@@ -2,11 +2,8 @@
 {
     public class ShareViewModelTracksMin : ShareViewModelBaseMin
     {
-        public string Key { get; set; }
-
-        public ShareViewModelTracksMin(string key) : base(key, ShareType.Roads)
+        public ShareViewModelTracksMin(string key,string owner) : base(key, owner, ShareType.Roads)
         {
-            Key = key;
         }
     }
 }

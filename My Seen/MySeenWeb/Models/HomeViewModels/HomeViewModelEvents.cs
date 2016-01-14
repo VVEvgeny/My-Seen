@@ -37,7 +37,7 @@ namespace MySeenWeb.Models
                     .OrderBy(e => e.EstimatedTicks);
 
             Pages = new PaginationViewModel(page, data.Count(), countInPage);
-            Data = data.Skip((Pages.CurentPage - 1) * countInPage).Take(countInPage);
+            Data = data.Skip(Pages.SkipRecords).Take(countInPage);
         }
         public static string GetShare(string id, string userId)
         {

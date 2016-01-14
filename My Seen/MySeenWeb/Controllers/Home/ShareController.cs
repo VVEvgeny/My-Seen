@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Web.Mvc;
+using Microsoft.AspNet.Identity;
 using MySeenWeb.ActionFilters;
 using MySeenWeb.Add_Code.Services.Logging.NLog;
 using MySeenWeb.Controllers._Base;
@@ -18,7 +19,8 @@ namespace MySeenWeb.Controllers.Home
             const string methodName = "public ActionResult Films(string id)";
             try
             {
-                return View(new ShareViewModelFilmsMin(id));
+                return
+                    View(new ShareViewModelFilmsMin(id, User.Identity.IsAuthenticated ? User.Identity.GetUserId() : ""));
             }
             catch (Exception ex)
             {
@@ -34,7 +36,7 @@ namespace MySeenWeb.Controllers.Home
             const string methodName = "public ActionResult Serials(string id)";
             try
             {
-                return View(new ShareViewModelSerialsMin(id));
+                return View(new ShareViewModelSerialsMin(id, User.Identity.IsAuthenticated ? User.Identity.GetUserId() : ""));
             }
             catch (Exception ex)
             {
@@ -50,7 +52,7 @@ namespace MySeenWeb.Controllers.Home
             const string methodName = "public ActionResult Books(string id)";
             try
             {
-                return View(new ShareViewModelBooksMin(id));
+                return View(new ShareViewModelBooksMin(id, User.Identity.IsAuthenticated ? User.Identity.GetUserId() : ""));
             }
             catch (Exception ex)
             {
@@ -66,7 +68,7 @@ namespace MySeenWeb.Controllers.Home
             const string methodName = "public ActionResult Events(string id)";
             try
             {
-                return View(new ShareViewModelEventsMin(id));
+                return View(new ShareViewModelEventsMin(id, User.Identity.IsAuthenticated ? User.Identity.GetUserId() : ""));
             }
             catch (Exception ex)
             {
@@ -82,7 +84,7 @@ namespace MySeenWeb.Controllers.Home
             const string methodName = "public ActionResult Tracks(string id)";
             try
             {
-                return View(new ShareViewModelTracksMin(id));
+                return View(new ShareViewModelTracksMin(id, User.Identity.IsAuthenticated ? User.Identity.GetUserId() : ""));
             }
             catch (Exception ex)
             {

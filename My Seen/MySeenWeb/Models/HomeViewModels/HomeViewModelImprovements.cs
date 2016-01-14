@@ -23,7 +23,7 @@ namespace MySeenWeb.Models
                     .OrderByDescending(b => b.DateEnd == null)
                     .ThenByDescending(b => b.DateEnd)
                     .ThenByDescending(b => b.DateFound)
-                    .Skip(() => (Pages.CurentPage - 1)*countInPage).Take(() => countInPage).Select(BugsView.Map);
+                    .Skip(() => Pages.SkipRecords).Take(() => countInPage).Select(BugsView.Map);
             }
             else
             {
@@ -33,7 +33,7 @@ namespace MySeenWeb.Models
                     .OrderByDescending(b => b.DateEnd == null)
                     .ThenByDescending(b => b.DateEnd)
                     .ThenByDescending(b => b.DateFound)
-                    .Skip(() => (Pages.CurentPage - 1)*countInPage).Take(() => countInPage).Select(BugsView.Map);
+                    .Skip(() => Pages.SkipRecords).Take(() => countInPage).Select(BugsView.Map);
             }
         }
     }

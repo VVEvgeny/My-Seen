@@ -13,11 +13,11 @@ namespace MySeenWeb.Models.Tools
         {
             CurentPage = pageNum;
             if (CurentPage < 1) CurentPage = 1;
-            IsFirstPage = CurentPage == 1;
             if (totalRecords != 0) LastPage = totalRecords / countInPage;
             else LastPage = 1;
             if (totalRecords % countInPage != 0) LastPage++;
             if (CurentPage > LastPage) CurentPage = LastPage;
+            IsFirstPage = CurentPage == 1;
             IsLastPage = LastPage == CurentPage;
             MiddlePage = LastPage / 2;
             if (LastPage % 2 != 0) MiddlePage++;
@@ -66,6 +66,8 @@ namespace MySeenWeb.Models.Tools
             if (IsFirstPage && IsLastPage)listI.Clear();
 
             List = listI.Distinct();
+
+            SkipRecords = (CurentPage - 1)*countInPage;
         }
         public bool IsFirstPage { get; set; }
         public bool IsMiddlePage { get; set; }
@@ -73,6 +75,7 @@ namespace MySeenWeb.Models.Tools
         public int CurentPage { get; set; }
         public int LastPage { get; set; }
         public int MiddlePage { get; set; }
+        public int SkipRecords { get; set; }
 
         public IEnumerable<int> List { get; set; }
     }

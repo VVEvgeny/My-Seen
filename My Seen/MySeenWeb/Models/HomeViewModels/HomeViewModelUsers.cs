@@ -21,7 +21,7 @@ namespace MySeenWeb.Models
         {
             var ac = new ApplicationDbContext();
             Pages = new PaginationViewModel(page, ac.Users.Count(), countInPage);
-            Data = ac.Users.AsNoTracking().Select(UsersView.Map).OrderByDescending(l => l.LastAction).Skip((Pages.CurentPage - 1) * countInPage).Take(countInPage);
+            Data = ac.Users.AsNoTracking().Select(UsersView.Map).OrderByDescending(l => l.LastAction).Skip(Pages.SkipRecords).Take(countInPage);
         }
     }
 }

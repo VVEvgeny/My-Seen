@@ -19,8 +19,10 @@ namespace MySeenWeb.Models
         {
             var ac = new ApplicationDbContext();
             Pages = new PaginationViewModel(page, ac.Serials.Count(f => f.UserId == userId && (string.IsNullOrEmpty(search) || f.Name.Contains(search))), countInPage);
-            Data = ac.Serials.AsNoTracking().Where(f => f.UserId == userId && (string.IsNullOrEmpty(search) || f.Name.Contains(search))).OrderByDescending(f => f.DateLast)
-                .Skip(()=>(Pages.CurentPage - 1) * countInPage).Take(()=>countInPage).Select(SerialsView.Map);
+            Data = ac.Serials.AsNoTracking()
+                .Where(f => f.UserId == userId && (string.IsNullOrEmpty(search) || f.Name.Contains(search)))
+                .OrderByDescending(f => f.DateLast)
+                .Skip(() => Pages.SkipRecords).Take(() => countInPage).Select(SerialsView.Map);
         }
     }
 }

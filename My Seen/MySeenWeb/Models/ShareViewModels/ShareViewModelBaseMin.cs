@@ -5,6 +5,9 @@ namespace MySeenWeb.Models.ShareViewModels
 {
     public class ShareViewModelBaseMin
     {
+        public string Key { get; set; }
+        public string Owner { get; set; }
+
         public enum ShareType
         {
             Films,
@@ -18,8 +21,11 @@ namespace MySeenWeb.Models.ShareViewModels
         public bool FacebookServicesEnabled { get; set; }
 
 
-        public ShareViewModelBaseMin(string key, ShareType type)
+        public ShareViewModelBaseMin(string key, string owner, ShareType type)
         {
+            Key = key;
+            Owner = owner;
+
             var ac = new ApplicationDbContext();
             if (ac.Users.Any(f => 
                 (type == ShareType.Books && f.ShareBooksKey == key)

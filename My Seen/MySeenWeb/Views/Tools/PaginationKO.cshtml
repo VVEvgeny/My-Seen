@@ -71,6 +71,12 @@
                 var data = { page: id, search: $('#quickSearch').val() };
                 window.getPage(data); //Запрос на сервер
 
+                if ($('#quickSearch').val() === '') {
+                    window.history.pushState('page', 'page', "?page=" + id);
+                } else {
+                    window.history.pushState('page', 'page', "?search=" + $('#quickSearch').val() + "&page=" + id);
+                }
+
                 return false;
             });
 

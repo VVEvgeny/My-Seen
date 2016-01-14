@@ -93,7 +93,7 @@ namespace MySeenWeb.Models
         public HomeViewModelEventsMin Events;
         public HomeViewModelErrorsMin Errors;
 
-        public HomeViewModel(string selected, string userId, int complex, int markersOnRoads, int roadsYear,bool onlyEnded)
+        public HomeViewModel(string selected, string userId, int complex, bool onlyEnded)
         {
             if (!string.IsNullOrEmpty(userId))
             {

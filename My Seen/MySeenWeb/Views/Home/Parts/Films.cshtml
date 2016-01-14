@@ -24,17 +24,19 @@
                     </tr>
                 </thead>
                 <tbody data-bind="foreach: films">
-                    <tr>
-                        <td class="align-center">
-                            <button type="button" class="btn btn-warning btn-edit btn-xs" data-bind="attr: {id: id}"> <span class=" glyphicon glyphicon-pencil"></span></button>
+                <tr>
+                    <td>
+                        <span class="pull-left">
+                            <button class="btn btn-warning btn-edit btn-xs" data-bind="attr: {id: id}"> <span class=" glyphicon glyphicon-pencil"></span></button>
                             <button class="btn btn-xs btn-info btn-share" data-bind=" visible: shared, attr: {id: id}"><span class="glyphicon glyphicon-share"></span></button>
-                        </td>
-                        <td class="align-center" data-bind="text: name"></td>
-                        <td class="align-center" data-bind="text: year"></td>
-                        <td class="align-center" data-bind="text: seen"></td>
-                        <td class="align-center" data-bind="text: genre"></td>
-                        <td class="align-center" data-bind="text: rating"></td>
-                    </tr>
+                        </span>
+                    </td>
+                    <td class="align-center" data-bind="text: name"></td>
+                    <td class="align-center" data-bind="text: year"></td>
+                    <td class="align-center" data-bind="text: seen"></td>
+                    <td class="align-center" data-bind="text: genre"></td>
+                    <td class="align-center" data-bind="text: rating"></td>
+                </tr>
                 </tbody>
             </table>
         </div>
@@ -168,7 +170,7 @@
                 model = new FilmsViewModel();
                 ko.applyBindings(model, document.getElementById('divDataFilms'));
 
-                window.getPage(); //Запрос на сервер
+                window.getPage({ page: window.getQueryVar('page'), search: window.getQueryVar('search') }); //Запрос на сервер
 
                 var $addButton = $('#addButton');
                 var $submitAddButton = $('#submitAddButton');
@@ -243,7 +245,7 @@
                 $table.on('click', '.btn-edit', function() {
                     $shareGetInModalButton.show();
                     var $button = $(this);
-                    var $tr = $button.parent().parent();
+                    var $tr = $button.parent().parent().parent();
                     var $tds = $tr.find('td');
                     var $modalTitle = $modal.find('.modal-title');
                     var $modalBody = $modal.find('.modal-body');

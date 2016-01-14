@@ -2,11 +2,9 @@
 {
     public class ShareViewModelEventsMin : ShareViewModelBaseMin
     {
-        public string Key { get; set; }
-
-        public ShareViewModelEventsMin(string key):base(key, ShareType.Events)
+        public ShareViewModelEventsMin(string key, string owner)
+            : base(key, owner, ShareType.Events)
         {
-            Key = key;
         }
     }
 }

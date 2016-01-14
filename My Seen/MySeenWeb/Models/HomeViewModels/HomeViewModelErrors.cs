@@ -16,7 +16,7 @@ namespace MySeenWeb.Models
         {
             var ac = new ApplicationDbContext();
             Pages = new PaginationViewModel(page, ac.NLogErrors.Count(), countInPage);
-            Data = ac.NLogErrors.AsNoTracking().OrderByDescending(l => l.DateTimeStamp).Skip(()=> (Pages.CurentPage - 1) * countInPage).Take(()=>countInPage).Select(NLogErrorsView.Map);
+            Data = ac.NLogErrors.AsNoTracking().OrderByDescending(l => l.DateTimeStamp).Skip(() => Pages.SkipRecords).Take(() => countInPage).Select(NLogErrorsView.Map);
         }
     }
 }

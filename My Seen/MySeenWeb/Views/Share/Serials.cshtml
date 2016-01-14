@@ -13,26 +13,30 @@
         <div class="table-responsive">
             <table class="table table-striped" id="table">
                 <thead>
-                    <tr>
-                        <th class="col-sm-4">@Resource.Name</th>
-                        <th class="col-sm-1">@Resource.Year</th>
-                        <th class="col-sm-1">@Resource.LastEpisode</th>
-                        <th class="col-sm-2">@Resource.DateLast</th>
-                        <th class="col-sm-2">@Resource.DateBegin</th>
-                        <th class="col-sm-1">@Resource.Genre</th>
-                        <th class="col-sm-1">@Resource.Rating</th>
-                    </tr>
+                <tr>
+                    <th class="col-sm-1"></th>
+                    <th class="col-sm-3">@Resource.Name</th>
+                    <th class="col-sm-1">@Resource.Year</th>
+                    <th class="col-sm-1">@Resource.LastEpisode</th>
+                    <th class="col-sm-2">@Resource.DateLast</th>
+                    <th class="col-sm-2">@Resource.DateBegin</th>
+                    <th class="col-sm-1">@Resource.Genre</th>
+                    <th class="col-sm-1">@Resource.Rating</th>
+                </tr>
                 </thead>
                 <tbody data-bind="foreach: serials">
-                    <tr>
-                        <td class="align-center" data-bind="text: name"></td>
-                        <td class="align-center" data-bind="text: year"></td>
-                        <td class="align-center" data-bind="text: season"></td>
-                        <td class="align-center" data-bind="text: dateLast"></td>
-                        <td class="align-center" data-bind="text: dateBegin"></td>
-                        <td class="align-center" data-bind="text: genre"></td>
-                        <td class="align-center" data-bind="text: rating"></td>
-                    </tr>
+                <tr>
+                    <td class="align-center">
+                        <button class="btn btn-xs btn-danger btn-share-remove" data-bind=" visible: isMy, attr: {id: id}"><span class="glyphicon glyphicon-remove"></span></button>
+                    </td>
+                    <td class="align-center" data-bind="text: name"></td>
+                    <td class="align-center" data-bind="text: year"></td>
+                    <td class="align-center" data-bind="text: season"></td>
+                    <td class="align-center" data-bind="text: dateLast"></td>
+                    <td class="align-center" data-bind="text: dateBegin"></td>
+                    <td class="align-center" data-bind="text: genre"></td>
+                    <td class="align-center" data-bind="text: rating"></td>
+                </tr>
                 </tbody>
             </table>
         </div>
@@ -50,6 +54,8 @@
 
     function Serial(data) {
 
+        this.id = ko.observable(data.Id);
+        this.isMy = ko.observable(data.UserId === '@Model.Owner');
         this.name = ko.observable(data.Name);
         this.year = ko.observable(data.YearText);
         this.season = ko.observable(data.SeasonSeries);
@@ -107,6 +113,41 @@
 
             window.getPage(); //Запрос на сервер
 
+            function sendRequest(innerUrl, innerData) {
+                $.ajax({
+                    type: 'POST',
+                    url: innerUrl,
+                    data: innerData,
+                    dataType: 'json',
+                    success: function (response) {
+                        if (response.error) {
+                            alert(response.error);
+                        } else {
+                            var data = { page: $('#pagination-curent-page').val(), search: $('#quickSearch').val() };
+                            window.getPage(data); //Запрос на сервер
+                        }
+                    },
+                    error: function (err) {
+                        alert(err);
+                    }
+                });
+
+                return false;
+            }
+            var $table = $('.table.table-striped');
+            $table.off('click', '.btn-share-remove');
+            $table.on('click', '.btn-share-remove', function () {
+                var $button = $(this);
+                var id = $button.attr('id');
+
+                var url = '/Json/DeleteShare';
+                var data = {
+                    name: window.sharedPageName,
+                    id: id
+                };
+
+                sendRequest(url, data);
+            });
         });
     })(jQuery);
 </script>

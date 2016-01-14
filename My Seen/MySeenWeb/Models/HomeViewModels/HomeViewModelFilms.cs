@@ -28,7 +28,7 @@ namespace MySeenWeb.Models
             Data = ac.Films.AsNoTracking()
                 .Where(f => f.UserId == userId && (string.IsNullOrEmpty(search) || f.Name.Contains(search)))
                 .OrderByDescending(f => f.DateSee)
-                .Skip(() => (Pages.CurentPage - 1)*countInPage)
+                .Skip(() => Pages.SkipRecords)
                 .Take(() => countInPage)
                 .Select(FilmsView.Map);
         }

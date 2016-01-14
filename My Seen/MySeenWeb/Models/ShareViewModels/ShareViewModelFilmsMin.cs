@@ -2,11 +2,9 @@
 {
     public class ShareViewModelFilmsMin : ShareViewModelBaseMin
     {
-        public string Key { get; set; }
-
-        public ShareViewModelFilmsMin(string key):base(key, ShareType.Films)
+        public ShareViewModelFilmsMin(string key, string owner)
+            : base(key, owner, ShareType.Films)
         {
-            Key = key;
         }
     }
 }

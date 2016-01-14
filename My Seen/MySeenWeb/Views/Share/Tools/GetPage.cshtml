@@ -8,9 +8,7 @@
         //console.log("getPage data=" + data + " noReset=" + noReset);
 
         if (window.model) window.model.setLoadingData();
-        if (window.model && noReset !== true) {
-            window.model.resetData();
-        }
+
         var addData = { key: sharedKey, pageName: sharedPageName };
         if (data) {
             $.extend(addData, data);
@@ -19,6 +17,10 @@
 
         if (window.modelLayout) window.modelLayout.reload();
         //console.log("GetSharedPage data=", data);
+
+        if (window.model && noReset !== true) {
+            window.model.resetData();
+        }
 
         $.post('/Json/GetSharedPage/', data, function(jsonData) {
 

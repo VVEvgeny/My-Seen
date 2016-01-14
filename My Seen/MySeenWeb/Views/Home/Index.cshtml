@@ -76,11 +76,29 @@
     if (!Model.ExtPage)
     {
         <script language="javascript" type="text/javascript">
+            
+            function getQueryVar(varName) {
+                // Grab and unescape the query string - appending an '&' keeps the RegExp simple
+                // for the sake of this example.
+                var queryStr = unescape(window.location.search) + '&';
+
+                // Dynamic replacement RegExp
+                var regex = new RegExp('.*?[&\\?]' + varName + '=(.*?)&.*');
+
+                // Apply RegExp to the query string
+                var val = queryStr.replace(regex, "$1");
+
+                // If the string is the same, we didn't find a match - return false
+                return val === queryStr ? '' : val;
+            }
+
             (function($) {
                 $(function() {
                     var $select = $('#lstSelected');
                     var $search = $('#searchButton');
                     var $quickSearch = $('#quickSearch');
+
+                    $quickSearch.val(getQueryVar('search'));
 
                     $select.on('change', function() {
                         var value = $(this).val();
@@ -109,6 +127,9 @@
                         //window.location.href = '/?search=' + $quickSearch.val();
                         var data = { search: $quickSearch.val() };
                         window.getPage(data);
+
+                        window.history.pushState('search', 'search', "?search=" + $quickSearch.val());
+
                     });
                     $quickSearch.on('keypress', function (event) {
                         if (event.which === 13) {
@@ -116,6 +137,8 @@
                             //window.location.href = '/?search=' + $quickSearch.val();
                             var data = { search:$quickSearch.val() };
                             window.getPage(data);
+
+                            window.history.pushState('search', 'search', "?search=" + $quickSearch.val());
                         }
                     });
 

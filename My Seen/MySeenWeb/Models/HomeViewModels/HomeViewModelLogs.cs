@@ -19,7 +19,7 @@ namespace MySeenWeb.Models
             Data =
                 ac.Logs.AsNoTracking()
                     .OrderByDescending(l => l.DateLast)
-                    .Skip(() => (Pages.CurentPage - 1)*countInPage)
+                    .Skip(() => Pages.SkipRecords)
                     .Take(() => countInPage)
                     .Select(LogsView.Map);
         }

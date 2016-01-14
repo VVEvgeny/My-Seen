@@ -20,7 +20,7 @@ namespace MySeenWeb.Models
             var ac = new ApplicationDbContext();
             Pages = new PaginationViewModel(page, ac.Books.Count(f => f.UserId == userId  && (string.IsNullOrEmpty(search) || f.Name.Contains(search))), countInPage);
             Data = ac.Books.AsNoTracking().Where(f => f.UserId == userId && (string.IsNullOrEmpty(search) || f.Name.Contains(search))).OrderByDescending(f => f.DateRead)
-                .Skip(() => (Pages.CurentPage - 1) * countInPage).Take(() => countInPage).Select(BooksView.Map);
+                .Skip(() => Pages.SkipRecords).Take(() => countInPage).Select(BooksView.Map);
         }
     }
 }

@@ -52,7 +52,7 @@ namespace MySeenWeb.Models.TablesLogic
         }
         private bool Contains()
         {
-            return _ac.Serials.Any(f => f.Name == Name && f.UserId == UserId && f.Id != Id);
+            return _ac.Serials.Any(f => f.Name == Name && f.UserId == UserId && f.Id != Id && f.Year == Year);
         }
         private bool Verify()
         {
@@ -115,6 +115,30 @@ namespace MySeenWeb.Models.TablesLogic
         public bool Update(string id, string name, string year, string season, string series, string datetime, string genre, string rating, string userId)
         {
             return Fill(id, name, year, season, series, datetime, genre, rating, userId) && Verify() && Update();
+        }
+        public bool AddSeries(string id, string userId)
+        {
+            try
+            {
+                Id = Convert.ToInt32(id);
+                if (_ac.Serials.Any(f => f.UserId == userId && f.Id == Id))
+                {
+                    _ac.Serials.First(f => f.UserId == userId && f.Id == Id).LastSeries++;
+                    _ac.Serials.First(f => f.UserId == userId && f.Id == Id).DateLast = UmtTime.From(DateTime.Now);
+                    _ac.SaveChanges();
+                }
+                else
+                {
+                    ErrorMessage = Resource.NoData;
+                    return false;
+                }
+            }
+            catch (Exception e)
+            {
+                ErrorMessage = Resource.ErrorWorkWithDB + "=" + e.Message;
+                return false;
+            }
+            return true;
         }
         public bool Delete(string id, string userId)
         {

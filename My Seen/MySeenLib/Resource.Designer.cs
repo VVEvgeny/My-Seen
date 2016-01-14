@@ -1133,6 +1133,15 @@ namespace MySeenLib {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Historical.
+        /// </summary>
+        public static string GenreHistorical {
+            get {
+                return ResourceManager.GetString("GenreHistorical", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Horror.
         /// </summary>
         public static string GenreHorror {
@@ -1286,7 +1295,7 @@ namespace MySeenLib {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to 10.
+        ///   Looks up a localized string similar to 11.
         /// </summary>
         public static string LibVersionNum {
             get {

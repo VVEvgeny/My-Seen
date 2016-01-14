@@ -29,8 +29,6 @@ namespace MySeenWeb.Controllers.Home
                         .ToString(),
                     User.Identity.IsAuthenticated ? User.Identity.GetUserId() : string.Empty,
                     ReadUserSideStorage(UserSideStorageKeys.ImprovementsCategory, Defaults.ComplexBase.Indexes.All),
-                    MarkersOnRoads,
-                    ReadUserSideStorage(UserSideStorageKeys.RoadsYear, 0),
                     ReadUserSideStorage(UserSideStorageKeys.EndedEvents, 0) == 1
                     ));
             }
@@ -154,6 +152,23 @@ namespace MySeenWeb.Controllers.Home
             {
                 var logic = new SerialsLogic();
                 return !logic.Update(id, name, year, season, series, datetime, genre, rating, User.Identity.GetUserId()) ? new JsonResult { Data = new { success = false, error = logic.ErrorMessage } } : Json(new { success = true });
+            }
+            catch (Exception ex)
+            {
+                logger.Error(methodName, ex);
+            }
+            return new JsonResult { Data = new { success = false, error = methodName } };
+        }
+        [Authorize]
+        [HttpPost]
+        public JsonResult AddSeries(string id)
+        {
+            var logger = new NLogLogger();
+            var methodName = "public JsonResult AddSeries(string id)";
+            try
+            {
+                var logic = new SerialsLogic();
+                return !logic.AddSeries(id, User.Identity.GetUserId()) ? new JsonResult { Data = new { success = false, error = logic.ErrorMessage } } : Json(new { success = true });
             }
             catch (Exception ex)
             {
@@ -712,6 +727,5 @@ namespace MySeenWeb.Controllers.Home
             }
             return new JsonResult { Data = new { success = false, error = methodName } };
         }
-        
     }
 }

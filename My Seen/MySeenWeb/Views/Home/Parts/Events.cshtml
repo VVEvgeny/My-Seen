@@ -44,9 +44,11 @@
                 </thead>
                 <tbody data-bind="foreach: events">
                 <tr>
-                    <td class="align-center">
-                        <button type="button" class="btn btn-warning btn-edit btn-xs" data-bind="attr: {id: id}"> <span class=" glyphicon glyphicon-pencil"></span></button>
-                        <button class="btn btn-xs btn-info btn-share" data-bind=" visible: shared, attr: {id: id}"><span class="glyphicon glyphicon-share"></span></button>
+                    <td>
+                        <span class="pull-left">
+                            <button class="btn btn-warning btn-edit btn-xs" data-bind="attr: {id: id}"> <span class=" glyphicon glyphicon-pencil"></span></button>
+                            <button class="btn btn-xs btn-info btn-share" data-bind=" visible: shared, attr: {id: id}"><span class="glyphicon glyphicon-share"></span></button>
+                        </span>
                     </td>
                     <td class="align-center" data-bind="text: name"></td>
                     <td class="align-center" data-bind="text: estimatedTo"></td>
@@ -305,7 +307,7 @@
             model = new EventsViewModel();
             ko.applyBindings(model, document.getElementById('divDataEvents'));
 
-            window.getPage(); //Запрос на сервер
+            window.getPage({ page: window.getQueryVar('page'), search: window.getQueryVar('search') }); //Запрос на сервер
 
             setInterval(recalcEstimated, 1000);
 
@@ -385,7 +387,7 @@
             $table.on('click', '.btn-edit', function () {
                 $shareGetInModalButton.show();
                 var $button = $(this);
-                var $tr = $button.parent().parent();
+                var $tr = $button.parent().parent().parent();
                 var $tds = $tr.find('td');
                 var $modalTitle = $modal.find('.modal-title');
                 var $modalBody = $modal.find('.modal-body');

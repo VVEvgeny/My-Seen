@@ -25,17 +25,30 @@
             <table class="table table-striped" id="table">
                 <thead>
                 <tr>
+                    <th class="col-sm-1"></th>
                     <th class="col-sm-1">@Resource.Complex</th>
                     <th class="col-sm-1">@Resource.Found</th>
                     <th class="col-sm-1">@Resource.DateFound</th>
                     <th class="col-sm-3">@Resource.Description</th>
                     <th class="col-sm-1">@Resource.DateEnd</th>
                     <th class="col-sm-1">@Resource.Version</th>
-                    <th class="col-sm-4">@Resource.Description</th>
+                    <th class="col-sm-3">@Resource.Description</th>
                 </tr>
                 </thead>
                 <tbody data-bind="foreach: improvements">
                 <tr>
+                    @if (Admin.IsAdmin(User.Identity.Name))
+                    {
+                        <td class="align-center">
+                            <span class="pull-left">
+                                <button class="btn btn-xs btn-danger btn-improvement-remove" data-bind="attr: {id: id}"><span class="glyphicon glyphicon-remove"></span></button>
+                            </span>
+                        </td>
+                    }
+                    else
+                    {
+                        <td class="align-center"></td>
+                    }
                     <td class="align-center" data-bind="text: complex"></td>
                     <td class="align-center" data-bind="text: userName"></td>
                     <td class="align-center" data-bind="text: dateFound"></td>
@@ -127,11 +140,7 @@
                 </div>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-danger" id="deleteButton">
-                    <span class="glyphicon glyphicon-trash"></span>
-                    &nbsp;@Resource.Delete
-                </button>
-                <button type="button" class="btn btn-success" id="submitEndButton">
+                <button type="button" class="btn btn-success btn-block" id="submitEndButton">
                     <span class="glyphicon glyphicon-ok"></span>
                     &nbsp;@Resource.SaveСhanges
                 </button>
@@ -141,7 +150,7 @@
 </div>
 
 <script language="javascript" type="text/javascript">
-    
+
     function Improvement(data) {
 
         this.userName = ko.observable(data.UserName);
@@ -258,13 +267,27 @@
                 return false;
             });
 
+            $table.off('click', '.btn-improvement-remove');
+            $table.on('click', '.btn-improvement-remove', function () {
+                var $button = $(this);
+                var id = $button.attr('id');
+
+                url = '/Home/DeleteImprovement';
+                data = {
+                    id: id
+                };
+                sendRequest(url, data);
+
+                return false;
+            });
+
             $table.off('click', '.btn-success');
             $table.on('click', '.btn-success', function () {
                 var $button = $(this);
                 var id = $button.attr('id');
                 var $saveButton = $('#submitEndButton');
-                var $deleteButton = $('#deleteButton');
                 $('#bugDescEnd').val('');
+                $('#bugVersion').val('@(Versions.Web+1)');
 
                 $modalEnd.modal('show');
 
@@ -277,17 +300,6 @@
                         version: $('#bugVersion').val()
                     };
                     sendRequest(url, data);
-                    return false;
-                });
-
-                $deleteButton.off('click');
-                $deleteButton.on('click', function () {
-                    url = '/Home/DeleteImprovement';
-                    data = {
-                        id: id
-                    };
-                    sendRequest(url, data);
-
                     return false;
                 });
 

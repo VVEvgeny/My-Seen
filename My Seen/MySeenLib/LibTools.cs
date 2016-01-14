@@ -9,7 +9,7 @@ namespace MySeenLib
     public static class Versions
     {
         //Строка с версией библиотеки в ресурсах LibVersionNum
-        public static int Web = 10;
+        public static int Web = 11;
         public static int Android = 1;
         public static int AndroidLib = 1;
         public static int Pc = 1;
@@ -286,7 +286,8 @@ namespace MySeenLib
                         Resource.GenreConcert,
                         Resource.GenreCartoon,
                         Resource.GenreHorror,
-                        Resource.GenreFantastic
+                        Resource.GenreFantastic,
+                        Resource.GenreHistorical
                     };
                 }
             }

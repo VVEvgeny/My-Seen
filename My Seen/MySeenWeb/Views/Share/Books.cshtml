@@ -14,7 +14,8 @@
             <table class="table table-striped" id="table">
                 <thead>
                 <tr>
-                    <th class="col-sm-5">@Resource.Name</th>
+                    <th class="col-sm-1"></th>
+                    <th class="col-sm-4">@Resource.Name</th>
                     <th class="col-sm-1">@Resource.Year</th>
                     <th class="col-sm-2">@Resource.Author</th>
                     <th class="col-sm-2">@Resource.DateRead</th>
@@ -24,6 +25,9 @@
                 </thead>
                 <tbody data-bind="foreach: books">
                 <tr>
+                    <td class="align-center">
+                        <button class="btn btn-xs btn-danger btn-share-remove" data-bind=" visible: isMy, attr: {id: id}"><span class="glyphicon glyphicon-remove"></span></button>
+                    </td>
                     <td class="align-center" data-bind="text: name"></td>
                     <td class="align-center" data-bind="text: year"></td>
                     <td class="align-center" data-bind="text: authors"></td>
@@ -48,6 +52,8 @@
 
     function Book(data) {
 
+        this.id = ko.observable(data.Id);
+        this.isMy = ko.observable(data.UserId === '@Model.Owner');
         this.name = ko.observable(data.Name);
         this.year = ko.observable(data.YearText);
         this.authors = ko.observable(data.Authors);
@@ -105,6 +111,42 @@
 
             window.getPage(); //Запрос на сервер
 
+
+            function sendRequest(innerUrl, innerData) {
+                $.ajax({
+                    type: 'POST',
+                    url: innerUrl,
+                    data: innerData,
+                    dataType: 'json',
+                    success: function (response) {
+                        if (response.error) {
+                            alert(response.error);
+                        } else {
+                            var data = { page: $('#pagination-curent-page').val(), search: $('#quickSearch').val() };
+                            window.getPage(data); //Запрос на сервер
+                        }
+                    },
+                    error: function (err) {
+                        alert(err);
+                    }
+                });
+
+                return false;
+            }
+            var $table = $('.table.table-striped');
+            $table.off('click', '.btn-share-remove');
+            $table.on('click', '.btn-share-remove', function () {
+                var $button = $(this);
+                var id = $button.attr('id');
+
+                var url = '/Json/DeleteShare';
+                var data = {
+                    name: window.sharedPageName,
+                    id: id
+                };
+
+                sendRequest(url, data);
+            });
         });
     })(jQuery);
 </script>

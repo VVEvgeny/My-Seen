@@ -49,7 +49,7 @@ namespace MySeenWeb.Models.TablesLogic
         }
         private bool Contains()
         {
-            return _ac.Films.Any(f => f.Name == Name && f.UserId == UserId && f.Id != Id);
+            return _ac.Films.Any(f => f.Name == Name && f.UserId == UserId && f.Id != Id && f.Year == Year);
         }
         private bool Verify()
         {

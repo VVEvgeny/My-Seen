@@ -5,13 +5,15 @@
         //console.log("getPage data=" + data + " noReset=" + noReset);
 
         if (window.model) window.model.setLoadingData();
-        if (window.model && noReset !== true) {
-            window.model.resetData();
-        }
 
         if (window.modelLayout) window.modelLayout.reload();
 
         $.post('/Json/GetPage/', data, function(jsonData) {
+
+
+            if (window.model && noReset !== true) {
+                window.model.resetData();
+            }
 
             if (jsonData === '@Auth.NoAuth') window.location = '/';
 

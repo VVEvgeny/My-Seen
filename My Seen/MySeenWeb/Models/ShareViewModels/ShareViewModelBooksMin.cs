@@ -2,11 +2,9 @@
 {
     public class ShareViewModelBooksMin: ShareViewModelBaseMin
     {
-        public string Key { get; set; }
-
-        public ShareViewModelBooksMin(string key) : base(key, ShareType.Books)
+        public ShareViewModelBooksMin(string key, string owner)
+            : base(key, owner, ShareType.Books)
         {
-            Key = key;
         }
     }
 }
