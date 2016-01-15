@@ -43,7 +43,7 @@ namespace MySeenWeb.Models
 
         public HomeViewModelRoads(string userId, int markersOnRoads, int roadsYear)
         {
-            Markers = markersOnRoads == Defaults.EnabledDisabledBase.Indexes.Enabled;
+            Markers = markersOnRoads == (int)Defaults.EnabledDisabledBase.Indexes.Enabled;
             var ac = new ApplicationDbContext();
 
             DataFoot = ac.Tracks.AsNoTracking().Where(t => t.UserId == userId && t.Type == (int)TrackTypes.Foot && (roadsYear == 0 || t.Date.Year == roadsYear)).OrderByDescending(t => t.Date).Select(TracksView.Map).ToList();

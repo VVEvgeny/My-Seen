@@ -212,7 +212,7 @@ namespace MySeenWeb.Controllers.Account
             {
                 var ac = new ApplicationDbContext();
                 var userId = User.Identity.GetUserId();
-                ac.Users.First(u => u.Id == userId).VkServiceEnabled = Convert.ToInt32(selected) == Defaults.EnabledDisabledBase.Indexes.Enabled;
+                ac.Users.First(u => u.Id == userId).VkServiceEnabled = Convert.ToInt32(selected) == (int)Defaults.EnabledDisabledBase.Indexes.Enabled;
                 ac.SaveChanges();
                 return Json(new { success = true });
             }
@@ -231,7 +231,7 @@ namespace MySeenWeb.Controllers.Account
             {
                 var ac = new ApplicationDbContext();
                 var userId = User.Identity.GetUserId();
-                ac.Users.First(u => u.Id == userId).GoogleServiceEnabled = Convert.ToInt32(selected) == Defaults.EnabledDisabledBase.Indexes.Enabled;
+                ac.Users.First(u => u.Id == userId).GoogleServiceEnabled = Convert.ToInt32(selected) == (int)Defaults.EnabledDisabledBase.Indexes.Enabled;
                 ac.SaveChanges();
                 return Json(new { success = true });
             }
@@ -250,7 +250,7 @@ namespace MySeenWeb.Controllers.Account
             {
                 var ac = new ApplicationDbContext();
                 var userId = User.Identity.GetUserId();
-                ac.Users.First(u => u.Id == userId).FacebookServiceEnabled = Convert.ToInt32(selected) == Defaults.EnabledDisabledBase.Indexes.Enabled;
+                ac.Users.First(u => u.Id == userId).FacebookServiceEnabled = Convert.ToInt32(selected) == (int)Defaults.EnabledDisabledBase.Indexes.Enabled;
                 ac.SaveChanges();
                 return Json(new { success = true });
             }

@@ -19,8 +19,8 @@ namespace MySeenWeb.Models.TablesViews
                 Name = model.UserName.Remove(model.UserName.IndexOf('@')),
                 RegisterDate = model.RegisterDate.ToShortDateString(),
                 Culture = model.Culture == CultureInfoTool.Cultures.English
-                    ? Defaults.Languages.GetById(Defaults.LanguagesBase.Indexes.English)
-                    : Defaults.Languages.GetById(Defaults.LanguagesBase.Indexes.Russian),
+                    ? Defaults.Languages.GetById((int)Defaults.LanguagesBase.Indexes.English)
+                    : Defaults.Languages.GetById((int)Defaults.LanguagesBase.Indexes.Russian),
                 FilmsCount = ap.Films.Count(f => f.UserId == model.Id),
                 SerialsCount = ap.Serials.Count(f => f.UserId == model.Id),
                 BooksCount = ap.Books.Count(f => f.UserId == model.Id),

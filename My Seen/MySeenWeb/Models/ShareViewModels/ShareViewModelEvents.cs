@@ -23,7 +23,7 @@ namespace MySeenWeb.Models.ShareViewModels
             var data =
                 ac.Events.Where(f => f.User.ShareEventsKey == key && f.Shared)
                     .Select(EventsView.Map)
-                    .Where(e =>e.EstimatedTicks > 0 ||e.RepeatType == Defaults.EventsTypesBase.Indexes.OneTimeWithPast)
+                    .Where(e => e.EstimatedTicks > 0 || e.RepeatType == (int)Defaults.EventsTypesBase.Indexes.OneTimeWithPast)
                     .OrderBy(e => e.EstimatedTicks);
             
             Pages = new PaginationViewModel(page, data.Count(), countInPage);

@@ -215,9 +215,9 @@ namespace MySeenLib
     {
         public abstract class ListStringBase
         {
-            public abstract void Load();
+            protected abstract void Load();
 
-            public List<string> All;
+            protected List<string> All;
             public void Reload()
             {
                 All = null;
@@ -256,7 +256,7 @@ namespace MySeenLib
         }
         public abstract class ListStringBoolBase: ListStringBase
         {
-            public List<bool> Type;
+            protected List<bool> Type;
 
             public bool GetTypeById(int id)
             {
@@ -264,7 +264,7 @@ namespace MySeenLib
                 if (All != null && id >= All.Count) return false;
                 return All != null && Type[id];
             }
-            public new virtual void Reload()
+            public new void Reload()
             {
                 Type = null;
                 base.Reload();
@@ -273,7 +273,7 @@ namespace MySeenLib
 
         public class GenresBase : ListStringBase
         {
-            public override void Load()
+            protected override void Load()
             {
                 if (All == null)
                 {
@@ -294,7 +294,7 @@ namespace MySeenLib
         }
         public class RatingsBase : ListStringBase
         {
-            public override void Load()
+            protected override void Load()
             {
                 if (All == null)
                 {
@@ -304,29 +304,30 @@ namespace MySeenLib
         }
         public class CategoryBase : ListStringBase
         {
-            public static class Indexes
+            public enum Indexes
             {
-                public static int Films = 0;
-                public static int Serials = 1;
-                public static int Books = 2;
-                public static int Roads = 3;
-                public static int Events = 4;
+                Films,
+                Serials,
+                Books,
+                Roads,
+                Events
             }
 
-            public static class IndexesExt
+            public enum IndexesExt
             {
-                public static int Users = 101;
-                public static int Logs = 102;
-                public static int Improvements = 103;
-                public static int Errors = 104;
+                Users = 101,
+                Logs = 102,
+                Improvements = 103,
+                Errors = 104
             }
+
             public static bool IsCategoryExt(int category)
             {
-                return category == IndexesExt.Users || category == IndexesExt.Logs ||
-                       category == IndexesExt.Improvements || category == IndexesExt.Errors;
+                return category == (int)IndexesExt.Users || category == (int)IndexesExt.Logs ||
+                       category == (int)IndexesExt.Improvements || category == (int)IndexesExt.Errors;
             }
 
-            public override void Load()
+            protected override void Load()
             {
                 if (All == null)
                 {
@@ -343,12 +344,13 @@ namespace MySeenLib
         }
         public class LanguagesBase : ListStringBase
         {
-            public static class Indexes
+            public enum Indexes
             {
-                public static int English = 0;
-                public static int Russian = 1;
+                English,
+                Russian
             }
-            public override void Load()
+
+            protected override void Load()
             {
                 if (All == null)
                 {
@@ -358,22 +360,22 @@ namespace MySeenLib
             public int GetIdDb(string s)
             {
                 Load();
-                return s == CultureInfoTool.Cultures.English ? Indexes.English : Indexes.Russian;
+                return s == CultureInfoTool.Cultures.English ? (int)Indexes.English : (int)Indexes.Russian;
             }
             public string GetValDb(int i)
             {
                 Load();
-                return i == Indexes.English ? CultureInfoTool.Cultures.English : CultureInfoTool.Cultures.Russian;
+                return i == (int)Indexes.English ? CultureInfoTool.Cultures.English : CultureInfoTool.Cultures.Russian;
             }
         }
         public class ComplexBase : ListStringBase
         {
-            public static class Indexes
+            public enum Indexes
             {
-                public static int All = 0;
+                All
             }
 
-            public override void Load()
+            protected override void Load()
             {
                 if (All == null)
                 {
@@ -383,16 +385,16 @@ namespace MySeenLib
         }
         public class RecordPerPageBase : ListStringBase
         {
-            public static class Indexes
+            public enum Indexes
             {
-                public static int All = 0;
+                All
             }
             public static class Values
             {
                 public static int All = int.MaxValue;
             }
 
-            public override void Load()
+            protected override void Load()
             {
                 if (All == null)
                 {
@@ -404,13 +406,13 @@ namespace MySeenLib
         }
         public class EnabledDisabledBase : ListStringBase
         {
-            public static class Indexes
+            public enum Indexes
             {
-                public static int Enabled = 0;
-                public static int Disabled = 1;
+                Enabled,
+                Disabled
             }
 
-            public override void Load()
+            protected override void Load()
             {
                 if (All == null)
                 {
@@ -420,20 +422,18 @@ namespace MySeenLib
         }
         public class EventsTypesBase : ListStringBoolBase
         {
-            public static class Indexes
+            public enum Indexes
             {
-                public const int OneTime = 0; //1 раз в указанную дату
-                public const int OneTimeWithPast = 1; //1 раз в указанную дату + показывать пройденное
-                public const int EveryMonthInNeedDayWithWhenSundayOrSaturdayThenMonday = 2;
-                public const int EveryMonthInNeedDayWithWhenSaturdayOrFridayThenThursdayWhenSundayOrMondayThenTuesday =
-                    3; //Каждый месяц нужного числа, если ПТ или СБ значит ЧТ если ВС или ПН значит ВТ
-                public const int EveryMonthInNeedDayWithWhenSaturdayThenFridayWhenSundayThenMonday = 4;
-                //Каждый месяц нужного числа, если СБ или ВСКР значит в ПН
-                public const int EveryYear = 5; //Каждый год без погрешности
-                public const int EveryYearWithWhenSaturdayThenFridayAndWhenSundayThenMonday = 6;
+                OneTime, //1 раз в указанную дату
+                OneTimeWithPast, //1 раз в указанную дату + показывать пройденное
+                EveryMonthInNeedDayWithWhenSundayOrSaturdayThenMonday,
+                EveryMonthInNeedDayWithWhenSaturdayOrFridayThenThursdayWhenSundayOrMondayThenTuesday, //Каждый месяц нужного числа, если ПТ или СБ значит ЧТ если ВС или ПН значит ВТ
+                EveryMonthInNeedDayWithWhenSaturdayThenFridayWhenSundayThenMonday, //Каждый месяц нужного числа, если СБ или ВСКР значит в ПН
+                EveryYear, //Каждый год без погрешности
+                EveryYearWithWhenSaturdayThenFridayAndWhenSundayThenMonday
             }
 
-            public override void Load()
+            protected override void Load()
             {
                 if (All == null)
                 {
@@ -452,14 +452,14 @@ namespace MySeenLib
             }
         }
 
-        public static GenresBase Genres = new GenresBase();
-        public static RatingsBase Ratings = new RatingsBase();
-        public static CategoryBase Categories = new CategoryBase();
-        public static LanguagesBase Languages = new LanguagesBase();
-        public static ComplexBase Complexes = new ComplexBase();
-        public static RecordPerPageBase RecordPerPage = new RecordPerPageBase();
-        public static EnabledDisabledBase EnabledDisabled = new EnabledDisabledBase();
-        public static EventsTypesBase EventTypes = new EventsTypesBase();
+        public static readonly GenresBase Genres = new GenresBase();
+        public static readonly RatingsBase Ratings = new RatingsBase();
+        public static readonly CategoryBase Categories = new CategoryBase();
+        public static readonly LanguagesBase Languages = new LanguagesBase();
+        public static readonly ComplexBase Complexes = new ComplexBase();
+        public static readonly RecordPerPageBase RecordPerPage = new RecordPerPageBase();
+        public static readonly EnabledDisabledBase EnabledDisabled = new EnabledDisabledBase();
+        public static readonly EventsTypesBase EventTypes = new EventsTypesBase();
 
         private static readonly List<ListStringBase> AllResourcesLink = new List<ListStringBase>
         {

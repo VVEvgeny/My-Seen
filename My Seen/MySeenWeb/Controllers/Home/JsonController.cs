@@ -176,57 +176,57 @@ namespace MySeenWeb.Controllers.Home
             const string methodName = "public JsonResult GetPage(int? page, string search)";
             try
             {
-                if (ReadUserSideStorage(UserSideStorageKeys.HomeCategory, Defaults.CategoryBase.Indexes.Films) ==
-                Defaults.CategoryBase.Indexes.Events)
+                if (ReadUserSideStorage(UserSideStorageKeys.HomeCategory, (int)Defaults.CategoryBase.Indexes.Films) ==
+                (int)Defaults.CategoryBase.Indexes.Events)
                 {
                     return
                         Json(new HomeViewModelEvents(User.Identity.GetUserId(), page ?? 1, Rpp, search,
                             ReadUserSideStorage(UserSideStorageKeys.EndedEvents, 0) == 1));
                 }
-                else if (ReadUserSideStorage(UserSideStorageKeys.HomeCategory, Defaults.CategoryBase.Indexes.Films) ==
-                         Defaults.CategoryBase.Indexes.Books)
+                else if (ReadUserSideStorage(UserSideStorageKeys.HomeCategory, (int)Defaults.CategoryBase.Indexes.Films) ==
+                         (int)Defaults.CategoryBase.Indexes.Books)
                 {
                     return Json(new HomeViewModelBooks(User.Identity.GetUserId(), page ?? 1, Rpp, search));
                 }
-                else if (ReadUserSideStorage(UserSideStorageKeys.HomeCategory, Defaults.CategoryBase.Indexes.Films) ==
-                         Defaults.CategoryBase.Indexes.Serials)
+                else if (ReadUserSideStorage(UserSideStorageKeys.HomeCategory, (int)Defaults.CategoryBase.Indexes.Films) ==
+                         (int)Defaults.CategoryBase.Indexes.Serials)
                 {
                     return Json(new HomeViewModelSerials(User.Identity.GetUserId(), page ?? 1, Rpp, search));
                 }
-                else if (ReadUserSideStorage(UserSideStorageKeys.HomeCategory, Defaults.CategoryBase.Indexes.Films) ==
-                         Defaults.CategoryBase.Indexes.Films)
+                else if (ReadUserSideStorage(UserSideStorageKeys.HomeCategory, (int)Defaults.CategoryBase.Indexes.Films) ==
+                         (int)Defaults.CategoryBase.Indexes.Films)
                 {
                     return Json(new HomeViewModelFilms(User.Identity.GetUserId(), page ?? 1, Rpp, search));
                 }
-                else if (ReadUserSideStorage(UserSideStorageKeys.HomeCategory, Defaults.CategoryBase.Indexes.Films) ==
-                         Defaults.CategoryBase.IndexesExt.Users)
+                else if (ReadUserSideStorage(UserSideStorageKeys.HomeCategory, (int)Defaults.CategoryBase.Indexes.Films) ==
+                         (int)Defaults.CategoryBase.IndexesExt.Users)
                 {
                     return Json(new HomeViewModelUsers(page ?? 1, Rpp));
                 }
-                else if (ReadUserSideStorage(UserSideStorageKeys.HomeCategory, Defaults.CategoryBase.Indexes.Films) ==
-                         Defaults.CategoryBase.IndexesExt.Logs)
+                else if (ReadUserSideStorage(UserSideStorageKeys.HomeCategory, (int)Defaults.CategoryBase.Indexes.Films) ==
+                         (int)Defaults.CategoryBase.IndexesExt.Logs)
                 {
                     return Json(new HomeViewModelLogs(page ?? 1, Rpp));
                 }
-                else if (ReadUserSideStorage(UserSideStorageKeys.HomeCategory, Defaults.CategoryBase.Indexes.Films) ==
-                         Defaults.CategoryBase.IndexesExt.Improvements)
+                else if (ReadUserSideStorage(UserSideStorageKeys.HomeCategory, (int)Defaults.CategoryBase.Indexes.Films) ==
+                         (int)Defaults.CategoryBase.IndexesExt.Improvements)
                 {
                     return
                         Json(
                             new HomeViewModelImprovements(
                                 ReadUserSideStorage(UserSideStorageKeys.ImprovementsCategory,
-                                    Defaults.ComplexBase.Indexes.All), page ?? 1, Rpp));
+                                    (int)Defaults.ComplexBase.Indexes.All), page ?? 1, Rpp));
                 }
-                else if (ReadUserSideStorage(UserSideStorageKeys.HomeCategory, Defaults.CategoryBase.Indexes.Films) ==
-                            Defaults.CategoryBase.Indexes.Roads)
+                else if (ReadUserSideStorage(UserSideStorageKeys.HomeCategory, (int)Defaults.CategoryBase.Indexes.Films) ==
+                            (int)Defaults.CategoryBase.Indexes.Roads)
                 {
                     return
                         Json(
                             new HomeViewModelRoads(User.Identity.GetUserId(), MarkersOnRoads,
                                 ReadUserSideStorage(UserSideStorageKeys.RoadsYear, 0)));
                 }
-                else if (ReadUserSideStorage(UserSideStorageKeys.HomeCategory, Defaults.CategoryBase.Indexes.Films) ==
-                        Defaults.CategoryBase.IndexesExt.Errors)
+                else if (ReadUserSideStorage(UserSideStorageKeys.HomeCategory, (int)Defaults.CategoryBase.Indexes.Films) ==
+                        (int)Defaults.CategoryBase.IndexesExt.Errors)
                 {
                     return Json(new HomeViewModelErrors(page ?? 1, Rpp));
                 }

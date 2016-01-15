@@ -164,9 +164,9 @@ namespace MySeenWeb.Controllers._Base
             {
                 if (TryReadUserSideStorage(UserSideStorageKeys.RecordPerPage))
                 {
-                    var ret = ReadUserSideStorage(UserSideStorageKeys.RecordPerPage, Defaults.RecordPerPageBase.Indexes.All);
+                    var ret = ReadUserSideStorage(UserSideStorageKeys.RecordPerPage, (int)Defaults.RecordPerPageBase.Indexes.All);
                     if (!string.IsNullOrEmpty(Defaults.RecordPerPage.GetById(ret)))
-                        return ret == Defaults.RecordPerPageBase.Indexes.All
+                        return ret == (int)Defaults.RecordPerPageBase.Indexes.All
                             ? Defaults.RecordPerPageBase.Values.All
                             : Convert.ToInt32(Defaults.RecordPerPage.GetById(ret));
                     var userId = string.Empty;
@@ -186,12 +186,12 @@ namespace MySeenWeb.Controllers._Base
                                 Request.UserHostAddress, Request.UserAgent, "RecordPerPage catch No USER", userId);
                         }
                     }
-                    return ret == Defaults.RecordPerPageBase.Indexes.All ? Defaults.RecordPerPageBase.Values.All : Convert.ToInt32(Defaults.RecordPerPage.GetById(ret));
+                    return ret == (int)Defaults.RecordPerPageBase.Indexes.All ? Defaults.RecordPerPageBase.Values.All : Convert.ToInt32(Defaults.RecordPerPage.GetById(ret));
                 }
                 else
                 {
                     var userId = string.Empty;
-                    var ret = Defaults.RecordPerPageBase.Indexes.All;
+                    var ret = (int)Defaults.RecordPerPageBase.Indexes.All;
                     if (User.Identity.IsAuthenticated)
                     {
                         try
@@ -208,7 +208,7 @@ namespace MySeenWeb.Controllers._Base
                                 Request.UserHostAddress, Request.UserAgent, "RecordPerPage catch No USER", userId);
                         }
                     }
-                    return ret == Defaults.RecordPerPageBase.Indexes.All ? Defaults.RecordPerPageBase.Values.All : Convert.ToInt32(Defaults.RecordPerPage.GetById(ret));
+                    return ret == (int)Defaults.RecordPerPageBase.Indexes.All ? Defaults.RecordPerPageBase.Values.All : Convert.ToInt32(Defaults.RecordPerPage.GetById(ret));
                 }
             }
             set
@@ -220,7 +220,7 @@ namespace MySeenWeb.Controllers._Base
         {
             if (TryReadUserSideStorage(UserSideStorageKeys.Language))
             {
-                var lang = ReadUserSideStorage(UserSideStorageKeys.Language, Defaults.LanguagesBase.Indexes.English);
+                var lang = ReadUserSideStorage(UserSideStorageKeys.Language, (int)Defaults.LanguagesBase.Indexes.English);
                 try
                 {
                     CultureInfoTool.SetCulture(Defaults.Languages.GetValDb(lang));

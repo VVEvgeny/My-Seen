@@ -20,7 +20,7 @@ namespace MySeenWeb.Models
                             {
                                 Text = sel,
                                 Value = Defaults.EventTypes.GetId(sel).ToString(),
-                                Selected = Defaults.EventTypes.GetId(sel) == Defaults.EventsTypesBase.Indexes.OneTime
+                                Selected = Defaults.EventTypes.GetId(sel) == (int)Defaults.EventsTypesBase.Indexes.OneTime
                             })
                     .ToList();
 

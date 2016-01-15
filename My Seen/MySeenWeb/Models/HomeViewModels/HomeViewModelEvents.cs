@@ -31,9 +31,9 @@ namespace MySeenWeb.Models
                         e =>
                             onlyEnded
                                 ? e.EstimatedTicks <= 0 &&
-                                  e.RepeatType != Defaults.EventsTypesBase.Indexes.OneTimeWithPast
+                                  e.RepeatType != (int)Defaults.EventsTypesBase.Indexes.OneTimeWithPast
                                 : e.EstimatedTicks > 0 ||
-                                  e.RepeatType == Defaults.EventsTypesBase.Indexes.OneTimeWithPast)
+                                  e.RepeatType == (int)Defaults.EventsTypesBase.Indexes.OneTimeWithPast)
                     .OrderBy(e => e.EstimatedTicks);
 
             Pages = new PaginationViewModel(page, data.Count(), countInPage);

@@ -25,10 +25,10 @@ namespace MySeenWeb.Controllers.Home
             try
             {
                 return View(new HomeViewModel(
-                    ReadUserSideStorage(UserSideStorageKeys.HomeCategory, Defaults.CategoryBase.Indexes.Films)
+                    ReadUserSideStorage(UserSideStorageKeys.HomeCategory, (int)Defaults.CategoryBase.Indexes.Films)
                         .ToString(),
                     User.Identity.IsAuthenticated ? User.Identity.GetUserId() : string.Empty,
-                    ReadUserSideStorage(UserSideStorageKeys.ImprovementsCategory, Defaults.ComplexBase.Indexes.All),
+                    ReadUserSideStorage(UserSideStorageKeys.ImprovementsCategory, (int)Defaults.ComplexBase.Indexes.All),
                     ReadUserSideStorage(UserSideStorageKeys.EndedEvents, 0) == 1
                     ));
             }
@@ -459,7 +459,7 @@ namespace MySeenWeb.Controllers.Home
             const string methodName = "public ActionResult GetMarkers()";
             try
             {
-                return Json(ReadUserSideStorage(UserSideStorageKeys.MarkersOnRoads, 0) == Defaults.EnabledDisabledBase.Indexes.Enabled);
+                return Json(ReadUserSideStorage(UserSideStorageKeys.MarkersOnRoads, 0) == (int)Defaults.EnabledDisabledBase.Indexes.Enabled);
             }
             catch (Exception ex)
             {
@@ -629,9 +629,9 @@ namespace MySeenWeb.Controllers.Home
             {
                 WriteUserSideStorage(UserSideStorageKeys.HomeCategory,
                     Defaults.CategoryBase.IsCategoryExt(ReadUserSideStorage(UserSideStorageKeys.HomeCategoryPrev,
-                        Defaults.CategoryBase.Indexes.Films))
-                        ? Defaults.CategoryBase.Indexes.Films
-                        : ReadUserSideStorage(UserSideStorageKeys.HomeCategoryPrev, Defaults.CategoryBase.Indexes.Films));
+                        (int)Defaults.CategoryBase.Indexes.Films))
+                        ? (int)Defaults.CategoryBase.Indexes.Films
+                        : ReadUserSideStorage(UserSideStorageKeys.HomeCategoryPrev, (int)Defaults.CategoryBase.Indexes.Films));
             }
             catch (Exception ex)
             {
@@ -647,8 +647,8 @@ namespace MySeenWeb.Controllers.Home
             const string methodName = "public ActionResult Logs()";
             try
             {
-                if (!Defaults.CategoryBase.IsCategoryExt(ReadUserSideStorage(UserSideStorageKeys.HomeCategory, Defaults.CategoryBase.Indexes.Films)))
-                    WriteUserSideStorage(UserSideStorageKeys.HomeCategoryPrev, ReadUserSideStorage(UserSideStorageKeys.HomeCategory, Defaults.CategoryBase.Indexes.Films));
+                if (!Defaults.CategoryBase.IsCategoryExt(ReadUserSideStorage(UserSideStorageKeys.HomeCategory, (int)Defaults.CategoryBase.Indexes.Films)))
+                    WriteUserSideStorage(UserSideStorageKeys.HomeCategoryPrev, ReadUserSideStorage(UserSideStorageKeys.HomeCategory, (int)Defaults.CategoryBase.Indexes.Films));
                 WriteUserSideStorage(UserSideStorageKeys.HomeCategory, Defaults.CategoryBase.IndexesExt.Logs);
             }
             catch (Exception ex)
@@ -665,8 +665,8 @@ namespace MySeenWeb.Controllers.Home
             const string methodName = "public ActionResult Errors()";
             try
             {
-                if (!Defaults.CategoryBase.IsCategoryExt(ReadUserSideStorage(UserSideStorageKeys.HomeCategory, Defaults.CategoryBase.Indexes.Films)))
-                    WriteUserSideStorage(UserSideStorageKeys.HomeCategoryPrev, ReadUserSideStorage(UserSideStorageKeys.HomeCategory, Defaults.CategoryBase.Indexes.Films));
+                if (!Defaults.CategoryBase.IsCategoryExt(ReadUserSideStorage(UserSideStorageKeys.HomeCategory, (int)Defaults.CategoryBase.Indexes.Films)))
+                    WriteUserSideStorage(UserSideStorageKeys.HomeCategoryPrev, ReadUserSideStorage(UserSideStorageKeys.HomeCategory, (int)Defaults.CategoryBase.Indexes.Films));
                 WriteUserSideStorage(UserSideStorageKeys.HomeCategory, Defaults.CategoryBase.IndexesExt.Errors);
             }
             catch (Exception ex)
@@ -683,8 +683,8 @@ namespace MySeenWeb.Controllers.Home
             const string methodName = "public ActionResult Users()";
             try
             {
-                if (!Defaults.CategoryBase.IsCategoryExt(ReadUserSideStorage(UserSideStorageKeys.HomeCategory, Defaults.CategoryBase.Indexes.Films)))
-                    WriteUserSideStorage(UserSideStorageKeys.HomeCategoryPrev, ReadUserSideStorage(UserSideStorageKeys.HomeCategory, Defaults.CategoryBase.Indexes.Films));
+                if (!Defaults.CategoryBase.IsCategoryExt(ReadUserSideStorage(UserSideStorageKeys.HomeCategory, (int)Defaults.CategoryBase.Indexes.Films)))
+                    WriteUserSideStorage(UserSideStorageKeys.HomeCategoryPrev, ReadUserSideStorage(UserSideStorageKeys.HomeCategory, (int)Defaults.CategoryBase.Indexes.Films));
                 WriteUserSideStorage(UserSideStorageKeys.HomeCategory, Defaults.CategoryBase.IndexesExt.Users);
             }
             catch (Exception ex)
@@ -701,8 +701,8 @@ namespace MySeenWeb.Controllers.Home
             const string methodName = "public ActionResult Improvements()";
             try
             {
-                if (!Defaults.CategoryBase.IsCategoryExt(ReadUserSideStorage(UserSideStorageKeys.HomeCategory, Defaults.CategoryBase.Indexes.Films)))
-                    WriteUserSideStorage(UserSideStorageKeys.HomeCategoryPrev, ReadUserSideStorage(UserSideStorageKeys.HomeCategory, Defaults.CategoryBase.Indexes.Films));
+                if (!Defaults.CategoryBase.IsCategoryExt(ReadUserSideStorage(UserSideStorageKeys.HomeCategory, (int)Defaults.CategoryBase.Indexes.Films)))
+                    WriteUserSideStorage(UserSideStorageKeys.HomeCategoryPrev, ReadUserSideStorage(UserSideStorageKeys.HomeCategory, (int)Defaults.CategoryBase.Indexes.Films));
                 WriteUserSideStorage(UserSideStorageKeys.HomeCategory, Defaults.CategoryBase.IndexesExt.Improvements);
             }
             catch (Exception ex)

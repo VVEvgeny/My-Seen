@@ -13,7 +13,7 @@ namespace MySeenWeb.Models.TablesViews
         }
         public DateTime DateTo
         {
-            get { return CalculateTo(RepeatType, Date); }
+            get { return CalculateTo((Defaults.EventsTypesBase.Indexes)RepeatType, Date); }
         }
         public string DayOfWeekTo
         {
@@ -34,7 +34,7 @@ namespace MySeenWeb.Models.TablesViews
 
         public DateTime DateLast
         {
-            get { return CalculateLast(RepeatType, Date); }
+            get { return CalculateLast((Defaults.EventsTypesBase.Indexes)RepeatType, Date); }
         }
         public string DayOfWeekLast
         {
@@ -114,7 +114,7 @@ namespace MySeenWeb.Models.TablesViews
             }
             return string.Empty;
         }
-        private static DateTime Correct(int typeRepeat, DateTime date)
+        private static DateTime Correct(Defaults.EventsTypesBase.Indexes typeRepeat, DateTime date)
         {
             switch (typeRepeat)
             {
@@ -136,7 +136,7 @@ namespace MySeenWeb.Models.TablesViews
             }
             return date;
         }
-        private static DateTime CalculateTo(int typeRepeat,DateTime beginDate)
+        private static DateTime CalculateTo(Defaults.EventsTypesBase.Indexes typeRepeat, DateTime beginDate)
         {
             var d = DateTime.Now;
             switch (typeRepeat)
@@ -197,7 +197,7 @@ namespace MySeenWeb.Models.TablesViews
             return d;
         }
 
-        private DateTime CalculateLast(int typeRepeat, DateTime beginDate)
+        private DateTime CalculateLast(Defaults.EventsTypesBase.Indexes typeRepeat, DateTime beginDate)
         {
             var d = DateTime.Now;
             for (var i = 1; i < 100; i++)

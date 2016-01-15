@@ -30,8 +30,8 @@ namespace MySeenWeb.Models.OtherViewModels
             get
             {
                 return VkServiceEnabled
-                    ? Defaults.EnabledDisabledBase.Indexes.Enabled
-                    : Defaults.EnabledDisabledBase.Indexes.Disabled;
+                    ? (int)Defaults.EnabledDisabledBase.Indexes.Enabled
+                    : (int)Defaults.EnabledDisabledBase.Indexes.Disabled;
             }
         }
         public IEnumerable<System.Web.Mvc.SelectListItem> VkServiceEnabledList { get; set; }
@@ -41,8 +41,8 @@ namespace MySeenWeb.Models.OtherViewModels
             get
             {
                 return GoogleServiceEnabled
-                    ? Defaults.EnabledDisabledBase.Indexes.Enabled
-                    : Defaults.EnabledDisabledBase.Indexes.Disabled;
+                    ? (int)Defaults.EnabledDisabledBase.Indexes.Enabled
+                    : (int)Defaults.EnabledDisabledBase.Indexes.Disabled;
             }
         }
         public IEnumerable<System.Web.Mvc.SelectListItem> GoogleServiceEnabledList { get; set; }
@@ -52,8 +52,8 @@ namespace MySeenWeb.Models.OtherViewModels
             get
             {
                 return FacebookServiceEnabled
-                    ? Defaults.EnabledDisabledBase.Indexes.Enabled
-                    : Defaults.EnabledDisabledBase.Indexes.Disabled;
+                    ? (int)Defaults.EnabledDisabledBase.Indexes.Enabled
+                    : (int)Defaults.EnabledDisabledBase.Indexes.Disabled;
             }
         }
         public IEnumerable<System.Web.Mvc.SelectListItem> FacebookServiceEnabledList { get; set; }
@@ -107,7 +107,7 @@ namespace MySeenWeb.Models.OtherViewModels
                             {
                                 Text = sel,
                                 Value = Defaults.EnabledDisabled.GetId(sel).ToString(),
-                                Selected = Defaults.EnabledDisabled.GetId(sel) == (VkServiceEnabled ? Defaults.EnabledDisabledBase.Indexes.Enabled : Defaults.EnabledDisabledBase.Indexes.Disabled)
+                                Selected = Defaults.EnabledDisabled.GetId(sel) == (VkServiceEnabled ? (int)Defaults.EnabledDisabledBase.Indexes.Enabled : (int)Defaults.EnabledDisabledBase.Indexes.Disabled)
                             })
                     .ToList();
             VkServiceEnabledList = listItems;
@@ -120,7 +120,7 @@ namespace MySeenWeb.Models.OtherViewModels
                             {
                                 Text = sel,
                                 Value = Defaults.EnabledDisabled.GetId(sel).ToString(),
-                                Selected = Defaults.EnabledDisabled.GetId(sel) == (GoogleServiceEnabled ? Defaults.EnabledDisabledBase.Indexes.Enabled : Defaults.EnabledDisabledBase.Indexes.Disabled)
+                                Selected = Defaults.EnabledDisabled.GetId(sel) == (GoogleServiceEnabled ? (int)Defaults.EnabledDisabledBase.Indexes.Enabled : (int)Defaults.EnabledDisabledBase.Indexes.Disabled)
                             })
                     .ToList();
             GoogleServiceEnabledList = listItems;
@@ -133,7 +133,7 @@ namespace MySeenWeb.Models.OtherViewModels
                             {
                                 Text = sel,
                                 Value = Defaults.EnabledDisabled.GetId(sel).ToString(),
-                                Selected = Defaults.EnabledDisabled.GetId(sel) == (FacebookServiceEnabled ? Defaults.EnabledDisabledBase.Indexes.Enabled : Defaults.EnabledDisabledBase.Indexes.Disabled)
+                                Selected = Defaults.EnabledDisabled.GetId(sel) == (FacebookServiceEnabled ? (int)Defaults.EnabledDisabledBase.Indexes.Enabled : (int)Defaults.EnabledDisabledBase.Indexes.Disabled)
                             })
                     .ToList();
             FacebookServiceEnabledList = listItems;

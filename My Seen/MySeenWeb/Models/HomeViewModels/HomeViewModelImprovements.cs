@@ -16,7 +16,7 @@ namespace MySeenWeb.Models
         public HomeViewModelImprovements(int complex, int page, int countInPage)
         {
             var ac = new ApplicationDbContext();
-            if (complex == Defaults.ComplexBase.Indexes.All)
+            if (complex == (int)Defaults.ComplexBase.Indexes.All)
             {
                 Pages = new PaginationViewModel(page, ac.Bugs.Count(), countInPage);
                 Data = ac.Bugs.AsNoTracking()
