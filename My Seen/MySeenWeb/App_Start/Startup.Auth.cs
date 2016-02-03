@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Web.Hosting;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin;
@@ -9,15 +8,13 @@ using MySeenLib;
 using MySeenWeb.Add_Code;
 using Owin;
 using MySeenWeb.Models.OtherViewModels;
-using MySeenWeb.Models.Tables;
-using MySeenWeb.Models.Tools;
 using Nemiro.OAuth;
 using Nemiro.OAuth.Clients;
 using Owin.Security.Providers.Dropbox;
-using Owin.Security.Providers.EveOnline;
 using Owin.Security.Providers.GitHub;
 using Owin.Security.Providers.LinkedIn;
 using Owin.Security.Providers.Steam;
+using Owin.Security.Providers.VKontakte;
 using Owin.Security.Providers.Yahoo;
 
 namespace MySeenWeb
@@ -106,7 +103,12 @@ namespace MySeenWeb
             //Vkontakte
             if (mySeenAuths.Have("Vkontakte"))
             {
-                app.UseVkontakteAuthentication(mySeenAuths.Id("Vkontakte"), mySeenAuths.Secret("Vkontakte"), mySeenAuths.Options("Vkontakte"));
+                app.UseVKontakteAuthentication(new VKontakteAuthenticationOptions
+                {
+                    ClientId = mySeenAuths.Id("Vkontakte"),
+                    ClientSecret = mySeenAuths.Secret("Vkontakte")
+                });
+                //Ушел от duke  app.UseVkontakteAuthentication(mySeenAuths.Id("Vkontakte"), mySeenAuths.Secret("Vkontakte"), mySeenAuths.Options("Vkontakte"));
             }
             //Google
             if (mySeenAuths.Have("Google"))

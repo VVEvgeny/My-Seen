@@ -4,15 +4,15 @@
 {
     if (Model.VkontakteServicesEnabled)
     {
-        @Html.Partial("../Tools/VK/_Base")
+        @Html.Partial("Tools/Services/VK/_Base")
     }
     if (Model.GoogleServicesEnabled)
     {
-        @Html.Partial("../Tools/Google/_Base")
+        @Html.Partial("Tools/Services/Google/_Base")
     }
     if (Model.FacebookServicesEnabled)
     {
-        @Html.Partial("../Tools/Facebook/_Base")
+        @Html.Partial("Tools/Services/Facebook/_Base")
     }
     <div class="table-responsive">
         <table class="table table-striped" id="table_shares_likes">
@@ -20,22 +20,22 @@
                 @if (Model.VkontakteServicesEnabled)
                 {
                     <tr>
-                        <td class="align-center">@Html.Partial("../Tools/VK/Like")</td>
-                        <td class="align-center">@Html.Partial("../Tools/VK/Share")</td>
+                        <td class="align-center">@Html.Partial("Tools/Services/VK/Like")</td>
+                        <td class="align-center">@Html.Partial("Tools/Services/VK/Share")</td>
                     </tr>
                 }
                 @if (Model.GoogleServicesEnabled)
                 {
                     <tr>
-                        <td class="align-center">@Html.Partial("../Tools/Google/Like")</td>
-                        <td class="align-center">@Html.Partial("../Tools/Google/Share")</td>
+                        <td class="align-center">@Html.Partial("Tools/Services/Google/Like")</td>
+                        <td class="align-center">@Html.Partial("Tools/Services/Google/Share")</td>
                     </tr>
                 }
                 @if (Model.FacebookServicesEnabled)
                 {
                     <tr>
-                        <td class="align-center">@Html.Partial("../Tools/Facebook/Like")</td>
-                        <td class="align-center">@Html.Partial("../Tools/Facebook/Share")</td>
+                        <td class="align-center">@Html.Partial("Tools/Services/Facebook/Like")</td>
+                        <td class="align-center">@Html.Partial("Tools/Services/Facebook/Share")</td>
                     </tr>
                 }
             </tbody>
@@ -48,19 +48,19 @@
                 @if (Model.VkontakteServicesEnabled)
                 {
                     <tr>
-                        <td class="align-center">@Html.Partial("../Tools/VK/Comments")</td>
+                        <td class="align-center">@Html.Partial("Tools/Services/VK/Comments")</td>
                     </tr>
                 }
                 @if (Model.GoogleServicesEnabled)
                 {
                     <tr>
-                        <td class="align-center">@Html.Partial("../Tools/Google/Comments")</td>
+                        <td class="align-center">@Html.Partial("Tools/Services/Google/Comments")</td>
                     </tr>
                 }
                 @if (Model.FacebookServicesEnabled)
                 {
                     <tr>
-                        <td class="align-center">@Html.Partial("../Tools/Facebook/Comments")</td>
+                        <td class="align-center">@Html.Partial("Tools/Services/Facebook/Comments")</td>
                     </tr>
                 }
             </tbody>

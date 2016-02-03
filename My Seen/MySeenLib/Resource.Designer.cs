@@ -61,6 +61,15 @@ namespace MySeenLib {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to About.
+        /// </summary>
+        public static string About {
+            get {
+                return ResourceManager.GetString("About", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Created specifically for the storage of information about past actions.
         /// </summary>
         public static string AboutText1 {
@@ -300,6 +309,15 @@ namespace MySeenLib {
         public static string AddNew {
             get {
                 return ResourceManager.GetString("AddNew", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Administration.
+        /// </summary>
+        public static string Administration {
+            get {
+                return ResourceManager.GetString("Administration", resourceCulture);
             }
         }
         
@@ -1295,7 +1313,7 @@ namespace MySeenLib {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to 11.
+        ///   Looks up a localized string similar to 20.
         /// </summary>
         public static string LibVersionNum {
             get {
@@ -1408,6 +1426,15 @@ namespace MySeenLib {
         public static string Monday {
             get {
                 return ResourceManager.GetString("Monday", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to My Memory.
+        /// </summary>
+        public static string MyMemory {
+            get {
+                return ResourceManager.GetString("MyMemory", resourceCulture);
             }
         }
         
@@ -1628,6 +1655,15 @@ namespace MySeenLib {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Road.
+        /// </summary>
+        public static string Road2 {
+            get {
+                return ResourceManager.GetString("Road2", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Russian.
         /// </summary>
         public static string Russian {
@@ -1768,6 +1804,15 @@ namespace MySeenLib {
         public static string SetPointHere {
             get {
                 return ResourceManager.GetString("SetPointHere", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Settings.
+        /// </summary>
+        public static string Settings {
+            get {
+                return ResourceManager.GetString("Settings", resourceCulture);
             }
         }
         

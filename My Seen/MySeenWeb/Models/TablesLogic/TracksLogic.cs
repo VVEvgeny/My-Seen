@@ -101,5 +101,28 @@ namespace MySeenWeb.Models.TablesLogic
         {
             return Fill(id, name, datetime, type, coordinates, distance, userId) && Verify() && Update();
         }
+        public bool Delete(string id, string userId)
+        {
+            try
+            {
+                Id = Convert.ToInt32(id);
+                if (_ac.Tracks.Any(f => f.UserId == userId && f.Id == Id))
+                {
+                    _ac.Tracks.RemoveRange(_ac.Tracks.Where(f => f.UserId == userId && f.Id == Id));
+                    _ac.SaveChanges();
+                }
+                else
+                {
+                    ErrorMessage = Resource.NoData;
+                    return false;
+                }
+            }
+            catch (Exception e)
+            {
+                ErrorMessage = Resource.ErrorWorkWithDB + "=" + e.Message;
+                return false;
+            }
+            return true;
+        }
     }
 }

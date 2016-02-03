@@ -18,13 +18,11 @@ namespace MySeenWeb.Controllers.Home
         public ActionResult Index()
         {
             var logger = new NLogLogger();
-            
-            //logger.Info("test");
-
-            const string methodName = "public ActionResult Index(string search, int? page)";
+            const string methodName = "public ActionResult Index()";
             try
             {
                 return View(new HomeViewModel(
+                    ReadUserSideStorage(UserSideStorageKeys.MarkersOnRoads, 0),
                     ReadUserSideStorage(UserSideStorageKeys.HomeCategory, (int)Defaults.CategoryBase.Indexes.Films)
                         .ToString(),
                     User.Identity.IsAuthenticated ? User.Identity.GetUserId() : string.Empty,
@@ -39,75 +37,6 @@ namespace MySeenWeb.Controllers.Home
             return null;
         }
 
-        [Authorize]
-        [HttpPost]
-        public JsonResult ChangeCookies(string selected)
-        {
-            var logger = new NLogLogger();
-            var methodName = "public JsonResult ChangeCookies(string selected)";
-            try
-            {
-                WriteUserSideStorage(UserSideStorageKeys.HomeCategory, selected);
-                WriteUserSideStorage(UserSideStorageKeys.HomeCategoryPrev, selected);
-                return Json(new { success = true });
-            }
-            catch (Exception ex)
-            {
-                logger.Error(methodName, ex);
-            }
-            return new JsonResult { Data = new { success = false, error = methodName } };
-        }
-        [Authorize]
-        [HttpPost]
-        public JsonResult ChangeCookiesImprovement(string selected)
-        {
-            var logger = new NLogLogger();
-            var methodName = "public JsonResult ChangeCookiesImprovement(string selected)";
-            try
-            {
-                WriteUserSideStorage(UserSideStorageKeys.ImprovementsCategory, selected);
-                return Json(new { success = true });
-            }
-            catch (Exception ex)
-            {
-                logger.Error(methodName, ex);
-            }
-            return new JsonResult { Data = new { success = false, error = methodName } };
-        }
-        [Authorize]
-        [HttpPost]
-        public JsonResult ChangeCookiesRoads(string selected)
-        {
-            var logger = new NLogLogger();
-            var methodName = "public JsonResult ChangeCookiesRoads(string selected)";
-            try
-            {
-                WriteUserSideStorage(UserSideStorageKeys.RoadsYear, selected);
-                return Json(new { success = true });
-            }
-            catch (Exception ex)
-            {
-                logger.Error(methodName, ex);
-            }
-            return new JsonResult { Data = new { success = false, error = methodName } };
-        }
-        [Authorize]
-        [HttpPost]
-        public JsonResult AddFilm(string name, string year, string datetime, string genre, string rating)
-        {
-            var logger = new NLogLogger();
-            var methodName = "public JsonResult AddFilm(string name, string year, string datetime, string genre, string rating)";
-            try
-            {
-                var logic = new FilmsLogic();
-                return !logic.Add(name, year, datetime, genre, rating, User.Identity.GetUserId()) ? new JsonResult { Data = new { success = false, error = logic.ErrorMessage } } : Json(new { success = true });
-            }
-            catch (Exception ex)
-            {
-                logger.Error(methodName, ex);
-            }
-            return new JsonResult { Data = new { success = false, error = methodName } };
-        }
         [Authorize]
         [HttpPost]
         public JsonResult EditFilm(string id, string name, string year, string datetime, string genre, string rating)
@@ -125,23 +54,7 @@ namespace MySeenWeb.Controllers.Home
             }
             return new JsonResult { Data = new { success = false, error = methodName } };
         }
-        [Authorize]
-        [HttpPost]
-        public JsonResult AddSerial(string name, string year, string season, string series, string datetime, string genre, string rating)
-        {
-            var logger = new NLogLogger();
-            var methodName = "public JsonResult AddSerial(string name, string year, string season, string series, string datetime, string genre, string rating)";
-            try
-            {
-                var logic = new SerialsLogic();
-                return !logic.Add(name, year, season, series, datetime, genre, rating, User.Identity.GetUserId()) ? new JsonResult { Data = new { success = false, error = logic.ErrorMessage } } : Json(new { success = true });
-            }
-            catch (Exception ex)
-            {
-                logger.Error(methodName, ex);
-            }
-            return new JsonResult { Data = new { success = false, error = methodName } };
-        }
+        
         [Authorize]
         [HttpPost]
         public JsonResult EditSerial(string id, string name, string year, string season, string series, string datetime, string genre, string rating)
@@ -152,57 +65,6 @@ namespace MySeenWeb.Controllers.Home
             {
                 var logic = new SerialsLogic();
                 return !logic.Update(id, name, year, season, series, datetime, genre, rating, User.Identity.GetUserId()) ? new JsonResult { Data = new { success = false, error = logic.ErrorMessage } } : Json(new { success = true });
-            }
-            catch (Exception ex)
-            {
-                logger.Error(methodName, ex);
-            }
-            return new JsonResult { Data = new { success = false, error = methodName } };
-        }
-        [Authorize]
-        [HttpPost]
-        public JsonResult AddSeries(string id)
-        {
-            var logger = new NLogLogger();
-            var methodName = "public JsonResult AddSeries(string id)";
-            try
-            {
-                var logic = new SerialsLogic();
-                return !logic.AddSeries(id, User.Identity.GetUserId()) ? new JsonResult { Data = new { success = false, error = logic.ErrorMessage } } : Json(new { success = true });
-            }
-            catch (Exception ex)
-            {
-                logger.Error(methodName, ex);
-            }
-            return new JsonResult { Data = new { success = false, error = methodName } };
-        }
-        [Authorize]
-        [HttpPost]
-        public JsonResult AddBook(string name, string year, string authors, string datetime, string genre, string rating)
-        {
-            var logger = new NLogLogger();
-            const string methodName = "public JsonResult AddBook(string name, string year, string authors, string datetime, string genre, string rating)";
-            try
-            {
-                var logic = new BooksLogic();
-                return !logic.Add(name, year, authors, datetime, genre, rating, User.Identity.GetUserId()) ? new JsonResult { Data = new { success = false, error = logic.ErrorMessage } } : Json(new { success = true });
-            }
-            catch (Exception ex)
-            {
-                logger.Error(methodName, ex);
-            }
-            return new JsonResult { Data = new { success = false, error = methodName } };
-        }
-        [Authorize]
-        [HttpPost]
-        public JsonResult AddEvent(string name, string datetime, string type)
-        {
-            var logger = new NLogLogger();
-            const string methodName = "public JsonResult AddEvent(string name, string datetime, string type)";
-            try
-            {
-                var logic = new EventsLogic();
-                return !logic.Add(name, datetime, type, User.Identity.GetUserId()) ? new JsonResult { Data = new { success = false, error = logic.ErrorMessage } } : Json(new { success = true });
             }
             catch (Exception ex)
             {
@@ -316,23 +178,6 @@ namespace MySeenWeb.Controllers.Home
         }
         [Authorize]
         [HttpPost]
-        public JsonResult AddImprovement(string desc, string complex)
-        {
-            var logger = new NLogLogger();
-            const string methodName = "public JsonResult AddImprovement(string desc, string complex)";
-            try
-            {
-                var logic = new ImprovementLogic();
-                return !logic.Add(desc, complex, User.Identity.GetUserId()) ? new JsonResult { Data = new { success = false, error = logic.ErrorMessage } } : Json(new { success = true });
-            }
-            catch (Exception ex)
-            {
-                logger.Error(methodName, ex);
-            }
-            return new JsonResult { Data = new { success = false, error = methodName } };
-        }
-        [Authorize]
-        [HttpPost]
         public JsonResult EndImprovement(string id, string desc, string version)
         {
             var logger = new NLogLogger();
@@ -370,23 +215,7 @@ namespace MySeenWeb.Controllers.Home
             }
             return new JsonResult { Data = new { success = false, error = methodName } };
         }
-        [Authorize]
-        [HttpPost]
-        public JsonResult AddTrack(string name, string datetime, string type, string coordinates, string distance)
-        {
-            var logger = new NLogLogger();
-            const string methodName = "public JsonResult AddTrack(string name, string datetime, string type, string coordinates, string distance)";
-            try
-            {
-                var logic = new TracksLogic();
-                return !logic.Add(name, datetime, type, coordinates, distance, User.Identity.GetUserId()) ? new JsonResult { Data = new { success = false, error = logic.ErrorMessage } } : Json(new { success = true });
-            }
-            catch (Exception ex)
-            {
-                logger.Error(methodName, ex);
-            }
-            return new JsonResult { Data = new { success = false, error = methodName } };
-        }
+        
         [Authorize]
         [HttpPost]
         public JsonResult EditTrack(string id, string name, string datetime, string type, string coordinates, string distance)
@@ -460,25 +289,6 @@ namespace MySeenWeb.Controllers.Home
             try
             {
                 return Json(ReadUserSideStorage(UserSideStorageKeys.MarkersOnRoads, 0) == (int)Defaults.EnabledDisabledBase.Indexes.Enabled);
-            }
-            catch (Exception ex)
-            {
-                logger.Error(methodName, ex);
-            }
-            return new JsonResult { Data = new { success = false, error = methodName } };
-        }
-        [Authorize]
-        [HttpPost]
-        public JsonResult GetLayout()
-        {
-            var logger = new NLogLogger();
-            const string methodName = "public ActionResult GetLayout()";
-            try
-            {
-                if (Admin.IsAdmin(User.Identity.GetUserName()))
-                {
-                    return Json(HomeViewModelLayout.GetLayout());
-                }
             }
             catch (Exception ex)
             {
@@ -620,97 +430,7 @@ namespace MySeenWeb.Controllers.Home
             }
             return new JsonResult { Data = new { success = false, error = methodName } };
         }
-        [BrowserActionFilter]
-        public ActionResult Home()
-        {
-            var logger = new NLogLogger();
-            const string methodName = "public ActionResult Home()";
-            try
-            {
-                WriteUserSideStorage(UserSideStorageKeys.HomeCategory,
-                    Defaults.CategoryBase.IsCategoryExt(ReadUserSideStorage(UserSideStorageKeys.HomeCategoryPrev,
-                        (int)Defaults.CategoryBase.Indexes.Films))
-                        ? (int)Defaults.CategoryBase.Indexes.Films
-                        : ReadUserSideStorage(UserSideStorageKeys.HomeCategoryPrev, (int)Defaults.CategoryBase.Indexes.Films));
-            }
-            catch (Exception ex)
-            {
-                logger.Error(methodName, ex);
-            }
-            return RedirectToAction("Index");
-        }
-        [BrowserActionFilter]
-        [Authorize]
-        public ActionResult Logs()
-        {
-            var logger = new NLogLogger();
-            const string methodName = "public ActionResult Logs()";
-            try
-            {
-                if (!Defaults.CategoryBase.IsCategoryExt(ReadUserSideStorage(UserSideStorageKeys.HomeCategory, (int)Defaults.CategoryBase.Indexes.Films)))
-                    WriteUserSideStorage(UserSideStorageKeys.HomeCategoryPrev, ReadUserSideStorage(UserSideStorageKeys.HomeCategory, (int)Defaults.CategoryBase.Indexes.Films));
-                WriteUserSideStorage(UserSideStorageKeys.HomeCategory, Defaults.CategoryBase.IndexesExt.Logs);
-            }
-            catch (Exception ex)
-            {
-                logger.Error(methodName, ex);
-            }
-            return RedirectToAction("Index");
-        }
-        [BrowserActionFilter]
-        [Authorize]
-        public ActionResult Errors()
-        {
-            var logger = new NLogLogger();
-            const string methodName = "public ActionResult Errors()";
-            try
-            {
-                if (!Defaults.CategoryBase.IsCategoryExt(ReadUserSideStorage(UserSideStorageKeys.HomeCategory, (int)Defaults.CategoryBase.Indexes.Films)))
-                    WriteUserSideStorage(UserSideStorageKeys.HomeCategoryPrev, ReadUserSideStorage(UserSideStorageKeys.HomeCategory, (int)Defaults.CategoryBase.Indexes.Films));
-                WriteUserSideStorage(UserSideStorageKeys.HomeCategory, Defaults.CategoryBase.IndexesExt.Errors);
-            }
-            catch (Exception ex)
-            {
-                logger.Error(methodName, ex);
-            }
-            return RedirectToAction("Index");
-        }
-        [BrowserActionFilter]
-        [Authorize]
-        public ActionResult Users()
-        {
-            var logger = new NLogLogger();
-            const string methodName = "public ActionResult Users()";
-            try
-            {
-                if (!Defaults.CategoryBase.IsCategoryExt(ReadUserSideStorage(UserSideStorageKeys.HomeCategory, (int)Defaults.CategoryBase.Indexes.Films)))
-                    WriteUserSideStorage(UserSideStorageKeys.HomeCategoryPrev, ReadUserSideStorage(UserSideStorageKeys.HomeCategory, (int)Defaults.CategoryBase.Indexes.Films));
-                WriteUserSideStorage(UserSideStorageKeys.HomeCategory, Defaults.CategoryBase.IndexesExt.Users);
-            }
-            catch (Exception ex)
-            {
-                logger.Error(methodName, ex);
-            }
-            return RedirectToAction("Index");
-        }
-        [BrowserActionFilter]
-        [Authorize]
-        public ActionResult Improvements()
-        {
-            var logger = new NLogLogger();
-            const string methodName = "public ActionResult Improvements()";
-            try
-            {
-                if (!Defaults.CategoryBase.IsCategoryExt(ReadUserSideStorage(UserSideStorageKeys.HomeCategory, (int)Defaults.CategoryBase.Indexes.Films)))
-                    WriteUserSideStorage(UserSideStorageKeys.HomeCategoryPrev, ReadUserSideStorage(UserSideStorageKeys.HomeCategory, (int)Defaults.CategoryBase.Indexes.Films));
-                WriteUserSideStorage(UserSideStorageKeys.HomeCategory, Defaults.CategoryBase.IndexesExt.Improvements);
-            }
-            catch (Exception ex)
-            {
-                logger.Error(methodName, ex);
-            }
-            return RedirectToAction("Index");
-        }
+        
         [BrowserActionFilter]
         [Authorize]
         public ActionResult TrackEditor(string id)

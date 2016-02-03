@@ -19,6 +19,7 @@ namespace MySeenWeb.Models.TablesLogic
         {
             try
             {
+                if (string.IsNullOrEmpty(datetime))throw new Exception("Нужна дата");
                 Name = name;
                 Year = string.IsNullOrEmpty(year) ? 0 : Convert.ToInt32(year);
                 DateSee = UmtTime.To(Convert.ToDateTime(datetime));

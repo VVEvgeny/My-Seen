@@ -565,13 +565,35 @@ namespace MySeenWeb.Controllers.Account
         }
 
         //
+        // POST: /Account/LogOut
+        [HttpPost]
+        public JsonResult LogOut()
+        {
+            var logger = new NLogLogger();
+            const string methodName = "public JsonResult LogOut()";
+            try
+            {
+                AuthenticationManager.SignOut(DefaultAuthenticationTypes.ApplicationCookie);
+
+                var logic = new UserCreditsLogic();
+                logic.Remove(User.Identity.GetUserId(), Request.UserAgent);
+                WriteUserSideStorage(UserSideStorageKeys.UserCreditsForAutologin, string.Empty);
+                return Json(new { success = true });
+            }
+            catch (Exception ex)
+            {
+                logger.Error(methodName, ex);
+            }
+            return new JsonResult { Data = new { success = false, error = methodName } };
+        }
+        //
         // POST: /Account/LogOff
         [HttpPost]
         //[ValidateAntiForgeryToken]
         public ActionResult LogOff()
         {
             var logger = new NLogLogger();
-            const string methodName = "public async Task<ActionResult> ExternalLoginConfirmation(ExternalLoginConfirmationViewModel model, string returnUrl)";
+            const string methodName = "public ActionResult LogOff()";
             try
             {
                 AuthenticationManager.SignOut(DefaultAuthenticationTypes.ApplicationCookie);

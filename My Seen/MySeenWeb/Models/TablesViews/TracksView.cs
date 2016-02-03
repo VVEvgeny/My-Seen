@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using MySeenLib;
 using MySeenWeb.Models.Tables;
 
@@ -40,7 +41,8 @@ namespace MySeenWeb.Models.TablesViews
                 Distance = model.Distance,
                 Name = model.Name,
                 Type = model.Type,
-                ShareKey = model.ShareKey
+                ShareKey = model.ShareKey,
+                Coordinates = model.Coordinates
             };
         }
         public string DateText
@@ -52,6 +54,17 @@ namespace MySeenWeb.Models.TablesViews
                     return UserId;
                 }
                 return Date.ToShortDateString();
+            }
+        }
+        public string DateFullText
+        {
+            get
+            {
+                if (Date == new DateTime(1980, 3, 3))
+                {
+                    return UserId;
+                }
+                return Date.ToString(CultureInfo.CurrentCulture);
             }
         }
         public string DistanceText

@@ -12,11 +12,6 @@ namespace MySeenWeb.Models
         public IEnumerable<FilmsView> Data { get; set; }
         public PaginationViewModel Pages { get; set; }
 
-        public bool HaveData
-        {
-            get { return Data.Any(); }
-        }
-
         public HomeViewModelFilms(string userId, int page, int countInPage, string search)
         {
             var ac = new ApplicationDbContext();

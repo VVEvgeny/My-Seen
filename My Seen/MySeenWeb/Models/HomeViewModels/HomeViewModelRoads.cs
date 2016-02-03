@@ -40,6 +40,7 @@ namespace MySeenWeb.Models
         
         public bool Markers { get; set; }
         public IEnumerable<SelectListItem> YearsList { get; set; }
+        public int YearsSelected { get; set; }
 
         public HomeViewModelRoads(string userId, int markersOnRoads, int roadsYear)
         {
@@ -117,6 +118,7 @@ namespace MySeenWeb.Models
                 });
             }
             YearsList = years.OrderByDescending(y => y.Text);
+            YearsSelected = YearsList.Any(s => s.Selected) ? Convert.ToInt32(YearsList.Where(s => s.Selected).First(s => s.Selected).Value) : 0;
         }
 
         public static TrackInfo GetTrack(int id, string userId)

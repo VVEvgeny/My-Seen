@@ -9,7 +9,7 @@ namespace MySeenLib
     public static class Versions
     {
         //Строка с версией библиотеки в ресурсах LibVersionNum
-        public static int Web = 11;
+        public static int Web = 20;
         public static int Android = 1;
         public static int AndroidLib = 1;
         public static int Pc = 1;
@@ -72,6 +72,10 @@ namespace MySeenLib
             public static string English { get; private set; }
 
             public static string Russian { get; private set; }
+        }
+        public static string GetFirst2Culture()
+        {
+            return Thread.CurrentThread.CurrentUICulture.ToString().Substring(0,2);
         }
         public static string GetCulture()
         {
@@ -315,10 +319,15 @@ namespace MySeenLib
 
             public enum IndexesExt
             {
-                Users = 101,
-                Logs = 102,
-                Improvements = 103,
-                Errors = 104
+                Users = 101, // Пользователи
+                Logs = 102, // Логи
+                Improvements = 103, // Улучшения
+                Errors = 104, // Ошибки
+                About = 105, // Страница О
+                Settings = 106, // Настройки
+                ChangePassword = 107, // Изменение существующего пароля
+                ExternalProviders = 108, // Управление сторонними провайдерами
+                Register = 109 // Регистрация нового пользователя
             }
 
             public static bool IsCategoryExt(int category)

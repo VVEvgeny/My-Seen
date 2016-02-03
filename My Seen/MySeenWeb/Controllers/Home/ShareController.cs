@@ -5,7 +5,6 @@ using MySeenWeb.ActionFilters;
 using MySeenWeb.Add_Code.Services.Logging.NLog;
 using MySeenWeb.Controllers._Base;
 using MySeenWeb.Models.ShareViewModels;
-using MySeenWeb.Models.Tools;
 
 namespace MySeenWeb.Controllers.Home
 {

@@ -48,10 +48,6 @@
       <HintPath>..\packages\Antlr.3.5.0.2\lib\Antlr3.Runtime.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="Duke.Owin.VkontakteMiddleware, Version=1.2.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Duke.Owin.VkontakteMiddleware.1.2.0.0\lib\net45\Duke.Owin.VkontakteMiddleware.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="Microsoft.VisualBasic" />
     <Reference Include="Nemiro.OAuth, Version=1.10.45.895, Culture=neutral, processorArchitecture=MSIL">
@@ -350,19 +346,13 @@
       <DependentUpon>201512240904315_32.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
+    <Compile Include="Models\HomeViewModels\HomeViewModelPreload.cs" />
+    <Compile Include="Models\HomeViewModels\HomeViewModelSettings.cs" />
     <Compile Include="Models\HomeViewModels\HomeViewModelLayout.cs" />
-    <Compile Include="Models\HomeViewModels\HomeViewModelErrorsMin.cs" />
     <Compile Include="Models\HomeViewModels\HomeViewModelErrors.cs" />
-    <Compile Include="Models\HomeViewModels\HomeViewModelRoadsMin.cs" />
     <Compile Include="Models\OtherViewModels\AccountViewModels.cs" />
-    <Compile Include="Models\HomeViewModels\HomeViewModelBooksMin.cs" />
-    <Compile Include="Models\HomeViewModels\HomeViewModelEventsMin.cs" />
     <Compile Include="Models\HomeViewModels\HomeViewModelEvents.cs" />
-    <Compile Include="Models\HomeViewModels\HomeViewModelAbout.cs" />
-    <Compile Include="Models\HomeViewModels\HomeViewModelFilmsMin.cs" />
     <Compile Include="Models\HomeViewModels\HomeViewModelImprovementsMin.cs" />
-    <Compile Include="Models\HomeViewModels\HomeViewModelLogsMin.cs" />
-    <Compile Include="Models\HomeViewModels\HomeViewModelSerialsMin.cs" />
     <Compile Include="Models\HomeViewModels\HomeViewModelTrackEditor.cs" />
     <Compile Include="Models\ShareViewModels\ShareViewModelBaseMin.cs" />
     <Compile Include="Models\ShareViewModels\ShareViewModelEventsMin.cs" />
@@ -480,6 +470,7 @@
     <Content Include="Content\Images\Icon-512.png" />
     <Content Include="Content\Images\loading_small.gif" />
     <Content Include="Content\myseen\gmap3-menu.css" />
+    <Content Include="Content\myseen\navbar.css" />
     <Content Include="Content\themes\base\accordion.css" />
     <Content Include="Content\themes\base\all.css" />
     <Content Include="Content\themes\base\autocomplete.css" />
@@ -653,77 +644,38 @@
       <DependentUpon>Web.config</DependentUpon>
     </Content>
     <Content Include="Views\Web.config" />
-    <Content Include="Views\Shared\Error.cshtml" />
-    <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
-    <Content Include="Views\Account\_ExternalLoginsListPartial.cshtml" />
-    <Content Include="Views\Account\ConfirmEmail.cshtml" />
-    <Content Include="Views\Account\ExternalLoginConfirmation.cshtml" />
-    <Content Include="Views\Account\ExternalLoginFailure.cshtml" />
-    <Content Include="Views\Account\ForgotPassword.cshtml" />
-    <Content Include="Views\Account\ForgotPasswordConfirmation.cshtml" />
-    <Content Include="Views\Account\Login.cshtml" />
-    <Content Include="Views\Account\Register.cshtml" />
-    <Content Include="Views\Account\ResetPassword.cshtml" />
-    <Content Include="Views\Account\ResetPasswordConfirmation.cshtml" />
-    <Content Include="Views\Account\SendCode.cshtml" />
-    <Content Include="Views\Account\VerifyCode.cshtml" />
-    <Content Include="Views\Manage\AddPhoneNumber.cshtml" />
-    <Content Include="Views\Manage\ChangePassword.cshtml" />
-    <Content Include="Views\Manage\Index.cshtml" />
-    <Content Include="Views\Manage\ManageLogins.cshtml" />
-    <Content Include="Views\Manage\SetPassword.cshtml" />
-    <Content Include="Views\Manage\VerifyPhoneNumber.cshtml" />
-    <Content Include="Views\Shared\Lockout.cshtml" />
-    <Content Include="Views\Shared\_LoginPartial.cshtml" />
-    <Content Include="Views\Home\Parts\Ext\Users.cshtml" />
-    <Content Include="Views\Home\Parts\Ext\Improvements.cshtml" />
-    <Content Include="Views\Home\Parts\Ext\Logs.cshtml" />
-    <Content Include="Views\Home\Parts\Films.cshtml" />
-    <Content Include="Views\Home\Parts\Serials.cshtml" />
-    <Content Include="Views\Home\Parts\Books.cshtml" />
-    <Content Include="Views\Home\Parts\Roads.cshtml" />
-    <Content Include="Views\_ViewStart.cshtml" />
     <Content Include="Views\BrowserFilter\Index.cshtml" />
-    <Content Include="Views\Home\Parts\About.cshtml" />
     <Content Include="Views\Share\Tracks.cshtml" />
     <Content Include="Views\Home\TrackEditor.cshtml" />
-    <Content Include="Views\Home\Parts\Parts\TracksModalAddEdit.cshtml" />
-    <Content Include="Views\Shared\_LoginModal.cshtml" />
-    <Content Include="Views\Home\Parts\Events.cshtml" />
-    <Content Include="Views\Home\Parts\Parts\ModalShare.cshtml" />
     <Content Include="Views\Share\Films.cshtml" />
     <Content Include="Views\Share\Serials.cshtml" />
     <Content Include="Views\Share\Books.cshtml" />
     <Content Include="Views\Share\Events.cshtml" />
     <Content Include="Views\Analytics\Google.cshtml" />
     <Content Include="Views\Analytics\Yandex.cshtml" />
-    <Content Include="Views\Tools\TestCookie.cshtml" />
-    <Content Include="Views\Home\Parts\Tools\JsonGetPage.cshtml" />
-    <Content Include="Views\Tools\PaginationKO.cshtml" />
-    <Content Include="Views\Share\Tools\GetPage.cshtml" />
+    <Content Include="Views\Tools\GetPage.cshtml" />
     <Content Include="Views\Ads\Google.cshtml" />
-    <Content Include="Views\Tools\VK\Share.cshtml" />
-    <Content Include="Views\Tools\VK\Comments.cshtml" />
-    <Content Include="Views\Tools\VK\Like.cshtml" />
-    <Content Include="Views\Tools\VK\Subscribe.cshtml" />
-    <Content Include="Views\Tools\Google\Share.cshtml" />
-    <Content Include="Views\Tools\Google\Follow.cshtml" />
-    <Content Include="Views\Tools\Google\Like.cshtml" />
-    <Content Include="Views\Tools\Facebook\Like.cshtml" />
-    <Content Include="Views\Tools\Facebook\Share.cshtml" />
-    <Content Include="Views\Tools\Facebook\Comments.cshtml" />
-    <Content Include="Views\Tools\Google\Comments.cshtml" />
-    <Content Include="Views\Tools\Facebook\_Base.cshtml" />
-    <Content Include="Views\Tools\Google\_Base.cshtml" />
-    <Content Include="Views\Tools\VK\_Base.cshtml" />
-    <Content Include="Views\Share\Tools\Services.cshtml" />
-    <Content Include="Views\Home\Parts\Ext\Errors.cshtml" />
-    <Content Include="Views\Shared\_LayoutTools.cshtml" />
+    <Content Include="Views\Tools\Services\VK\Share.cshtml" />
+    <Content Include="Views\Tools\Services\VK\Comments.cshtml" />
+    <Content Include="Views\Tools\Services\VK\Like.cshtml" />
+    <Content Include="Views\Tools\Services\VK\Subscribe.cshtml" />
+    <Content Include="Views\Tools\Services\Google\Share.cshtml" />
+    <Content Include="Views\Tools\Services\Google\Follow.cshtml" />
+    <Content Include="Views\Tools\Services\Google\Like.cshtml" />
+    <Content Include="Views\Tools\Services\Facebook\Like.cshtml" />
+    <Content Include="Views\Tools\Services\Facebook\Share.cshtml" />
+    <Content Include="Views\Tools\Services\Facebook\Comments.cshtml" />
+    <Content Include="Views\Tools\Services\Google\Comments.cshtml" />
+    <Content Include="Views\Tools\Services\Facebook\_Base.cshtml" />
+    <Content Include="Views\Tools\Services\Google\_Base.cshtml" />
+    <Content Include="Views\Tools\Services\VK\_Base.cshtml" />
+    <Content Include="Views\Tools\Services.cshtml" />
+    <Content Include="Views\Home\Index2222222.cshtml" />
+    <Content Include="Views\Home\Index66666.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Views\Base\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config">

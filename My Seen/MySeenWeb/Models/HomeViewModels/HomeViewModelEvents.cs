@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
+using System.Web.Mvc;
 using MySeenLib;
 using MySeenWeb.Models.OtherViewModels;
 using MySeenWeb.Models.TablesViews;
@@ -13,11 +14,6 @@ namespace MySeenWeb.Models
     {
         public IEnumerable<EventsView> Data { get; set; }
         public PaginationViewModel Pages { get; set; }
-
-        public bool HaveData
-        {
-            get { return Data.Any(); }
-        }
 
         public HomeViewModelEvents(string userId, int page, int countInPage, string search, bool onlyEnded)
         {

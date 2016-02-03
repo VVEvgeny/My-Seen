@@ -544,7 +544,7 @@
     <value>Type</value>
   </data>
   <data name="LibVersionNum" xml:space="preserve">
-    <value>11</value>
+    <value>20</value>
   </data>
   <data name="Improvements" xml:space="preserve">
     <value>Improvements</value>
@@ -806,5 +806,20 @@
   </data>
   <data name="GenreHistorical" xml:space="preserve">
     <value>Historical</value>
+  </data>
+  <data name="About" xml:space="preserve">
+    <value>About</value>
+  </data>
+  <data name="Administration" xml:space="preserve">
+    <value>Administration</value>
+  </data>
+  <data name="MyMemory" xml:space="preserve">
+    <value>My Memory</value>
+  </data>
+  <data name="Settings" xml:space="preserve">
+    <value>Settings</value>
+  </data>
+  <data name="Road2" xml:space="preserve">
+    <value>Road</value>
   </data>
 </root>

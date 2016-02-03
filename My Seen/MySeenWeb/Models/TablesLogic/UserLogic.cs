@@ -28,5 +28,10 @@ namespace MySeenWeb.Models.TablesLogic
             var userId = _ac.UserLogins.First(ul => ul.LoginProvider == provider && ul.ProviderKey == key).UserId;
             return _ac.Users.First( u => u.Id == userId).Email;
         }
+
+        public int GetCountLogins(string userId)
+        {
+            return _ac.UserLogins.Count(u => u.UserId == userId);
+        }
     }
 }

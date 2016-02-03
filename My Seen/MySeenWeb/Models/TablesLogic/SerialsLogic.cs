@@ -19,6 +19,7 @@ namespace MySeenWeb.Models.TablesLogic
         {
             try
             {
+                if (string.IsNullOrEmpty(datetime)) throw new Exception("Нужна дата");
                 Name = name;
                 Year = string.IsNullOrEmpty(year) ? 0 : Convert.ToInt32(year);
                 LastSeason = string.IsNullOrEmpty(season) ? 1 : Convert.ToInt32(season);

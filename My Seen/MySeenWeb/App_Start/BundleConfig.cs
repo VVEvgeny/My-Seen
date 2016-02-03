@@ -31,7 +31,9 @@ namespace MySeenWeb
             bundles.Add(new StyleBundle("~/Content/css").Include(
                       "~/Content/bootstrap.css",
                       "~/Content/bootstrap-theme.css",
-                      "~/Content/myseen/site.css"));
+                      "~/Content/myseen/site.css",
+                      "~/Content/myseen/navbar.css"
+                      ));
 
             bundles.Add(new ScriptBundle("~/bundles/datetimepicker").Include(
                       "~/Scripts/moment-with-locales.js",

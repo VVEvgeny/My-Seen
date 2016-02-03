@@ -544,7 +544,7 @@
     <value>Тип</value>
   </data>
   <data name="LibVersionNum" xml:space="preserve">
-    <value>11</value>
+    <value>20</value>
   </data>
   <data name="Improvements" xml:space="preserve">
     <value>Улучшения</value>
@@ -806,5 +806,20 @@
   </data>
   <data name="GenreHistorical" xml:space="preserve">
     <value>Исторический</value>
+  </data>
+  <data name="About" xml:space="preserve">
+    <value>О проекте</value>
+  </data>
+  <data name="Administration" xml:space="preserve">
+    <value>Администрирование</value>
+  </data>
+  <data name="MyMemory" xml:space="preserve">
+    <value>Моя Память</value>
+  </data>
+  <data name="Settings" xml:space="preserve">
+    <value>Настройки</value>
+  </data>
+  <data name="Road2" xml:space="preserve">
+    <value>Дорогу</value>
   </data>
 </root>
