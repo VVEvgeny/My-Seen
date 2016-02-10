@@ -1,13 +1,21 @@
 ﻿using System;
+using System.Collections;
+using System.Collections.Generic;
+using System.Globalization;
+using System.Resources;
+using System.Threading;
 using System.Web.Mvc;
 using Microsoft.AspNet.Identity;
 using MySeenLib;
 using MySeenWeb.Add_Code.Services.Logging.NLog;
 using MySeenWeb.Controllers._Base;
 using MySeenWeb.Models;
+using MySeenWeb.Models.Prepared;
 using MySeenWeb.Models.ShareViewModels;
 using MySeenWeb.Models.TablesLogic;
 using MySeenWeb.Models.Tools;
+using MySeenWeb.Models.Translations;
+using Newtonsoft.Json.Linq;
 
 namespace MySeenWeb.Controllers.Home
 {
@@ -16,7 +24,7 @@ namespace MySeenWeb.Controllers.Home
         [HttpPost]
         public JsonResult GetPage(int pageId, int? page, string search)
         {
-            if (!User.Identity.IsAuthenticated) return Json(Auth.NoAuth);
+            //if (!User.Identity.IsAuthenticated) return Json(Auth.NoAuth);
 
             if (Admin.IsDebug)
             {
@@ -30,7 +38,8 @@ namespace MySeenWeb.Controllers.Home
                 switch (pageId)
                 {
                     case (int)Defaults.CategoryBase.Indexes.Films:
-                        return Json(new HomeViewModelFilms(User.Identity.GetUserId(), page ?? 1, Rpp, search));
+                        return
+                            Json(new HomeViewModelFilms(User.Identity.GetUserId(), page ?? 1, Rpp, search));
                     case (int)Defaults.CategoryBase.Indexes.Serials:
                         return Json(new HomeViewModelSerials(User.Identity.GetUserId(), page ?? 1, Rpp, search));
                     case (int)Defaults.CategoryBase.Indexes.Books:
@@ -66,9 +75,49 @@ namespace MySeenWeb.Controllers.Home
         }
 
         [HttpPost]
-        public JsonResult GetPreparedPage()
+        public JsonResult GetPrepared(int pageId)
         {
-            return Json(new HomeViewModelPreload());
+            var logger = new NLogLogger();
+            const string methodName = "public JsonResult GetPrepared(int pageId)";
+            try
+            {
+                switch (pageId)
+                {
+                    case (int)Defaults.CategoryBase.Indexes.Films:
+                        return Json(new PreparedDataFilms());
+                    case (int)Defaults.CategoryBase.Indexes.Serials:
+                        return Json(new PreparedDataSerials());
+                }
+                return Json("NOT REALIZED");
+            }
+            catch (Exception ex)
+            {
+                logger.Error(methodName, ex);
+            }
+            return new JsonResult { Data = new { success = false, error = methodName } };
+        }
+
+        [HttpPost]
+        public JsonResult GetTranslation(int pageId)
+        {
+            var logger = new NLogLogger();
+            const string methodName = "public JsonResult GetTranslation(int pageId)";
+            try
+            {
+                switch (pageId)
+                {
+                    case (int) Defaults.CategoryBase.Indexes.Films:
+                        return Json(new TranslationDataFilms());
+                    case (int)Defaults.CategoryBase.Indexes.Serials:
+                        return Json(new TranslationDataSerials());
+                }
+                return Json("NOT REALIZED");
+            }
+            catch (Exception ex)
+            {
+                logger.Error(methodName, ex);
+            }
+            return new JsonResult {Data = new {success = false, error = methodName}};
         }
 
         [Authorize]
@@ -383,5 +432,29 @@ namespace MySeenWeb.Controllers.Home
             }
             return new JsonResult { Data = new { success = false, error = methodName } };
         }
+        /* Angular translation Не умеет переводить плейсхолдеры.. не умеет переводить модальные...
+        public JsonResult GetTranslation(string lang)
+        {
+            var logger = new NLogLogger();
+            var methodName = "public JsonResult GetAllTranslations()";
+            try
+            {
+                var resourceObject = new
+                {
+                    Name = Resource.Name,
+                    Year = Resource.Year,
+                    Date = Resource.Date,
+                    Genre = Resource.Genre,
+                    Rating = Resource.Rating
+                };
+                return Json(resourceObject, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                logger.Error(methodName, ex);
+            }
+            return new JsonResult { Data = new { success = false, error = methodName } };
+        }
+         */
     }
 }

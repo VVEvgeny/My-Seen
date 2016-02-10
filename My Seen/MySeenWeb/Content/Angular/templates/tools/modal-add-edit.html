@@ -1,0 +1,86 @@
+﻿<div class="modal fade modal-window" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" id="AddModalWindow">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close myseen-modal-close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title text-center">{{modal.title}}</h4>
+            </div>
+            <div class="modal-body">
+                <div class="form-horizontal">
+                    <div class="form-group" data-ng-show="modal.showName">
+                        <label for="modalFieldName" class="col-sm-2 control-label">{{translation.Name}}</label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control input-sm" id="modalFieldName" placeholder="{{translation.Name}}" data-ng-model="modal.name">
+                        </div>
+                    </div>
+                    <div class="form-group" data-ng-show="modal.showYear">
+                        <label for="modalFieldYear" class="col-sm-2 control-label">{{translation.Year}}</label>
+                        <div class="col-sm-10">
+                            <input type="number" class="form-control input-sm" id="modalFieldYear" data-ng-model="modal.year" placeholder="{{prepared.Year}}">
+                        </div>
+                    </div>
+                    <div class="form-group" data-ng-show="modal.showSeason">
+                        <label for="modalFieldSeason" class="col-sm-2 control-label">{{translation.Season}}</label>
+                        <div class="col-sm-10">
+                            <input type="number" min="1" max="100" class="form-control" id="modalFieldSeason" data-ng-model="modal.season" placeholder="{{translation.Season}}">
+                        </div>
+                    </div>
+                    <div class="form-group" data-ng-show="modal.showSeries">
+                        <label for="modalFieldSeries" class="col-sm-2 control-label">{{translation.Series}}</label>
+                        <div class="col-sm-10">
+                            <input type="number" min="1" max="100" class="form-control" id="modalFieldSeries" data-ng-model="modal.series" placeholder="{{translation.Series}}">
+                        </div>
+                    </div>
+                    <div class="form-group" data-ng-show="modal.showWhen">
+                        <label for="modalFieldDateTime" class="col-sm-2 control-label">{{translation.When}}</label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control input-sm" id="modalFieldDateTime" data-ng-model="modal.datetimeNow" placeholder="{{prepared.DateTimeNow}}"/>
+                        </div>
+                    </div>
+                    <div class="form-group" data-ng-show="modal.showGenre">
+                        <label class="col-sm-2 control-label">{{translation.Genre}}</label>
+                        <div class="col-sm-10">
+                            <select class="form-control input-sm" data-ng-model="modal.genre">
+                                <option data-ng-repeat="genre in prepared.GenreList" data-ng-selected="modal.genre == genre.Value" value="{{genre.Value}}">{{genre.Text}}</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group" data-ng-show="modal.showRating">
+                        <label class="col-sm-2 control-label">{{translation.Rating}}</label>
+                        <div class="col-sm-10">
+                            <select class="form-control input-sm" data-ng-model="modal.rating">
+                                <option data-ng-repeat="rating in prepared.RatingList" data-ng-selected="modal.rating == rating.Value" value="{{rating.Value}}">{{rating.Text}}</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-success btn-block" data-ng-click="modal.addButtonClick()" data-ng-show="modal.addButton">
+                    <span class="glyphicon glyphicon-ok"></span>
+                    &nbsp;{{translation.Add}}
+                </button>
+                <div class="align-center row">
+                    <button type="button" class="btn btn-info btn-share" data-ng-click="modalShare.shareButtonClick()" data-ng-show="modal.shareButton">
+                        <span class="glyphicon glyphicon-plus"></span>
+                        &nbsp;{{translation.Share}}
+                    </button>
+                    <button type="button" class="btn btn-danger" data-ng-click="modal.deleteButtonClick()" data-ng-show="modal.deleteButton">
+                        <span class="glyphicon glyphicon-trash"></span>
+                        &nbsp;{{translation.Delete}}
+                    </button>
+                    <button type="button" class="btn btn-success" data-ng-click="modal.saveButtonClick()" data-ng-show="modal.saveButton">
+                        <span class="glyphicon glyphicon-ok"></span>
+                        &nbsp;{{translation.SaveChanges}}
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+    $("#modalFieldDateTime").datetimepicker({
+        locale: 'ru'
+    });
+</script>

@@ -1,15 +1,11 @@
 ﻿using System;
 using System.Linq;
 using System.Web.Http;
-using System.Web.UI.WebControls;
-using Microsoft.AspNet.Identity;
-using MySeenWeb.Models;
 using MySeenLib;
 using MySeenWeb.Add_Code.Services.Logging.NLog;
 using MySeenWeb.Models.OtherViewModels;
-using MySeenWeb.Models.Tools;
 
-namespace MySeenWeb.Controllers
+namespace MySeenWeb.Controllers.Api
 {
     public class ApiUsersController : ApiController
     {

@@ -17,7 +17,6 @@ namespace MySeenWeb.Models
 
         public HomeViewModelPreload()
         {
-            RatinngGenre = new RatingGenreViewModel();
             EventTypeList =
                 Defaults.EventTypes.GetAll()
                     .Select(

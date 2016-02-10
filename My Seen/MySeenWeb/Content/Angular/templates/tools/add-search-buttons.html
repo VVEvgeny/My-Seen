@@ -1,0 +1,21 @@
+﻿<div class="form-inline" data-ng-show="!loading && prepared.loaded && translation.loaded">
+    <div class="form-group">
+        <div class="container">
+            <div class="row col-sm-12">
+                <div class="form-group" data-ng-show="pageCanAdd">
+                    <label for="addButton" style="display: block;">{{translation.Add}}</label>
+                    <button type="button" class="form-control btn btn-primary" id="addButton" data-ng-click="addModalOpen()">
+                        <span class="glyphicon glyphicon-plus"></span> {{translation.Add}}
+                    </button>
+                </div>
+                <div class="form-group" data-ng-show="pageCanSearch">
+                    <label for="quickSearch" style="display: block;">{{translation.QuickSearch}}:</label>
+                    <input type="text" class="form-control" id="quickSearch" style="width: 150px;" placeholder="{{translation.QuickSearch}}" data-ng-model="quickSearch.text" data-ng-keypress="($event.which === 13)?searchButtonClick():0">
+                    <button type="button" class="form-control btn btn-info" id="searchButton" data-ng-click="searchButtonClick()">
+                        <span class="glyphicon glyphicon-search"></span> {{translation.QuickSearch}}
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

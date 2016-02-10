@@ -7,21 +7,34 @@ namespace MySeenWeb.Models.Tools
 {
     public class RatingGenreViewModel
     {
-        public string Rating { get; set; }
         public IEnumerable<SelectListItem> RatingList { get; set; }
-        public string Genre { get; set; }
         public IEnumerable<SelectListItem> GenreList { get; set; }
 
         public RatingGenreViewModel()
         {
-            Rating = Defaults.Ratings.GetMaxValue();
-            Genre = Defaults.Genres.GetMaxValue();
+            RatingList =
+                Defaults.Ratings.GetAll()
+                    .Select(
+                        sel =>
+                            new SelectListItem
+                            {
+                                Text = sel,
+                                Value = Defaults.Ratings.GetId(sel).ToString(),
+                                Selected = sel == Defaults.Ratings.GetMaxValue()
+                            })
+                    .ToList();
 
-            var listItemsRating = Defaults.Ratings.GetAll().Select(sel => new SelectListItem {Text = sel, Value = Defaults.Ratings.GetId(sel).ToString(), Selected = (sel == Rating)}).ToList();
-            RatingList = listItemsRating;
-
-            var listItemsGenre = Defaults.Genres.GetAll().Select(sel => new SelectListItem {Text = sel, Value = Defaults.Genres.GetId(sel).ToString(), Selected = (sel == Genre)}).ToList();
-            GenreList = listItemsGenre;
+            GenreList =
+                Defaults.Genres.GetAll()
+                    .Select(
+                        sel =>
+                            new SelectListItem
+                            {
+                                Text = sel,
+                                Value = Defaults.Genres.GetId(sel).ToString(),
+                                Selected = sel == Defaults.Genres.GetMaxValue()
+                            })
+                    .ToList();
         }
     }
 }
