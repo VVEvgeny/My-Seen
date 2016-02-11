@@ -1,12 +1,20 @@
 'use strict';
 
 /* App Module */
-var routerApp = angular.module('MySeenApp', ['ui.router', 'ui.bootstrap', 'FilmsController', 'SerialsController']);
+var routerApp = angular.module('MySeenApp', ['ui.router', 'ui.bootstrap'
+    , 'FilmsController', 'SerialsController', 'BooksController', 'EventsController', 'HomeController', 'AboutController', 'ImprovementsController'
+    , 'UsersController', 'LogsController', 'ErrorsController', 'SettingsController', 'RoadsController'
+]);
 
 routerApp.config(function($stateProvider, $urlRouterProvider) {
 
     $stateProvider
-        // главна€, состо€ние и вид ========================================
+        .state('/', {
+            url: '/',
+            templateUrl: "Content/Angular/templates/home.html",
+            controller: 'HomeController',
+            reloadOnSearch: false
+        })
         .state('films', {
             url: '/films/?:page&search',
             templateUrl: "Content/Angular/templates/films.html",
@@ -19,12 +27,63 @@ routerApp.config(function($stateProvider, $urlRouterProvider) {
             controller: 'SerialsController',
             reloadOnSearch: false
         })
-        // о нас =================================
+        .state('books', {
+            url: '/books/?:page&search',
+            templateUrl: "Content/Angular/templates/books.html",
+            controller: 'BooksController',
+            reloadOnSearch: false
+        })
+        .state('events', {
+            url: '/events/?:page&search&ended',
+            templateUrl: "Content/Angular/templates/events.html",
+            controller: 'EventsController',
+            reloadOnSearch: false
+        })
+        .state('settings', {
+            url: '/settings/',
+            templateUrl: "Content/Angular/templates/settings.html",
+            controller: 'FilmsController',
+            reloadOnSearch: false
+        })
+        .state('improvements', {
+            url: '/improvements/',
+            templateUrl: "Content/Angular/templates/improvements.html",
+            controller: 'ImprovementsController',
+            reloadOnSearch: false
+        })
+        .state('users', {
+            url: '/users/?:page&search',
+            templateUrl: "Content/Angular/templates/users.html",
+            controller: 'UsersController',
+            reloadOnSearch: false
+        })
+        .state('logs', {
+            url: '/logs/?:page&search',
+            templateUrl: "Content/Angular/templates/logs.html",
+            controller: 'LogsController',
+            reloadOnSearch: false
+        })
+        .state('errors', {
+            url: '/errors/?:page&search',
+            templateUrl: "Content/Angular/templates/errors.html",
+            controller: 'ErrorsController',
+            reloadOnSearch: false
+        })
+        .state('roads', {
+            url: '/roads/',
+            templateUrl: "Content/Angular/templates/roads.html",
+            controller: 'RoadsController',
+            reloadOnSearch: false
+        })
         .state('about', {
-            // we'll get to this in a bit
-        
+            url: '/about/',
+            templateUrl: "Content/Angular/templates/about.html",
+            controller: 'AboutController',
+            reloadOnSearch: false
         });
+    
     $urlRouterProvider.otherwise('/');
+
 }).run(function($rootScope) {
     ///////////////////////////////////////////////////////////////////////
     ///////////////////////////////////////////////////////////////////////           –абота с сервером
@@ -43,7 +102,7 @@ routerApp.config(function($stateProvider, $urlRouterProvider) {
     ///////////////////////////////////////////////////////////////////////
     ///////////////////////////////////////////////////////////////////////           «акрыть модальные
     ///////////////////////////////////////////////////////////////////////
-    $rootScope.closeModals = function() {
+    $rootScope.closeModals = function () {
         //ћодальна€ при смене страницы остаетс€, чистим вручную...
         $('body').removeClass('modal-open');
         $('.modal-backdrop').remove();

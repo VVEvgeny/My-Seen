@@ -1,5 +1,4 @@
-﻿<!--необходимо в скоупе описать paginationName для вызова нужного state который и соответствующий контролер в stateParams будет хранить pageNum-->
-<div class="text-center">
+﻿<div class="text-center" data-ng-show="pages && !(pages.IsFirstPage && pages.IsLastPage)">
     <ul class="pagination pagination-sm">
         <li data-ng-class="{disabled: pages.IsFirstPage}">
             <a data-ng-click="pagination.goToPage( (pages.CurentPage-1)>0 ? pages.CurentPage-1 : 1 )">←</a>

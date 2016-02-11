@@ -1,9 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using System.Web.Mvc;
-using MySeenLib;
-using MySeenWeb.Models.TablesViews;
-using MySeenWeb.Models.Tools;
+﻿using MySeenLib;
 
 namespace MySeenWeb.Models
 {

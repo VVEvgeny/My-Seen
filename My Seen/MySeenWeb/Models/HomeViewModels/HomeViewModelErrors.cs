@@ -12,11 +12,17 @@ namespace MySeenWeb.Models
         public IEnumerable<NLogErrorsView> Data { get; set; }
         public PaginationViewModel Pages { get; set; }
 
-        public HomeViewModelErrors(int page, int countInPage)
+        public HomeViewModelErrors(int page, int countInPage, string search)
         {
             var ac = new ApplicationDbContext();
-            Pages = new PaginationViewModel(page, ac.NLogErrors.Count(), countInPage);
-            Data = ac.NLogErrors.AsNoTracking().OrderByDescending(l => l.DateTimeStamp).Skip(() => Pages.SkipRecords).Take(() => countInPage).Select(NLogErrorsView.Map);
+            Pages = new PaginationViewModel(page, ac.NLogErrors.Count(f => (string.IsNullOrEmpty(search) || f.Message.Contains(search))), countInPage);
+            Data =
+                ac.NLogErrors.AsNoTracking()
+                    .Where(f => (string.IsNullOrEmpty(search) || f.Message.Contains(search)))
+                    .OrderByDescending(l => l.DateTimeStamp)
+                    .Skip(() => Pages.SkipRecords)
+                    .Take(() => countInPage)
+                    .Select(NLogErrorsView.Map);
         }
     }
 }

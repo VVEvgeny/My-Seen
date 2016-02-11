@@ -1,0 +1,42 @@
+﻿<!--Загрузка-->
+<data-ng-include src="'Content/Angular/templates/tools/loading.html'"></data-ng-include>
+<!--Кнопка поиск-->
+<data-ng-include src="'Content/Angular/templates/tools/add-search-buttons.html'"></data-ng-include>
+<br>
+
+<div data-ng-show="translation.loaded">
+    <!--Таблица-->
+    <div class="table-responsive">
+        <table class="table table-striped">
+            <thead>
+            <tr>
+                <th class="col-sm-1">{{translation.UserName}}</th>
+                <th class="col-sm-2">{{translation.UserAgent}}</th>
+                <th class="col-sm-1">{{translation.IPAdress}}</th>
+                <th class="col-sm-1">{{translation.FirstCall}}</th>
+                <th class="col-sm-1">{{translation.DateLast}}</th>
+                <th class="col-sm-1">{{translation.Amount}}</th>
+                <th class="col-sm-1">{{translation.PageName}}</th>
+                <th class="col-sm-4">{{translation.AddData}}</th>
+            </tr>
+            </thead>
+            <tbody>
+                <tr ng-repeat="val in data">
+                    <!--Одноразовая привязка-->
+                    <td class="align-center">{{::val.UserName}}</td>
+                    <td class="align-center">{{::val.UserAgent}}</td>
+                    <td class="align-center">{{::val.IpAdress}}</td>
+                    <td class="align-center">{{::val.DateFirstText}}</td>
+                    <td class="align-center">{{::val.DateLastText}}</td>
+                    <td class="align-center">{{::val.Count}}</td>
+                    <td class="align-center">{{::val.PageName}}</td>
+                    <td class="align-center">
+                        <div ng-repeat="item in val.AddDataText track by $index">{{item}}</div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <!--Моя пагинация-->
+    <data-ng-include src="'Content/Angular/templates/tools/pagination.html'"></data-ng-include>
+</div>

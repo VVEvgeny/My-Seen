@@ -19,6 +19,12 @@
                             <input type="number" class="form-control input-sm" id="modalFieldYear" data-ng-model="modal.year" placeholder="{{prepared.Year}}">
                         </div>
                     </div>
+                    <div class="form-group" data-ng-show="modal.showAuthors">
+                        <label for="modalFieldAuthors" class="col-sm-2 control-label">{{translation.Authors}}</label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control input-sm" id="modalFieldAuthors" placeholder="{{translation.Authors}}" data-ng-model="modal.authors">
+                        </div>
+                    </div>
                     <div class="form-group" data-ng-show="modal.showSeason">
                         <label for="modalFieldSeason" class="col-sm-2 control-label">{{translation.Season}}</label>
                         <div class="col-sm-10">
@@ -50,6 +56,14 @@
                         <div class="col-sm-10">
                             <select class="form-control input-sm" data-ng-model="modal.rating">
                                 <option data-ng-repeat="rating in prepared.RatingList" data-ng-selected="modal.rating == rating.Value" value="{{rating.Value}}">{{rating.Text}}</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group" data-ng-show="modal.showEventTypes">
+                        <label class="col-sm-2 control-label">{{translation.Type}}</label>
+                        <div class="col-sm-10">
+                            <select class="form-control input-sm" data-ng-model="modal.eventType">
+                                <option data-ng-repeat="type in prepared.TypeList" data-ng-selected="modal.eventType == type.Value" value="{{type.Value}}">{{type.Text}}</option>
                             </select>
                         </div>
                     </div>

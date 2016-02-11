@@ -16,7 +16,8 @@ namespace MySeenWeb.Models.TablesViews
 
             return new UsersView
             {
-                Name = model.UserName.Remove(model.UserName.IndexOf('@')),
+                //Name = model.UserName.Remove(model.UserName.IndexOf('@')),
+                Name = model.UserName,
                 RegisterDate = model.RegisterDate.ToShortDateString(),
                 Culture = model.Culture == CultureInfoTool.Cultures.English
                     ? Defaults.Languages.GetById((int)Defaults.LanguagesBase.Indexes.English)

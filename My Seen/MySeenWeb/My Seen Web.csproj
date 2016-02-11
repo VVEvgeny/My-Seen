@@ -67,7 +67,7 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="Owin.Security.Providers, Version=1.25.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Owin.Security.Providers.1.26\lib\net45\Owin.Security.Providers.dll</HintPath>
+      <HintPath>..\packages\Owin.Security.Providers.1.27\lib\net45\Owin.Security.Providers.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="System" />
@@ -346,7 +346,15 @@
       <DependentUpon>201512240904315_32.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
+    <Compile Include="Models\HomeViewModels\Prepared\PreparedDataBooks.cs" />
+    <Compile Include="Models\HomeViewModels\Prepared\PreparedDataEvents.cs" />
     <Compile Include="Models\HomeViewModels\Prepared\PreparedDataSerials.cs" />
+    <Compile Include="Models\HomeViewModels\Translations\TranslationDataErrors.cs" />
+    <Compile Include="Models\HomeViewModels\Translations\TranslationDataLogs.cs" />
+    <Compile Include="Models\HomeViewModels\Translations\TranslationDataRoads.cs" />
+    <Compile Include="Models\HomeViewModels\Translations\TranslationDataUsers.cs" />
+    <Compile Include="Models\HomeViewModels\Translations\TranslationDataEvents.cs" />
+    <Compile Include="Models\HomeViewModels\Translations\TranslationDataBooks.cs" />
     <Compile Include="Models\HomeViewModels\Translations\TranslationDataSerials.cs" />
     <Compile Include="Models\HomeViewModels\Translations\TranslationDataFilms.cs" />
     <Compile Include="Models\HomeViewModels\Prepared\PreparedDataFilms.cs" />
@@ -419,6 +427,27 @@
     <Compile Include="Startup.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Content\Angular\controllers\ErrorsController.js" />
+    <Content Include="Content\Angular\controllers\RoadsController.js" />
+    <Content Include="Content\Angular\controllers\SettingsController.js" />
+    <Content Include="Content\Angular\controllers\LogsController.js" />
+    <Content Include="Content\Angular\controllers\UsersController.js" />
+    <Content Include="Content\Angular\controllers\ImprovementsController.js" />
+    <Content Include="Content\Angular\controllers\EventsController.js" />
+    <Content Include="Content\Angular\controllers\BooksController.js" />
+    <Content Include="Content\Angular\controllers\AboutController.js" />
+    <Content Include="Content\Angular\controllers\HomeController.js" />
+    <Content Include="Content\Angular\templates\roads.html" />
+    <Content Include="Content\Angular\templates\settings.html" />
+    <Content Include="Content\Angular\templates\books.html" />
+    <Content Include="Content\Angular\templates\events.html" />
+    <Content Include="Content\Angular\templates\about.html" />
+    <Content Include="Content\Angular\templates\errors.html" />
+    <Content Include="Content\Angular\templates\logs.html" />
+    <Content Include="Content\Angular\templates\login.html" />
+    <Content Include="Content\Angular\templates\users.html" />
+    <Content Include="Content\Angular\templates\improvements.html" />
+    <Content Include="Content\Angular\templates\home.html" />
     <Content Include="Content\Angular\templates\tools\modal-share.html" />
     <Content Include="Content\bootstrap-datetimepicker.css" />
     <Content Include="Content\bootstrap-datetimepicker.min.css" />
@@ -1481,6 +1510,8 @@
     <Content Include="Views\Home\Index7777777.cshtml" />
     <Content Include="Views\Home\IndexFullKO.cshtml" />
     <Content Include="Scripts\version.json" />
+    <Content Include="Views\Account\ExternalLoginConfirmation.cshtml" />
+    <Content Include="Views\Account\ExternalLoginFailure.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

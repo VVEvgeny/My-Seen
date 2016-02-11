@@ -1,0 +1,42 @@
+﻿<!--Загрузка-->
+<data-ng-include src="'Content/Angular/templates/tools/loading.html'"></data-ng-include>
+<!--Кнопка поиск-->
+<data-ng-include src="'Content/Angular/templates/tools/add-search-buttons.html'"></data-ng-include>
+<br>
+
+<div data-ng-show="translation.loaded">
+    <!--Таблица-->
+    <div class="table-responsive">
+        <table class="table table-striped">
+            <thead>
+            <tr>
+                <th class="col-sm-4">{{translation.UserName}}</th>
+                <th class="col-sm-1">{{translation.RegisterDate}}</th>
+                <th class="col-sm-1">{{translation.LastAction}}</th>
+                <th class="col-sm-1">{{translation.CultureName}}</th>
+                <th class="col-sm-1">{{translation.FilmsCount}}</th>
+                <th class="col-sm-1">{{translation.SerialsCount}}</th>
+                <th class="col-sm-1">{{translation.BooksCount}}</th>
+                <th class="col-sm-1">{{translation.TracksCount}}</th>
+                <th class="col-sm-1">{{translation.EventsCount}}</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr ng-repeat="val in data">
+                <!--Одноразовая привязка-->
+                <td class="align-center">{{::val.Name}}</td>
+                <td class="align-center">{{::val.RegisterDate}}</td>
+                <td class="align-center">{{::val.LastActionText}}</td>
+                <td class="align-center">{{::val.Culture}}</td>
+                <td class="align-center">{{::val.FilmsCount}}</td>
+                <td class="align-center">{{::val.SerialsCount}}</td>
+                <td class="align-center">{{::val.BooksCount}}</td>
+                <td class="align-center">{{::val.TracksCount}}</td>
+                <td class="align-center">{{::val.EventsCount}}</td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+    <!--Моя пагинация-->
+    <data-ng-include src="'Content/Angular/templates/tools/pagination.html'"></data-ng-include>
+</div>

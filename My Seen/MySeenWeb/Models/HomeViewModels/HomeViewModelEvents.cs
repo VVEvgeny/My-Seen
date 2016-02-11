@@ -15,7 +15,7 @@ namespace MySeenWeb.Models
         public IEnumerable<EventsView> Data { get; set; }
         public PaginationViewModel Pages { get; set; }
 
-        public HomeViewModelEvents(string userId, int page, int countInPage, string search, bool onlyEnded)
+        public HomeViewModelEvents(string userId, int page, int countInPage, string search, int onlyEnded)
         {
             var ac = new ApplicationDbContext();
 
@@ -25,7 +25,7 @@ namespace MySeenWeb.Models
                     .Select(EventsView.Map)
                     .Where(
                         e =>
-                            onlyEnded
+                            onlyEnded == 1
                                 ? e.EstimatedTicks <= 0 &&
                                   e.RepeatType != (int)Defaults.EventsTypesBase.Indexes.OneTimeWithPast
                                 : e.EstimatedTicks > 0 ||

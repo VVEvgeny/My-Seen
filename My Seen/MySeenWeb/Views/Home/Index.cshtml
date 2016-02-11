@@ -1,9 +1,7 @@
-﻿@{
-    Layout = null;
-}
-@using Microsoft.AspNet.Identity
+﻿@using Microsoft.AspNet.Identity
 @using Microsoft.Owin.Security
 @using MySeenWeb.Models;
+
 @model HomeViewModel
 
 <!DOCTYPE html>
@@ -29,9 +27,21 @@
     <script src="~/Scripts/angular-ui-router.js"></script>
     <script src="~/Scripts/angular-ui/ui-bootstrap-tpls.js"></script>
 
+    <script src="~/Content/Angular/controllers/SettingsController.js"></script>
+    <script src="~/Content/Angular/controllers/HomeController.js"></script>
+    <script src="~/Content/Angular/controllers/AboutController.js"></script>
+    <script src="~/Content/Angular/controllers/ImprovementsController.js"></script>
+
+    <script src="~/Content/Angular/controllers/UsersController.js"></script>
+    <script src="~/Content/Angular/controllers/LogsController.js"></script>
+    <script src="~/Content/Angular/controllers/ErrorsController.js"></script>
 
     <script src="~/Content/Angular/controllers/FilmsController.js"></script>
     <script src="~/Content/Angular/controllers/SerialsController.js"></script>
+    <script src="~/Content/Angular/controllers/BooksController.js"></script>
+    <script src="~/Content/Angular/controllers/EventsController.js"></script>
+    <script src="~/Content/Angular/controllers/RoadsController.js"></script>
+
     <script src="~/Content/Angular/app/app.js"></script>
 
 </head>
@@ -48,19 +58,49 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a class="navbar-brand" href="#">@Resource.AppName</a>
+                <a class="navbar-brand" data-ui-sref="/">@Resource.AppName</a>
             </div>
             <!-- Collect the nav links, forms, and other content for toggling -->
             <div class="collapse navbar-collapse" id="bs-sidebar-navbar-collapse-1">
                 <ul class="nav navbar-nav">
-                    <li class="dropdown">
-                        <a href="" class="dropdown-toggle" data-toggle="dropdown">@Resource.MyMemory <span class="caret"></span><span style="font-size: 16px;" class="pull-right hidden-xs showopacity glyphicon glyphicon-home"></span></a>
-                        <ul class="dropdown-menu forAnimate" role="menu">
-                            <li><a data-ui-sref="films">@Resource.Films<span style="font-size: 16px;" class="pull-right hidden-xs showopacity glyphicon glyphicon-film"></span></a></li>
-                            <li><a data-ui-sref="serials">@Resource.Serials<span style="font-size: 16px;" class="pull-right hidden-xs showopacity glyphicon glyphicon-film"></span></a></li>
-                        </ul>
-                    </li>
-                    <li><a href="#">@Resource.Improvements<span style="font-size: 16px;" class="pull-right hidden-xs showopacity glyphicon glyphicon-signal"></span></a></li>
+                    @if (Request.IsAuthenticated)
+                    {
+                        <li class="dropdown">
+                            <a href="" class="dropdown-toggle" data-toggle="dropdown">@Resource.MyMemory <span class="caret"></span><span style="font-size: 16px;" class="pull-right hidden-xs showopacity glyphicon glyphicon-home"></span></a>
+                            <ul class="dropdown-menu forAnimate" role="menu">
+                                <li><a data-ui-sref="films">@Resource.Films<span style="font-size: 16px;" class="pull-right hidden-xs showopacity glyphicon glyphicon-film"></span></a></li>
+                                <li><a data-ui-sref="serials">@Resource.Serials<span style="font-size: 16px;" class="pull-right hidden-xs showopacity glyphicon glyphicon-film"></span></a></li>
+                                <li><a data-ui-sref="books">@Resource.Books<span style="font-size: 16px;" class="pull-right hidden-xs showopacity glyphicon glyphicon-book"></span></a></li>
+                                <li><a data-ui-sref="events">@Resource.Events<span style="font-size: 16px;" class="pull-right hidden-xs showopacity glyphicon glyphicon-time"></span></a></li>
+                                <li><a data-ui-sref="roads">@Resource.Tracks<span style="font-size: 16px;" class="pull-right hidden-xs showopacity glyphicon glyphicon-road"></span></a></li>
+                            </ul>
+                        </li>
+                        <li><a data-ui-sref="improvements">@Resource.Improvements<span style="font-size: 16px;" class="pull-right hidden-xs showopacity glyphicon glyphicon-signal"></span></a></li>
+                        if (Admin.IsAdmin(User.Identity.GetUserName()))
+                        {
+                            <li class="dropdown">
+                                <a href="" class="dropdown-toggle" data-toggle="dropdown">@Resource.Administration <span class="caret"></span><span style="font-size: 16px;" class="pull-right hidden-xs showopacity glyphicon glyphicon-lock"></span></a>
+                                <ul class="dropdown-menu forAnimate" role="menu">
+                                    <li><a data-ui-sref="users">@Resource.Users<span style="font-size: 16px;" class="pull-right hidden-xs showopacity glyphicon glyphicon-user"></span></a></li>
+                                    <li><a data-ui-sref="logs">@Resource.Logs<span style="font-size: 16px;" class="pull-right hidden-xs showopacity glyphicon glyphicon-scale"></span></a></li>
+                                    <li><a data-ui-sref="errors">@Resource.Errors<span style="font-size: 16px;" class="pull-right hidden-xs showopacity glyphicon glyphicon-random"></span></a></li>
+                                </ul>
+                            </li>
+                        }
+                        <li><a data-ui-sref="settings">@Resource.Settings<span style="font-size: 16px;" class="pull-right hidden-xs showopacity glyphicon glyphicon-cog"></span></a></li>
+                    }
+                    else
+                    {
+                        <li><a id="LogInButton">@Resource.Login<span style="font-size: 16px;" class="pull-right hidden-xs showopacity glyphicon glyphicon-log-in"></span></a></li>
+                    }
+
+                    <li><a href='https://play.google.com/store/apps/details?id=com.vve.myseen' target="_blank">@Resource.OurAndroidApp<span style="font-size: 16px;" class="pull-right hidden-xs showopacity glyphicon glyphicon-phone"></span></a></li>
+                    <li><a data-ui-sref="about">@Resource.About <span style="font-size: 16px;" class="pull-right hidden-xs showopacity glyphicon glyphicon-info-sign"></span></a></li>
+
+                    @if (Request.IsAuthenticated)
+                    {
+                        <li><a id="LogoutButton">@Resource.LogOff<span style="font-size: 16px;" class="pull-right hidden-xs showopacity glyphicon glyphicon-off"></span></a></li>
+                    }
                 </ul>
             </div>
         </div>
@@ -72,5 +112,227 @@
 
 
 </div>
+
+@if (Request.IsAuthenticated) // Дадим возможность выхода
+{
+    <script language="javascript" type="text/javascript">
+        (function($) {
+            $(function() {
+                var $LogoutButton = $("#LogoutButton");
+                $LogoutButton.off('click');
+                $LogoutButton.on('click', function() {
+
+                    $.post('/Account/LogOut', {}, function(jsonData) {
+
+                        if (jsonData === '@Auth.NoAuth') window.location = '/';
+
+                        if (jsonData.error) {
+                            alert(jsonData.error);
+                        } else {
+                            window.location.href = '/';
+                        }
+                    });
+                });
+            });
+        })(jQuery);
+    </script>
+}
+else
+{
+    <div class="modal fade modal-window" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" id="LogInModalWindow">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close myseen-modal-close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title text-center">@Resource.Login</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="form-horizontal" style="margin-left: -1px;">
+                        @{
+                            var loginProviders = Context.GetOwinContext().Authentication.GetExternalAuthenticationTypes();
+                            var authenticationDescriptions = loginProviders as IList<AuthenticationDescription> ?? loginProviders.ToList();
+                            if (authenticationDescriptions.Any() || Nemiro.OAuth.OAuthManager.RegisteredClients.Count != 0)
+                            {
+                                <div class="form-group col-sm-12">
+                                    <button type="button" class="btn btn-danger btn-md btn-block" id="UseAnotherServiceToLogIn">
+                                        <span class="glyphicon glyphicon-log-in"></span>
+                                        &nbsp;@Resource.UseAnotherServiceToLogIn
+                                    </button>
+                                </div>
+                            }
+                        }
+                        <div class="form-group col-sm-12">
+                            <button type="button" class="btn btn-warning btn-block" id="RegisterButton">
+                                <span class="glyphicon glyphicon-user"></span>
+                                &nbsp;@Resource.TxtForLogin2
+                            </button>
+                        </div>
+                        <div class="form-group">
+                            <label for="userName" class="col-sm-2 control-label">@Resource.Email</label>
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control" id="userName" placeholder="@Resource.Email">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="password" class="col-sm-2 control-label">@Resource.Password</label>
+                            <div class="col-sm-10">
+                                <input type="password" class="form-control" id="password" placeholder="@Resource.Password" />
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-sm-12">
+                                @Html.CheckBox("RememberMe", true)
+                                <label for="RememberMe" class="ontrol-label">@Resource.Remember</label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-success btn-block" id="LoginButton">
+                        <span class="glyphicon glyphicon-ok"></span>
+                        &nbsp;@Resource.Login
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade modal-window" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" id="LoginExternalModalWindow">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <div class="form-horizontal">
+                        <div class="form-group">
+                            @{
+                                using (Html.BeginForm("ExternalLogin", "Account"))
+                                {
+
+                                    @Html.AntiForgeryToken()
+                                    foreach (var p in authenticationDescriptions)
+                                    {
+                                        <div class="col-sm-12">
+                                            <button type="submit" class="btn btn-primary btn-block" id="@p.AuthenticationType" name="provider" value="@p.AuthenticationType" title="@Resource.LogInUsingYour @p.Caption @Resource.Account ">@p.AuthenticationType</button>
+                                        </div>
+                                    }
+                                    foreach (var p in Nemiro.OAuth.OAuthManager.RegisteredClients)
+                                    {
+                                        <div class="col-sm-12">
+                                            <button type="submit" class="btn btn-primary btn-block" id="@p.Key" name="provider" value="@p.Key" title="@Resource.LogInUsingYour @p.Value.ProviderName @Resource.Account ">@p.Key</button>
+                                        </div>
+                                    }
+                                }
+                            }
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade modal-window" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" id="RegisterModalWindow">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close myseen-modal-close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title text-center">@Resource.Register</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="form-horizontal">
+                        <div class="form-group">
+                            <label for="registerUserName" class="col-sm-2 control-label">@Resource.Email</label>
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control" id="registerUserName" placeholder="@Resource.Email">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="registerPassword" class="col-sm-2 control-label">@Resource.Password</label>
+                            <div class="col-sm-10">
+                                <input type="password" class="form-control" id="registerPassword" placeholder="@Resource.Password" />
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="registerRepeatPassword" class="col-sm-2 control-label">@Resource.Password</label>
+                            <div class="col-sm-10">
+                                <input type="password" class="form-control" id="registerRepeatPassword" placeholder="@Resource.Password" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-success btn-block" id="RegisterUserButton">
+                        <span class="glyphicon glyphicon-ok"></span>
+                        &nbsp;@Resource.Register
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script language="javascript" type="text/javascript">
+    (function ($) {
+        $(function () {
+            var $LogInButton = $("#LogInButton");
+            $LogInButton.off('click');
+            $LogInButton.on('click', function () {
+
+                $("#LogInModalWindow").modal('show');
+
+            });
+            var $UseAnotherServiceToLogIn = $("#UseAnotherServiceToLogIn");
+            $UseAnotherServiceToLogIn.off('click');
+            $UseAnotherServiceToLogIn.on('click', function () {
+
+                $("#LogInModalWindow").modal('hide');
+                $("#LoginExternalModalWindow").modal('show');
+
+            });
+            var $RegisterButton = $("#RegisterButton");
+            $RegisterButton.off('click');
+            $RegisterButton.on('click', function () {
+
+                $("#LogInModalWindow").modal('hide');
+                $("#RegisterModalWindow").modal('show');
+
+            });
+
+            var $LoginButton = $("#LoginButton");
+            $LoginButton.off('click');
+            $LoginButton.on('click', function() {
+
+                $.post('/Account/LoginMain', {
+                    userName: $('#userName').val(),
+                    password: $('#password').val(),
+                    remember: $('#RememberMe').val()
+                }, function(jsonData) {
+                    if (jsonData.error) {
+                        alert(jsonData.error);
+                    } else {
+                        window.location.href = '/';
+                    }
+                });
+            });
+
+            var $RegisterUserButton = $("#RegisterUserButton");
+            $RegisterUserButton.off('click');
+            $RegisterUserButton.on('click', function () {
+
+                $.post('/Account/Register', {
+                    userName: $('#registerUserName').val(),
+                    password: $('#registerPassword').val(),
+                    repeatPassword: $('#registerRepeatPassword').val()
+                }, function (jsonData) {
+                    if (jsonData.error) {
+                        alert(jsonData.error);
+                    } else {
+                        window.location.href = '/';
+                    }
+                });
+            });
+            
+
+        });
+    })(jQuery);
+    </script>
+}
 </body>
 </html>

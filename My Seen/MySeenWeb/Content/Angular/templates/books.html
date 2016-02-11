@@ -1,6 +1,6 @@
 ﻿<!--Загрузка-->
 <data-ng-include src="'Content/Angular/templates/tools/loading.html'"></data-ng-include>
-<!--Кнопка добавить и поиск-->
+<!--Кнопка добавить фильм и поиск-->
 <data-ng-include src="'Content/Angular/templates/tools/add-search-buttons.html'"></data-ng-include>
 <br>
 
@@ -11,9 +11,10 @@
             <thead>
                 <tr>
                     <th class="col-sm-1"></th>
-                    <th class="col-sm-6">{{translation.Name}}</th>
+                    <th class="col-sm-4">{{translation.Name}}</th>
                     <th class="col-sm-1">{{translation.Year}}</th>
-                    <th class="col-sm-2">{{translation.Seen}}</th>
+                    <th class="col-sm-2">{{translation.Authors}}</th>
+                    <th class="col-sm-2">{{translation.DateRead}}</th>
                     <th class="col-sm-1">{{translation.Genre}}</th>
                     <th class="col-sm-1">{{translation.Rating}}</th>
                 </tr>
@@ -30,7 +31,8 @@
                     <!--Одноразовая привязка-->
                     <td class="align-center">{{::val.Name}}</td>
                     <td class="align-center">{{::val.YearText}}</td>
-                    <td class="align-center">{{::val.DateSeeText}}</td>
+                    <td class="align-center">{{::val.Authors}}</td>
+                    <td class="align-center">{{::val.DateReadText}}</td>
                     <td class="align-center">{{::val.GenreText}}</td>
                     <td class="align-center">{{::val.RatingText}}</td>
                 </tr>
@@ -46,4 +48,5 @@
 
     <!--Модальная на добавление и изменение доступа-->
     <data-ng-include src="'Content/Angular/templates/tools/modal-share.html'"></data-ng-include>
+
 </div>

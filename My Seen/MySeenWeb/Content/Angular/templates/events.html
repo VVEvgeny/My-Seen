@@ -1,21 +1,37 @@
 ﻿<!--Загрузка-->
 <data-ng-include src="'Content/Angular/templates/tools/loading.html'"></data-ng-include>
-<!--Кнопка добавить и поиск-->
+<!--Кнопка добавить фильм и поиск-->
 <data-ng-include src="'Content/Angular/templates/tools/add-search-buttons.html'"></data-ng-include>
 <br>
 
 <div data-ng-show="prepared.loaded && translation.loaded">
     <!--Таблица-->
+    <div class="form-inline">
+        <div class="form-group">
+            <div class="container">
+                <div class="form-group">
+                    <select class="form-control input-sm" data-ng-model="eventSelect" data-ng-change="selectedChange()">
+                        <option data-ng-repeat="type in prepared.SelectedList" data-ng-selected="eventSelect == type.Value" value="{{type.Value}}">
+                            {{type.Text}}
+                        </option>
+                    </select>
+                </div>
+            </div>
+        </div>
+    </div>
     <div class="table-responsive">
         <table class="table table-striped">
             <thead>
                 <tr>
                     <th class="col-sm-1"></th>
-                    <th class="col-sm-6">{{translation.Name}}</th>
-                    <th class="col-sm-1">{{translation.Year}}</th>
-                    <th class="col-sm-2">{{translation.Seen}}</th>
-                    <th class="col-sm-1">{{translation.Genre}}</th>
-                    <th class="col-sm-1">{{translation.Rating}}</th>
+                    <th class="col-sm-2">{{translation.Event}}</th>
+                    <th class="col-sm-2">{{translation.To}}</th>
+                    <th class="col-sm-2">{{translation.When}}</th>
+                    <th class="col-sm-1">{{translation.Day}}</th>
+                    <th>|</th>
+                    <th class="col-sm-2">{{translation.Last}}</th>
+                    <th class="col-sm-2">{{translation.When}}</th>
+                    <th class="col-sm-1">{{translation.Day}}</th>
                 </tr>
             </thead>
             <tbody>
@@ -29,10 +45,13 @@
                     </td>
                     <!--Одноразовая привязка-->
                     <td class="align-center">{{::val.Name}}</td>
-                    <td class="align-center">{{::val.YearText}}</td>
-                    <td class="align-center">{{::val.DateSeeText}}</td>
-                    <td class="align-center">{{::val.GenreText}}</td>
-                    <td class="align-center">{{::val.RatingText}}</td>
+                    <td class="align-center">{{::val.EstimatedTo}}</td>
+                    <td class="align-center">{{::val.DateToText}}</td>
+                    <td class="align-center">{{::val.DayOfWeekTo}}</td>
+                    <td class="align-center">|</td>
+                    <td class="align-center">{{::val.EstimatedLast}}</td>
+                    <td class="align-center">{{::val.DateLastText}}</td>
+                    <td class="align-center">{{::val.DayOfWeekLast}}</td>
                 </tr>
             </tbody>
         </table>

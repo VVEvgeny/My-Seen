@@ -42,12 +42,20 @@ namespace MySeenWeb.Models
         public IEnumerable<SelectListItem> YearsList { get; set; }
         public int YearsSelected { get; set; }
 
-        public HomeViewModelRoads(string userId, int markersOnRoads, int roadsYear)
+        public HomeViewModelRoads(string userId, int markersOnRoads, int roadYear)
         {
             Markers = markersOnRoads == (int)Defaults.EnabledDisabledBase.Indexes.Enabled;
             var ac = new ApplicationDbContext();
 
-            DataFoot = ac.Tracks.AsNoTracking().Where(t => t.UserId == userId && t.Type == (int)TrackTypes.Foot && (roadsYear == 0 || t.Date.Year == roadsYear)).OrderByDescending(t => t.Date).Select(TracksView.Map).ToList();
+            DataFoot =
+                ac.Tracks.AsNoTracking()
+                    .Where(
+                        t =>
+                            t.UserId == userId && t.Type == (int) TrackTypes.Foot &&
+                            (roadYear == 0 || t.Date.Year == roadYear))
+                    .OrderByDescending(t => t.Date)
+                    .Select(TracksView.Map)
+                    .ToList();
             if (DataFoot.Any())
             {
                 var dataFootAll = new List<TracksView>
@@ -65,7 +73,15 @@ namespace MySeenWeb.Models
                 DataFoot = dataFootAll.Concat(DataFoot);
             }
 
-            DataCar = ac.Tracks.AsNoTracking().Where(t => t.UserId == userId && t.Type == (int)TrackTypes.Car && (roadsYear == 0 || t.Date.Year == roadsYear)).OrderByDescending(t => t.Date).Select(TracksView.Map).ToList();
+            DataCar =
+                ac.Tracks.AsNoTracking()
+                    .Where(
+                        t =>
+                            t.UserId == userId && t.Type == (int) TrackTypes.Car &&
+                            (roadYear == 0 || t.Date.Year == roadYear))
+                    .OrderByDescending(t => t.Date)
+                    .Select(TracksView.Map)
+                    .ToList();
             if (DataCar.Any())
             {
                 var dataCarAll = new List<TracksView>
@@ -83,7 +99,15 @@ namespace MySeenWeb.Models
                 DataCar = dataCarAll.Concat(DataCar);
             }
 
-            DataBike = ac.Tracks.AsNoTracking().Where(t => t.UserId == userId && t.Type == (int)TrackTypes.Bike && (roadsYear == 0 || t.Date.Year == roadsYear)).OrderByDescending(t => t.Date).Select(TracksView.Map).ToList();
+            DataBike =
+                ac.Tracks.AsNoTracking()
+                    .Where(
+                        t =>
+                            t.UserId == userId && t.Type == (int) TrackTypes.Bike &&
+                            (roadYear == 0 || t.Date.Year == roadYear))
+                    .OrderByDescending(t => t.Date)
+                    .Select(TracksView.Map)
+                    .ToList();
             if (DataBike.Any())
             {
                 var dataBikeAll = new List<TracksView>
@@ -106,7 +130,7 @@ namespace MySeenWeb.Models
                 {
                     Text = Resource.All,
                     Value = "0",
-                    Selected = roadsYear == 0
+                    Selected = roadYear == 0
                 } };
             foreach (var elem in ac.Tracks.AsNoTracking().Where(t => t.UserId == userId).Select(t => t.Date.Year).Distinct())
             {
@@ -114,7 +138,7 @@ namespace MySeenWeb.Models
                 {
                     Text = elem.ToString(),
                     Value = elem.ToString(),
-                    Selected = roadsYear==elem
+                    Selected = roadYear == elem
                 });
             }
             YearsList = years.OrderByDescending(y => y.Text);

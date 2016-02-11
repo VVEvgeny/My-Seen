@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.ComponentModel.Design;
 using System.Globalization;
 using System.Resources;
 using System.Threading;
@@ -22,7 +23,7 @@ namespace MySeenWeb.Controllers.Home
     public class JsonController : BaseController
     {
         [HttpPost]
-        public JsonResult GetPage(int pageId, int? page, string search)
+        public JsonResult GetPage(int pageId, int? page, string search, int? ended, int? roadYear)
         {
             //if (!User.Identity.IsAuthenticated) return Json(Auth.NoAuth);
 
@@ -51,17 +52,16 @@ namespace MySeenWeb.Controllers.Home
                                     ReadUserSideStorage(UserSideStorageKeys.ImprovementsCategory,
                                         (int) Defaults.ComplexBase.Indexes.All), page ?? 1, Rpp));
                     case (int)Defaults.CategoryBase.IndexesExt.Users:
-                        return Json(new HomeViewModelUsers(page ?? 1, Rpp));
+                        return Json(new HomeViewModelUsers(page ?? 1, Rpp, search));
                     case (int)Defaults.CategoryBase.IndexesExt.Errors:
-                        return Json(new HomeViewModelErrors(page ?? 1, Rpp));
+                        return Json(new HomeViewModelErrors(page ?? 1, Rpp, search));
                     case (int)Defaults.CategoryBase.IndexesExt.Logs:
-                        return Json(new HomeViewModelLogs(page ?? 1, Rpp));
+                        return Json(new HomeViewModelLogs(page ?? 1, Rpp, search));
                     case (int)Defaults.CategoryBase.Indexes.Events:
-                        return Json(new HomeViewModelEvents(User.Identity.GetUserId(), page ?? 1, Rpp, search,
-                            ReadUserSideStorage(UserSideStorageKeys.EndedEvents, 0) == 1));
+                        return
+                            Json(new HomeViewModelEvents(User.Identity.GetUserId(), page ?? 1, Rpp, search, ended ?? 0));
                     case (int)Defaults.CategoryBase.Indexes.Roads:
-                        return Json(new HomeViewModelRoads(User.Identity.GetUserId(), MarkersOnRoads,
-                            ReadUserSideStorage(UserSideStorageKeys.RoadsYear, 0)));
+                        return Json(new HomeViewModelRoads(User.Identity.GetUserId(), MarkersOnRoads, roadYear ?? 0));
                     case (int)Defaults.CategoryBase.IndexesExt.Settings:
                         return Json(new HomeViewModelSettings(User.Identity.GetUserId()));
                 }
@@ -87,6 +87,13 @@ namespace MySeenWeb.Controllers.Home
                         return Json(new PreparedDataFilms());
                     case (int)Defaults.CategoryBase.Indexes.Serials:
                         return Json(new PreparedDataSerials());
+                    case (int)Defaults.CategoryBase.Indexes.Books:
+                        return Json(new PreparedDataBooks());
+                    case (int)Defaults.CategoryBase.Indexes.Events:
+                        return Json(new PreparedDataEvents());
+                    case (int)Defaults.CategoryBase.Indexes.Roads:
+                        return Json(new PreparedDataEvents());
+                        
                 }
                 return Json("NOT REALIZED");
             }
@@ -108,8 +115,21 @@ namespace MySeenWeb.Controllers.Home
                 {
                     case (int) Defaults.CategoryBase.Indexes.Films:
                         return Json(new TranslationDataFilms());
-                    case (int)Defaults.CategoryBase.Indexes.Serials:
+                    case (int) Defaults.CategoryBase.Indexes.Serials:
                         return Json(new TranslationDataSerials());
+                    case (int) Defaults.CategoryBase.Indexes.Books:
+                        return Json(new TranslationDataBooks());
+                    case (int) Defaults.CategoryBase.Indexes.Events:
+                        return Json(new TranslationDataEvents());
+                    case (int) Defaults.CategoryBase.IndexesExt.Users:
+                        return Json(new TranslationDataUsers());
+                    case (int) Defaults.CategoryBase.IndexesExt.Logs:
+                        return Json(new TranslationDataLogs());
+                    case (int)Defaults.CategoryBase.IndexesExt.Errors:
+                        return Json(new TranslationDataErrors());
+                    case (int)Defaults.CategoryBase.Indexes.Roads:
+                        return Json(new TranslationDataRoads());
+
                 }
                 return Json("NOT REALIZED");
             }

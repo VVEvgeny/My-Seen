@@ -1,0 +1,38 @@
+﻿<!--Загрузка-->
+<data-ng-include src="'Content/Angular/templates/tools/loading.html'"></data-ng-include>
+<!--Кнопка поиск-->
+<data-ng-include src="'Content/Angular/templates/tools/add-search-buttons.html'"></data-ng-include>
+<br>
+
+<div data-ng-show="translation.loaded">
+    <!--Таблица-->
+    <div class="table-responsive">
+        <table class="table table-striped">
+            <thead>
+            <tr>
+                <th class="col-sm-1">{{translation.When}}</th>
+                <th class="col-sm-1">{{translation.Host}}</th>
+                <th class="col-sm-1">{{translation.Type}}</th>
+                <th class="col-sm-1">{{translation.Message}}</th>
+                <th class="col-sm-1">{{translation.Level}}</th>
+                <th class="col-sm-3">{{translation.StackTrace}}</th>
+                <th class="col-sm-3">{{translation.Variables}}</th>
+            </tr>
+            </thead>
+            <tbody>
+                <tr ng-repeat="val in data">
+                    <!--Одноразовая привязка-->
+                    <td class="align-center">{{::val.DateTimeStampText}}</td>
+                    <td class="align-center">{{::val.Host}}</td>
+                    <td class="align-center">{{::val.Type}}</td>
+                    <td class="align-center">{{::val.Message}}</td>
+                    <td class="align-center">{{::val.Level}}</td>
+                    <td class="align-center">{{::val.StackTrace}}</td>
+                    <td class="align-center">{{::val.Variables}}</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <!--Моя пагинация-->
+    <data-ng-include src="'Content/Angular/templates/tools/pagination.html'"></data-ng-include>
+</div>
