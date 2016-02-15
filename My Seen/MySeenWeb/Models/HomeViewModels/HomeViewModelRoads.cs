@@ -16,35 +16,9 @@ namespace MySeenWeb.Models
         public IEnumerable<TracksView> DataFoot { get; set; }
         public IEnumerable<TracksView> DataCar { get; set; }
         public IEnumerable<TracksView> DataBike { get; set; }
-        public bool HaveFoot
-        {
-            get
-            {
-                return DataFoot.Any();
-            }
-        }
-        public bool HaveCar
-        {
-            get
-            {
-                return DataCar.Any();
-            }
-        }
-        public bool HaveBike
-        {
-            get
-            {
-                return DataBike.Any();
-            }
-        }
-        
-        public bool Markers { get; set; }
         public IEnumerable<SelectListItem> YearsList { get; set; }
-        public int YearsSelected { get; set; }
-
-        public HomeViewModelRoads(string userId, int markersOnRoads, int roadYear)
+        public HomeViewModelRoads(string userId, int roadYear)
         {
-            Markers = markersOnRoads == (int)Defaults.EnabledDisabledBase.Indexes.Enabled;
             var ac = new ApplicationDbContext();
 
             DataFoot =
@@ -124,7 +98,6 @@ namespace MySeenWeb.Models
                 };
                 DataBike = dataBikeAll.Concat(DataBike);
             }
-
             var years = new List<SelectListItem> { 
                 new SelectListItem
                 {
@@ -142,7 +115,6 @@ namespace MySeenWeb.Models
                 });
             }
             YearsList = years.OrderByDescending(y => y.Text);
-            YearsSelected = YearsList.Any(s => s.Selected) ? Convert.ToInt32(YearsList.Where(s => s.Selected).First(s => s.Selected).Value) : 0;
         }
 
         public static TrackInfo GetTrack(int id, string userId)

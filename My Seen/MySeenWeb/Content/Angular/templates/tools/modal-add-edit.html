@@ -67,6 +67,20 @@
                             </select>
                         </div>
                     </div>
+                    <div class="form-group" data-ng-show="modal.showRoadTypes">
+                        <label class="col-sm-2 control-label">{{translation.Type}}</label>
+                        <div class="col-sm-10">
+                            <select class="form-control input-sm" data-ng-model="modal.roadType">
+                                <option data-ng-repeat="type in prepared.TypeList" data-ng-selected="modal.roadType == type.Value" value="{{type.Value}}">{{type.Text}}</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group" data-ng-show="modal.showCoordinates">
+                        <label class="col-sm-2 control-label">{{translation.Coordinates}}</label>
+                        <div class="col-sm-10">
+                            <textarea class="form-control track-coords" cols="55" name="trackCoords" placeholder="{{translation.Coordinates}}" rows="5" data-ng-model="modal.coordinates"></textarea>
+                        </div>
+                    </div>
                 </div>
             </div>
             <div class="modal-footer">

@@ -161,7 +161,7 @@ MySeenApp.controller('FilmsController', ['$scope', '$rootScope', '$state', '$sta
       };
       //Модальная хочет удалить данные
       $scope.modal.deleteButtonClick = function () {
-          $rootScope.GetPage(constants.Pages.Delete, $http, afterSave, { pageId: pageId, recorId: $scope.data[$scope.editedIndex].Id });
+          $rootScope.GetPage(constants.Pages.Delete, $http, afterSave, { pageId: pageId, recordId: $scope.data[$scope.editedIndex].Id });
       };
       ///////////////////////////////////////////////////////////////////////
       ///////////////////////////////////////////////////////////////////////           МОДАЛЬНАЯ ДОСТУПА

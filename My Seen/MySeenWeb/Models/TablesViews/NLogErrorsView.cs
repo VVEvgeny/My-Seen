@@ -1,4 +1,5 @@
 ﻿using System.Globalization;
+using MySeenLib;
 using MySeenWeb.Models.Tables;
 
 namespace MySeenWeb.Models.TablesViews
@@ -12,7 +13,7 @@ namespace MySeenWeb.Models.TablesViews
             return new NLogErrorsView
             {
                 Id = model.Id,
-                DateTimeStamp = model.DateTimeStamp,
+                DateTimeStamp = UmtTime.From(model.DateTimeStamp),
                 Host = model.Host,
                 Message = model.Message,
                 Level = model.Level,

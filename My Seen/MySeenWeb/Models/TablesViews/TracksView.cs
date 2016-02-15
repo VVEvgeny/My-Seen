@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Globalization;
+using System.Linq;
 using MySeenLib;
 using MySeenWeb.Models.Tables;
 
@@ -26,7 +28,6 @@ namespace MySeenWeb.Models.TablesViews
             Longitude = longitude;
         }
     }
-
     public class TracksView : Tracks
     {
         public static TracksView Map(Tracks model)
@@ -45,6 +46,7 @@ namespace MySeenWeb.Models.TablesViews
                 Coordinates = model.Coordinates
             };
         }
+
         public string DateText
         {
             get
@@ -71,7 +73,15 @@ namespace MySeenWeb.Models.TablesViews
         {
             get
             {
-                return ((int)(Distance / (CultureInfoTool.GetCulture() == CultureInfoTool.Cultures.English ? 1.66 : 1))).ToString() + " " + Resource.Km;
+                //return ((int)(Distance / (CultureInfoTool.GetCulture() == CultureInfoTool.Cultures.English ? 1.66 : 1))).ToString() + " " + Resource.Km;
+                string distance = (Distance / (CultureInfoTool.GetCulture() == CultureInfoTool.Cultures.English ? 1.66 : 1)).ToString(CultureInfo.CurrentCulture);
+                if (distance.IndexOf(',') != -1)
+                {
+                    if (distance.Length > distance.IndexOf(',') + 4) distance = distance.Remove(distance.IndexOf(',') + 4);
+                    else if (distance.Length > distance.IndexOf(',') + 3) distance = distance.Remove(distance.IndexOf(',') + 3);
+                    else if (distance.Length > distance.IndexOf(',') + 2) distance = distance.Remove(distance.IndexOf(',') + 2);
+                }
+                return distance += " " + Resource.Km;
             }
         }
     }

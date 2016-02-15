@@ -326,6 +326,12 @@
     <Content Include="Content\jquery.mobile.structure-1.4.5.min.css" />
     <Content Include="Content\jquery.mobile.theme-1.4.5.css" />
     <Content Include="Content\jquery.mobile.theme-1.4.5.min.css" />
+    <Content Include="fonts\glyphicons-halflings-regular.svg" />
+    <Content Include="Scripts\bootstrap.js" />
+    <Content Include="Scripts\bootstrap.min.js" />
+    <Content Include="Scripts\jquery-2.2.0.intellisense.js" />
+    <Content Include="Scripts\jquery-2.2.0.js" />
+    <Content Include="Scripts\jquery-2.2.0.min.js" />
     <Content Include="Scripts\jquery.mobile-1.4.5.js" />
     <Content Include="Scripts\jquery.mobile-1.4.5.min.js" />
     <None Include="App.config" />
@@ -349,8 +355,14 @@
     <None Include="Assets\Fonts\glyphicons-halflings-regular.woff2" />
     <None Include="Assets\jquery.mobile-1.4.5.min.map" />
     <None Include="Content\bootstrap-theme.css.map" />
+    <None Include="Content\bootstrap-theme.min.css.map" />
     <None Include="Content\bootstrap.css.map" />
-    <None Include="Scripts\jquery-2.1.4.min.map" />
+    <None Include="Content\bootstrap.min.css.map" />
+    <None Include="fonts\glyphicons-halflings-regular.eot" />
+    <None Include="fonts\glyphicons-halflings-regular.ttf" />
+    <None Include="fonts\glyphicons-halflings-regular.woff" />
+    <None Include="fonts\glyphicons-halflings-regular.woff2" />
+    <None Include="Scripts\jquery-2.2.0.min.map" />
     <None Include="Scripts\jquery.mobile-1.4.5.min.map" />
   </ItemGroup>
   <ItemGroup>
@@ -363,10 +375,6 @@
     <AndroidResource Include="Resources\drawable\Icon.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Fonts\glyphicons-halflings-regular.eot" />
-    <None Include="Fonts\glyphicons-halflings-regular.ttf" />
-    <None Include="Fonts\glyphicons-halflings-regular.woff" />
-    <None Include="Fonts\glyphicons-halflings-regular.woff2" />
     <None Include="packages.config" />
     <None Include="Properties\AndroidManifest.xml" />
   </ItemGroup>
@@ -391,12 +399,6 @@
   <ItemGroup>
     <Content Include="Assets\bootstrap.min.js" />
     <Content Include="Assets\jquery.lazyloadxt.js" />
-    <Content Include="Fonts\glyphicons-halflings-regular.svg" />
-    <Content Include="Scripts\bootstrap.js" />
-    <Content Include="Scripts\bootstrap.min.js" />
-    <Content Include="Scripts\jquery-2.1.4.intellisense.js" />
-    <Content Include="Scripts\jquery-2.1.4.js" />
-    <Content Include="Scripts\jquery-2.1.4.min.js" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />

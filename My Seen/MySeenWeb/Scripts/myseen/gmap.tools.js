@@ -1,12 +1,28 @@
+///////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////           Variables
+///////////////////////////////////////////////////////////////////////
+var GmapLanguage;//en/ru
+var GmapMarkers; //true/false
 
+function setGmapLanguage(language) {
+    GmapLanguage = language;
+};
+function setGmapMarkers(markers) {
+    GmapMarkers = markers;
+};
+///////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////           Icons
+///////////////////////////////////////////////////////////////////////
 function getMarkerIcon(type) {
     //https://sites.google.com/site/gmapicons/home
     if (type === "start") return "http://www.google.com/mapfiles/dd-start.png";
     else if (type === "end") return "http://www.google.com/mapfiles/dd-end.png";
     else if (type === "next") return "http://maps.google.com/mapfiles/marker_green.png";
     return "http://www.google.com/mapfiles/marker.png";
-}
-
+};
+///////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////           Polylines
+///////////////////////////////////////////////////////////////////////
 function addPolyline(trackCoordsLatLng, color) {
 
     var strokeColor = "#FF0000";//Красный
@@ -24,7 +40,7 @@ function addPolyline(trackCoordsLatLng, color) {
             tag: ["polyline"]
         }
     });
-}
+};
 
 function clearPolylines() {
     jQuery("#my_map").gmap3({
@@ -32,8 +48,86 @@ function clearPolylines() {
             tag: ["polyline"]
         }
     });
-}
+};
+///////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////           Markers
+///////////////////////////////////////////////////////////////////////
+function addMarker(markerCoords, data, icon) {
 
+    if (!GmapMarkers) return;
+
+    jQuery("#my_map").gmap3(
+    {
+        marker: {
+            values: [
+              {
+                  latLng: markerCoords,
+                  data: data,
+                  options: { icon: getMarkerIcon(icon) }
+              }
+            ],
+            options: {
+                draggable: false
+            },
+            tag: ["marker"],
+            events: {
+                mouseover: function (marker, event, context) {
+                    var map = $(this).gmap3("get"),
+                      infowindow = $(this).gmap3({ get: { name: "infowindow" } });
+                    if (infowindow) {
+                        infowindow.open(map, marker);
+                        infowindow.setContent(context.data);
+                    } else {
+                        $(this).gmap3({
+                            infowindow: {
+                                anchor: marker,
+                                options: { content: context.data }
+                            }
+                        });
+                    }
+                },
+                mouseout: function () {
+                    var infowindow = $(this).gmap3({ get: { name: "infowindow" } });
+                    if (infowindow) {
+                        infowindow.close();
+                    }
+                }
+            }
+        }
+    });
+};
+
+function clearMarkers() {
+    jQuery("#my_map").gmap3({
+        clear: {
+            tag: ["marker"]
+        }
+    });
+};
+///////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////           FIT
+///////////////////////////////////////////////////////////////////////
+function autoFit() {
+    $("#my_map").gmap3({
+        autofit: {}
+    });
+};
+///////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////           DISTANCE
+///////////////////////////////////////////////////////////////////////
+function CalcDistance(data) {
+    var trackCoordsLatLng = [];
+    $.each(data, function (i, item) {
+        //console.log("history Latitude=", item.Latitude, "Longitude=", item.Longitude);
+        trackCoordsLatLng.push(new window.google.maps.LatLng(item.Latitude, item.Longitude));
+    });
+
+    var polyline = new window.google.maps.Polyline({
+        path: trackCoordsLatLng
+    });
+
+    return window.google.maps.geometry.spherical.computeLength(polyline.getPath()) / 1000;
+};
 function CalcDistanceFromTxt(data) {
     var array = data.split(";");
 
@@ -48,71 +142,33 @@ function CalcDistanceFromTxt(data) {
     });
 
     return window.google.maps.geometry.spherical.computeLength(polyline.getPath()) / 1000;
-}
+};
+///////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////           Clear
+///////////////////////////////////////////////////////////////////////
+function clearMap() {
+    clearPolylines();
+    clearMarkers();
+};
+///////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////           SHOW ROAD
+///////////////////////////////////////////////////////////////////////
+function showRoad(roadInfo) {
+    //console.log(roadInfo);
 
-function getZoom(min, max) {
+    if (roadInfo.Id < 0) return;//skip Id for all
 
-    var p1 = new window.google.maps.LatLng(max.Latitude, max.Longitude);
-    var p2 = new window.google.maps.LatLng(min.Latitude, min.Longitude);
-    var maxLen = window.google.maps.geometry.spherical.computeDistanceBetween(p1, p2) / 1000;
+    var arrayOfStrings = roadInfo.Coordinates.split(';');
 
-    //console.log(".width()=", $(window).width());
-    //console.log("len=", maxLen);
-
-    var zoom = 12;
-    if (maxLen < 10) zoom = 14;
-    else if (maxLen >= 10 && maxLen < 30) zoom = 11;
-    else if (maxLen >= 30 && maxLen < 100) zoom = 9;
-    else if (maxLen >= 100 && maxLen < 160) zoom = 8;
-    else if (maxLen >= 160 && maxLen < 400) zoom = 8;
-    else if (maxLen >= 400 && maxLen < 600) zoom = 7;
-    else if (maxLen >= 600 && maxLen < 1000) zoom = 6;
-    else if (maxLen >= 1000 && maxLen < 1300) zoom = 5;
-    else if (maxLen >= 1300 && maxLen < 3500) zoom = 3;
-    else if (maxLen >= 3500) zoom = 2;
-    //console.log("zoom=", zoom);
-    if ($(window).width() < 400) {
-        zoom -= 1;
-        //console.log("zoom width() < 400=", zoom);
-        if (maxLen > 300) {
-            zoom -= 1;
-            //console.log("zoom maxLen > 300=", zoom);
-        }
-    }
-    return zoom;
-}
-function SetZoom(zoom) {
-    jQuery("#my_map").gmap3(
-    {
-        map: {
-            options: {
-                zoom: zoom
-            }
+    var trackCoordsLatLng = [];
+    arrayOfStrings.forEach(function (item) {
+        if (item) {
+            trackCoordsLatLng.push(new window.google.maps.LatLng(parseFloat(item.split(',')[0].trim()), parseFloat(item.split(',')[1].trim())));
         }
     });
-}
-function SetCenter(center) {
-    jQuery("#my_map").gmap3(
-    {
-        map: {
-            options: {
-                center: new window.google.maps.LatLng(center.Latitude, center.Longitude)
-            }
-        }
-    });
-}
-function SetCenterDefault(center) {
-    jQuery("#my_map").gmap3(
-    {
-        map: {
-            options: {
-                center: new window.google.maps.LatLng(48.86745543642139, 2.1407350835937677)
-            }
-        }
-    });
-}
 
-function SetZoomAndCenter(center, zoom) {
-    SetZoom(zoom);
-    SetCenter(center);
-}
+    addPolyline(trackCoordsLatLng);
+
+    addMarker(trackCoordsLatLng[0], roadInfo.Name + " - " + roadInfo.DateText + " (" + roadInfo.DistanceText + ")", "start");
+    addMarker(trackCoordsLatLng[trackCoordsLatLng.length - 1], roadInfo.Name + " - " + roadInfo.DateText + " (" + roadInfo.DistanceText + ")", "end");
+};

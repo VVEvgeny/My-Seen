@@ -1,10 +1,4 @@
 ﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.ComponentModel.Design;
-using System.Globalization;
-using System.Resources;
-using System.Threading;
 using System.Web.Mvc;
 using Microsoft.AspNet.Identity;
 using MySeenLib;
@@ -16,14 +10,13 @@ using MySeenWeb.Models.ShareViewModels;
 using MySeenWeb.Models.TablesLogic;
 using MySeenWeb.Models.Tools;
 using MySeenWeb.Models.Translations;
-using Newtonsoft.Json.Linq;
 
 namespace MySeenWeb.Controllers.Home
 {
     public class JsonController : BaseController
     {
         [HttpPost]
-        public JsonResult GetPage(int pageId, int? page, string search, int? ended, int? roadYear)
+        public JsonResult GetPage(int pageId, int? page, string search, int? ended, int? year)
         {
             //if (!User.Identity.IsAuthenticated) return Json(Auth.NoAuth);
 
@@ -61,7 +54,7 @@ namespace MySeenWeb.Controllers.Home
                         return
                             Json(new HomeViewModelEvents(User.Identity.GetUserId(), page ?? 1, Rpp, search, ended ?? 0));
                     case (int)Defaults.CategoryBase.Indexes.Roads:
-                        return Json(new HomeViewModelRoads(User.Identity.GetUserId(), MarkersOnRoads, roadYear ?? 0));
+                        return Json(new HomeViewModelRoads(User.Identity.GetUserId(), year ?? 0));
                     case (int)Defaults.CategoryBase.IndexesExt.Settings:
                         return Json(new HomeViewModelSettings(User.Identity.GetUserId()));
                 }
@@ -92,7 +85,7 @@ namespace MySeenWeb.Controllers.Home
                     case (int)Defaults.CategoryBase.Indexes.Events:
                         return Json(new PreparedDataEvents());
                     case (int)Defaults.CategoryBase.Indexes.Roads:
-                        return Json(new PreparedDataEvents());
+                        return Json(new PreparedDataRoads());
                         
                 }
                 return Json("NOT REALIZED");
@@ -346,38 +339,38 @@ namespace MySeenWeb.Controllers.Home
         }
         [Authorize]
         [HttpPost]
-        public JsonResult DeleteData(int pageId, string recorId)
+        public JsonResult DeleteData(int pageId, string recordId)
         {
             var logger = new NLogLogger();
-            var methodName = "public JsonResult DelData(int pageId, int recorId)";
+            var methodName = "public JsonResult DelData(int pageId, int recordId)";
             try
             {
                 switch (pageId)
                 {
                     case (int)Defaults.CategoryBase.Indexes.Films:
                         var filmsLogic = new FilmsLogic();
-                        return !filmsLogic.Delete(recorId, User.Identity.GetUserId())
+                        return !filmsLogic.Delete(recordId, User.Identity.GetUserId())
                             ? new JsonResult { Data = new { success = false, error = filmsLogic.ErrorMessage } }
                             : Json(new { success = true });
                     case (int)Defaults.CategoryBase.Indexes.Serials:
                         var serialsLogic = new SerialsLogic();
                         return
-                            !serialsLogic.Delete(recorId, User.Identity.GetUserId())
+                            !serialsLogic.Delete(recordId, User.Identity.GetUserId())
                                 ? new JsonResult { Data = new { success = false, error = serialsLogic.ErrorMessage } }
                                 : Json(new { success = true });
                     case (int)Defaults.CategoryBase.Indexes.Books:
                         var booksLogic = new BooksLogic();
-                        return !booksLogic.Delete(recorId, User.Identity.GetUserId())
+                        return !booksLogic.Delete(recordId, User.Identity.GetUserId())
                             ? new JsonResult { Data = new { success = false, error = booksLogic.ErrorMessage } }
                             : Json(new { success = true });
                     case (int)Defaults.CategoryBase.Indexes.Roads:
                         var tracksLogic = new TracksLogic();
-                        return !tracksLogic.Delete(recorId, User.Identity.GetUserId())
+                        return !tracksLogic.Delete(recordId, User.Identity.GetUserId())
                             ? new JsonResult { Data = new { success = false, error = tracksLogic.ErrorMessage } }
                             : Json(new { success = true });
                     case (int)Defaults.CategoryBase.Indexes.Events:
                         var eventsLogic = new EventsLogic();
-                        return !eventsLogic.Delete(recorId, User.Identity.GetUserId())
+                        return !eventsLogic.Delete(recordId, User.Identity.GetUserId())
                             ? new JsonResult { Data = new { success = false, error = eventsLogic.ErrorMessage } }
                             : Json(new { success = true });
                 }

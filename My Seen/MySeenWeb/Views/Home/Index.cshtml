@@ -23,6 +23,13 @@
     @Scripts.Render("~/bundles/datetimepicker")
     @Styles.Render("~/Content/datetimepicker.css")
 
+
+    <script src="~/Scripts/gmap3.js"></script>
+    <script src="~/Scripts/myseen/gmap.js"></script>
+    <script src="~/Scripts/myseen/gmap.tools.js"></script>
+    <script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?libraries=geometry&amp;language=@CultureInfoTool.GetFirst2Culture()"></script>
+
+
     <script src="~/Scripts/angular.js"></script>
     <script src="~/Scripts/angular-ui-router.js"></script>
     <script src="~/Scripts/angular-ui/ui-bootstrap-tpls.js"></script>
@@ -43,6 +50,9 @@
     <script src="~/Content/Angular/controllers/RoadsController.js"></script>
 
     <script src="~/Content/Angular/app/app.js"></script>
+
+
+
 
 </head>
 <body>
@@ -116,15 +126,15 @@
 @if (Request.IsAuthenticated) // Дадим возможность выхода
 {
     <script language="javascript" type="text/javascript">
-        (function($) {
-            $(function() {
-                var $LogoutButton = $("#LogoutButton");
-                $LogoutButton.off('click');
-                $LogoutButton.on('click', function() {
+    (function($) {
+        $(function() {
+            var $LogoutButton = $("#LogoutButton");
+            $LogoutButton.off('click');
+            $LogoutButton.on('click', function() {
 
-                    $.post('/Account/LogOut', {}, function(jsonData) {
+                $.post('/Account/LogOut', {}, function(jsonData) {
 
-                        if (jsonData === '@Auth.NoAuth') window.location = '/';
+                    if (jsonData === '@Auth.NoAuth') window.location = '/';
 
                         if (jsonData.error) {
                             alert(jsonData.error);
@@ -133,7 +143,12 @@
                         }
                     });
                 });
-            });
+
+
+            setGmapLanguage('@CultureInfoTool.GetFirst2Culture()');
+            setGmapMarkers('@Model.Markers');
+
+        });
         })(jQuery);
     </script>
 }
@@ -334,5 +349,11 @@ else
     })(jQuery);
     </script>
 }
+    @if (!Admin.IsDebug)
+    {
+        @Html.Partial("../Analytics/Yandex")
+        @Html.Partial("../Analytics/Google")
+        //Хочет много контента @Html.Partial("../Ads/Google")
+    }
 </body>
 </html>

@@ -6,7 +6,7 @@ namespace MySeenWeb.Models
     {
         public bool Markers { get; set; }
 
-        public HomeViewModel(int markers, string selected, string userId, int complex, bool onlyEnded)
+        public HomeViewModel(int markers)
         {
             Markers = markers == (int) Defaults.EnabledDisabledBase.Indexes.Enabled;
         }
