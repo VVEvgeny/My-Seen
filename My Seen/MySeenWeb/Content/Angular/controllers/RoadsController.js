@@ -1,10 +1,15 @@
-'use strict';
+App.config(function ($stateProvider) {
 
-/* Controllers */
+    $stateProvider
+        .state('roads', {
+            url: '/roads/?:year',
+            templateUrl: "Content/Angular/templates/main_pages/roads.html",
+            controller: 'RoadsController',
+            reloadOnSearch: false
+        });
+});
 
-var MySeenApp = angular.module('RoadsController', []);
-
-MySeenApp.controller('RoadsController', ['$scope', '$rootScope', '$state', '$stateParams', '$http', '$location', 'Constants',
+App.controller('RoadsController', ['$scope', '$rootScope', '$state', '$stateParams', '$http', '$location', 'Constants',
   function ($scope, $rootScope, $state, $stateParams, $http, $location, constants) {
 
       //Индекс страницы, для запросов к серверу

@@ -6,9 +6,7 @@ using MySeenWeb.Add_Code.Services.Logging.NLog;
 using MySeenWeb.Controllers._Base;
 using MySeenWeb.Models;
 using MySeenWeb.Models.Prepared;
-using MySeenWeb.Models.ShareViewModels;
 using MySeenWeb.Models.TablesLogic;
-using MySeenWeb.Models.Tools;
 using MySeenWeb.Models.Translations;
 
 namespace MySeenWeb.Controllers.Home
@@ -16,7 +14,7 @@ namespace MySeenWeb.Controllers.Home
     public class JsonController : BaseController
     {
         [HttpPost]
-        public JsonResult GetPage(int pageId, int? page, string search, int? ended, int? year)
+        public JsonResult GetPage(int pageId, int? page, string search, int? ended, int? year, int? complex,string shareKey)
         {
             //if (!User.Identity.IsAuthenticated) return Json(Auth.NoAuth);
 
@@ -33,28 +31,24 @@ namespace MySeenWeb.Controllers.Home
                 {
                     case (int)Defaults.CategoryBase.Indexes.Films:
                         return
-                            Json(new HomeViewModelFilms(User.Identity.GetUserId(), page ?? 1, Rpp, search));
+                            Json(new HomeViewModelFilms(User.Identity.GetUserId(), page ?? 1, Rpp, search, shareKey));
                     case (int)Defaults.CategoryBase.Indexes.Serials:
-                        return Json(new HomeViewModelSerials(User.Identity.GetUserId(), page ?? 1, Rpp, search));
+                        return Json(new HomeViewModelSerials(User.Identity.GetUserId(), page ?? 1, Rpp, search, shareKey));
                     case (int)Defaults.CategoryBase.Indexes.Books:
-                        return Json(new HomeViewModelBooks(User.Identity.GetUserId(), page ?? 1, Rpp, search));
-                    case (int)Defaults.CategoryBase.IndexesExt.Improvements:
+                        return Json(new HomeViewModelBooks(User.Identity.GetUserId(), page ?? 1, Rpp, search, shareKey));
+                    case (int)Defaults.CategoryBase.Indexes.Events:
                         return
-                            Json(
-                                new HomeViewModelImprovements(
-                                    ReadUserSideStorage(UserSideStorageKeys.ImprovementsCategory,
-                                        (int) Defaults.ComplexBase.Indexes.All), page ?? 1, Rpp));
+                            Json(new HomeViewModelEvents(User.Identity.GetUserId(), page ?? 1, Rpp, search, ended ?? 0, shareKey));
+                    case (int)Defaults.CategoryBase.Indexes.Roads:
+                        return Json(new HomeViewModelRoads(User.Identity.GetUserId(), year ?? 0));
+                    case (int)Defaults.CategoryBase.IndexesExt.Improvements:
+                        return Json(new HomeViewModelImprovements(complex ?? (int)Defaults.ComplexBase.Indexes.All, page ?? 1, Rpp));
                     case (int)Defaults.CategoryBase.IndexesExt.Users:
                         return Json(new HomeViewModelUsers(page ?? 1, Rpp, search));
                     case (int)Defaults.CategoryBase.IndexesExt.Errors:
                         return Json(new HomeViewModelErrors(page ?? 1, Rpp, search));
                     case (int)Defaults.CategoryBase.IndexesExt.Logs:
                         return Json(new HomeViewModelLogs(page ?? 1, Rpp, search));
-                    case (int)Defaults.CategoryBase.Indexes.Events:
-                        return
-                            Json(new HomeViewModelEvents(User.Identity.GetUserId(), page ?? 1, Rpp, search, ended ?? 0));
-                    case (int)Defaults.CategoryBase.Indexes.Roads:
-                        return Json(new HomeViewModelRoads(User.Identity.GetUserId(), year ?? 0));
                     case (int)Defaults.CategoryBase.IndexesExt.Settings:
                         return Json(new HomeViewModelSettings(User.Identity.GetUserId()));
                 }
@@ -66,7 +60,6 @@ namespace MySeenWeb.Controllers.Home
             }
             return new JsonResult { Data = new { success = false, error = methodName } };
         }
-
         [HttpPost]
         public JsonResult GetPrepared(int pageId)
         {
@@ -233,57 +226,6 @@ namespace MySeenWeb.Controllers.Home
                 logger.Error(methodName, ex);
             }
             return Json("-");
-        }
-
-        public JsonResult ChangeShowEndedEvents(string selected)
-        {
-            var logger = new NLogLogger();
-            const string methodName = "public JsonResult ChangeShowEndedEvents(string selected)";
-            try
-            {
-                WriteUserSideStorage(UserSideStorageKeys.EndedEvents, selected);
-                return Json(new { success = true });
-            }
-            catch (Exception ex)
-            {
-                logger.Error(methodName, ex);
-            }
-            return new JsonResult { Data = new { success = false, error = methodName } };
-        }
-        [HttpPost]
-        public JsonResult GetSharedPage(string pageName, string key, int? page, string search)
-        {
-            var logger = new NLogLogger();
-            const string methodName = "public JsonResult GetSharedPage(string pageName, string key, int? page, string search)";
-            try
-            {
-                if (pageName.ToLower() == "films")
-                {
-                    return Json(new ShareViewModelFilms(key, page ?? 1, Rpp));
-                }
-                else if (pageName.ToLower() == "serials")
-                {
-                    return Json(new ShareViewModelSerials(key, page ?? 1, Rpp));
-                }
-                else if (pageName.ToLower() == "books")
-                {
-                    return Json(new ShareViewModelBooks(key, page ?? 1, Rpp));
-                }
-                else if (pageName.ToLower() == "events")
-                {
-                    return Json(new ShareViewModelEvents(key, page ?? 1, Rpp));
-                }
-                else if (pageName.ToLower() == "roads")
-                {
-                    return Json(new ShareViewModelTracks(key, MarkersOnRoads, ReadUserSideStorage(UserSideStorageKeys.RoadsYear, 0)));
-                }
-                return Json("NOT REALIZED");
-            }
-            catch (Exception ex)
-            {
-                logger.Error(methodName, ex);
-            }
-            return new JsonResult { Data = new { success = false, error = methodName } };
         }
 
         [Authorize]

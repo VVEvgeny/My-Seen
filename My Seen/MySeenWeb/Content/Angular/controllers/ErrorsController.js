@@ -1,10 +1,15 @@
-'use strict';
+App.config(function ($stateProvider) {
 
-/* Controllers */
+    $stateProvider
+        .state('errors', {
+            url: '/errors/?:page&search',
+            templateUrl: "Content/Angular/templates/administrative/errors.html",
+            controller: 'ErrorsController',
+            reloadOnSearch: false
+        });
+});
 
-var MySeenApp = angular.module('ErrorsController', []);
-
-MySeenApp.controller('ErrorsController', ['$scope', '$rootScope', '$state', '$stateParams', '$http', '$location', 'Constants',
+App.controller('ErrorsController', ['$scope', '$rootScope', '$state', '$stateParams', '$http', '$location', 'Constants',
   function ($scope, $rootScope, $state, $stateParams, $http, $location, constants) {
 
       //Индекс страницы, для запросов к серверу

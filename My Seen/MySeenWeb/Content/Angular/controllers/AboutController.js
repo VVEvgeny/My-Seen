@@ -1,10 +1,15 @@
-'use strict';
+App.config(function($stateProvider) {
 
-/* Controllers */
+    $stateProvider
+        .state('about', {
+            url: '/about/',
+            templateUrl: "Content/Angular/templates/main_pages/about.html",
+            controller: 'AboutController',
+            reloadOnSearch: false
+        });
+});
 
-var MySeenApp = angular.module('AboutController', []);
-
-MySeenApp.controller('AboutController', ['$scope', '$rootScope', '$state', '$stateParams', '$http', '$location', 'Constants',
+App.controller('AboutController', ['$scope', '$rootScope', '$state', '$stateParams', '$http', '$location', 'Constants',
   function ($scope, $rootScope, $state, $stateParams, $http, $location, constants) {
 
       //На всякий случай закрою, может переход со страницы, где забыли закрыть модальную

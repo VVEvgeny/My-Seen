@@ -15,11 +15,20 @@ namespace MySeenWeb.Models
         {
             get { return Data.Any(); }
         }
-        public HomeViewModelBooks(string userId, int page, int countInPage, string search)
+        public HomeViewModelBooks(string userId, int page, int countInPage, string search, string shareKey)
         {
             var ac = new ApplicationDbContext();
-            Pages = new PaginationViewModel(page, ac.Books.Count(f => f.UserId == userId  && (string.IsNullOrEmpty(search) || f.Name.Contains(search))), countInPage);
-            Data = ac.Books.AsNoTracking().Where(f => f.UserId == userId && (string.IsNullOrEmpty(search) || f.Name.Contains(search))).OrderByDescending(f => f.DateRead)
+            Pages = new PaginationViewModel(page, ac.Books.Count(f =>
+                ((string.IsNullOrEmpty(shareKey) && f.UserId == userId)
+                 ||
+                 (!string.IsNullOrEmpty(shareKey) && f.User.ShareBooksKey == shareKey && f.Shared))
+                && (string.IsNullOrEmpty(search) || f.Name.Contains(search))), countInPage);
+
+            Data = ac.Books.AsNoTracking().Where(f =>
+                ((string.IsNullOrEmpty(shareKey) && f.UserId == userId)
+                 ||
+                 (!string.IsNullOrEmpty(shareKey) && f.User.ShareBooksKey == shareKey && f.Shared))
+                && (string.IsNullOrEmpty(search) || f.Name.Contains(search))).OrderByDescending(f => f.DateRead)
                 .Skip(() => Pages.SkipRecords).Take(() => countInPage).Select(BooksView.Map);
         }
     }

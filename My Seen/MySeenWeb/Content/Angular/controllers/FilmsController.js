@@ -1,10 +1,15 @@
-'use strict';
+App.config(function($stateProvider) {
 
-/* Controllers */
+    $stateProvider
+        .state('films', {
+            url: '/films/?:page&search',
+            templateUrl: "Content/Angular/templates/main_pages/films.html",
+            controller: 'FilmsController',
+            reloadOnSearch: false
+        });
+});
 
-var MySeenApp = angular.module('FilmsController', []);
-
-MySeenApp.controller('FilmsController', ['$scope', '$rootScope', '$state', '$stateParams', '$http', '$location', 'Constants',
+App.controller('FilmsController', ['$scope', '$rootScope', '$state', '$stateParams', '$http', '$location', 'Constants',
   function ($scope, $rootScope, $state, $stateParams, $http, $location, constants) {
 
       //Индекс страницы, для запросов к серверу

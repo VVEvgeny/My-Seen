@@ -211,7 +211,6 @@
     <Compile Include="Controllers\Others\BrowserFilterController.cs" />
     <Compile Include="Controllers\Home\JsonController.cs" />
     <Compile Include="Controllers\Home\HomeController.cs" />
-    <Compile Include="Controllers\Home\ShareController.cs" />
     <Compile Include="Controllers\Account\ManageController.cs" />
     <Compile Include="Controllers\Api\ApiSyncController.cs" />
     <Compile Include="Global.asax.cs">
@@ -367,17 +366,6 @@
     <Compile Include="Models\HomeViewModels\HomeViewModelEvents.cs" />
     <Compile Include="Models\HomeViewModels\HomeViewModelImprovementsMin.cs" />
     <Compile Include="Models\HomeViewModels\HomeViewModelTrackEditor.cs" />
-    <Compile Include="Models\ShareViewModels\ShareViewModelBaseMin.cs" />
-    <Compile Include="Models\ShareViewModels\ShareViewModelEventsMin.cs" />
-    <Compile Include="Models\ShareViewModels\ShareViewModelBooks.cs" />
-    <Compile Include="Models\ShareViewModels\ShareViewModelEvents.cs" />
-    <Compile Include="Models\ShareViewModels\ShareViewModelSerials.cs" />
-    <Compile Include="Models\ShareViewModels\ShareViewModelFilms.cs" />
-    <Compile Include="Models\ShareViewModels\ShareViewModelBooksMin.cs" />
-    <Compile Include="Models\ShareViewModels\ShareViewModelSerialsMin.cs" />
-    <Compile Include="Models\ShareViewModels\ShareViewModelFilmsMin.cs" />
-    <Compile Include="Models\ShareViewModels\ShareViewModelTracksMin.cs" />
-    <Compile Include="Models\ShareViewModels\ShareViewModelTracks.cs" />
     <Compile Include="Models\TablesLogic\RoadsLogic.cs" />
     <Compile Include="Models\TablesLogic\EventsLogic.cs" />
     <Compile Include="Models\TablesLogic\BooksLogic.cs" />
@@ -432,6 +420,10 @@
     <Content Include="Content\Angular\controllers\RoadsController.js" />
     <Content Include="Content\Angular\controllers\SettingsController.js" />
     <Content Include="Content\Angular\controllers\LogsController.js" />
+    <Content Include="Content\Angular\controllers\Shared\SharedEventsController.js" />
+    <Content Include="Content\Angular\controllers\Shared\SharedBooksController.js" />
+    <Content Include="Content\Angular\controllers\Shared\SharedSerialsController.js" />
+    <Content Include="Content\Angular\controllers\Shared\SharedFilmsController.js" />
     <Content Include="Content\Angular\controllers\UsersController.js" />
     <Content Include="Content\Angular\controllers\ImprovementsController.js" />
     <Content Include="Content\Angular\controllers\EventsController.js" />
@@ -448,6 +440,10 @@
     <Content Include="Content\Angular\templates\administrative\users.html" />
     <Content Include="Content\Angular\templates\main_pages\improvements.html" />
     <Content Include="Content\Angular\templates\main_pages\home.html" />
+    <Content Include="Content\Angular\templates\shared_pages\books.html" />
+    <Content Include="Content\Angular\templates\shared_pages\events.html" />
+    <Content Include="Content\Angular\templates\shared_pages\films.html" />
+    <Content Include="Content\Angular\templates\shared_pages\serials.html" />
     <Content Include="Content\Angular\templates\tools\modal-share.html" />
     <Content Include="Content\bootstrap-datetimepicker.css" />
     <Content Include="Content\bootstrap-datetimepicker.min.css" />
@@ -1505,11 +1501,12 @@
     <Content Include="Views\Tools\Services\Google\_Base.cshtml" />
     <Content Include="Views\Tools\Services\VK\_Base.cshtml" />
     <Content Include="Views\Tools\Services.cshtml" />
-    <Content Include="Views\Home\Index7777777.cshtml" />
     <Content Include="Views\Home\IndexFullKO.cshtml" />
     <Content Include="Scripts\version.json" />
     <Content Include="Views\Account\ExternalLoginConfirmation.cshtml" />
     <Content Include="Views\Account\ExternalLoginFailure.cshtml" />
+    <Content Include="Views\Analytics\Rambler.cshtml" />
+    <Content Include="Views\Analytics\Openstat.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

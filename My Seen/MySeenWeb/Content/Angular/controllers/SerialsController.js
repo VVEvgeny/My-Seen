@@ -1,10 +1,15 @@
-'use strict';
+App.config(function ($stateProvider) {
 
-/* Controllers */
+    $stateProvider
+        .state('serials', {
+            url: '/serials/?:page&search',
+            templateUrl: "Content/Angular/templates/main_pages/serials.html",
+            controller: 'SerialsController',
+            reloadOnSearch: false
+        });
+});
 
-var MySeenApp = angular.module('SerialsController', []);
-
-MySeenApp.controller('SerialsController', ['$scope', '$rootScope', '$state', '$stateParams', '$http', '$location', 'Constants',
+App.controller('SerialsController', ['$scope', '$rootScope', '$state', '$stateParams', '$http', '$location', 'Constants',
   function ($scope, $rootScope, $state, $stateParams, $http, $location, constants) {
 
       //Индекс страницы, для запросов к серверу

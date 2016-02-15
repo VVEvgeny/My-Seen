@@ -15,12 +15,21 @@ namespace MySeenWeb.Models
         {
             get { return Data.Any(); }
         }
-        public HomeViewModelSerials(string userId, int page, int countInPage, string search)
+        public HomeViewModelSerials(string userId, int page, int countInPage, string search, string shareKey)
         {
             var ac = new ApplicationDbContext();
-            Pages = new PaginationViewModel(page, ac.Serials.Count(f => f.UserId == userId && (string.IsNullOrEmpty(search) || f.Name.Contains(search))), countInPage);
+            Pages = new PaginationViewModel(page, ac.Serials.Count(f =>
+                ((string.IsNullOrEmpty(shareKey) && f.UserId == userId)
+                 ||
+                 (!string.IsNullOrEmpty(shareKey) && f.User.ShareSerialsKey == shareKey && f.Shared))
+                && (string.IsNullOrEmpty(search) || f.Name.Contains(search))), countInPage);
+
             Data = ac.Serials.AsNoTracking()
-                .Where(f => f.UserId == userId && (string.IsNullOrEmpty(search) || f.Name.Contains(search)))
+                .Where(f =>
+                    ((string.IsNullOrEmpty(shareKey) && f.UserId == userId)
+                     ||
+                     (!string.IsNullOrEmpty(shareKey) && f.User.ShareSerialsKey == shareKey && f.Shared))
+                    && (string.IsNullOrEmpty(search) || f.Name.Contains(search)))
                 .OrderByDescending(f => f.DateLast)
                 .Skip(() => Pages.SkipRecords).Take(() => countInPage).Select(SerialsView.Map);
         }

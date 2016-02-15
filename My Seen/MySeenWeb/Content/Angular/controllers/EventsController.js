@@ -1,10 +1,15 @@
-'use strict';
+App.config(function ($stateProvider) {
 
-/* Controllers */
+    $stateProvider
+        .state('events', {
+            url: '/events/?:page&search&ended',
+            templateUrl: "Content/Angular/templates/main_pages/events.html",
+            controller: 'EventsController',
+            reloadOnSearch: false
+        });
+});
 
-var MySeenApp = angular.module('EventsController', []);
-
-MySeenApp.controller('EventsController', ['$scope', '$rootScope', '$state', '$stateParams', '$http', '$location', 'Constants',
+App.controller('EventsController', ['$scope', '$rootScope', '$state', '$stateParams', '$http', '$location', 'Constants',
   function ($scope, $rootScope, $state, $stateParams, $http, $location, constants) {
 
       //Индекс страницы, для запросов к серверу

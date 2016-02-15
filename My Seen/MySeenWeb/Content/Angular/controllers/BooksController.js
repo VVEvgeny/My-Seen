@@ -1,10 +1,15 @@
-'use strict';
+App.config(function ($stateProvider) {
 
-/* Controllers */
+    $stateProvider
+        .state('books', {
+            url: '/books/?:page&search',
+            templateUrl: "Content/Angular/templates/main_pages/books.html",
+            controller: 'BooksController',
+            reloadOnSearch: false
+        });
+});
 
-var MySeenApp = angular.module('BooksController', []);
-
-MySeenApp.controller('BooksController', ['$scope', '$rootScope', '$state', '$stateParams', '$http', '$location', 'Constants',
+App.controller('BooksController', ['$scope', '$rootScope', '$state', '$stateParams', '$http', '$location', 'Constants',
   function ($scope, $rootScope, $state, $stateParams, $http, $location, constants) {
 
       //Индекс страницы, для запросов к серверу

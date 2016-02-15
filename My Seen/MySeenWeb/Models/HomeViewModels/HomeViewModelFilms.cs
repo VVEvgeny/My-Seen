@@ -12,16 +12,24 @@ namespace MySeenWeb.Models
         public IEnumerable<FilmsView> Data { get; set; }
         public PaginationViewModel Pages { get; set; }
 
-        public HomeViewModelFilms(string userId, int page, int countInPage, string search)
+        public HomeViewModelFilms(string userId, int page, int countInPage, string search, string shareKey)
         {
             var ac = new ApplicationDbContext();
 
             Pages = new PaginationViewModel(page,
-                ac.Films.Count(f => f.UserId == userId && (string.IsNullOrEmpty(search) || f.Name.Contains(search))),
+                ac.Films.Count(f =>
+                    ((string.IsNullOrEmpty(shareKey) && f.UserId == userId)
+                     ||
+                     (!string.IsNullOrEmpty(shareKey) && f.User.ShareFilmsKey == shareKey && f.Shared))
+                    && (string.IsNullOrEmpty(search) || f.Name.Contains(search))),
                 countInPage);
 
             Data = ac.Films.AsNoTracking()
-                .Where(f => f.UserId == userId && (string.IsNullOrEmpty(search) || f.Name.Contains(search)))
+                .Where(f =>
+                    ((string.IsNullOrEmpty(shareKey) && f.UserId == userId)
+                     ||
+                     (!string.IsNullOrEmpty(shareKey) && f.User.ShareFilmsKey == shareKey && f.Shared))
+                    && (string.IsNullOrEmpty(search) || f.Name.Contains(search)))
                 .OrderByDescending(f => f.DateSee)
                 .Skip(() => Pages.SkipRecords)
                 .Take(() => countInPage)

@@ -1,10 +1,15 @@
-'use strict';
+App.config(function ($stateProvider) {
 
-/* Controllers */
+    $stateProvider
+        .state('users', {
+            url: '/users/?:page&search',
+            templateUrl: "Content/Angular/templates/administrative/users.html",
+            controller: 'UsersController',
+            reloadOnSearch: false
+        });
+});
 
-var MySeenApp = angular.module('UsersController', []);
-
-MySeenApp.controller('UsersController', ['$scope', '$rootScope', '$state', '$stateParams', '$http', '$location', 'Constants',
+App.controller('UsersController', ['$scope', '$rootScope', '$state', '$stateParams', '$http', '$location', 'Constants',
   function ($scope, $rootScope, $state, $stateParams, $http, $location, constants) {
 
       //Индекс страницы, для запросов к серверу

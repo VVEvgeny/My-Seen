@@ -1,26 +1,34 @@
-App.config(function ($stateProvider) {
+App.config(function($stateProvider) {
 
     $stateProvider
-        .state('logs', {
-            url: '/logs/?:page&search',
-            templateUrl: "Content/Angular/templates/administrative/logs.html",
-            controller: 'LogsController',
+        .state('sharedBooks', {
+            url: '/books/shared/:key?page&search',
+            templateUrl: "Content/Angular/templates/shared_pages/books.html",
+            controller: 'SharedBooksController',
             reloadOnSearch: false
         });
 });
 
-App.controller('LogsController', ['$scope', '$rootScope', '$state', '$stateParams', '$http', '$location', 'Constants',
+App.controller('SharedBooksController', ['$scope', '$rootScope', '$state', '$stateParams', '$http', '$location', 'Constants',
   function ($scope, $rootScope, $state, $stateParams, $http, $location, constants) {
 
+      if (!$stateParams.key) {
+          $state.go('books');
+      }
+
       //Индекс страницы, для запросов к серверу
-      var pageId = 102;
-      //Показать ли поле ПОИСКа
-      $scope.pageCanSearch = true;
-      //На всякий случай закрою, может переход со страницы, где забыли закрыть модальную
-      $rootScope.closeModals();
+      var pageId = 2;
+      
       //Перевод всех данных на тек. странице
       $scope.translation = {};
-
+      //Загрузка значений по умолчанию и списков
+      $scope.prepared = {};
+      
+      //Для модальной готовим данные
+      function fillPrepared(page) {
+          $scope.prepared = page;
+          $scope.prepared.loaded = true;
+      }
       //Перевод таблицы и модальной
       function fillTranslation(page) {
           $scope.translation = page;
@@ -32,9 +40,20 @@ App.controller('LogsController', ['$scope', '$rootScope', '$state', '$stateParam
           $scope.pages = page.Pages;
       };
       function getMainPage() {
-          $rootScope.GetPage(constants.Pages.Main, $http, fillScope, { pageId: pageId, page: ($stateParams ? $stateParams.page : null), search: ($stateParams ? $stateParams.search : null) });
+          $rootScope.GetPage(constants.Pages.Main, $http, fillScope,
+              {
+                  pageId: pageId,
+                  shareKey: $stateParams.key,
+                  page: $stateParams.page,
+                  search: $stateParams.search
+              });
       };
 
+      console.log($stateParams);
+      console.log($stateParams.key);
+
+      //Сразу 3 запроса на сервер, далее будет только запросы по новым данным и на добавление/изменение
+      $rootScope.GetPage(constants.Pages.Prepared, $http, fillPrepared, { pageId: pageId });
       $rootScope.GetPage(constants.Pages.Translation, $http, fillTranslation, { pageId: pageId });
       getMainPage();
 
@@ -43,14 +62,13 @@ App.controller('LogsController', ['$scope', '$rootScope', '$state', '$stateParam
       ///////////////////////////////////////////////////////////////////////
       $scope.quickSearch = {};
       $scope.quickSearch.text = $stateParams ? $stateParams.search : null;
-      $scope.searchButtonClick = function () {
-          $location.search('search', $scope.quickSearch.text !== '' ? $scope.quickSearch.text : null);
+      $scope.searchButtonClick = function() {
+          $location.search('search', $scope.quickSearch.text !== ''? $scope.quickSearch.text: null);
           $location.search('page', null);//с первой страницы новый поиск
           if ($stateParams) $stateParams.page = null;
           if ($stateParams) $stateParams.search = $scope.quickSearch.text !== '' ? $scope.quickSearch.text : null;
           getMainPage();
       };
-
       ///////////////////////////////////////////////////////////////////////
       ///////////////////////////////////////////////////////////////////////           ПАГИНАЦИЯ
       ///////////////////////////////////////////////////////////////////////

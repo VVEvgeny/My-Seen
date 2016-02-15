@@ -34,6 +34,10 @@
     <script src="~/Scripts/angular-ui-router.js"></script>
     <script src="~/Scripts/angular-ui/ui-bootstrap-tpls.js"></script>
 
+
+
+    <script src="~/Content/Angular/app/app.js"></script>
+
     <script src="~/Content/Angular/controllers/SettingsController.js"></script>
     <script src="~/Content/Angular/controllers/HomeController.js"></script>
     <script src="~/Content/Angular/controllers/AboutController.js"></script>
@@ -49,8 +53,11 @@
     <script src="~/Content/Angular/controllers/EventsController.js"></script>
     <script src="~/Content/Angular/controllers/RoadsController.js"></script>
 
-    <script src="~/Content/Angular/app/app.js"></script>
 
+    <script src="~/Content/Angular/controllers/Shared/SharedFilmsController.js"></script>
+    <script src="~/Content/Angular/controllers/Shared/SharedSerialsController.js"></script>
+    <script src="~/Content/Angular/controllers/Shared/SharedBooksController.js"></script>
+    <script src="~/Content/Angular/controllers/Shared/SharedEventsController.js"></script>
 
 
 
@@ -353,6 +360,8 @@ else
     {
         @Html.Partial("../Analytics/Yandex")
         @Html.Partial("../Analytics/Google")
+        @Html.Partial("../Analytics/Rambler")
+        @Html.Partial("../Analytics/Openstat")
         //Хочет много контента @Html.Partial("../Ads/Google")
     }
 </body>

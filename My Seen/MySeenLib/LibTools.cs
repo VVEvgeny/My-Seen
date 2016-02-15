@@ -118,11 +118,19 @@ namespace MySeenLib
 
         public static string ApiUsers = @"/api/ApiUsers/";
         public static string ApiSync = @"/api/ApiSync/";
+
+        /*
+        public static string ShareFilms = @"/Share/Films/";
         public static string ShareTracks = @"/Share/Tracks/";
         public static string ShareEvents = @"/Share/Events/";
-        public static string ShareFilms = @"/Share/Films/";
         public static string ShareSerials = @"/Share/Serials/";
         public static string ShareBooks = @"/Share/Books/";
+        */
+        public static string ShareTracks = @"/#/roads/shared/";
+        public static string ShareEvents = @"/#/events/shared/";
+        public static string ShareFilms = @"/#/films/shared/";
+        public static string ShareSerials = @"/#/serials/shared/";
+        public static string ShareBooks = @"/#/books/shared/";
 
         public enum SyncModesApiUsers
         {
