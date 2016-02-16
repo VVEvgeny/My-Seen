@@ -18,7 +18,8 @@ App.controller('SharedSerialsController', ['$scope', '$rootScope', '$state', '$s
 
       //Индекс страницы, для запросов к серверу
       var pageId = 1;
-      
+      //Показать ли поле ПОИСКа
+      $scope.pageCanSearch = true;
       //Перевод всех данных на тек. странице
       $scope.translation = {};
       //Загрузка значений по умолчанию и списков
@@ -37,6 +38,7 @@ App.controller('SharedSerialsController', ['$scope', '$rootScope', '$state', '$s
       //Основные данные
       function fillScope(page) {
           $scope.data = page.Data;
+          $scope.isMyData = page.IsMyData;
           $scope.pages = page.Pages;
       };
       function getMainPage() {
@@ -74,9 +76,15 @@ App.controller('SharedSerialsController', ['$scope', '$rootScope', '$state', '$s
       ///////////////////////////////////////////////////////////////////////
       //Не использую перехода по состояниям, они перезагружают контроллер, а так у меня в настройках для контролера стоит reloadOnSearch: false      
       $scope.pagination = {};
-      $scope.pagination.goToPage = function (page) {
+      $scope.pagination.goToPage = function(page) {
           $location.search('page', page > 1 ? page : null);
           if ($stateParams) $stateParams.page = page > 1 ? page : null;
           getMainPage();
-      }
+      };
+      ///////////////////////////////////////////////////////////////////////
+      ///////////////////////////////////////////////////////////////////////           Действия
+      ///////////////////////////////////////////////////////////////////////
+      $scope.deleteShareButtonClick = function (id) {
+          $rootScope.GetPage(constants.Pages.DeleteShare, $http, getMainPage, { pageId: pageId, recordId: $scope.data[id].Id });
+      };
   }]);

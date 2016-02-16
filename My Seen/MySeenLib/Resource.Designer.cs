@@ -1016,6 +1016,15 @@ namespace MySeenLib {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Facebook Services.
+        /// </summary>
+        public static string FacebookServices {
+            get {
+                return ResourceManager.GetString("FacebookServices", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Film.
         /// </summary>
         public static string Film {
@@ -1174,6 +1183,15 @@ namespace MySeenLib {
         public static string GenreThriller {
             get {
                 return ResourceManager.GetString("GenreThriller", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Google Services.
+        /// </summary>
+        public static string GoogleServices {
+            get {
+                return ResourceManager.GetString("GoogleServices", resourceCulture);
             }
         }
         
@@ -2110,6 +2128,15 @@ namespace MySeenLib {
         public static string Version {
             get {
                 return ResourceManager.GetString("Version", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Vkontakte Services.
+        /// </summary>
+        public static string VkServices {
+            get {
+                return ResourceManager.GetString("VkServices", resourceCulture);
             }
         }
         

@@ -115,6 +115,10 @@
 		.forAnimate{
 			opacity: 0;
 		}
+        /**/
+        body {
+            padding-top: 10px;
+        }
 	}
 
 	/* .....NavBar: Fully showing nav bar..... */
@@ -136,6 +140,19 @@
 		nav.sidebar .forAnimate{
 			opacity: 1;
 		}
+        /**/
+        body {
+            padding-top: 10px;
+        }
+	}
+
+    	/* .....NavBar: Fully showing nav bar..... */
+
+	@media (max-width: 768px) {
+        /**/
+        body {
+            padding-top: 60px;
+        }
 	}
 
 	nav.sidebar .navbar-nav .open .dropdown-menu>li>a:hover, nav.sidebar .navbar-nav .open .dropdown-menu>li>a:focus {

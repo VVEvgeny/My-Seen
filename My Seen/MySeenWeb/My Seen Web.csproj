@@ -207,9 +207,10 @@
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\Account\AccountController.cs" />
     <Compile Include="Controllers\Api\ApiUsersController.cs" />
+    <Compile Include="Controllers\Home\JsonController.cs" />
     <Compile Include="Controllers\_Base\BaseController.cs" />
     <Compile Include="Controllers\Others\BrowserFilterController.cs" />
-    <Compile Include="Controllers\Home\JsonController.cs" />
+    <Compile Include="Controllers\Home\SettingsController.cs" />
     <Compile Include="Controllers\Home\HomeController.cs" />
     <Compile Include="Controllers\Account\ManageController.cs" />
     <Compile Include="Controllers\Api\ApiSyncController.cs" />
@@ -346,9 +347,12 @@
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\HomeViewModels\Prepared\PreparedDataBooks.cs" />
+    <Compile Include="Models\HomeViewModels\Prepared\PreparedDataImprovements.cs" />
     <Compile Include="Models\HomeViewModels\Prepared\PreparedDataRoads.cs" />
     <Compile Include="Models\HomeViewModels\Prepared\PreparedDataEvents.cs" />
     <Compile Include="Models\HomeViewModels\Prepared\PreparedDataSerials.cs" />
+    <Compile Include="Models\HomeViewModels\Translations\TranslationDataSettings.cs" />
+    <Compile Include="Models\HomeViewModels\Translations\TranslationDataImprovements.cs" />
     <Compile Include="Models\HomeViewModels\Translations\TranslationDataErrors.cs" />
     <Compile Include="Models\HomeViewModels\Translations\TranslationDataLogs.cs" />
     <Compile Include="Models\HomeViewModels\Translations\TranslationDataRoads.cs" />
@@ -364,7 +368,6 @@
     <Compile Include="Models\HomeViewModels\HomeViewModelErrors.cs" />
     <Compile Include="Models\OtherViewModels\AccountViewModels.cs" />
     <Compile Include="Models\HomeViewModels\HomeViewModelEvents.cs" />
-    <Compile Include="Models\HomeViewModels\HomeViewModelImprovementsMin.cs" />
     <Compile Include="Models\HomeViewModels\HomeViewModelTrackEditor.cs" />
     <Compile Include="Models\TablesLogic\RoadsLogic.cs" />
     <Compile Include="Models\TablesLogic\EventsLogic.cs" />
@@ -378,9 +381,6 @@
     <Compile Include="Models\TablesLogic\UserCreditsLogic.cs" />
     <Compile Include="Models\TablesViews\EventsView.cs" />
     <Compile Include="Models\TablesViews\NLogErrorsView.cs" />
-    <Compile Include="Models\TablesViews\ShareTrackInfo.cs" />
-    <Compile Include="Models\TablesViews\ITrackInfo.cs" />
-    <Compile Include="Models\TablesViews\TrackInfo.cs" />
     <Compile Include="Models\TablesViews\LayoutView.cs" />
     <Compile Include="Models\Tables\NLogErrors.cs" />
     <Compile Include="Models\Tables\Events.cs" />
@@ -422,6 +422,7 @@
     <Content Include="Content\Angular\controllers\LogsController.js" />
     <Content Include="Content\Angular\controllers\Shared\SharedEventsController.js" />
     <Content Include="Content\Angular\controllers\Shared\SharedBooksController.js" />
+    <Content Include="Content\Angular\controllers\Shared\SharedRoadsController.js" />
     <Content Include="Content\Angular\controllers\Shared\SharedSerialsController.js" />
     <Content Include="Content\Angular\controllers\Shared\SharedFilmsController.js" />
     <Content Include="Content\Angular\controllers\UsersController.js" />
@@ -443,6 +444,7 @@
     <Content Include="Content\Angular\templates\shared_pages\books.html" />
     <Content Include="Content\Angular\templates\shared_pages\events.html" />
     <Content Include="Content\Angular\templates\shared_pages\films.html" />
+    <Content Include="Content\Angular\templates\shared_pages\roads.html" />
     <Content Include="Content\Angular\templates\shared_pages\serials.html" />
     <Content Include="Content\Angular\templates\tools\modal-share.html" />
     <Content Include="Content\bootstrap-datetimepicker.css" />
@@ -1448,6 +1450,8 @@
     <Content Include="Scripts\myseen\gmap3menu.js" />
     <Content Include="Scripts\myseen\gmap.editor.js" />
     <Content Include="Scripts\myseen\gmap.js" />
+    <Content Include="Scripts\myseen\jQueryToAngular.js" />
+    <Content Include="Scripts\myseen\timer.js" />
     <Content Include="Scripts\myseen\table.js" />
     <Content Include="Scripts\jquery-2.2.0.min.map" />
     <None Include="Scripts\jquery.validate-vsdoc.js" />
@@ -1510,6 +1514,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Content\Angular\controllers\tools\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config">

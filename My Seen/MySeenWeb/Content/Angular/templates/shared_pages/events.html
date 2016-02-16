@@ -1,8 +1,24 @@
 ﻿<!--Загрузка-->
 <data-ng-include src="'Content/Angular/templates/tools/loading.html'"></data-ng-include>
+<!--Кнопка добавить и поиск-->
+<data-ng-include src="'Content/Angular/templates/tools/add-search-buttons.html'"></data-ng-include>
+<br>
 
 <div data-ng-show="prepared.loaded && translation.loaded">
     <!--Таблица-->
+    <div class="form-inline">
+        <div class="form-group">
+            <div class="container">
+                <div class="form-group">
+                    <select class="form-control input-sm" data-ng-model="eventSelect" data-ng-change="selectedChange()">
+                        <option data-ng-repeat="type in prepared.SelectedList" data-ng-selected="eventSelect == type.Value" value="{{type.Value}}">
+                            {{type.Text}}
+                        </option>
+                    </select>
+                </div>
+            </div>
+        </div>
+    </div>
     <div class="table-responsive">
         <table class="table table-striped">
             <thead>
@@ -21,6 +37,10 @@
             <tbody>
                 <tr ng-repeat="val in data">
                     <td>
+                        <!--Блок управляющих кнопок-->
+                        <span class="pull-left">
+                            <button class="btn btn-danger btn-xs" data-ng-click="deleteShareButtonClick($index)" data-ng-show="isMyData"> <span class=" glyphicon glyphicon-remove"></span></button>
+                        </span>
                     </td>
                     <!--Одноразовая привязка-->
                     <td class="align-center">{{::val.Name}}</td>
@@ -28,9 +48,9 @@
                     <td class="align-center">{{::val.DateToText}}</td>
                     <td class="align-center">{{::val.DayOfWeekTo}}</td>
                     <td class="align-center">|</td>
-                    <td class="align-center">{{::val.EstimatedLast}}</td>
-                    <td class="align-center">{{::val.DateLastText}}</td>
-                    <td class="align-center">{{::val.DayOfWeekLast}}</td>
+                    <td class="align-center" data-ng-show="val.HaveHistory">{{::val.EstimatedLast}}</td>
+                    <td class="align-center" data-ng-show="val.HaveHistory">{{::val.DateLastText}}</td>
+                    <td class="align-center" data-ng-show="val.HaveHistory">{{::val.DayOfWeekLast}}</td>
                 </tr>
             </tbody>
         </table>

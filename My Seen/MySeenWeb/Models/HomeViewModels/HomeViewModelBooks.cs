@@ -11,10 +11,7 @@ namespace MySeenWeb.Models
     {
         public IEnumerable<BooksView> Data { get; set; }
         public PaginationViewModel Pages { get; set; }
-        public bool HaveData
-        {
-            get { return Data.Any(); }
-        }
+        public bool IsMyData { get; set; }
         public HomeViewModelBooks(string userId, int page, int countInPage, string search, string shareKey)
         {
             var ac = new ApplicationDbContext();
@@ -30,6 +27,8 @@ namespace MySeenWeb.Models
                  (!string.IsNullOrEmpty(shareKey) && f.User.ShareBooksKey == shareKey && f.Shared))
                 && (string.IsNullOrEmpty(search) || f.Name.Contains(search))).OrderByDescending(f => f.DateRead)
                 .Skip(() => Pages.SkipRecords).Take(() => countInPage).Select(BooksView.Map);
+
+            IsMyData = !string.IsNullOrEmpty(shareKey) && Data.Any() && Data.First().UserId == userId;
         }
     }
 }

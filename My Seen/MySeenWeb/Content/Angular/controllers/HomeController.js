@@ -13,6 +13,6 @@ App.controller('HomeController', ['$scope', '$rootScope', '$state', '$stateParam
   function ($scope, $rootScope, $state, $stateParams, $http, $location, constants) {
 
       //На всякий случай закрою, может переход со страницы, где забыли закрыть модальную
-      $rootScope.closeModals();
+      $rootScope.clearControllers();
 
   }]);

@@ -11,10 +11,8 @@ namespace MySeenWeb.Models
     {
         public IEnumerable<SerialsView> Data { get; set; }
         public PaginationViewModel Pages { get; set; }
-        public bool HaveData
-        {
-            get { return Data.Any(); }
-        }
+        public bool IsMyData { get; set; }
+
         public HomeViewModelSerials(string userId, int page, int countInPage, string search, string shareKey)
         {
             var ac = new ApplicationDbContext();
@@ -32,6 +30,8 @@ namespace MySeenWeb.Models
                     && (string.IsNullOrEmpty(search) || f.Name.Contains(search)))
                 .OrderByDescending(f => f.DateLast)
                 .Skip(() => Pages.SkipRecords).Take(() => countInPage).Select(SerialsView.Map);
+
+            IsMyData = !string.IsNullOrEmpty(shareKey) && Data.Any() && Data.First().UserId == userId;
         }
     }
 }

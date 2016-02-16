@@ -2,7 +2,7 @@ App.config(function($stateProvider) {
 
     $stateProvider
         .state('sharedEvents', {
-            url: '/events/shared/:key?page&search',
+            url: '/events/shared/:key?page&search&ended',
             templateUrl: "Content/Angular/templates/shared_pages/events.html",
             controller: 'SharedEventsController',
             reloadOnSearch: false
@@ -18,7 +18,8 @@ App.controller('SharedEventsController', ['$scope', '$rootScope', '$state', '$st
 
       //Индекс страницы, для запросов к серверу
       var pageId = 4;
-      
+      //Показать ли поле ПОИСКа
+      $scope.pageCanSearch = true;
       //Перевод всех данных на тек. странице
       $scope.translation = {};
       //Загрузка значений по умолчанию и списков
@@ -35,9 +36,14 @@ App.controller('SharedEventsController', ['$scope', '$rootScope', '$state', '$st
           $scope.translation.loaded = true;
       }
       //Основные данные
+      $rootScope.eventsInterval = '';
       function fillScope(page) {
           $scope.data = page.Data;
+          $scope.isMyData = page.IsMyData;
           $scope.pages = page.Pages;
+
+          clearInterval($rootScope.eventsInterval);
+          $rootScope.eventsInterval = setInterval(recalcEstimated, 1000);
       };
       function getMainPage() {
           $rootScope.GetPage(constants.Pages.Main, $http, fillScope,
@@ -45,7 +51,8 @@ App.controller('SharedEventsController', ['$scope', '$rootScope', '$state', '$st
                   pageId: pageId,
                   shareKey: $stateParams.key,
                   page: $stateParams.page,
-                  search: $stateParams.search
+                  search: $stateParams.search,
+                  ended: $stateParams.ended
               });
       };
 
@@ -57,6 +64,19 @@ App.controller('SharedEventsController', ['$scope', '$rootScope', '$state', '$st
       $rootScope.GetPage(constants.Pages.Translation, $http, fillTranslation, { pageId: pageId });
       getMainPage();
 
+      ///////////////////////////////////////////////////////////////////////
+      ///////////////////////////////////////////////////////////////////////           ТИП СОБЫИТЯ
+      ///////////////////////////////////////////////////////////////////////
+      $scope.eventSelect = $stateParams ? $stateParams.ended ? $stateParams.ended : '0' : '0';
+      $scope.selectedChange = function () {
+          $location.search('page', null);
+          $location.search('ended', $scope.eventSelect === '0' ? null : $scope.eventSelect);
+          if ($stateParams) {
+              $stateParams.page = null;
+              $stateParams.ended = $scope.eventSelect === '0' ? null : $scope.eventSelect;
+          }
+          getMainPage();
+      };
       ///////////////////////////////////////////////////////////////////////
       ///////////////////////////////////////////////////////////////////////           ПОИСК
       ///////////////////////////////////////////////////////////////////////
@@ -74,9 +94,33 @@ App.controller('SharedEventsController', ['$scope', '$rootScope', '$state', '$st
       ///////////////////////////////////////////////////////////////////////
       //Не использую перехода по состояниям, они перезагружают контроллер, а так у меня в настройках для контролера стоит reloadOnSearch: false      
       $scope.pagination = {};
-      $scope.pagination.goToPage = function (page) {
+      $scope.pagination.goToPage = function(page) {
           $location.search('page', page > 1 ? page : null);
           if ($stateParams) $stateParams.page = page > 1 ? page : null;
           getMainPage();
-      }
+      };
+      ///////////////////////////////////////////////////////////////////////
+      ///////////////////////////////////////////////////////////////////////           Действия
+      ///////////////////////////////////////////////////////////////////////
+      $scope.deleteShareButtonClick = function (id) {
+          $rootScope.GetPage(constants.Pages.DeleteShare, $http, getMainPage, { pageId: pageId, recordId: $scope.data[id].Id });
+      };
+      ///////////////////////////////////////////////////////////////////////
+      ///////////////////////////////////////////////////////////////////////           ТАЙМЕР
+      ///////////////////////////////////////////////////////////////////////
+      function recalcEstimated() {
+          $scope.$apply(function () {
+              // every changes goes here
+              if ($scope.data.length > 0) {
+                  for (var i = 0; i < $scope.data.length; i++) {
+                      if ($scope.data[i].EstimatedTo !== $scope.translation.Ready) {
+                          $scope.data[i].EstimatedTo = getTime($scope.data[i].EstimatedTo);
+                      }
+                      if ($scope.data[i].HaveHistory) {
+                          $scope.data[i].EstimatedLast = getTime($scope.data[i].EstimatedLast);
+                      }
+                  }
+              }
+          });
+      };
   }]);

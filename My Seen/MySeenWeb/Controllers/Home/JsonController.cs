@@ -14,7 +14,7 @@ namespace MySeenWeb.Controllers.Home
     public class JsonController : BaseController
     {
         [HttpPost]
-        public JsonResult GetPage(int pageId, int? page, string search, int? ended, int? year, int? complex,string shareKey)
+        public JsonResult GetPage(int pageId, int? page, string search, int? ended, int? year, int? complex, string shareKey)
         {
             //if (!User.Identity.IsAuthenticated) return Json(Auth.NoAuth);
 
@@ -24,7 +24,7 @@ namespace MySeenWeb.Controllers.Home
             }
 
             var logger = new NLogLogger();
-            const string methodName = "public JsonResult GetPage(int pageId, int? page, string search)";
+            const string methodName = "public JsonResult GetPage(int pageId, int? page, string search, int? ended, int? year, int? complex,string shareKey)";
             try
             {
                 switch (pageId)
@@ -40,9 +40,9 @@ namespace MySeenWeb.Controllers.Home
                         return
                             Json(new HomeViewModelEvents(User.Identity.GetUserId(), page ?? 1, Rpp, search, ended ?? 0, shareKey));
                     case (int)Defaults.CategoryBase.Indexes.Roads:
-                        return Json(new HomeViewModelRoads(User.Identity.GetUserId(), year ?? 0));
+                        return Json(new HomeViewModelRoads(User.Identity.GetUserId(), year ?? 0, search, shareKey));
                     case (int)Defaults.CategoryBase.IndexesExt.Improvements:
-                        return Json(new HomeViewModelImprovements(complex ?? (int)Defaults.ComplexBase.Indexes.All, page ?? 1, Rpp));
+                        return Json(new HomeViewModelImprovements(complex ?? (int)Defaults.ComplexBase.Indexes.All, page ?? 1, Rpp, search));
                     case (int)Defaults.CategoryBase.IndexesExt.Users:
                         return Json(new HomeViewModelUsers(page ?? 1, Rpp, search));
                     case (int)Defaults.CategoryBase.IndexesExt.Errors:
@@ -79,7 +79,8 @@ namespace MySeenWeb.Controllers.Home
                         return Json(new PreparedDataEvents());
                     case (int)Defaults.CategoryBase.Indexes.Roads:
                         return Json(new PreparedDataRoads());
-                        
+                    case (int)Defaults.CategoryBase.IndexesExt.Improvements:
+                        return Json(new PreparedDataImprovements());
                 }
                 return Json("NOT REALIZED");
             }
@@ -115,7 +116,10 @@ namespace MySeenWeb.Controllers.Home
                         return Json(new TranslationDataErrors());
                     case (int)Defaults.CategoryBase.Indexes.Roads:
                         return Json(new TranslationDataRoads());
-
+                    case (int)Defaults.CategoryBase.IndexesExt.Improvements:
+                        return Json(new TranslationDataImprovements());
+                    case (int)Defaults.CategoryBase.IndexesExt.Settings:
+                        return Json(new TranslationDataSettings());
                 }
                 return Json("NOT REALIZED");
             }
@@ -230,7 +234,7 @@ namespace MySeenWeb.Controllers.Home
 
         [Authorize]
         [HttpPost]
-        public JsonResult AddData(int pageId, string name, string year, string datetime, string genre, string rating, string season, string series, string authors, string type, string coordinates, string distance, string desc, string complex)
+        public JsonResult AddData(int pageId, string name, string year, string datetime, string genre, string rating, string season, string series, string authors, string type, string coordinates, string distance)
         {
             var logger = new NLogLogger();
             var methodName = "public JsonResult AddData(int pageId, string name, string year, string datetime, string genre, string rating, string season, string series, string authors, string type, string coordinates, string distance, string desc, string complex)";
@@ -267,7 +271,7 @@ namespace MySeenWeb.Controllers.Home
                             : Json(new {success = true});
                     case (int)Defaults.CategoryBase.IndexesExt.Improvements:
                         var improvementLogic = new ImprovementLogic();
-                        return !improvementLogic.Add(desc, complex, User.Identity.GetUserId())
+                        return !improvementLogic.Add(name, type, User.Identity.GetUserId())
                             ? new JsonResult { Data = new { success = false, error = improvementLogic.ErrorMessage } }
                             : Json(new {success = true});
                 }
@@ -315,6 +319,11 @@ namespace MySeenWeb.Controllers.Home
                         return !eventsLogic.Delete(recordId, User.Identity.GetUserId())
                             ? new JsonResult { Data = new { success = false, error = eventsLogic.ErrorMessage } }
                             : Json(new { success = true });
+                    case (int)Defaults.CategoryBase.IndexesExt.Improvements:
+                        var improvementsLogic = new ImprovementLogic();
+                        return !improvementsLogic.Delete(recordId, User.Identity.GetUserId())
+                            ? new JsonResult { Data = new { success = false, error = improvementsLogic.ErrorMessage } }
+                            : Json(new { success = true });
                 }
                 return Json("NOT REALIZED");
             }
@@ -326,7 +335,7 @@ namespace MySeenWeb.Controllers.Home
         }
         [Authorize]
         [HttpPost]
-        public JsonResult UpdateData(int pageId, string id, string name, string year, string datetime, string genre, string rating, string season, string series, string authors, string type, string coordinates, string distance, string desc, string complex)
+        public JsonResult UpdateData(int pageId, string id, string name, string year, string datetime, string genre, string rating, string season, string series, string authors, string type, string coordinates, string distance)
         {
             var logger = new NLogLogger();
             var methodName = "public JsonResult UpdateData(int pageId, string name, string year, string datetime, string genre, string rating, string season, string series, string authors, string type, string coordinates, string distance, string desc, string complex)";
@@ -361,6 +370,11 @@ namespace MySeenWeb.Controllers.Home
                         return !eventsLogic.Update(id, name, datetime, type, User.Identity.GetUserId())
                             ? new JsonResult { Data = new { success = false, error = eventsLogic.ErrorMessage } }
                             : Json(new { success = true });
+                    case (int)Defaults.CategoryBase.IndexesExt.Improvements:
+                        var improvementsLogic = new ImprovementLogic();
+                        return !improvementsLogic.Update(id, name, type, User.Identity.GetUserId())
+                            ? new JsonResult { Data = new { success = false, error = improvementsLogic.ErrorMessage } }
+                            : Json(new { success = true });
                 }
                 return Json("NOT REALIZED");
             }
@@ -370,6 +384,27 @@ namespace MySeenWeb.Controllers.Home
             }
             return new JsonResult { Data = new { success = false, error = methodName } };
         }
+
+        [Authorize]
+        [HttpPost]
+        public JsonResult EndImprovement(string id, string name, string version)
+        {
+            var logger = new NLogLogger();
+            var methodName = "public JsonResult EndImprovement(string recordId, string name,string version)";
+            try
+            {
+                var logic = new ImprovementLogic();
+                return !logic.End(id, name, version, User.Identity.GetUserId())
+                    ? new JsonResult {Data = new {success = false, error = logic.ErrorMessage}}
+                    : Json(new {success = true});
+            }
+            catch (Exception ex)
+            {
+                logger.Error(methodName, ex);
+            }
+            return new JsonResult {Data = new {success = false, error = methodName}};
+        }
+
         [Authorize]
         [HttpPost]
         public JsonResult AddSeries(string recordId)

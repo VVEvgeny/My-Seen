@@ -5,6 +5,7 @@ namespace MySeenWeb.Models.Translations
     public class TranslationDataRoads
     {
         public string Add = Resource.Add;
+        public string QuickSearch = Resource.QuickSearch;
 
         public string Tracks = Resource.Tracks;
         public string Foot = Resource.Foot;

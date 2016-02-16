@@ -3,7 +3,7 @@
 /* App Module */
 var App = angular.module('MySeenApp', ['ui.router', 'ui.bootstrap']);
 
-App.config(function ($stateProvider, $urlRouterProvider) {
+App.config(function($stateProvider, $urlRouterProvider) {
 
     $urlRouterProvider.otherwise('/');
 
@@ -18,17 +18,19 @@ App.config(function ($stateProvider, $urlRouterProvider) {
             if (jsonData.error) {
                 alert(jsonData.error);
             } else {
-                callback(jsonData); //Отдадим на выполнение
+                if (callback) callback(jsonData); //Отдадим на выполнение
             }
         });
     };
     ///////////////////////////////////////////////////////////////////////
     ///////////////////////////////////////////////////////////////////////           Закрыть модальные
     ///////////////////////////////////////////////////////////////////////
-    $rootScope.closeModals = function () {
+    $rootScope.clearControllers = function() {
         //Модальная при смене страницы остается, чистим вручную...
         $('body').removeClass('modal-open');
         $('.modal-backdrop').remove();
+        //Если был интервал, почистим его
+        if ($rootScope.eventsInterval) clearInterval($rootScope.eventsInterval);
     };
 }).constant('Constants', {
     ///////////////////////////////////////////////////////////////////////
@@ -43,7 +45,16 @@ App.config(function ($stateProvider, $urlRouterProvider) {
         Delete: '/Json/DeleteData/',
         GetShare: '/Json/GetShare/',
         DeleteShare: '/Json/DeleteShare/',
-        GenerateShare: '/Json/GenerateShare/'
+        GenerateShare: '/Json/GenerateShare/',
+        EndImprovement: '/Json/EndImprovement/'
+    },
+    PagesSettings: {
+        SetLanguage: '/Settings/SetLanguage/',
+        SetRpp: '/Settings/SetRpp/',
+        SetMor: '/Settings/SetMor/',
+        SetVkService: '/Settings/SetVkService/',
+        SetGoogleService: '/Settings/SetGoogleService/',
+        SetFacebookService: '/Settings/SetFacebookService/'
     }
 });
 

@@ -822,4 +822,13 @@
   <data name="Road2" xml:space="preserve">
     <value>Дорогу</value>
   </data>
+  <data name="FacebookServices" xml:space="preserve">
+    <value>Сервисы Фейсбук</value>
+  </data>
+  <data name="GoogleServices" xml:space="preserve">
+    <value>Сервисы Гугл</value>
+  </data>
+  <data name="VkServices" xml:space="preserve">
+    <value>Сервисы ВК</value>
+  </data>
 </root>

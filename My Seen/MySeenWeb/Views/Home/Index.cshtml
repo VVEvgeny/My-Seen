@@ -24,6 +24,8 @@
     @Styles.Render("~/Content/datetimepicker.css")
 
 
+
+    <script src="~/Scripts/myseen/timer.js"></script>
     <script src="~/Scripts/gmap3.js"></script>
     <script src="~/Scripts/myseen/gmap.js"></script>
     <script src="~/Scripts/myseen/gmap.tools.js"></script>
@@ -33,37 +35,41 @@
     <script src="~/Scripts/angular.js"></script>
     <script src="~/Scripts/angular-ui-router.js"></script>
     <script src="~/Scripts/angular-ui/ui-bootstrap-tpls.js"></script>
-
+    <script src="~/Scripts/myseen/jQueryToAngular.js"></script>
 
 
     <script src="~/Content/Angular/app/app.js"></script>
-
+@if (Request.IsAuthenticated)
+{
+    if (Admin.IsAdmin(User.Identity.GetUserName()))
+    {
+        <script src="~/Content/Angular/controllers/UsersController.js"></script>
+        <script src="~/Content/Angular/controllers/LogsController.js"></script>
+        <script src="~/Content/Angular/controllers/ErrorsController.js"></script>
+    }
     <script src="~/Content/Angular/controllers/SettingsController.js"></script>
-    <script src="~/Content/Angular/controllers/HomeController.js"></script>
-    <script src="~/Content/Angular/controllers/AboutController.js"></script>
-    <script src="~/Content/Angular/controllers/ImprovementsController.js"></script>
 
-    <script src="~/Content/Angular/controllers/UsersController.js"></script>
-    <script src="~/Content/Angular/controllers/LogsController.js"></script>
-    <script src="~/Content/Angular/controllers/ErrorsController.js"></script>
+    <script src="~/Content/Angular/controllers/ImprovementsController.js"></script>
 
     <script src="~/Content/Angular/controllers/FilmsController.js"></script>
     <script src="~/Content/Angular/controllers/SerialsController.js"></script>
     <script src="~/Content/Angular/controllers/BooksController.js"></script>
     <script src="~/Content/Angular/controllers/EventsController.js"></script>
     <script src="~/Content/Angular/controllers/RoadsController.js"></script>
-
+}
+    <script src="~/Content/Angular/controllers/HomeController.js"></script>
+    <script src="~/Content/Angular/controllers/AboutController.js"></script>
 
     <script src="~/Content/Angular/controllers/Shared/SharedFilmsController.js"></script>
     <script src="~/Content/Angular/controllers/Shared/SharedSerialsController.js"></script>
     <script src="~/Content/Angular/controllers/Shared/SharedBooksController.js"></script>
     <script src="~/Content/Angular/controllers/Shared/SharedEventsController.js"></script>
-
+    <script src="~/Content/Angular/controllers/Shared/SharedRoadsController.js"></script>
+    
 
 
 </head>
 <body>
-<div class="container body-content">
 
     <nav class="navbar navbar-inverse sidebar navbar-fixed-top" role="navigation">
         <div class="container-fluid">
@@ -123,39 +129,39 @@
         </div>
     </nav>
 
+    <div class="container body-content">
 
 
-    <div data-ui-view></div>
+        <div data-ui-view></div>
 
 
-</div>
+    </div>
 
 @if (Request.IsAuthenticated) // Дадим возможность выхода
 {
     <script language="javascript" type="text/javascript">
-    (function($) {
-        $(function() {
-            var $LogoutButton = $("#LogoutButton");
-            $LogoutButton.off('click');
-            $LogoutButton.on('click', function() {
+        (function($) {
+            $(function() {
+                var $LogoutButton = $("#LogoutButton");
+                $LogoutButton.off('click');
+                $LogoutButton.on('click', function() {
 
-                $.post('/Account/LogOut', {}, function(jsonData) {
+                    $.post('/Account/LogOut', {}, function(jsonData) {
 
-                    if (jsonData === '@Auth.NoAuth') window.location = '/';
+                        if (jsonData === '@Auth.NoAuth') window.location = '/';
 
                         if (jsonData.error) {
                             alert(jsonData.error);
                         } else {
-                            window.location.href = '/';
+                            window.location.reload();
                         }
                     });
                 });
 
+                setGmapLanguage('@CultureInfoTool.GetFirst2Culture()');
+                setGmapMarkers('@Model.Markers');
 
-            setGmapLanguage('@CultureInfoTool.GetFirst2Culture()');
-            setGmapMarkers('@Model.Markers');
-
-        });
+            });
         })(jQuery);
     </script>
 }
@@ -198,7 +204,7 @@ else
                         <div class="form-group">
                             <label for="password" class="col-sm-2 control-label">@Resource.Password</label>
                             <div class="col-sm-10">
-                                <input type="password" class="form-control" id="password" placeholder="@Resource.Password" />
+                                <input type="password" class="form-control" id="password" placeholder="@Resource.Password"/>
                             </div>
                         </div>
                         <div class="form-group">
@@ -269,13 +275,13 @@ else
                         <div class="form-group">
                             <label for="registerPassword" class="col-sm-2 control-label">@Resource.Password</label>
                             <div class="col-sm-10">
-                                <input type="password" class="form-control" id="registerPassword" placeholder="@Resource.Password" />
+                                <input type="password" class="form-control" id="registerPassword" placeholder="@Resource.Password"/>
                             </div>
                         </div>
                         <div class="form-group">
                             <label for="registerRepeatPassword" class="col-sm-2 control-label">@Resource.Password</label>
                             <div class="col-sm-10">
-                                <input type="password" class="form-control" id="registerRepeatPassword" placeholder="@Resource.Password" />
+                                <input type="password" class="form-control" id="registerRepeatPassword" placeholder="@Resource.Password"/>
                             </div>
                         </div>
                     </div>
@@ -291,78 +297,78 @@ else
     </div>
 
     <script language="javascript" type="text/javascript">
-    (function ($) {
-        $(function () {
-            var $LogInButton = $("#LogInButton");
-            $LogInButton.off('click');
-            $LogInButton.on('click', function () {
+        (function($) {
+            $(function() {
+                var $LogInButton = $("#LogInButton");
+                $LogInButton.off('click');
+                $LogInButton.on('click', function() {
 
-                $("#LogInModalWindow").modal('show');
+                    $("#LogInModalWindow").modal('show');
 
-            });
-            var $UseAnotherServiceToLogIn = $("#UseAnotherServiceToLogIn");
-            $UseAnotherServiceToLogIn.off('click');
-            $UseAnotherServiceToLogIn.on('click', function () {
-
-                $("#LogInModalWindow").modal('hide');
-                $("#LoginExternalModalWindow").modal('show');
-
-            });
-            var $RegisterButton = $("#RegisterButton");
-            $RegisterButton.off('click');
-            $RegisterButton.on('click', function () {
-
-                $("#LogInModalWindow").modal('hide');
-                $("#RegisterModalWindow").modal('show');
-
-            });
-
-            var $LoginButton = $("#LoginButton");
-            $LoginButton.off('click');
-            $LoginButton.on('click', function() {
-
-                $.post('/Account/LoginMain', {
-                    userName: $('#userName').val(),
-                    password: $('#password').val(),
-                    remember: $('#RememberMe').val()
-                }, function(jsonData) {
-                    if (jsonData.error) {
-                        alert(jsonData.error);
-                    } else {
-                        window.location.href = '/';
-                    }
                 });
-            });
+                var $UseAnotherServiceToLogIn = $("#UseAnotherServiceToLogIn");
+                $UseAnotherServiceToLogIn.off('click');
+                $UseAnotherServiceToLogIn.on('click', function() {
 
-            var $RegisterUserButton = $("#RegisterUserButton");
-            $RegisterUserButton.off('click');
-            $RegisterUserButton.on('click', function () {
+                    $("#LogInModalWindow").modal('hide');
+                    $("#LoginExternalModalWindow").modal('show');
 
-                $.post('/Account/Register', {
-                    userName: $('#registerUserName').val(),
-                    password: $('#registerPassword').val(),
-                    repeatPassword: $('#registerRepeatPassword').val()
-                }, function (jsonData) {
-                    if (jsonData.error) {
-                        alert(jsonData.error);
-                    } else {
-                        window.location.href = '/';
-                    }
                 });
-            });
-            
+                var $RegisterButton = $("#RegisterButton");
+                $RegisterButton.off('click');
+                $RegisterButton.on('click', function() {
 
-        });
-    })(jQuery);
+                    $("#LogInModalWindow").modal('hide');
+                    $("#RegisterModalWindow").modal('show');
+
+                });
+
+                var $LoginButton = $("#LoginButton");
+                $LoginButton.off('click');
+                $LoginButton.on('click', function() {
+
+                    $.post('/Account/LoginMain', {
+                        userName: $('#userName').val(),
+                        password: $('#password').val(),
+                        remember: $('#RememberMe').val()
+                    }, function(jsonData) {
+                        if (jsonData.error) {
+                            alert(jsonData.error);
+                        } else {
+                            window.location.href = '/';
+                        }
+                    });
+                });
+
+                var $RegisterUserButton = $("#RegisterUserButton");
+                $RegisterUserButton.off('click');
+                $RegisterUserButton.on('click', function() {
+
+                    $.post('/Account/Register', {
+                        userName: $('#registerUserName').val(),
+                        password: $('#registerPassword').val(),
+                        repeatPassword: $('#registerRepeatPassword').val()
+                    }, function(jsonData) {
+                        if (jsonData.error) {
+                            alert(jsonData.error);
+                        } else {
+                            window.location.href = '/';
+                        }
+                    });
+                });
+
+
+            });
+        })(jQuery);
     </script>
 }
-    @if (!Admin.IsDebug)
-    {
-        @Html.Partial("../Analytics/Yandex")
-        @Html.Partial("../Analytics/Google")
-        @Html.Partial("../Analytics/Rambler")
-        @Html.Partial("../Analytics/Openstat")
-        //Хочет много контента @Html.Partial("../Ads/Google")
-    }
+@if (!Admin.IsDebug)
+{
+    @Html.Partial("../Analytics/Yandex")
+    @Html.Partial("../Analytics/Google")
+    @Html.Partial("../Analytics/Rambler")
+    @Html.Partial("../Analytics/Openstat")
+    //Хочет много контента @Html.Partial("../Ads/Google")
+}
 </body>
 </html>

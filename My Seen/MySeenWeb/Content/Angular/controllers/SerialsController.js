@@ -20,7 +20,7 @@ App.controller('SerialsController', ['$scope', '$rootScope', '$state', '$statePa
       $scope.pageCanSearch = true;
 
       //На всякий случай закрою, может переход со страницы, где забыли закрыть модальную
-      $rootScope.closeModals();
+      $rootScope.clearControllers();
 
       //Перевод всех данных на тек. странице
       $scope.translation = {};
@@ -109,7 +109,7 @@ App.controller('SerialsController', ['$scope', '$rootScope', '$state', '$statePa
       };
       $scope.addModalHide = function () {
           $("#AddModalWindow").modal("hide");
-          $rootScope.closeModals();
+          $rootScope.clearControllers();
       };
       //в случае успеха закроем модальное и перезапросим данные, с первой страницы
       function afterAdd() {
@@ -136,7 +136,7 @@ App.controller('SerialsController', ['$scope', '$rootScope', '$state', '$statePa
               year: $scope.modal.year,
               season: $scope.modal.season,
               series: $scope.modal.series,
-              datetime: $('#modalFieldDateTime').val(),
+              datetime: $scope.modal.datetimeNow,
               genre: $scope.modal.genre,
               rating: $scope.modal.rating
           });
@@ -169,7 +169,7 @@ App.controller('SerialsController', ['$scope', '$rootScope', '$state', '$statePa
               year: $scope.modal.year,
               season: $scope.modal.season,
               series: $scope.modal.series,
-              datetime: $('#modalFieldDateTime').val(),
+              datetime: $scope.modal.datetimeNow,
               genre: $scope.modal.genre,
               rating: $scope.modal.rating
           });

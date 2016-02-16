@@ -13,7 +13,7 @@ namespace MySeenWeb.Models.Translations
         public string To = Resource.To;
         public string Day = Resource.Day;
         public string Last = Resource.Last;
-
+        public string Ready = Resource.Ready;
 
         public string Share = Resource.Share;
         public string Delete = Resource.Delete;

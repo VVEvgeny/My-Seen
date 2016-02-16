@@ -11,6 +11,7 @@ namespace MySeenWeb.Models
     {
         public IEnumerable<FilmsView> Data { get; set; }
         public PaginationViewModel Pages { get; set; }
+        public bool IsMyData { get; set; }
 
         public HomeViewModelFilms(string userId, int page, int countInPage, string search, string shareKey)
         {
@@ -34,6 +35,8 @@ namespace MySeenWeb.Models
                 .Skip(() => Pages.SkipRecords)
                 .Take(() => countInPage)
                 .Select(FilmsView.Map);
+
+            IsMyData = !string.IsNullOrEmpty(shareKey) && Data.Any() && Data.First().UserId == userId;
         }
     }
 }

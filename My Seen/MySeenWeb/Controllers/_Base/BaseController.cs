@@ -119,7 +119,7 @@ namespace MySeenWeb.Controllers._Base
                             userId = User.Identity.GetUserId();
                             var au = ac.Users.First(u => u.Id == userId);
                             ret = au.MarkersOnRoads;
-                            WriteUserSideStorage(UserSideStorageKeys.RecordPerPage, ret);
+                            WriteUserSideStorage(UserSideStorageKeys.MarkersOnRoads, ret);
                         }
                         catch
                         {

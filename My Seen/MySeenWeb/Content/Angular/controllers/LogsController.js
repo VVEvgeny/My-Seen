@@ -17,7 +17,7 @@ App.controller('LogsController', ['$scope', '$rootScope', '$state', '$stateParam
       //Показать ли поле ПОИСКа
       $scope.pageCanSearch = true;
       //На всякий случай закрою, может переход со страницы, где забыли закрыть модальную
-      $rootScope.closeModals();
+      $rootScope.clearControllers();
       //Перевод всех данных на тек. странице
       $scope.translation = {};
 

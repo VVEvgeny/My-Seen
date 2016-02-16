@@ -78,7 +78,27 @@
                     <div class="form-group" data-ng-show="modal.showCoordinates">
                         <label class="col-sm-2 control-label">{{translation.Coordinates}}</label>
                         <div class="col-sm-10">
-                            <textarea class="form-control track-coords" cols="55" name="trackCoords" placeholder="{{translation.Coordinates}}" rows="5" data-ng-model="modal.coordinates"></textarea>
+                            <textarea class="form-control track-coords" cols="55" placeholder="{{translation.Coordinates}}" rows="5" data-ng-model="modal.coordinates"></textarea>
+                        </div>
+                    </div>
+                    <div class="form-group" data-ng-show="modal.showDescription">
+                        <label class="col-sm-2 control-label">{{translation.Description}}</label>
+                        <div class="col-sm-10">
+                            <textarea class="form-control track-coords" cols="55" placeholder="{{translation.Description}}" rows="5" data-ng-model="modal.description"></textarea>
+                        </div>
+                    </div>
+                    <div class="form-group" data-ng-show="modal.showComplexTypes">
+                        <label class="col-sm-2 control-label">{{translation.Complex}}</label>
+                        <div class="col-sm-10">
+                            <select class="form-control input-sm" data-ng-model="modal.complexType">
+                                <option data-ng-repeat="type in prepared.SelectedListForAdd" data-ng-selected="modal.complexType == type.Value" value="{{type.Value}}">{{type.Text}}</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group" data-ng-show="modal.showVersion">
+                        <label for="bugVersion" class="col-sm-2 control-label">{{translation.Version}}</label>
+                        <div class="col-sm-10">
+                            <input type="number" class="form-control" id="bugVersion" placeholder="{{translation.Version}}" data-ng-model="modal.version">
                         </div>
                     </div>
                 </div>

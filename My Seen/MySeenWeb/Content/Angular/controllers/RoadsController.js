@@ -2,7 +2,7 @@ App.config(function ($stateProvider) {
 
     $stateProvider
         .state('roads', {
-            url: '/roads/?:year',
+            url: '/roads/?:year&search',
             templateUrl: "Content/Angular/templates/main_pages/roads.html",
             controller: 'RoadsController',
             reloadOnSearch: false
@@ -16,9 +16,10 @@ App.controller('RoadsController', ['$scope', '$rootScope', '$state', '$statePara
       var pageId = 3;
       //Показать ли кнопку ДОБАВИТЬ
       $scope.pageCanAdd = true;
-
+      //Показать ли поле ПОИСКа
+      $scope.pageCanSearch = true;
       //На всякий случай закрою, может переход со страницы, где забыли закрыть модальную
-      $rootScope.closeModals();
+      $rootScope.clearControllers();
 
       //Перевод всех данных на тек. странице
       $scope.translation = {};
@@ -59,7 +60,8 @@ App.controller('RoadsController', ['$scope', '$rootScope', '$state', '$statePara
           $rootScope.GetPage(constants.Pages.Main, $http, fillScope,
               {
                   pageId: pageId,
-                  year: ($stateParams ? $stateParams.year : null)
+                  year: ($stateParams ? $stateParams.year : null),
+                  search: ($stateParams ? $stateParams.search : null)
               });
       };
 
@@ -68,6 +70,16 @@ App.controller('RoadsController', ['$scope', '$rootScope', '$state', '$statePara
       $rootScope.GetPage(constants.Pages.Translation, $http, fillTranslation, { pageId: pageId });
       getMainPage();
 
+      ///////////////////////////////////////////////////////////////////////
+      ///////////////////////////////////////////////////////////////////////           ПОИСК
+      ///////////////////////////////////////////////////////////////////////
+      $scope.quickSearch = {};
+      $scope.quickSearch.text = $stateParams ? $stateParams.search : null;
+      $scope.searchButtonClick = function () {
+          $location.search('search', $scope.quickSearch.text !== '' ? $scope.quickSearch.text : null);
+          if ($stateParams) $stateParams.search = $scope.quickSearch.text !== '' ? $scope.quickSearch.text : null;
+          getMainPage();
+      };
       ///////////////////////////////////////////////////////////////////////
       ///////////////////////////////////////////////////////////////////////           Выбор года
       ///////////////////////////////////////////////////////////////////////
@@ -151,7 +163,7 @@ App.controller('RoadsController', ['$scope', '$rootScope', '$state', '$statePara
       };
       $scope.addModalHide = function () {
           $("#AddModalWindow").modal("hide");
-          $rootScope.closeModals();
+          $rootScope.clearControllers();
       };
       //в случае успеха закроем модальное и перезапросим данные, с первой страницы
       function afterAdd() {
@@ -171,7 +183,7 @@ App.controller('RoadsController', ['$scope', '$rootScope', '$state', '$statePara
               pageId: pageId,
               name: $scope.modal.name,
               type: $scope.modal.roadType,
-              datetime: $('#modalFieldDateTime').val(),
+              datetime: $scope.modal.datetimeNow,
               coordinates: $scope.modal.coordinates,
               distance: CalcDistanceFromTxt($scope.modal.coordinates)
           });
@@ -211,7 +223,7 @@ App.controller('RoadsController', ['$scope', '$rootScope', '$state', '$statePara
               id: getId($scope.editedIndex),
               name: $scope.modal.name,
               type: $scope.modal.roadType,
-              datetime: $('#modalFieldDateTime').val(),
+              datetime: $scope.modal.datetimeNow,
               coordinates: $scope.modal.coordinates,
               distance: CalcDistanceFromTxt($scope.modal.coordinates)
           });

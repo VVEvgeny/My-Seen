@@ -31,14 +31,16 @@ namespace MySeenWeb.Models.TablesLogic
             }
             return true;
         }
-        private bool Fill(string id, string desc, string version, string userId)
+        private bool Fill(string id, string text, string complex, string userId)
         {
             try
             {
                 Id = Convert.ToInt32(id);
-                TextEnd = desc;
-                DateEnd = UmtTime.To(DateTime.Now);
-                Version = Convert.ToInt32(version);
+                Text = text;
+                Complex = Convert.ToInt32(complex);
+                //TextEnd = desc;
+                //DateEnd = UmtTime.To(DateTime.Now);
+                //Version = Convert.ToInt32(version);
                 UserId = userId;
             }
             catch (Exception e)
@@ -56,7 +58,7 @@ namespace MySeenWeb.Models.TablesLogic
         {
             if (Id == 0 && string.IsNullOrEmpty(Text)) ErrorMessage = Resource.DescToShort;
             else if (Contains()) ErrorMessage = Resource.BugAlreadyExists;
-            else if (Id != 0 && string.IsNullOrEmpty(TextEnd)) ErrorMessage = Resource.DescToShort;
+            //else if (Id != 0 && string.IsNullOrEmpty(TextEnd)) ErrorMessage = Resource.DescToShort;
             else return true;
 
             return false;
@@ -80,9 +82,8 @@ namespace MySeenWeb.Models.TablesLogic
             try
             {
                 var elem = _ac.Bugs.First(f => f.Id == Id);
-                elem.TextEnd = TextEnd;
-                elem.DateEnd = DateEnd;
-                elem.Version = Version;
+                elem.Text = Text;
+                elem.Complex = Complex;
                 _ac.SaveChanges();
             }
             catch (Exception e)
@@ -96,9 +97,9 @@ namespace MySeenWeb.Models.TablesLogic
         {
             return Fill(text, complex, userId) && Verify() && Add();
         }
-        public bool Update(string id, string desc, string version, string userId)
+        public bool Update(string id, string text, string complex, string userId)
         {
-            return Fill(id, desc, version, userId) && Verify() && Update();
+            return Fill(id, text, complex, userId) && Verify() && Update();
         }
         public bool Delete(string id, string userId)
         {
@@ -106,6 +107,27 @@ namespace MySeenWeb.Models.TablesLogic
             {
                 Id = Convert.ToInt32(id);
                 _ac.Bugs.RemoveRange(_ac.Bugs.Where(b => b.Id == Id));
+                _ac.SaveChanges();
+            }
+            catch (Exception e)
+            {
+                ErrorMessage = Resource.ErrorWorkWithDB + "=" + e.Message;
+                return false;
+            }
+            return true;
+        }
+
+        public bool End(string id, string textEnd, string version, string userId)
+        {
+            try
+            {
+                Id = Convert.ToInt32(id);
+
+                var elem = _ac.Bugs.First(f => f.Id == Id);
+                elem.TextEnd = textEnd;
+                elem.DateEnd = DateTime.Now;
+                elem.Version = Convert.ToInt32(version);
+
                 _ac.SaveChanges();
             }
             catch (Exception e)

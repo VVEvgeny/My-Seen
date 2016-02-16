@@ -20,7 +20,7 @@ App.controller('FilmsController', ['$scope', '$rootScope', '$state', '$statePara
       $scope.pageCanSearch = true;
 
       //На всякий случай закрою, может переход со страницы, где забыли закрыть модальную
-      $rootScope.closeModals();
+      $rootScope.clearControllers();
 
       //Перевод всех данных на тек. странице
       $scope.translation = {};
@@ -105,7 +105,7 @@ App.controller('FilmsController', ['$scope', '$rootScope', '$state', '$statePara
       };
       $scope.addModalHide = function () {
           $("#AddModalWindow").modal("hide");
-          $rootScope.closeModals();
+          $rootScope.clearControllers();
       };
       //в случае успеха закроем модальное и перезапросим данные, с первой страницы
       function afterAdd() {
@@ -130,7 +130,7 @@ App.controller('FilmsController', ['$scope', '$rootScope', '$state', '$statePara
               pageId: pageId,
               name: $scope.modal.name,
               year: $scope.modal.year,
-              datetime: $('#modalFieldDateTime').val(),
+              datetime: $scope.modal.datetimeNow,
               genre: $scope.modal.genre,
               rating: $scope.modal.rating
           });
@@ -159,7 +159,7 @@ App.controller('FilmsController', ['$scope', '$rootScope', '$state', '$statePara
               id: $scope.data[$scope.editedIndex].Id,
               name: $scope.modal.name,
               year: $scope.modal.year,
-              datetime: $('#modalFieldDateTime').val(),
+              datetime: $scope.modal.datetimeNow,
               genre: $scope.modal.genre,
               rating: $scope.modal.rating
           });

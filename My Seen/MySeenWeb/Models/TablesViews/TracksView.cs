@@ -75,11 +75,12 @@ namespace MySeenWeb.Models.TablesViews
             {
                 //return ((int)(Distance / (CultureInfoTool.GetCulture() == CultureInfoTool.Cultures.English ? 1.66 : 1))).ToString() + " " + Resource.Km;
                 string distance = (Distance / (CultureInfoTool.GetCulture() == CultureInfoTool.Cultures.English ? 1.66 : 1)).ToString(CultureInfo.CurrentCulture);
-                if (distance.IndexOf(',') != -1)
+                char div = CultureInfoTool.GetCulture() == CultureInfoTool.Cultures.English ? '.' : ',';
+                if (distance.IndexOf(div) != -1)
                 {
-                    if (distance.Length > distance.IndexOf(',') + 4) distance = distance.Remove(distance.IndexOf(',') + 4);
-                    else if (distance.Length > distance.IndexOf(',') + 3) distance = distance.Remove(distance.IndexOf(',') + 3);
-                    else if (distance.Length > distance.IndexOf(',') + 2) distance = distance.Remove(distance.IndexOf(',') + 2);
+                    if (distance.Length > distance.IndexOf(div) + 4) distance = distance.Remove(distance.IndexOf(div) + 4);
+                    else if (distance.Length > distance.IndexOf(div) + 3) distance = distance.Remove(distance.IndexOf(div) + 3);
+                    else if (distance.Length > distance.IndexOf(div) + 2) distance = distance.Remove(distance.IndexOf(div) + 2);
                 }
                 return distance += " " + Resource.Km;
             }

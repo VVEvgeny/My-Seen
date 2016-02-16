@@ -20,7 +20,7 @@ App.controller('EventsController', ['$scope', '$rootScope', '$state', '$statePar
       $scope.pageCanSearch = true;
 
       //На всякий случай закрою, может переход со страницы, где забыли закрыть модальную
-      $rootScope.closeModals();
+      $rootScope.clearControllers();
 
       //Перевод всех данных на тек. странице
       $scope.translation = {};
@@ -46,9 +46,13 @@ App.controller('EventsController', ['$scope', '$rootScope', '$state', '$statePar
           $scope.translation.loaded = true;
       }
       //Основные данные
+      $rootScope.eventsInterval = '';
       function fillScope(page) {
           $scope.data = page.Data;
           $scope.pages = page.Pages;
+
+          clearInterval($rootScope.eventsInterval);
+          $rootScope.eventsInterval = setInterval(recalcEstimated, 1000);
       };
       function getMainPage() {
           $rootScope.GetPage(constants.Pages.Main, $http, fillScope
@@ -119,7 +123,7 @@ App.controller('EventsController', ['$scope', '$rootScope', '$state', '$statePar
       };
       $scope.addModalHide = function () {
           $("#AddModalWindow").modal("hide");
-          $rootScope.closeModals();
+          $rootScope.clearControllers();
       };
       //в случае успеха закроем модальное и перезапросим данные, с первой страницы
       function afterAdd() {
@@ -144,7 +148,7 @@ App.controller('EventsController', ['$scope', '$rootScope', '$state', '$statePar
               pageId: pageId,
               name: $scope.modal.name,
               type: $scope.modal.eventType,
-              datetime: $('#modalFieldDateTime').val()
+              datetime: $scope.modal.datetimeNow
           });
       };
       //Готовлю модальную для редактирования
@@ -169,7 +173,7 @@ App.controller('EventsController', ['$scope', '$rootScope', '$state', '$statePar
               id: $scope.data[$scope.editedIndex].Id,
               name: $scope.modal.name,
               type: $scope.modal.eventType,
-              datetime: $('#modalFieldDateTime').val()
+              datetime: $scope.modal.datetimeNow
           });
       };
       //Модальная хочет удалить данные
@@ -230,5 +234,23 @@ App.controller('EventsController', ['$scope', '$rootScope', '$state', '$statePar
           $scope.modalShare.deleteButton = false;
 
           $rootScope.GetPage(constants.Pages.GenerateShare, $http, getShareCallBack, { pageId: pageId, recordId: $scope.data[$scope.editedIndex].Id });
+      };
+      ///////////////////////////////////////////////////////////////////////
+      ///////////////////////////////////////////////////////////////////////           ТАЙМЕР
+      ///////////////////////////////////////////////////////////////////////
+      function recalcEstimated() {
+          $scope.$apply(function() {
+              // every changes goes here
+              if ($scope.data.length > 0) {
+                  for (var i = 0; i < $scope.data.length; i++) {
+                      if ($scope.data[i].EstimatedTo !== $scope.translation.Ready) {
+                          $scope.data[i].EstimatedTo = getTime($scope.data[i].EstimatedTo);
+                      }
+                      if ($scope.data[i].HaveHistory) {
+                          $scope.data[i].EstimatedLast = getTime($scope.data[i].EstimatedLast);
+                      }
+                  }
+              }
+          });
       };
   }]);
