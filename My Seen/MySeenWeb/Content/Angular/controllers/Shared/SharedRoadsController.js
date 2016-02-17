@@ -3,7 +3,7 @@ App.config(function($stateProvider) {
     $stateProvider
         .state('sharedRoads', {
             url: '/roads/shared/:key?search',
-            templateUrl: "Content/Angular/templates/shared_pages/roads.html",
+            templateUrl: "Content/Angular/templates/Shared/roads.html",
             controller: 'SharedRoadsController',
             reloadOnSearch: false
         });

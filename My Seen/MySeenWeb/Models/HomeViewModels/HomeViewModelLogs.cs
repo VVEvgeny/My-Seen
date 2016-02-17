@@ -10,12 +10,12 @@ namespace MySeenWeb.Models
     public class HomeViewModelLogs
     {
         public IEnumerable<LogsView> Data { get; set; }
-        public PaginationViewModel Pages { get; set; }
+        public Pagination Pages { get; set; }
 
         public HomeViewModelLogs(int page, int countInPage, string search)
         {
             var ac = new ApplicationDbContext();
-            Pages = new PaginationViewModel(page, ac.Logs.Count(f => (string.IsNullOrEmpty(search) || f.UserAgent.Contains(search))), countInPage);
+            Pages = new Pagination(page, ac.Logs.Count(f => (string.IsNullOrEmpty(search) || f.UserAgent.Contains(search))), countInPage);
             Data =
                 ac.Logs.AsNoTracking()
                     .Where(f => (string.IsNullOrEmpty(search) || f.UserAgent.Contains(search)))

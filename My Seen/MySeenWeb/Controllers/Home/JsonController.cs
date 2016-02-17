@@ -2,6 +2,7 @@
 using System.Web.Mvc;
 using Microsoft.AspNet.Identity;
 using MySeenLib;
+using MySeenWeb.ActionFilters;
 using MySeenWeb.Add_Code.Services.Logging.NLog;
 using MySeenWeb.Controllers._Base;
 using MySeenWeb.Models;
@@ -22,7 +23,6 @@ namespace MySeenWeb.Controllers.Home
             {
                 //Thread.Sleep(2000); //чтобы увидеть загрузку
             }
-
             var logger = new NLogLogger();
             const string methodName = "public JsonResult GetPage(int pageId, int? page, string search, int? ended, int? year, int? complex,string shareKey)";
             try
@@ -30,28 +30,44 @@ namespace MySeenWeb.Controllers.Home
                 switch (pageId)
                 {
                     case (int)Defaults.CategoryBase.Indexes.Films:
+                        if (!User.Identity.IsAuthenticated && string.IsNullOrEmpty(shareKey)) return new JsonResult { Data = new { success = false, error = Resource.NotAuthorized } };
                         return
                             Json(new HomeViewModelFilms(User.Identity.GetUserId(), page ?? 1, Rpp, search, shareKey));
                     case (int)Defaults.CategoryBase.Indexes.Serials:
+                        if (!User.Identity.IsAuthenticated && string.IsNullOrEmpty(shareKey)) return new JsonResult { Data = new { success = false, error = Resource.NotAuthorized } };
                         return Json(new HomeViewModelSerials(User.Identity.GetUserId(), page ?? 1, Rpp, search, shareKey));
                     case (int)Defaults.CategoryBase.Indexes.Books:
+                        if (!User.Identity.IsAuthenticated && string.IsNullOrEmpty(shareKey)) return new JsonResult { Data = new { success = false, error = Resource.NotAuthorized } };
                         return Json(new HomeViewModelBooks(User.Identity.GetUserId(), page ?? 1, Rpp, search, shareKey));
                     case (int)Defaults.CategoryBase.Indexes.Events:
+                        if (!User.Identity.IsAuthenticated && string.IsNullOrEmpty(shareKey)) return new JsonResult { Data = new { success = false, error = Resource.NotAuthorized } };
                         return
                             Json(new HomeViewModelEvents(User.Identity.GetUserId(), page ?? 1, Rpp, search, ended ?? 0, shareKey));
                     case (int)Defaults.CategoryBase.Indexes.Roads:
+                        if (!User.Identity.IsAuthenticated && string.IsNullOrEmpty(shareKey)) return new JsonResult { Data = new { success = false, error = Resource.NotAuthorized } };
                         return Json(new HomeViewModelRoads(User.Identity.GetUserId(), year ?? 0, search, shareKey));
                     case (int)Defaults.CategoryBase.IndexesExt.Improvements:
-                        return Json(new HomeViewModelImprovements(complex ?? (int)Defaults.ComplexBase.Indexes.All, page ?? 1, Rpp, search));
+                        if (!User.Identity.IsAuthenticated && string.IsNullOrEmpty(shareKey)) return new JsonResult { Data = new { success = false, error = Resource.NotAuthorized } };
+                        return
+                            Json(new HomeViewModelImprovements(User.Identity.Name, User.Identity.GetUserId(),
+                                complex ?? (int) Defaults.ComplexBase.Indexes.All, page ?? 1, Rpp, search, ended ?? 0));
                     case (int)Defaults.CategoryBase.IndexesExt.Users:
+                        if (!User.Identity.IsAuthenticated && string.IsNullOrEmpty(shareKey)) return new JsonResult { Data = new { success = false, error = Resource.NotAuthorized } };
+                        if (!Admin.IsAdmin(User.Identity.Name)) return new JsonResult { Data = new { success = false, error = Resource.NoRights } };
                         return Json(new HomeViewModelUsers(page ?? 1, Rpp, search));
                     case (int)Defaults.CategoryBase.IndexesExt.Errors:
+                        if (!User.Identity.IsAuthenticated && string.IsNullOrEmpty(shareKey)) return new JsonResult { Data = new { success = false, error = Resource.NotAuthorized } };
+                        if (!Admin.IsAdmin(User.Identity.Name)) return new JsonResult { Data = new { success = false, error = Resource.NoRights } };
                         return Json(new HomeViewModelErrors(page ?? 1, Rpp, search));
                     case (int)Defaults.CategoryBase.IndexesExt.Logs:
+                        if (!User.Identity.IsAuthenticated && string.IsNullOrEmpty(shareKey)) return new JsonResult { Data = new { success = false, error = Resource.NotAuthorized } };
+                        if (!Admin.IsAdmin(User.Identity.Name)) return new JsonResult { Data = new { success = false, error = Resource.NoRights } };
                         return Json(new HomeViewModelLogs(page ?? 1, Rpp, search));
                     case (int)Defaults.CategoryBase.IndexesExt.Settings:
+                        if (!User.Identity.IsAuthenticated && string.IsNullOrEmpty(shareKey)) return new JsonResult { Data = new { success = false, error = Resource.NotAuthorized } };
                         return Json(new HomeViewModelSettings(User.Identity.GetUserId()));
                 }
+                logger.Info("CALL NOT REALIZED GetPage=" + pageId);
                 return Json("NOT REALIZED");
             }
             catch (Exception ex)
@@ -82,6 +98,7 @@ namespace MySeenWeb.Controllers.Home
                     case (int)Defaults.CategoryBase.IndexesExt.Improvements:
                         return Json(new PreparedDataImprovements());
                 }
+                logger.Info("CALL NOT REALIZED GetPrepared=" + pageId);
                 return Json("NOT REALIZED");
             }
             catch (Exception ex)
@@ -109,10 +126,13 @@ namespace MySeenWeb.Controllers.Home
                     case (int) Defaults.CategoryBase.Indexes.Events:
                         return Json(new TranslationDataEvents());
                     case (int) Defaults.CategoryBase.IndexesExt.Users:
+                        if (!Admin.IsAdmin(User.Identity.Name)) return new JsonResult { Data = new { success = false, error = Resource.NoRights } };
                         return Json(new TranslationDataUsers());
                     case (int) Defaults.CategoryBase.IndexesExt.Logs:
+                        if (!Admin.IsAdmin(User.Identity.Name)) return new JsonResult { Data = new { success = false, error = Resource.NoRights } };
                         return Json(new TranslationDataLogs());
                     case (int)Defaults.CategoryBase.IndexesExt.Errors:
+                        if (!Admin.IsAdmin(User.Identity.Name)) return new JsonResult { Data = new { success = false, error = Resource.NoRights } };
                         return Json(new TranslationDataErrors());
                     case (int)Defaults.CategoryBase.Indexes.Roads:
                         return Json(new TranslationDataRoads());
@@ -121,6 +141,7 @@ namespace MySeenWeb.Controllers.Home
                     case (int)Defaults.CategoryBase.IndexesExt.Settings:
                         return Json(new TranslationDataSettings());
                 }
+                logger.Info("CALL NOT REALIZED GetTranslation=" + pageId);
                 return Json("NOT REALIZED");
             }
             catch (Exception ex)
@@ -156,6 +177,7 @@ namespace MySeenWeb.Controllers.Home
                         var roadsLogic = new RoadsLogic();
                         return Json(roadsLogic.GetShare(recordId, User.Identity.GetUserId()));
                 }
+                logger.Info("CALL NOT REALIZED GetShare=" + pageId);
             }
             catch (Exception ex)
             {
@@ -190,6 +212,7 @@ namespace MySeenWeb.Controllers.Home
                         var roadsLogic = new RoadsLogic();
                         return Json(roadsLogic.GenerateShare(recordId, User.Identity.GetUserId()));
                 }
+                logger.Info("CALL NOT REALIZED GenerateShare=" + pageId);
             }
             catch (Exception ex)
             {
@@ -224,6 +247,7 @@ namespace MySeenWeb.Controllers.Home
                         var roadsLogic = new RoadsLogic();
                         return Json(roadsLogic.DeleteShare(recordId, User.Identity.GetUserId()));
                 }
+                logger.Info("CALL NOT REALIZED DeleteShare=" + pageId);
             }
             catch (Exception ex)
             {
@@ -260,7 +284,7 @@ namespace MySeenWeb.Controllers.Home
                             ? new JsonResult {Data = new {success = false, error = booksLogic.ErrorMessage}}
                             : Json(new {success = true});
                     case (int)Defaults.CategoryBase.Indexes.Roads:
-                        var tracksLogic = new TracksLogic();
+                        var tracksLogic = new RoadsLogic();
                         return !tracksLogic.Add(name, datetime, type, coordinates, distance, User.Identity.GetUserId())
                             ? new JsonResult {Data = new {success = false, error = tracksLogic.ErrorMessage}}
                             : Json(new {success = true});
@@ -275,6 +299,7 @@ namespace MySeenWeb.Controllers.Home
                             ? new JsonResult { Data = new { success = false, error = improvementLogic.ErrorMessage } }
                             : Json(new {success = true});
                 }
+                logger.Info("CALL NOT REALIZED AddData=" + pageId);
                 return Json("NOT REALIZED");
             }
             catch (Exception ex)
@@ -310,7 +335,7 @@ namespace MySeenWeb.Controllers.Home
                             ? new JsonResult { Data = new { success = false, error = booksLogic.ErrorMessage } }
                             : Json(new { success = true });
                     case (int)Defaults.CategoryBase.Indexes.Roads:
-                        var tracksLogic = new TracksLogic();
+                        var tracksLogic = new RoadsLogic();
                         return !tracksLogic.Delete(recordId, User.Identity.GetUserId())
                             ? new JsonResult { Data = new { success = false, error = tracksLogic.ErrorMessage } }
                             : Json(new { success = true });
@@ -320,11 +345,13 @@ namespace MySeenWeb.Controllers.Home
                             ? new JsonResult { Data = new { success = false, error = eventsLogic.ErrorMessage } }
                             : Json(new { success = true });
                     case (int)Defaults.CategoryBase.IndexesExt.Improvements:
+                        if (!Admin.IsAdmin(User.Identity.Name)) return new JsonResult { Data = new { success = false, error = Resource.NoRights } };
                         var improvementsLogic = new ImprovementLogic();
                         return !improvementsLogic.Delete(recordId, User.Identity.GetUserId())
                             ? new JsonResult { Data = new { success = false, error = improvementsLogic.ErrorMessage } }
                             : Json(new { success = true });
                 }
+                logger.Info("CALL NOT REALIZED DeleteData=" + pageId);
                 return Json("NOT REALIZED");
             }
             catch (Exception ex)
@@ -361,7 +388,7 @@ namespace MySeenWeb.Controllers.Home
                             ? new JsonResult { Data = new { success = false, error = booksLogic.ErrorMessage } }
                             : Json(new { success = true });
                     case (int)Defaults.CategoryBase.Indexes.Roads:
-                        var tracksLogic = new TracksLogic();
+                        var tracksLogic = new RoadsLogic();
                         return !tracksLogic.Update(id, name, datetime, type, coordinates, distance, User.Identity.GetUserId())
                             ? new JsonResult { Data = new { success = false, error = tracksLogic.ErrorMessage } }
                             : Json(new { success = true });
@@ -371,11 +398,13 @@ namespace MySeenWeb.Controllers.Home
                             ? new JsonResult { Data = new { success = false, error = eventsLogic.ErrorMessage } }
                             : Json(new { success = true });
                     case (int)Defaults.CategoryBase.IndexesExt.Improvements:
+                        if (!Admin.IsAdmin(User.Identity.Name)) return new JsonResult { Data = new { success = false, error = Resource.NoRights } };
                         var improvementsLogic = new ImprovementLogic();
                         return !improvementsLogic.Update(id, name, type, User.Identity.GetUserId())
                             ? new JsonResult { Data = new { success = false, error = improvementsLogic.ErrorMessage } }
                             : Json(new { success = true });
                 }
+                logger.Info("CALL NOT REALIZED UpdateData=" + pageId);
                 return Json("NOT REALIZED");
             }
             catch (Exception ex)
@@ -386,9 +415,11 @@ namespace MySeenWeb.Controllers.Home
         }
 
         [Authorize]
+        [IsAdmin]
         [HttpPost]
         public JsonResult EndImprovement(string id, string name, string version)
         {
+            if (!Admin.IsAdmin(User.Identity.Name)) return new JsonResult { Data = new { success = false, error = Resource.NoRights } };
             var logger = new NLogLogger();
             var methodName = "public JsonResult EndImprovement(string recordId, string name,string version)";
             try

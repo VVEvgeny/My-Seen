@@ -1,13 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Globalization;
-using System.Linq;
 using MySeenLib;
 using MySeenWeb.Models.Tables;
 
 namespace MySeenWeb.Models.TablesViews
 {
-    public enum TrackTypes
+    public enum RoadTypes
     {
         Foot = 1,
         Car = 2,
@@ -28,13 +26,13 @@ namespace MySeenWeb.Models.TablesViews
             Longitude = longitude;
         }
     }
-    public class TracksView : Tracks
+    public class RoadsView : Tracks
     {
-        public static TracksView Map(Tracks model)
+        public static RoadsView Map(Tracks model)
         {
-            if (model == null) return new TracksView();
+            if (model == null) return new RoadsView();
 
-            return new TracksView
+            return new RoadsView
             {
                 Id = model.Id,
                 UserId = model.UserId,

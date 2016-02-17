@@ -18,11 +18,9 @@
     @Scripts.Render("~/bundles/modernizr")
     @Scripts.Render("~/bundles/jquery", "~/bundles/bootstrap")
     @Scripts.Render("~/bundles/jqueryval")
-    @Scripts.Render("~/bundles/myseen.table")
 
     @Scripts.Render("~/bundles/datetimepicker")
     @Styles.Render("~/Content/datetimepicker.css")
-
 
 
     <script src="~/Scripts/myseen/timer.js"></script>
@@ -43,30 +41,27 @@
 {
     if (Admin.IsAdmin(User.Identity.GetUserName()))
     {
-        <script src="~/Content/Angular/controllers/UsersController.js"></script>
-        <script src="~/Content/Angular/controllers/LogsController.js"></script>
-        <script src="~/Content/Angular/controllers/ErrorsController.js"></script>
+        <script src="~/Content/Angular/controllers/Admin/UsersController.js"></script>
+        <script src="~/Content/Angular/controllers/Admin/LogsController.js"></script>
+        <script src="~/Content/Angular/controllers/Admin/ErrorsController.js"></script>
     }
-    <script src="~/Content/Angular/controllers/SettingsController.js"></script>
+    <script src="~/Content/Angular/controllers/Main/SettingsController.js"></script>
+    <script src="~/Content/Angular/controllers/Main/ImprovementsController.js"></script>
 
-    <script src="~/Content/Angular/controllers/ImprovementsController.js"></script>
-
-    <script src="~/Content/Angular/controllers/FilmsController.js"></script>
-    <script src="~/Content/Angular/controllers/SerialsController.js"></script>
-    <script src="~/Content/Angular/controllers/BooksController.js"></script>
-    <script src="~/Content/Angular/controllers/EventsController.js"></script>
-    <script src="~/Content/Angular/controllers/RoadsController.js"></script>
+    <script src="~/Content/Angular/controllers/Main/FilmsController.js"></script>
+    <script src="~/Content/Angular/controllers/Main/SerialsController.js"></script>
+    <script src="~/Content/Angular/controllers/Main/BooksController.js"></script>
+    <script src="~/Content/Angular/controllers/Main/EventsController.js"></script>
+    <script src="~/Content/Angular/controllers/Main/RoadsController.js"></script>
 }
-    <script src="~/Content/Angular/controllers/HomeController.js"></script>
-    <script src="~/Content/Angular/controllers/AboutController.js"></script>
+    <script src="~/Content/Angular/controllers/Main/HomeController.js"></script>
+    <script src="~/Content/Angular/controllers/Main/AboutController.js"></script>
 
     <script src="~/Content/Angular/controllers/Shared/SharedFilmsController.js"></script>
     <script src="~/Content/Angular/controllers/Shared/SharedSerialsController.js"></script>
     <script src="~/Content/Angular/controllers/Shared/SharedBooksController.js"></script>
     <script src="~/Content/Angular/controllers/Shared/SharedEventsController.js"></script>
     <script src="~/Content/Angular/controllers/Shared/SharedRoadsController.js"></script>
-    
-
 
 </head>
 <body>

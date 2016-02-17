@@ -3,7 +3,7 @@ App.config(function($stateProvider) {
     $stateProvider
         .state('serialsFilms', {
             url: '/serials/shared/:key?page&search',
-            templateUrl: "Content/Angular/templates/shared_pages/serials.html",
+            templateUrl: "Content/Angular/templates/Shared/serials.html",
             controller: 'SharedSerialsController',
             reloadOnSearch: false
         });

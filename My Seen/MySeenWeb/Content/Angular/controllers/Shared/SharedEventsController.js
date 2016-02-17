@@ -3,7 +3,7 @@ App.config(function($stateProvider) {
     $stateProvider
         .state('sharedEvents', {
             url: '/events/shared/:key?page&search&ended',
-            templateUrl: "Content/Angular/templates/shared_pages/events.html",
+            templateUrl: "Content/Angular/templates/Shared/events.html",
             controller: 'SharedEventsController',
             reloadOnSearch: false
         });

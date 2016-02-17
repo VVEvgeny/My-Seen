@@ -3,7 +3,7 @@ App.config(function($stateProvider) {
     $stateProvider
         .state('sharedBooks', {
             url: '/books/shared/:key?page&search',
-            templateUrl: "Content/Angular/templates/shared_pages/books.html",
+            templateUrl: "Content/Angular/templates/Shared/books.html",
             controller: 'SharedBooksController',
             reloadOnSearch: false
         });

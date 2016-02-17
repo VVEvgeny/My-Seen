@@ -6,10 +6,8 @@ namespace MySeenWeb.Models.TablesLogic
     public class UserLogic : ApplicationUser
     {
         private readonly ApplicationDbContext _ac;
-        public string ErrorMessage;
         public UserLogic()
         {
-            ErrorMessage = string.Empty;
             _ac = new ApplicationDbContext();
         }
 

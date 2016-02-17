@@ -1,26 +1,23 @@
 App.config(function ($stateProvider) {
 
     $stateProvider
-        .state('users', {
-            url: '/users/?:page&search',
-            templateUrl: "Content/Angular/templates/administrative/users.html",
-            controller: 'UsersController',
+        .state('logs', {
+            url: '/logs/?:page&search',
+            templateUrl: "Content/Angular/templates/Admin/logs.html",
+            controller: 'LogsController',
             reloadOnSearch: false
         });
 });
 
-App.controller('UsersController', ['$scope', '$rootScope', '$state', '$stateParams', '$http', '$location', 'Constants',
+App.controller('LogsController', ['$scope', '$rootScope', '$state', '$stateParams', '$http', '$location', 'Constants',
   function ($scope, $rootScope, $state, $stateParams, $http, $location, constants) {
 
       //Индекс страницы, для запросов к серверу
-      var pageId = 101;
-
+      var pageId = 102;
       //Показать ли поле ПОИСКа
       $scope.pageCanSearch = true;
-
       //На всякий случай закрою, может переход со страницы, где забыли закрыть модальную
       $rootScope.clearControllers();
-
       //Перевод всех данных на тек. странице
       $scope.translation = {};
 
@@ -64,5 +61,4 @@ App.controller('UsersController', ['$scope', '$rootScope', '$state', '$statePara
           if ($stateParams) $stateParams.page = page > 1 ? page : null;
           getMainPage();
       }
-
   }]);

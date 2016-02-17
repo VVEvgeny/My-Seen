@@ -54,7 +54,10 @@ App.config(function($stateProvider, $urlRouterProvider) {
         SetMor: '/Settings/SetMor/',
         SetVkService: '/Settings/SetVkService/',
         SetGoogleService: '/Settings/SetGoogleService/',
-        SetFacebookService: '/Settings/SetFacebookService/'
+        SetFacebookService: '/Settings/SetFacebookService/',
+        SetPassword: '/Settings/SetPassword/',
+        GetLogins: '/Settings/GetLogins/',
+        RemoveLogin: '/Settings/RemoveLogin/'
     }
 });
 

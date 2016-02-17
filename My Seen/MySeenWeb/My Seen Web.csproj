@@ -191,7 +191,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ActionFilters\BrowserActionFilter.cs" />
+    <Compile Include="ActionFilters\IsAdmin.cs" />
     <Compile Include="Add_Code\Auths.cs" />
     <Compile Include="Add_Code\Services\Logging\LogUtility.cs" />
     <Compile Include="Add_Code\Services\Logging\ILogger.cs" />
@@ -212,7 +212,6 @@
     <Compile Include="Controllers\Others\BrowserFilterController.cs" />
     <Compile Include="Controllers\Home\SettingsController.cs" />
     <Compile Include="Controllers\Home\HomeController.cs" />
-    <Compile Include="Controllers\Account\ManageController.cs" />
     <Compile Include="Controllers\Api\ApiSyncController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -362,9 +361,7 @@
     <Compile Include="Models\HomeViewModels\Translations\TranslationDataSerials.cs" />
     <Compile Include="Models\HomeViewModels\Translations\TranslationDataFilms.cs" />
     <Compile Include="Models\HomeViewModels\Prepared\PreparedDataFilms.cs" />
-    <Compile Include="Models\HomeViewModels\HomeViewModelPreload.cs" />
     <Compile Include="Models\HomeViewModels\HomeViewModelSettings.cs" />
-    <Compile Include="Models\HomeViewModels\HomeViewModelLayout.cs" />
     <Compile Include="Models\HomeViewModels\HomeViewModelErrors.cs" />
     <Compile Include="Models\OtherViewModels\AccountViewModels.cs" />
     <Compile Include="Models\HomeViewModels\HomeViewModelEvents.cs" />
@@ -373,7 +370,6 @@
     <Compile Include="Models\TablesLogic\EventsLogic.cs" />
     <Compile Include="Models\TablesLogic\BooksLogic.cs" />
     <Compile Include="Models\TablesLogic\NLogErrorsLogic.cs" />
-    <Compile Include="Models\TablesLogic\TracksLogic.cs" />
     <Compile Include="Models\TablesLogic\ImprovementLogic.cs" />
     <Compile Include="Models\TablesLogic\SerialsLogic.cs" />
     <Compile Include="Models\TablesLogic\FilmsLogic.cs" />
@@ -392,10 +388,9 @@
     <Compile Include="Models\HomeViewModels\HomeViewModelBooks.cs" />
     <Compile Include="Models\HomeViewModels\HomeViewModelSerials.cs" />
     <Compile Include="Models\HomeViewModels\HomeViewModelFilms.cs" />
-    <Compile Include="Models\Tools\RatingGenreViewModel.cs" />
     <Compile Include="Models\Tables\Tracks.cs" />
-    <Compile Include="Models\TablesViews\TracksView.cs" />
-    <Compile Include="Models\Tools\PaginationViewModel.cs" />
+    <Compile Include="Models\TablesViews\RoadsView.cs" />
+    <Compile Include="Models\Tools\Pagination.cs" />
     <Compile Include="Models\HomeViewModels\HomeViewModelLogs.cs" />
     <Compile Include="Models\HomeViewModels\HomeViewModelImprovements.cs" />
     <Compile Include="Models\TablesViews\LogsView.cs" />
@@ -409,43 +404,42 @@
     <Compile Include="Models\HomeViewModels\HomeViewModel.cs" />
     <Compile Include="Models\Tables\Films.cs" />
     <Compile Include="Models\OtherViewModels\IdentityModels.cs" />
-    <Compile Include="Models\OtherViewModels\ManageViewModels.cs" />
     <Compile Include="Models\Tables\Serials.cs" />
     <Compile Include="Models\TablesViews\UsersView.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Content\Angular\controllers\ErrorsController.js" />
-    <Content Include="Content\Angular\controllers\RoadsController.js" />
-    <Content Include="Content\Angular\controllers\SettingsController.js" />
-    <Content Include="Content\Angular\controllers\LogsController.js" />
+    <Content Include="Content\Angular\controllers\Admin\ErrorsController.js" />
+    <Content Include="Content\Angular\controllers\Main\RoadsController.js" />
+    <Content Include="Content\Angular\controllers\Main\SettingsController.js" />
+    <Content Include="Content\Angular\controllers\Admin\LogsController.js" />
     <Content Include="Content\Angular\controllers\Shared\SharedEventsController.js" />
     <Content Include="Content\Angular\controllers\Shared\SharedBooksController.js" />
     <Content Include="Content\Angular\controllers\Shared\SharedRoadsController.js" />
     <Content Include="Content\Angular\controllers\Shared\SharedSerialsController.js" />
     <Content Include="Content\Angular\controllers\Shared\SharedFilmsController.js" />
-    <Content Include="Content\Angular\controllers\UsersController.js" />
-    <Content Include="Content\Angular\controllers\ImprovementsController.js" />
-    <Content Include="Content\Angular\controllers\EventsController.js" />
-    <Content Include="Content\Angular\controllers\BooksController.js" />
-    <Content Include="Content\Angular\controllers\AboutController.js" />
-    <Content Include="Content\Angular\controllers\HomeController.js" />
-    <Content Include="Content\Angular\templates\main_pages\roads.html" />
-    <Content Include="Content\Angular\templates\main_pages\settings.html" />
-    <Content Include="Content\Angular\templates\main_pages\books.html" />
-    <Content Include="Content\Angular\templates\main_pages\events.html" />
-    <Content Include="Content\Angular\templates\main_pages\about.html" />
-    <Content Include="Content\Angular\templates\administrative\errors.html" />
-    <Content Include="Content\Angular\templates\administrative\logs.html" />
-    <Content Include="Content\Angular\templates\administrative\users.html" />
-    <Content Include="Content\Angular\templates\main_pages\improvements.html" />
-    <Content Include="Content\Angular\templates\main_pages\home.html" />
-    <Content Include="Content\Angular\templates\shared_pages\books.html" />
-    <Content Include="Content\Angular\templates\shared_pages\events.html" />
-    <Content Include="Content\Angular\templates\shared_pages\films.html" />
-    <Content Include="Content\Angular\templates\shared_pages\roads.html" />
-    <Content Include="Content\Angular\templates\shared_pages\serials.html" />
+    <Content Include="Content\Angular\controllers\Admin\UsersController.js" />
+    <Content Include="Content\Angular\controllers\Main\ImprovementsController.js" />
+    <Content Include="Content\Angular\controllers\Main\EventsController.js" />
+    <Content Include="Content\Angular\controllers\Main\BooksController.js" />
+    <Content Include="Content\Angular\controllers\Main\AboutController.js" />
+    <Content Include="Content\Angular\controllers\Main\HomeController.js" />
+    <Content Include="Content\Angular\templates\Main\roads.html" />
+    <Content Include="Content\Angular\templates\Main\settings.html" />
+    <Content Include="Content\Angular\templates\Main\books.html" />
+    <Content Include="Content\Angular\templates\Main\events.html" />
+    <Content Include="Content\Angular\templates\Main\about.html" />
+    <Content Include="Content\Angular\templates\Admin\errors.html" />
+    <Content Include="Content\Angular\templates\Admin\logs.html" />
+    <Content Include="Content\Angular\templates\Admin\users.html" />
+    <Content Include="Content\Angular\templates\Main\improvements.html" />
+    <Content Include="Content\Angular\templates\Main\home.html" />
+    <Content Include="Content\Angular\templates\Shared\books.html" />
+    <Content Include="Content\Angular\templates\Shared\events.html" />
+    <Content Include="Content\Angular\templates\Shared\films.html" />
+    <Content Include="Content\Angular\templates\Shared\roads.html" />
+    <Content Include="Content\Angular\templates\Shared\serials.html" />
     <Content Include="Content\Angular\templates\tools\modal-share.html" />
     <Content Include="Content\bootstrap-datetimepicker.css" />
     <Content Include="Content\bootstrap-datetimepicker.min.css" />
@@ -1438,21 +1432,20 @@
     <Content Include="Scripts\moment-with-locales.min.js" />
     <Content Include="Scripts\moment.js" />
     <Content Include="Scripts\moment.min.js" />
-    <Content Include="Content\Angular\controllers\SerialsController.js" />
-    <Content Include="Content\Angular\controllers\FilmsController.js" />
+    <Content Include="Content\Angular\controllers\Main\SerialsController.js" />
+    <Content Include="Content\Angular\controllers\Main\FilmsController.js" />
     <Content Include="Content\Angular\app\app.js" />
     <Content Include="Content\Angular\templates\tools\loading.html" />
     <Content Include="Content\Angular\templates\tools\add-search-buttons.html" />
     <Content Include="Content\Angular\templates\tools\modal-add-edit.html" />
-    <Content Include="Content\Angular\templates\main_pages\serials.html" />
-    <Content Include="Content\Angular\templates\main_pages\films.html" />
+    <Content Include="Content\Angular\templates\Main\serials.html" />
+    <Content Include="Content\Angular\templates\Main\films.html" />
     <Content Include="Scripts\myseen\gmap.tools.js" />
     <Content Include="Scripts\myseen\gmap3menu.js" />
     <Content Include="Scripts\myseen\gmap.editor.js" />
     <Content Include="Scripts\myseen\gmap.js" />
     <Content Include="Scripts\myseen\jQueryToAngular.js" />
     <Content Include="Scripts\myseen\timer.js" />
-    <Content Include="Scripts\myseen\table.js" />
     <Content Include="Scripts\jquery-2.2.0.min.map" />
     <None Include="Scripts\jquery.validate-vsdoc.js" />
     <Content Include="Scripts\jquery-ui-1.11.4.js" />
@@ -1514,7 +1507,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Content\Angular\controllers\tools\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config">

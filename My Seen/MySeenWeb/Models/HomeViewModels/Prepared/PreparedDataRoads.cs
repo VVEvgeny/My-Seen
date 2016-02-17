@@ -23,19 +23,19 @@ namespace MySeenWeb.Models.Prepared
                 new SelectListItem
                 {
                     Text = Resource.Foot,
-                    Value = ((int) TrackTypes.Foot).ToString(),
+                    Value = ((int) RoadTypes.Foot).ToString(),
                     Selected = true
                 },
                 new SelectListItem
                 {
                     Text = Resource.Car,
-                    Value = ((int) TrackTypes.Car).ToString(),
+                    Value = ((int) RoadTypes.Car).ToString(),
                     Selected = false
                 },
                 new SelectListItem
                 {
                     Text = Resource.Bike,
-                    Value = ((int) TrackTypes.Bike).ToString(),
+                    Value = ((int) RoadTypes.Bike).ToString(),
                     Selected = false
                 }
             };

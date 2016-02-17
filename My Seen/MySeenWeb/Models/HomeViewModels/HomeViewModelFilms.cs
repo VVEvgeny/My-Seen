@@ -10,14 +10,14 @@ namespace MySeenWeb.Models
     public class HomeViewModelFilms
     {
         public IEnumerable<FilmsView> Data { get; set; }
-        public PaginationViewModel Pages { get; set; }
+        public Pagination Pages { get; set; }
         public bool IsMyData { get; set; }
 
         public HomeViewModelFilms(string userId, int page, int countInPage, string search, string shareKey)
         {
             var ac = new ApplicationDbContext();
 
-            Pages = new PaginationViewModel(page,
+            Pages = new Pagination(page,
                 ac.Films.Count(f =>
                     ((string.IsNullOrEmpty(shareKey) && f.UserId == userId)
                      ||

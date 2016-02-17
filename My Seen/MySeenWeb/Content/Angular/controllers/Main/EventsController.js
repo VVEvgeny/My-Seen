@@ -1,19 +1,19 @@
 App.config(function ($stateProvider) {
 
     $stateProvider
-        .state('serials', {
-            url: '/serials/?:page&search',
-            templateUrl: "Content/Angular/templates/main_pages/serials.html",
-            controller: 'SerialsController',
+        .state('events', {
+            url: '/events/?:page&search&ended',
+            templateUrl: "Content/Angular/templates/Main/events.html",
+            controller: 'EventsController',
             reloadOnSearch: false
         });
 });
 
-App.controller('SerialsController', ['$scope', '$rootScope', '$state', '$stateParams', '$http', '$location', 'Constants',
+App.controller('EventsController', ['$scope', '$rootScope', '$state', '$stateParams', '$http', '$location', 'Constants',
   function ($scope, $rootScope, $state, $stateParams, $http, $location, constants) {
 
       //Индекс страницы, для запросов к серверу
-      var pageId = 1;
+      var pageId = 4;
       //Показать ли кнопку ДОБАВИТЬ
       $scope.pageCanAdd = true;
       //Показать ли поле ПОИСКа
@@ -29,12 +29,8 @@ App.controller('SerialsController', ['$scope', '$rootScope', '$state', '$statePa
       //Модальная добавления/редактирования Указываем какие поля будем видеть
       $scope.modal = {
           showName: true,
-          showYear: true,
-          showSeason: true,
-          showSeries: true,
           showWhen: true,
-          showGenre: true,
-          showRating: true
+          showEventTypes: true
       };
       //Модальная доступа
       $scope.modalShare = {};
@@ -50,12 +46,21 @@ App.controller('SerialsController', ['$scope', '$rootScope', '$state', '$statePa
           $scope.translation.loaded = true;
       }
       //Основные данные
+      $rootScope.eventsInterval = '';
       function fillScope(page) {
           $scope.data = page.Data;
           $scope.pages = page.Pages;
+
+          clearInterval($rootScope.eventsInterval);
+          $rootScope.eventsInterval = setInterval(recalcEstimated, 1000);
       };
       function getMainPage() {
-          $rootScope.GetPage(constants.Pages.Main, $http, fillScope, { pageId: pageId, page: ($stateParams ? $stateParams.page : null), search: ($stateParams ? $stateParams.search : null) });
+          $rootScope.GetPage(constants.Pages.Main, $http, fillScope
+              , {
+                  pageId: pageId, page: ($stateParams ? $stateParams.page : null),
+                  search: ($stateParams ? $stateParams.search : null),
+                  ended: ($stateParams ? $stateParams.ended : null)
+              });
       };
 
       //Сразу 3 запроса на сервер, далее будет только запросы по новым данным и на добавление/изменение
@@ -63,6 +68,19 @@ App.controller('SerialsController', ['$scope', '$rootScope', '$state', '$statePa
       $rootScope.GetPage(constants.Pages.Translation, $http, fillTranslation, { pageId: pageId });
       getMainPage();
 
+      ///////////////////////////////////////////////////////////////////////
+      ///////////////////////////////////////////////////////////////////////           ТИП СОБЫИТЯ
+      ///////////////////////////////////////////////////////////////////////
+      $scope.eventSelect = $stateParams ? $stateParams.ended ? $stateParams.ended : '0' : '0';
+      $scope.selectedChange = function() {
+          $location.search('page', null);
+          $location.search('ended', $scope.eventSelect === '0' ? null : $scope.eventSelect);
+          if ($stateParams) {
+              $stateParams.page = null;
+              $stateParams.ended = $scope.eventSelect === '0' ? null : $scope.eventSelect;
+          }
+          getMainPage();
+      };
       ///////////////////////////////////////////////////////////////////////
       ///////////////////////////////////////////////////////////////////////           ПОИСК
       ///////////////////////////////////////////////////////////////////////
@@ -80,11 +98,11 @@ App.controller('SerialsController', ['$scope', '$rootScope', '$state', '$statePa
       ///////////////////////////////////////////////////////////////////////
       //Не использую перехода по состояниям, они перезагружают контроллер, а так у меня в настройках для контролера стоит reloadOnSearch: false      
       $scope.pagination = {};
-      $scope.pagination.goToPage = function (page) {
+      $scope.pagination.goToPage = function(page) {
           $location.search('page', page > 1 ? page : null);
           if ($stateParams) $stateParams.page = page > 1 ? page : null;
           getMainPage();
-      }
+      };
       ///////////////////////////////////////////////////////////////////////
       ///////////////////////////////////////////////////////////////////////           МОДАЛЬНАЯ ДОБАВЛЕНИЯ / РЕДАКТИРОВАНИЯ
       ///////////////////////////////////////////////////////////////////////
@@ -93,12 +111,8 @@ App.controller('SerialsController', ['$scope', '$rootScope', '$state', '$statePa
       $scope.addModalOpen = function () {
           $scope.modal.title = $scope.translation.TitleAdd;
           $scope.modal.name = '';
-          $scope.modal.year = $scope.prepared.Year;
-          $scope.modal.season = '';
-          $scope.modal.series = '';
           $scope.modal.datetimeNow = $scope.prepared.DateTimeNow;
-          if ($scope.modal.genre !== $scope.prepared.GenreList[0].Value) $scope.modal.genre = $scope.prepared.GenreList[0].Value;
-          if ($scope.modal.rating !== $scope.prepared.RatingList[0].Value) $scope.modal.rating = $scope.prepared.RatingList[0].Value;
+          if ($scope.modal.eventType !== $scope.prepared.TypeList[0].Value) $scope.modal.eventType = $scope.prepared.TypeList[0].Value;
 
           $scope.modal.addButton = true;
           $scope.modal.shareButton = false;
@@ -133,12 +147,8 @@ App.controller('SerialsController', ['$scope', '$rootScope', '$state', '$statePa
           $rootScope.GetPage(constants.Pages.Add, $http, afterAdd, {
               pageId: pageId,
               name: $scope.modal.name,
-              year: $scope.modal.year,
-              season: $scope.modal.season,
-              series: $scope.modal.series,
-              datetime: $scope.modal.datetimeNow,
-              genre: $scope.modal.genre,
-              rating: $scope.modal.rating
+              type: $scope.modal.eventType,
+              datetime: $scope.modal.datetimeNow
           });
       };
       //Готовлю модальную для редактирования
@@ -146,12 +156,8 @@ App.controller('SerialsController', ['$scope', '$rootScope', '$state', '$statePa
           $scope.editedIndex = id;
           $scope.modal.title = $scope.translation.TitleEdit;
           $scope.modal.name = $scope.data[id].Name;
-          $scope.modal.year = $scope.data[id].Year === 0 ? null : $scope.data[id].Year;
-          $scope.modal.season = $scope.data[id].LastSeason;
-          $scope.modal.series = $scope.data[id].LastSeries;
-          $scope.modal.datetimeNow = $scope.data[id].DateBeginText;
-          if (parseInt($scope.modal.genre) !== parseInt($scope.data[id].Genre)) $scope.modal.genre = $scope.data[id].Genre;
-          if (parseInt($scope.modal.rating) !== parseInt($scope.data[id].Rating)) $scope.modal.rating = $scope.data[id].Rating;
+          $scope.modal.datetimeNow = $scope.data[id].DateText;
+          if (parseInt($scope.modal.eventType) !== parseInt($scope.data[id].RepeatType)) $scope.modal.eventType = $scope.data[id].RepeatType;
 
           $scope.modal.shareButton = true;
           $scope.modal.deleteButton = true;
@@ -166,12 +172,8 @@ App.controller('SerialsController', ['$scope', '$rootScope', '$state', '$statePa
               pageId: pageId,
               id: $scope.data[$scope.editedIndex].Id,
               name: $scope.modal.name,
-              year: $scope.modal.year,
-              season: $scope.modal.season,
-              series: $scope.modal.series,
-              datetime: $scope.modal.datetimeNow,
-              genre: $scope.modal.genre,
-              rating: $scope.modal.rating
+              type: $scope.modal.eventType,
+              datetime: $scope.modal.datetimeNow
           });
       };
       //Модальная хочет удалить данные
@@ -232,5 +234,23 @@ App.controller('SerialsController', ['$scope', '$rootScope', '$state', '$statePa
           $scope.modalShare.deleteButton = false;
 
           $rootScope.GetPage(constants.Pages.GenerateShare, $http, getShareCallBack, { pageId: pageId, recordId: $scope.data[$scope.editedIndex].Id });
+      };
+      ///////////////////////////////////////////////////////////////////////
+      ///////////////////////////////////////////////////////////////////////           ТАЙМЕР
+      ///////////////////////////////////////////////////////////////////////
+      function recalcEstimated() {
+          $scope.$apply(function() {
+              // every changes goes here
+              if ($scope.data.length > 0) {
+                  for (var i = 0; i < $scope.data.length; i++) {
+                      if ($scope.data[i].EstimatedTo !== $scope.translation.Ready) {
+                          $scope.data[i].EstimatedTo = getTime($scope.data[i].EstimatedTo);
+                      }
+                      if ($scope.data[i].HaveHistory) {
+                          $scope.data[i].EstimatedLast = getTime($scope.data[i].EstimatedLast);
+                      }
+                  }
+              }
+          });
       };
   }]);

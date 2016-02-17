@@ -3,7 +3,7 @@ App.config(function($stateProvider) {
     $stateProvider
         .state('films', {
             url: '/films/?:page&search',
-            templateUrl: "Content/Angular/templates/main_pages/films.html",
+            templateUrl: "Content/Angular/templates/Main/films.html",
             controller: 'FilmsController',
             reloadOnSearch: false
         });

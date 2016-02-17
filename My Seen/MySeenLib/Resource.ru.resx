@@ -831,4 +831,25 @@
   <data name="VkServices" xml:space="preserve">
     <value>Сервисы ВК</value>
   </data>
+  <data name="NoRights" xml:space="preserve">
+    <value>Нет прав</value>
+  </data>
+  <data name="State" xml:space="preserve">
+    <value>Состояние</value>
+  </data>
+  <data name="NotAuthorized" xml:space="preserve">
+    <value>Не авторизован</value>
+  </data>
+  <data name="RepeatPassword" xml:space="preserve">
+    <value>Повтор пароля</value>
+  </data>
+  <data name="DisabledServices" xml:space="preserve">
+    <value>Возможные</value>
+  </data>
+  <data name="EnabledServices" xml:space="preserve">
+    <value>Подключенные</value>
+  </data>
+  <data name="Service" xml:space="preserve">
+    <value>Сервис</value>
+  </data>
 </root>

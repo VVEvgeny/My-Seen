@@ -8,7 +8,7 @@ using MySeenWeb.Models.TablesViews;
 
 namespace MySeenWeb.Models.TablesLogic
 {
-    public class RoadsLogic : Events
+    public class RoadsLogic : Tracks
     {
         private readonly ApplicationDbContext _ac;
         public string ErrorMessage;
@@ -17,7 +17,113 @@ namespace MySeenWeb.Models.TablesLogic
             ErrorMessage = string.Empty;
             _ac = new ApplicationDbContext();
         }
-        
+        private bool Fill(string name, string datetime, string type, string coordinates, string distance, string userId)
+        {
+            try
+            {
+                Name = name;
+                Date = UmtTime.To(Convert.ToDateTime(datetime));
+                Type = Convert.ToInt32(type);
+                Coordinates = coordinates;
+                if (distance.Contains('.')) distance = distance.Remove(distance.IndexOf('.'));//Только кол-во КМ запишем
+                Distance = Convert.ToDouble(distance);
+                UserId = userId;
+            }
+            catch (Exception e)
+            {
+                ErrorMessage = e.Message;
+                return false;
+            }
+            return true;
+        }
+        private bool Fill(string id, string name, string datetime, string type, string coordinates, string distance, string userId)
+        {
+            try
+            {
+                Id = Convert.ToInt32(id);
+            }
+            catch (Exception e)
+            {
+                ErrorMessage = e.Message;
+                return false;
+            }
+            return Fill(name, datetime, type, coordinates, distance, userId);
+        }
+
+        private bool Verify()
+        {
+            if (string.IsNullOrEmpty(Name)) ErrorMessage = Resource.ShortName;
+            else if (Coordinates.Length == 0) ErrorMessage = Resource.NoCoordinates;
+            else if (Distance == 0) ErrorMessage = Resource.ErrorCalculating;
+            else return true;
+            return false;
+        }
+
+        private bool Add()
+        {
+            try
+            {
+                _ac.Tracks.Add(this);
+                _ac.SaveChanges();
+            }
+            catch (Exception e)
+            {
+                ErrorMessage = Resource.ErrorWorkWithDB + "=" + e.Message;
+                return false;
+            }
+            return true;
+        }
+
+        private bool Update()
+        {
+            try
+            {
+                var elem = _ac.Tracks.First(t => t.Id == Id && t.UserId == UserId);
+                elem.Name = Name;
+                elem.Type = Type;
+                elem.Coordinates = Coordinates;
+                elem.Date = Date;
+                elem.Distance = Distance;
+                _ac.SaveChanges();
+            }
+            catch (Exception e)
+            {
+                ErrorMessage = Resource.ErrorWorkWithDB + "=" + e.Message;
+                return false;
+            }
+            return true;
+        }
+        public bool Add(string name, string datetime, string type, string coordinates, string distance, string userId)
+        {
+            return Fill(name, datetime, type, coordinates, distance, userId) && Verify() && Add();
+        }
+        public bool Update(string id, string name, string datetime, string type, string coordinates, string distance, string userId)
+        {
+            return Fill(id, name, datetime, type, coordinates, distance, userId) && Verify() && Update();
+        }
+        public bool Delete(string id, string userId)
+        {
+            try
+            {
+                Id = Convert.ToInt32(id);
+                if (_ac.Tracks.Any(f => f.UserId == userId && f.Id == Id))
+                {
+                    _ac.Tracks.RemoveRange(_ac.Tracks.Where(f => f.UserId == userId && f.Id == Id));
+                    _ac.SaveChanges();
+                }
+                else
+                {
+                    ErrorMessage = Resource.NoData;
+                    return false;
+                }
+            }
+            catch (Exception e)
+            {
+                ErrorMessage = Resource.ErrorWorkWithDB + "=" + e.Message;
+                return false;
+            }
+            return true;
+        }
         public string GetShare(string id, string userId)
         {
             try
@@ -29,13 +135,13 @@ namespace MySeenWeb.Models.TablesLogic
                     var iid = Convert.ToInt32(id);
                     switch (iid)
                     {
-                        case (int)TrackTypes.Bike:
+                        case (int)RoadTypes.Bike:
                             key = _ac.Users.First(t => t.Id == userId).ShareTracksBikeKey;
                             break;
-                        case (int)TrackTypes.Car:
+                        case (int)RoadTypes.Car:
                             key = _ac.Users.First(t => t.Id == userId).ShareTracksCarKey;
                             break;
-                        case (int)TrackTypes.Foot:
+                        case (int)RoadTypes.Foot:
                             key = _ac.Users.First(t => t.Id == userId).ShareTracksFootKey;
                             break;
                     }
@@ -75,13 +181,13 @@ namespace MySeenWeb.Models.TablesLogic
                 var iid = Convert.ToInt32(id);
                 switch (iid)
                 {
-                    case (int)TrackTypes.Bike:
+                    case (int)RoadTypes.Bike:
                         _ac.Users.First(t => t.Id == userId).ShareTracksBikeKey = genkey;
                         break;
-                    case (int)TrackTypes.Car:
+                    case (int)RoadTypes.Car:
                         _ac.Users.First(t => t.Id == userId).ShareTracksCarKey = genkey;
                         break;
-                    case (int)TrackTypes.Foot:
+                    case (int)RoadTypes.Foot:
                         _ac.Users.First(t => t.Id == userId).ShareTracksFootKey = genkey;
                         break;
                 }
@@ -106,13 +212,13 @@ namespace MySeenWeb.Models.TablesLogic
                 var iid = Convert.ToInt32(id);
                 switch (iid)
                 {
-                    case (int)TrackTypes.Bike:
+                    case (int)RoadTypes.Bike:
                         _ac.Users.First(t => t.Id == userId).ShareTracksBikeKey = string.Empty;
                         break;
-                    case (int)TrackTypes.Car:
+                    case (int)RoadTypes.Car:
                         _ac.Users.First(t => t.Id == userId).ShareTracksCarKey = string.Empty;
                         break;
-                    case (int)TrackTypes.Foot:
+                    case (int)RoadTypes.Foot:
                         _ac.Users.First(t => t.Id == userId).ShareTracksFootKey = string.Empty;
                         break;
                 }

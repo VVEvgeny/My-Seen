@@ -831,4 +831,25 @@
   <data name="VkServices" xml:space="preserve">
     <value>Vkontakte Services</value>
   </data>
+  <data name="NoRights" xml:space="preserve">
+    <value>No Rights</value>
+  </data>
+  <data name="State" xml:space="preserve">
+    <value>State</value>
+  </data>
+  <data name="NotAuthorized" xml:space="preserve">
+    <value>Not Authorized</value>
+  </data>
+  <data name="RepeatPassword" xml:space="preserve">
+    <value>Repeat Password</value>
+  </data>
+  <data name="DisabledServices" xml:space="preserve">
+    <value>Disabled Services</value>
+  </data>
+  <data name="EnabledServices" xml:space="preserve">
+    <value>Enabled Services</value>
+  </data>
+  <data name="Service" xml:space="preserve">
+    <value>Service</value>
+  </data>
 </root>

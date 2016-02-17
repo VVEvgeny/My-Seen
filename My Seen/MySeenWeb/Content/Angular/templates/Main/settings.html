@@ -1,0 +1,191 @@
+﻿<!--Загрузка-->
+<data-ng-include src="'Content/Angular/templates/tools/loading.html'"></data-ng-include>
+
+<div data-ng-show="translation.loaded && !loading">
+    <h2>{{translation.Manage}}</h2>
+
+    <div>
+        <h4>{{translation.ChangeYourAccountSettings}}</h4>
+        <hr />
+        <dl class="dl-horizontal">
+            <dt>{{translation.Password}}:</dt>
+            <dd>
+                <button type="button" class="btn btn-success btn-xs" data-ng-click="setPassword()" data-ng-show="data.HasPassword == 'false'">
+                    <span class="glyphicon glyphicon-plus"></span> {{translation.SetPassword}}
+                </button>
+                <button type="button" class="btn btn-warning btn-xs" data-ng-click="setPassword()" data-ng-show="data.HasPassword">
+                    <span class="glyphicon glyphicon-pencil"></span> {{translation.ChangeYourPassword}}
+                </button>
+            </dd>
+        </dl>
+        <dl class="dl-horizontal">
+            <dt>{{translation.ExternalLogins}}:</dt>
+            <dd>
+                <button type="button" class="btn btn-danger btn-xs" data-ng-click="manageExternals()">
+                    <span class="glyphicon glyphicon-random"></span> {{translation.Manage}}
+                </button>
+            </dd>
+        </dl>
+        <dl class="dl-horizontal">
+            <dt>{{translation.SelectLanguage}}:</dt>
+            <dd>
+                <select class="input-sm" data-ng-model="data.Lang" data-ng-change="languageChange()">
+                    <option data-ng-repeat="type in data.LangList" data-ng-selected="data.Lang == type.Value" value="{{type.Value}}">
+                        {{type.Text}}
+                    </option>
+                </select>
+            </dd>
+        </dl>
+        <dl class="dl-horizontal">
+            <dt>{{translation.RecordPerPage}}:</dt>
+            <dd>
+                <select class="input-sm" data-ng-model="data.Rpp" data-ng-change="rppChange()">
+                    <option data-ng-repeat="type in data.RppList" data-ng-selected="data.Rpp == type.Value" value="{{type.Value}}">
+                        {{type.Text}}
+                    </option>
+                </select>
+            </dd>
+        </dl>
+        <dl class="dl-horizontal">
+            <dt>{{translation.MarkersOnRoads}}:</dt>
+            <dd>
+                <select class="input-sm" data-ng-model="data.Markers" data-ng-change="markersChange()">
+                    <option data-ng-repeat="type in data.MarkersOnRoadsList" data-ng-selected="data.Markers == type.Value" value="{{type.Value}}">
+                        {{type.Text}}
+                    </option>
+                </select>
+            </dd>
+        </dl>
+        <dl class="dl-horizontal">
+            <dt>{{translation.VkServices}}:</dt>
+            <dd>
+                <select class="input-sm" data-ng-model="data.GoogleServiceEnabledInt" data-ng-change="googleServicesChange()">
+                    <option data-ng-repeat="type in data.GoogleServiceEnabledList" data-ng-selected="data.GoogleServiceEnabledInt == type.Value" value="{{type.Value}}">
+                        {{type.Text}}
+                    </option>
+                </select>
+            </dd>
+        </dl>
+        <dl class="dl-horizontal">
+            <dt>{{translation.GoogleServices}}:</dt>
+            <dd>
+                <select class="input-sm" data-ng-model="data.VkServiceEnabledInt" data-ng-change="vkServicesChange()">
+                    <option data-ng-repeat="type in data.VkServiceEnabledList" data-ng-selected="data.VkServiceEnabledInt == type.Value" value="{{type.Value}}">
+                        {{type.Text}}
+                    </option>
+                </select>
+            </dd>
+        </dl>
+        <dl class="dl-horizontal">
+            <dt>{{translation.FacebookServices}}:</dt>
+            <dd>
+                <select class="input-sm" data-ng-model="data.FacebookServiceEnabledInt" data-ng-change="facebookServicesChange()">
+                    <option data-ng-repeat="type in data.FacebookServiceEnabledList" data-ng-selected="data.FacebookServiceEnabledInt == type.Value" value="{{type.Value}}">
+                        {{type.Text}}
+                    </option>
+                </select>
+            </dd>
+        </dl>
+    </div>
+
+    <footer class="row">
+        <div class="text-center">
+            <p class="text-muted small">{{translation.SiteVersion}} {{translation.Web}} / {{translation.LibraryVersion}} {{translation.LibVersionNum}}</p>
+        </div>
+    </footer>
+</div>
+
+<div class="modal fade modal-window" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" id="PasswordModalWindow">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close myseen-modal-close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title text-center">{{translation.SetPassword}}</h4>
+            </div>
+            <div class="modal-body">
+                <div class="form-horizontal">
+                    <div class="form-group" data-ng-show="data.HasPassword">
+                        <label for="modalFieldPassword" class="col-sm-3 control-label">{{translation.Password}}</label>
+                        <div class="col-sm-9">
+                            <input type="password" class="form-control input-sm" id="modalFieldPassword" data-ng-model="modalSetPassword.password" placeholder="{{translation.Password}}">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="modalFieldNewPassword" class="col-sm-3 control-label">{{translation.NewPassword}}</label>
+                        <div class="col-sm-9">
+                            <input type="password" class="form-control input-sm" id="modalFieldNewPassword" data-ng-model="modalSetPassword.newPassword" placeholder="{{translation.NewPassword}}">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="modalFieldPasswordConfirm" class="col-sm-3 control-label">{{translation.RepeatPassword}}</label>
+                        <div class="col-sm-9">
+                            <input type="password" class="form-control input-sm" id="modalFieldPasswordConfirm" data-ng-model="modalSetPassword.passwordConfirm" placeholder="{{translation.RepeatPassword}}">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-info btn-block" data-ng-click="modalSetPassword.addButtonClick()" data-ng-show="modalSetPassword.newPassword.length !=0 && modalSetPassword.newPassword == modalSetPassword.passwordConfirm">
+                    <span class="glyphicon glyphicon-plus"></span> {{translation.SetPassword}}
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade modal-window" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" id="LoginsModalWindow">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close myseen-modal-close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title text-center">{{translation.ExternalLogins}}</h4>
+            </div>
+            <div class="modal-body">
+                <label class="col-sm-12 control-label align-center">{{translation.EnabledServices}}</label>
+                <div class="form-horizontal">
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th class="col-sm-3">{{translation.Service}}</th>
+                                <th class="col-sm-9">{{translation.Action}}</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr ng-repeat="val in userLogins">
+                                <td class="align-center">{{::val.LoginProvider}}</td>
+                                <td class="align-center">
+                                    <button type="button" class="btn btn-danger btn-block btn-xs" data-ng-click="modalLogins.removeButtonClick($index)" data-ng-show="data.HasPassword">
+                                        <span class="glyphicon glyphicon-remove"></span> {{translation.Remove}}
+                                    </button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <label class="col-sm-12 control-label align-center">{{translation.DisabledServices}}</label>
+                <div class="form-horizontal">
+                    <form action="/Settings/AddLogin" method="post">
+                        <table class="table table-striped">
+                            <thead>
+                                <tr>
+                                    <th class="col-sm-3">{{translation.Service}}</th>
+                                    <th class="col-sm-9">{{translation.Action}}</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr data-ng-repeat="val in otherLogins">
+                                    <td class="align-center">{{::val.Caption}}</td>
+                                    <td class="align-center">
+                                        <button type="submit" class="btn btn-success btn-block btn-xs" id="{{val.AuthenticationType}}" name="provider" value="{{val.AuthenticationType}}">
+                                            <span class="glyphicon glyphicon-plus"></span> {{translation.Add}}
+                                        </button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

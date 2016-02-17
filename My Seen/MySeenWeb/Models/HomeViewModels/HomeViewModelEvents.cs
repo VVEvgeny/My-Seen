@@ -13,9 +13,9 @@ namespace MySeenWeb.Models
     public class HomeViewModelEvents
     {
         public IEnumerable<EventsView> Data { get; set; }
-        public PaginationViewModel Pages { get; set; }
+        public Pagination Pages { get; set; }
         public bool IsMyData { get; set; }
-        public HomeViewModelEvents(string userId, int page, int countInPage, string search, int onlyEnded, string shareKey)
+        public HomeViewModelEvents(string userId, int page, int countInPage, string search, int ended, string shareKey)
         {
             var ac = new ApplicationDbContext();
 
@@ -29,7 +29,7 @@ namespace MySeenWeb.Models
                     .Select(EventsView.Map)
                     .Where(
                         e =>
-                            onlyEnded == 1
+                            ended == 1
                                 ? e.EstimatedTicks <= 0 &&
                                   e.RepeatType != (int) Defaults.EventsTypesBase.Indexes.OneTimeWithPast
                                 : e.EstimatedTicks > 0 ||
@@ -37,7 +37,7 @@ namespace MySeenWeb.Models
                     )
                     .OrderBy(e => e.EstimatedTicks);
 
-            Pages = new PaginationViewModel(page, data.Count(), countInPage);
+            Pages = new Pagination(page, data.Count(), countInPage);
             Data = data.Skip(Pages.SkipRecords).Take(countInPage);
             IsMyData = !string.IsNullOrEmpty(shareKey) && Data.Any() && Data.First().UserId == userId;
         }

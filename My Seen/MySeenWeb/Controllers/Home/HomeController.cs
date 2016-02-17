@@ -14,7 +14,6 @@ namespace MySeenWeb.Controllers.Home
     //[RequireHttps]
     public class HomeController : BaseController
     {
-        [BrowserActionFilter]
         public ActionResult Index()
         {
             var logger = new NLogLogger();
@@ -39,46 +38,6 @@ namespace MySeenWeb.Controllers.Home
 
 
 
-        //Переписать
-        [Authorize]
-        [HttpPost]
-        public JsonResult EndImprovement(string id, string desc, string version)
-        {
-            var logger = new NLogLogger();
-            const string methodName = "public JsonResult EndImprovement(string id, string desc, string version)";
-            try
-            {
-                if (Admin.IsAdmin(User.Identity.Name))
-                {
-                    var logic = new ImprovementLogic();
-                    return !logic.Update(id, desc, version, User.Identity.GetUserId())
-                        ? new JsonResult {Data = new {success = false, error = logic.ErrorMessage}}
-                        : Json(new {success = true});
-                }
-            }
-            catch (Exception ex)
-            {
-                logger.Error(methodName, ex);
-            }
-            return new JsonResult { Data = new { success = false, error = methodName } };
-        }
-        [Authorize]
-        [HttpPost]
-        public JsonResult DeleteImprovement(string id)
-        {
-            var logger = new NLogLogger();
-            const string methodName = "public JsonResult DeleteImprovement(string id)";
-            try
-            {
-                var logic = new ImprovementLogic();
-                return !logic.Delete(id, User.Identity.GetUserId()) ? new JsonResult { Data = new { success = false, error = logic.ErrorMessage } } : Json(new { success = true });
-            }
-            catch (Exception ex)
-            {
-                logger.Error(methodName, ex);
-            }
-            return new JsonResult { Data = new { success = false, error = methodName } };
-        }
         [Authorize]
         [HttpPost]
         public ActionResult DeleteNLog(string id)
@@ -101,7 +60,6 @@ namespace MySeenWeb.Controllers.Home
             }
             return new JsonResult { Data = new { success = false, error = methodName } };
         }
-        [BrowserActionFilter]
         [Authorize]
         public ActionResult TrackEditor(string id)
         {

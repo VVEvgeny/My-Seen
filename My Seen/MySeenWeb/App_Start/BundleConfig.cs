@@ -45,9 +45,6 @@ namespace MySeenWeb
             bundles.Add(new ScriptBundle("~/bundles/gmap3").Include(
                         "~/Scripts/gmap3.js"));
 
-            bundles.Add(new ScriptBundle("~/bundles/myseen.table").Include(
-                        "~/Scripts/myseen/table.js"));
-
             bundles.Add(new ScriptBundle("~/bundles/myseen.gmap").Include(
                       "~/Scripts/myseen/gmap.js",
                       "~/Scripts/myseen/gmap.tools.js"

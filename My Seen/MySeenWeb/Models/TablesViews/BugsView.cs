@@ -36,13 +36,9 @@ namespace MySeenWeb.Models.TablesViews
                 if (!string.IsNullOrEmpty(UserId))
                 {
                     var ac = new ApplicationDbContext();
-                    var firstOrDefault = ac.Users.FirstOrDefault(u => u.Id == UserId);
-                    if (firstOrDefault != null)
+                    if (ac.Users.Any(u => u.Id == UserId))
                     {
-                        string user = firstOrDefault.UserName;
-                        if (string.IsNullOrEmpty(user)) return string.Empty;
-                        if (user.Contains('@')) user = user.Remove(user.IndexOf('@'));
-                        return user;
+                        return ac.Users.First(u => u.Id == UserId).UserName;
                     }
                 }
                 return string.Empty;

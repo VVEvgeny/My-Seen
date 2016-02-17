@@ -727,6 +727,15 @@ namespace MySeenLib {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Disabled Services.
+        /// </summary>
+        public static string DisabledServices {
+            get {
+                return ResourceManager.GetString("DisabledServices", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Distance.
         /// </summary>
         public static string Distance {
@@ -805,6 +814,15 @@ namespace MySeenLib {
         public static string Enabled {
             get {
                 return ResourceManager.GetString("Enabled", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Enabled Services.
+        /// </summary>
+        public static string EnabledServices {
+            get {
+                return ResourceManager.GetString("EnabledServices", resourceCulture);
             }
         }
         
@@ -1502,6 +1520,24 @@ namespace MySeenLib {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to No Rights.
+        /// </summary>
+        public static string NoRights {
+            get {
+                return ResourceManager.GetString("NoRights", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Not Authorized.
+        /// </summary>
+        public static string NotAuthorized {
+            get {
+                return ResourceManager.GetString("NotAuthorized", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to 1 time on a specified date.
         /// </summary>
         public static string OneTimeOnASpecifiedDate {
@@ -1673,6 +1709,15 @@ namespace MySeenLib {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Repeat Password.
+        /// </summary>
+        public static string RepeatPassword {
+            get {
+                return ResourceManager.GetString("RepeatPassword", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Road.
         /// </summary>
         public static string Road2 {
@@ -1808,6 +1853,15 @@ namespace MySeenLib {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Service.
+        /// </summary>
+        public static string Service {
+            get {
+                return ResourceManager.GetString("Service", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Set Password.
         /// </summary>
         public static string SetPassword {
@@ -1885,6 +1939,15 @@ namespace MySeenLib {
         public static string StackTrace {
             get {
                 return ResourceManager.GetString("StackTrace", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to State.
+        /// </summary>
+        public static string State {
+            get {
+                return ResourceManager.GetString("State", resourceCulture);
             }
         }
         

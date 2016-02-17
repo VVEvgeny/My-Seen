@@ -3,7 +3,7 @@ App.config(function ($stateProvider) {
     $stateProvider
         .state('errors', {
             url: '/errors/?:page&search',
-            templateUrl: "Content/Angular/templates/administrative/errors.html",
+            templateUrl: "Content/Angular/templates/Admin/errors.html",
             controller: 'ErrorsController',
             reloadOnSearch: false
         });

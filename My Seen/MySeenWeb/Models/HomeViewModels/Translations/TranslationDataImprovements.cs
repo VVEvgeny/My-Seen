@@ -9,6 +9,7 @@ namespace MySeenWeb.Models.Translations
         public string QuickSearch = Resource.QuickSearch;
 
         public string Complex = Resource.Complex;
+        public string State = Resource.State;
         public string Found = Resource.Found;
         public string DateFound = Resource.DateFound;
         public string Description = Resource.Description;

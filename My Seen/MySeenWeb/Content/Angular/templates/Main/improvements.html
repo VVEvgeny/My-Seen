@@ -8,12 +8,23 @@
     <div class="form-inline">
         <div class="form-group">
             <div class="container">
-                <div class="form-group">
-                    <select class="form-control input-sm" data-ng-model="complexSelect" data-ng-change="selectedChange()">
-                        <option data-ng-repeat="type in prepared.SelectedList" data-ng-selected="complexSelect == type.Value" value="{{type.Value}}">
-                            {{type.Text}}
-                        </option>
-                    </select>
+                <div class="row col-sm-12">
+                    <div class="form-group">
+                        <label for="complexSelect" style="display: block;">{{translation.Complex}}</label>
+                        <select id="complexSelect" class="form-control input-sm" data-ng-model="complexSelect" data-ng-change="selectedChange()">
+                            <option data-ng-repeat="type in prepared.SelectedList" data-ng-selected="complexSelect == type.Value" value="{{type.Value}}">
+                                {{type.Text}}
+                            </option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="complexSelectEnded" style="display: block;">{{translation.State}}</label>
+                        <select id="complexSelectEnded" class="form-control input-sm" data-ng-model="typeSelect" data-ng-change="selectedTypeChange()">
+                            <option data-ng-repeat="type in prepared.TypeList" data-ng-selected="typeSelect == type.Value" value="{{type.Value}}">
+                                {{type.Text}}
+                            </option>
+                        </select>
+                    </div>
                 </div>
             </div>
         </div>
@@ -38,7 +49,7 @@
                 <tr ng-repeat="val in data">
                     <td>
                         <!--Блок управляющих кнопок-->
-                        <span class="pull-left">
+                        <span class="pull-left" data-ng-show="canControl">
                             <button class="btn btn-warning btn-xs" data-ng-click="modal.editButtonClick($index)"> <span class=" glyphicon glyphicon-pencil"></span></button>
                         </span>
                     </td>
@@ -51,7 +62,7 @@
                     <td class="align-center">{{::val.VersionText}}</td>
                     <td class="align-center" data-ng-show="val.Ended">{{::val.TextEnd}}</td>
                     <td class="align-center" data-ng-show="!val.Ended">
-                        <button type="button" class="btn btn-success btn-xs btn-block" data-ng-click="modal.editButtonClick($index,true)"><span class="glyphicon glyphicon-ok"></span> {{translation.Close}}</button>
+                        <button type="button" class="btn btn-success btn-xs btn-block" data-ng-click="modal.editButtonClick($index,true)" data-ng-show="canControl"><span class="glyphicon glyphicon-ok"></span> {{translation.Close}}</button>
                     </td>
                 </tr>
             </tbody>

@@ -13,9 +13,9 @@ namespace MySeenWeb.Models
 {
     public class HomeViewModelRoads
     {
-        public IEnumerable<TracksView> DataFoot { get; set; }
-        public IEnumerable<TracksView> DataCar { get; set; }
-        public IEnumerable<TracksView> DataBike { get; set; }
+        public IEnumerable<RoadsView> DataFoot { get; set; }
+        public IEnumerable<RoadsView> DataCar { get; set; }
+        public IEnumerable<RoadsView> DataBike { get; set; }
         public IEnumerable<SelectListItem> YearsList { get; set; }
         public HomeViewModelRoads(string userId, int roadYear, string search, string shareKey)
         {
@@ -25,7 +25,7 @@ namespace MySeenWeb.Models
                 ac.Tracks.AsNoTracking()
                     .Where(
                         t =>
-                            t.Type == (int) TrackTypes.Foot
+                            t.Type == (int) RoadTypes.Foot
                             && (roadYear == 0 || t.Date.Year == roadYear)
                             && ((string.IsNullOrEmpty(shareKey) && t.UserId == userId)
                                 ||
@@ -33,15 +33,15 @@ namespace MySeenWeb.Models
                             && (string.IsNullOrEmpty(search) || t.Name.Contains(search))
                     )
                     .OrderByDescending(t => t.Date)
-                    .Select(TracksView.Map)
+                    .Select(RoadsView.Map)
                     .ToList();
             if (DataFoot.Any())
             {
-                var dataFootAll = new List<TracksView>
+                var dataFootAll = new List<RoadsView>
                 {
-                    new TracksView
+                    new RoadsView
                     {
-                        Id = -(int) TrackTypes.Foot,
+                        Id = -(int) RoadTypes.Foot,
                         Name = Resource.All,
                         UserId = DataFoot.Count().ToString(),
                         Date = new DateTime(1980, 3, 3),
@@ -56,7 +56,7 @@ namespace MySeenWeb.Models
                 ac.Tracks.AsNoTracking()
                     .Where(
                         t =>
-                            t.Type == (int) TrackTypes.Car
+                            t.Type == (int) RoadTypes.Car
                             && (roadYear == 0 || t.Date.Year == roadYear)
                             && ((string.IsNullOrEmpty(shareKey) && t.UserId == userId)
                                 ||
@@ -65,15 +65,15 @@ namespace MySeenWeb.Models
                             && (string.IsNullOrEmpty(search) || t.Name.Contains(search))
                     )
                     .OrderByDescending(t => t.Date)
-                    .Select(TracksView.Map)
+                    .Select(RoadsView.Map)
                     .ToList();
             if (DataCar.Any())
             {
-                var dataCarAll = new List<TracksView>
+                var dataCarAll = new List<RoadsView>
                 {
-                    new TracksView
+                    new RoadsView
                     {
-                        Id = -(int) TrackTypes.Car,
+                        Id = -(int) RoadTypes.Car,
                         Name = Resource.All,
                         UserId = DataCar.Count().ToString(),
                         Date = new DateTime(1980, 3, 3),
@@ -88,7 +88,7 @@ namespace MySeenWeb.Models
                 ac.Tracks.AsNoTracking()
                     .Where(
                         t =>
-                            t.Type == (int) TrackTypes.Bike
+                            t.Type == (int) RoadTypes.Bike
                             && (roadYear == 0 || t.Date.Year == roadYear)
                             && ((string.IsNullOrEmpty(shareKey) && t.UserId == userId)
                                 ||
@@ -97,15 +97,15 @@ namespace MySeenWeb.Models
                             && (string.IsNullOrEmpty(search) || t.Name.Contains(search))
                     )
                     .OrderByDescending(t => t.Date)
-                    .Select(TracksView.Map)
+                    .Select(RoadsView.Map)
                     .ToList();
             if (DataBike.Any())
             {
-                var dataBikeAll = new List<TracksView>
+                var dataBikeAll = new List<RoadsView>
                 {
-                    new TracksView
+                    new RoadsView
                     {
-                        Id = -(int) TrackTypes.Bike,
+                        Id = -(int) RoadTypes.Bike,
                         Name = Resource.All,
                         UserId = DataBike.Count().ToString(),
                         Date = new DateTime(1980, 3, 3),
@@ -126,9 +126,9 @@ namespace MySeenWeb.Models
                 ((string.IsNullOrEmpty(shareKey) && t.UserId == userId)
                  ||
                  (!string.IsNullOrEmpty(shareKey) &&
-                  (((t.User.ShareTracksBikeKey == shareKey && t.Type == (int) TrackTypes.Bike) ||
-                    (t.User.ShareTracksCarKey == shareKey && t.Type == (int) TrackTypes.Car) ||
-                    (t.User.ShareTracksFootKey == shareKey && t.Type == (int) TrackTypes.Foot))
+                  (((t.User.ShareTracksBikeKey == shareKey && t.Type == (int) RoadTypes.Bike) ||
+                    (t.User.ShareTracksCarKey == shareKey && t.Type == (int) RoadTypes.Car) ||
+                    (t.User.ShareTracksFootKey == shareKey && t.Type == (int) RoadTypes.Foot))
                    || t.ShareKey == shareKey)))
                 && (string.IsNullOrEmpty(search) || t.Name.Contains(search))
                 ).Select(t => t.Date.Year).Distinct())

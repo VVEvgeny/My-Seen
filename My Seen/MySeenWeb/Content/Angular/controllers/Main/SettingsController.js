@@ -3,7 +3,7 @@ App.config(function ($stateProvider) {
     $stateProvider
         .state('settings', {
             url: '/settings/',
-            templateUrl: "Content/Angular/templates/main_pages/settings.html",
+            templateUrl: "Content/Angular/templates/Main/settings.html",
             controller: 'SettingsController',
             reloadOnSearch: false
         });
@@ -55,7 +55,49 @@ App.controller('SettingsController', ['$scope', '$rootScope', '$state', '$stateP
       $scope.vkServicesChange = function () {
           $rootScope.GetPage(constants.PagesSettings.SetVkService, $http, null, { val: $scope.data.VkServiceEnabledInt });
       };
-      $scope.facebookServicesChange = function () {
+      $scope.facebookServicesChange = function() {
           $rootScope.GetPage(constants.PagesSettings.SetFacebookService, $http, null, { val: $scope.data.FacebookServiceEnabledInt });
+      };
+
+      $scope.modalSetPassword = {};
+      $scope.setPassword = function () {
+          $scope.modalSetPassword.password = '';
+          $scope.modalSetPassword.newPassword = '';
+          $scope.modalSetPassword.passwordConfirm = '';
+
+          $("#PasswordModalWindow").modal("show");
+      };
+      
+      function afterSetPassword() {
+          $("#PasswordModalWindow").modal("hide");
+          $rootScope.clearControllers();
+
+          getMainPage();
+      };
+      $scope.modalSetPassword.addButtonClick = function () {
+          $rootScope.GetPage(constants.PagesSettings.SetPassword, $http, afterSetPassword,
+              {
+                  password: $scope.modalSetPassword.password,
+                  newPassword: $scope.modalSetPassword.newPassword
+              }
+          );
+      };
+
+      function afterGetLogins(page) {
+          $scope.userLogins = page.UserLogins;
+          $scope.otherLogins = page.OtherLogins;
+
+          $("#LoginsModalWindow").modal("show");
+      };
+      function getLogins() {
+          $rootScope.GetPage(constants.PagesSettings.GetLogins, $http, afterGetLogins, { });
+      };
+      $scope.manageExternals = function () {
+          getLogins();
+      };
+
+      $scope.modalLogins = {};
+      $scope.modalLogins.removeButtonClick = function (id) {
+          $rootScope.GetPage(constants.PagesSettings.RemoveLogin, $http, getLogins, { loginProvider: $scope.userLogins[id].LoginProvider, providerKey: $scope.userLogins[id].ProviderKey });
       };
   }]);

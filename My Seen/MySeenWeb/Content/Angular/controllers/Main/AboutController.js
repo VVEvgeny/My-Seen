@@ -3,7 +3,7 @@ App.config(function($stateProvider) {
     $stateProvider
         .state('about', {
             url: '/about/',
-            templateUrl: "Content/Angular/templates/main_pages/about.html",
+            templateUrl: "Content/Angular/templates/Main/about.html",
             controller: 'AboutController',
             reloadOnSearch: false
         });

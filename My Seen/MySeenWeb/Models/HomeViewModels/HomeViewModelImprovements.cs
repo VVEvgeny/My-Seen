@@ -11,21 +11,27 @@ namespace MySeenWeb.Models
     public class HomeViewModelImprovements
     {
         public IEnumerable<BugsView> Data { get; set; }
-        public PaginationViewModel Pages { get; set; }
+        public Pagination Pages { get; set; }
+        public bool CanControl { get; set; }
 
-        public HomeViewModelImprovements(int complex, int page, int countInPage, string search)
+        public HomeViewModelImprovements(string userName, string userId, int complex, int page, int countInPage, string search, int ended)
         {
             var ac = new ApplicationDbContext();
+            CanControl = Admin.IsAdmin(userName);
 
-            Pages = new PaginationViewModel(page,
+            Pages = new Pagination(page,
                 ac.Bugs.Count(
                     b =>
+                        (ended == 0 || (ended == 1 && b.DateEnd == null) || (ended == 2 && b.DateEnd != null)) &&
+                        (CanControl || b.UserId == userId) &&
                         (complex == (int) Defaults.ComplexBase.Indexes.All || b.Complex == complex) &&
                         (string.IsNullOrEmpty(search) || b.Text.Contains(search))), countInPage);
 
             Data = ac.Bugs.AsNoTracking()
                 .Where(
                     b =>
+                        (ended == 0 || (ended == 1 && b.DateEnd == null) || (ended == 2 && b.DateEnd != null)) &&
+                        (CanControl || b.UserId == userId) &&
                         (complex == (int) Defaults.ComplexBase.Indexes.All || b.Complex == complex) &&
                         (string.IsNullOrEmpty(search) || b.Text.Contains(search)))
                 .OrderByDescending(b => b.DateEnd == null)

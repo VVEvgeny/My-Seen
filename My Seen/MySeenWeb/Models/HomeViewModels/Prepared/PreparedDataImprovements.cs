@@ -11,6 +11,7 @@ namespace MySeenWeb.Models.Prepared
     {
         public IEnumerable<SelectListItem> SelectedList { get; set; }
         public IEnumerable<SelectListItem> SelectedListForAdd { get; set; }
+        public IEnumerable<SelectListItem> TypeList { get; set; }
         public PreparedDataImprovements()
         {
             SelectedList =
@@ -26,6 +27,13 @@ namespace MySeenWeb.Models.Prepared
                     .ToList();
 
             SelectedListForAdd = SelectedList.Where(l=>l.Value != "0");
+
+            TypeList = new List<SelectListItem>
+            {
+                new SelectListItem {Text = Resource.All, Value = "0", Selected = true},
+                new SelectListItem {Text = Resource.Active, Value = "1", Selected = false},
+                new SelectListItem {Text = Resource.Ended, Value = "2", Selected = false}
+            };
         }
     }
 }

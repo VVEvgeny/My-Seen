@@ -2,8 +2,8 @@ App.config(function ($stateProvider) {
 
     $stateProvider
         .state('improvements', {
-            url: '/improvements/?:page&search&complex',
-            templateUrl: "Content/Angular/templates/main_pages/improvements.html",
+            url: '/improvements/?:page&search&complex&ended',
+            templateUrl: "Content/Angular/templates/Main/improvements.html",
             controller: 'ImprovementsController',
             reloadOnSearch: false
         });
@@ -46,6 +46,7 @@ App.controller('ImprovementsController', ['$scope', '$rootScope', '$state', '$st
       function fillScope(page) {
           $scope.data = page.Data;
           $scope.pages = page.Pages;
+          $scope.canControl = page.CanControl;
       };
       function getMainPage() {
           $rootScope.GetPage(constants.Pages.Main, $http, fillScope
@@ -53,7 +54,8 @@ App.controller('ImprovementsController', ['$scope', '$rootScope', '$state', '$st
                   pageId: pageId,
                   page: ($stateParams ? $stateParams.page : null),
                   search: ($stateParams ? $stateParams.search : null),
-                  complex: ($stateParams ? $stateParams.complex : null)
+                  complex: ($stateParams ? $stateParams.complex : null),
+                  ended: ($stateParams ? $stateParams.ended : null)
               });
       };
 
@@ -62,6 +64,19 @@ App.controller('ImprovementsController', ['$scope', '$rootScope', '$state', '$st
       $rootScope.GetPage(constants.Pages.Translation, $http, fillTranslation, { pageId: pageId });
       getMainPage();
 
+      ///////////////////////////////////////////////////////////////////////
+      ///////////////////////////////////////////////////////////////////////           рхо янашхръ
+      ///////////////////////////////////////////////////////////////////////
+      $scope.typeSelect = $stateParams ? $stateParams.ended ? $stateParams.ended : '0' : '0';
+      $scope.selectedTypeChange = function () {
+          $location.search('page', null);
+          $location.search('ended', $scope.typeSelect === '0' ? null : $scope.typeSelect);
+          if ($stateParams) {
+              $stateParams.page = null;
+              $stateParams.ended = $scope.typeSelect === '0' ? null : $scope.typeSelect;
+          }
+          getMainPage();
+      };
       ///////////////////////////////////////////////////////////////////////
       ///////////////////////////////////////////////////////////////////////           йнлокейя
       ///////////////////////////////////////////////////////////////////////

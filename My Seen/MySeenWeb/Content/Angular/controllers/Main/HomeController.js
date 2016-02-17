@@ -3,7 +3,7 @@ App.config(function ($stateProvider) {
     $stateProvider
         .state('/', {
             url: '/',
-            templateUrl: "Content/Angular/templates/main_pages/home.html",
+            templateUrl: "Content/Angular/templates/Main/home.html",
             controller: 'HomeController',
             reloadOnSearch: false
         });

@@ -7,9 +7,9 @@ using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using MySeenLib;
-using MySeenWeb.ActionFilters;
 using MySeenWeb.Add_Code;
 using MySeenWeb.Add_Code.Services.Logging.NLog;
+using MySeenWeb.Controllers.Home;
 using MySeenWeb.Controllers._Base;
 using MySeenWeb.Models.OtherViewModels;
 using MySeenWeb.Models.TablesLogic;
@@ -18,7 +18,6 @@ using Nemiro.OAuth;
 
 namespace MySeenWeb.Controllers.Account
 {
-    [BrowserActionFilter]
     [Authorize]
     public class AccountController : BaseController
     {
@@ -37,28 +36,14 @@ namespace MySeenWeb.Controllers.Account
 
         public ApplicationSignInManager SignInManager
         {
-            get
-            {
-                return _signInManager ?? HttpContext.GetOwinContext().Get<ApplicationSignInManager>();
-            }
-
-            private set
-            {
-                _signInManager = value;
-            }
+            get { return _signInManager ?? HttpContext.GetOwinContext().Get<ApplicationSignInManager>(); }
+            private set { _signInManager = value; }
         }
 
         public ApplicationUserManager UserManager
         {
-            get
-            {
-                return _userManager ?? HttpContext.GetOwinContext().GetUserManager<ApplicationUserManager>();
-            }
-
-            private set
-            {
-                _userManager = value;
-            }
+            get { return _userManager ?? HttpContext.GetOwinContext().GetUserManager<ApplicationUserManager>(); }
+            private set { _userManager = value; }
         }
 
         //
@@ -143,7 +128,7 @@ namespace MySeenWeb.Controllers.Account
                     return Redirect(OAuthWeb.GetAuthorizationUrl(provider, returnUrl));
                 }
                 // Request a redirect to the external login provider
-                return new ChallengeResult(provider, Url.Action("ExternalLoginCallback", "Account", new { ReturnUrl = returnUrl }));
+                return new SettingsController.ChallengeResult(provider, Url.Action("ExternalLoginCallback", "Account", new { ReturnUrl = returnUrl }));
             }
             catch (Exception ex)
             {
@@ -215,7 +200,7 @@ namespace MySeenWeb.Controllers.Account
                                             authorizationResult.UserInfo.Email)
                                 };
                                 var resultAddLoginAsync = UserManager.AddLogin(User.Identity.GetUserId(), info.Login);
-                                if (resultAddLoginAsync.Succeeded) return RedirectToAction("ManageLogins", "Manage");
+                                if (resultAddLoginAsync.Succeeded) return RedirectToAction("Index", "Home");
                             }
                         }
                         else //первичная регистрация, обойдусь без страницы подтверждения почты, она и так есть
@@ -287,7 +272,7 @@ namespace MySeenWeb.Controllers.Account
                                     };
                                     var resultAddLoginAsync = UserManager.AddLogin(User.Identity.GetUserId(), info.Login);
                                     if (resultAddLoginAsync.Succeeded)
-                                        return RedirectToAction("ManageLogins", "Manage");
+                                        return RedirectToAction("Index", "Home");
                                 }
                             }
                             else //первичная регистрация, обойдусь без страницы подтверждения почты, она и так есть
@@ -338,7 +323,7 @@ namespace MySeenWeb.Controllers.Account
             {
                 if (User.Identity.IsAuthenticated)
                 {
-                    return RedirectToAction("Index", "Manage");
+                    return RedirectToAction("Index", "Home");
                 }
                 if (ModelState.IsValid)
                 {
@@ -461,34 +446,6 @@ namespace MySeenWeb.Controllers.Account
             return RedirectToAction("Index", "Home");
         }
 
-        internal class ChallengeResult : HttpUnauthorizedResult
-        {
-            public ChallengeResult(string provider, string redirectUri)
-                : this(provider, redirectUri, null)
-            {
-            }
-
-            public ChallengeResult(string provider, string redirectUri, string userId)
-            {
-                LoginProvider = provider;
-                RedirectUri = redirectUri;
-                UserId = userId;
-            }
-
-            public string LoginProvider { get; set; }
-            public string RedirectUri { get; set; }
-            public string UserId { get; set; }
-
-            public override void ExecuteResult(ControllerContext context)
-            {
-                var properties = new AuthenticationProperties { RedirectUri = RedirectUri };
-                if (UserId != null)
-                {
-                    properties.Dictionary[XsrfKey] = UserId;
-                }
-                context.HttpContext.GetOwinContext().Authentication.Challenge(properties, LoginProvider);
-            }
-        }
         #endregion
     }
 }

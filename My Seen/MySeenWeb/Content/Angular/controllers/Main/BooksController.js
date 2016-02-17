@@ -1,23 +1,24 @@
 App.config(function ($stateProvider) {
 
     $stateProvider
-        .state('roads', {
-            url: '/roads/?:year&search',
-            templateUrl: "Content/Angular/templates/main_pages/roads.html",
-            controller: 'RoadsController',
+        .state('books', {
+            url: '/books/?:page&search',
+            templateUrl: "Content/Angular/templates/Main/books.html",
+            controller: 'BooksController',
             reloadOnSearch: false
         });
 });
 
-App.controller('RoadsController', ['$scope', '$rootScope', '$state', '$stateParams', '$http', '$location', 'Constants',
+App.controller('BooksController', ['$scope', '$rootScope', '$state', '$stateParams', '$http', '$location', 'Constants',
   function ($scope, $rootScope, $state, $stateParams, $http, $location, constants) {
 
       //Индекс страницы, для запросов к серверу
-      var pageId = 3;
+      var pageId = 2;
       //Показать ли кнопку ДОБАВИТЬ
       $scope.pageCanAdd = true;
       //Показать ли поле ПОИСКа
       $scope.pageCanSearch = true;
+
       //На всякий случай закрою, может переход со страницы, где забыли закрыть модальную
       $rootScope.clearControllers();
 
@@ -28,9 +29,11 @@ App.controller('RoadsController', ['$scope', '$rootScope', '$state', '$statePara
       //Модальная добавления/редактирования Указываем какие поля будем видеть
       $scope.modal = {
           showName: true,
+          showYear: true,
+          showAuthors: true,
           showWhen: true,
-          showRoadTypes: true,
-          showCoordinates: true
+          showGenre: true,
+          showRating: true
       };
       //Модальная доступа
       $scope.modalShare = {};
@@ -46,23 +49,12 @@ App.controller('RoadsController', ['$scope', '$rootScope', '$state', '$statePara
           $scope.translation.loaded = true;
       }
       //Основные данные
-      var calcTab = true;
       function fillScope(page) {
-          $scope.data = page;
-          if (calcTab) {
-              if ($scope.data.DataFoot.length > 0) $scope.currentTab = 1;
-              else if ($scope.data.DataBike.length > 0) $scope.currentTab = 3;
-              else if ($scope.data.DataCar.length > 0) $scope.currentTab = 2;
-          }
-          calcTab = true;
+          $scope.data = page.Data;
+          $scope.pages = page.Pages;
       };
       function getMainPage() {
-          $rootScope.GetPage(constants.Pages.Main, $http, fillScope,
-              {
-                  pageId: pageId,
-                  year: ($stateParams ? $stateParams.year : null),
-                  search: ($stateParams ? $stateParams.search : null)
-              });
+          $rootScope.GetPage(constants.Pages.Main, $http, fillScope, { pageId: pageId, page: ($stateParams ? $stateParams.page : null), search: ($stateParams ? $stateParams.search : null) });
       };
 
       //Сразу 3 запроса на сервер, далее будет только запросы по новым данным и на добавление/изменение
@@ -77,71 +69,21 @@ App.controller('RoadsController', ['$scope', '$rootScope', '$state', '$statePara
       $scope.quickSearch.text = $stateParams ? $stateParams.search : null;
       $scope.searchButtonClick = function () {
           $location.search('search', $scope.quickSearch.text !== '' ? $scope.quickSearch.text : null);
+          $location.search('page', null);//с первой страницы новый поиск
+          if ($stateParams) $stateParams.page = null;
           if ($stateParams) $stateParams.search = $scope.quickSearch.text !== '' ? $scope.quickSearch.text : null;
           getMainPage();
       };
       ///////////////////////////////////////////////////////////////////////
-      ///////////////////////////////////////////////////////////////////////           Выбор года
+      ///////////////////////////////////////////////////////////////////////           ПАГИНАЦИЯ
       ///////////////////////////////////////////////////////////////////////
-      $scope.year = $stateParams ? $stateParams.year ? $stateParams.year.toString() : '0' : '0';
-      $scope.selectedChange = function () {
-          $location.search('year', $scope.year === '0' ? null : $scope.year);
-          if ($stateParams) {
-              $stateParams.year = $scope.year === '0' ? null : $scope.year;
-          }
+      //Не использую перехода по состояниям, они перезагружают контроллер, а так у меня в настройках для контролера стоит reloadOnSearch: false      
+      $scope.pagination = {};
+      $scope.pagination.goToPage = function (page) {
+          $location.search('page', page > 1 ? page : null);
+          if ($stateParams) $stateParams.page = page > 1 ? page : null;
           getMainPage();
-      };
-      ///////////////////////////////////////////////////////////////////////
-      ///////////////////////////////////////////////////////////////////////           Текущая вкладка
-      ///////////////////////////////////////////////////////////////////////
-      $scope.currentTab = 1;
-      ///////////////////////////////////////////////////////////////////////
-      ///////////////////////////////////////////////////////////////////////           КАРТА
-      ///////////////////////////////////////////////////////////////////////
-      $scope.showRoad = function(index) {
-          //console.log("index=" + index + " type=" + type);
-          clearMap();
-
-          var array;
-          if (index === 0) {
-              if ($scope.currentTab === 1) {
-                  array = $scope.data.DataFoot;
-              } else if ($scope.currentTab === 2) {
-                  array = $scope.data.DataCar;
-              } else {
-                  array = $scope.data.DataBike;
-              }
-          } else {
-              if ($scope.currentTab === 1) {
-                  array = $scope.data.DataFoot[index];
-              } else if ($scope.currentTab === 2) {
-                  array = $scope.data.DataCar[index];
-              } else {
-                  array = $scope.data.DataBike[index];
-              }
-          }
-          if (!array.length) { //Если это не массив значит 1 элемент
-              showRoad(array);
-          } else {
-              array.forEach(function(item) {
-                  showRoad(item);
-              });
-          }
-
-          autoFit();
-      };
-      ///////////////////////////////////////////////////////////////////////
-      ///////////////////////////////////////////////////////////////////////           Id by index
-      ///////////////////////////////////////////////////////////////////////
-      function getId(index) {
-          if ($scope.currentTab === 1) {
-              return $scope.data.DataFoot[index].Id;
-          }
-          else if ($scope.currentTab === 2) {
-              return $scope.data.DataCar[index].Id;
-          }
-          return $scope.data.DataBike[index].Id;
-      };
+      }
       ///////////////////////////////////////////////////////////////////////
       ///////////////////////////////////////////////////////////////////////           МОДАЛЬНАЯ ДОБАВЛЕНИЯ / РЕДАКТИРОВАНИЯ
       ///////////////////////////////////////////////////////////////////////
@@ -150,9 +92,11 @@ App.controller('RoadsController', ['$scope', '$rootScope', '$state', '$statePara
       $scope.addModalOpen = function () {
           $scope.modal.title = $scope.translation.TitleAdd;
           $scope.modal.name = '';
+          $scope.modal.year = $scope.prepared.Year;
+          $scope.modal.authors = '';
           $scope.modal.datetimeNow = $scope.prepared.DateTimeNow;
-          if ($scope.modal.roadType !== $scope.prepared.TypeList[0].Value) $scope.modal.roadType = $scope.prepared.TypeList[0].Value;
-          $scope.modal.coordinates = '';
+          if ($scope.modal.genre !== $scope.prepared.GenreList[0].Value) $scope.modal.genre = $scope.prepared.GenreList[0].Value;
+          if ($scope.modal.rating !== $scope.prepared.RatingList[0].Value) $scope.modal.rating = $scope.prepared.RatingList[0].Value;
 
           $scope.modal.addButton = true;
           $scope.modal.shareButton = false;
@@ -168,13 +112,18 @@ App.controller('RoadsController', ['$scope', '$rootScope', '$state', '$statePara
       //в случае успеха закроем модальное и перезапросим данные, с первой страницы
       function afterAdd() {
           $scope.addModalHide();
-          calcTab = false;
+          $location.search('page', null);//с первой страницы новый поиск
+          $location.search('search', null);
+          if ($stateParams) {
+              $stateParams.page = null;
+              $stateParams.search = null;
+          }
+          $scope.quickSearch.text = null;
           getMainPage();
       };
       //Обновим текущую страницу
       function afterSave() {
           $scope.addModalHide();
-          calcTab = false;
           getMainPage();
       };
       //Готовлю данные для отправки и вызову глобальную AddData
@@ -182,32 +131,23 @@ App.controller('RoadsController', ['$scope', '$rootScope', '$state', '$statePara
           $rootScope.GetPage(constants.Pages.Add, $http, afterAdd, {
               pageId: pageId,
               name: $scope.modal.name,
-              type: $scope.modal.roadType,
+              year: $scope.modal.year,
+              authors: $scope.modal.authors,
               datetime: $scope.modal.datetimeNow,
-              coordinates: $scope.modal.coordinates,
-              distance: CalcDistanceFromTxt($scope.modal.coordinates)
+              genre: $scope.modal.genre,
+              rating: $scope.modal.rating
           });
       };
       //Готовлю модальную для редактирования
       $scope.modal.editButtonClick = function (id) {
           $scope.editedIndex = id;
           $scope.modal.title = $scope.translation.TitleEdit;
-
-          if ($scope.currentTab === 1) {
-              $scope.modal.name = $scope.data.DataFoot[id].Name;
-              $scope.modal.datetimeNow = $scope.data.DataFoot[id].DateFullText;
-              $scope.modal.coordinates = $scope.data.DataFoot[id].Coordinates;
-          } else if ($scope.currentTab === 2) {
-              $scope.modal.name = $scope.data.DataCar[id].Name;
-              $scope.modal.datetimeNow = $scope.data.DataCar[id].DateFullText;
-              $scope.modal.coordinates = $scope.data.DataCar[id].Coordinates;
-          } else {
-              $scope.modal.name = $scope.data.DataBike[id].Name;
-              $scope.modal.datetimeNow = $scope.data.DataBike[id].DateFullText;
-              $scope.modal.coordinates = $scope.data.DataBike[id].Coordinates;
-          }
-          //if (parseInt($scope.modal.roadType) !== parseInt(type)) $scope.modal.roadType = $scope.prepared.TypeList[parseInt(type)].Value;;
-          if (parseInt($scope.modal.roadType) !== parseInt($scope.currentTab)) $scope.modal.roadType = $scope.currentTab;
+          $scope.modal.name = $scope.data[id].Name;
+          $scope.modal.year = $scope.data[id].Year === 0 ? null : $scope.data[id].Year;
+          $scope.modal.authors = $scope.data[id].Authors;
+          $scope.modal.datetimeNow = $scope.data[id].DateReadText;
+          if (parseInt($scope.modal.genre) !== parseInt($scope.data[id].Genre)) $scope.modal.genre = $scope.data[id].Genre;
+          if (parseInt($scope.modal.rating) !== parseInt($scope.data[id].Rating)) $scope.modal.rating = $scope.data[id].Rating;
 
           $scope.modal.shareButton = true;
           $scope.modal.deleteButton = true;
@@ -220,17 +160,18 @@ App.controller('RoadsController', ['$scope', '$rootScope', '$state', '$statePara
       $scope.modal.saveButtonClick = function () {
           $rootScope.GetPage(constants.Pages.Update, $http, afterSave, {
               pageId: pageId,
-              id: getId($scope.editedIndex),
+              id: $scope.data[$scope.editedIndex].Id,
               name: $scope.modal.name,
-              type: $scope.modal.roadType,
+              year: $scope.modal.year,
+              authors: $scope.modal.authors,
               datetime: $scope.modal.datetimeNow,
-              coordinates: $scope.modal.coordinates,
-              distance: CalcDistanceFromTxt($scope.modal.coordinates)
+              genre: $scope.modal.genre,
+              rating: $scope.modal.rating
           });
       };
       //Модальная хочет удалить данные
       $scope.modal.deleteButtonClick = function () {
-          $rootScope.GetPage(constants.Pages.Delete, $http, afterSave, { pageId: pageId, recordId: getId($scope.editedIndex) });
+          $rootScope.GetPage(constants.Pages.Delete, $http, afterSave, { pageId: pageId, recordId: $scope.data[$scope.editedIndex].Id });
       };
       ///////////////////////////////////////////////////////////////////////
       ///////////////////////////////////////////////////////////////////////           МОДАЛЬНАЯ ДОСТУПА
@@ -246,7 +187,6 @@ App.controller('RoadsController', ['$scope', '$rootScope', '$state', '$statePara
               $scope.modalShare.deleteButton = true;
               $scope.modalShare.link = link;
           }
-          calcTab = false;
           getMainPage();
       };
       //Вызов модальной, он может быть из модальнйо редактирования, тогда заполнен $scope.editedIndex (откуда вызвал проверяю отдельно на 0, ибо if(0) это false)
@@ -260,7 +200,7 @@ App.controller('RoadsController', ['$scope', '$rootScope', '$state', '$statePara
           $scope.modalShare.tryButton = false;
           $scope.modalShare.deleteButton = false;
 
-          $rootScope.GetPage(constants.Pages.GetShare, $http, getShareCallBack, { pageId: pageId, recordId: getId($scope.editedIndex) });
+          $rootScope.GetPage(constants.Pages.GetShare, $http, getShareCallBack, { pageId: pageId, recordId: $scope.data[$scope.editedIndex].Id });
 
           $("#ShareModalWindow").modal("show");
       };
@@ -276,7 +216,7 @@ App.controller('RoadsController', ['$scope', '$rootScope', '$state', '$statePara
           $scope.modalShare.tryButton = false;
           $scope.modalShare.deleteButton = false;
 
-          $rootScope.GetPage(constants.Pages.DeleteShare, $http, getShareCallBack, { pageId: pageId, recordId: getId($scope.editedIndex) });
+          $rootScope.GetPage(constants.Pages.DeleteShare, $http, getShareCallBack, { pageId: pageId, recordId: $scope.data[$scope.editedIndex].Id });
       };
       //Добавляем доступ из модальной доступа
       $scope.modalShare.addButtonClick = function () {
@@ -286,6 +226,6 @@ App.controller('RoadsController', ['$scope', '$rootScope', '$state', '$statePara
           $scope.modalShare.tryButton = false;
           $scope.modalShare.deleteButton = false;
 
-          $rootScope.GetPage(constants.Pages.GenerateShare, $http, getShareCallBack, { pageId: pageId, recordId: getId($scope.editedIndex) });
+          $rootScope.GetPage(constants.Pages.GenerateShare, $http, getShareCallBack, { pageId: pageId, recordId: $scope.data[$scope.editedIndex].Id });
       };
   }]);

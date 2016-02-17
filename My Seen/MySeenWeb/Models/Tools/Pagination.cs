@@ -3,9 +3,9 @@ using System.Linq;
 
 namespace MySeenWeb.Models.Tools
 {
-    public class PaginationViewModel
+    public class Pagination
     {
-        public PaginationViewModel(int pageNum, int totalRecords, int countInPage)
+        public Pagination(int pageNum, int totalRecords, int countInPage)
         {
             Load(pageNum, totalRecords, countInPage);
         }
