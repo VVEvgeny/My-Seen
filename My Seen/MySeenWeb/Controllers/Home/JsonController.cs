@@ -8,12 +8,28 @@ using MySeenWeb.Controllers._Base;
 using MySeenWeb.Models;
 using MySeenWeb.Models.Prepared;
 using MySeenWeb.Models.TablesLogic;
+using MySeenWeb.Models.Tools;
 using MySeenWeb.Models.Translations;
 
 namespace MySeenWeb.Controllers.Home
 {
     public class JsonController : BaseController
     {
+        public ActionResult Index()
+        {
+            var logger = new NLogLogger();
+            const string methodName = "public ActionResult Index()";
+            try
+            {
+                return View(new HomeViewModel(ReadUserSideStorage(UserSideStorageKeys.MarkersOnRoads, 0)));
+            }
+            catch (Exception ex)
+            {
+                logger.Error(methodName, ex);
+            }
+            return null;
+        }
+
         [HttpPost]
         public JsonResult GetPage(int pageId, int? page, string search, int? ended, int? year, int? complex, string shareKey)
         {

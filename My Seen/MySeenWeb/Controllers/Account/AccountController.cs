@@ -23,17 +23,6 @@ namespace MySeenWeb.Controllers.Account
     {
         private ApplicationSignInManager _signInManager;
         private ApplicationUserManager _userManager;
-
-        public AccountController()
-        {
-        }
-
-        public AccountController(ApplicationUserManager userManager, ApplicationSignInManager signInManager)
-        {
-            UserManager = userManager;
-            SignInManager = signInManager;
-        }
-
         public ApplicationSignInManager SignInManager
         {
             get { return _signInManager ?? HttpContext.GetOwinContext().Get<ApplicationSignInManager>(); }
@@ -46,8 +35,18 @@ namespace MySeenWeb.Controllers.Account
             private set { _userManager = value; }
         }
 
+        public AccountController()
+        {
+        }
+
+        public AccountController(ApplicationUserManager userManager, ApplicationSignInManager signInManager)
+        {
+            UserManager = userManager;
+            SignInManager = signInManager;
+        }
+
         //
-        // POST: /Account/Login
+        // POST: /Account/LoginMain
         [HttpPost]
         [AllowAnonymous]
         public async Task<JsonResult> LoginMain(string userName, string password, string remember)
@@ -136,7 +135,8 @@ namespace MySeenWeb.Controllers.Account
             }
             return RedirectToAction("Index", "Home");
         }
-        public static ApplicationUser CreateUser(string email)
+
+        private static ApplicationUser CreateUser(string email)
         {
             return new ApplicationUser
             {

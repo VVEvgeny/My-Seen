@@ -18,6 +18,20 @@ namespace MySeenWeb.Controllers.Home
 {
     public class SettingsController : BaseController
     {
+        private ApplicationUserManager UserManager
+        {
+            get { return HttpContext.GetOwinContext().GetUserManager<ApplicationUserManager>(); }
+        }
+
+        private ApplicationSignInManager SignInManager
+        {
+            get { return HttpContext.GetOwinContext().Get<ApplicationSignInManager>(); }
+        }
+        private IAuthenticationManager AuthenticationManager
+        {
+            get { return HttpContext.GetOwinContext().Authentication; }
+        }
+
         [Authorize]
         [HttpPost]
         public JsonResult SetLanguage(int val)
@@ -144,16 +158,6 @@ namespace MySeenWeb.Controllers.Home
             return new JsonResult { Data = new { success = false, error = methodName } };
         }
 
-        private ApplicationUserManager UserManager
-        {
-            get { return HttpContext.GetOwinContext().GetUserManager<ApplicationUserManager>(); }
-        }
-
-        private ApplicationSignInManager SignInManager
-        {
-            get { return HttpContext.GetOwinContext().Get<ApplicationSignInManager>(); }
-        }
-
         [Authorize]
         [HttpPost]
         public JsonResult SetPassword(string password, string newPassword)
@@ -198,11 +202,6 @@ namespace MySeenWeb.Controllers.Home
                 logger.Error(methodName, ex);
             }
             return new JsonResult { Data = new { success = false, error = methodName } };
-        }
-
-        private IAuthenticationManager AuthenticationManager
-        {
-            get { return HttpContext.GetOwinContext().Authentication; }
         }
 
         [Authorize]
@@ -254,6 +253,7 @@ namespace MySeenWeb.Controllers.Home
             }
             return new JsonResult { Data = new { success = false, error = methodName } };
         }
+        
         [Authorize]
         [HttpPost]
         public ActionResult AddLogin(string provider)

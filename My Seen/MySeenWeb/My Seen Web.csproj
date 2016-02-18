@@ -211,7 +211,6 @@
     <Compile Include="Controllers\_Base\BaseController.cs" />
     <Compile Include="Controllers\Others\BrowserFilterController.cs" />
     <Compile Include="Controllers\Home\SettingsController.cs" />
-    <Compile Include="Controllers\Home\HomeController.cs" />
     <Compile Include="Controllers\Api\ApiSyncController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -1471,10 +1470,10 @@
       <DependentUpon>Web.config</DependentUpon>
     </Content>
     <Content Include="Views\Web.config" />
-    <Content Include="Views\Home\Index.cshtml" />
+    <Content Include="Views\Json\Index.cshtml" />
     <Content Include="Views\BrowserFilter\Index.cshtml" />
     <Content Include="Views\Share\Tracks.cshtml" />
-    <Content Include="Views\Home\TrackEditor.cshtml" />
+    <Content Include="Views\Json\TrackEditor.cshtml" />
     <Content Include="Views\Share\Films.cshtml" />
     <Content Include="Views\Share\Serials.cshtml" />
     <Content Include="Views\Share\Books.cshtml" />
@@ -1498,7 +1497,7 @@
     <Content Include="Views\Tools\Services\Google\_Base.cshtml" />
     <Content Include="Views\Tools\Services\VK\_Base.cshtml" />
     <Content Include="Views\Tools\Services.cshtml" />
-    <Content Include="Views\Home\IndexFullKO.cshtml" />
+    <Content Include="Views\Json\IndexFullKO.cshtml" />
     <Content Include="Scripts\version.json" />
     <Content Include="Views\Account\ExternalLoginConfirmation.cshtml" />
     <Content Include="Views\Account\ExternalLoginFailure.cshtml" />

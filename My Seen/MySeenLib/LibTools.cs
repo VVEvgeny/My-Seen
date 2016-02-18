@@ -126,11 +126,11 @@ namespace MySeenLib
         public static string ShareSerials = @"/Share/Serials/";
         public static string ShareBooks = @"/Share/Books/";
         */
-        public static string ShareTracks = @"/#/roads/shared/";
-        public static string ShareEvents = @"/#/events/shared/";
-        public static string ShareFilms = @"/#/films/shared/";
-        public static string ShareSerials = @"/#/serials/shared/";
-        public static string ShareBooks = @"/#/books/shared/";
+        public static string ShareTracks = @"/roads/shared/";
+        public static string ShareEvents = @"/events/shared/";
+        public static string ShareFilms = @"/films/shared/";
+        public static string ShareSerials = @"/serials/shared/";
+        public static string ShareBooks = @"/books/shared/";
 
         public enum SyncModesApiUsers
         {

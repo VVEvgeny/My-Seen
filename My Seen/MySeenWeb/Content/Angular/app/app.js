@@ -3,7 +3,13 @@
 /* App Module */
 var App = angular.module('MySeenApp', ['ui.router', 'ui.bootstrap']);
 
-App.config(function($stateProvider, $urlRouterProvider) {
+App.config(function ($stateProvider, $urlRouterProvider, $locationProvider) {
+
+    $locationProvider.html5Mode({
+        enabled: true,
+        requireBase: false
+    });
+    $locationProvider.hashPrefix('!');
 
     $urlRouterProvider.otherwise('/');
 
