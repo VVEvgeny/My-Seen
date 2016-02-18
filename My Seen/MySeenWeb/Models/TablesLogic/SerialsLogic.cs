@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using MySeenLib;
+using MySeenWeb.Add_Code;
 using MySeenWeb.Models.OtherViewModels;
 using MySeenWeb.Models.Tables;
 
@@ -10,10 +11,15 @@ namespace MySeenWeb.Models.TablesLogic
     {
         private readonly ApplicationDbContext _ac;
         public string ErrorMessage;
+        private readonly ICacheService _cache;
         public SerialsLogic()
         {
             ErrorMessage = string.Empty;
             _ac = new ApplicationDbContext();
+        }
+        public SerialsLogic(ICacheService cache) : this()
+        {
+            _cache = cache;
         }
         private bool Fill(string name, string year, string season, string series, string datetime, string genre, string rating, string userId)
         {
@@ -75,6 +81,7 @@ namespace MySeenWeb.Models.TablesLogic
             {
                 _ac.Serials.Add(this);
                 _ac.SaveChanges();
+                _cache.Remove(CacheNames.UserSerials.ToString(), UserId);
             }
             catch (Exception e)
             {
@@ -100,6 +107,7 @@ namespace MySeenWeb.Models.TablesLogic
                 film.Rating = Rating;
                 film.DateChange = DateChange;
                 film.DateBegin = DateBegin;
+                _cache.Remove(CacheNames.UserSerials.ToString(), UserId);
                 _ac.SaveChanges();
             }
             catch (Exception e)
@@ -126,6 +134,7 @@ namespace MySeenWeb.Models.TablesLogic
                 {
                     _ac.Serials.First(f => f.UserId == userId && f.Id == Id).LastSeries++;
                     _ac.Serials.First(f => f.UserId == userId && f.Id == Id).DateLast = UmtTime.From(DateTime.Now);
+                    _cache.Remove(CacheNames.UserSerials.ToString(), userId);
                     _ac.SaveChanges();
                 }
                 else
@@ -149,6 +158,7 @@ namespace MySeenWeb.Models.TablesLogic
                 if (_ac.Serials.Any(f => f.UserId == userId && f.Id == Id))
                 {
                     _ac.Serials.RemoveRange(_ac.Serials.Where(f => f.UserId == userId && f.Id == Id));
+                    _cache.Remove(CacheNames.UserSerials.ToString(), userId);
                     _ac.SaveChanges();
                 }
                 else
@@ -186,6 +196,7 @@ namespace MySeenWeb.Models.TablesLogic
             var iid = Convert.ToInt32(id);
             var key = _ac.Users.First(t => t.Id == userId).ShareSerialsKey;
             _ac.Serials.First(e => e.Id == iid).Shared = true;
+            _cache.Remove(CacheNames.UserSerials.ToString(), userId);
             _ac.SaveChanges();
             return MySeenWebApi.ApiHost + MySeenWebApi.ShareSerials + key;
         }
@@ -193,6 +204,7 @@ namespace MySeenWeb.Models.TablesLogic
         {
             var iid = Convert.ToInt32(id);
             _ac.Serials.First(e => e.Id == iid && e.UserId == userId).Shared = false;
+            _cache.Remove(CacheNames.UserSerials.ToString(), userId);
             _ac.SaveChanges();
             return "-";
         }

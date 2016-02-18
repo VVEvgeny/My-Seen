@@ -3,6 +3,7 @@ using System.Web.Mvc;
 using Microsoft.AspNet.Identity;
 using MySeenLib;
 using MySeenWeb.ActionFilters;
+using MySeenWeb.Add_Code;
 using MySeenWeb.Add_Code.Services.Logging.NLog;
 using MySeenWeb.Controllers._Base;
 using MySeenWeb.Models;
@@ -15,6 +16,11 @@ namespace MySeenWeb.Controllers.Home
 {
     public class JsonController : BaseController
     {
+        private readonly ICacheService _cache;
+        public JsonController(ICacheService cache)
+        {
+            _cache = cache;
+        }
         public ActionResult Index()
         {
             var logger = new NLogLogger();
@@ -48,20 +54,20 @@ namespace MySeenWeb.Controllers.Home
                     case (int)Defaults.CategoryBase.Indexes.Films:
                         if (!User.Identity.IsAuthenticated && string.IsNullOrEmpty(shareKey)) return new JsonResult { Data = new { success = false, error = Resource.NotAuthorized } };
                         return
-                            Json(new HomeViewModelFilms(User.Identity.GetUserId(), page ?? 1, Rpp, search, shareKey));
+                            Json(new HomeViewModelFilms(User.Identity.GetUserId(), page ?? 1, Rpp, search, shareKey, _cache));
                     case (int)Defaults.CategoryBase.Indexes.Serials:
                         if (!User.Identity.IsAuthenticated && string.IsNullOrEmpty(shareKey)) return new JsonResult { Data = new { success = false, error = Resource.NotAuthorized } };
-                        return Json(new HomeViewModelSerials(User.Identity.GetUserId(), page ?? 1, Rpp, search, shareKey));
+                        return Json(new HomeViewModelSerials(User.Identity.GetUserId(), page ?? 1, Rpp, search, shareKey, _cache));
                     case (int)Defaults.CategoryBase.Indexes.Books:
                         if (!User.Identity.IsAuthenticated && string.IsNullOrEmpty(shareKey)) return new JsonResult { Data = new { success = false, error = Resource.NotAuthorized } };
-                        return Json(new HomeViewModelBooks(User.Identity.GetUserId(), page ?? 1, Rpp, search, shareKey));
+                        return Json(new HomeViewModelBooks(User.Identity.GetUserId(), page ?? 1, Rpp, search, shareKey, _cache));
                     case (int)Defaults.CategoryBase.Indexes.Events:
                         if (!User.Identity.IsAuthenticated && string.IsNullOrEmpty(shareKey)) return new JsonResult { Data = new { success = false, error = Resource.NotAuthorized } };
                         return
                             Json(new HomeViewModelEvents(User.Identity.GetUserId(), page ?? 1, Rpp, search, ended ?? 0, shareKey));
                     case (int)Defaults.CategoryBase.Indexes.Roads:
                         if (!User.Identity.IsAuthenticated && string.IsNullOrEmpty(shareKey)) return new JsonResult { Data = new { success = false, error = Resource.NotAuthorized } };
-                        return Json(new HomeViewModelRoads(User.Identity.GetUserId(), year ?? 0, search, shareKey));
+                        return Json(new HomeViewModelRoads(User.Identity.GetUserId(), year ?? 0, search, shareKey, _cache));
                     case (int)Defaults.CategoryBase.IndexesExt.Improvements:
                         if (!User.Identity.IsAuthenticated && string.IsNullOrEmpty(shareKey)) return new JsonResult { Data = new { success = false, error = Resource.NotAuthorized } };
                         return
@@ -178,19 +184,19 @@ namespace MySeenWeb.Controllers.Home
                 switch (pageId)
                 {
                     case (int) Defaults.CategoryBase.Indexes.Films:
-                        var filmsLogic = new FilmsLogic();
+                        var filmsLogic = new FilmsLogic(_cache);
                         return Json(filmsLogic.GetShare(recordId, User.Identity.GetUserId()));
                     case (int) Defaults.CategoryBase.Indexes.Serials:
-                        var serialsLogic = new SerialsLogic();
+                        var serialsLogic = new SerialsLogic(_cache);
                         return Json(serialsLogic.GetShare(recordId, User.Identity.GetUserId()));
                     case (int) Defaults.CategoryBase.Indexes.Books:
-                        var booksLogic = new BooksLogic();
+                        var booksLogic = new BooksLogic(_cache);
                         return Json(booksLogic.GetShare(recordId, User.Identity.GetUserId()));
                     case (int) Defaults.CategoryBase.Indexes.Events:
                         var eventsLogic = new EventsLogic();
                         return Json(eventsLogic.GetShare(recordId, User.Identity.GetUserId()));
                     case (int) Defaults.CategoryBase.Indexes.Roads:
-                        var roadsLogic = new RoadsLogic();
+                        var roadsLogic = new RoadsLogic(_cache);
                         return Json(roadsLogic.GetShare(recordId, User.Identity.GetUserId()));
                 }
                 logger.Info("CALL NOT REALIZED GetShare=" + pageId);
@@ -213,19 +219,19 @@ namespace MySeenWeb.Controllers.Home
                 switch (pageId)
                 {
                     case (int)Defaults.CategoryBase.Indexes.Films:
-                        var filmsLogic = new FilmsLogic();
+                        var filmsLogic = new FilmsLogic(_cache);
                         return Json(filmsLogic.GenerateShare(recordId, User.Identity.GetUserId()));
                     case (int)Defaults.CategoryBase.Indexes.Serials:
-                        var serialsLogic = new SerialsLogic();
+                        var serialsLogic = new SerialsLogic(_cache);
                         return Json(serialsLogic.GenerateShare(recordId, User.Identity.GetUserId()));
                     case (int)Defaults.CategoryBase.Indexes.Books:
-                        var booksLogic = new BooksLogic();
+                        var booksLogic = new BooksLogic(_cache);
                         return Json(booksLogic.GenerateShare(recordId, User.Identity.GetUserId()));
                     case (int)Defaults.CategoryBase.Indexes.Events:
                         var eventsLogic = new EventsLogic();
                         return Json(eventsLogic.GenerateShare(recordId, User.Identity.GetUserId()));
                     case (int)Defaults.CategoryBase.Indexes.Roads:
-                        var roadsLogic = new RoadsLogic();
+                        var roadsLogic = new RoadsLogic(_cache);
                         return Json(roadsLogic.GenerateShare(recordId, User.Identity.GetUserId()));
                 }
                 logger.Info("CALL NOT REALIZED GenerateShare=" + pageId);
@@ -248,19 +254,19 @@ namespace MySeenWeb.Controllers.Home
                 switch (pageId)
                 {
                     case (int)Defaults.CategoryBase.Indexes.Films:
-                        var filmsLogic = new FilmsLogic();
+                        var filmsLogic = new FilmsLogic(_cache);
                         return Json(filmsLogic.DeleteShare(recordId, User.Identity.GetUserId()));
                     case (int)Defaults.CategoryBase.Indexes.Serials:
-                        var serialsLogic = new SerialsLogic();
+                        var serialsLogic = new SerialsLogic(_cache);
                         return Json(serialsLogic.DeleteShare(recordId, User.Identity.GetUserId()));
                     case (int)Defaults.CategoryBase.Indexes.Books:
-                        var booksLogic = new BooksLogic();
+                        var booksLogic = new BooksLogic(_cache);
                         return Json(booksLogic.DeleteShare(recordId, User.Identity.GetUserId()));
                     case (int)Defaults.CategoryBase.Indexes.Events:
                         var eventsLogic = new EventsLogic();
                         return Json(eventsLogic.DeleteShare(recordId, User.Identity.GetUserId()));
                     case (int)Defaults.CategoryBase.Indexes.Roads:
-                        var roadsLogic = new RoadsLogic();
+                        var roadsLogic = new RoadsLogic(_cache);
                         return Json(roadsLogic.DeleteShare(recordId, User.Identity.GetUserId()));
                 }
                 logger.Info("CALL NOT REALIZED DeleteShare=" + pageId);
@@ -283,24 +289,24 @@ namespace MySeenWeb.Controllers.Home
                 switch (pageId)
                 {
                     case (int) Defaults.CategoryBase.Indexes.Films:
-                        var filmsLogic = new FilmsLogic();
+                        var filmsLogic = new FilmsLogic(_cache);
                         return !filmsLogic.Add(name, year, datetime, genre, rating, User.Identity.GetUserId())
                             ? new JsonResult { Data = new { success = false, error = filmsLogic.ErrorMessage } }
                             : Json(new {success = true});
                     case (int)Defaults.CategoryBase.Indexes.Serials:
-                        var serialsLogic = new SerialsLogic();
+                        var serialsLogic = new SerialsLogic(_cache);
                         return
                             !serialsLogic.Add(name, year, season, series, datetime, genre, rating,
                                 User.Identity.GetUserId())
                                 ? new JsonResult {Data = new {success = false, error = serialsLogic.ErrorMessage}}
                                 : Json(new {success = true});
                     case (int)Defaults.CategoryBase.Indexes.Books:
-                        var booksLogic = new BooksLogic();
+                        var booksLogic = new BooksLogic(_cache);
                         return !booksLogic.Add(name, year, authors, datetime, genre, rating, User.Identity.GetUserId())
                             ? new JsonResult {Data = new {success = false, error = booksLogic.ErrorMessage}}
                             : Json(new {success = true});
                     case (int)Defaults.CategoryBase.Indexes.Roads:
-                        var tracksLogic = new RoadsLogic();
+                        var tracksLogic = new RoadsLogic(_cache);
                         return !tracksLogic.Add(name, datetime, type, coordinates, distance, User.Identity.GetUserId())
                             ? new JsonResult {Data = new {success = false, error = tracksLogic.ErrorMessage}}
                             : Json(new {success = true});
@@ -335,23 +341,23 @@ namespace MySeenWeb.Controllers.Home
                 switch (pageId)
                 {
                     case (int)Defaults.CategoryBase.Indexes.Films:
-                        var filmsLogic = new FilmsLogic();
+                        var filmsLogic = new FilmsLogic(_cache);
                         return !filmsLogic.Delete(recordId, User.Identity.GetUserId())
                             ? new JsonResult { Data = new { success = false, error = filmsLogic.ErrorMessage } }
                             : Json(new { success = true });
                     case (int)Defaults.CategoryBase.Indexes.Serials:
-                        var serialsLogic = new SerialsLogic();
+                        var serialsLogic = new SerialsLogic(_cache);
                         return
                             !serialsLogic.Delete(recordId, User.Identity.GetUserId())
                                 ? new JsonResult { Data = new { success = false, error = serialsLogic.ErrorMessage } }
                                 : Json(new { success = true });
                     case (int)Defaults.CategoryBase.Indexes.Books:
-                        var booksLogic = new BooksLogic();
+                        var booksLogic = new BooksLogic(_cache);
                         return !booksLogic.Delete(recordId, User.Identity.GetUserId())
                             ? new JsonResult { Data = new { success = false, error = booksLogic.ErrorMessage } }
                             : Json(new { success = true });
                     case (int)Defaults.CategoryBase.Indexes.Roads:
-                        var tracksLogic = new RoadsLogic();
+                        var tracksLogic = new RoadsLogic(_cache);
                         return !tracksLogic.Delete(recordId, User.Identity.GetUserId())
                             ? new JsonResult { Data = new { success = false, error = tracksLogic.ErrorMessage } }
                             : Json(new { success = true });
@@ -387,24 +393,24 @@ namespace MySeenWeb.Controllers.Home
                 switch (pageId)
                 {
                     case (int)Defaults.CategoryBase.Indexes.Films:
-                        var filmsLogic = new FilmsLogic();
+                        var filmsLogic = new FilmsLogic(_cache);
                         return !filmsLogic.Update(id, name, year, datetime, genre, rating, User.Identity.GetUserId())
                             ? new JsonResult { Data = new { success = false, error = filmsLogic.ErrorMessage } }
                             : Json(new { success = true });
                     case (int)Defaults.CategoryBase.Indexes.Serials:
-                        var serialsLogic = new SerialsLogic();
+                        var serialsLogic = new SerialsLogic(_cache);
                         return
                             !serialsLogic.Update(id, name, year, season, series, datetime, genre, rating,
                                 User.Identity.GetUserId())
                                 ? new JsonResult { Data = new { success = false, error = serialsLogic.ErrorMessage } }
                                 : Json(new { success = true });
                     case (int)Defaults.CategoryBase.Indexes.Books:
-                        var booksLogic = new BooksLogic();
+                        var booksLogic = new BooksLogic(_cache);
                         return !booksLogic.Update(id, name, year, authors, datetime, genre, rating, User.Identity.GetUserId())
                             ? new JsonResult { Data = new { success = false, error = booksLogic.ErrorMessage } }
                             : Json(new { success = true });
                     case (int)Defaults.CategoryBase.Indexes.Roads:
-                        var tracksLogic = new RoadsLogic();
+                        var tracksLogic = new RoadsLogic(_cache);
                         return !tracksLogic.Update(id, name, datetime, type, coordinates, distance, User.Identity.GetUserId())
                             ? new JsonResult { Data = new { success = false, error = tracksLogic.ErrorMessage } }
                             : Json(new { success = true });
@@ -460,7 +466,7 @@ namespace MySeenWeb.Controllers.Home
             var methodName = "public JsonResult AddSeries(string id)";
             try
             {
-                var logic = new SerialsLogic();
+                var logic = new SerialsLogic(_cache);
                 return !logic.AddSeries(recordId, User.Identity.GetUserId()) ? new JsonResult { Data = new { success = false, error = logic.ErrorMessage } } : Json(new { success = true });
             }
             catch (Exception ex)

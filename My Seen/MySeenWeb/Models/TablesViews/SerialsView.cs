@@ -34,6 +34,14 @@ namespace MySeenWeb.Models.TablesViews
         {
             get { return Defaults.Ratings.GetById(Rating); }
         }
+        public string GenreVal
+        {
+            get { return Genre.ToString(); }
+        }
+        public string RatingVal
+        {
+            get { return Rating.ToString(); }
+        }
         public string YearText
         {
             get { return Year == 0 ? "" : Year.ToString(); }

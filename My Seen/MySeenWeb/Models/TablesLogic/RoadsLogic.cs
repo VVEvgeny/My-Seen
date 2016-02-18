@@ -12,10 +12,15 @@ namespace MySeenWeb.Models.TablesLogic
     {
         private readonly ApplicationDbContext _ac;
         public string ErrorMessage;
+        private readonly ICacheService _cache;
         public RoadsLogic()
         {
             ErrorMessage = string.Empty;
             _ac = new ApplicationDbContext();
+        }
+        public RoadsLogic(ICacheService cache) : this()
+        {
+            _cache = cache;
         }
         private bool Fill(string name, string datetime, string type, string coordinates, string distance, string userId)
         {
@@ -65,6 +70,7 @@ namespace MySeenWeb.Models.TablesLogic
             {
                 _ac.Tracks.Add(this);
                 _ac.SaveChanges();
+                _cache.Remove(CacheNames.UserRoads.ToString(), UserId);
             }
             catch (Exception e)
             {
@@ -85,6 +91,7 @@ namespace MySeenWeb.Models.TablesLogic
                 elem.Date = Date;
                 elem.Distance = Distance;
                 _ac.SaveChanges();
+                _cache.Remove(CacheNames.UserRoads.ToString(), UserId);
             }
             catch (Exception e)
             {
@@ -110,6 +117,7 @@ namespace MySeenWeb.Models.TablesLogic
                 {
                     _ac.Tracks.RemoveRange(_ac.Tracks.Where(f => f.UserId == userId && f.Id == Id));
                     _ac.SaveChanges();
+                    _cache.Remove(CacheNames.UserRoads.ToString(), userId);
                 }
                 else
                 {
@@ -202,6 +210,7 @@ namespace MySeenWeb.Models.TablesLogic
                 if (_ac.Tracks != null) _ac.Tracks.First(t => t.UserId == userId && t.Id == iid).ShareKey = genkey;
             }
             _ac.SaveChanges();
+            _cache.Remove(CacheNames.UserRoads.ToString(), userId);
             return MySeenWebApi.ApiHost + MySeenWebApi.ShareTracks + genkey;
         }
         public string DeleteShare(string id, string userId)
@@ -233,6 +242,7 @@ namespace MySeenWeb.Models.TablesLogic
                 _ac.Tracks.First(t => t.UserId == userId && t.Id == iid).ShareKey = string.Empty;
             }
             _ac.SaveChanges();
+            _cache.Remove(CacheNames.UserRoads.ToString(), userId);
             return "-";
         }
     }

@@ -142,8 +142,8 @@ App.controller('FilmsController', ['$scope', '$rootScope', '$state', '$statePara
           $scope.modal.name = $scope.data[id].Name;
           $scope.modal.year = $scope.data[id].Year === 0 ? null : $scope.data[id].Year;
           $scope.modal.datetimeNow = $scope.data[id].DateSeeText;
-          if (parseInt($scope.modal.genre) !== parseInt($scope.data[id].Genre)) $scope.modal.genre = $scope.data[id].Genre;
-          if (parseInt($scope.modal.rating) !== parseInt($scope.data[id].Rating)) $scope.modal.rating = $scope.data[id].Rating;
+          if ($scope.modal.genre !== $scope.data[id].GenreVal) $scope.modal.genre = $scope.data[id].GenreVal;
+          if ($scope.modal.rating !== $scope.data[id].RatingVal) $scope.modal.rating = $scope.data[id].RatingVal;
 
           $scope.modal.shareButton = true;
           $scope.modal.deleteButton = true;

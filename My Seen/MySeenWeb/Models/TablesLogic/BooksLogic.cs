@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using MySeenLib;
+using MySeenWeb.Add_Code;
 using MySeenWeb.Models.OtherViewModels;
 using MySeenWeb.Models.Tables;
 
@@ -10,10 +11,15 @@ namespace MySeenWeb.Models.TablesLogic
     {
         private readonly ApplicationDbContext _ac;
         public string ErrorMessage;
+        private readonly ICacheService _cache;
         public BooksLogic()
         {
             ErrorMessage = string.Empty;
             _ac = new ApplicationDbContext();
+        }
+        public BooksLogic(ICacheService cache) : this()
+        {
+            _cache = cache;
         }
         private bool Fill(string name, string year, string authors, string datetime, string genre, string rating, string userId)
         {
@@ -76,6 +82,7 @@ namespace MySeenWeb.Models.TablesLogic
             {
                 _ac.Books.Add(this);
                 _ac.SaveChanges();
+                _cache.Remove(CacheNames.UserBooks.ToString(), UserId);
             }
             catch (Exception e)
             {
@@ -97,6 +104,7 @@ namespace MySeenWeb.Models.TablesLogic
                 film.DateChange = DateChange;
                 film.DateRead = DateRead;
                 _ac.SaveChanges();
+                _cache.Remove(CacheNames.UserBooks.ToString(), UserId);
             }
             catch (Exception e)
             {
@@ -122,6 +130,7 @@ namespace MySeenWeb.Models.TablesLogic
                 {
                     _ac.Books.RemoveRange(_ac.Books.Where(f => f.UserId == userId && f.Id == Id));
                     _ac.SaveChanges();
+                    _cache.Remove(CacheNames.UserBooks.ToString(), userId);
                 }
                 else
                 {
@@ -159,6 +168,7 @@ namespace MySeenWeb.Models.TablesLogic
             var key = _ac.Users.First(t => t.Id == userId).ShareBooksKey;
             _ac.Books.First(e => e.Id == iid).Shared = true;
             _ac.SaveChanges();
+            _cache.Remove(CacheNames.UserBooks.ToString(), userId);
             return MySeenWebApi.ApiHost + MySeenWebApi.ShareBooks + key;
         }
         public string DeleteShare(string id, string userId)
@@ -166,6 +176,7 @@ namespace MySeenWeb.Models.TablesLogic
             var iid = Convert.ToInt32(id);
             _ac.Books.First(e => e.Id == iid && e.UserId == userId).Shared = false;
             _ac.SaveChanges();
+            _cache.Remove(CacheNames.UserBooks.ToString(), userId);
             return "-";
         }
     }

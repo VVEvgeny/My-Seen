@@ -18,6 +18,7 @@ namespace MySeenWeb.Models
             Pages = new Pagination(page, ac.Users.Count(f=> (string.IsNullOrEmpty(search) || f.UserName.Contains(search))), countInPage);
             Data = ac.Users.AsNoTracking()
                 .Where(f => (string.IsNullOrEmpty(search) || f.UserName.Contains(search)))
+                .OrderByDescending(l => l.RegisterDate)
                 .Skip(() => Pages.SkipRecords)
                 .Take(() => countInPage)
                 .Select(UsersView.Map)

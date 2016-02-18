@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using MySeenLib;
+using MySeenWeb.Add_Code;
 using MySeenWeb.Models.OtherViewModels;
 using MySeenWeb.Models.Tables;
 
@@ -10,10 +11,15 @@ namespace MySeenWeb.Models.TablesLogic
     {
         private readonly ApplicationDbContext _ac;
         public string ErrorMessage;
+        private readonly ICacheService _cache;
         public FilmsLogic()
         {
             ErrorMessage = string.Empty;
             _ac = new ApplicationDbContext();
+        }
+        public FilmsLogic(ICacheService cache) : this()
+        {
+            _cache = cache;
         }
         private bool Fill(string name, string year, string datetime, string genre, string rating, string userId)
         {
@@ -72,6 +78,7 @@ namespace MySeenWeb.Models.TablesLogic
             {
                 _ac.Films.Add(this);
                 _ac.SaveChanges();
+                _cache.Remove(CacheNames.UserFilms.ToString(), UserId);
             }
             catch (Exception e)
             {
@@ -92,6 +99,7 @@ namespace MySeenWeb.Models.TablesLogic
                 film.DateSee = DateSee;
                 film.Year = Year;
                 _ac.SaveChanges();
+                _cache.Remove(CacheNames.UserFilms.ToString(), UserId);
             }
             catch (Exception e)
             {
@@ -117,6 +125,7 @@ namespace MySeenWeb.Models.TablesLogic
                 {
                     _ac.Films.RemoveRange(_ac.Films.Where(f => f.UserId == userId && f.Id == Id));
                     _ac.SaveChanges();
+                    _cache.Remove(CacheNames.UserFilms.ToString(), userId);
                 }
                 else
                 {
@@ -155,6 +164,7 @@ namespace MySeenWeb.Models.TablesLogic
             var key = _ac.Users.First(t => t.Id == userId).ShareFilmsKey;
             _ac.Films.First(e => e.Id == iid).Shared = true;
             _ac.SaveChanges();
+            _cache.Remove(CacheNames.UserFilms.ToString(), userId);
             return MySeenWebApi.ApiHost + MySeenWebApi.ShareFilms + key;
         }
         public string DeleteShare(string id, string userId)
@@ -162,6 +172,7 @@ namespace MySeenWeb.Models.TablesLogic
             var iid = Convert.ToInt32(id);
             _ac.Films.First(e => e.Id == iid && e.UserId == userId).Shared = false;
             _ac.SaveChanges();
+            _cache.Remove(CacheNames.UserFilms.ToString(), userId);
             return "-";
         }
     }

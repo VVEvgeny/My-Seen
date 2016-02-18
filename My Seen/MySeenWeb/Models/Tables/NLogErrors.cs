@@ -1,5 +1,6 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
+using System.Web.Script.Serialization;
 
 namespace MySeenWeb.Models.Tables
 {
@@ -7,6 +8,7 @@ namespace MySeenWeb.Models.Tables
     {
         [Key]
         public int Id { get; set; }
+        [ScriptIgnore]
         public DateTime DateTimeStamp { get; set; }
         public string Host { get; set; }
         public string Type { get; set; }
