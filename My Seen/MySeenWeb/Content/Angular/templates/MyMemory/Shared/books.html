@@ -1,0 +1,45 @@
+﻿<!--Загрузка-->
+<data-ng-include src="'Content/Angular/templates/_tools/loading.html'"></data-ng-include>
+<!--Кнопка добавить и поиск-->
+<data-ng-include src="'Content/Angular/templates/_tools/add-search-buttons.html'"></data-ng-include>
+<br>
+
+<div data-ng-show="prepared.loaded && translation.loaded">
+    <!--Таблица-->
+    <div class="table-responsive">
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th class="col-sm-1"></th>
+                    <th class="col-sm-4">{{translation.Name}}</th>
+                    <th class="col-sm-1">{{translation.Year}}</th>
+                    <th class="col-sm-2">{{translation.Authors}}</th>
+                    <th class="col-sm-2">{{translation.DateRead}}</th>
+                    <th class="col-sm-1">{{translation.Genre}}</th>
+                    <th class="col-sm-1">{{translation.Rating}}</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr ng-repeat="val in data">
+                    <td>
+                        <!--Блок управляющих кнопок-->
+                        <span class="pull-left">
+                            <button class="btn btn-danger btn-xs" data-ng-click="deleteShareButtonClick($index)" data-ng-show="isMyData"> <span class=" glyphicon glyphicon-remove"></span></button>
+                        </span>
+                    </td>
+                    <!--Одноразовая привязка-->
+                    <td class="align-center">{{::val.Name}}</td>
+                    <td class="align-center">{{::val.YearText}}</td>
+                    <td class="align-center">{{::val.Authors}}</td>
+                    <td class="align-center">{{::val.DateReadText}}</td>
+                    <td class="align-center">{{::val.GenreText}}</td>
+                    <td class="align-center">{{::val.RatingText}}</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <!--Моя пагинация-->
+    <data-ng-include src="'Content/Angular/templates/_tools/pagination.html'"></data-ng-include>
+
+</div>

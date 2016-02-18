@@ -1,0 +1,20 @@
+﻿<div class="text-center" data-ng-show="pages && !(pages.IsFirstPage && pages.IsLastPage)">
+    <ul class="pagination pagination-sm">
+        <li data-ng-class="{disabled: pages.IsFirstPage}">
+            <a data-ng-click="pagination.goToPage( (pages.CurentPage-1)>0 ? pages.CurentPage-1 : 1 )">←</a>
+        </li>
+        <!--Цикл по списку-->
+        <li class="pagination-page" data-ng-repeat-start="page in pages.List"
+            data-ng-class="{'active': page == pages.CurentPage, 'hidden-xs':page!=1 && page!=pages.LastPage && page != pages.CurentPage}">
+            <a data-ng-click="pagination.goToPage(page)">{{::page}}</a>
+        </li>
+        <li class="pagination-page disabled hidden-xs" data-ng-show="!$last && pages.List[$index+1] != page+1">
+            <a>...</a>
+        </li>
+        <li class="pagination-page" data-ng-repeat-end></li>
+        <!--конец цикла по списку-->
+        <li data-ng-class="{disabled: pages.IsLastPage}">
+            <a data-ng-click="pagination.goToPage( (pages.CurentPage+1)< pages.LastPage ? pages.CurentPage+1 : pages.LastPage )">→</a>
+        </li>
+    </ul>
+</div>

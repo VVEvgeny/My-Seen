@@ -133,7 +133,7 @@ namespace MySeenWeb.Controllers.Account
             {
                 logger.Error(methodName, ex);
             }
-            return RedirectToAction("Index", "Home");
+            return RedirectToAction("Index", "Json");
         }
 
         private static ApplicationUser CreateUser(string email)
@@ -200,7 +200,7 @@ namespace MySeenWeb.Controllers.Account
                                             authorizationResult.UserInfo.Email)
                                 };
                                 var resultAddLoginAsync = UserManager.AddLogin(User.Identity.GetUserId(), info.Login);
-                                if (resultAddLoginAsync.Succeeded) return RedirectToAction("Index", "Home");
+                                if (resultAddLoginAsync.Succeeded) return RedirectToAction("Index", "Json");
                             }
                         }
                         else //первичная регистрация, обойдусь без страницы подтверждения почты, она и так есть
@@ -232,7 +232,7 @@ namespace MySeenWeb.Controllers.Account
                         }
                         return RedirectToLocal(returnUrl);
                     }
-                    return RedirectToAction("Index", "Home");
+                    return RedirectToAction("Index", "Json");
                 }
 
                 // Sign in the user with this external login provider if the user already has a login
@@ -272,7 +272,7 @@ namespace MySeenWeb.Controllers.Account
                                     };
                                     var resultAddLoginAsync = UserManager.AddLogin(User.Identity.GetUserId(), info.Login);
                                     if (resultAddLoginAsync.Succeeded)
-                                        return RedirectToAction("Index", "Home");
+                                        return RedirectToAction("Index", "Json");
                                 }
                             }
                             else //первичная регистрация, обойдусь без страницы подтверждения почты, она и так есть
@@ -307,7 +307,7 @@ namespace MySeenWeb.Controllers.Account
             {
                 logger.Error(methodName, ex);
             }
-            return RedirectToAction("Index", "Home");
+            return RedirectToAction("Index", "Json");
         }
 
         //
@@ -323,7 +323,7 @@ namespace MySeenWeb.Controllers.Account
             {
                 if (User.Identity.IsAuthenticated)
                 {
-                    return RedirectToAction("Index", "Home");
+                    return RedirectToAction("Index", "Json");
                 }
                 if (ModelState.IsValid)
                 {
@@ -363,7 +363,7 @@ namespace MySeenWeb.Controllers.Account
             {
                 logger.Error(methodName, ex);
             }
-            return RedirectToAction("Index", "Home");
+            return RedirectToAction("Index", "Json");
         }
 
         //
@@ -443,7 +443,7 @@ namespace MySeenWeb.Controllers.Account
             {
                 return Redirect(returnUrl);
             }
-            return RedirectToAction("Index", "Home");
+            return RedirectToAction("Index", "Json");
         }
 
         #endregion

@@ -1,10 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Data.Entity;
 using System.Linq;
 using System.Web.Mvc;
 using MySeenLib;
-using System.Globalization;
 using MySeenWeb.Add_Code;
 using MySeenWeb.Models.OtherViewModels;
 using MySeenWeb.Models.TablesViews;
@@ -54,7 +52,7 @@ namespace MySeenWeb.Models
                             .OrderByDescending(t => t.Date)
                             .Select(RoadsView.Map)
                             .ToList();
-                    if (DataFoot.Any())
+                    if (DataFoot.Any() && DataFoot.Count() > 1)
                     {
                         var dataFootAll = new List<RoadsView>
                         {
@@ -70,7 +68,7 @@ namespace MySeenWeb.Models
                         };
                         DataFoot = dataFootAll.Concat(DataFoot);
                     }
-                    cache.Set(cache.GetFormatedName(CacheNames.UserRoadsFoot.ToString(), userId, roadYear, search, shareKey), DataFoot, 15);
+                    cache.Set(cache.GetFormatedName(CacheNames.UserRoadsFoot.ToString(), userId, roadYear, search, shareKey),DataFoot, 15);
                 }
                 if (DataCar == null)
                 {
@@ -89,7 +87,7 @@ namespace MySeenWeb.Models
                             .OrderByDescending(t => t.Date)
                             .Select(RoadsView.Map)
                             .ToList();
-                    if (DataCar.Any())
+                    if (DataCar.Any() && DataCar.Count() > 1)
                     {
                         var dataCarAll = new List<RoadsView>
                         {
@@ -124,7 +122,7 @@ namespace MySeenWeb.Models
                             .OrderByDescending(t => t.Date)
                             .Select(RoadsView.Map)
                             .ToList();
-                    if (DataBike.Any())
+                    if (DataBike.Any() && DataBike.Count() > 1)
                     {
                         var dataBikeAll = new List<RoadsView>
                         {

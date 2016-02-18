@@ -291,20 +291,20 @@ namespace MySeenWeb.Controllers.Home
                 if (loginInfo == null)
                 {
                     logger.Info("error GetExternalLoginInfoAsync LinkLoginCallback User=" + User.Identity.GetUserName());
-                    return RedirectToAction("Index", "Home");
+                    return RedirectToAction("Index", "Json");
                 }
                 var result = await UserManager.AddLoginAsync(User.Identity.GetUserId(), loginInfo.Login);
                 if (!result.Succeeded)
                 {
                     logger.Info("error AddLoginAsync LinkLoginCallback User=" + User.Identity.GetUserName());
-                    return RedirectToAction("Index", "Home");
+                    return RedirectToAction("Index", "Json");
                 }
             }
             catch (Exception ex)
             {
                 logger.Error(methodName, ex);
             }
-            return RedirectToAction("Index", "Home");
+            return RedirectToAction("Index", "Json");
         }
         internal class ChallengeResult : HttpUnauthorizedResult
         {
