@@ -16,8 +16,14 @@ namespace MySeenWeb.Models
         public IEnumerable<RoadsView> DataBike { get; set; }
         public IEnumerable<SelectListItem> YearsList { get; set; }
 
-        public HomeViewModelRoads(string userId, int roadYear, string search, string shareKey, ICacheService cache)
+        public HomeViewModelRoads(string userId, int roadYear, string search, string shareKey, ICacheService cache, int road)
         {
+            if (road != 0)
+            {
+                var ac = new ApplicationDbContext();
+                DataFoot = ac.Tracks.AsNoTracking().Where(t => t.UserId == userId && t.Id == road).Select(RoadsView.Map);
+                return;
+            }
             DataFoot =
                 cache.Get<IEnumerable<RoadsView>>(cache.GetFormatedName(CacheNames.UserRoadsFoot.ToString(), userId,
                     roadYear, search, shareKey));

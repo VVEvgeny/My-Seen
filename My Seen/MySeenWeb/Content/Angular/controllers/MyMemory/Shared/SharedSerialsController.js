@@ -1,8 +1,8 @@
 App.config(function($stateProvider) {
 
     $stateProvider
-        .state('sharedSerials', {
-            url: '/serials/shared/:key?page&search',
+        .state('mymemory/sharedSerials', {
+            url: '/mymemory/serials/shared/:key?page&search',
             templateUrl: "Content/Angular/templates/MyMemory/Shared/serials.html",
             controller: 'SharedSerialsController',
             reloadOnSearch: false
@@ -13,7 +13,7 @@ App.controller('SharedSerialsController', ['$scope', '$rootScope', '$state', '$s
   function ($scope, $rootScope, $state, $stateParams, $http, $location, constants) {
 
       if (!$stateParams.key) {
-          $state.go('serials');
+          $state.go('mymemory/serials');
       }
       //На всякий случай закрою, может переход со страницы, где забыли закрыть модальную
       $rootScope.clearControllers();

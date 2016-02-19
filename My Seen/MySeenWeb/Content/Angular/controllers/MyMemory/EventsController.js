@@ -1,8 +1,8 @@
 App.config(function ($stateProvider) {
 
     $stateProvider
-        .state('events', {
-            url: '/events/?:page&search&ended',
+        .state('mymemory/events', {
+            url: '/mymemory/events/?:page&search&ended',
             templateUrl: "Content/Angular/templates/MyMemory/events.html",
             controller: 'EventsController',
             reloadOnSearch: false
@@ -214,7 +214,7 @@ App.controller('EventsController', ['$scope', '$rootScope', '$state', '$statePar
       //Ќажата кнопка попробовать в модальной доступа, откроем на соседней вкладке ссылку
       $scope.modalShare.tryButtonClick = function () {
           //window.open($scope.modalShare.link, '_blank');
-          $state.go('sharedEvents', { "key": $scope.modalShare.link.split('/')[$scope.modalShare.link.split('/').length - 1] });
+          $state.go('mymemory/sharedEvents', { "key": $scope.modalShare.link.split('/')[$scope.modalShare.link.split('/').length - 1] });
       };
       //”дал€ем доступ к текущей записи из модальной доступа
       $scope.modalShare.deleteButtonClick = function () {

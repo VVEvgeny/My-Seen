@@ -7,6 +7,7 @@ using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using MySeenLib;
+using MySeenWeb.ActionFilters;
 using MySeenWeb.Add_Code;
 using MySeenWeb.Add_Code.Services.Logging.NLog;
 using MySeenWeb.Controllers.Home;
@@ -47,6 +48,7 @@ namespace MySeenWeb.Controllers.Account
 
         //
         // POST: /Account/LoginMain
+        [Compress]
         [HttpPost]
         [AllowAnonymous]
         public async Task<JsonResult> LoginMain(string userName, string password, string remember)
@@ -76,6 +78,7 @@ namespace MySeenWeb.Controllers.Account
         }
 
         // POST: /Account/Register
+        [Compress]
         [HttpPost]
         [AllowAnonymous]
         public async Task<JsonResult> Register(string userName, string password, string repeatPassword)
@@ -109,6 +112,7 @@ namespace MySeenWeb.Controllers.Account
         
         //
         // POST: /Account/ExternalLogin
+        [Compress]
         [HttpPost]
         [AllowAnonymous]
         //[ValidateAntiForgeryToken]
@@ -153,6 +157,7 @@ namespace MySeenWeb.Controllers.Account
         }
         //
         // GET: /Account/ExternalLoginCallback
+        [Compress]
         [AllowAnonymous]
         public async Task<ActionResult> ExternalLoginCallback(string returnUrl)
         {
@@ -312,6 +317,7 @@ namespace MySeenWeb.Controllers.Account
 
         //
         // POST: /Account/ExternalLoginConfirmation
+        [Compress]
         [HttpPost]
         [AllowAnonymous]
         //[ValidateAntiForgeryToken]
@@ -368,6 +374,7 @@ namespace MySeenWeb.Controllers.Account
 
         //
         // GET: /Account/ExternalLoginFailure
+        [Compress]
         [AllowAnonymous]
         public ActionResult ExternalLoginFailure()
         {
@@ -376,6 +383,7 @@ namespace MySeenWeb.Controllers.Account
 
         //
         // POST: /Account/LogOut
+        [Compress]
         [HttpPost]
         public JsonResult LogOut()
         {

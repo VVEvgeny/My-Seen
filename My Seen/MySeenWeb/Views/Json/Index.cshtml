@@ -54,6 +54,11 @@
     <script src="~/Content/Angular/controllers/MyMemory/BooksController.js"></script>
     <script src="~/Content/Angular/controllers/MyMemory/EventsController.js"></script>
     <script src="~/Content/Angular/controllers/MyMemory/RoadsController.js"></script>
+    
+    <script src="~/Content/Angular/controllers/MyMemory/RoadsEditorController.js"></script>
+    <link href="~/Content/myseen/gmap3-menu.css" rel="stylesheet" />
+    <script src="~/Scripts/myseen/gmap3menu.js"></script>
+    <script src="~/Scripts/myseen/gmap.editor.js"></script>
 }
     <script src="~/Content/Angular/controllers/HomeController.js"></script>
     <script src="~/Content/Angular/controllers/AboutController.js"></script>
@@ -87,11 +92,11 @@
                         <li class="dropdown">
                             <a href="" class="dropdown-toggle" data-toggle="dropdown">@Resource.MyMemory <span class="caret"></span><span style="font-size: 16px;" class="pull-right hidden-xs showopacity glyphicon glyphicon-home"></span></a>
                             <ul class="dropdown-menu forAnimate" role="menu">
-                                <li><a data-ui-sref="films">@Resource.Films<span style="font-size: 16px;" class="pull-right hidden-xs showopacity glyphicon glyphicon-film"></span></a></li>
-                                <li><a data-ui-sref="serials">@Resource.Serials<span style="font-size: 16px;" class="pull-right hidden-xs showopacity glyphicon glyphicon-film"></span></a></li>
-                                <li><a data-ui-sref="books">@Resource.Books<span style="font-size: 16px;" class="pull-right hidden-xs showopacity glyphicon glyphicon-book"></span></a></li>
-                                <li><a data-ui-sref="events">@Resource.Events<span style="font-size: 16px;" class="pull-right hidden-xs showopacity glyphicon glyphicon-time"></span></a></li>
-                                <li><a data-ui-sref="roads">@Resource.Tracks<span style="font-size: 16px;" class="pull-right hidden-xs showopacity glyphicon glyphicon-road"></span></a></li>
+                                <li><a data-ui-sref="mymemory/films">@Resource.Films<span style="font-size: 16px;" class="pull-right hidden-xs showopacity glyphicon glyphicon-film"></span></a></li>
+                                <li><a data-ui-sref="mymemory/serials">@Resource.Serials<span style="font-size: 16px;" class="pull-right hidden-xs showopacity glyphicon glyphicon-film"></span></a></li>
+                                <li><a data-ui-sref="mymemory/books">@Resource.Books<span style="font-size: 16px;" class="pull-right hidden-xs showopacity glyphicon glyphicon-book"></span></a></li>
+                                <li><a data-ui-sref="mymemory/events">@Resource.Events<span style="font-size: 16px;" class="pull-right hidden-xs showopacity glyphicon glyphicon-time"></span></a></li>
+                                <li><a data-ui-sref="mymemory/roads">@Resource.Tracks<span style="font-size: 16px;" class="pull-right hidden-xs showopacity glyphicon glyphicon-road"></span></a></li>
                             </ul>
                         </li>
                         <li><a data-ui-sref="improvements">@Resource.Improvements<span style="font-size: 16px;" class="pull-right hidden-xs showopacity glyphicon glyphicon-signal"></span></a></li>
@@ -156,6 +161,7 @@
 
                 setGmapLanguage('@CultureInfoTool.GetFirst2Culture()');
                 setGmapMarkers('@Model.Markers');
+                setGmapMenuName('@Resource.SetPointHere');
 
             });
         })(jQuery);

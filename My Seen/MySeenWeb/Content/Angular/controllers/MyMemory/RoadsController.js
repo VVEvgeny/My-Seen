@@ -1,8 +1,8 @@
 App.config(function ($stateProvider) {
 
     $stateProvider
-        .state('roads', {
-            url: '/roads/?:year&search',
+        .state('mymemory/roads', {
+            url: '/mymemory/roads/?:year&search',
             templateUrl: "Content/Angular/templates/MyMemory/roads.html",
             controller: 'RoadsController',
             reloadOnSearch: false
@@ -30,7 +30,8 @@ App.controller('RoadsController', ['$scope', '$rootScope', '$state', '$statePara
           showName: true,
           showWhen: true,
           showRoadTypes: true,
-          showCoordinates: true
+          showCoordinates: true,
+          showToEditor: true
       };
       //Модальная доступа
       $scope.modalShare = {};
@@ -145,9 +146,20 @@ App.controller('RoadsController', ['$scope', '$rootScope', '$state', '$statePara
       ///////////////////////////////////////////////////////////////////////
       ///////////////////////////////////////////////////////////////////////           МОДАЛЬНАЯ ДОБАВЛЕНИЯ / РЕДАКТИРОВАНИЯ
       ///////////////////////////////////////////////////////////////////////
+      $scope.goToEditor = function () {
+          console.log($scope.editedIndex);
+          console.log(getId($scope.editedIndex));
+
+          if ($scope.editedIndex != null && getId($scope.editedIndex)) {
+              $state.go('mymemory/roadsEditor', { "id": getId($scope.editedIndex) });
+          } else {
+              $state.go('mymemory/roadsEditor');
+          }
+      };
       //Прячу модальную Добавить/Редактировать
       //Готовлю данные для добавления новой записи и отображаю модальную
       $scope.addModalOpen = function () {
+          $scope.editedIndex = null;
           $scope.modal.title = $scope.translation.TitleAdd;
           $scope.modal.name = '';
           $scope.modal.datetimeNow = $scope.prepared.DateTimeNow;
@@ -267,7 +279,7 @@ App.controller('RoadsController', ['$scope', '$rootScope', '$state', '$statePara
       //Нажата кнопка попробовать в модальной доступа, откроем на соседней вкладке ссылку
       $scope.modalShare.tryButtonClick = function () {
           //window.open($scope.modalShare.link, '_blank');
-          $state.go('sharedRoads', { "key": $scope.modalShare.link.split('/')[$scope.modalShare.link.split('/').length - 1] });
+          $state.go('mymemory/sharedRoads', { "key": $scope.modalShare.link.split('/')[$scope.modalShare.link.split('/').length - 1] });
       };
       //Удаляем доступ к текущей записи из модальной доступа
       $scope.modalShare.deleteButtonClick = function () {

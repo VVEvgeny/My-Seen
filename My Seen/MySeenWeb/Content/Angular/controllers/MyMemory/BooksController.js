@@ -1,8 +1,8 @@
 App.config(function ($stateProvider) {
 
     $stateProvider
-        .state('books', {
-            url: '/books/?:page&search',
+        .state('mymemory/books', {
+            url: '/mymemory/books/?:page&search',
             templateUrl: "Content/Angular/templates/MyMemory/books.html",
             controller: 'BooksController',
             reloadOnSearch: false
@@ -207,7 +207,7 @@ App.controller('BooksController', ['$scope', '$rootScope', '$state', '$statePara
       //Ќажата кнопка попробовать в модальной доступа, откроем на соседней вкладке ссылку
       $scope.modalShare.tryButtonClick = function () {
           //window.open($scope.modalShare.link, '_blank');
-          $state.go('sharedBooks', { "key": $scope.modalShare.link.split('/')[$scope.modalShare.link.split('/').length - 1] });
+          $state.go('mymemory/sharedBooks', { "key": $scope.modalShare.link.split('/')[$scope.modalShare.link.split('/').length - 1] });
       };
       //”дал€ем доступ к текущей записи из модальной доступа
       $scope.modalShare.deleteButtonClick = function () {

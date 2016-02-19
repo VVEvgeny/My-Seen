@@ -1,8 +1,8 @@
 App.config(function($stateProvider) {
 
     $stateProvider
-        .state('sharedFilms', {
-            url: '/films/shared/:key?page&search',
+        .state('mymemory/sharedFilms', {
+            url: '/mymemory/films/shared/:key?page&search',
             templateUrl: "Content/Angular/templates/MyMemory/Shared/films.html",
             controller: 'SharedFilmsController',
             reloadOnSearch: false
@@ -13,7 +13,7 @@ App.controller('SharedFilmsController', ['$scope', '$rootScope', '$state', '$sta
   function ($scope, $rootScope, $state, $stateParams, $http, $location, constants) {
 
       if (!$stateParams.key) {
-          $state.go('films');
+          $state.go('mymemory/films');
       }
 
       //На всякий случай закрою, может переход со страницы, где забыли закрыть модальную

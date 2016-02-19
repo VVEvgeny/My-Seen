@@ -1,8 +1,8 @@
 App.config(function($stateProvider) {
 
     $stateProvider
-        .state('sharedEvents', {
-            url: '/events/shared/:key?page&search&ended',
+        .state('mymemory/sharedEvents', {
+            url: '/mymemory/events/shared/:key?page&search&ended',
             templateUrl: "Content/Angular/templates/MyMemory/Shared/events.html",
             controller: 'SharedEventsController',
             reloadOnSearch: false
@@ -13,7 +13,7 @@ App.controller('SharedEventsController', ['$scope', '$rootScope', '$state', '$st
   function ($scope, $rootScope, $state, $stateParams, $http, $location, constants) {
 
       if (!$stateParams.key) {
-          $state.go('events');
+          $state.go('mymemory/events');
       }
       //На всякий случай закрою, может переход со страницы, где забыли закрыть модальную
       $rootScope.clearControllers();

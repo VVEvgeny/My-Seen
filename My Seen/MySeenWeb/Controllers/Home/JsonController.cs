@@ -21,6 +21,7 @@ namespace MySeenWeb.Controllers.Home
         {
             _cache = cache;
         }
+        [Compress]
         public ActionResult Index()
         {
             var logger = new NLogLogger();
@@ -35,9 +36,9 @@ namespace MySeenWeb.Controllers.Home
             }
             return null;
         }
-
+        [Compress]
         [HttpPost]
-        public JsonResult GetPage(int pageId, int? page, string search, int? ended, int? year, int? complex, string shareKey)
+        public JsonResult GetPage(int pageId, int? page, string search, int? ended, int? year, int? complex, string shareKey, int? road)
         {
             //if (!User.Identity.IsAuthenticated) return Json(Auth.NoAuth);
 
@@ -67,7 +68,9 @@ namespace MySeenWeb.Controllers.Home
                             Json(new HomeViewModelEvents(User.Identity.GetUserId(), page ?? 1, Rpp, search, ended ?? 0, shareKey));
                     case (int)Defaults.CategoryBase.Indexes.Roads:
                         if (!User.Identity.IsAuthenticated && string.IsNullOrEmpty(shareKey)) return new JsonResult { Data = new { success = false, error = Resource.NotAuthorized } };
-                        return Json(new HomeViewModelRoads(User.Identity.GetUserId(), year ?? 0, search, shareKey, _cache));
+                        return
+                            Json(new HomeViewModelRoads(User.Identity.GetUserId(), year ?? 0, search, shareKey, _cache,
+                                road ?? 0));
                     case (int)Defaults.CategoryBase.IndexesExt.Improvements:
                         if (!User.Identity.IsAuthenticated && string.IsNullOrEmpty(shareKey)) return new JsonResult { Data = new { success = false, error = Resource.NotAuthorized } };
                         return
@@ -98,6 +101,7 @@ namespace MySeenWeb.Controllers.Home
             }
             return new JsonResult { Data = new { success = false, error = methodName } };
         }
+        [Compress]
         [HttpPost]
         public JsonResult GetPrepared(int pageId)
         {
@@ -129,7 +133,7 @@ namespace MySeenWeb.Controllers.Home
             }
             return new JsonResult { Data = new { success = false, error = methodName } };
         }
-
+        [Compress]
         [HttpPost]
         public JsonResult GetTranslation(int pageId)
         {
@@ -172,7 +176,7 @@ namespace MySeenWeb.Controllers.Home
             }
             return new JsonResult {Data = new {success = false, error = methodName}};
         }
-
+        [Compress]
         [Authorize]
         [HttpPost]
         public JsonResult GetShare(int pageId, string recordId)
@@ -207,7 +211,7 @@ namespace MySeenWeb.Controllers.Home
             }
             return Json("-");
         }
-
+        [Compress]
         [Authorize]
         [HttpPost]
         public JsonResult GenerateShare(int pageId, string recordId)
@@ -242,7 +246,7 @@ namespace MySeenWeb.Controllers.Home
             }
             return Json("-");
         }
-
+        [Compress]
         [Authorize]
         [HttpPost]
         public JsonResult DeleteShare(int pageId, string recordId)
@@ -277,7 +281,7 @@ namespace MySeenWeb.Controllers.Home
             }
             return Json("-");
         }
-
+        [Compress]
         [Authorize]
         [HttpPost]
         public JsonResult AddData(int pageId, string name, string year, string datetime, string genre, string rating, string season, string series, string authors, string type, string coordinates, string distance)
@@ -330,6 +334,7 @@ namespace MySeenWeb.Controllers.Home
             }
             return new JsonResult { Data = new { success = false, error = methodName } };
         }
+        [Compress]
         [Authorize]
         [HttpPost]
         public JsonResult DeleteData(int pageId, string recordId)
@@ -382,6 +387,7 @@ namespace MySeenWeb.Controllers.Home
             }
             return new JsonResult { Data = new { success = false, error = methodName } };
         }
+        [Compress]
         [Authorize]
         [HttpPost]
         public JsonResult UpdateData(int pageId, string id, string name, string year, string datetime, string genre, string rating, string season, string series, string authors, string type, string coordinates, string distance)
@@ -435,7 +441,7 @@ namespace MySeenWeb.Controllers.Home
             }
             return new JsonResult { Data = new { success = false, error = methodName } };
         }
-
+        [Compress]
         [Authorize]
         [IsAdmin]
         [HttpPost]
@@ -457,7 +463,7 @@ namespace MySeenWeb.Controllers.Home
             }
             return new JsonResult {Data = new {success = false, error = methodName}};
         }
-
+        [Compress]
         [Authorize]
         [HttpPost]
         public JsonResult AddSeries(string recordId)

@@ -2,7 +2,7 @@ App.config(function ($stateProvider) {
 
     $stateProvider
         .state('users', {
-            url: '/users/?:page&search',
+            url: '/admin/users/?:page&search',
             templateUrl: "Content/Angular/templates/Admin/users.html",
             controller: 'UsersController',
             reloadOnSearch: false

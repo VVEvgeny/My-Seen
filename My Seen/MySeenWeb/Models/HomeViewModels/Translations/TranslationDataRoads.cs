@@ -20,6 +20,7 @@ namespace MySeenWeb.Models.Translations
         public string When = Resource.When;
         public string Type = Resource.Type;
         public string Coordinates = Resource.Coordinates;
+        public string ToEditor = Resource.GoToTheEditor;
 
         public string Share = Resource.Share;
         public string Delete = Resource.Delete;
@@ -29,5 +30,8 @@ namespace MySeenWeb.Models.Translations
         //Модальная доступа
         public string Link = Resource.Link;
         public string Try = Resource.Try;
+        //Editor
+        public string Points = Resource.Points;
+        public string Km = Resource.Km;
     }
 }

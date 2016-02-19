@@ -7,6 +7,7 @@ using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using MySeenLib;
+using MySeenWeb.ActionFilters;
 using MySeenWeb.Add_Code;
 using MySeenWeb.Add_Code.Services.Logging.NLog;
 using MySeenWeb.Controllers._Base;
@@ -32,6 +33,7 @@ namespace MySeenWeb.Controllers.Home
             get { return HttpContext.GetOwinContext().Authentication; }
         }
 
+        [Compress]
         [Authorize]
         [HttpPost]
         public JsonResult SetLanguage(int val)
@@ -55,6 +57,8 @@ namespace MySeenWeb.Controllers.Home
             }
             return new JsonResult { Data = new { success = false, error = methodName } };
         }
+
+        [Compress]
         [Authorize]
         [HttpPost]
         public JsonResult SetRpp(int val)
@@ -76,6 +80,8 @@ namespace MySeenWeb.Controllers.Home
             }
             return new JsonResult { Data = new { success = false, error = methodName } };
         }
+
+        [Compress]
         [Authorize]
         [HttpPost]
         public JsonResult SetMor(int val)
@@ -97,6 +103,8 @@ namespace MySeenWeb.Controllers.Home
             }
             return new JsonResult { Data = new { success = false, error = methodName } };
         }
+
+        [Compress]
         [Authorize]
         [HttpPost]
         public JsonResult SetVkService(int val)
@@ -117,6 +125,8 @@ namespace MySeenWeb.Controllers.Home
             }
             return new JsonResult { Data = new { success = false, error = methodName } };
         }
+
+        [Compress]
         [Authorize]
         [HttpPost]
         public JsonResult SetGoogleService(int val)
@@ -137,6 +147,8 @@ namespace MySeenWeb.Controllers.Home
             }
             return new JsonResult { Data = new { success = false, error = methodName } };
         }
+
+        [Compress]
         [Authorize]
         [HttpPost]
         public JsonResult SetFacebookService(int val)
@@ -158,6 +170,7 @@ namespace MySeenWeb.Controllers.Home
             return new JsonResult { Data = new { success = false, error = methodName } };
         }
 
+        [Compress]
         [Authorize]
         [HttpPost]
         public JsonResult SetPassword(string password, string newPassword)
@@ -204,6 +217,7 @@ namespace MySeenWeb.Controllers.Home
             return new JsonResult { Data = new { success = false, error = methodName } };
         }
 
+        [Compress]
         [Authorize]
         [HttpPost]
         public JsonResult GetLogins()
@@ -226,6 +240,8 @@ namespace MySeenWeb.Controllers.Home
             }
             return new JsonResult { Data = new { success = false, error = methodName } };
         }
+
+        [Compress]
         [Authorize]
         [HttpPost]
         public JsonResult RemoveLogin(string loginProvider, string providerKey)
@@ -253,7 +269,8 @@ namespace MySeenWeb.Controllers.Home
             }
             return new JsonResult { Data = new { success = false, error = methodName } };
         }
-        
+
+        [Compress]
         [Authorize]
         [HttpPost]
         public ActionResult AddLogin(string provider)

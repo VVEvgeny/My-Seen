@@ -16,6 +16,10 @@
     width: 450px;
   }
 
+body {
+  scroll-behavior: smooth;
+}
+
 body .modal-images {
     /* new custom width */
     width: 1000px;
@@ -33,6 +37,14 @@ body .modal-images {
 {
         height: 600px;
         max-height: 600px; 
+}
+.page-size-gmap-roads {
+            height: 588px;
+        max-height: 588px; 
+}
+.page-size-gmap-coordinates {
+            height: 640px;
+        max-height: 640px; 
 }
 .page-scrolable
 {

@@ -195,6 +195,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ActionFilters\Compress.cs" />
     <Compile Include="ActionFilters\IsAdmin.cs" />
     <Compile Include="Add_Code\Auths.cs" />
     <Compile Include="Add_Code\NinjectControllerFactory.cs" />
@@ -416,6 +417,7 @@
   <ItemGroup>
     <Content Include="Content\Angular\controllers\Admin\ErrorsController.js" />
     <Content Include="Content\Angular\controllers\AboutController.js" />
+    <Content Include="Content\Angular\controllers\MyMemory\RoadsEditorController.js" />
     <Content Include="Content\Angular\controllers\MyMemory\RoadsController.js" />
     <Content Include="Content\Angular\controllers\SettingsController.js" />
     <Content Include="Content\Angular\controllers\Admin\LogsController.js" />
@@ -429,6 +431,7 @@
     <Content Include="Content\Angular\controllers\MyMemory\EventsController.js" />
     <Content Include="Content\Angular\controllers\MyMemory\BooksController.js" />
     <Content Include="Content\Angular\controllers\HomeController.js" />
+    <Content Include="Content\Angular\templates\MyMemory\roadsEditor.html" />
     <Content Include="Content\Angular\templates\MyMemory\roads.html" />
     <Content Include="Content\Angular\templates\settings.html" />
     <Content Include="Content\Angular\templates\MyMemory\books.html" />
@@ -1478,7 +1481,6 @@
     <Content Include="Views\Json\Index.cshtml" />
     <Content Include="Views\BrowserFilter\Index.cshtml" />
     <Content Include="Views\Share\Tracks.cshtml" />
-    <Content Include="Views\Json\TrackEditor.cshtml" />
     <Content Include="Views\Share\Films.cshtml" />
     <Content Include="Views\Share\Serials.cshtml" />
     <Content Include="Views\Share\Books.cshtml" />

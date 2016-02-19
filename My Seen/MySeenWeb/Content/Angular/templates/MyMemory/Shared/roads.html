@@ -19,7 +19,7 @@
                 <li data-ng-show="data.DataBike.length > 0" data-ng-class="{'active': currentTab == 3}"><a data-toggle="tab" data-target="menu2" data-ng-click="currentTab = 3">{{translation.Bike}}</a></li>
                 <li data-ng-show="data.DataCar.length > 0" data-ng-class="{'active': currentTab == 2}"><a data-toggle="tab" data-target="menu3" data-ng-click="currentTab = 2">{{translation.Car}}</a></li>
             </ul>
-            <div class="tab-content page-size-gmap page-scrolable">
+            <div class="tab-content page-size-gmap-roads page-scrolable">
                 <div id="menu1" class="list-group tab-pane fade" data-ng-class="{'active in': currentTab == 1}">
                     <a class="list-group-item" ng-repeat="val in data.DataFoot" data-ng-click="showRoad($index)">
                         <h5 class="list-group-item-heading" data-ng-class="{'align-center': val.Id < 0}">
@@ -56,7 +56,6 @@
             <div id="my_map" class="gmap page-size-gmap"></div>
         </div>
     </div>
-
 </div>
 <script type="text/javascript">
     (function($) {

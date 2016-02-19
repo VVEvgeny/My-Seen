@@ -1,8 +1,8 @@
 App.config(function($stateProvider) {
 
     $stateProvider
-        .state('sharedRoads', {
-            url: '/roads/shared/:key?search',
+        .state('mymemory/sharedRoads', {
+            url: '/mymemory/roads/shared/:key?search',
             templateUrl: "Content/Angular/templates/MyMemory/Shared/roads.html",
             controller: 'SharedRoadsController',
             reloadOnSearch: false
@@ -13,7 +13,7 @@ App.controller('SharedRoadsController', ['$scope', '$rootScope', '$state', '$sta
   function ($scope, $rootScope, $state, $stateParams, $http, $location, constants) {
 
       if (!$stateParams.key) {
-          $state.go('roads');
+          $state.go('mymemory/roads');
       }
       //На всякий случай закрою, может переход со страницы, где забыли закрыть модальную
       $rootScope.clearControllers();

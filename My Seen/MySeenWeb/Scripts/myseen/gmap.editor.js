@@ -5,22 +5,12 @@
 var current;// current click event
 var coordinates = 0;
 
-var Language;//en/ru
-var LanguagePoints;
-var LanguageDistance;
-var LanguageDistanceL;
-
-function initialGmap(language, setPointHereText, languagePoints, languageDistance, languageDistanceL) {
-    Language = language;
-    LanguagePoints = languagePoints;
-    LanguageDistance = languageDistance;
-    LanguageDistanceL = languageDistanceL;
-
+function initialGmapEditor() {
     var menu = new Gmap3Menu($("#my_map"));
-    menu.add(setPointHereText, "itemA",
+    menu.add(GmapMenuName, "itemA",
         function() {
             menu.close();
-            addMarker();
+            addMarkerInEditor();
         });
 
     $("#my_map").gmap3({
@@ -32,11 +22,9 @@ function initialGmap(language, setPointHereText, languagePoints, languageDistanc
             events: {
                 rightclick: function (map, event) {
                     current = event;
-                    //console.log("rightclick");
                     menu.open(current);
                 },
                 click: function () {
-                    //console.log("click");
                     menu.close();
                 },
                 dragstart: function () {
@@ -48,7 +36,7 @@ function initialGmap(language, setPointHereText, languagePoints, languageDistanc
             }
         }
     });
-}
+};
 
 function updateMarker(marker, event, context)
 {
@@ -61,32 +49,10 @@ function updateMarker(marker, event, context)
     id = $div.attr("id");
     //console.log("updated position=" + id);
     calculateRoute();
-}
-
-function showTrack(id, centerAndZoom) {
-
-    var data = { id: id };
-    $.post('/Home/GetTrack/', data, function (trackInfo) {
-
-        //var trackCoordsLatLng = [];
-        $.each(trackInfo.Path, function (i, item) {
-            //trackCoordsLatLng.push(new window.google.maps.LatLng(item.Latitude, item.Longitude));
-            //console.log(item.Latitude, item.Longitude);
-            current = new window.google.maps.Marker;
-            current.latLng = new window.google.maps.LatLng(item.Latitude, item.Longitude);
-            addMarker();
-        });
-
-        if (centerAndZoom) {
-
-            SetZoomAndCenter(trackInfo.Center, getZoom(trackInfo.Min, trackInfo.Max));
-        }
-
-    }, "json");
-}
+};
 
 // add marker and manage which one it is (A, B)
-function addMarker() {
+function addMarkerInEditor(skipCalculateRoad) {
 
     var info = "" + (coordinates + 1);
     var tag = "marker-" + (coordinates + 1);
@@ -131,8 +97,8 @@ function addMarker() {
         }
     });
     AddCoordinate(latlng);
-    calculateRoute();
-}
+    if (!skipCalculateRoad) calculateRoute();
+};
 
 
 function removeMarker(id) {
@@ -143,14 +109,14 @@ function removeMarker(id) {
         }
     });
     calculateRoute();
-}
+};
 
 function AddCoordinate(latlng) {
     coordinates++;
     //console.log("AddCoordinate");
     var $panel = $("#panelCoordinates");
     $panel.append("<div class=\"list-group-item track-id-" + coordinates + "\" \" id=\"" + latlng + "\"> <h6 class=\"list-group-item-text align-left\"><span class=\"align-center\">" + coordinates + "</span><span class=\"pull-right alert-info small\"><button class=\"btn btn-xs btn-danger\" id=\"" + coordinates + "\"><small><span class=\"glyphicon glyphicon-trash\"></span></small></button></span></h6></div>");
-}
+};
 
 function calculateRoute() {
     //console.log("calculateRoute");
@@ -170,14 +136,12 @@ function calculateRoute() {
         trackCoordsLatLng.push(new window.google.maps.LatLng(id.split(",")[0], id.split(",")[1]));
     });
 
-    var $saveButton = $("#saveButtonMain");
-
     clearPolylines();
 
     var $mapStatisticPoints = $("#mapStatisticPoints");
     var $mapStatisticDistance = $("#mapStatisticDistance");
-    $mapStatisticPoints.text(LanguagePoints+": " + trackCoordsLatLng.length);
-    $mapStatisticDistance.text(LanguageDistance + ": 0 " + LanguageDistanceL);
+    $mapStatisticPoints.text(trackCoordsLatLng.length);
+    $mapStatisticDistance.text("0");
 
     if (trackCoordsLatLng.length === 0) {
         coordinates = 0;
@@ -189,12 +153,10 @@ function calculateRoute() {
         var polyline = new window.google.maps.Polyline({
             path: trackCoordsLatLng
         });
-        var distance = window.google.maps.geometry.spherical.computeLength(polyline.getPath()) / 1000;
-        $mapStatisticDistance.text(LanguageDistance + ": " +
-            (parseInt(distance) / (Language === "en" ? 1.66 : 1))
-            + " " + LanguageDistanceL);
-        $saveButton.show();
-    } else {
-        $saveButton.hide();
+        var distance = ((window.google.maps.geometry.spherical.computeLength(polyline.getPath()) / 1000) / (GmapLanguage === "en" ? 1.66 : 1)).toString();
+        if ((distance.split('.').length || distance.split(',').length) && distance.length > 5) {
+            distance = distance.slice(0,5);
+        }
+        $mapStatisticDistance.text(distance);
     }
-}
+};

@@ -2,7 +2,7 @@ App.config(function ($stateProvider) {
 
     $stateProvider
         .state('logs', {
-            url: '/logs/?:page&search',
+            url: '/admin/logs/?:page&search',
             templateUrl: "Content/Angular/templates/Admin/logs.html",
             controller: 'LogsController',
             reloadOnSearch: false

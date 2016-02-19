@@ -1,8 +1,8 @@
 App.config(function($stateProvider) {
 
     $stateProvider
-        .state('sharedBooks', {
-            url: '/books/shared/:key?page&search',
+        .state('mymemory/sharedBooks', {
+            url: '/mymemory/books/shared/:key?page&search',
             templateUrl: "Content/Angular/templates/MyMemory/Shared/books.html",
             controller: 'SharedBooksController',
             reloadOnSearch: false
@@ -13,7 +13,7 @@ App.controller('SharedBooksController', ['$scope', '$rootScope', '$state', '$sta
   function ($scope, $rootScope, $state, $stateParams, $http, $location, constants) {
 
       if (!$stateParams.key) {
-          $state.go('books');
+          $state.go('mymemory/books');
       }
       //На всякий случай закрою, может переход со страницы, где забыли закрыть модальную
       $rootScope.clearControllers();
