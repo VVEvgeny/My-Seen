@@ -1,0 +1,151 @@
+Перепроверить
+
+UseTwitterAuthentication
+UseYahooAuthentication
+
+
+
+
+
+
+
+Тест план
+
+tT12_st@test.tes
+tT13_st@test.tes
+tT14_st@test.tes
+
+-Логин
+--Гугл
+--вк
+--фейсбук
+--пароль
+
+--Создание пользователя на основе
+--Гугл
+--вк
+--фейсбук
+--пароль
+
+-Изменение настроек
+
+-Создание
+--фильмов
+--сериалов
+--книг
+--событий
+--треков
+
+-редактирование
+--фильмов
+--сериалов
+--книг
+--событий
+--треков
+
+--удаление
+--фильмов
+--сериалов
+--книг
+--событий
+--треков
+
+--расшаривание
+--фильмов
+--сериалов
+--книг
+--событий
+--треков
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+!!!HTTPS выключен, у контролера HOME (откл. редирект)
+!!!ValidateAntiForgeryToken выключен у котролера акаунт + в настройках 
+
+
+
+
+==АНДРОЕД
+-Андроид на локальной машине не конектит в инет через прокси
+-чек юзер перед запросом, им и проверять интернет, выставить задержку запроса в сек 10 перед отказом
+
+
+
+
+
+
+==========Не забыть
+==ПК
+
+==ВЕБ
+http://www.oauthforaspnet.com/
+-Настроить редиректы авторизации 
+--для гугл авторизации https://console.developers.google.com/project/myseenweb/apiui/credential
+-- для фейсбука https://developers.facebook.com/apps
+-- для вконтакта http://vk.com/dev
+-- linkedin https://www.linkedin.com/secure/developer
+-- yahoo https://developer.yahoo.com/apps/create/
+-- microsoft https://account.live.com/developers/applications/basicinfo/000000004017C4BF?n=1
+-- twitter https://apps.twitter.com/
+-- dropbox https://www.dropbox.com/developers/apps
+-- guthub https://github.com/settings/applications
+
+--Не owin
+-- yandex https://oauth.yandex.ru/client/b980f84b7f8247a3902668d0edf40407
+Callback URL: http://localhost:44301/Account/ExternalLoginCallback
+-- mail.ru http://api.mail.ru/sites/my/
+
+OK напряжно создать, надо много иконок и https
+
+
+
+==АНДРОЕД
+==Создание сертификата
+c:\Program Files (x86)\Java\jdk1.6.0_45\bin\
+keytool -genkey -v -keystore vve.keystore -alias vve -keyalg RSA -keysize 2048 -validity 10000
+==Подпись
+"c:\Program Files (x86)\Java\jdk1.6.0_45\bin\jarsigner" -verbose -sigalg SHA1withRSA -digestalg SHA1 -keystore "d:\Work_vve\workspace_sharp_git\vvevgeny_myseen\My Seen\Android Publish\vve.keystore" "d:\Work_vve\workspace_sharp_git\vvevgeny_myseen\My Seen\MySeenAndroid\bin\Release\com.vve.myseen.apk" vve
+==Упаковка
+"c:\Program Files (x86)\Android\android-sdk\build-tools\23.0.1\zipalign" -f -v 4 "d:\Work_vve\workspace_sharp_git\vvevgeny_myseen\My Seen\MySeenAndroid\bin\Release\com.vve.myseen.apk" "d:\Work_vve\workspace_sharp_git\vvevgeny_myseen\My Seen\MySeenAndroid\bin\Release\myseen.apk"
+
+
+
+
+
+
+
+Enable-Migrations -ProjectName "My Seen Web" -Force
+Add-Migration -ProjectName "My Seen Web" -Force
+
+Пока апдейт завернул кодом
+Update-Database -ProjectName "My Seen Web" -Force
+
+
+

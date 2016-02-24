@@ -18,7 +18,7 @@ App.controller('SharedEventsController', ['$scope', '$rootScope', '$state', '$st
       //На всякий случай закрою, может переход со страницы, где забыли закрыть модальную
       $rootScope.clearControllers();
       //Индекс страницы, для запросов к серверу
-      var pageId = 4;
+      $rootScope.pageId = constants.PageIds.Events;
       //Показать ли поле ПОИСКа
       $scope.pageCanSearch = true;
       //Перевод всех данных на тек. странице
@@ -49,7 +49,7 @@ App.controller('SharedEventsController', ['$scope', '$rootScope', '$state', '$st
       function getMainPage() {
           $rootScope.GetPage(constants.Pages.Main, $http, fillScope,
               {
-                  pageId: pageId,
+                  pageId: $rootScope.pageId,
                   shareKey: $stateParams.key,
                   page: $stateParams.page,
                   search: $stateParams.search,
@@ -61,8 +61,8 @@ App.controller('SharedEventsController', ['$scope', '$rootScope', '$state', '$st
       //console.log($stateParams.key);
 
       //Сразу 3 запроса на сервер, далее будет только запросы по новым данным и на добавление/изменение
-      $rootScope.GetPage(constants.Pages.Prepared, $http, fillPrepared, { pageId: pageId });
-      $rootScope.GetPage(constants.Pages.Translation, $http, fillTranslation, { pageId: pageId });
+      $rootScope.GetPage(constants.Pages.Prepared, $http, fillPrepared, { pageId: $rootScope.pageId });
+      $rootScope.GetPage(constants.Pages.Translation, $http, fillTranslation, { pageId: $rootScope.pageId });
       getMainPage();
 
       ///////////////////////////////////////////////////////////////////////
@@ -104,13 +104,13 @@ App.controller('SharedEventsController', ['$scope', '$rootScope', '$state', '$st
       ///////////////////////////////////////////////////////////////////////           Действия
       ///////////////////////////////////////////////////////////////////////
       $scope.deleteShareButtonClick = function (id) {
-          $rootScope.GetPage(constants.Pages.DeleteShare, $http, getMainPage, { pageId: pageId, recordId: $scope.data[id].Id });
+          $rootScope.GetPage(constants.Pages.DeleteShare, $http, getMainPage, { pageId: $rootScope.pageId, recordId: $scope.data[id].Id });
       };
       ///////////////////////////////////////////////////////////////////////
       ///////////////////////////////////////////////////////////////////////           ТАЙМЕР
       ///////////////////////////////////////////////////////////////////////
       function recalcEstimated() {
-          $scope.$apply(function () {
+          $rootScope.safeApply(function () {
               // every changes goes here
               if ($scope.data.length > 0) {
                   for (var i = 0; i < $scope.data.length; i++) {

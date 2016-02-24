@@ -13,7 +13,7 @@ App.controller('RoadsController', ['$scope', '$rootScope', '$state', '$statePara
   function ($scope, $rootScope, $state, $stateParams, $http, $location, constants) {
 
       //Индекс страницы, для запросов к серверу
-      var pageId = 3;
+      $rootScope.pageId = constants.PageIds.Roads;
       //Показать ли кнопку ДОБАВИТЬ
       $scope.pageCanAdd = true;
       //Показать ли поле ПОИСКа
@@ -60,15 +60,15 @@ App.controller('RoadsController', ['$scope', '$rootScope', '$state', '$statePara
       function getMainPage() {
           $rootScope.GetPage(constants.Pages.Main, $http, fillScope,
               {
-                  pageId: pageId,
+                  pageId: $rootScope.pageId,
                   year: ($stateParams ? $stateParams.year : null),
                   search: ($stateParams ? $stateParams.search : null)
               });
       };
 
       //Сразу 3 запроса на сервер, далее будет только запросы по новым данным и на добавление/изменение
-      $rootScope.GetPage(constants.Pages.Prepared, $http, fillPrepared, { pageId: pageId });
-      $rootScope.GetPage(constants.Pages.Translation, $http, fillTranslation, { pageId: pageId });
+      $rootScope.GetPage(constants.Pages.Prepared, $http, fillPrepared, { pageId: $rootScope.pageId });
+      $rootScope.GetPage(constants.Pages.Translation, $http, fillTranslation, { pageId: $rootScope.pageId });
       getMainPage();
 
       ///////////////////////////////////////////////////////////////////////
@@ -192,7 +192,7 @@ App.controller('RoadsController', ['$scope', '$rootScope', '$state', '$statePara
       //Готовлю данные для отправки и вызову глобальную AddData
       $scope.modal.addButtonClick = function () {
           $rootScope.GetPage(constants.Pages.Add, $http, afterAdd, {
-              pageId: pageId,
+              pageId: $rootScope.pageId,
               name: $scope.modal.name,
               type: $scope.modal.roadType,
               datetime: $scope.modal.datetimeNow,
@@ -231,7 +231,7 @@ App.controller('RoadsController', ['$scope', '$rootScope', '$state', '$statePara
       //Модальная хочет сохранить данные
       $scope.modal.saveButtonClick = function () {
           $rootScope.GetPage(constants.Pages.Update, $http, afterSave, {
-              pageId: pageId,
+              pageId: $rootScope.pageId,
               id: getId($scope.editedIndex),
               name: $scope.modal.name,
               type: $scope.modal.roadType,
@@ -242,7 +242,7 @@ App.controller('RoadsController', ['$scope', '$rootScope', '$state', '$statePara
       };
       //Модальная хочет удалить данные
       $scope.modal.deleteButtonClick = function () {
-          $rootScope.GetPage(constants.Pages.Delete, $http, afterSave, { pageId: pageId, recordId: getId($scope.editedIndex) });
+          $rootScope.GetPage(constants.Pages.Delete, $http, afterSave, { pageId: $rootScope.pageId, recordId: getId($scope.editedIndex) });
       };
       ///////////////////////////////////////////////////////////////////////
       ///////////////////////////////////////////////////////////////////////           МОДАЛЬНАЯ ДОСТУПА
@@ -272,7 +272,7 @@ App.controller('RoadsController', ['$scope', '$rootScope', '$state', '$statePara
           $scope.modalShare.tryButton = false;
           $scope.modalShare.deleteButton = false;
 
-          $rootScope.GetPage(constants.Pages.GetShare, $http, getShareCallBack, { pageId: pageId, recordId: getId($scope.editedIndex) });
+          $rootScope.GetPage(constants.Pages.GetShare, $http, getShareCallBack, { pageId: $rootScope.pageId, recordId: getId($scope.editedIndex) });
 
           $("#ShareModalWindow").modal("show");
       };
@@ -289,7 +289,7 @@ App.controller('RoadsController', ['$scope', '$rootScope', '$state', '$statePara
           $scope.modalShare.tryButton = false;
           $scope.modalShare.deleteButton = false;
 
-          $rootScope.GetPage(constants.Pages.DeleteShare, $http, getShareCallBack, { pageId: pageId, recordId: getId($scope.editedIndex) });
+          $rootScope.GetPage(constants.Pages.DeleteShare, $http, getShareCallBack, { pageId: $rootScope.pageId, recordId: getId($scope.editedIndex) });
       };
       //Добавляем доступ из модальной доступа
       $scope.modalShare.addButtonClick = function () {
@@ -299,6 +299,6 @@ App.controller('RoadsController', ['$scope', '$rootScope', '$state', '$statePara
           $scope.modalShare.tryButton = false;
           $scope.modalShare.deleteButton = false;
 
-          $rootScope.GetPage(constants.Pages.GenerateShare, $http, getShareCallBack, { pageId: pageId, recordId: getId($scope.editedIndex) });
+          $rootScope.GetPage(constants.Pages.GenerateShare, $http, getShareCallBack, { pageId: $rootScope.pageId, recordId: getId($scope.editedIndex) });
       };
   }]);

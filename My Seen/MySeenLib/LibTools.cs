@@ -332,10 +332,13 @@ namespace MySeenLib
                 Improvements = 103, // Улучшения
                 Errors = 104, // Ошибки
                 About = 105, // Страница О
-                Settings = 106, // Настройки
-                ChangePassword = 107, // Изменение существующего пароля
-                ExternalProviders = 108, // Управление сторонними провайдерами
-                Register = 109 // Регистрация нового пользователя
+                Settings = 106 // Настройки
+            }
+
+            public enum IndexesMain
+            {
+                Main = 200,
+                Memes = 201
             }
 
             public static bool IsCategoryExt(int category)

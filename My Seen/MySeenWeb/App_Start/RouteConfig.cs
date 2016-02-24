@@ -1,4 +1,5 @@
-﻿using System.Web.Mvc;
+﻿using System.Web.Helpers;
+using System.Web.Mvc;
 using System.Web.Routing;
 
 namespace MySeenWeb
@@ -69,6 +70,19 @@ namespace MySeenWeb
                 url: "Json/DeleteShare",
                 defaults: new {controller = "Json", action = "DeleteShare"}
                 );
+            routes.MapRoute(
+                name: "Json/RemoveAllError",
+                url: "Json/RemoveAllError",
+                defaults: new { controller = "Json", action = "RemoveAllError" }
+                );
+
+            //portal
+            routes.MapRoute(
+                name: "Portal/RateMem",
+                url: "Portal/RateMem",
+                defaults: new { controller = "Portal", action = "RateMem" }
+                );
+
             //Settings
             routes.MapRoute(
                 name: "Settings/SetLanguage",

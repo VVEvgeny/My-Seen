@@ -852,4 +852,19 @@
   <data name="Service" xml:space="preserve">
     <value>Service</value>
   </data>
+  <data name="Memes" xml:space="preserve">
+    <value>Memes</value>
+  </data>
+  <data name="Added" xml:space="preserve">
+    <value>Added</value>
+  </data>
+  <data name="Read" xml:space="preserve">
+    <value>Read</value>
+  </data>
+  <data name="AlreadyExists" xml:space="preserve">
+    <value>Already Exists</value>
+  </data>
+  <data name="Mem" xml:space="preserve">
+    <value>Mem</value>
+  </data>
 </root>

@@ -13,7 +13,7 @@ App.controller('LogsController', ['$scope', '$rootScope', '$state', '$stateParam
   function ($scope, $rootScope, $state, $stateParams, $http, $location, constants) {
 
       //Индекс страницы, для запросов к серверу
-      var pageId = 102;
+      $rootScope.pageId = constants.PageIds.Logs;
       //Показать ли поле ПОИСКа
       $scope.pageCanSearch = true;
       //На всякий случай закрою, может переход со страницы, где забыли закрыть модальную
@@ -32,10 +32,10 @@ App.controller('LogsController', ['$scope', '$rootScope', '$state', '$stateParam
           $scope.pages = page.Pages;
       };
       function getMainPage() {
-          $rootScope.GetPage(constants.Pages.Main, $http, fillScope, { pageId: pageId, page: ($stateParams ? $stateParams.page : null), search: ($stateParams ? $stateParams.search : null) });
+          $rootScope.GetPage(constants.Pages.Main, $http, fillScope, { pageId: $rootScope.pageId, page: ($stateParams ? $stateParams.page : null), search: ($stateParams ? $stateParams.search : null) });
       };
 
-      $rootScope.GetPage(constants.Pages.Translation, $http, fillTranslation, { pageId: pageId });
+      $rootScope.GetPage(constants.Pages.Translation, $http, fillTranslation, { pageId: $rootScope.pageId });
       getMainPage();
 
       ///////////////////////////////////////////////////////////////////////

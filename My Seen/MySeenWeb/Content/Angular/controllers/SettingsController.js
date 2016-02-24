@@ -16,7 +16,7 @@ App.controller('SettingsController', ['$scope', '$rootScope', '$state', '$stateP
       $rootScope.clearControllers();
 
       //Индекс страницы, для запросов к серверу
-      var pageId = 106;
+      $rootScope.pageId = constants.PageIds.Settings;
 
       //Перевод
       function fillTranslation(page) {
@@ -28,10 +28,10 @@ App.controller('SettingsController', ['$scope', '$rootScope', '$state', '$stateP
           $scope.data = page;
       };
       function getMainPage() {
-          $rootScope.GetPage(constants.Pages.Main, $http, fillScope, { pageId: pageId });
+          $rootScope.GetPage(constants.Pages.Main, $http, fillScope, { pageId: $rootScope.pageId });
       };
 
-      $rootScope.GetPage(constants.Pages.Translation, $http, fillTranslation, { pageId: pageId });
+      $rootScope.GetPage(constants.Pages.Translation, $http, fillTranslation, { pageId: $rootScope.pageId });
       getMainPage();
 
 

@@ -2,7 +2,7 @@
 		height: 100%;
 	}
 
-	/* remove outer padding */
+  /* remove outer padding */
 	.main .row{
 		padding: 0px;
 		margin: 0px;
@@ -33,7 +33,7 @@
 
 		/*Allow main to be next to Nav*/
 		.main{
-			position: absolute;
+			/*position: absolute;*/
 			width: calc(100% - 40px); /*keeps 100% minus nav size*/
 			margin-left: 40px;
 			float: right;
@@ -146,16 +146,17 @@
         }
 	}
 
-    	/* .....NavBar: Fully showing nav bar..... */
-
+ 	/* .....NavBar: Fully showing nav bar..... */
+     
 	@media (max-width: 768px) {
-        /**/
-        body {
+        .main {
+            padding: 10px 10px 0 10px;
             padding-top: 60px;
         }
 	}
 
-	nav.sidebar .navbar-nav .open .dropdown-menu>li>a:hover, nav.sidebar .navbar-nav .open .dropdown-menu>li>a:focus {
+	nav.sidebar .navbar-nav .open .dropdown-menu>li>a:hover, nav.sidebar .navbar-nav .open .dropdown-menu>li>a:focus
+    {
 		color: #CCC;
 		background-color: transparent;
 	}

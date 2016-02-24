@@ -13,7 +13,7 @@ App.controller('ErrorsController', ['$scope', '$rootScope', '$state', '$statePar
   function ($scope, $rootScope, $state, $stateParams, $http, $location, constants) {
 
       //Индекс страницы, для запросов к серверу
-      var pageId = 104;
+      $rootScope.pageId = constants.PageIds.Errors;
       //Показать ли поле ПОИСКа
       $scope.pageCanSearch = true;
       //На всякий случай закрою, может переход со страницы, где забыли закрыть модальную
@@ -32,14 +32,14 @@ App.controller('ErrorsController', ['$scope', '$rootScope', '$state', '$statePar
           $scope.pages = page.Pages;
       };
       function getMainPage() {
-          $rootScope.GetPage(constants.Pages.Main, $http, fillScope, { pageId: pageId, page: ($stateParams ? $stateParams.page : null), search: ($stateParams ? $stateParams.search : null) });
+          $rootScope.GetPage(constants.Pages.Main, $http, fillScope, { pageId: $rootScope.pageId, page: ($stateParams ? $stateParams.page : null), search: ($stateParams ? $stateParams.search : null) });
       };
 
-      $rootScope.GetPage(constants.Pages.Translation, $http, fillTranslation, { pageId: pageId });
+      $rootScope.GetPage(constants.Pages.Translation, $http, fillTranslation, { pageId: $rootScope.pageId });
       getMainPage();
 
       ///////////////////////////////////////////////////////////////////////
-      ///////////////////////////////////////////////////////////////////////           ПОИСК
+      ///////////////////////////////////////////////////////////////////////           SEARCH
       ///////////////////////////////////////////////////////////////////////
       $scope.quickSearch = {};
       $scope.quickSearch.text = $stateParams ? $stateParams.search : null;
@@ -52,7 +52,7 @@ App.controller('ErrorsController', ['$scope', '$rootScope', '$state', '$statePar
       };
 
       ///////////////////////////////////////////////////////////////////////
-      ///////////////////////////////////////////////////////////////////////           ПАГИНАЦИЯ
+      ///////////////////////////////////////////////////////////////////////           PAGINATION
       ///////////////////////////////////////////////////////////////////////
       //Не использую перехода по состояниям, они перезагружают контроллер, а так у меня в настройках для контролера стоит reloadOnSearch: false      
       $scope.pagination = {};
@@ -61,5 +61,10 @@ App.controller('ErrorsController', ['$scope', '$rootScope', '$state', '$statePar
           if ($stateParams) $stateParams.page = page > 1 ? page : null;
           getMainPage();
       }
-
+      ///////////////////////////////////////////////////////////////////////
+      ///////////////////////////////////////////////////////////////////////           ACTIONS
+      ///////////////////////////////////////////////////////////////////////
+      $scope.removeAll = function () {
+          $rootScope.GetPage(constants.Pages.RemoveAllError, $http, getMainPage, {});
+      };
   }]);

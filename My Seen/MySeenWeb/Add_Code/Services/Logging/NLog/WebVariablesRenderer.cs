@@ -18,7 +18,7 @@ namespace MySeenWeb.Add_Code.Services.Logging.NLog
         public WebVariablesRenderer()
         {
             this.Format = "";
-            this.Culture = CultureInfo.InvariantCulture;
+            this.Culture = CultureInfo.CurrentCulture;
         }
 
         protected int GetEstimatedBufferSize(LogEventInfo ev)

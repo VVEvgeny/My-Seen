@@ -7,10 +7,13 @@ using MySeenWeb.Add_Code;
 using MySeenWeb.Add_Code.Services.Logging.NLog;
 using MySeenWeb.Controllers._Base;
 using MySeenWeb.Models;
+using MySeenWeb.Models.Portal;
 using MySeenWeb.Models.Prepared;
 using MySeenWeb.Models.TablesLogic;
+using MySeenWeb.Models.TablesLogic.Portal;
 using MySeenWeb.Models.Tools;
 using MySeenWeb.Models.Translations;
+using MySeenWeb.Models.Translations.Portal;
 
 namespace MySeenWeb.Controllers.Home
 {
@@ -28,7 +31,7 @@ namespace MySeenWeb.Controllers.Home
             const string methodName = "public ActionResult Index()";
             try
             {
-                return View(new HomeViewModel(ReadUserSideStorage(UserSideStorageKeys.MarkersOnRoads, 0)));
+                return View(new HomeViewModel(MarkersOnRoads, Request));
             }
             catch (Exception ex)
             {
@@ -36,9 +39,9 @@ namespace MySeenWeb.Controllers.Home
             }
             return null;
         }
-        [Compress]
+        //[Compress]
         [HttpPost]
-        public JsonResult GetPage(int pageId, int? page, string search, int? ended, int? year, int? complex, string shareKey, int? road)
+        public JsonResult GetPage(int pageId, int? page, string search, int? ended, int? year, int? complex, string shareKey, int? road, int? id)
         {
             //if (!User.Identity.IsAuthenticated) return Json(Auth.NoAuth);
 
@@ -72,7 +75,7 @@ namespace MySeenWeb.Controllers.Home
                             Json(new HomeViewModelRoads(User.Identity.GetUserId(), year ?? 0, search, shareKey, _cache,
                                 road ?? 0));
                     case (int)Defaults.CategoryBase.IndexesExt.Improvements:
-                        if (!User.Identity.IsAuthenticated && string.IsNullOrEmpty(shareKey)) return new JsonResult { Data = new { success = false, error = Resource.NotAuthorized } };
+                        if (!User.Identity.IsAuthenticated) return new JsonResult { Data = new { success = false, error = Resource.NotAuthorized } };
                         return
                             Json(new HomeViewModelImprovements(User.Identity.Name, User.Identity.GetUserId(),
                                 complex ?? (int) Defaults.ComplexBase.Indexes.All, page ?? 1, Rpp, search, ended ?? 0));
@@ -91,9 +94,11 @@ namespace MySeenWeb.Controllers.Home
                     case (int)Defaults.CategoryBase.IndexesExt.Settings:
                         if (!User.Identity.IsAuthenticated && string.IsNullOrEmpty(shareKey)) return new JsonResult { Data = new { success = false, error = Resource.NotAuthorized } };
                         return Json(new HomeViewModelSettings(User.Identity.GetUserId()));
+                    case (int)Defaults.CategoryBase.IndexesMain.Memes:
+                        return Json(new PortalViewModelMemes(User.Identity.GetUserId(), page ?? 1, 20, search, id ?? 0));//Всегда по 20 на странице
                 }
                 logger.Info("CALL NOT REALIZED GetPage=" + pageId);
-                return Json("NOT REALIZED");
+                return new JsonResult { Data = new { success = false, error = "NOT REALIZED" } };
             }
             catch (Exception ex)
             {
@@ -166,9 +171,13 @@ namespace MySeenWeb.Controllers.Home
                         return Json(new TranslationDataImprovements());
                     case (int)Defaults.CategoryBase.IndexesExt.Settings:
                         return Json(new TranslationDataSettings());
+                    case (int)Defaults.CategoryBase.IndexesMain.Main:
+                        return Json(new TranslationDataPortalMain());
+                    case (int)Defaults.CategoryBase.IndexesMain.Memes:
+                        return Json(new TranslationDataPortalMemes());
                 }
                 logger.Info("CALL NOT REALIZED GetTranslation=" + pageId);
-                return Json("NOT REALIZED");
+                return new JsonResult { Data = new { success = false, error = "NOT REALIZED" } };
             }
             catch (Exception ex)
             {
@@ -284,7 +293,8 @@ namespace MySeenWeb.Controllers.Home
         [Compress]
         [Authorize]
         [HttpPost]
-        public JsonResult AddData(int pageId, string name, string year, string datetime, string genre, string rating, string season, string series, string authors, string type, string coordinates, string distance)
+        public JsonResult AddData(int pageId, string name, string year, string datetime, string genre, string rating, string season
+            , string series, string authors, string type, string coordinates, string distance, string link)
         {
             var logger = new NLogLogger();
             var methodName = "public JsonResult AddData(int pageId, string name, string year, string datetime, string genre, string rating, string season, string series, string authors, string type, string coordinates, string distance, string desc, string complex)";
@@ -323,6 +333,11 @@ namespace MySeenWeb.Controllers.Home
                         var improvementLogic = new ImprovementLogic();
                         return !improvementLogic.Add(name, type, User.Identity.GetUserId())
                             ? new JsonResult { Data = new { success = false, error = improvementLogic.ErrorMessage } }
+                            : Json(new {success = true});
+                    case (int)Defaults.CategoryBase.IndexesMain.Memes:
+                        var memesLogic = new MemesLogic();
+                        return !memesLogic.Add(name, link, User.Identity.GetUserId())
+                            ? new JsonResult {Data = new {success = false, error = memesLogic.ErrorMessage}}
                             : Json(new {success = true});
                 }
                 logger.Info("CALL NOT REALIZED AddData=" + pageId);
@@ -454,6 +469,28 @@ namespace MySeenWeb.Controllers.Home
             {
                 var logic = new ImprovementLogic();
                 return !logic.End(id, name, version, User.Identity.GetUserId())
+                    ? new JsonResult {Data = new {success = false, error = logic.ErrorMessage}}
+                    : Json(new {success = true});
+            }
+            catch (Exception ex)
+            {
+                logger.Error(methodName, ex);
+            }
+            return new JsonResult {Data = new {success = false, error = methodName}};
+        }
+                [Compress]
+        [Authorize]
+        [IsAdmin]
+        [HttpPost]
+        public JsonResult RemoveAllError()
+        {
+            var logger = new NLogLogger();
+            var methodName = "public JsonResult RemoveAllError()";
+            try
+            {
+                var logic = new ErrorsLogic();
+
+                return !logic.RemoveAll()
                     ? new JsonResult {Data = new {success = false, error = logic.ErrorMessage}}
                     : Json(new {success = true});
             }

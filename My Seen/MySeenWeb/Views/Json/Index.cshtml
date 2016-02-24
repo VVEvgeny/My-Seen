@@ -12,7 +12,37 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <base href="/">
 
-    <title>@Resource.AppName</title>
+    @if (@Model.Meta.UaBot)
+    {
+        <title>@Model.Meta.Title</title>
+
+        <meta class="meta" property="og:title" content="@Model.Meta.Title"/>
+        <meta class="meta" property="og:type" content="website"/>
+        <meta class="meta" property="og:locale" content="@CultureInfoTool.GetFirst2Culture()"/>
+        <meta class="meta" property="og:site_name" content="@Resource.AppName"/>
+        <meta class="meta" property="og:url" content="@Model.Meta.Url"/>
+
+        <meta class="meta" property="fb:app_id" content="@Model.Meta.FacebookAppId"/>
+
+        <meta class="meta" property="twitter:card" content="summary_large_image"/>
+        <meta class="meta" property="twitter:site" content="@Model.Meta.Twitter"/>
+        <meta class="meta" property="twitter:title" content="@Model.Meta.Title"/>
+
+        if (!string.IsNullOrEmpty(Model.Meta.Description))
+        {
+            <meta class="meta" property="og:description" content="@Model.Meta.Description"/>
+            <meta class="meta" property="twitter:description" content="@Model.Meta.Description"/>
+        }
+        if (!string.IsNullOrEmpty(Model.Meta.Image))
+        {
+            <meta class="meta" property="og:image" content="@Model.Meta.Image"/>
+            <meta class="meta" property="twitter:image" content="@Model.Meta.Image"/>
+        }
+    }
+    else
+    {
+        <title>@Resource.AppName</title>
+    }
 
     @Styles.Render("~/Content/css")
 
@@ -35,33 +65,39 @@
     <script src="~/Scripts/angular-ui-router.js"></script>
     <script src="~/Scripts/angular-ui/ui-bootstrap-tpls.js"></script>
     <script src="~/Scripts/myseen/jQueryToAngular.js"></script>
+    <link href="~/Content/font-awesome.css" rel="stylesheet"/>
+    <!--Vkontakte-->
+    <script type="text/javascript" src="//vk.com/js/api/openapi.js?121"></script><!--comments-->
+    <script type="text/javascript" src="//vk.com/js/api/openapi.js?105"></script><!--likes-->
 
+    <script src="~/Scripts/myseen/variables.js"></script>
 
     <script src="~/Content/Angular/app/app.js"></script>
-@if (Request.IsAuthenticated)
-{
-    if (Admin.IsAdmin(User.Identity.GetUserName()))
+    @if (Request.IsAuthenticated)
     {
-        <script src="~/Content/Angular/controllers/Admin/UsersController.js"></script>
-        <script src="~/Content/Angular/controllers/Admin/LogsController.js"></script>
-        <script src="~/Content/Angular/controllers/Admin/ErrorsController.js"></script>
-    }
-    <script src="~/Content/Angular/controllers/SettingsController.js"></script>
-    <script src="~/Content/Angular/controllers/ImprovementsController.js"></script>
+        if (Admin.IsAdmin(User.Identity.GetUserName()))
+        {
+            <script src="~/Content/Angular/controllers/Admin/UsersController.js"></script>
+            <script src="~/Content/Angular/controllers/Admin/LogsController.js"></script>
+            <script src="~/Content/Angular/controllers/Admin/ErrorsController.js"></script>
+        }
+        <script src="~/Content/Angular/controllers/SettingsController.js"></script>
+        <script src="~/Content/Angular/controllers/ImprovementsController.js"></script>
 
-    <script src="~/Content/Angular/controllers/MyMemory/FilmsController.js"></script>
-    <script src="~/Content/Angular/controllers/MyMemory/SerialsController.js"></script>
-    <script src="~/Content/Angular/controllers/MyMemory/BooksController.js"></script>
-    <script src="~/Content/Angular/controllers/MyMemory/EventsController.js"></script>
-    <script src="~/Content/Angular/controllers/MyMemory/RoadsController.js"></script>
-    
-    <script src="~/Content/Angular/controllers/MyMemory/RoadsEditorController.js"></script>
-    <link href="~/Content/myseen/gmap3-menu.css" rel="stylesheet" />
-    <script src="~/Scripts/myseen/gmap3menu.js"></script>
-    <script src="~/Scripts/myseen/gmap.editor.js"></script>
-}
+        <script src="~/Content/Angular/controllers/MyMemory/FilmsController.js"></script>
+        <script src="~/Content/Angular/controllers/MyMemory/SerialsController.js"></script>
+        <script src="~/Content/Angular/controllers/MyMemory/BooksController.js"></script>
+        <script src="~/Content/Angular/controllers/MyMemory/EventsController.js"></script>
+        <script src="~/Content/Angular/controllers/MyMemory/RoadsController.js"></script>
+
+        <script src="~/Content/Angular/controllers/MyMemory/RoadsEditorController.js"></script>
+        <link href="~/Content/myseen/gmap3-menu.css" rel="stylesheet" />
+        <script src="~/Scripts/myseen/gmap3menu.js"></script>
+        <script src="~/Scripts/myseen/gmap.editor.js"></script>
+    }
     <script src="~/Content/Angular/controllers/HomeController.js"></script>
     <script src="~/Content/Angular/controllers/AboutController.js"></script>
+    <script src="~/Content/Angular/controllers/Portal/MemesController.js"></script>
 
     <script src="~/Content/Angular/controllers/MyMemory/Shared/SharedFilmsController.js"></script>
     <script src="~/Content/Angular/controllers/MyMemory/Shared/SharedSerialsController.js"></script>
@@ -70,60 +106,61 @@
     <script src="~/Content/Angular/controllers/MyMemory/Shared/SharedRoadsController.js"></script>
 
 </head>
-<body>
+
+<body class="main">
 
     <nav class="navbar navbar-inverse sidebar navbar-fixed-top" role="navigation">
         <div class="container-fluid">
             <!-- Brand and toggle get grouped for better mobile display -->
-            <div class="navbar-header">
+            <div class="navbar-header" data-ng-class="{'active': pageId == 200}">
                 <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-sidebar-navbar-collapse-1">
                     <span class="sr-only">Toggle navigation</span>
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a class="navbar-brand" data-ui-sref="/">@Resource.AppName</a>
+                <a class="navbar-brand" data-ui-sref="/" data-toggle="collapse" data-target=".navbar-collapse.in">@Resource.AppName</a>
             </div>
             <!-- Collect the nav links, forms, and other content for toggling -->
             <div class="collapse navbar-collapse" id="bs-sidebar-navbar-collapse-1">
                 <ul class="nav navbar-nav">
                     @if (Request.IsAuthenticated)
                     {
-                        <li class="dropdown">
+                        <li class="dropdown" data-ng-class="{'active': (pageId == 0 || pageId == 1 || pageId == 2 || pageId == 3 || pageId == 4)}">
                             <a href="" class="dropdown-toggle" data-toggle="dropdown">@Resource.MyMemory <span class="caret"></span><span style="font-size: 16px;" class="pull-right hidden-xs showopacity glyphicon glyphicon-home"></span></a>
                             <ul class="dropdown-menu forAnimate" role="menu">
-                                <li><a data-ui-sref="mymemory/films">@Resource.Films<span style="font-size: 16px;" class="pull-right hidden-xs showopacity glyphicon glyphicon-film"></span></a></li>
-                                <li><a data-ui-sref="mymemory/serials">@Resource.Serials<span style="font-size: 16px;" class="pull-right hidden-xs showopacity glyphicon glyphicon-film"></span></a></li>
-                                <li><a data-ui-sref="mymemory/books">@Resource.Books<span style="font-size: 16px;" class="pull-right hidden-xs showopacity glyphicon glyphicon-book"></span></a></li>
-                                <li><a data-ui-sref="mymemory/events">@Resource.Events<span style="font-size: 16px;" class="pull-right hidden-xs showopacity glyphicon glyphicon-time"></span></a></li>
-                                <li><a data-ui-sref="mymemory/roads">@Resource.Tracks<span style="font-size: 16px;" class="pull-right hidden-xs showopacity glyphicon glyphicon-road"></span></a></li>
+                                <li data-toggle="collapse" data-target=".navbar-collapse.in" data-ng-class="{'active': pageId == 0}"><a class="nav-element" data-ui-sref="mymemory/films">@Resource.Films<span style="font-size: 16px;" class="pull-right hidden-xs showopacity glyphicon glyphicon-film"></span></a></li>
+                                <li data-toggle="collapse" data-target=".navbar-collapse.in" data-ng-class="{'active': pageId == 1}"><a class="nav-element" data-ui-sref="mymemory/serials">@Resource.Serials<span style="font-size: 16px;" class="pull-right hidden-xs showopacity glyphicon glyphicon-film"></span></a></li>
+                                <li data-toggle="collapse" data-target=".navbar-collapse.in" data-ng-class="{'active': pageId == 2}"><a class="nav-element" data-ui-sref="mymemory/books">@Resource.Books<span style="font-size: 16px;" class="pull-right hidden-xs showopacity glyphicon glyphicon-book"></span></a></li>
+                                <li data-toggle="collapse" data-target=".navbar-collapse.in" data-ng-class="{'active': pageId == 4}"><a class="nav-element" data-ui-sref="mymemory/events">@Resource.Events<span style="font-size: 16px;" class="pull-right hidden-xs showopacity glyphicon glyphicon-time"></span></a></li>
+                                <li data-toggle="collapse" data-target=".navbar-collapse.in" data-ng-class="{'active': pageId == 3}"><a class="nav-element" data-ui-sref="mymemory/roads">@Resource.Tracks<span style="font-size: 16px;" class="pull-right hidden-xs showopacity glyphicon glyphicon-road"></span></a></li>
                             </ul>
                         </li>
-                        <li><a data-ui-sref="improvements">@Resource.Improvements<span style="font-size: 16px;" class="pull-right hidden-xs showopacity glyphicon glyphicon-signal"></span></a></li>
+                        <li data-toggle="collapse" data-target=".navbar-collapse.in" data-ng-class="{'active': pageId == 103}"><a class="nav-element" data-ui-sref="improvements">@Resource.Improvements<span style="font-size: 16px;" class="pull-right hidden-xs showopacity glyphicon glyphicon-signal"></span></a></li>
                         if (Admin.IsAdmin(User.Identity.GetUserName()))
                         {
-                            <li class="dropdown">
-                                <a href="" class="dropdown-toggle" data-toggle="dropdown">@Resource.Administration <span class="caret"></span><span style="font-size: 16px;" class="pull-right hidden-xs showopacity glyphicon glyphicon-lock"></span></a>
+                            <li class="dropdown" data-ng-class="{'active': (pageId == 101 || pageId == 102 || pageId == 104)}">
+                                <a href="" class="dropdown-toggle nav-element" data-toggle="dropdown">@Resource.Administration <span class="caret"></span><span style="font-size: 16px;" class="pull-right hidden-xs showopacity glyphicon glyphicon-lock"></span></a>
                                 <ul class="dropdown-menu forAnimate" role="menu">
-                                    <li><a data-ui-sref="users">@Resource.Users<span style="font-size: 16px;" class="pull-right hidden-xs showopacity glyphicon glyphicon-user"></span></a></li>
-                                    <li><a data-ui-sref="logs">@Resource.Logs<span style="font-size: 16px;" class="pull-right hidden-xs showopacity glyphicon glyphicon-scale"></span></a></li>
-                                    <li><a data-ui-sref="errors">@Resource.Errors<span style="font-size: 16px;" class="pull-right hidden-xs showopacity glyphicon glyphicon-random"></span></a></li>
+                                    <li data-toggle="collapse" data-target=".navbar-collapse.in" data-ng-class="{'active': pageId == 101}"><a class="nav-element" data-ui-sref="users">@Resource.Users<span style="font-size: 16px;" class="pull-right hidden-xs showopacity glyphicon glyphicon-user"></span></a></li>
+                                    <li data-toggle="collapse" data-target=".navbar-collapse.in" data-ng-class="{'active': pageId == 102}"><a class="nav-element" data-ui-sref="logs">@Resource.Logs<span style="font-size: 16px;" class="pull-right hidden-xs showopacity glyphicon glyphicon-scale"></span></a></li>
+                                    <li data-toggle="collapse" data-target=".navbar-collapse.in" data-ng-class="{'active': pageId == 104}"><a class="nav-element" data-ui-sref="errors">@Resource.Errors<span style="font-size: 16px;" class="pull-right hidden-xs showopacity glyphicon glyphicon-random"></span></a></li>
                                 </ul>
                             </li>
                         }
-                        <li><a data-ui-sref="settings">@Resource.Settings<span style="font-size: 16px;" class="pull-right hidden-xs showopacity glyphicon glyphicon-cog"></span></a></li>
+                        <li data-toggle="collapse" data-target=".navbar-collapse.in" data-ng-class="{'active': pageId == 106}"><a class="nav-element" data-ui-sref="settings">@Resource.Settings<span style="font-size: 16px;" class="pull-right hidden-xs showopacity glyphicon glyphicon-cog"></span></a></li>
                     }
                     else
                     {
-                        <li><a id="LogInButton">@Resource.Login<span style="font-size: 16px;" class="pull-right hidden-xs showopacity glyphicon glyphicon-log-in"></span></a></li>
+                        <li data-toggle="collapse" data-target=".navbar-collapse.in"><a class="nav-element" id="LogInButton">@Resource.Login<span style="font-size: 16px;" class="pull-right hidden-xs showopacity glyphicon glyphicon-log-in"></span></a></li>
                     }
 
-                    <li><a href='https://play.google.com/store/apps/details?id=com.vve.myseen' target="_blank">@Resource.OurAndroidApp<span style="font-size: 16px;" class="pull-right hidden-xs showopacity glyphicon glyphicon-phone"></span></a></li>
-                    <li><a data-ui-sref="about">@Resource.About <span style="font-size: 16px;" class="pull-right hidden-xs showopacity glyphicon glyphicon-info-sign"></span></a></li>
+                    <li data-toggle="collapse" data-target=".navbar-collapse.in"><a class="nav-element" href='https://play.google.com/store/apps/details?id=com.vve.myseen' target="_blank">@Resource.OurAndroidApp<span style="font-size: 16px;" class="pull-right hidden-xs showopacity glyphicon glyphicon-phone"></span></a></li>
+                    <li data-toggle="collapse" data-target=".navbar-collapse.in" data-ng-class="{'active': pageId == 105}"><a class="nav-element" data-ui-sref="about">@Resource.About <span style="font-size: 16px;" class="pull-right hidden-xs showopacity glyphicon glyphicon-info-sign"></span></a></li>
 
                     @if (Request.IsAuthenticated)
                     {
-                        <li><a id="LogoutButton">@Resource.LogOff<span style="font-size: 16px;" class="pull-right hidden-xs showopacity glyphicon glyphicon-off"></span></a></li>
+                        <li data-toggle="collapse" data-target=".navbar-collapse.in"><a class="nav-element" id="LogoutButton">@Resource.LogOff<span style="font-size: 16px;" class="pull-right hidden-xs showopacity glyphicon glyphicon-off"></span></a></li>
                     }
                 </ul>
             </div>
@@ -138,239 +175,251 @@
 
     </div>
 
-@if (Request.IsAuthenticated) // Дадим возможность выхода
-{
-    <script language="javascript" type="text/javascript">
-        (function($) {
-            $(function() {
-                var $LogoutButton = $("#LogoutButton");
-                $LogoutButton.off('click');
-                $LogoutButton.on('click', function() {
+    @if (Request.IsAuthenticated) // Дадим возможность выхода
+    {
+        <script language="javascript" type="text/javascript">
+            (function ($) {
+                $(function () {
+                    var $LogoutButton = $("#LogoutButton");
+                    $LogoutButton.off('click');
+                    $LogoutButton.on('click', function () {
 
-                    $.post('/Account/LogOut', {}, function(jsonData) {
+                        $.post('/Account/LogOut', {}, function (jsonData) {
 
-                        if (jsonData === '@Auth.NoAuth') window.location = '/';
+                            if (jsonData === '@Auth.NoAuth') window.location = '/';
 
-                        if (jsonData.error) {
-                            alert(jsonData.error);
-                        } else {
-                            window.location.reload();
-                        }
-                    });
-                });
-
-                setGmapLanguage('@CultureInfoTool.GetFirst2Culture()');
-                setGmapMarkers('@Model.Markers');
-                setGmapMenuName('@Resource.SetPointHere');
-
-            });
-        })(jQuery);
-    </script>
-}
-else
-{
-    <div class="modal fade modal-window" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" id="LogInModalWindow">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close myseen-modal-close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                    <h4 class="modal-title text-center">@Resource.Login</h4>
-                </div>
-                <div class="modal-body">
-                    <div class="form-horizontal" style="margin-left: -1px;">
-                        @{
-                            var loginProviders = Context.GetOwinContext().Authentication.GetExternalAuthenticationTypes();
-                            var authenticationDescriptions = loginProviders as IList<AuthenticationDescription> ?? loginProviders.ToList();
-                            if (authenticationDescriptions.Any() || Nemiro.OAuth.OAuthManager.RegisteredClients.Count != 0)
-                            {
-                                <div class="form-group col-sm-12">
-                                    <button type="button" class="btn btn-danger btn-md btn-block" id="UseAnotherServiceToLogIn">
-                                        <span class="glyphicon glyphicon-log-in"></span>
-                                        &nbsp;@Resource.UseAnotherServiceToLogIn
-                                    </button>
-                                </div>
+                            if (jsonData.error) {
+                                alert(jsonData.error);
+                            } else {
+                                window.location.reload();
                             }
-                        }
-                        <div class="form-group col-sm-12">
-                            <button type="button" class="btn btn-warning btn-block" id="RegisterButton">
-                                <span class="glyphicon glyphicon-user"></span>
-                                &nbsp;@Resource.TxtForLogin2
-                            </button>
-                        </div>
-                        <div class="form-group">
-                            <label for="userName" class="col-sm-2 control-label">@Resource.Email</label>
-                            <div class="col-sm-10">
-                                <input type="text" class="form-control" id="userName" placeholder="@Resource.Email">
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label for="password" class="col-sm-2 control-label">@Resource.Password</label>
-                            <div class="col-sm-10">
-                                <input type="password" class="form-control" id="password" placeholder="@Resource.Password"/>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <div class="col-sm-12">
-                                @Html.CheckBox("RememberMe", true)
-                                <label for="RememberMe" class="ontrol-label">@Resource.Remember</label>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-success btn-block" id="LoginButton">
-                        <span class="glyphicon glyphicon-ok"></span>
-                        &nbsp;@Resource.Login
-                    </button>
-                </div>
-            </div>
-        </div>
-    </div>
+                        });
+                    });
 
-    <div class="modal fade modal-window" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" id="LoginExternalModalWindow">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-body">
-                    <div class="form-horizontal">
-                        <div class="form-group">
+                    setGmapLanguage('@CultureInfoTool.GetFirst2Culture()');
+                    setGmapMarkers('@Model.Markers');
+                    setGmapMenuName('@Resource.SetPointHere');
+
+                    window.authorized = '@Request.IsAuthenticated' === 'True';
+
+                });
+            })(jQuery);
+        </script>
+    }
+    else
+    {
+        <div class="modal fade modal-window" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" id="LogInModalWindow">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close myseen-modal-close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-title text-center">@Resource.Login</h4>
+                    </div>
+                    <div class="modal-body">
+                        <div class="form-horizontal" style="margin-left: -1px;">
                             @{
-                                using (Html.BeginForm("ExternalLogin", "Account"))
-                                {
-
-                                    @Html.AntiForgeryToken()
-                                    foreach (var p in authenticationDescriptions)
-                                    {
-                                        <div class="col-sm-12">
-                                            <button type="submit" class="btn btn-primary btn-block" id="@p.AuthenticationType" name="provider" value="@p.AuthenticationType" title="@Resource.LogInUsingYour @p.Caption @Resource.Account ">@p.AuthenticationType</button>
-                                        </div>
-                                    }
-                                    foreach (var p in Nemiro.OAuth.OAuthManager.RegisteredClients)
-                                    {
-                                        <div class="col-sm-12">
-                                            <button type="submit" class="btn btn-primary btn-block" id="@p.Key" name="provider" value="@p.Key" title="@Resource.LogInUsingYour @p.Value.ProviderName @Resource.Account ">@p.Key</button>
-                                        </div>
-                                    }
-                                }
+        var loginProviders = Context.GetOwinContext().Authentication.GetExternalAuthenticationTypes();
+        var authenticationDescriptions = loginProviders as IList<AuthenticationDescription> ?? loginProviders.ToList();
+        if (authenticationDescriptions.Any() || Nemiro.OAuth.OAuthManager.RegisteredClients.Count != 0)
+        {
+            <div class="form-group col-sm-12">
+                <button type="button" class="btn btn-danger btn-md btn-block" id="UseAnotherServiceToLogIn">
+                    <span class="glyphicon glyphicon-log-in"></span>
+                    &nbsp;@Resource.UseAnotherServiceToLogIn
+                </button>
+            </div>
+        }
                             }
+                            <div class="form-group col-sm-12">
+                                <button type="button" class="btn btn-warning btn-block" id="RegisterButton">
+                                    <span class="glyphicon glyphicon-user"></span>
+                                    &nbsp;@Resource.TxtForLogin2
+                                </button>
+                            </div>
+                            <div class="form-group">
+                                <label for="userName" class="col-sm-2 control-label">@Resource.Email</label>
+                                <div class="col-sm-10">
+                                    <input type="text" class="form-control" id="userName" placeholder="@Resource.Email">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="password" class="col-sm-2 control-label">@Resource.Password</label>
+                                <div class="col-sm-10">
+                                    <input type="password" class="form-control" id="password" placeholder="@Resource.Password" />
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-sm-12">
+                                    @Html.CheckBox("RememberMe", true)
+                                    <label for="RememberMe" class="ontrol-label">@Resource.Remember</label>
+                                </div>
+                            </div>
                         </div>
-
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-success btn-block" id="LoginButton">
+                            <span class="glyphicon glyphicon-ok"></span>
+                            &nbsp;@Resource.Login
+                        </button>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
-    <div class="modal fade modal-window" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" id="RegisterModalWindow">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close myseen-modal-close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                    <h4 class="modal-title text-center">@Resource.Register</h4>
+
+        <div class="modal fade modal-window" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" id="LoginExternalModalWindow">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-body">
+                        <div class="form-horizontal">
+                            <div class="form-group">
+                                @{
+        using (Html.BeginForm("ExternalLogin", "Account"))
+        {
+
+            @Html.AntiForgeryToken()
+            foreach (var p in authenticationDescriptions)
+            {
+                <div class="col-sm-12">
+                    <button type="submit" class="btn btn-primary btn-block" id="@p.AuthenticationType" name="provider" value="@p.AuthenticationType" title="@Resource.LogInUsingYour @p.Caption @Resource.Account ">@p.AuthenticationType</button>
                 </div>
-                <div class="modal-body">
-                    <div class="form-horizontal">
-                        <div class="form-group">
-                            <label for="registerUserName" class="col-sm-2 control-label">@Resource.Email</label>
-                            <div class="col-sm-10">
-                                <input type="text" class="form-control" id="registerUserName" placeholder="@Resource.Email">
+            }
+            foreach (var p in Nemiro.OAuth.OAuthManager.RegisteredClients)
+            {
+                <div class="col-sm-12">
+                    <button type="submit" class="btn btn-primary btn-block" id="@p.Key" name="provider" value="@p.Key" title="@Resource.LogInUsingYour @p.Value.ProviderName @Resource.Account ">@p.Key</button>
+                </div>
+            }
+        }
+                                }
                             </div>
-                        </div>
-                        <div class="form-group">
-                            <label for="registerPassword" class="col-sm-2 control-label">@Resource.Password</label>
-                            <div class="col-sm-10">
-                                <input type="password" class="form-control" id="registerPassword" placeholder="@Resource.Password"/>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label for="registerRepeatPassword" class="col-sm-2 control-label">@Resource.Password</label>
-                            <div class="col-sm-10">
-                                <input type="password" class="form-control" id="registerRepeatPassword" placeholder="@Resource.Password"/>
-                            </div>
+
                         </div>
                     </div>
                 </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-success btn-block" id="RegisterUserButton">
-                        <span class="glyphicon glyphicon-ok"></span>
-                        &nbsp;@Resource.Register
-                    </button>
+            </div>
+        </div>
+        <div class="modal fade modal-window" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" id="RegisterModalWindow">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close myseen-modal-close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-title text-center">@Resource.Register</h4>
+                    </div>
+                    <div class="modal-body">
+                        <div class="form-horizontal">
+                            <div class="form-group">
+                                <label for="registerUserName" class="col-sm-2 control-label">@Resource.Email</label>
+                                <div class="col-sm-10">
+                                    <input type="text" class="form-control" id="registerUserName" placeholder="@Resource.Email">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="registerPassword" class="col-sm-2 control-label">@Resource.Password</label>
+                                <div class="col-sm-10">
+                                    <input type="password" class="form-control" id="registerPassword" placeholder="@Resource.Password" />
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="registerRepeatPassword" class="col-sm-2 control-label">@Resource.Password</label>
+                                <div class="col-sm-10">
+                                    <input type="password" class="form-control" id="registerRepeatPassword" placeholder="@Resource.Password" />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-success btn-block" id="RegisterUserButton">
+                            <span class="glyphicon glyphicon-ok"></span>
+                            &nbsp;@Resource.Register
+                        </button>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
 
+        <script language="javascript" type="text/javascript">
+            (function ($) {
+                $(function () {
+                    var $LogInButton = $("#LogInButton");
+                    $LogInButton.off('click');
+                    $LogInButton.on('click', function () {
+
+                        $("#LogInModalWindow").modal('show');
+
+                    });
+                    var $UseAnotherServiceToLogIn = $("#UseAnotherServiceToLogIn");
+                    $UseAnotherServiceToLogIn.off('click');
+                    $UseAnotherServiceToLogIn.on('click', function () {
+
+                        $("#LogInModalWindow").modal('hide');
+                        $("#LoginExternalModalWindow").modal('show');
+
+                    });
+                    var $RegisterButton = $("#RegisterButton");
+                    $RegisterButton.off('click');
+                    $RegisterButton.on('click', function () {
+
+                        $("#LogInModalWindow").modal('hide');
+                        $("#RegisterModalWindow").modal('show');
+
+                    });
+
+                    var $LoginButton = $("#LoginButton");
+                    $LoginButton.off('click');
+                    $LoginButton.on('click', function () {
+
+                        $.post('/Account/LoginMain', {
+                            userName: $('#userName').val(),
+                            password: $('#password').val(),
+                            remember: $('#RememberMe').val()
+                        }, function (jsonData) {
+                            if (jsonData.error) {
+                                alert(jsonData.error);
+                            } else {
+                                window.location.href = '/';
+                            }
+                        });
+                    });
+
+                    var $RegisterUserButton = $("#RegisterUserButton");
+                    $RegisterUserButton.off('click');
+                    $RegisterUserButton.on('click', function () {
+
+                        $.post('/Account/Register', {
+                            userName: $('#registerUserName').val(),
+                            password: $('#registerPassword').val(),
+                            repeatPassword: $('#registerRepeatPassword').val()
+                        }, function (jsonData) {
+                            if (jsonData.error) {
+                                alert(jsonData.error);
+                            } else {
+                                window.location.href = '/';
+                            }
+                        });
+                    });
+
+
+                });
+            })(jQuery);
+        </script>
+    }
+    @if (!Admin.IsDebug)
+    {
+        @Html.Partial("../Analytics/Yandex")
+        @Html.Partial("../Analytics/Google")
+        @Html.Partial("../Analytics/Rambler")
+        @Html.Partial("../Analytics/Openstat")
+        //Хочет много контента @Html.Partial("../Ads/Google")
+    }
+    @Html.Partial("../Tools/TestCookie")
     <script language="javascript" type="text/javascript">
         (function($) {
-            $(function() {
-                var $LogInButton = $("#LogInButton");
-                $LogInButton.off('click');
-                $LogInButton.on('click', function() {
+            $(function () {
 
-                    $("#LogInModalWindow").modal('show');
-
-                });
-                var $UseAnotherServiceToLogIn = $("#UseAnotherServiceToLogIn");
-                $UseAnotherServiceToLogIn.off('click');
-                $UseAnotherServiceToLogIn.on('click', function() {
-
-                    $("#LogInModalWindow").modal('hide');
-                    $("#LoginExternalModalWindow").modal('show');
-
-                });
-                var $RegisterButton = $("#RegisterButton");
-                $RegisterButton.off('click');
-                $RegisterButton.on('click', function() {
-
-                    $("#LogInModalWindow").modal('hide');
-                    $("#RegisterModalWindow").modal('show');
-
-                });
-
-                var $LoginButton = $("#LoginButton");
-                $LoginButton.off('click');
-                $LoginButton.on('click', function() {
-
-                    $.post('/Account/LoginMain', {
-                        userName: $('#userName').val(),
-                        password: $('#password').val(),
-                        remember: $('#RememberMe').val()
-                    }, function(jsonData) {
-                        if (jsonData.error) {
-                            alert(jsonData.error);
-                        } else {
-                            window.location.href = '/';
-                        }
-                    });
-                });
-
-                var $RegisterUserButton = $("#RegisterUserButton");
-                $RegisterUserButton.off('click');
-                $RegisterUserButton.on('click', function() {
-
-                    $.post('/Account/Register', {
-                        userName: $('#registerUserName').val(),
-                        password: $('#registerPassword').val(),
-                        repeatPassword: $('#registerRepeatPassword').val()
-                    }, function(jsonData) {
-                        if (jsonData.error) {
-                            alert(jsonData.error);
-                        } else {
-                            window.location.href = '/';
-                        }
-                    });
-                });
 
 
             });
         })(jQuery);
     </script>
-}
-@if (!Admin.IsDebug)
-{
-    @Html.Partial("../Analytics/Yandex")
-    @Html.Partial("../Analytics/Google")
-    @Html.Partial("../Analytics/Rambler")
-    @Html.Partial("../Analytics/Openstat")
-    //Хочет много контента @Html.Partial("../Ads/Google")
-}
 </body>
 </html>

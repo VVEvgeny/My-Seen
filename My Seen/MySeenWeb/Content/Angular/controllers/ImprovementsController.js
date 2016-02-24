@@ -16,7 +16,7 @@ App.controller('ImprovementsController', ['$scope', '$rootScope', '$state', '$st
       $rootScope.clearControllers();
 
       //Индекс страницы, для запросов к серверу
-      var pageId = 103;
+      $rootScope.pageId = constants.PageIds.Improvements;
       //Показать ли кнопку ДОБАВИТЬ
       $scope.pageCanAdd = true;
       //Показать ли поле ПОИСКа
@@ -51,7 +51,7 @@ App.controller('ImprovementsController', ['$scope', '$rootScope', '$state', '$st
       function getMainPage() {
           $rootScope.GetPage(constants.Pages.Main, $http, fillScope
               , {
-                  pageId: pageId,
+                  pageId: $rootScope.pageId,
                   page: ($stateParams ? $stateParams.page : null),
                   search: ($stateParams ? $stateParams.search : null),
                   complex: ($stateParams ? $stateParams.complex : null),
@@ -60,8 +60,8 @@ App.controller('ImprovementsController', ['$scope', '$rootScope', '$state', '$st
       };
 
       //Сразу 3 запроса на сервер, далее будет только запросы по новым данным и на добавление/изменение
-      $rootScope.GetPage(constants.Pages.Prepared, $http, fillPrepared, { pageId: pageId });
-      $rootScope.GetPage(constants.Pages.Translation, $http, fillTranslation, { pageId: pageId });
+      $rootScope.GetPage(constants.Pages.Prepared, $http, fillPrepared, { pageId: $rootScope.pageId });
+      $rootScope.GetPage(constants.Pages.Translation, $http, fillTranslation, { pageId: $rootScope.pageId });
       getMainPage();
 
       ///////////////////////////////////////////////////////////////////////
@@ -159,7 +159,7 @@ App.controller('ImprovementsController', ['$scope', '$rootScope', '$state', '$st
       //Готовлю данные для отправки и вызову глобальную AddData
       $scope.modal.addButtonClick = function () {
           $rootScope.GetPage(constants.Pages.Add, $http, afterAdd, {
-              pageId: pageId,
+              pageId: $rootScope.pageId,
               name: $scope.modal.description,
               type: $scope.modal.complexType
           });
@@ -194,14 +194,14 @@ App.controller('ImprovementsController', ['$scope', '$rootScope', '$state', '$st
       $scope.modal.saveButtonClick = function () {
           if ($scope.forEnd) {
               $rootScope.GetPage(constants.Pages.EndImprovement, $http, afterSave, {
-                  pageId: pageId,
+                  pageId: $rootScope.pageId,
                   id: $scope.data[$scope.editedIndex].Id,
                   name: $scope.modal.description,
                   version: $scope.modal.version
               });
           } else {
               $rootScope.GetPage(constants.Pages.Update, $http, afterSave, {
-                  pageId: pageId,
+                  pageId: $rootScope.pageId,
                   id: $scope.data[$scope.editedIndex].Id,
                   name: $scope.modal.description,
                   type: $scope.modal.complexType
@@ -210,6 +210,6 @@ App.controller('ImprovementsController', ['$scope', '$rootScope', '$state', '$st
       };
       //Модальная хочет удалить данные
       $scope.modal.deleteButtonClick = function () {
-          $rootScope.GetPage(constants.Pages.Delete, $http, afterSave, { pageId: pageId, recordId: $scope.data[$scope.editedIndex].Id });
+          $rootScope.GetPage(constants.Pages.Delete, $http, afterSave, { pageId: $rootScope.pageId, recordId: $scope.data[$scope.editedIndex].Id });
       };
   }]);

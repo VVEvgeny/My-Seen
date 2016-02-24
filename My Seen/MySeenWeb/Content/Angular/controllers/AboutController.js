@@ -15,4 +15,5 @@ App.controller('AboutController', ['$scope', '$rootScope', '$state', '$statePara
       //На всякий случай закрою, может переход со страницы, где забыли закрыть модальную
       $rootScope.clearControllers();
 
+      $rootScope.pageId = constants.PageIds.About;
   }]);

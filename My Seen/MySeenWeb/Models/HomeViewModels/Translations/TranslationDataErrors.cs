@@ -13,5 +13,6 @@ namespace MySeenWeb.Models.Translations
         public string Level = Resource.Level;
         public string StackTrace = Resource.StackTrace;
         public string Variables = Resource.Variables;
+        public string RemoveAll = Resource.Remove + " " + Resource.All;
     }
 }

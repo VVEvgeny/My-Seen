@@ -5,6 +5,22 @@
 <br>
 
 <div data-ng-show="translation.loaded">
+
+    <div class="form-inline">
+        <div class="form-group">
+            <div class="container">
+                <div class="row col-sm-12">
+                    <div class="form-group">
+                        <label for="removeAllButton" style="display: block;">{{translation.RemoveAll}}</label>
+                        <button type="button" class="form-control btn btn-danger" id="removeAllButton" data-ng-click="removeAll()">
+                            <span class="glyphicon glyphicon-trash"></span> {{translation.RemoveAll}}
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <br>
     <!--Таблица-->
     <div class="table-responsive">
         <table class="table table-striped">
@@ -20,16 +36,16 @@
             </tr>
             </thead>
             <tbody>
-                <tr ng-repeat="val in data">
-                    <!--Одноразовая привязка-->
-                    <td class="align-center">{{::val.DateTimeStampText}}</td>
-                    <td class="align-center">{{::val.Host}}</td>
-                    <td class="align-center">{{::val.Type}}</td>
-                    <td class="align-center">{{::val.Message}}</td>
-                    <td class="align-center">{{::val.Level}}</td>
-                    <td class="align-center">{{::val.StackTrace}}</td>
-                    <td class="align-center">{{::val.Variables}}</td>
-                </tr>
+            <tr ng-repeat="val in data">
+                <!--Одноразовая привязка-->
+                <td class="align-center">{{::val.DateTimeStampText}}</td>
+                <td class="align-center">{{::val.Host}}</td>
+                <td class="align-center">{{::val.Type}}</td>
+                <td class="align-center">{{::val.Message}}</td>
+                <td class="align-center">{{::val.Level}}</td>
+                <td class="align-center">{{::val.StackTrace}}</td>
+                <td class="align-center">{{::val.Variables}}</td>
+            </tr>
             </tbody>
         </table>
     </div>

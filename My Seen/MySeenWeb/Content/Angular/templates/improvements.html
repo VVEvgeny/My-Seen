@@ -58,10 +58,10 @@
                     <td class="align-center">{{::val.UserName}}</td>
                     <td class="align-center">{{::val.DateFoundText}}</td>
                     <td class="align-center">{{::val.Text}}</td>
-                    <td class="align-center">{{::val.DateEndText}}</td>
-                    <td class="align-center">{{::val.VersionText}}</td>
+                    <td class="align-center" data-ng-show="val.Ended">{{::val.DateEndText}}</td>
+                    <td class="align-center" data-ng-show="val.Ended">{{::val.VersionText}}</td>
                     <td class="align-center" data-ng-show="val.Ended">{{::val.TextEnd}}</td>
-                    <td class="align-center" data-ng-show="!val.Ended">
+                    <td class="align-center" data-ng-show="!val.Ended" colspan="3">
                         <button type="button" class="btn btn-success btn-xs btn-block" data-ng-click="modal.editButtonClick($index,true)" data-ng-show="canControl"><span class="glyphicon glyphicon-ok"></span> {{translation.Close}}</button>
                     </td>
                 </tr>

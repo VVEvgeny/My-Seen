@@ -250,7 +250,7 @@
     <value>Привет</value>
   </data>
   <data name="AppName" xml:space="preserve">
-    <value>Просмотреное</value>
+    <value>Запомненное</value>
   </data>
   <data name="Login" xml:space="preserve">
     <value>Вход</value>
@@ -851,5 +851,20 @@
   </data>
   <data name="Service" xml:space="preserve">
     <value>Сервис</value>
+  </data>
+  <data name="Memes" xml:space="preserve">
+    <value>Мемасики</value>
+  </data>
+  <data name="Added" xml:space="preserve">
+    <value>Добавлено</value>
+  </data>
+  <data name="Read" xml:space="preserve">
+    <value>Читать</value>
+  </data>
+  <data name="AlreadyExists" xml:space="preserve">
+    <value>Уже есть</value>
+  </data>
+  <data name="Mem" xml:space="preserve">
+    <value>Мемасик</value>
   </data>
 </root>

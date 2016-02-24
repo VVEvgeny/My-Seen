@@ -189,6 +189,7 @@ namespace MySeenWeb.Controllers.Account
                                 email = userLogic.GetEmailByProvider(authorizationResult.ProviderName,
                                     authorizationResult.UserInfo.Email);
                             }
+
                             WriteUserSideStorage(UserSideStorageKeys.UserCreditsForAutologin,
                                 logic.GetNew(email, Request.UserAgent));
                             //Дальше разбереться UserCredits и авторизует его по имени
@@ -229,6 +230,7 @@ namespace MySeenWeb.Controllers.Account
                                 {
                                     //logger.Info("Успех авторизации пользователя");
                                     await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
+
                                     WriteUserSideStorage(UserSideStorageKeys.UserCreditsForAutologin,
                                         logic.GetNew(authorizationResult.UserInfo.Email, Request.UserAgent));
                                     return RedirectToLocal(returnUrl);
@@ -245,13 +247,26 @@ namespace MySeenWeb.Controllers.Account
                 switch (result)
                 {
                     case SignInStatus.Success:
-                        WriteUserSideStorage(UserSideStorageKeys.UserCreditsForAutologin,
-                            logic.GetNew(loginInfo.Email, Request.UserAgent));
+
+                        var email = loginInfo.Email;
+
+                        if (string.IsNullOrEmpty(loginInfo.Email)) //для тех кто не отдает email
+                        {
+                            if (userLogic.IsExistInProvider(loginInfo.Login.LoginProvider, loginInfo.Login.ProviderKey))
+                            {
+                                //logger.Info("Создаю кредиты для автоавторизации");
+                                email = userLogic.GetEmailByProvider(loginInfo.Login.LoginProvider, loginInfo.Login.ProviderKey);
+                            }
+                        }
+
+                        if (!string.IsNullOrEmpty(email)) //Заполним если нашли чо-нить
+                            WriteUserSideStorage(UserSideStorageKeys.UserCreditsForAutologin,
+                                logic.GetNew(email, Request.UserAgent));
 
                         return RedirectToLocal(returnUrl);
                     default:
 
-                        var email = loginInfo.Email;
+                        email = loginInfo.Email;
                         var provider = loginInfo.Login.LoginProvider;
                         //logger.Info("email=" + email + " provider=" + provider);
                         if (!string.IsNullOrEmpty(email) && !string.IsNullOrEmpty(provider))

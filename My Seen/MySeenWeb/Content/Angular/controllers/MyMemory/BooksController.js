@@ -13,7 +13,7 @@ App.controller('BooksController', ['$scope', '$rootScope', '$state', '$statePara
   function ($scope, $rootScope, $state, $stateParams, $http, $location, constants) {
 
       //Индекс страницы, для запросов к серверу
-      var pageId = 2;
+      $rootScope.pageId = constants.PageIds.Books;
       //Показать ли кнопку ДОБАВИТЬ
       $scope.pageCanAdd = true;
       //Показать ли поле ПОИСКа
@@ -54,12 +54,12 @@ App.controller('BooksController', ['$scope', '$rootScope', '$state', '$statePara
           $scope.pages = page.Pages;
       };
       function getMainPage() {
-          $rootScope.GetPage(constants.Pages.Main, $http, fillScope, { pageId: pageId, page: ($stateParams ? $stateParams.page : null), search: ($stateParams ? $stateParams.search : null) });
+          $rootScope.GetPage(constants.Pages.Main, $http, fillScope, { pageId: $rootScope.pageId, page: ($stateParams ? $stateParams.page : null), search: ($stateParams ? $stateParams.search : null) });
       };
 
       //Сразу 3 запроса на сервер, далее будет только запросы по новым данным и на добавление/изменение
-      $rootScope.GetPage(constants.Pages.Prepared, $http, fillPrepared, { pageId: pageId });
-      $rootScope.GetPage(constants.Pages.Translation, $http, fillTranslation, { pageId: pageId });
+      $rootScope.GetPage(constants.Pages.Prepared, $http, fillPrepared, { pageId: $rootScope.pageId });
+      $rootScope.GetPage(constants.Pages.Translation, $http, fillTranslation, { pageId: $rootScope.pageId });
       getMainPage();
 
       ///////////////////////////////////////////////////////////////////////
@@ -129,7 +129,7 @@ App.controller('BooksController', ['$scope', '$rootScope', '$state', '$statePara
       //Готовлю данные для отправки и вызову глобальную AddData
       $scope.modal.addButtonClick = function () {
           $rootScope.GetPage(constants.Pages.Add, $http, afterAdd, {
-              pageId: pageId,
+              pageId: $rootScope.pageId,
               name: $scope.modal.name,
               year: $scope.modal.year,
               authors: $scope.modal.authors,
@@ -159,7 +159,7 @@ App.controller('BooksController', ['$scope', '$rootScope', '$state', '$statePara
       //Модальная хочет сохранить данные
       $scope.modal.saveButtonClick = function () {
           $rootScope.GetPage(constants.Pages.Update, $http, afterSave, {
-              pageId: pageId,
+              pageId: $rootScope.pageId,
               id: $scope.data[$scope.editedIndex].Id,
               name: $scope.modal.name,
               year: $scope.modal.year,
@@ -171,7 +171,7 @@ App.controller('BooksController', ['$scope', '$rootScope', '$state', '$statePara
       };
       //Модальная хочет удалить данные
       $scope.modal.deleteButtonClick = function () {
-          $rootScope.GetPage(constants.Pages.Delete, $http, afterSave, { pageId: pageId, recordId: $scope.data[$scope.editedIndex].Id });
+          $rootScope.GetPage(constants.Pages.Delete, $http, afterSave, { pageId: $rootScope.pageId, recordId: $scope.data[$scope.editedIndex].Id });
       };
       ///////////////////////////////////////////////////////////////////////
       ///////////////////////////////////////////////////////////////////////           МОДАЛЬНАЯ ДОСТУПА
@@ -200,7 +200,7 @@ App.controller('BooksController', ['$scope', '$rootScope', '$state', '$statePara
           $scope.modalShare.tryButton = false;
           $scope.modalShare.deleteButton = false;
 
-          $rootScope.GetPage(constants.Pages.GetShare, $http, getShareCallBack, { pageId: pageId, recordId: $scope.data[$scope.editedIndex].Id });
+          $rootScope.GetPage(constants.Pages.GetShare, $http, getShareCallBack, { pageId: $rootScope.pageId, recordId: $scope.data[$scope.editedIndex].Id });
 
           $("#ShareModalWindow").modal("show");
       };
@@ -217,7 +217,7 @@ App.controller('BooksController', ['$scope', '$rootScope', '$state', '$statePara
           $scope.modalShare.tryButton = false;
           $scope.modalShare.deleteButton = false;
 
-          $rootScope.GetPage(constants.Pages.DeleteShare, $http, getShareCallBack, { pageId: pageId, recordId: $scope.data[$scope.editedIndex].Id });
+          $rootScope.GetPage(constants.Pages.DeleteShare, $http, getShareCallBack, { pageId: $rootScope.pageId, recordId: $scope.data[$scope.editedIndex].Id });
       };
       //Добавляем доступ из модальной доступа
       $scope.modalShare.addButtonClick = function () {
@@ -227,6 +227,6 @@ App.controller('BooksController', ['$scope', '$rootScope', '$state', '$statePara
           $scope.modalShare.tryButton = false;
           $scope.modalShare.deleteButton = false;
 
-          $rootScope.GetPage(constants.Pages.GenerateShare, $http, getShareCallBack, { pageId: pageId, recordId: $scope.data[$scope.editedIndex].Id });
+          $rootScope.GetPage(constants.Pages.GenerateShare, $http, getShareCallBack, { pageId: $rootScope.pageId, recordId: $scope.data[$scope.editedIndex].Id });
       };
   }]);

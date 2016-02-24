@@ -13,7 +13,7 @@ App.controller('UsersController', ['$scope', '$rootScope', '$state', '$statePara
   function ($scope, $rootScope, $state, $stateParams, $http, $location, constants) {
 
       //Индекс страницы, для запросов к серверу
-      var pageId = 101;
+      $rootScope.pageId = constants.PageIds.Users;
 
       //Показать ли поле ПОИСКа
       $scope.pageCanSearch = true;
@@ -35,10 +35,10 @@ App.controller('UsersController', ['$scope', '$rootScope', '$state', '$statePara
           $scope.pages = page.Pages;
       };
       function getMainPage() {
-          $rootScope.GetPage(constants.Pages.Main, $http, fillScope, { pageId: pageId, page: ($stateParams ? $stateParams.page : null), search: ($stateParams ? $stateParams.search : null) });
+          $rootScope.GetPage(constants.Pages.Main, $http, fillScope, { pageId: $rootScope.pageId, page: ($stateParams ? $stateParams.page : null), search: ($stateParams ? $stateParams.search : null) });
       };
 
-      $rootScope.GetPage(constants.Pages.Translation, $http, fillTranslation, { pageId: pageId });
+      $rootScope.GetPage(constants.Pages.Translation, $http, fillTranslation, { pageId: $rootScope.pageId });
       getMainPage();
 
       ///////////////////////////////////////////////////////////////////////

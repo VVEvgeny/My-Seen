@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
 using MySeenWeb.Models.Tables;
+using MySeenWeb.Models.Tables.Portal;
 
 namespace MySeenWeb.Models.OtherViewModels
 {
@@ -55,6 +56,10 @@ namespace MySeenWeb.Models.OtherViewModels
         public DbSet<Events> Events { get; set; }
         public DbSet<UserCredits> UserCredits { get; set; }
         public DbSet<NLogErrors> NLogErrors { get; set; }
+
+        public DbSet<Memes> Memes { get; set; }
+        public DbSet<MemesStats> MemesStats { get; set; }
+        
 
         public static ApplicationDbContext Create()
         {

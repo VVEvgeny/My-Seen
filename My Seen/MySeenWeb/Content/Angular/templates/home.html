@@ -1,1 +1,17 @@
-﻿Начальная страница, её видно первой для всех
+﻿<!--Загрузка-->
+<data-ng-include src="'Content/Angular/templates/_tools/loading.html'"></data-ng-include>
+
+<div class="form-inline" data-ng-show="translation.loaded">
+    <div class="form-group">
+        <div class="container">
+            <div class="row col-sm-12">
+                <div class="form-group">
+                    <label for="memes" style="display: block;">{{translation.Memes}}</label>
+                    <button type="button" class="form-control btn btn-warning" id="memes" data-ui-sref="portal/memes">
+                        <span class="glyphicon glyphicon-picture"></span> {{translation.Memes}}
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -20,7 +20,7 @@ App.controller('SharedFilmsController', ['$scope', '$rootScope', '$state', '$sta
       $rootScope.clearControllers();
 
       //Индекс страницы, для запросов к серверу
-      var pageId = 0;
+      $rootScope.pageId = constants.PageIds.Films;
       //Показать ли поле ПОИСКа
       $scope.pageCanSearch = true;
       //Перевод всех данных на тек. странице
@@ -47,7 +47,7 @@ App.controller('SharedFilmsController', ['$scope', '$rootScope', '$state', '$sta
       function getMainPage() {
           $rootScope.GetPage(constants.Pages.Main, $http, fillScope,
               {
-                  pageId: pageId,
+                  pageId: $rootScope.pageId,
                   shareKey: $stateParams.key,
                   page: $stateParams.page,
                   search: $stateParams.search
@@ -58,8 +58,8 @@ App.controller('SharedFilmsController', ['$scope', '$rootScope', '$state', '$sta
       //console.log($stateParams.key);
 
       //Сразу 3 запроса на сервер, далее будет только запросы по новым данным и на добавление/изменение
-      $rootScope.GetPage(constants.Pages.Prepared, $http, fillPrepared, { pageId: pageId });
-      $rootScope.GetPage(constants.Pages.Translation, $http, fillTranslation, { pageId: pageId });
+      $rootScope.GetPage(constants.Pages.Prepared, $http, fillPrepared, { pageId: $rootScope.pageId });
+      $rootScope.GetPage(constants.Pages.Translation, $http, fillTranslation, { pageId: $rootScope.pageId });
       getMainPage();
 
       ///////////////////////////////////////////////////////////////////////
@@ -88,6 +88,6 @@ App.controller('SharedFilmsController', ['$scope', '$rootScope', '$state', '$sta
       ///////////////////////////////////////////////////////////////////////           Действия
       ///////////////////////////////////////////////////////////////////////
       $scope.deleteShareButtonClick = function (id) {
-          $rootScope.GetPage(constants.Pages.DeleteShare, $http, getMainPage, { pageId: pageId, recordId: $scope.data[id].Id });
+          $rootScope.GetPage(constants.Pages.DeleteShare, $http, getMainPage, { pageId: $rootScope.pageId, recordId: $scope.data[id].Id });
       };
   }]);

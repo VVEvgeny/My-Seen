@@ -13,7 +13,7 @@ App.controller('RoadsEditorController', ['$scope', '$rootScope', '$state', '$sta
   function ($scope, $rootScope, $state, $stateParams, $http, $location, constants) {
 
       //»ндекс страницы, дл€ запросов к серверу
-      var pageId = 3;
+      $rootScope.pageId = constants.PageIds.Roads;
       //ѕоказать ли кнопку ƒќЅј¬»“№
       $scope.pageCanAdd = true;
       //Ќа вс€кий случай закрою, может переход со страницы, где забыли закрыть модальную
@@ -56,10 +56,10 @@ App.controller('RoadsEditorController', ['$scope', '$rootScope', '$state', '$sta
           autoFit();
       };
       //—разу 3 запроса на сервер, далее будет только запросы по новым данным и на добавление/изменение
-      $rootScope.GetPage(constants.Pages.Prepared, $http, fillPrepared, { pageId: pageId });
-      $rootScope.GetPage(constants.Pages.Translation, $http, fillTranslation, { pageId: pageId });
+      $rootScope.GetPage(constants.Pages.Prepared, $http, fillPrepared, { pageId: $rootScope.pageId });
+      $rootScope.GetPage(constants.Pages.Translation, $http, fillTranslation, { pageId: $rootScope.pageId });
       if ($stateParams.id) {
-          $rootScope.GetPage(constants.Pages.Main, $http, fillScope, { pageId: pageId, road: $stateParams.id });
+          $rootScope.GetPage(constants.Pages.Main, $http, fillScope, { pageId: $rootScope.pageId, road: $stateParams.id });
       };
       ///////////////////////////////////////////////////////////////////////
       ///////////////////////////////////////////////////////////////////////           ћќƒјЋ№Ќјя ƒќЅј¬Ћ≈Ќ»я / –≈ƒј “»–ќ¬јЌ»я
@@ -111,7 +111,7 @@ App.controller('RoadsEditorController', ['$scope', '$rootScope', '$state', '$sta
       //√отовлю данные дл€ отправки и вызову глобальную AddData
       $scope.modal.addButtonClick = function () {
           $rootScope.GetPage(constants.Pages.Add, $http, afterAdd, {
-              pageId: pageId,
+              pageId: $rootScope.pageId,
               name: $scope.modal.name,
               type: $scope.modal.roadType,
               datetime: $scope.modal.datetimeNow,
@@ -122,7 +122,7 @@ App.controller('RoadsEditorController', ['$scope', '$rootScope', '$state', '$sta
       //ћодальна€ хочет сохранить данные
       $scope.modal.saveButtonClick = function () {
           $rootScope.GetPage(constants.Pages.Update, $http, afterAdd, {
-              pageId: pageId,
+              pageId: $rootScope.pageId,
               id: $stateParams.id,
               name: $scope.modal.name,
               type: $scope.modal.roadType,

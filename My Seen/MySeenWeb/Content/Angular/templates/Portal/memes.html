@@ -1,0 +1,136 @@
+﻿<!--Загрузка-->
+<data-ng-include src="'Content/Angular/templates/_tools/loading.html'"></data-ng-include>
+<!--Кнопка добавить и поиск-->
+<data-ng-include src="'Content/Angular/templates/_tools/add-search-buttons.html'"></data-ng-include>
+<br>
+
+<div data-ng-show="translation.loaded">
+    <!--Таблица-->
+    <div class="table-responsive">
+        <div align="center" data-ng-show="isOne">
+            <button type="button" class="btn btn-info btn-md btn-block" data-ui-sref="portal/memes({id: ''})">
+                <span class="fa fa-hand-o-left"></span>
+            </button>
+            <br>
+        </div>
+
+        <table class="table table-striped" data-ng-repeat="val in data">
+            <thead>
+            <tr>
+                <th class="col-sm-1" data-ng-click="showPost(val.Id)">
+                    <span class="pull-left alert-info small">
+                            <button type="button" class="btn btn-info btn-xs">
+                                <span id="postPlus_{{::val.Id}}" class="glyphicon glyphicon-plus hidden"></span>
+                                <span id="postMinus_{{::val.Id}}" class="glyphicon glyphicon-minus"></span>
+                            </button>
+                        </span>
+                </th>
+                <th class="col-sm-10" data-ng-click="showPost(val.Id)">
+                    {{::val.Name}}
+                </th>
+                <th class="col-sm-1" data-ui-sref="portal/memes({id: val.Id})">
+                    <span class="pull-right alert-info small" data-ng-show="!isOne">
+                            <button type="button" class="btn btn-warning btn-xs">
+                                <span class="glyphicon glyphicon-link"></span> {{translation.Read || 'Read'}}
+                            </button>
+                        </span>
+                </th>
+            </tr>
+            </thead>
+
+            <tbody class="collapse in" id="collapseme_{{::val.Id}}">
+            <tr>
+                <th class="text-left col-sm-12" colspan="3">{{translation.Added || 'Added'}}:<b>{{::val.DateText}}</b></th>
+            </tr>
+            <tr class="align-center">
+                <td class="align-center">
+                    <button type="button" class="btn btn-success btn-xs hidden"><!--ПОКА СКРЫТО-->
+                        <span class="fa fa-file-text-o"></span> {{translation.Save || 'Save'}}
+                    </button>
+                    <div id="vk_like_{{val.Id}}"></div>
+                </td>
+                <td class="align-center">
+                    <img data-ng-attr-src="{{::val.Image}}" width="600" height="457">
+                </td>
+                <td class="align-center pluso" vertical-align="middle" data-background="transparent" data-options="medium,round,line,vertical,counter,theme=04"
+                    data-services="vkontakte,odnoklassniki,facebook,twitter,google,moimir,email,print" data-url="http://myseen.by/portal/memes/{{val.Id}}"></td>
+            </tr>
+            <tr>
+                <th class="align-center">
+                    <button type="button" class="btn btn-success btn-xs" data-ng-show="!val.Stats.Select" data-ng-click="plusPost($index)">
+                        <span class="glyphicon glyphicon-thumbs-up"></span> {{val.Stats.Plus}}
+                    </button>
+                </th>
+                <th class="align-center">
+                    <span class="glyphicon glyphicon-stats"></span> {{val.Stats.Plus - val.Stats.Minus}}
+                </th>
+                <th class="align-center">
+                    <button type="button" class="btn btn-danger btn-xs" data-ng-show="!val.Stats.Select" data-ng-click="minusPost($index)">
+                        <span class="glyphicon glyphicon-thumbs-down"></span> {{val.Stats.Minus}}
+                    </button>
+                </th>
+            </tr>
+            </tbody>
+        </table>
+        <div align="center" data-ng-show="isOne">
+            <br>
+            <div id="vk_comments" align="center"></div>
+        </div>
+    </div>
+
+    <!--Моя пагинация-->
+    <data-ng-include src="'Content/Angular/templates/_tools/pagination.html'"></data-ng-include>
+
+</div>
+
+
+<div class="modal fade modal-window" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" id="AddModalWindow">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close myseen-modal-close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title text-center">{{translation.Title || 'Title'}}</h4>
+            </div>
+            <div class="modal-body">
+                <div class="form-horizontal">
+                    <div class="form-group">
+                        <label for="modalFieldName" class="col-sm-2 control-label">{{translation.Name || 'Name'}}</label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control input-sm" id="modalFieldName" placeholder="{{translation.Name || 'Name'}}" data-ng-model="modal.name">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="modalFieldLink" class="col-sm-2 control-label">{{translation.Link || 'Link'}}</label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control input-sm" id="modalFieldLink" placeholder="{{translation.Link || 'Link'}}" data-ng-model="modal.link">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-success btn-block" data-ng-click="modal.addButtonClick()">
+                    <span class="glyphicon glyphicon-ok"></span>
+                    &nbsp;{{translation.Add || 'Add'}}
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<script type="text/javascript">
+    (function() {
+        if (window.pluso)if (typeof window.pluso.start == "function") return;
+        if (window.ifpluso == undefined) {
+            window.ifpluso = 1;
+            var d = document, s = d.createElement('script'), g = 'getElementsByTagName';
+            s.type = 'text/javascript';
+            s.charset = 'UTF-8';
+            s.async = true;
+            s.src = ('https:' == window.location.protocol ? 'https' : 'http') + '://share.pluso.ru/pluso-like.js?api_key=eb4a1ac77fc27eb58620';
+            var h = d[g]('body')[0];
+            h.appendChild(s);
+        }
+    })();
+</script>
