@@ -1,4 +1,5 @@
 ﻿using MySeenLib;
+using Owin.Security.Providers.Steam;
 
 namespace MySeenWeb.Models.Translations
 {
@@ -15,5 +16,8 @@ namespace MySeenWeb.Models.Translations
         public string BooksCount = Resource.BooksCount;
         public string TracksCount = Resource.TracksCount;
         public string EventsCount = Resource.EventsCount;
+
+        public string Grops = Resource.Grops;
+        public string Update = Resource.Update;
     }
 }

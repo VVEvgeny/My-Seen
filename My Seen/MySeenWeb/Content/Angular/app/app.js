@@ -3,7 +3,7 @@
 /* App Module */
 var App = angular.module('MySeenApp', ['ui.router', 'ui.bootstrap']);
 
-App.config(function ($stateProvider, $urlRouterProvider, $locationProvider) {
+App.config(function($stateProvider, $urlRouterProvider, $locationProvider) {
 
     $locationProvider.html5Mode({
         enabled: true,
@@ -13,11 +13,12 @@ App.config(function ($stateProvider, $urlRouterProvider, $locationProvider) {
 
     $urlRouterProvider.otherwise('/');
 
-}).run(function ($rootScope) {
+}).run(function($rootScope) {
+
     ///////////////////////////////////////////////////////////////////////
     ///////////////////////////////////////////////////////////////////////           Работа с сервером
     ///////////////////////////////////////////////////////////////////////
-    $rootScope.safeApply = function (fn) {
+    $rootScope.safeApply = function(fn) {
         var phase = this.$root.$$phase;
         if (phase == '$apply' || phase == '$digest') {
             if (fn && (typeof (fn) === 'function')) {
@@ -32,7 +33,7 @@ App.config(function ($stateProvider, $urlRouterProvider, $locationProvider) {
     ///////////////////////////////////////////////////////////////////////
     $rootScope.GetPage = function(pageName, $http, callback, parameters, silentMode) {
         if (!silentMode) $rootScope.loading = true;
-        $http.post(pageName, parameters).success(function (jsonData) {
+        $http.post(pageName, parameters).success(function(jsonData) {
 
             if (!silentMode) $rootScope.loading = false;
             if (jsonData.error) {
@@ -70,7 +71,8 @@ App.config(function ($stateProvider, $urlRouterProvider, $locationProvider) {
         Logs: 102,
         Users: 101,
         Main: 200,
-        Memes: 201
+        Memes: 201,
+        TestWebGL:900
     },
     Pages: {
         Main: '/Json/GetPage/',
@@ -94,11 +96,36 @@ App.config(function ($stateProvider, $urlRouterProvider, $locationProvider) {
         SetFacebookService: '/Settings/SetFacebookService/',
         SetPassword: '/Settings/SetPassword/',
         GetLogins: '/Settings/GetLogins/',
-        RemoveLogin: '/Settings/RemoveLogin/'
+        RemoveLogin: '/Settings/RemoveLogin/',
     },
     PagesPortal:
     {
         RateMem: '/Portal/RateMem/'
+    },
+    PagesAdmin:
+    {
+        UpdateUser: '/Json/UpdateUser/'
     }
+}).service('$log', function() {
+    this.log = function(msg) {
+        JL('Angular').trace(msg);
+    }
+    this.debug = function(msg) {
+        JL('Angular').debug(msg);
+    }
+    this.info = function(msg) {
+        JL('Angular').info(msg);
+    }
+    this.warn = function(msg) {
+        JL('Angular').warn(msg);
+    }
+    this.error = function(msg) {
+        JL('Angular').error(msg);
+    }
+}).factory('$exceptionHandler', function() {
+    return function(exception, cause) {
+        JL('Angular').fatalException(cause, exception);
+        throw exception;
+    };
 });
 

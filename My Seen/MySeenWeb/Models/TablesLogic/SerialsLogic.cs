@@ -208,5 +208,9 @@ namespace MySeenWeb.Models.TablesLogic
             _ac.SaveChanges();
             return "-";
         }
+        public int GetCountShared(string key)
+        {
+            return _ac.Serials.Count(f => f.Shared && f.User.ShareSerialsKey == key);
+        }
     }
 }

@@ -245,5 +245,22 @@ namespace MySeenWeb.Models.TablesLogic
             _cache.Remove(CacheNames.UserRoads.ToString(), userId);
             return "-";
         }
+        public int GetCountShared(string key)
+        {
+            return
+                _ac.Tracks.Count(
+                    f =>
+                        //!string.IsNullOrEmpty(f.ShareKey) &&
+                        (f.User.ShareTracksAllKey == key || f.User.ShareTracksFootKey == key ||
+                         f.User.ShareTracksCarKey == key || f.User.ShareTracksBikeKey == key));
+        }
+        public bool IsSingle(string key)
+        {
+            return _ac.Tracks.Any(f => f.ShareKey == key);
+        }
+        public Tracks GetOne(string key)
+        {
+            return _ac.Tracks.FirstOrDefault(f => f.ShareKey == key);
+        }
     }
 }

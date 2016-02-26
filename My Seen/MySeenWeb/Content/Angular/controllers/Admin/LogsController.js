@@ -9,8 +9,8 @@ App.config(function ($stateProvider) {
         });
 });
 
-App.controller('LogsController', ['$scope', '$rootScope', '$state', '$stateParams', '$http', '$location', 'Constants',
-  function ($scope, $rootScope, $state, $stateParams, $http, $location, constants) {
+App.controller('LogsController', ['$scope', '$rootScope', '$state', '$stateParams', '$http', '$location', 'Constants', '$anchorScroll',
+  function ($scope, $rootScope, $state, $stateParams, $http, $location, constants, $anchorScroll) {
 
       //Индекс страницы, для запросов к серверу
       $rootScope.pageId = constants.PageIds.Logs;
@@ -60,5 +60,57 @@ App.controller('LogsController', ['$scope', '$rootScope', '$state', '$stateParam
           $location.search('page', page > 1 ? page : null);
           if ($stateParams) $stateParams.page = page > 1 ? page : null;
           getMainPage();
+          $anchorScroll();
       }
+      ///////////////////////////////////////////////////////////////////////
+      ///////////////////////////////////////////////////////////////////////           COLLAPSE
+      ///////////////////////////////////////////////////////////////////////
+      $scope.showPost = function(id) {
+          if (id === 'all') {
+              if ($("#postPlus_" + id).hasClass("hidden")) {
+
+                  $("#postMinus_" + id).addClass("hidden");
+                  $("#postPlus_" + id).removeClass("hidden");
+
+                  if ($scope.data.length > 0) {
+                      for (var i = 0; i < $scope.data.length; i++) {
+                          $("#collapseme_" + i).addClass("out");
+                          $("#collapseme_" + i).removeClass("in");
+
+                          $("#postMinus_" + i).addClass("hidden");
+                          $("#postPlus_" + i).removeClass("hidden");
+                      }
+                  }
+
+              } else {
+                  $("#postPlus_" + id).addClass("hidden");
+                  $("#postMinus_" + id).removeClass("hidden");
+
+                  if ($scope.data.length > 0) {
+                      for (var i = 0; i < $scope.data.length; i++) {
+                          $("#collapseme_" + i).addClass("in");
+                          $("#collapseme_" + i).removeClass("out");
+
+                          $("#postPlus_" + i).addClass("hidden");
+                          $("#postMinus_" + i).removeClass("hidden");
+                      }
+                  }
+              }
+          } else {
+              if ($("#postPlus_" + id).hasClass("hidden")) {
+
+                  $("#collapseme_" + id).addClass("out");
+                  $("#collapseme_" + id).removeClass("in");
+
+                  $("#postMinus_" + id).addClass("hidden");
+                  $("#postPlus_" + id).removeClass("hidden");
+              } else {
+                  $("#collapseme_" + id).addClass("in");
+                  $("#collapseme_" + id).removeClass("out");
+
+                  $("#postPlus_" + id).addClass("hidden");
+                  $("#postMinus_" + id).removeClass("hidden");
+              }
+          }
+      };
   }]);

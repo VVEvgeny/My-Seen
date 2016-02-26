@@ -17,10 +17,6 @@ namespace MySeenLib
 
     public static class Admin
     {
-        public static bool IsAdmin(string userName)
-        {
-            return userName.ToLower() == "vvevgeny@gmail.com";
-        }
         public static bool IsDebug
         {
             get
@@ -362,6 +358,26 @@ namespace MySeenLib
                 }
             }
         }
+        public class RolesBase : ListStringBase
+        {
+            public enum Indexes
+            {
+                Admin,
+                Tester
+            }
+
+            protected override void Load()
+            {
+                if (All == null)
+                {
+                    All = new List<string>
+                    {
+                        Resource.Administrator,
+                        Resource.Tester
+                    };
+                }
+            }
+        }
         public class LanguagesBase : ListStringBase
         {
             public enum Indexes
@@ -480,6 +496,7 @@ namespace MySeenLib
         public static readonly RecordPerPageBase RecordPerPage = new RecordPerPageBase();
         public static readonly EnabledDisabledBase EnabledDisabled = new EnabledDisabledBase();
         public static readonly EventsTypesBase EventTypes = new EventsTypesBase();
+        public static readonly RolesBase RolesTypes = new RolesBase();
 
         private static readonly List<ListStringBase> AllResourcesLink = new List<ListStringBase>
         {
@@ -490,7 +507,8 @@ namespace MySeenLib
             Complexes,
             RecordPerPage,
             EnabledDisabled,
-            EventTypes
+            EventTypes,
+            RolesTypes
         };
 
         public static void ReloadResources()
@@ -499,59 +517,6 @@ namespace MySeenLib
             {
                 val.Reload();
             }
-        }
-    }
-    public static class Validations
-    {
-        public static bool ValidateName(ref string message, string filmName)
-        {
-            if (filmName.Length < 1)
-            {
-                message = Resource.ShortUserName;
-                return false;
-            }
-            return true;
-        }
-        public static bool ValidateUserName(ref string message, string userName)
-        {
-            if (userName.Length < 5)
-            {
-                message = Resource.ShortUserName;
-                return false;
-            }
-            return true;
-        }
-        public static bool ValidateEmail(ref string message, string email)
-        {
-            if (!email.Contains("@") || !email.Contains("."))
-            {
-                message = Resource.EmailIncorrect;
-                return false;
-            }
-            return true;
-        }
-        public static bool ValidatePassword(ref string message, string password, string passwordConfirm)
-        {
-            if (password != passwordConfirm)
-            {
-                message = Resource.PasswordsNotEqual;
-                return false;
-            }
-            if (password.Length < 6)
-            {
-                message = Resource.PasswordLength;
-                return false;
-            }
-            if (password.Contains("0") || password.Contains("1") || password.Contains("2") || password.Contains("3") || password.Contains("4") || password.Contains("5") || password.Contains("6") || password.Contains("7") || password.Contains("8") || password.Contains("9"))
-            {
-                //Потом мож какие другие контроли
-            }
-            else
-            {
-                message = Resource.PasswordNOTContainsDigit;
-                return false;
-            }
-            return true;
         }
     }
 }

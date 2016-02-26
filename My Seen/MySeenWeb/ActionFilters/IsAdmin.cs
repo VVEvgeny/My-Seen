@@ -3,6 +3,7 @@ using System.Web.Mvc;
 using MySeenLib;
 using Microsoft.AspNet.Identity;
 using MySeenWeb.Add_Code.Services.Logging.NLog;
+using MySeenWeb.Models.TablesLogic;
 
 namespace MySeenWeb.ActionFilters
 {
@@ -10,7 +11,7 @@ namespace MySeenWeb.ActionFilters
     {
         void IActionFilter.OnActionExecuting(ActionExecutingContext filterContext)
         {
-            if (!Admin.IsAdmin(HttpContext.Current.User.Identity.GetUserName()))
+            if (!UserRolesLogic.IsAdmin(HttpContext.Current.User.Identity.GetUserId()))
             {
                 var logger = new NLogLogger();
                 logger.Warn("CALL NOT ALLOWED UserName=" + HttpContext.Current.User.Identity.GetUserName());

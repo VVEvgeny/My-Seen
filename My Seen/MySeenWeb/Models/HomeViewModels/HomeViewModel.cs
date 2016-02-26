@@ -1,9 +1,9 @@
-﻿using System;
-using System.Security.Policy;
+﻿using System.Collections.Generic;
+using System.Linq;
 using System.Web;
 using MySeenLib;
 using MySeenWeb.Models.Meta;
-using MySeenWeb.Models.TablesLogic.Portal;
+using MySeenWeb.Models.TablesLogic;
 
 namespace MySeenWeb.Models
 {
@@ -12,25 +12,15 @@ namespace MySeenWeb.Models
         public bool Markers { get; set; }
         public MetaBase Meta { get; set; }
 
-        public HomeViewModel(int markers, HttpRequestBase request)
+        public IEnumerable<string> UserRoles;
+
+        public HomeViewModel(string userId, int markers, HttpRequestBase request)
         {
             Markers = markers == (int) Defaults.EnabledDisabledBase.Indexes.Enabled;
+            Meta = MetaBase.Create(request);
 
-            if (MetaBase.IsBot(request.UserAgent))
-            {
-                if (request.Path.ToLower().Contains(MetaPortalMemes.Path))
-                {
-                    Meta = new MetaPortalMemes(request);
-                }
-                else
-                {
-                    Meta = new MetaBase(request);
-                }
-            }
-            else
-            {
-                Meta = new MetaBase(request);
-            }
+            var logic = new UserRolesLogic();
+            UserRoles = logic.GetRoles(userId);
         }
     }
 }

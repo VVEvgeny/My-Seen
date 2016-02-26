@@ -867,4 +867,31 @@
   <data name="Mem" xml:space="preserve">
     <value>Mem</value>
   </data>
+  <data name="User2" xml:space="preserve">
+    <value>User</value>
+  </data>
+  <data name="Total" xml:space="preserve">
+    <value>Total</value>
+  </data>
+  <data name="Roads" xml:space="preserve">
+    <value>Roads</value>
+  </data>
+  <data name="Administrator" xml:space="preserve">
+    <value>Administrator</value>
+  </data>
+  <data name="Tester" xml:space="preserve">
+    <value>Tester</value>
+  </data>
+  <data name="Grops" xml:space="preserve">
+    <value>Grops</value>
+  </data>
+  <data name="Update" xml:space="preserve">
+    <value>Update</value>
+  </data>
+  <data name="CantDeleteLastAdmin" xml:space="preserve">
+    <value>Can't Delete Last Admin</value>
+  </data>
+  <data name="Testing" xml:space="preserve">
+    <value>Testing</value>
+  </data>
 </root>

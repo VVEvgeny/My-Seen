@@ -54,11 +54,19 @@
     @Styles.Render("~/Content/datetimepicker.css")
 
 
+    <script src="~/Scripts/myseen/jsNlog.js"></script>
+    @Html.Raw(JSNLog.JavascriptLogging.Configure())
+
     <script src="~/Scripts/myseen/timer.js"></script>
     <script src="~/Scripts/gmap3.js"></script>
     <script src="~/Scripts/myseen/gmap.js"></script>
     <script src="~/Scripts/myseen/gmap.tools.js"></script>
     <script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?libraries=geometry&amp;language=@CultureInfoTool.GetFirst2Culture()"></script>
+
+
+
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/gl-matrix/2.3.1/gl-matrix-min.js"></script>
+
 
 
     <script src="~/Scripts/angular.js"></script>
@@ -75,11 +83,15 @@
     <script src="~/Content/Angular/app/app.js"></script>
     @if (Request.IsAuthenticated)
     {
-        if (Admin.IsAdmin(User.Identity.GetUserName()))
+        if (Model.UserRoles.Contains(((int)Defaults.RolesBase.Indexes.Admin).ToString()))
         {
             <script src="~/Content/Angular/controllers/Admin/UsersController.js"></script>
             <script src="~/Content/Angular/controllers/Admin/LogsController.js"></script>
             <script src="~/Content/Angular/controllers/Admin/ErrorsController.js"></script>
+        }
+        if (Model.UserRoles.Contains(((int)Defaults.RolesBase.Indexes.Tester).ToString()))
+        {
+            <script src="~/Content/Angular/controllers/Tests/WebGLController.js"></script>
         }
         <script src="~/Content/Angular/controllers/SettingsController.js"></script>
         <script src="~/Content/Angular/controllers/ImprovementsController.js"></script>
@@ -137,7 +149,7 @@
                             </ul>
                         </li>
                         <li data-toggle="collapse" data-target=".navbar-collapse.in" data-ng-class="{'active': pageId == 103}"><a class="nav-element" data-ui-sref="improvements">@Resource.Improvements<span style="font-size: 16px;" class="pull-right hidden-xs showopacity glyphicon glyphicon-signal"></span></a></li>
-                        if (Admin.IsAdmin(User.Identity.GetUserName()))
+                        if (Model.UserRoles.Contains(((int)Defaults.RolesBase.Indexes.Admin).ToString()))
                         {
                             <li class="dropdown" data-ng-class="{'active': (pageId == 101 || pageId == 102 || pageId == 104)}">
                                 <a href="" class="dropdown-toggle nav-element" data-toggle="dropdown">@Resource.Administration <span class="caret"></span><span style="font-size: 16px;" class="pull-right hidden-xs showopacity glyphicon glyphicon-lock"></span></a>
@@ -145,6 +157,15 @@
                                     <li data-toggle="collapse" data-target=".navbar-collapse.in" data-ng-class="{'active': pageId == 101}"><a class="nav-element" data-ui-sref="users">@Resource.Users<span style="font-size: 16px;" class="pull-right hidden-xs showopacity glyphicon glyphicon-user"></span></a></li>
                                     <li data-toggle="collapse" data-target=".navbar-collapse.in" data-ng-class="{'active': pageId == 102}"><a class="nav-element" data-ui-sref="logs">@Resource.Logs<span style="font-size: 16px;" class="pull-right hidden-xs showopacity glyphicon glyphicon-scale"></span></a></li>
                                     <li data-toggle="collapse" data-target=".navbar-collapse.in" data-ng-class="{'active': pageId == 104}"><a class="nav-element" data-ui-sref="errors">@Resource.Errors<span style="font-size: 16px;" class="pull-right hidden-xs showopacity glyphicon glyphicon-random"></span></a></li>
+                                </ul>
+                            </li>
+                        }
+                        if (Model.UserRoles.Contains(((int)Defaults.RolesBase.Indexes.Tester).ToString()))
+                        {
+                            <li class="dropdown" data-ng-class="{'active': (pageId == 900)}">
+                                <a href="" class="dropdown-toggle nav-element" data-toggle="dropdown">@Resource.Testing <span class="caret"></span><span style="font-size: 16px;" class="pull-right hidden-xs showopacity fa fa-wrench"></span></a>
+                                <ul class="dropdown-menu forAnimate" role="menu">
+                                    <li data-toggle="collapse" data-target=".navbar-collapse.in" data-ng-class="{'active': pageId == 900}"><a class="nav-element" data-ui-sref="webgl">WebGL<span style="font-size: 16px;" class="pull-right hidden-xs showopacity fa fa-play-circle"></span></a></li>
                                 </ul>
                             </li>
                         }
@@ -310,24 +331,25 @@
                             <div class="form-group">
                                 <label for="registerUserName" class="col-sm-2 control-label">@Resource.Email</label>
                                 <div class="col-sm-10">
-                                    <input type="text" class="form-control" id="registerUserName" placeholder="@Resource.Email">
+                                    <input type="text" class="form-control" id="registerUserName" placeholder="@Resource.Email" data-ng-model="modalRegister.Email">
                                 </div>
                             </div>
                             <div class="form-group">
                                 <label for="registerPassword" class="col-sm-2 control-label">@Resource.Password</label>
                                 <div class="col-sm-10">
-                                    <input type="password" class="form-control" id="registerPassword" placeholder="@Resource.Password" />
+                                    <input type="password" class="form-control" id="registerPassword" placeholder="@Resource.Password" data-ng-model="modalRegister.Password" />
                                 </div>
                             </div>
                             <div class="form-group">
                                 <label for="registerRepeatPassword" class="col-sm-2 control-label">@Resource.Password</label>
                                 <div class="col-sm-10">
-                                    <input type="password" class="form-control" id="registerRepeatPassword" placeholder="@Resource.Password" />
+                                    <input type="password" class="form-control" id="registerRepeatPassword" placeholder="@Resource.Password" data-ng-model="modalRegister.RepeatPassword" />
                                 </div>
                             </div>
                         </div>
                     </div>
-                    <div class="modal-footer">
+                    <div class="modal-footer"
+                         data-ng-show="modalRegister.Email.length > 5 && modalRegister.Password.length > 5 && modalRegister.Password === modalRegister.RepeatPassword">
                         <button type="button" class="btn btn-success btn-block" id="RegisterUserButton">
                             <span class="glyphicon glyphicon-ok"></span>
                             &nbsp;@Resource.Register
@@ -412,14 +434,15 @@
         //Хочет много контента @Html.Partial("../Ads/Google")
     }
     @Html.Partial("../Tools/TestCookie")
-    <script language="javascript" type="text/javascript">
-        (function($) {
-            $(function () {
+<script language="javascript" type="text/javascript">
+    (function($) {
+        $(function() {
+        });
+    })(jQuery);
+</script>
 
+<!-- Go to www.addthis.com/dashboard to customize your tools -->
+<script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-56d05b11e11543d1"></script>
 
-
-            });
-        })(jQuery);
-    </script>
 </body>
 </html>

@@ -3,6 +3,7 @@ using System.Data.Entity;
 using System.Linq;
 using MySeenLib;
 using MySeenWeb.Models.OtherViewModels;
+using MySeenWeb.Models.TablesLogic;
 using MySeenWeb.Models.TablesViews;
 using MySeenWeb.Models.Tools;
 
@@ -14,10 +15,10 @@ namespace MySeenWeb.Models
         public Pagination Pages { get; set; }
         public bool CanControl { get; set; }
 
-        public HomeViewModelImprovements(string userName, string userId, int complex, int page, int countInPage, string search, int ended)
+        public HomeViewModelImprovements(string userId, int complex, int page, int countInPage, string search, int ended)
         {
             var ac = new ApplicationDbContext();
-            CanControl = Admin.IsAdmin(userName);
+            CanControl = UserRolesLogic.IsAdmin(userId);
 
             Pages = new Pagination(page,
                 ac.Bugs.Count(

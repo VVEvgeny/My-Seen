@@ -9,8 +9,8 @@ App.config(function($stateProvider) {
         });
 });
 
-App.controller('SharedFilmsController', ['$scope', '$rootScope', '$state', '$stateParams', '$http', '$location', 'Constants',
-  function ($scope, $rootScope, $state, $stateParams, $http, $location, constants) {
+App.controller('SharedFilmsController', ['$scope', '$rootScope', '$state', '$stateParams', '$http', '$location', 'Constants', '$anchorScroll',
+  function ($scope, $rootScope, $state, $stateParams, $http, $location, constants, $anchorScroll) {
 
       if (!$stateParams.key) {
           $state.go('mymemory/films');
@@ -83,6 +83,7 @@ App.controller('SharedFilmsController', ['$scope', '$rootScope', '$state', '$sta
           $location.search('page', page > 1 ? page : null);
           if ($stateParams) $stateParams.page = page > 1 ? page : null;
           getMainPage();
+          $anchorScroll();
       };
       ///////////////////////////////////////////////////////////////////////
       ///////////////////////////////////////////////////////////////////////           Действия

@@ -331,6 +331,15 @@ namespace MySeenLib {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Administrator.
+        /// </summary>
+        public static string Administrator {
+            get {
+                return ResourceManager.GetString("Administrator", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to All.
         /// </summary>
         public static string All {
@@ -471,6 +480,15 @@ namespace MySeenLib {
         public static string BugAlreadyExists {
             get {
                 return ResourceManager.GetString("BugAlreadyExists", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Can&apos;t Delete Last Admin.
+        /// </summary>
+        public static string CantDeleteLastAdmin {
+            get {
+                return ResourceManager.GetString("CantDeleteLastAdmin", resourceCulture);
             }
         }
         
@@ -1241,6 +1259,15 @@ namespace MySeenLib {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Grops.
+        /// </summary>
+        public static string Grops {
+            get {
+                return ResourceManager.GetString("Grops", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Hello.
         /// </summary>
         public static string Hello {
@@ -1772,6 +1799,15 @@ namespace MySeenLib {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Roads.
+        /// </summary>
+        public static string Roads {
+            get {
+                return ResourceManager.GetString("Roads", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Russian.
         /// </summary>
         public static string Russian {
@@ -2015,6 +2051,24 @@ namespace MySeenLib {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Tester.
+        /// </summary>
+        public static string Tester {
+            get {
+                return ResourceManager.GetString("Tester", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Testing.
+        /// </summary>
+        public static string Testing {
+            get {
+                return ResourceManager.GetString("Testing", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to The external login was removed.
         /// </summary>
         public static string TheExternalLoginWasRemoved {
@@ -2065,6 +2119,15 @@ namespace MySeenLib {
         public static string To {
             get {
                 return ResourceManager.GetString("To", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Total.
+        /// </summary>
+        public static string Total {
+            get {
+                return ResourceManager.GetString("Total", resourceCulture);
             }
         }
         
@@ -2150,11 +2213,29 @@ namespace MySeenLib {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Update.
+        /// </summary>
+        public static string Update {
+            get {
+                return ResourceManager.GetString("Update", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Use another service to log in.
         /// </summary>
         public static string UseAnotherServiceToLogIn {
             get {
                 return ResourceManager.GetString("UseAnotherServiceToLogIn", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to User.
+        /// </summary>
+        public static string User2 {
+            get {
+                return ResourceManager.GetString("User2", resourceCulture);
             }
         }
         

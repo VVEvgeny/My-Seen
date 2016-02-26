@@ -56,36 +56,38 @@
                 </select>
             </dd>
         </dl>
-        <dl class="dl-horizontal">
-            <dt>{{translation.VkServices}}:</dt>
-            <dd>
-                <select class="input-sm" data-ng-model="data.GoogleServiceEnabledInt" data-ng-change="googleServicesChange()">
-                    <option data-ng-repeat="type in data.GoogleServiceEnabledList" data-ng-selected="data.GoogleServiceEnabledInt == type.Value" value="{{type.Value}}">
-                        {{type.Text}}
-                    </option>
-                </select>
-            </dd>
-        </dl>
-        <dl class="dl-horizontal">
-            <dt>{{translation.GoogleServices}}:</dt>
-            <dd>
-                <select class="input-sm" data-ng-model="data.VkServiceEnabledInt" data-ng-change="vkServicesChange()">
-                    <option data-ng-repeat="type in data.VkServiceEnabledList" data-ng-selected="data.VkServiceEnabledInt == type.Value" value="{{type.Value}}">
-                        {{type.Text}}
-                    </option>
-                </select>
-            </dd>
-        </dl>
-        <dl class="dl-horizontal">
-            <dt>{{translation.FacebookServices}}:</dt>
-            <dd>
-                <select class="input-sm" data-ng-model="data.FacebookServiceEnabledInt" data-ng-change="facebookServicesChange()">
-                    <option data-ng-repeat="type in data.FacebookServiceEnabledList" data-ng-selected="data.FacebookServiceEnabledInt == type.Value" value="{{type.Value}}">
-                        {{type.Text}}
-                    </option>
-                </select>
-            </dd>
-        </dl>
+    <!--
+    <dl class="dl-horizontal">
+        <dt>{{translation.VkServices}}:</dt>
+        <dd>
+            <select class="input-sm" data-ng-model="data.GoogleServiceEnabledInt" data-ng-change="googleServicesChange()">
+                <option data-ng-repeat="type in data.GoogleServiceEnabledList" data-ng-selected="data.GoogleServiceEnabledInt == type.Value" value="{{type.Value}}">
+                    {{type.Text}}
+                </option>
+            </select>
+        </dd>
+    </dl>
+    <dl class="dl-horizontal">
+        <dt>{{translation.GoogleServices}}:</dt>
+        <dd>
+            <select class="input-sm" data-ng-model="data.VkServiceEnabledInt" data-ng-change="vkServicesChange()">
+                <option data-ng-repeat="type in data.VkServiceEnabledList" data-ng-selected="data.VkServiceEnabledInt == type.Value" value="{{type.Value}}">
+                    {{type.Text}}
+                </option>
+            </select>
+        </dd>
+    </dl>
+    <dl class="dl-horizontal">
+        <dt>{{translation.FacebookServices}}:</dt>
+        <dd>
+            <select class="input-sm" data-ng-model="data.FacebookServiceEnabledInt" data-ng-change="facebookServicesChange()">
+                <option data-ng-repeat="type in data.FacebookServiceEnabledList" data-ng-selected="data.FacebookServiceEnabledInt == type.Value" value="{{type.Value}}">
+                    {{type.Text}}
+                </option>
+            </select>
+        </dd>
+    </dl>
+        -->
     </div>
 
     <footer class="row">

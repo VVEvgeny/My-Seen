@@ -3,7 +3,7 @@ using System.Web;
 using MySeenLib;
 using MySeenWeb.Models.TablesLogic.Portal;
 
-namespace MySeenWeb.Models.Meta
+namespace MySeenWeb.Models.Meta.Portal
 {
     public class MetaPortalMemes : MetaBase
     {
@@ -13,7 +13,7 @@ namespace MySeenWeb.Models.Meta
         {
             Title = Resource.Memes;
 
-            if (request.Path.ToLower() != "/portal/memes/")
+            if (request.Path.ToLower() != Path)
             {
                 try
                 {

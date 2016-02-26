@@ -75,7 +75,12 @@ namespace MySeenWeb
                 url: "Json/RemoveAllError",
                 defaults: new { controller = "Json", action = "RemoveAllError" }
                 );
-
+            routes.MapRoute(
+                name: "Json/UpdateUser",
+                url: "Json/UpdateUser",
+                defaults: new { controller = "Json", action = "UpdateUser" }
+                );
+            
             //portal
             routes.MapRoute(
                 name: "Portal/RateMem",

@@ -47,6 +47,7 @@ namespace MySeenWeb.Models.OtherViewModels
         }
 
         public IDbSet<IdentityUserLogin> UserLogins { get; set; }
+        public IDbSet<IdentityUserRole> UserRoles { get; set; }
         public DbSet<Films> Films { get; set; }
         public DbSet<Serials> Serials { get; set; }
         public DbSet<Logs> Logs { get; set; }

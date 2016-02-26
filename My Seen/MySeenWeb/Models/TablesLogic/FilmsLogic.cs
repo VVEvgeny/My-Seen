@@ -175,5 +175,10 @@ namespace MySeenWeb.Models.TablesLogic
             _cache.Remove(CacheNames.UserFilms.ToString(), userId);
             return "-";
         }
+
+        public int GetCountShared(string key)
+        {
+            return _ac.Films.Count(f => f.Shared && f.User.ShareFilmsKey == key);
+        }
     }
 }

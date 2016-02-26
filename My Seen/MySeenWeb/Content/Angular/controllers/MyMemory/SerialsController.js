@@ -9,8 +9,8 @@ App.config(function ($stateProvider) {
         });
 });
 
-App.controller('SerialsController', ['$scope', '$rootScope', '$state', '$stateParams', '$http', '$location', 'Constants',
-  function ($scope, $rootScope, $state, $stateParams, $http, $location, constants) {
+App.controller('SerialsController', ['$scope', '$rootScope', '$state', '$stateParams', '$http', '$location', 'Constants', '$anchorScroll',
+  function ($scope, $rootScope, $state, $stateParams, $http, $location, constants, $anchorScroll) {
 
       //Индекс страницы, для запросов к серверу
       $rootScope.pageId = constants.PageIds.Serials;
@@ -84,6 +84,7 @@ App.controller('SerialsController', ['$scope', '$rootScope', '$state', '$statePa
           $location.search('page', page > 1 ? page : null);
           if ($stateParams) $stateParams.page = page > 1 ? page : null;
           getMainPage();
+          $anchorScroll();
       }
       ///////////////////////////////////////////////////////////////////////
       ///////////////////////////////////////////////////////////////////////           МОДАЛЬНАЯ ДОБАВЛЕНИЯ / РЕДАКТИРОВАНИЯ

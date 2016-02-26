@@ -23,7 +23,7 @@
                                 <span id="postPlus_{{::val.Id}}" class="glyphicon glyphicon-plus hidden"></span>
                                 <span id="postMinus_{{::val.Id}}" class="glyphicon glyphicon-minus"></span>
                             </button>
-                        </span>
+                     </span>
                 </th>
                 <th class="col-sm-10" data-ng-click="showPost(val.Id)">
                     {{::val.Name}}
@@ -50,14 +50,14 @@
                     <div id="vk_like_{{val.Id}}"></div>
                 </td>
                 <td class="align-center">
-                    <img data-ng-attr-src="{{::val.Image}}" width="600" height="457">
+                    <img data-ng-attr-src="{{::val.Image}}">
                 </td>
                 <td class="align-center pluso" vertical-align="middle" data-background="transparent" data-options="medium,round,line,vertical,counter,theme=04"
                     data-services="vkontakte,odnoklassniki,facebook,twitter,google,moimir,email,print" data-url="http://myseen.by/portal/memes/{{val.Id}}"></td>
             </tr>
             <tr>
                 <th class="align-center">
-                    <button type="button" class="btn btn-success btn-xs" data-ng-show="!val.Stats.Select" data-ng-click="plusPost($index)">
+                    <button type="button" class="btn btn-success btn-xs" data-ng-show="!val.Stats.Select && authorized" data-ng-click="plusPost($index)">
                         <span class="glyphicon glyphicon-thumbs-up"></span> {{val.Stats.Plus}}
                     </button>
                 </th>
@@ -65,7 +65,7 @@
                     <span class="glyphicon glyphicon-stats"></span> {{val.Stats.Plus - val.Stats.Minus}}
                 </th>
                 <th class="align-center">
-                    <button type="button" class="btn btn-danger btn-xs" data-ng-show="!val.Stats.Select" data-ng-click="minusPost($index)">
+                    <button type="button" class="btn btn-danger btn-xs" data-ng-show="!val.Stats.Select && authorized" data-ng-click="minusPost($index)">
                         <span class="glyphicon glyphicon-thumbs-down"></span> {{val.Stats.Minus}}
                     </button>
                 </th>

@@ -867,4 +867,31 @@
   <data name="Mem" xml:space="preserve">
     <value>Мемасик</value>
   </data>
+  <data name="User2" xml:space="preserve">
+    <value>пользователя</value>
+  </data>
+  <data name="Total" xml:space="preserve">
+    <value>Всего</value>
+  </data>
+  <data name="Roads" xml:space="preserve">
+    <value>Дороги</value>
+  </data>
+  <data name="Administrator" xml:space="preserve">
+    <value>Админ</value>
+  </data>
+  <data name="Tester" xml:space="preserve">
+    <value>Тестер</value>
+  </data>
+  <data name="Grops" xml:space="preserve">
+    <value>Групы</value>
+  </data>
+  <data name="Update" xml:space="preserve">
+    <value>Обновить</value>
+  </data>
+  <data name="CantDeleteLastAdmin" xml:space="preserve">
+    <value>Нельзя убрать единственного администратора</value>
+  </data>
+  <data name="Testing" xml:space="preserve">
+    <value>Тестирование</value>
+  </data>
 </root>

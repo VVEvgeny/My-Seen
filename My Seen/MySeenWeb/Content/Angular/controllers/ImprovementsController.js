@@ -9,8 +9,8 @@ App.config(function ($stateProvider) {
         });
 });
 
-App.controller('ImprovementsController', ['$scope', '$rootScope', '$state', '$stateParams', '$http', '$location', 'Constants',
-  function ($scope, $rootScope, $state, $stateParams, $http, $location, constants) {
+App.controller('ImprovementsController', ['$scope', '$rootScope', '$state', '$stateParams', '$http', '$location', 'Constants', '$anchorScroll',
+  function ($scope, $rootScope, $state, $stateParams, $http, $location, constants, $anchorScroll) {
 
       //Ќа вс€кий случай закрою, может переход со страницы, где забыли закрыть модальную
       $rootScope.clearControllers();
@@ -111,6 +111,7 @@ App.controller('ImprovementsController', ['$scope', '$rootScope', '$state', '$st
           $location.search('page', page > 1 ? page : null);
           if ($stateParams) $stateParams.page = page > 1 ? page : null;
           getMainPage();
+          $anchorScroll();
       };
       ///////////////////////////////////////////////////////////////////////
       ///////////////////////////////////////////////////////////////////////           ћќƒјЋ№Ќјя ƒќЅј¬Ћ≈Ќ»я / –≈ƒј “»–ќ¬јЌ»я

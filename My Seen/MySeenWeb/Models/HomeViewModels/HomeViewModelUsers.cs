@@ -1,7 +1,10 @@
 ﻿using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
+using System.Web.Mvc;
+using MySeenLib;
 using MySeenWeb.Models.OtherViewModels;
+using MySeenWeb.Models.TablesLogic;
 using MySeenWeb.Models.TablesViews;
 using MySeenWeb.Models.Tools;
 
@@ -11,8 +14,10 @@ namespace MySeenWeb.Models
     {
         public IEnumerable<UsersView> Data;
         public Pagination Pages { get; set; }
+        public bool CanControl { get; set; }
+        public IEnumerable<SelectListItem> UserRoles;
 
-        public HomeViewModelUsers(int page, int countInPage, string search)
+        public HomeViewModelUsers(string userId, int page, int countInPage, string search)
         {
             var ac = new ApplicationDbContext();
             Pages = new Pagination(page, ac.Users.Count(f=> (string.IsNullOrEmpty(search) || f.UserName.Contains(search))), countInPage);
@@ -23,6 +28,19 @@ namespace MySeenWeb.Models
                 .Take(() => countInPage)
                 .Select(UsersView.Map)
                 .OrderByDescending(l => l.LastAction);
+
+            CanControl = UserRolesLogic.IsAdmin(userId);
+            
+            UserRoles =
+                Defaults.RolesTypes.GetAll()
+                    .Select(
+                        sel =>
+                            new SelectListItem
+                            {
+                                Text = sel,
+                                Value = Defaults.RolesTypes.GetId(sel).ToString()
+                            })
+                    .ToList();
         }
     }
 }

@@ -179,5 +179,9 @@ namespace MySeenWeb.Models.TablesLogic
             _cache.Remove(CacheNames.UserBooks.ToString(), userId);
             return "-";
         }
+        public int GetCountShared(string key)
+        {
+            return _ac.Books.Count(f => f.Shared && f.User.ShareBooksKey == key);
+        }
     }
 }

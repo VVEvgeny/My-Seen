@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Web.Mvc;
 using Microsoft.AspNet.Identity;
 using MySeenLib;
@@ -31,7 +32,7 @@ namespace MySeenWeb.Controllers.Home
             const string methodName = "public ActionResult Index()";
             try
             {
-                return View(new HomeViewModel(MarkersOnRoads, Request));
+                return View(new HomeViewModel(User.Identity.GetUserId(), MarkersOnRoads, Request));
             }
             catch (Exception ex)
             {
@@ -39,7 +40,7 @@ namespace MySeenWeb.Controllers.Home
             }
             return null;
         }
-        //[Compress]
+        [Compress]
         [HttpPost]
         public JsonResult GetPage(int pageId, int? page, string search, int? ended, int? year, int? complex, string shareKey, int? road, int? id)
         {
@@ -77,19 +78,19 @@ namespace MySeenWeb.Controllers.Home
                     case (int)Defaults.CategoryBase.IndexesExt.Improvements:
                         if (!User.Identity.IsAuthenticated) return new JsonResult { Data = new { success = false, error = Resource.NotAuthorized } };
                         return
-                            Json(new HomeViewModelImprovements(User.Identity.Name, User.Identity.GetUserId(),
+                            Json(new HomeViewModelImprovements(User.Identity.GetUserId(),
                                 complex ?? (int) Defaults.ComplexBase.Indexes.All, page ?? 1, Rpp, search, ended ?? 0));
                     case (int)Defaults.CategoryBase.IndexesExt.Users:
                         if (!User.Identity.IsAuthenticated && string.IsNullOrEmpty(shareKey)) return new JsonResult { Data = new { success = false, error = Resource.NotAuthorized } };
-                        if (!Admin.IsAdmin(User.Identity.Name)) return new JsonResult { Data = new { success = false, error = Resource.NoRights } };
-                        return Json(new HomeViewModelUsers(page ?? 1, Rpp, search));
+                        if (!UserRolesLogic.IsAdmin(User.Identity.GetUserId())) return new JsonResult { Data = new { success = false, error = Resource.NoRights } };
+                        return Json(new HomeViewModelUsers(User.Identity.GetUserId(), page ?? 1, Rpp, search));
                     case (int)Defaults.CategoryBase.IndexesExt.Errors:
                         if (!User.Identity.IsAuthenticated && string.IsNullOrEmpty(shareKey)) return new JsonResult { Data = new { success = false, error = Resource.NotAuthorized } };
-                        if (!Admin.IsAdmin(User.Identity.Name)) return new JsonResult { Data = new { success = false, error = Resource.NoRights } };
+                        if (!UserRolesLogic.IsAdmin(User.Identity.GetUserId())) return new JsonResult { Data = new { success = false, error = Resource.NoRights } };
                         return Json(new HomeViewModelErrors(page ?? 1, Rpp, search));
                     case (int)Defaults.CategoryBase.IndexesExt.Logs:
                         if (!User.Identity.IsAuthenticated && string.IsNullOrEmpty(shareKey)) return new JsonResult { Data = new { success = false, error = Resource.NotAuthorized } };
-                        if (!Admin.IsAdmin(User.Identity.Name)) return new JsonResult { Data = new { success = false, error = Resource.NoRights } };
+                        if (!UserRolesLogic.IsAdmin(User.Identity.GetUserId())) return new JsonResult { Data = new { success = false, error = Resource.NoRights } };
                         return Json(new HomeViewModelLogs(page ?? 1, Rpp, search));
                     case (int)Defaults.CategoryBase.IndexesExt.Settings:
                         if (!User.Identity.IsAuthenticated && string.IsNullOrEmpty(shareKey)) return new JsonResult { Data = new { success = false, error = Resource.NotAuthorized } };
@@ -157,13 +158,13 @@ namespace MySeenWeb.Controllers.Home
                     case (int) Defaults.CategoryBase.Indexes.Events:
                         return Json(new TranslationDataEvents());
                     case (int) Defaults.CategoryBase.IndexesExt.Users:
-                        if (!Admin.IsAdmin(User.Identity.Name)) return new JsonResult { Data = new { success = false, error = Resource.NoRights } };
+                        if (!UserRolesLogic.IsAdmin(User.Identity.GetUserId())) return new JsonResult { Data = new { success = false, error = Resource.NoRights } };
                         return Json(new TranslationDataUsers());
                     case (int) Defaults.CategoryBase.IndexesExt.Logs:
-                        if (!Admin.IsAdmin(User.Identity.Name)) return new JsonResult { Data = new { success = false, error = Resource.NoRights } };
+                        if (!UserRolesLogic.IsAdmin(User.Identity.GetUserId())) return new JsonResult { Data = new { success = false, error = Resource.NoRights } };
                         return Json(new TranslationDataLogs());
                     case (int)Defaults.CategoryBase.IndexesExt.Errors:
-                        if (!Admin.IsAdmin(User.Identity.Name)) return new JsonResult { Data = new { success = false, error = Resource.NoRights } };
+                        if (!UserRolesLogic.IsAdmin(User.Identity.GetUserId())) return new JsonResult { Data = new { success = false, error = Resource.NoRights } };
                         return Json(new TranslationDataErrors());
                     case (int)Defaults.CategoryBase.Indexes.Roads:
                         return Json(new TranslationDataRoads());
@@ -387,7 +388,7 @@ namespace MySeenWeb.Controllers.Home
                             ? new JsonResult { Data = new { success = false, error = eventsLogic.ErrorMessage } }
                             : Json(new { success = true });
                     case (int)Defaults.CategoryBase.IndexesExt.Improvements:
-                        if (!Admin.IsAdmin(User.Identity.Name)) return new JsonResult { Data = new { success = false, error = Resource.NoRights } };
+                        if (!UserRolesLogic.IsAdmin(User.Identity.GetUserId())) return new JsonResult { Data = new { success = false, error = Resource.NoRights } };
                         var improvementsLogic = new ImprovementLogic();
                         return !improvementsLogic.Delete(recordId, User.Identity.GetUserId())
                             ? new JsonResult { Data = new { success = false, error = improvementsLogic.ErrorMessage } }
@@ -441,7 +442,7 @@ namespace MySeenWeb.Controllers.Home
                             ? new JsonResult { Data = new { success = false, error = eventsLogic.ErrorMessage } }
                             : Json(new { success = true });
                     case (int)Defaults.CategoryBase.IndexesExt.Improvements:
-                        if (!Admin.IsAdmin(User.Identity.Name)) return new JsonResult { Data = new { success = false, error = Resource.NoRights } };
+                        if (!UserRolesLogic.IsAdmin(User.Identity.GetUserId())) return new JsonResult { Data = new { success = false, error = Resource.NoRights } };
                         var improvementsLogic = new ImprovementLogic();
                         return !improvementsLogic.Update(id, name, type, User.Identity.GetUserId())
                             ? new JsonResult { Data = new { success = false, error = improvementsLogic.ErrorMessage } }
@@ -462,7 +463,6 @@ namespace MySeenWeb.Controllers.Home
         [HttpPost]
         public JsonResult EndImprovement(string id, string name, string version)
         {
-            if (!Admin.IsAdmin(User.Identity.Name)) return new JsonResult { Data = new { success = false, error = Resource.NoRights } };
             var logger = new NLogLogger();
             var methodName = "public JsonResult EndImprovement(string recordId, string name,string version)";
             try
@@ -478,7 +478,7 @@ namespace MySeenWeb.Controllers.Home
             }
             return new JsonResult {Data = new {success = false, error = methodName}};
         }
-                [Compress]
+        [Compress]
         [Authorize]
         [IsAdmin]
         [HttpPost]
@@ -511,6 +511,27 @@ namespace MySeenWeb.Controllers.Home
             {
                 var logic = new SerialsLogic(_cache);
                 return !logic.AddSeries(recordId, User.Identity.GetUserId()) ? new JsonResult { Data = new { success = false, error = logic.ErrorMessage } } : Json(new { success = true });
+            }
+            catch (Exception ex)
+            {
+                logger.Error(methodName, ex);
+            }
+            return new JsonResult { Data = new { success = false, error = methodName } };
+        }
+        [Compress]
+        [Authorize]
+        [IsAdmin]
+        [HttpPost]
+        public JsonResult UpdateUser(string name, IEnumerable<string> roles)
+        {
+            var logger = new NLogLogger();
+            var methodName = "public JsonResult UpdateUser(string name, List<string> roles)";
+            try
+            {
+                var logic = new UserRolesLogic();
+                return !logic.Update(name, roles)
+                    ? new JsonResult { Data = new { success = false, error = logic.ErrorMessage } }
+                    : Json(new { success = true });
             }
             catch (Exception ex)
             {

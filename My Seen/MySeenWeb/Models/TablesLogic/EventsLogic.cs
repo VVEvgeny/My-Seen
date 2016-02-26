@@ -154,5 +154,9 @@ namespace MySeenWeb.Models.TablesLogic
             _ac.SaveChanges();
             return "-";
         }
+        public int GetCountShared(string key)
+        {
+            return _ac.Events.Count(f => f.Shared && f.User.ShareEventsKey == key);
+        }
     }
 }

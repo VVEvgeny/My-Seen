@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using MySeenLib;
@@ -30,7 +31,8 @@ namespace MySeenWeb.Models.TablesViews
                 LastAction =
                     ap.Logs.Any(l => l.UserId == model.Id)
                         ? ap.Logs.Where(l => l.UserId == model.Id).Max(l => l.DateLast)
-                        : model.RegisterDate
+                        : model.RegisterDate,
+                Roles = ap.UserRoles.Where(r => r.UserId == model.Id).Select(r=>r.RoleId)
             };
         }
 
@@ -43,6 +45,7 @@ namespace MySeenWeb.Models.TablesViews
         public int EventsCount { get; set; }
         public string RegisterDate { get; set; }
         public DateTime LastAction { get; set; }
+        public IEnumerable<string> Roles { get; set; }
 
         public string LastActionText
         {

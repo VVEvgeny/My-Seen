@@ -1,5 +1,6 @@
 ﻿using System.IO.Compression;
 using System.Web.Mvc;
+using MySeenLib;
 
 namespace MySeenWeb.ActionFilters
 {
@@ -7,6 +8,7 @@ namespace MySeenWeb.ActionFilters
     {
         public override void OnActionExecuting(ActionExecutingContext filterContext)
         {
+            if(Admin.IsDebug) return;
 
             var encodingsAccepted = filterContext.HttpContext.Request.Headers["Accept-Encoding"];
             if (string.IsNullOrEmpty(encodingsAccepted)) return;
