@@ -1597,6 +1597,7 @@
     <Content Include="Views\Analytics\Openstat.cshtml" />
     <Content Include="Views\Tools\TestCookie.cshtml" />
     <Content Include="Scripts\jsnlog.js.map" />
+    <Content Include="Views\Tools\Services\Google\Translate.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -207,7 +207,7 @@
 
                         $.post('/Account/LogOut', {}, function (jsonData) {
 
-                            if (jsonData === '@Auth.NoAuth') window.location = '/';
+                            if (jsonData === '@Resource.NotAuthorized') window.location = '/';
 
                             if (jsonData.error) {
                                 alert(jsonData.error);
@@ -434,15 +434,21 @@
         //Хочет много контента @Html.Partial("../Ads/Google")
     }
     @Html.Partial("../Tools/TestCookie")
-<script language="javascript" type="text/javascript">
-    (function($) {
-        $(function() {
-        });
-    })(jQuery);
-</script>
+    <script language="javascript" type="text/javascript">
+    (function ($) {
+        $(function () {
 
-<!-- Go to www.addthis.com/dashboard to customize your tools -->
-<script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-56d05b11e11543d1"></script>
+            });
+        })(jQuery);
+    </script>
 
+    <!-- Go to www.addthis.com/dashboard to customize your tools -->
+    <script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-56d05b11e11543d1"></script>
+
+    @if(!Model.HaveLanguage)
+    {
+        @Html.Partial("../Tools/Services/Google/Translate",CultureInfoTool.GetFirst2Culture())
+    }
+    
 </body>
 </html>

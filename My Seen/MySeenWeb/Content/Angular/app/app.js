@@ -13,10 +13,26 @@ App.config(function($stateProvider, $urlRouterProvider, $locationProvider) {
 
     $urlRouterProvider.otherwise('/');
 
-}).run(function($rootScope) {
+}).run(function ($rootScope, $cacheFactory, Constants) {
 
     ///////////////////////////////////////////////////////////////////////
-    ///////////////////////////////////////////////////////////////////////           Работа с сервером
+    ///////////////////////////////////////////////////////////////////////         CACHE
+    ///////////////////////////////////////////////////////////////////////
+    var cacheEnabled = true;
+    $rootScope.keysTranslates = [];
+    $rootScope.cacheTranslates = $cacheFactory('translates');
+    $rootScope.putTranslates = function (key, value) {
+        if (angular.isUndefined($rootScope.cacheTranslates.get(key))) {
+            $rootScope.keysTranslates.push(key);
+        }
+        $rootScope.cacheTranslates.put(key, angular.isUndefined(value) ? null : value);
+    };
+    $rootScope.getTranslates = function (key) {
+        if (angular.isUndefined($rootScope.cacheTranslates.get(key))) return null;
+        return $rootScope.cacheTranslates.get(key);
+    };
+    ///////////////////////////////////////////////////////////////////////
+    ///////////////////////////////////////////////////////////////////////           Change observed
     ///////////////////////////////////////////////////////////////////////
     $rootScope.safeApply = function(fn) {
         var phase = this.$root.$$phase;
@@ -29,35 +45,40 @@ App.config(function($stateProvider, $urlRouterProvider, $locationProvider) {
         }
     };
     ///////////////////////////////////////////////////////////////////////
-    ///////////////////////////////////////////////////////////////////////           Работа с сервером
+    ///////////////////////////////////////////////////////////////////////           REQUESTS
     ///////////////////////////////////////////////////////////////////////
     $rootScope.GetPage = function(pageName, $http, callback, parameters, silentMode) {
         if (!silentMode) $rootScope.loading = true;
+
+        if (cacheEnabled) {
+            if (pageName === Constants.PagesSettings.SetLanguage) {
+                $rootScope.cacheTranslates.removeAll();
+            }
+            if (pageName === Constants.Pages.Translation) {
+                if ($rootScope.getTranslates(parameters.pageId) != null) {
+                    if (!silentMode) $rootScope.loading = false;
+                    callback($rootScope.getTranslates(parameters.pageId));
+                    return;
+                }
+            }
+        }
+
         $http.post(pageName, parameters).success(function(jsonData) {
 
             if (!silentMode) $rootScope.loading = false;
             if (jsonData.error) {
                 if (!silentMode) alert(jsonData.error);
             } else {
+                if (pageName === Constants.Pages.Translation) {
+                    $rootScope.putTranslates(parameters.pageId, jsonData);
+                }
                 if (callback) callback(jsonData); //Отдадим на выполнение
             }
         });
     };
-    ///////////////////////////////////////////////////////////////////////
-    ///////////////////////////////////////////////////////////////////////           Закрыть модальные
-    ///////////////////////////////////////////////////////////////////////
-    $rootScope.clearControllers = function () {
-        console.log('clearControllers');
-        return;
-        //Модальная при смене страницы остается, чистим вручную...
-        $('body').removeClass('modal-open');
-        $('.modal-backdrop').remove();
-        //Если был интервал, почистим его
-        //if ($rootScope.eventsInterval) clearInterval($rootScope.eventsInterval);
-    };
 }).constant('Constants', {
     ///////////////////////////////////////////////////////////////////////
-    ///////////////////////////////////////////////////////////////////////           Константы / Перечесления
+    ///////////////////////////////////////////////////////////////////////           Constants
     ///////////////////////////////////////////////////////////////////////
     PageIds:
     {
@@ -108,7 +129,10 @@ App.config(function($stateProvider, $urlRouterProvider, $locationProvider) {
     {
         UpdateUser: '/Json/UpdateUser/'
     }
-}).service('$log', function() {
+}).service('$log', function () {
+    ///////////////////////////////////////////////////////////////////////
+    ///////////////////////////////////////////////////////////////////////           Angular NLog
+    ///////////////////////////////////////////////////////////////////////
     this.log = function(msg) {
         JL('Angular').trace(msg);
     }

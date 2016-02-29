@@ -1394,7 +1394,7 @@ namespace MySeenLib {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to 20.
+        ///   Looks up a localized string similar to 21.
         /// </summary>
         public static string LibVersionNum {
             get {

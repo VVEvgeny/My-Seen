@@ -11,8 +11,8 @@ namespace MySeenWeb.Models
     {
         public bool Markers { get; set; }
         public MetaBase Meta { get; set; }
-
-        public IEnumerable<string> UserRoles;
+        public IEnumerable<string> UserRoles { get; set; }
+        public bool HaveLanguage { get; set; }
 
         public HomeViewModel(string userId, int markers, HttpRequestBase request)
         {
@@ -21,6 +21,15 @@ namespace MySeenWeb.Models
 
             var logic = new UserRolesLogic();
             UserRoles = logic.GetRoles(userId);
+
+            HaveLanguage = false;
+            if (request.UserLanguages !=null)
+            {
+                if (request.UserLanguages.Any())
+                {
+                    HaveLanguage = request.UserLanguages.Any(lang => lang.ToLower().Contains("ru") || lang.ToLower().Contains("en"));
+                }
+            }
         }
     }
 }
