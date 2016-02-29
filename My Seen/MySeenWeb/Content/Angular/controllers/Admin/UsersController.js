@@ -14,13 +14,8 @@ App.controller('UsersController', ['$scope', '$rootScope', '$state', '$statePara
 
       //Индекс страницы, для запросов к серверу
       $rootScope.pageId = constants.PageIds.Users;
-
       //Показать ли поле ПОИСКа
       $scope.pageCanSearch = true;
-
-      //На всякий случай закрою, может переход со страницы, где забыли закрыть модальную
-      $rootScope.clearControllers();
-
       //Перевод всех данных на тек. странице
       $scope.translation = {};
 

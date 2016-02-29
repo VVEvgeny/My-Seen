@@ -15,8 +15,6 @@ App.controller('SharedBooksController', ['$scope', '$rootScope', '$state', '$sta
       if (!$stateParams.key) {
           $state.go('mymemory/books');
       }
-      //На всякий случай закрою, может переход со страницы, где забыли закрыть модальную
-      $rootScope.clearControllers();
       //Индекс страницы, для запросов к серверу
       $rootScope.pageId = constants.PageIds.Books;
       //Показать ли поле ПОИСКа

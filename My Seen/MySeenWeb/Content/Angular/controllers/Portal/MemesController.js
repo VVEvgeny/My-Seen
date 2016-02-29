@@ -13,9 +13,6 @@ App.controller('MemesController', [
     '$scope', '$rootScope', '$state', '$stateParams', '$http', '$location', 'Constants', '$anchorScroll',
     function ($scope, $rootScope, $state, $stateParams, $http, $location, constants, $anchorScroll) {
 
-        //На всякий случай закрою, может переход со страницы, где забыли закрыть модальную
-        $rootScope.clearControllers();
-
         $rootScope.pageId = constants.PageIds.Memes;
         $scope.isOne = $stateParams.id;
         $scope.authorized = window.authorized;
@@ -107,9 +104,13 @@ App.controller('MemesController', [
             $scope.modal.link = '';
             $("#AddModalWindow").modal("show");
         };
+        $scope.$on("$destroy", function () {
+            $scope.addModalHide();
+            $('body').removeClass('modal-open');
+            $('.modal-backdrop').remove();
+        });
         $scope.addModalHide = function () {
             $("#AddModalWindow").modal("hide");
-            $rootScope.clearControllers();
         };
         function afterAdd() {
             $scope.addModalHide();

@@ -9,11 +9,21 @@ App.config(function ($stateProvider) {
         });
 });
 
+var TestWebGLRun = false;
+
 App.controller('WebGLController', ['$scope', '$rootScope', '$state', '$stateParams', '$http', '$location', 'Constants',
   function ($scope, $rootScope, $state, $stateParams, $http, $location, constants) {
 
       
       $rootScope.pageId = constants.PageIds.TestWebGL;
 
-      
+      TestWebGLRun = true;
+      requestAnimationFrame(render);
+
+      $scope.$on("$destroy", function () {
+
+          TestWebGLRun = false;
+
+      });
+
   }]);

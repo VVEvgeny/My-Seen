@@ -15,10 +15,6 @@ App.controller('SharedFilmsController', ['$scope', '$rootScope', '$state', '$sta
       if (!$stateParams.key) {
           $state.go('mymemory/films');
       }
-
-      //На всякий случай закрою, может переход со страницы, где забыли закрыть модальную
-      $rootScope.clearControllers();
-
       //Индекс страницы, для запросов к серверу
       $rootScope.pageId = constants.PageIds.Films;
       //Показать ли поле ПОИСКа

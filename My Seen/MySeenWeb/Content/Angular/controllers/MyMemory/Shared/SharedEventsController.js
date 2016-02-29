@@ -15,8 +15,6 @@ App.controller('SharedEventsController', ['$scope', '$rootScope', '$state', '$st
       if (!$stateParams.key) {
           $state.go('mymemory/events');
       }
-      //На всякий случай закрою, может переход со страницы, где забыли закрыть модальную
-      $rootScope.clearControllers();
       //Индекс страницы, для запросов к серверу
       $rootScope.pageId = constants.PageIds.Events;
       //Показать ли поле ПОИСКа
@@ -37,14 +35,17 @@ App.controller('SharedEventsController', ['$scope', '$rootScope', '$state', '$st
           $scope.translation.loaded = true;
       }
       //Основные данные
-      $rootScope.eventsInterval = '';
+      var eventsInterval = '';
+      $scope.$on("$destroy", function () {
+          clearInterval(eventsInterval);
+      });
       function fillScope(page) {
           $scope.data = page.Data;
           $scope.isMyData = page.IsMyData;
           $scope.pages = page.Pages;
 
-          clearInterval($rootScope.eventsInterval);
-          $rootScope.eventsInterval = setInterval(recalcEstimated, 1000);
+          clearInterval(eventsInterval);
+          eventsInterval = setInterval(recalcEstimated, 1000);
       };
       function getMainPage() {
           $rootScope.GetPage(constants.Pages.Main, $http, fillScope,

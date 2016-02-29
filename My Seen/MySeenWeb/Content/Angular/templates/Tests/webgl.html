@@ -194,9 +194,9 @@
     var lastRenderTime = Date.now();
 
     function render() {
-
+        
         // Запрашиваем рендеринг на следующий кадр
-        requestAnimationFrame(render);
+        if (TestWebGLRun) requestAnimationFrame(render);
 
         // Получаем время прошедшее с прошлого кадра
         var time = Date.now();

@@ -15,8 +15,6 @@ App.controller('SharedSerialsController', ['$scope', '$rootScope', '$state', '$s
       if (!$stateParams.key) {
           $state.go('mymemory/serials');
       }
-      //На всякий случай закрою, может переход со страницы, где забыли закрыть модальную
-      $rootScope.clearControllers();
       //Индекс страницы, для запросов к серверу
       $rootScope.pageId = constants.PageIds.Serials;
       //Показать ли поле ПОИСКа

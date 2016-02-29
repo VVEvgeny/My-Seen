@@ -46,12 +46,14 @@ App.config(function($stateProvider, $urlRouterProvider, $locationProvider) {
     ///////////////////////////////////////////////////////////////////////
     ///////////////////////////////////////////////////////////////////////           Закрыть модальные
     ///////////////////////////////////////////////////////////////////////
-    $rootScope.clearControllers = function() {
+    $rootScope.clearControllers = function () {
+        console.log('clearControllers');
+        return;
         //Модальная при смене страницы остается, чистим вручную...
         $('body').removeClass('modal-open');
         $('.modal-backdrop').remove();
         //Если был интервал, почистим его
-        if ($rootScope.eventsInterval) clearInterval($rootScope.eventsInterval);
+        //if ($rootScope.eventsInterval) clearInterval($rootScope.eventsInterval);
     };
 }).constant('Constants', {
     ///////////////////////////////////////////////////////////////////////

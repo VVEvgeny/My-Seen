@@ -19,9 +19,6 @@ App.controller('SerialsController', ['$scope', '$rootScope', '$state', '$statePa
       //Показать ли поле ПОИСКа
       $scope.pageCanSearch = true;
 
-      //На всякий случай закрою, может переход со страницы, где забыли закрыть модальную
-      $rootScope.clearControllers();
-
       //Перевод всех данных на тек. странице
       $scope.translation = {};
       //Загрузка значений по умолчанию и списков
@@ -108,9 +105,13 @@ App.controller('SerialsController', ['$scope', '$rootScope', '$state', '$statePa
 
           $("#AddModalWindow").modal("show");
       };
+      $scope.$on("$destroy", function () {
+          $scope.addModalHide();
+          $('body').removeClass('modal-open');
+          $('.modal-backdrop').remove();
+      });
       $scope.addModalHide = function () {
           $("#AddModalWindow").modal("hide");
-          $rootScope.clearControllers();
       };
       //в случае успеха закроем модальное и перезапросим данные, с первой страницы
       function afterAdd() {

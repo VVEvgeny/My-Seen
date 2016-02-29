@@ -19,9 +19,6 @@ App.controller('EventsController', ['$scope', '$rootScope', '$state', '$statePar
       //Показать ли поле ПОИСКа
       $scope.pageCanSearch = true;
 
-      //На всякий случай закрою, может переход со страницы, где забыли закрыть модальную
-      $rootScope.clearControllers();
-
       //Перевод всех данных на тек. странице
       $scope.translation = {};
       //Загрузка значений по умолчанию и списков
@@ -46,13 +43,16 @@ App.controller('EventsController', ['$scope', '$rootScope', '$state', '$statePar
           $scope.translation.loaded = true;
       }
       //Основные данные
-      $rootScope.eventsInterval = '';
+      var eventsInterval = '';
+      $scope.$on("$destroy", function () {
+          clearInterval(eventsInterval);
+      });
       function fillScope(page) {
           $scope.data = page.Data;
           $scope.pages = page.Pages;
 
-          clearInterval($rootScope.eventsInterval);
-          $rootScope.eventsInterval = setInterval(recalcEstimated, 1000);
+          clearInterval(eventsInterval);
+          eventsInterval = setInterval(recalcEstimated, 1000);
       };
       function getMainPage() {
           $rootScope.GetPage(constants.Pages.Main, $http, fillScope
@@ -122,9 +122,13 @@ App.controller('EventsController', ['$scope', '$rootScope', '$state', '$statePar
 
           $("#AddModalWindow").modal("show");
       };
+      $scope.$on("$destroy", function () {
+          $scope.addModalHide();
+          $('body').removeClass('modal-open');
+          $('.modal-backdrop').remove();
+      });
       $scope.addModalHide = function () {
           $("#AddModalWindow").modal("hide");
-          $rootScope.clearControllers();
       };
       //в случае успеха закроем модальное и перезапросим данные, с первой страницы
       function afterAdd() {
