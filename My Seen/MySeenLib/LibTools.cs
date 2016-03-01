@@ -330,7 +330,13 @@ namespace MySeenLib
             public enum IndexesMain
             {
                 Main = 200,
-                Memes = 201
+                Memes = 201,
+                Childs = 202
+            }
+
+            public enum IndexesTest
+            {
+                
             }
 
             public static bool IsCategoryExt(int category)

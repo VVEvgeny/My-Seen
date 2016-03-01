@@ -1,15 +1,11 @@
 ///////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////           Variables
 ///////////////////////////////////////////////////////////////////////
-var GmapLanguage;//en/ru строка
 var GmapMarkers; //True/False строка
 var GmapMenuName; //set point here
 
 function setGmapMenuName(name) {
     GmapMenuName = name;
-};
-function setGmapLanguage(language) {
-    GmapLanguage = language;
 };
 function setGmapMarkers(markers) {
     GmapMarkers = markers;

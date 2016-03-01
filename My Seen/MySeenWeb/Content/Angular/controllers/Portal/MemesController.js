@@ -15,10 +15,11 @@ App.controller('MemesController', [
 
         $rootScope.pageId = constants.PageIds.Memes;
         $scope.isOne = $stateParams.id;
-        $scope.authorized = window.authorized;
 
         //Показать ли кнопку ДОБАВИТЬ
-        if (!$scope.isOne) $scope.pageCanAdd = $scope.authorized;
+        if (!$scope.isOne) $scope.pageCanAdd = $rootScope.authorized;
+        $scope.$watch( function() { return $scope.pageCanAdd; }, function() { $scope.pageCanAdd = $rootScope.authorized;});
+
         //Показать ли поле ПОИСКа
         if (!$scope.isOne) $scope.pageCanSearch = true;
         //Перевод всех данных на тек. странице
@@ -36,7 +37,7 @@ App.controller('MemesController', [
         function fillScope(page) {
             $scope.data = page.Data;
             $scope.pages = page.Pages;
-            fillExternalServices();
+            //fillExternalServices();
         };
 
         function getMainPage() {

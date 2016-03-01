@@ -6,9 +6,15 @@
         <div class="container">
             <div class="row col-sm-12">
                 <div class="form-group">
-                    <label for="memes" style="display: block;">{{translation.Memes}}</label>
+                    <label for="memes" style="display: block;"></label>
                     <button type="button" class="form-control btn btn-warning" id="memes" data-ui-sref="portal/memes">
-                        <span class="glyphicon glyphicon-picture"></span> {{translation.Memes}}
+                        <span class="glyphicon glyphicon-picture"></span> {{translation.Memes || 'Memes'}}
+                    </button>
+                </div>
+                <div class="form-group">
+                    <label for="chld" style="display: block;"></label>
+                    <button type="button" class="form-control btn btn-info" id="chld" data-ui-sref="portal/childCalculator">
+                        <span class="fa fa-users"></span> {{translation.ChildSexCalculator || 'Child Sex Calculator'}}
                     </button>
                 </div>
             </div>

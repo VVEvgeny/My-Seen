@@ -22,6 +22,8 @@
         <meta class="meta" property="og:site_name" content="@Resource.AppName"/>
         <meta class="meta" property="og:url" content="@Model.Meta.Url"/>
 
+        <meta name="google-play-app" content="com.vve.myseen">
+
         <meta class="meta" property="fb:app_id" content="@Model.Meta.FacebookAppId"/>
 
         <meta class="meta" property="twitter:card" content="summary_large_image"/>
@@ -110,6 +112,14 @@
     <script src="~/Content/Angular/controllers/HomeController.js"></script>
     <script src="~/Content/Angular/controllers/AboutController.js"></script>
     <script src="~/Content/Angular/controllers/Portal/MemesController.js"></script>
+    <script src="~/Content/Angular/controllers/Portal/ChildSexCalculator.js"></script>
+    <script src="~/Content/amcharts/amcharts.js"></script>
+    <script src="~/Content/amcharts/serial.js"></script>
+    <script src="~/Content/amcharts/themes/light.js"></script>
+    <script src="~/Content/amcharts/plugins/export/export.js"></script>
+    <link href="~/Content/amcharts/plugins/export/export.css" rel="stylesheet" />
+
+
 
     <script src="~/Content/Angular/controllers/MyMemory/Shared/SharedFilmsController.js"></script>
     <script src="~/Content/Angular/controllers/MyMemory/Shared/SharedSerialsController.js"></script>
@@ -162,7 +172,7 @@
                         }
                         if (Model.UserRoles.Contains(((int)Defaults.RolesBase.Indexes.Tester).ToString()))
                         {
-                            <li class="dropdown" data-ng-class="{'active': (pageId == 900)}">
+                            <li class="dropdown" data-ng-class="{'active': (pageId >= 900 )}">
                                 <a href="" class="dropdown-toggle nav-element" data-toggle="dropdown">@Resource.Testing <span class="caret"></span><span style="font-size: 16px;" class="pull-right hidden-xs showopacity fa fa-wrench"></span></a>
                                 <ul class="dropdown-menu forAnimate" role="menu">
                                     <li data-toggle="collapse" data-target=".navbar-collapse.in" data-ng-class="{'active': pageId == 900}"><a class="nav-element" data-ui-sref="webgl">WebGL<span style="font-size: 16px;" class="pull-right hidden-xs showopacity fa fa-play-circle"></span></a></li>
@@ -199,32 +209,34 @@
     @if (Request.IsAuthenticated) // Дадим возможность выхода
     {
         <script language="javascript" type="text/javascript">
-            (function ($) {
-                $(function () {
-                    var $LogoutButton = $("#LogoutButton");
-                    $LogoutButton.off('click');
-                    $LogoutButton.on('click', function () {
+    (function ($) {
+        $(function () {
+            var $LogoutButton = $("#LogoutButton");
+            $LogoutButton.off('click');
+            $LogoutButton.on('click', function () {
 
-                        $.post('/Account/LogOut', {}, function (jsonData) {
+                $.post('/Account/LogOut', {}, function (jsonData) {
 
-                            if (jsonData === '@Resource.NotAuthorized') window.location = '/';
+                    if (jsonData === '@Resource.NotAuthorized') window.location = '/';
 
-                            if (jsonData.error) {
-                                alert(jsonData.error);
-                            } else {
-                                window.location.reload();
-                            }
-                        });
-                    });
-
-                    setGmapLanguage('@CultureInfoTool.GetFirst2Culture()');
-                    setGmapMarkers('@Model.Markers');
-                    setGmapMenuName('@Resource.SetPointHere');
-
-                    window.authorized = '@Request.IsAuthenticated' === 'True';
-
+                    if (jsonData.error) {
+                        alert(jsonData.error);
+                    } else {
+                        window.location.reload();
+                    }
                 });
-            })(jQuery);
+            });
+
+            window.GLanguage = '@CultureInfoTool.GetFirst2Culture()';
+            window.GAuthorized = '@Request.IsAuthenticated' === 'True';
+
+            setGmapMarkers('@Model.Markers');
+            setGmapMenuName('@Resource.SetPointHere');
+
+
+
+        });
+    })(jQuery);
         </script>
     }
     else
@@ -432,6 +444,9 @@
         @Html.Partial("../Analytics/Rambler")
         @Html.Partial("../Analytics/Openstat")
         //Хочет много контента @Html.Partial("../Ads/Google")
+
+        <!-- Go to www.addthis.com/dashboard to customize your tools -->
+        <script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-56d05b11e11543d1"></script>
     }
     @Html.Partial("../Tools/TestCookie")
     <script language="javascript" type="text/javascript">
@@ -441,9 +456,6 @@
             });
         })(jQuery);
     </script>
-
-    <!-- Go to www.addthis.com/dashboard to customize your tools -->
-    <script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-56d05b11e11543d1"></script>
 
     @if(!Model.HaveLanguage)
     {

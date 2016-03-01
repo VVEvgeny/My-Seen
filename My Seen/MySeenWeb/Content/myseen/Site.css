@@ -2,6 +2,11 @@
    width: 90% !important;
 }
 
+.fit { /* set relative picture size */
+    max-width: 83.33333333%;
+    max-height: 100%;
+}
+
 .myseen-button-mobile-about {
     margin-bottom:4px;
     white-space: normal;

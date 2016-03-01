@@ -14,7 +14,10 @@ App.config(function($stateProvider, $urlRouterProvider, $locationProvider) {
     $urlRouterProvider.otherwise('/');
 
 }).run(function ($rootScope, $cacheFactory, Constants) {
-
+    ///////////////////////////////////////////////////////////////////////
+    ///////////////////////////////////////////////////////////////////////         VARIABLES
+    ///////////////////////////////////////////////////////////////////////
+    $rootScope.$watch( function() { return window.GAuthorized; }, function() { $rootScope.authorized = window.GAuthorized; });
     ///////////////////////////////////////////////////////////////////////
     ///////////////////////////////////////////////////////////////////////         CACHE
     ///////////////////////////////////////////////////////////////////////
@@ -95,7 +98,8 @@ App.config(function($stateProvider, $urlRouterProvider, $locationProvider) {
         Users: 101,
         Main: 200,
         Memes: 201,
-        TestWebGL:900
+        ChildSexCalculator: 202,
+        TestWebGL: 900
     },
     Pages: {
         Main: '/Json/GetPage/',

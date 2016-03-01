@@ -153,7 +153,7 @@ function calculateRoute() {
         var polyline = new window.google.maps.Polyline({
             path: trackCoordsLatLng
         });
-        var distance = ((window.google.maps.geometry.spherical.computeLength(polyline.getPath()) / 1000) / (GmapLanguage === "en" ? 1.66 : 1)).toString();
+        var distance = ((window.google.maps.geometry.spherical.computeLength(polyline.getPath()) / 1000) / (GLanguage === "en" ? 1.66 : 1)).toString();
         if ((distance.split('.').length || distance.split(',').length) && distance.length > 5) {
             distance = distance.slice(0,5);
         }

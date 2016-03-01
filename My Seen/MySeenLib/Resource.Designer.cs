@@ -403,6 +403,24 @@ namespace MySeenLib {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to April.
+        /// </summary>
+        public static string April {
+            get {
+                return ResourceManager.GetString("April", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to August.
+        /// </summary>
+        public static string August {
+            get {
+                return ResourceManager.GetString("August", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Author.
         /// </summary>
         public static string Author {
@@ -466,6 +484,15 @@ namespace MySeenLib {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Boy.
+        /// </summary>
+        public static string Boy {
+            get {
+                return ResourceManager.GetString("Boy", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Browser does not support.
         /// </summary>
         public static string BrowserDoesNotSupport {
@@ -480,6 +507,15 @@ namespace MySeenLib {
         public static string BugAlreadyExists {
             get {
                 return ResourceManager.GetString("BugAlreadyExists", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Calculate.
+        /// </summary>
+        public static string Calculate {
+            get {
+                return ResourceManager.GetString("Calculate", resourceCulture);
             }
         }
         
@@ -516,6 +552,15 @@ namespace MySeenLib {
         public static string ChangeYourPassword {
             get {
                 return ResourceManager.GetString("ChangeYourPassword", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Child Sex Calculator.
+        /// </summary>
+        public static string ChildSexCalculator {
+            get {
+                return ResourceManager.GetString("ChildSexCalculator", resourceCulture);
             }
         }
         
@@ -646,6 +691,24 @@ namespace MySeenLib {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Date Birth Man.
+        /// </summary>
+        public static string DateBirthMan {
+            get {
+                return ResourceManager.GetString("DateBirthMan", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Date Birth Woman.
+        /// </summary>
+        public static string DateBirthWoman {
+            get {
+                return ResourceManager.GetString("DateBirthWoman", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Date End.
         /// </summary>
         public static string DateEnd {
@@ -705,6 +768,15 @@ namespace MySeenLib {
         public static string DBUserDeleted {
             get {
                 return ResourceManager.GetString("DBUserDeleted", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to December.
+        /// </summary>
+        public static string December {
+            get {
+                return ResourceManager.GetString("December", resourceCulture);
             }
         }
         
@@ -1079,6 +1151,15 @@ namespace MySeenLib {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to February.
+        /// </summary>
+        public static string February {
+            get {
+                return ResourceManager.GetString("February", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Film.
         /// </summary>
         public static string Film {
@@ -1241,6 +1322,15 @@ namespace MySeenLib {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Girl.
+        /// </summary>
+        public static string Girl {
+            get {
+                return ResourceManager.GetString("Girl", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Google Services.
         /// </summary>
         public static string GoogleServices {
@@ -1318,6 +1408,33 @@ namespace MySeenLib {
         public static string IPAdress {
             get {
                 return ResourceManager.GetString("IPAdress", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to January.
+        /// </summary>
+        public static string January {
+            get {
+                return ResourceManager.GetString("January", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to July.
+        /// </summary>
+        public static string July {
+            get {
+                return ResourceManager.GetString("July", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to June.
+        /// </summary>
+        public static string June {
+            get {
+                return ResourceManager.GetString("June", resourceCulture);
             }
         }
         
@@ -1484,11 +1601,29 @@ namespace MySeenLib {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to March.
+        /// </summary>
+        public static string March {
+            get {
+                return ResourceManager.GetString("March", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Markers On Roads.
         /// </summary>
         public static string MarkersOnRoads {
             get {
                 return ResourceManager.GetString("MarkersOnRoads", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to May.
+        /// </summary>
+        public static string May {
+            get {
+                return ResourceManager.GetString("May", resourceCulture);
             }
         }
         
@@ -1597,6 +1732,24 @@ namespace MySeenLib {
         public static string NotAuthorized {
             get {
                 return ResourceManager.GetString("NotAuthorized", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to November.
+        /// </summary>
+        public static string November {
+            get {
+                return ResourceManager.GetString("November", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to October.
+        /// </summary>
+        public static string October {
+            get {
+                return ResourceManager.GetString("October", resourceCulture);
             }
         }
         
@@ -1885,6 +2038,15 @@ namespace MySeenLib {
         public static string SelectTheCategory {
             get {
                 return ResourceManager.GetString("SelectTheCategory", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to September.
+        /// </summary>
+        public static string September {
+            get {
+                return ResourceManager.GetString("September", resourceCulture);
             }
         }
         

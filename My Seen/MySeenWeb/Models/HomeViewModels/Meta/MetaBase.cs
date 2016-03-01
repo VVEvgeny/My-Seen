@@ -54,6 +54,10 @@ namespace MySeenWeb.Models.Meta
                 || ua.Contains("developers.google.com")
                 || ua.ToLower().Contains(("Google Favicon").ToLower())
                 || ua.Contains("Googlebot")
+                || ua.Contains("Google Page Speed")
+                || ua.Contains("Structured-Data-Testing-Tool")
+                || ua.Contains("Google PP Default")
+                
 
                 || ua.Contains("bingbot")
 

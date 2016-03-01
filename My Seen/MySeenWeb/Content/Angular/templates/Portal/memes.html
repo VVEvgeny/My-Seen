@@ -6,7 +6,7 @@
 
 <div data-ng-show="translation.loaded">
     <!--Таблица-->
-    <div class="table-responsive">
+    <div class="col-sm-12">
         <div align="center" data-ng-show="isOne">
             <button type="button" class="btn btn-info btn-md btn-block" data-ui-sref="portal/memes({id: ''})">
                 <span class="fa fa-hand-o-left"></span>
@@ -16,65 +16,64 @@
 
         <table class="table table-striped" data-ng-repeat="val in data">
             <thead>
-            <tr>
-                <th class="col-sm-1" data-ng-click="showPost(val.Id)">
-                    <span class="pull-left alert-info small">
-                            <button type="button" class="btn btn-info btn-xs">
+                <tr>
+                    <th class="col-sm-1" data-ng-click="showPost(val.Id)">
+                        <span class="pull-left alert-info small">
+                            <button type="button" class="btn btn-info btn-xs" data-ng-show="!isOne">
                                 <span id="postPlus_{{::val.Id}}" class="glyphicon glyphicon-plus hidden"></span>
                                 <span id="postMinus_{{::val.Id}}" class="glyphicon glyphicon-minus"></span>
                             </button>
-                     </span>
-                </th>
-                <th class="col-sm-10" data-ng-click="showPost(val.Id)">
-                    {{::val.Name}}
-                </th>
-                <th class="col-sm-1" data-ui-sref="portal/memes({id: val.Id})">
-                    <span class="pull-right alert-info small" data-ng-show="!isOne">
+                        </span>
+                    </th>
+                    <th class="col-sm-10" data-ng-click="showPost(val.Id)">
+                        {{::val.Name}}
+                    </th>
+                    <th class="col-sm-1" data-ui-sref="portal/memes({id: val.Id})">
+                        <span class="pull-right alert-info small" data-ng-show="!isOne">
                             <button type="button" class="btn btn-warning btn-xs">
                                 <span class="glyphicon glyphicon-link"></span> {{translation.Read || 'Read'}}
                             </button>
                         </span>
-                </th>
-            </tr>
+                    </th>
+                </tr>
             </thead>
 
             <tbody class="collapse in" id="collapseme_{{::val.Id}}">
-            <tr>
-                <th class="text-left col-sm-12" colspan="3">{{translation.Added || 'Added'}}:<b>{{::val.DateText}}</b></th>
-            </tr>
-            <tr class="align-center">
-                <td class="align-center">
-                    <button type="button" class="btn btn-success btn-xs hidden"><!--ПОКА СКРЫТО-->
-                        <span class="fa fa-file-text-o"></span> {{translation.Save || 'Save'}}
-                    </button>
-                    <div id="vk_like_{{val.Id}}"></div>
-                </td>
-                <td class="align-center">
-                    <img data-ng-attr-src="{{::val.Image}}">
-                </td>
-                <td class="align-center pluso" vertical-align="middle" data-background="transparent" data-options="medium,round,line,vertical,counter,theme=04"
-                    data-services="vkontakte,odnoklassniki,facebook,twitter,google,moimir,email,print" data-url="http://myseen.by/portal/memes/{{val.Id}}"></td>
-            </tr>
-            <tr>
-                <th class="align-center">
-                    <button type="button" class="btn btn-success btn-xs" data-ng-show="!val.Stats.Select && authorized" data-ng-click="plusPost($index)">
-                        <span class="glyphicon glyphicon-thumbs-up"></span> {{val.Stats.Plus}}
-                    </button>
-                </th>
-                <th class="align-center">
-                    <span class="glyphicon glyphicon-stats"></span> {{val.Stats.Plus - val.Stats.Minus}}
-                </th>
-                <th class="align-center">
-                    <button type="button" class="btn btn-danger btn-xs" data-ng-show="!val.Stats.Select && authorized" data-ng-click="minusPost($index)">
-                        <span class="glyphicon glyphicon-thumbs-down"></span> {{val.Stats.Minus}}
-                    </button>
-                </th>
-            </tr>
+                <tr>
+                    <th class="text-left col-sm-12" colspan="3">{{translation.Added || 'Added'}}:<b>{{::val.DateText}}</b></th>
+                </tr>
+                <tr class="align-center">
+                    <td class="align-center" colspan="3">
+                        <a href="{{::val.Image}}" target="whatever"><img class="fit" data-ng-attr-src="{{::val.Image}}"></a>
+                    </td>
+                </tr>
+                <tr>
+                    <th class="align-center">
+                        <button type="button" class="btn btn-success btn-xs" data-ng-show="!val.Stats.Select && authorized" data-ng-click="plusPost($index)">
+                            <span class="glyphicon glyphicon-thumbs-up"></span> {{val.Stats.Plus}}
+                        </button>
+                    </th>
+                    <th class="align-center">
+                        <span class="glyphicon glyphicon-stats"></span> {{val.Stats.Plus - val.Stats.Minus}}
+                        <br>
+                    </th>
+                    <th class="align-center">
+                        <button type="button" class="btn btn-danger btn-xs" data-ng-show="!val.Stats.Select && authorized" data-ng-click="minusPost($index)">
+                            <span class="glyphicon glyphicon-thumbs-down"></span> {{val.Stats.Minus}}
+                        </button>
+                    </th>
+                </tr>
+                <tr>
+                    <th class="align-center" colspan="3">
+                        <div class="pluso" data-background="transparent" data-options="small,round,line,horizontal,counter,theme=04" data-services="vkontakte,odnoklassniki,facebook,twitter,google,moimir,email,print"
+                             data-url="http://myseen.by/portal/memes/{{val.Id}}"></div>
+                    </th>
+                </tr>
             </tbody>
         </table>
         <div align="center" data-ng-show="isOne">
             <br>
-            <div id="vk_comments" align="center"></div>
+            <div id="vk_comments" align="center" class="fit"></div>
         </div>
     </div>
 

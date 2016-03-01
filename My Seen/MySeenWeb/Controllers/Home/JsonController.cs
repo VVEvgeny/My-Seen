@@ -12,7 +12,6 @@ using MySeenWeb.Models.Portal;
 using MySeenWeb.Models.Prepared;
 using MySeenWeb.Models.TablesLogic;
 using MySeenWeb.Models.TablesLogic.Portal;
-using MySeenWeb.Models.Tools;
 using MySeenWeb.Models.Translations;
 using MySeenWeb.Models.Translations.Portal;
 
@@ -42,7 +41,7 @@ namespace MySeenWeb.Controllers.Home
         }
         [Compress]
         [HttpPost]
-        public JsonResult GetPage(int pageId, int? page, string search, int? ended, int? year, int? complex, string shareKey, int? road, int? id)
+        public JsonResult GetPage(int pageId, int? page, string search, int? ended, int? year, int? complex, string shareKey, int? road, int? id, string dateMan,string dateWoman)
         {
             //if (!User.Identity.IsAuthenticated) return Json(Auth.NoAuth);
 
@@ -56,47 +55,70 @@ namespace MySeenWeb.Controllers.Home
             {
                 switch (pageId)
                 {
-                    case (int)Defaults.CategoryBase.Indexes.Films:
-                        if (!User.Identity.IsAuthenticated && string.IsNullOrEmpty(shareKey)) return new JsonResult { Data = new { success = false, error = Resource.NotAuthorized } };
+                    case (int) Defaults.CategoryBase.Indexes.Films:
+                        if (!User.Identity.IsAuthenticated && string.IsNullOrEmpty(shareKey))
+                            return new JsonResult {Data = new {success = false, error = Resource.NotAuthorized}};
                         return
-                            Json(new HomeViewModelFilms(User.Identity.GetUserId(), page ?? 1, Rpp, search, shareKey, _cache));
-                    case (int)Defaults.CategoryBase.Indexes.Serials:
-                        if (!User.Identity.IsAuthenticated && string.IsNullOrEmpty(shareKey)) return new JsonResult { Data = new { success = false, error = Resource.NotAuthorized } };
-                        return Json(new HomeViewModelSerials(User.Identity.GetUserId(), page ?? 1, Rpp, search, shareKey, _cache));
-                    case (int)Defaults.CategoryBase.Indexes.Books:
-                        if (!User.Identity.IsAuthenticated && string.IsNullOrEmpty(shareKey)) return new JsonResult { Data = new { success = false, error = Resource.NotAuthorized } };
-                        return Json(new HomeViewModelBooks(User.Identity.GetUserId(), page ?? 1, Rpp, search, shareKey, _cache));
-                    case (int)Defaults.CategoryBase.Indexes.Events:
-                        if (!User.Identity.IsAuthenticated && string.IsNullOrEmpty(shareKey)) return new JsonResult { Data = new { success = false, error = Resource.NotAuthorized } };
+                            Json(new HomeViewModelFilms(User.Identity.GetUserId(), page ?? 1, Rpp, search, shareKey,
+                                _cache));
+                    case (int) Defaults.CategoryBase.Indexes.Serials:
+                        if (!User.Identity.IsAuthenticated && string.IsNullOrEmpty(shareKey))
+                            return new JsonResult {Data = new {success = false, error = Resource.NotAuthorized}};
                         return
-                            Json(new HomeViewModelEvents(User.Identity.GetUserId(), page ?? 1, Rpp, search, ended ?? 0, shareKey));
-                    case (int)Defaults.CategoryBase.Indexes.Roads:
-                        if (!User.Identity.IsAuthenticated && string.IsNullOrEmpty(shareKey)) return new JsonResult { Data = new { success = false, error = Resource.NotAuthorized } };
+                            Json(new HomeViewModelSerials(User.Identity.GetUserId(), page ?? 1, Rpp, search, shareKey,
+                                _cache));
+                    case (int) Defaults.CategoryBase.Indexes.Books:
+                        if (!User.Identity.IsAuthenticated && string.IsNullOrEmpty(shareKey))
+                            return new JsonResult {Data = new {success = false, error = Resource.NotAuthorized}};
+                        return
+                            Json(new HomeViewModelBooks(User.Identity.GetUserId(), page ?? 1, Rpp, search, shareKey,
+                                _cache));
+                    case (int) Defaults.CategoryBase.Indexes.Events:
+                        if (!User.Identity.IsAuthenticated && string.IsNullOrEmpty(shareKey))
+                            return new JsonResult {Data = new {success = false, error = Resource.NotAuthorized}};
+                        return
+                            Json(new HomeViewModelEvents(User.Identity.GetUserId(), page ?? 1, Rpp, search, ended ?? 0,
+                                shareKey));
+                    case (int) Defaults.CategoryBase.Indexes.Roads:
+                        if (!User.Identity.IsAuthenticated && string.IsNullOrEmpty(shareKey))
+                            return new JsonResult {Data = new {success = false, error = Resource.NotAuthorized}};
                         return
                             Json(new HomeViewModelRoads(User.Identity.GetUserId(), year ?? 0, search, shareKey, _cache,
                                 road ?? 0));
-                    case (int)Defaults.CategoryBase.IndexesExt.Improvements:
-                        if (!User.Identity.IsAuthenticated) return new JsonResult { Data = new { success = false, error = Resource.NotAuthorized } };
+                    case (int) Defaults.CategoryBase.IndexesExt.Improvements:
+                        if (!User.Identity.IsAuthenticated)
+                            return new JsonResult {Data = new {success = false, error = Resource.NotAuthorized}};
                         return
                             Json(new HomeViewModelImprovements(User.Identity.GetUserId(),
                                 complex ?? (int) Defaults.ComplexBase.Indexes.All, page ?? 1, Rpp, search, ended ?? 0));
-                    case (int)Defaults.CategoryBase.IndexesExt.Users:
-                        if (!User.Identity.IsAuthenticated && string.IsNullOrEmpty(shareKey)) return new JsonResult { Data = new { success = false, error = Resource.NotAuthorized } };
-                        if (!UserRolesLogic.IsAdmin(User.Identity.GetUserId())) return new JsonResult { Data = new { success = false, error = Resource.NoRights } };
+                    case (int) Defaults.CategoryBase.IndexesExt.Users:
+                        if (!User.Identity.IsAuthenticated && string.IsNullOrEmpty(shareKey))
+                            return new JsonResult {Data = new {success = false, error = Resource.NotAuthorized}};
+                        if (!UserRolesLogic.IsAdmin(User.Identity.GetUserId()))
+                            return new JsonResult {Data = new {success = false, error = Resource.NoRights}};
                         return Json(new HomeViewModelUsers(User.Identity.GetUserId(), page ?? 1, Rpp, search));
-                    case (int)Defaults.CategoryBase.IndexesExt.Errors:
-                        if (!User.Identity.IsAuthenticated && string.IsNullOrEmpty(shareKey)) return new JsonResult { Data = new { success = false, error = Resource.NotAuthorized } };
-                        if (!UserRolesLogic.IsAdmin(User.Identity.GetUserId())) return new JsonResult { Data = new { success = false, error = Resource.NoRights } };
+                    case (int) Defaults.CategoryBase.IndexesExt.Errors:
+                        if (!User.Identity.IsAuthenticated && string.IsNullOrEmpty(shareKey))
+                            return new JsonResult {Data = new {success = false, error = Resource.NotAuthorized}};
+                        if (!UserRolesLogic.IsAdmin(User.Identity.GetUserId()))
+                            return new JsonResult {Data = new {success = false, error = Resource.NoRights}};
                         return Json(new HomeViewModelErrors(page ?? 1, Rpp, search));
-                    case (int)Defaults.CategoryBase.IndexesExt.Logs:
-                        if (!User.Identity.IsAuthenticated && string.IsNullOrEmpty(shareKey)) return new JsonResult { Data = new { success = false, error = Resource.NotAuthorized } };
-                        if (!UserRolesLogic.IsAdmin(User.Identity.GetUserId())) return new JsonResult { Data = new { success = false, error = Resource.NoRights } };
+                    case (int) Defaults.CategoryBase.IndexesExt.Logs:
+                        if (!User.Identity.IsAuthenticated && string.IsNullOrEmpty(shareKey))
+                            return new JsonResult {Data = new {success = false, error = Resource.NotAuthorized}};
+                        if (!UserRolesLogic.IsAdmin(User.Identity.GetUserId()))
+                            return new JsonResult {Data = new {success = false, error = Resource.NoRights}};
                         return Json(new HomeViewModelLogs(page ?? 1, Rpp, search));
-                    case (int)Defaults.CategoryBase.IndexesExt.Settings:
-                        if (!User.Identity.IsAuthenticated && string.IsNullOrEmpty(shareKey)) return new JsonResult { Data = new { success = false, error = Resource.NotAuthorized } };
+                    case (int) Defaults.CategoryBase.IndexesExt.Settings:
+                        if (!User.Identity.IsAuthenticated && string.IsNullOrEmpty(shareKey))
+                            return new JsonResult {Data = new {success = false, error = Resource.NotAuthorized}};
                         return Json(new HomeViewModelSettings(User.Identity.GetUserId()));
                     case (int)Defaults.CategoryBase.IndexesMain.Memes:
                         return Json(new PortalViewModelMemes(User.Identity.GetUserId(), page ?? 1, 20, search, id ?? 0));//Всегда по 20 на странице
+                    case (int) Defaults.CategoryBase.IndexesMain.Childs:
+                        logger.Info("ChildCalculator for user=" + User.Identity.GetUserName() + ";M=" + dateMan + ";W=" +
+                                    dateWoman + ";Y=" + (year ?? 0));
+                        return Json(new PortalViewModelChildCalculator(year ?? 0, dateMan, dateWoman));
                 }
                 logger.Info("CALL NOT REALIZED GetPage=" + pageId);
                 return new JsonResult { Data = new { success = false, error = "NOT REALIZED" } };
@@ -176,6 +198,8 @@ namespace MySeenWeb.Controllers.Home
                         return Json(new TranslationDataPortalMain());
                     case (int)Defaults.CategoryBase.IndexesMain.Memes:
                         return Json(new TranslationDataPortalMemes());
+                    case (int)Defaults.CategoryBase.IndexesMain.Childs:
+                        return Json(new TranslationDataPortalChildSexCalculator());
                 }
                 logger.Info("CALL NOT REALIZED GetTranslation=" + pageId);
                 return new JsonResult { Data = new { success = false, error = "NOT REALIZED" } };
