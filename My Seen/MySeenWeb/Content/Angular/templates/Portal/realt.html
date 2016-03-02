@@ -1,0 +1,98 @@
+﻿<!--Загрузка-->
+<data-ng-include src="'Content/Angular/templates/_tools/loading.html'"></data-ng-include>
+
+<div class="form-horizontal" data-ng-show="translation.loaded && LastUpdatedPrice">
+    <div class="form-group col-sm-12">
+        <label class="control-label">{{translation.LastUpdatedPrice || 'Last Updated Price'}}:<font color="red">{{LastUpdatedPrice}}</font></label>
+        <br>
+        <label class="control-label">{{translation.LastUpdatedSalary || 'Last Updated Salary'}}:<font color="green">{{LastUpdatedSalary}}</font></label>
+    </div>
+</div>
+
+<div id="chartdiv" class="col-sm-12" style="height: 500px;"></div>
+
+<br>
+
+<div class="form-horizontal" data-ng-show="translation.loaded">
+    <div class="form-group">
+        <div class="col-sm-12">
+            <button id="showSettings" type="button" class="btn btn-success" data-ng-click="showSettings()">
+                <span class="glyphicon glyphicon-plus" data-ng-show="!isSettings"></span>
+                <span class="glyphicon glyphicon-minus" data-ng-show="isSettings"></span>
+                &nbsp;{{translation.Settings || 'Settings'}}
+            </button>
+            <button id="showParams" type="button" class="btn btn-success" data-ng-click="showParams()">
+                <span class="glyphicon glyphicon-plus" data-ng-show="!isParams"></span>
+                <span class="glyphicon glyphicon-minus" data-ng-show="isParams"></span>
+                &nbsp;{{translation.Plain || 'Plain'}}
+            </button>
+        </div>
+
+        <div class="col-sm-12 collapse out" id="settings">
+            <div class="form-group">
+                <label class="control-label">{{translation.Settings || 'Settings'}}</label>
+            </div>
+            <div class="form-group">
+                <label for="priceToSalary" class="col-sm-2 control-label">{{translation.PriceToSalary || 'Price To Salary'}}</label>
+                <div class="col-sm-10">
+                    <input type="checkbox" class="form-control input-sm" id="priceToSalary" data-ng-model="priceToSalary" data-ng-click="viewModeChange()" data-ng-disabled="!showSalary">
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="showSalary" class="col-sm-2 control-label">{{translation.ShowSalary || 'Show Salary'}}</label>
+                <div class="col-sm-10">
+                    <input type="checkbox" class="form-control input-sm" id="showSalary" data-ng-model="showSalary" data-ng-click="viewModeChange()">
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="showDeals" class="col-sm-2 control-label">{{translation.ShowDeals || 'Show Deals'}}</label>
+                <div class="col-sm-10">
+                    <input type="checkbox" class="form-control input-sm" id="showDeals" data-ng-model="showDeals" data-ng-click="viewModeChange()">
+                </div>
+            </div>
+        </div>
+
+        <div class="col-sm-12 collapse out" id="params">
+            <div class="form-group">
+                <label class="control-label">{{translation.Plain || 'Plain'}}</label>
+            </div>
+            <div class="form-group">
+                <label for="year" class="col-sm-3 control-label">{{translation.Year || 'Year'}}</label>
+                <div class="col-sm-9">
+                    <input type="number" class="form-control input-sm" id="year" data-ng-model="year" placeholder="1">
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="price" class="col-sm-3 control-label">{{translation.ChangeInPricePerWeek || 'Change In Price Per Week'}}</label>
+                <div class="col-sm-9">
+                    <input type="number" class="form-control input-sm" id="price" data-ng-model="price" placeholder="-10">
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="deals" class="col-sm-3 control-label">{{translation.ChangeInDealsPerWeek || 'Change In Deals Per Week'}}</label>
+                <div class="col-sm-9">
+                    <input type="number" class="form-control input-sm" id="deals" data-ng-model="deals" placeholder="10">
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="salary" class="col-sm-3 control-label">{{translation.ChangeInSalaryPerWeek || 'Change In Salary Per Week'}}</label>
+                <div class="col-sm-9">
+                    <input type="number" class="form-control input-sm" id="salary" data-ng-model="salary" placeholder="-10">
+                </div>
+            </div>
+            <div class="form-group" data-ng-show="year != '' && (price!='' || deals!='' || salary!='')">
+                <div class="col-sm-3"></div>
+                <div class="col-sm-9">
+                    <button id="reset" type="button" class="btn btn-warning" data-ng-click="reset()">
+                        <span class="glyphicon glyphicon-transfer"></span>
+                        &nbsp;{{translation.Reset || 'Reset'}}
+                    </button>
+                    <button id="calculate" type="button" class="btn btn-success" data-ng-click="calculate()">
+                        <span class="glyphicon glyphicon-search"></span>
+                        &nbsp;{{translation.Calculate || 'Calculate'}}
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

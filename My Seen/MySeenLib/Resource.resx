@@ -948,4 +948,61 @@
   <data name="ChildSexCalculator" xml:space="preserve">
     <value>Child Sex Calculator</value>
   </data>
+  <data name="ShowCalculated" xml:space="preserve">
+    <value>Show Calculated</value>
+  </data>
+  <data name="ShowCurrent" xml:space="preserve">
+    <value>Show Current</value>
+  </data>
+  <data name="ChangeInDealsPerWeek" xml:space="preserve">
+    <value>Change In Deals Per Week</value>
+  </data>
+  <data name="ChangeInPricePerWeek" xml:space="preserve">
+    <value>Change In Price Per Week</value>
+  </data>
+  <data name="ChangeInSalaryPerWeek" xml:space="preserve">
+    <value>Change In Salary Per Week</value>
+  </data>
+  <data name="Deals" xml:space="preserve">
+    <value>Deals</value>
+  </data>
+  <data name="LastUpdatedPrice" xml:space="preserve">
+    <value>Last Updated Price</value>
+  </data>
+  <data name="LastUpdatedSalary" xml:space="preserve">
+    <value>Last Updated Salary</value>
+  </data>
+  <data name="Plain" xml:space="preserve">
+    <value>Plain</value>
+  </data>
+  <data name="Price" xml:space="preserve">
+    <value>Price</value>
+  </data>
+  <data name="PriceToSalary" xml:space="preserve">
+    <value>Price/Salary</value>
+  </data>
+  <data name="Reset" xml:space="preserve">
+    <value>Reset</value>
+  </data>
+  <data name="Salary" xml:space="preserve">
+    <value>Salary</value>
+  </data>
+  <data name="ShowAll" xml:space="preserve">
+    <value>ShowAll</value>
+  </data>
+  <data name="ShowDeals" xml:space="preserve">
+    <value>Show Deals</value>
+  </data>
+  <data name="ShowSalary" xml:space="preserve">
+    <value>Show Salary</value>
+  </data>
+  <data name="USD" xml:space="preserve">
+    <value>USD</value>
+  </data>
+  <data name="USDM2" xml:space="preserve">
+    <value>USD/m2</value>
+  </data>
+  <data name="HomePriceSalarityGraph" xml:space="preserve">
+    <value>Home Price / Salarity Graph</value>
+  </data>
 </root>

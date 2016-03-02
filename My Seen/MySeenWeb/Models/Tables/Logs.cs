@@ -18,7 +18,6 @@ namespace MySeenWeb.Models.Tables
         [ScriptIgnore]
         public DateTime DateLast { get; set; }
         public int Count { get; set; }
-        public string PageName { get; set; }
         public string AddData { get; set; }
     }
 }

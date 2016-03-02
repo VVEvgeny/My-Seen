@@ -60,7 +60,9 @@ namespace MySeenWeb.Models.OtherViewModels
 
         public DbSet<Memes> Memes { get; set; }
         public DbSet<MemesStats> MemesStats { get; set; }
-        
+
+        public DbSet<Realt> Realt { get; set; }
+        public DbSet<Salary> Salary { get; set; }
 
         public static ApplicationDbContext Create()
         {

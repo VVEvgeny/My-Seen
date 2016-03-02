@@ -538,6 +538,33 @@ namespace MySeenLib {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Change In Deals Per Week.
+        /// </summary>
+        public static string ChangeInDealsPerWeek {
+            get {
+                return ResourceManager.GetString("ChangeInDealsPerWeek", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Change In Price Per Week.
+        /// </summary>
+        public static string ChangeInPricePerWeek {
+            get {
+                return ResourceManager.GetString("ChangeInPricePerWeek", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Change In Salary Per Week.
+        /// </summary>
+        public static string ChangeInSalaryPerWeek {
+            get {
+                return ResourceManager.GetString("ChangeInSalaryPerWeek", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Change your account settings.
         /// </summary>
         public static string ChangeYourAccountSettings {
@@ -768,6 +795,15 @@ namespace MySeenLib {
         public static string DBUserDeleted {
             get {
                 return ResourceManager.GetString("DBUserDeleted", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Deals.
+        /// </summary>
+        public static string Deals {
+            get {
+                return ResourceManager.GetString("Deals", resourceCulture);
             }
         }
         
@@ -1367,6 +1403,15 @@ namespace MySeenLib {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Home Price / Salarity Graph.
+        /// </summary>
+        public static string HomePriceSalarityGraph {
+            get {
+                return ResourceManager.GetString("HomePriceSalarityGraph", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Host.
         /// </summary>
         public static string Host {
@@ -1480,6 +1525,24 @@ namespace MySeenLib {
         public static string LastLogin {
             get {
                 return ResourceManager.GetString("LastLogin", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Last Updated Price.
+        /// </summary>
+        public static string LastUpdatedPrice {
+            get {
+                return ResourceManager.GetString("LastUpdatedPrice", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Last Updated Salary.
+        /// </summary>
+        public static string LastUpdatedSalary {
+            get {
+                return ResourceManager.GetString("LastUpdatedSalary", resourceCulture);
             }
         }
         
@@ -1835,11 +1898,38 @@ namespace MySeenLib {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Plain.
+        /// </summary>
+        public static string Plain {
+            get {
+                return ResourceManager.GetString("Plain", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Points.
         /// </summary>
         public static string Points {
             get {
                 return ResourceManager.GetString("Points", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Price.
+        /// </summary>
+        public static string Price {
+            get {
+                return ResourceManager.GetString("Price", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Price/Salary.
+        /// </summary>
+        public static string PriceToSalary {
+            get {
+                return ResourceManager.GetString("PriceToSalary", resourceCulture);
             }
         }
         
@@ -1943,6 +2033,15 @@ namespace MySeenLib {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Reset.
+        /// </summary>
+        public static string Reset {
+            get {
+                return ResourceManager.GetString("Reset", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Road.
         /// </summary>
         public static string Road2 {
@@ -1966,6 +2065,15 @@ namespace MySeenLib {
         public static string Russian {
             get {
                 return ResourceManager.GetString("Russian", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Salary.
+        /// </summary>
+        public static string Salary {
+            get {
+                return ResourceManager.GetString("Salary", resourceCulture);
             }
         }
         
@@ -2164,6 +2272,51 @@ namespace MySeenLib {
         public static string ShortUserName {
             get {
                 return ResourceManager.GetString("ShortUserName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to ShowAll.
+        /// </summary>
+        public static string ShowAll {
+            get {
+                return ResourceManager.GetString("ShowAll", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Show Calculated.
+        /// </summary>
+        public static string ShowCalculated {
+            get {
+                return ResourceManager.GetString("ShowCalculated", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Show Current.
+        /// </summary>
+        public static string ShowCurrent {
+            get {
+                return ResourceManager.GetString("ShowCurrent", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Show Deals.
+        /// </summary>
+        public static string ShowDeals {
+            get {
+                return ResourceManager.GetString("ShowDeals", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Show Salary.
+        /// </summary>
+        public static string ShowSalary {
+            get {
+                return ResourceManager.GetString("ShowSalary", resourceCulture);
             }
         }
         
@@ -2380,6 +2533,24 @@ namespace MySeenLib {
         public static string Update {
             get {
                 return ResourceManager.GetString("Update", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to USD.
+        /// </summary>
+        public static string USD {
+            get {
+                return ResourceManager.GetString("USD", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to USD/m2.
+        /// </summary>
+        public static string USDM2 {
+            get {
+                return ResourceManager.GetString("USDM2", resourceCulture);
             }
         }
         

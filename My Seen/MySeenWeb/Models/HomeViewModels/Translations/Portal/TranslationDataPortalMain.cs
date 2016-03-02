@@ -6,5 +6,6 @@ namespace MySeenWeb.Models.Translations.Portal
     {
         public string Memes = Resource.Memes;
         public string ChildSexCalculator = Resource.ChildSexCalculator;
+        public string HomePriceSalarityGraph = Resource.HomePriceSalarityGraph;
     }
 }

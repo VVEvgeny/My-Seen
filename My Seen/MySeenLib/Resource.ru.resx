@@ -948,4 +948,61 @@
   <data name="ChildSexCalculator" xml:space="preserve">
     <value>Калькулятор пола ребенка</value>
   </data>
+  <data name="ShowCurrent" xml:space="preserve">
+    <value>Показать текущие данные</value>
+  </data>
+  <data name="ShowCalculated" xml:space="preserve">
+    <value>Показать расчетные данные</value>
+  </data>
+  <data name="ChangeInDealsPerWeek" xml:space="preserve">
+    <value>Изменение сделок в неделю</value>
+  </data>
+  <data name="ChangeInPricePerWeek" xml:space="preserve">
+    <value>Изменение цены в неделю</value>
+  </data>
+  <data name="ChangeInSalaryPerWeek" xml:space="preserve">
+    <value>Изменение ЗП в неделю</value>
+  </data>
+  <data name="Deals" xml:space="preserve">
+    <value>Сделок</value>
+  </data>
+  <data name="LastUpdatedPrice" xml:space="preserve">
+    <value>Последнее обновление цены</value>
+  </data>
+  <data name="LastUpdatedSalary" xml:space="preserve">
+    <value>Последнее обновление ЗП</value>
+  </data>
+  <data name="Plain" xml:space="preserve">
+    <value>Планирование</value>
+  </data>
+  <data name="Price" xml:space="preserve">
+    <value>Стоимость</value>
+  </data>
+  <data name="PriceToSalary" xml:space="preserve">
+    <value>Цена/ЗП</value>
+  </data>
+  <data name="Reset" xml:space="preserve">
+    <value>Сброс</value>
+  </data>
+  <data name="Salary" xml:space="preserve">
+    <value>ЗП</value>
+  </data>
+  <data name="ShowAll" xml:space="preserve">
+    <value>Показать всё</value>
+  </data>
+  <data name="ShowDeals" xml:space="preserve">
+    <value>Показать сделки</value>
+  </data>
+  <data name="ShowSalary" xml:space="preserve">
+    <value>Показать ЗП</value>
+  </data>
+  <data name="USD" xml:space="preserve">
+    <value>USD</value>
+  </data>
+  <data name="USDM2" xml:space="preserve">
+    <value>USD/m2</value>
+  </data>
+  <data name="HomePriceSalarityGraph" xml:space="preserve">
+    <value>График цены метра/ЗП</value>
+  </data>
 </root>

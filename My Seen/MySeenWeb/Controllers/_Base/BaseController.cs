@@ -129,7 +129,7 @@ namespace MySeenWeb.Controllers._Base
                         catch
                         {
                             LogSave.Save(User.Identity.IsAuthenticated ? User.Identity.GetUserId() : "",
-                                Request.UserHostAddress, Request.UserAgent, "MarkersOnRoads catch No USER", userId);
+                                Request.UserHostAddress, Request.UserAgent, "MarkersOnRoads catch No USER");
                         }
                     }
                     return ret;
@@ -151,7 +151,7 @@ namespace MySeenWeb.Controllers._Base
                         catch
                         {
                             LogSave.Save(User.Identity.IsAuthenticated ? User.Identity.GetUserId() : "",
-                                Request.UserHostAddress, Request.UserAgent, "MarkersOnRoads catch No USER", userId);
+                                Request.UserHostAddress, Request.UserAgent, "MarkersOnRoads catch No USER");
                         }
                     }
                     return ret;
@@ -188,7 +188,7 @@ namespace MySeenWeb.Controllers._Base
                         catch
                         {
                             LogSave.Save(User.Identity.IsAuthenticated ? User.Identity.GetUserId() : "",
-                                Request.UserHostAddress, Request.UserAgent, "RecordPerPage catch No USER", userId);
+                                Request.UserHostAddress, Request.UserAgent, "RecordPerPage catch No USER");
                         }
                     }
                     return ret == (int)Defaults.RecordPerPageBase.Indexes.All ? Defaults.RecordPerPageBase.Values.All : Convert.ToInt32(Defaults.RecordPerPage.GetById(ret));
@@ -210,7 +210,7 @@ namespace MySeenWeb.Controllers._Base
                         catch
                         {
                             LogSave.Save(User.Identity.IsAuthenticated ? User.Identity.GetUserId() : "",
-                                Request.UserHostAddress, Request.UserAgent, "RecordPerPage catch No USER", userId);
+                                Request.UserHostAddress, Request.UserAgent, "RecordPerPage catch No USER");
                         }
                     }
                     return ret == (int)Defaults.RecordPerPageBase.Indexes.All ? Defaults.RecordPerPageBase.Values.All : Convert.ToInt32(Defaults.RecordPerPage.GetById(ret));
@@ -255,7 +255,7 @@ namespace MySeenWeb.Controllers._Base
                     }
                     catch
                     {
-                        LogSave.Save(User.Identity.IsAuthenticated ? User.Identity.GetUserId() : "", Request.UserHostAddress, Request.UserAgent, "catch No USER", userId);
+                        LogSave.Save(User.Identity.IsAuthenticated ? User.Identity.GetUserId() : "", Request.UserHostAddress, Request.UserAgent, "catch No USER");
                     }
                 }
                 else
@@ -357,7 +357,7 @@ namespace MySeenWeb.Controllers._Base
             try
             {
                 AutoLogin();
-                LogSave.Save(User.Identity.IsAuthenticated ? User.Identity.GetUserId() : "", Request.UserHostAddress, Request.UserAgent, "Base", Request.Path);
+                LogSave.Save(User.Identity.IsAuthenticated ? User.Identity.GetUserId() : "", Request.UserHostAddress, Request.UserAgent, Request.Path);
                 SetLang();
             }
             catch (Exception ex)
@@ -373,7 +373,7 @@ namespace MySeenWeb.Controllers._Base
             try
             {
                 AutoLogin();
-                LogSave.Save(User.Identity.IsAuthenticated ? User.Identity.GetUserId() : "", Request.UserHostAddress, Request.UserAgent, "BaseA", Request.Path);
+                LogSave.Save(User.Identity.IsAuthenticated ? User.Identity.GetUserId() : "", Request.UserHostAddress, Request.UserAgent, Request.Path);
                 SetLang();
             }
             catch (Exception ex)

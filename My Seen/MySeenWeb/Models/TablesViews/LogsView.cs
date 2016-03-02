@@ -21,7 +21,6 @@ namespace MySeenWeb.Models.TablesViews
                 Id = model.Id,
                 IPAdress = model.IPAdress,
                 OnlyDate = model.OnlyDate,
-                PageName = model.PageName,
                 UserAgent = model.UserAgent,
                 UserId = model.UserId
             };

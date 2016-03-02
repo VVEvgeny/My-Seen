@@ -41,7 +41,7 @@ namespace MySeenWeb.Controllers.Home
         }
         [Compress]
         [HttpPost]
-        public JsonResult GetPage(int pageId, int? page, string search, int? ended, int? year, int? complex, string shareKey, int? road, int? id, string dateMan,string dateWoman)
+        public JsonResult GetPage(int pageId, int? page, string search, int? ended, int? year, int? complex, string shareKey, int? road, int? id, string dateMan, string dateWoman, int? price, int? deals, int? salary)
         {
             //if (!User.Identity.IsAuthenticated) return Json(Auth.NoAuth);
 
@@ -119,6 +119,8 @@ namespace MySeenWeb.Controllers.Home
                         logger.Info("ChildCalculator for user=" + User.Identity.GetUserName() + ";M=" + dateMan + ";W=" +
                                     dateWoman + ";Y=" + (year ?? 0));
                         return Json(new PortalViewModelChildCalculator(year ?? 0, dateMan, dateWoman));
+                    case (int)Defaults.CategoryBase.IndexesMain.Realt:
+                        return Json(new PortalViewModelRealt(year ?? 0, price ?? 0, deals ?? 0, salary ?? 0));
                 }
                 logger.Info("CALL NOT REALIZED GetPage=" + pageId);
                 return new JsonResult { Data = new { success = false, error = "NOT REALIZED" } };
@@ -200,6 +202,8 @@ namespace MySeenWeb.Controllers.Home
                         return Json(new TranslationDataPortalMemes());
                     case (int)Defaults.CategoryBase.IndexesMain.Childs:
                         return Json(new TranslationDataPortalChildSexCalculator());
+                    case (int)Defaults.CategoryBase.IndexesMain.Realt:
+                        return Json(new TranslationDataPortalRealt());
                 }
                 logger.Info("CALL NOT REALIZED GetTranslation=" + pageId);
                 return new JsonResult { Data = new { success = false, error = "NOT REALIZED" } };

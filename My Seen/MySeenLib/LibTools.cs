@@ -331,12 +331,13 @@ namespace MySeenLib
             {
                 Main = 200,
                 Memes = 201,
-                Childs = 202
+                Childs = 202,
+                Realt = 203
             }
 
             public enum IndexesTest
             {
-                
+                Realt = 901
             }
 
             public static bool IsCategoryExt(int category)

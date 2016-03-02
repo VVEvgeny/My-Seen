@@ -8,11 +8,11 @@ namespace MySeenWeb.Models.Tools
 {
     public static class LogSave
     {
-        public static void Save(string userId, string ipAdress, string userAgent, string pageName)
+        public static void Save(string userId, string ipAdress, string userAgent)
         {
-            Save(userId, ipAdress, userAgent, pageName, string.Empty);
+            Save(userId, ipAdress, userAgent, string.Empty);
         }
-        public static void Save(string userId, string ipAdress, string userAgent, string pageName, string addData)
+        public static void Save(string userId, string ipAdress, string userAgent, string addData)
         {
             if (!Admin.IsDebug)
             {
@@ -23,7 +23,7 @@ namespace MySeenWeb.Models.Tools
                     !ac.Logs.Any(
                         l =>
                             l.IPAdress == ipAdress && l.UserAgent == userAgent && l.UserId == userId &&
-                            l.OnlyDate == date && l.PageName == pageName))
+                            l.OnlyDate == date ))
                 {
                     ac.Logs.Add(new Logs
                     {
@@ -33,7 +33,6 @@ namespace MySeenWeb.Models.Tools
                         OnlyDate = date,
                         DateFirst = DateTime.Now,
                         DateLast = DateTime.Now,
-                        PageName = pageName,
                         AddData = addData,
                         Count = 1
                     });
@@ -44,7 +43,7 @@ namespace MySeenWeb.Models.Tools
                         ac.Logs.First(
                             l =>
                                 l.IPAdress == ipAdress && l.UserAgent == userAgent && l.UserId == userId &&
-                                l.OnlyDate == date && l.PageName == pageName);
+                                l.OnlyDate == date);
                     log.DateLast = DateTime.Now;
                     log.Count++;
                     if (!string.IsNullOrEmpty(addData)) log.AddData += "!%!" + addData;

@@ -24,7 +24,7 @@
     <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\</SolutionDir>
     <RestorePackages>true</RestorePackages>
     <TargetFrameworkProfile />
-    <NuGetPackageImportStamp>c371855c</NuGetPackageImportStamp>
+    <NuGetPackageImportStamp>46e40054</NuGetPackageImportStamp>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -48,16 +48,16 @@
       <HintPath>..\packages\Antlr.3.5.0.2\lib\Antlr3.Runtime.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="Common.Logging, Version=3.0.0.0, Culture=neutral, PublicKeyToken=af08829b84f0328e, processorArchitecture=MSIL">
-      <HintPath>..\packages\Common.Logging.3.0.0\lib\net40\Common.Logging.dll</HintPath>
+    <Reference Include="Common.Logging, Version=3.3.1.0, Culture=neutral, PublicKeyToken=af08829b84f0328e, processorArchitecture=MSIL">
+      <HintPath>..\packages\Common.Logging.3.3.1\lib\net40\Common.Logging.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="Common.Logging.Core, Version=3.0.0.0, Culture=neutral, PublicKeyToken=af08829b84f0328e, processorArchitecture=MSIL">
-      <HintPath>..\packages\Common.Logging.Core.3.0.0\lib\net40\Common.Logging.Core.dll</HintPath>
+    <Reference Include="Common.Logging.Core, Version=3.3.1.0, Culture=neutral, PublicKeyToken=af08829b84f0328e, processorArchitecture=MSIL">
+      <HintPath>..\packages\Common.Logging.Core.3.3.1\lib\net40\Common.Logging.Core.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="Common.Logging.NLog20, Version=3.0.0.0, Culture=neutral, PublicKeyToken=af08829b84f0328e, processorArchitecture=MSIL">
-      <HintPath>..\packages\Common.Logging.NLog20.3.0.0\lib\net40\Common.Logging.NLog20.dll</HintPath>
+    <Reference Include="Common.Logging.NLog20, Version=3.3.1.0, Culture=neutral, PublicKeyToken=af08829b84f0328e, processorArchitecture=MSIL">
+      <HintPath>..\packages\Common.Logging.NLog20.3.3.1\lib\net40\Common.Logging.NLog20.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="JSNLog, Version=2.17.0.0, Culture=neutral, processorArchitecture=MSIL">
@@ -171,7 +171,7 @@
     </Reference>
     <Reference Include="System.Xml.Linq" />
     <Reference Include="WebActivatorEx, Version=2.0.0.0, Culture=neutral, PublicKeyToken=7b26dc2a43f6a0d4, processorArchitecture=MSIL">
-      <HintPath>..\packages\WebActivatorEx.2.0\lib\net40\WebActivatorEx.dll</HintPath>
+      <HintPath>..\packages\WebActivatorEx.2.1.0\lib\net40\WebActivatorEx.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="WebGrease, Version=1.6.5135.21930, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
@@ -407,6 +407,26 @@
     <Compile Include="Migrations\201602260811297_38.Designer.cs">
       <DependentUpon>201602260811297_38.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201603011036490_39.cs" />
+    <Compile Include="Migrations\201603011036490_39.Designer.cs">
+      <DependentUpon>201603011036490_39.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201603011319510_40.cs" />
+    <Compile Include="Migrations\201603011319510_40.Designer.cs">
+      <DependentUpon>201603011319510_40.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201603011357238_41.cs" />
+    <Compile Include="Migrations\201603011357238_41.Designer.cs">
+      <DependentUpon>201603011357238_41.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201603020752011_42.cs" />
+    <Compile Include="Migrations\201603020752011_42.Designer.cs">
+      <DependentUpon>201603020752011_42.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201603020810510_43.cs" />
+    <Compile Include="Migrations\201603020810510_43.Designer.cs">
+      <DependentUpon>201603020810510_43.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\HomeViewModels\Meta\Portal\MetaPortalMemes.cs" />
     <Compile Include="Models\HomeViewModels\Meta\MetaBase.cs" />
@@ -420,6 +440,7 @@
     <Compile Include="Models\HomeViewModels\Prepared\PreparedDataRoads.cs" />
     <Compile Include="Models\HomeViewModels\Prepared\PreparedDataEvents.cs" />
     <Compile Include="Models\HomeViewModels\Prepared\PreparedDataSerials.cs" />
+    <Compile Include="Models\HomeViewModels\Translations\Portal\TranslationDataPortalRealt.cs" />
     <Compile Include="Models\HomeViewModels\Translations\Portal\TranslationDataPortalMemes.cs" />
     <Compile Include="Models\HomeViewModels\Translations\Portal\TranslationDataPortalMain.cs" />
     <Compile Include="Models\HomeViewModels\Translations\Portal\TranslationDataPortalChildSexCalculator.cs" />
@@ -439,8 +460,11 @@
     <Compile Include="Models\OtherViewModels\AccountViewModels.cs" />
     <Compile Include="Models\HomeViewModels\HomeViewModelEvents.cs" />
     <Compile Include="Models\HomeViewModels\HomeViewModelTrackEditor.cs" />
+    <Compile Include="Models\Portal\PortalViewModelRealt.cs" />
     <Compile Include="Models\Portal\PortalViewModelMemes.cs" />
     <Compile Include="Models\TablesLogic\ErrorsLogic.cs" />
+    <Compile Include="Models\TablesLogic\Portal\SalaryLogic.cs" />
+    <Compile Include="Models\TablesLogic\Portal\RealtLogic.cs" />
     <Compile Include="Models\TablesLogic\Portal\MemesStatsLogic.cs" />
     <Compile Include="Models\TablesLogic\Portal\MemesLogic.cs" />
     <Compile Include="Models\TablesLogic\RoadsLogic.cs" />
@@ -457,9 +481,13 @@
     <Compile Include="Models\TablesViews\NLogErrorsView.cs" />
     <Compile Include="Models\TablesViews\LayoutView.cs" />
     <Compile Include="Models\TablesViews\Portal\MemesStatsView.cs" />
+    <Compile Include="Models\TablesViews\Portal\SalaryView.cs" />
+    <Compile Include="Models\TablesViews\Portal\RealtView.cs" />
     <Compile Include="Models\TablesViews\Portal\MemesView.cs" />
     <Compile Include="Models\Tables\NLogErrors.cs" />
     <Compile Include="Models\Tables\Events.cs" />
+    <Compile Include="Models\Tables\Portal\Salary.cs" />
+    <Compile Include="Models\Tables\Portal\Realt.cs" />
     <Compile Include="Models\Tables\Portal\MemesStats.cs" />
     <Compile Include="Models\Tables\Portal\Memes.cs" />
     <Compile Include="Models\Tables\UserCredits.cs" />
@@ -684,6 +712,7 @@
     <Content Include="Content\amcharts\thirdPartySoftwareList.txt" />
     <Content Include="Content\amcharts\xy.js" />
     <Content Include="Content\Angular\controllers\Portal\ChildSexCalculator.js" />
+    <Content Include="Content\Angular\controllers\Portal\RealtController.js" />
     <Content Include="Content\Angular\controllers\Tests\WebGLController.js" />
     <Content Include="Content\Angular\controllers\Admin\ErrorsController.js" />
     <Content Include="Content\Angular\controllers\AboutController.js" />
@@ -703,6 +732,7 @@
     <Content Include="Content\Angular\controllers\MyMemory\BooksController.js" />
     <Content Include="Content\Angular\controllers\HomeController.js" />
     <Content Include="Content\Angular\templates\Portal\childcalculator.html" />
+    <Content Include="Content\Angular\templates\Portal\realt.html" />
     <Content Include="Content\Angular\templates\Tests\webgl.html" />
     <Content Include="Content\Angular\templates\MyMemory\roadsEditor.html" />
     <Content Include="Content\Angular\templates\MyMemory\roads.html" />
@@ -1732,8 +1762,9 @@
     <Content Include="Scripts\i18n\angular-locale_zh.js" />
     <Content Include="Scripts\i18n\angular-locale_zu-za.js" />
     <Content Include="Scripts\i18n\angular-locale_zu.js" />
-    <Content Include="Scripts\jquery-2.2.0.js" />
-    <Content Include="Scripts\jquery-2.2.0.min.js" />
+    <None Include="Scripts\jquery-2.2.1-vsdoc.js" />
+    <Content Include="Scripts\jquery-2.2.1.js" />
+    <Content Include="Scripts\jquery-2.2.1.min.js" />
     <Content Include="Scripts\jsnlog.js" />
     <Content Include="Scripts\jsnlog.min.js" />
     <Content Include="Scripts\knockout-3.4.0.debug.js" />
@@ -1758,7 +1789,7 @@
     <Content Include="Scripts\myseen\jsNlog.js" />
     <Content Include="Scripts\myseen\variables.js" />
     <Content Include="Scripts\myseen\timer.js" />
-    <Content Include="Scripts\jquery-2.2.0.min.map" />
+    <Content Include="Scripts\jquery-2.2.1.min.map" />
     <None Include="Scripts\jquery.validate-vsdoc.js" />
     <Content Include="Scripts\jquery-ui-1.11.4.js" />
     <Content Include="Scripts\jquery-ui-1.11.4.min.js" />
@@ -1814,8 +1845,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Models\HomeViewModels\Translations\Test\" />
-    <Folder Include="Models\Test\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config">
@@ -1940,6 +1969,21 @@
     <EmbeddedResource Include="Migrations\201602260811297_38.resx">
       <DependentUpon>201602260811297_38.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201603011036490_39.resx">
+      <DependentUpon>201603011036490_39.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201603011319510_40.resx">
+      <DependentUpon>201603011319510_40.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201603011357238_41.resx">
+      <DependentUpon>201603011357238_41.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201603020752011_42.resx">
+      <DependentUpon>201603020752011_42.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201603020810510_43.resx">
+      <DependentUpon>201603020810510_43.cs</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\MySeenLib\My Seen Library.csproj">
@@ -1981,7 +2025,9 @@
       <ErrorText>This project references NuGet package(s) that are missing on this computer. Enable NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
     </PropertyGroup>
     <Error Condition="!Exists('$(SolutionDir)\.nuget\NuGet.targets')" Text="$([System.String]::Format('$(ErrorText)', '$(SolutionDir)\.nuget\NuGet.targets'))" />
+    <Error Condition="!Exists('..\packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets'))" />
   </Target>
+  <Import Project="..\packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets" Condition="Exists('..\packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets')" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it.
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">
