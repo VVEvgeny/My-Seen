@@ -81,8 +81,8 @@ App.controller('UsersController', ['$scope', '$rootScope', '$state', '$statePara
 
       $scope.modal = {};
       $scope.modal.updateButtonClick = function (index) {
-          console.log(index);
-          console.log($scope.data[index].Roles);
+          //console.log(index);
+          //console.log($scope.data[index].Roles);
 
           $rootScope.GetPage(constants.PagesAdmin.UpdateUser, $http, getMainPage, { name: $scope.data[index].Name, roles: $scope.data[index].Roles });
           //UpdateUser

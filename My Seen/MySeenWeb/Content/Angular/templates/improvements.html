@@ -34,11 +34,12 @@
         <table class="table table-striped">
             <thead>
                 <tr>
-                    <th class="col-sm-1"></th>
+                    <th class="col-sm-1" data-ng-show="canControl"></th>
                     <th class="col-sm-1">{{translation.Complex}}</th>
                     <th class="col-sm-1">{{translation.Found}}</th>
                     <th class="col-sm-1">{{translation.DateFound}}</th>
-                    <th class="col-sm-3">{{translation.Description}}</th>
+                    <th class="col-sm-3" data-ng-show="canControl">{{translation.Description}}</th>
+                    <th class="col-sm-4" data-ng-show="!canControl">{{translation.Description}}</th>
                     <th class="col-sm-1">{{translation.DateEnd}}</th>
                     <th class="col-sm-1">{{translation.Version}}</th>
                     <th class="col-sm-3">{{translation.Description}}</th>
@@ -47,9 +48,9 @@
             </thead>
             <tbody>
                 <tr ng-repeat="val in data">
-                    <td>
+                    <td data-ng-show="canControl">
                         <!--Блок управляющих кнопок-->
-                        <span class="pull-left" data-ng-show="canControl">
+                        <span class="pull-left">
                             <button class="btn btn-warning btn-xs" data-ng-click="modal.editButtonClick($index)"> <span class=" glyphicon glyphicon-pencil"></span></button>
                         </span>
                     </td>

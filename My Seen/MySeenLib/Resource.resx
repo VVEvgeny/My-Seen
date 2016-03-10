@@ -544,7 +544,7 @@
     <value>Type</value>
   </data>
   <data name="LibVersionNum" xml:space="preserve">
-    <value>21</value>
+    <value>22</value>
   </data>
   <data name="Improvements" xml:space="preserve">
     <value>Improvements</value>
@@ -1004,5 +1004,44 @@
   </data>
   <data name="HomePriceSalarityGraph" xml:space="preserve">
     <value>Home Price / Salarity Graph</value>
+  </data>
+  <data name="BMICalculator" xml:space="preserve">
+    <value>Body Mass Index Calculator</value>
+  </data>
+  <data name="BMI" xml:space="preserve">
+    <value>BMI</value>
+  </data>
+  <data name="DeadlineUnderweight" xml:space="preserve">
+    <value>Deadline Underweight</value>
+  </data>
+  <data name="Growth" xml:space="preserve">
+    <value>Growth</value>
+  </data>
+  <data name="GrowthInCM" xml:space="preserve">
+    <value>Growth In CM</value>
+  </data>
+  <data name="LackOfWeight" xml:space="preserve">
+    <value>Lack Of Weight</value>
+  </data>
+  <data name="NormalWeight" xml:space="preserve">
+    <value>Normal Weight</value>
+  </data>
+  <data name="ObesityClassI" xml:space="preserve">
+    <value>Obesity (Class I)</value>
+  </data>
+  <data name="ObesityClassII" xml:space="preserve">
+    <value>Obesity (Class II)</value>
+  </data>
+  <data name="ObesityClassIII" xml:space="preserve">
+    <value>Obesity (Class III)</value>
+  </data>
+  <data name="Overweight" xml:space="preserve">
+    <value>Overweight</value>
+  </data>
+  <data name="Weight" xml:space="preserve">
+    <value>Weight</value>
+  </data>
+  <data name="WeightInKG" xml:space="preserve">
+    <value>Weight In KG</value>
   </data>
 </root>

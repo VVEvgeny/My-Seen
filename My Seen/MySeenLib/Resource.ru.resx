@@ -544,7 +544,7 @@
     <value>Тип</value>
   </data>
   <data name="LibVersionNum" xml:space="preserve">
-    <value>21</value>
+    <value>22</value>
   </data>
   <data name="Improvements" xml:space="preserve">
     <value>Улучшения</value>
@@ -1004,5 +1004,44 @@
   </data>
   <data name="HomePriceSalarityGraph" xml:space="preserve">
     <value>График цены метра/ЗП</value>
+  </data>
+  <data name="BMICalculator" xml:space="preserve">
+    <value>Калькулятор ИМТ</value>
+  </data>
+  <data name="BMI" xml:space="preserve">
+    <value>ИМТ</value>
+  </data>
+  <data name="DeadlineUnderweight" xml:space="preserve">
+    <value>Крайний недостаток веса</value>
+  </data>
+  <data name="Growth" xml:space="preserve">
+    <value>Рост</value>
+  </data>
+  <data name="GrowthInCM" xml:space="preserve">
+    <value>Рост в сантиметрах</value>
+  </data>
+  <data name="LackOfWeight" xml:space="preserve">
+    <value>Недостаток в весе</value>
+  </data>
+  <data name="NormalWeight" xml:space="preserve">
+    <value>Нормальный вес тела</value>
+  </data>
+  <data name="ObesityClassI" xml:space="preserve">
+    <value>Ожирение (Класс I)</value>
+  </data>
+  <data name="ObesityClassII" xml:space="preserve">
+    <value>Ожирение (Класс II)</value>
+  </data>
+  <data name="ObesityClassIII" xml:space="preserve">
+    <value>Ожирение (Класс III)</value>
+  </data>
+  <data name="Overweight" xml:space="preserve">
+    <value>Избыточная масса тела</value>
+  </data>
+  <data name="Weight" xml:space="preserve">
+    <value>Вес</value>
+  </data>
+  <data name="WeightInKG" xml:space="preserve">
+    <value>Вес в КГ</value>
   </data>
 </root>

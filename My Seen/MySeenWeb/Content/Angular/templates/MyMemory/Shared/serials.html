@@ -10,8 +10,8 @@
         <table class="table table-striped">
             <thead>
                 <tr>
-                    <th class="col-sm-1"></th>
-                    <th class="col-sm-3">{{translation.Name}}</th>
+                    <th class="col-sm-1" data-ng-show="isMyData"></th>
+                    <th data-ng-class="{'col-sm-3': isMyData, 'col-sm-4': !isMyData}">{{translation.Name}}</th>
                     <th class="col-sm-1">{{translation.Year}}</th>
                     <th class="col-sm-1">{{translation.LastEpisode}}</th>
                     <th class="col-sm-2">{{translation.DateLast}}</th>
@@ -22,10 +22,10 @@
             </thead>
             <tbody>
                 <tr ng-repeat="val in data">
-                    <td>
+                    <td data-ng-show="isMyData">
                         <!--Блок управляющих кнопок-->
                         <span class="pull-left">
-                            <button class="btn btn-danger btn-xs" data-ng-click="deleteShareButtonClick($index)" data-ng-show="isMyData"> <span class=" glyphicon glyphicon-remove"></span></button>
+                            <button class="btn btn-danger btn-xs" data-ng-click="deleteShareButtonClick($index)"> <span class=" glyphicon glyphicon-remove"></span></button>
                         </span>
                     </td>
                     <!--Одноразовая привязка-->

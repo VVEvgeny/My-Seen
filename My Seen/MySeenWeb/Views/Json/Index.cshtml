@@ -7,7 +7,7 @@
 <!DOCTYPE html>
 <html ng-app="MySeenApp">
 <head>
-    <meta charset="utf-8" />
+    <meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1, maximum-scale=1">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <base href="/">
@@ -28,7 +28,12 @@
 
         <meta class="meta" property="twitter:card" content="summary_large_image"/>
         <meta class="meta" property="twitter:site" content="@Model.Meta.Twitter"/>
+        <meta class="meta" property="twitter:creator" content="@Model.Meta.Twitter" />
         <meta class="meta" property="twitter:title" content="@Model.Meta.Title"/>
+        <meta class="meta" property="twitter:url" content="@Model.Meta.Url"/>
+        <meta class="meta" property="twitter:domain" content="myseen.by" />
+        
+
 
         if (!string.IsNullOrEmpty(Model.Meta.Description))
         {
@@ -66,11 +71,6 @@
     <script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?libraries=geometry&amp;language=@CultureInfoTool.GetFirst2Culture()"></script>
 
 
-
-    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/gl-matrix/2.3.1/gl-matrix-min.js"></script>
-
-
-
     <script src="~/Scripts/angular.js"></script>
     <script src="~/Scripts/angular-ui-router.js"></script>
     <script src="~/Scripts/angular-ui/ui-bootstrap-tpls.js"></script>
@@ -85,14 +85,21 @@
     <script src="~/Content/Angular/app/app.js"></script>
     @if (Request.IsAuthenticated)
     {
-        if (Model.UserRoles.Contains(((int)Defaults.RolesBase.Indexes.Admin).ToString()))
+        if (Model.UserRoles.Contains(((int) Defaults.RolesBase.Indexes.Admin).ToString()))
         {
             <script src="~/Content/Angular/controllers/Admin/UsersController.js"></script>
             <script src="~/Content/Angular/controllers/Admin/LogsController.js"></script>
             <script src="~/Content/Angular/controllers/Admin/ErrorsController.js"></script>
+
+            <script src="~/Content/Angular/controllers/Tests/ResumeController.js"></script>
+            <script src="http://d3js.org/d3.v3.min.js"></script>
+            <link rel="stylesheet" type="text/css" href="~/Content/myseen/skill.css" />
+            <script src="~/Content/Angular/templates/Tests/skillsdata.js"></script>
+            <script src="~/Content/Angular/templates/Tests/skill.js"></script>
         }
         if (Model.UserRoles.Contains(((int)Defaults.RolesBase.Indexes.Tester).ToString()))
         {
+            <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/gl-matrix/2.3.1/gl-matrix-min.js"></script>
             <script src="~/Content/Angular/controllers/Tests/WebGLController.js"></script>
         }
         <script src="~/Content/Angular/controllers/SettingsController.js"></script>
@@ -105,22 +112,22 @@
         <script src="~/Content/Angular/controllers/MyMemory/RoadsController.js"></script>
 
         <script src="~/Content/Angular/controllers/MyMemory/RoadsEditorController.js"></script>
-        <link href="~/Content/myseen/gmap3-menu.css" rel="stylesheet" />
+        <link href="~/Content/myseen/gmap3-menu.css" rel="stylesheet"/>
         <script src="~/Scripts/myseen/gmap3menu.js"></script>
         <script src="~/Scripts/myseen/gmap.editor.js"></script>
     }
     <script src="~/Content/Angular/controllers/HomeController.js"></script>
     <script src="~/Content/Angular/controllers/AboutController.js"></script>
     <script src="~/Content/Angular/controllers/Portal/MemesController.js"></script>
-    
+
     <script src="~/Content/amcharts/amcharts.js"></script>
     <script src="~/Content/amcharts/serial.js"></script>
     <script src="~/Content/amcharts/themes/light.js"></script>
     <script src="~/Content/amcharts/plugins/export/export.js"></script>
     <link href="~/Content/amcharts/plugins/export/export.css" rel="stylesheet"/>
-    <script src="~/Content/Angular/controllers/Portal/ChildSexCalculator.js"></script>
+    <script src="~/Content/Angular/controllers/Portal/ChildCalculatorController.js"></script>
     <script src="~/Content/Angular/controllers/Portal/RealtController.js"></script>
-
+    <script src="~/Content/Angular/controllers/Portal/ImtCalculatorController.js"></script>
 
     <script src="~/Content/Angular/controllers/MyMemory/Shared/SharedFilmsController.js"></script>
     <script src="~/Content/Angular/controllers/MyMemory/Shared/SharedSerialsController.js"></script>
@@ -177,6 +184,10 @@
                                 <a href="" class="dropdown-toggle nav-element" data-toggle="dropdown">@Resource.Testing <span class="caret"></span><span style="font-size: 16px;" class="pull-right hidden-xs showopacity fa fa-wrench"></span></a>
                                 <ul class="dropdown-menu forAnimate" role="menu">
                                     <li data-toggle="collapse" data-target=".navbar-collapse.in" data-ng-class="{'active': pageId == 900}"><a class="nav-element" data-ui-sref="webgl">WebGL<span style="font-size: 16px;" class="pull-right hidden-xs showopacity fa fa-play-circle"></span></a></li>
+                                    @if (Model.UserRoles.Contains(((int) Defaults.RolesBase.Indexes.Admin).ToString()))
+                                    {
+                                        <li data-toggle="collapse" data-target=".navbar-collapse.in" data-ng-class="{'active': pageId == 901}"><a class="nav-element" data-ui-sref="resume">Resume<span style="font-size: 16px;" class="pull-right hidden-xs showopacity fa fa-play-circle"></span></a></li>
+                                    }
                                 </ul>
                             </li>
                         }
@@ -445,23 +456,29 @@
         @Html.Partial("../Analytics/Rambler")
         @Html.Partial("../Analytics/Openstat")
         //Хочет много контента @Html.Partial("../Ads/Google")
+        //Хочет свифт банка и т.д. ка ки яндекс @Html.Partial("../Ads/Facebook")
 
         <!-- Go to www.addthis.com/dashboard to customize your tools -->
         <script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-56d05b11e11543d1"></script>
+
+        <!-- relap.io -->
+        <script type="text/javascript" async src="https://relap.io/api/v6/head.js?token=dAx0Wd1Zvck0ytHU"></script>
+        <script id="xjnG2RnZJuMZzFJS">if (window.relap) window.relap.ar('xjnG2RnZJuMZzFJS');</script>
     }
     @Html.Partial("../Tools/TestCookie")
-    <script language="javascript" type="text/javascript">
-    (function ($) {
-        $(function () {
+<script language="javascript" type="text/javascript">
+    (function($) {
+        $(function() {
 
-            });
-        })(jQuery);
-    </script>
+        });
+    })(jQuery);
+</script>
 
-    @if(!Model.HaveLanguage)
+
+@if(!Model.HaveLanguage)
     {
         @Html.Partial("../Tools/Services/Google/Translate",CultureInfoTool.GetFirst2Culture())
     }
-    
+
 </body>
 </html>

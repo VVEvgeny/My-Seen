@@ -440,6 +440,7 @@
     <Compile Include="Models\HomeViewModels\Prepared\PreparedDataRoads.cs" />
     <Compile Include="Models\HomeViewModels\Prepared\PreparedDataEvents.cs" />
     <Compile Include="Models\HomeViewModels\Prepared\PreparedDataSerials.cs" />
+    <Compile Include="Models\HomeViewModels\Translations\Portal\TranslationDataPortalImtCalculator.cs" />
     <Compile Include="Models\HomeViewModels\Translations\Portal\TranslationDataPortalRealt.cs" />
     <Compile Include="Models\HomeViewModels\Translations\Portal\TranslationDataPortalMemes.cs" />
     <Compile Include="Models\HomeViewModels\Translations\Portal\TranslationDataPortalMain.cs" />
@@ -711,8 +712,10 @@
     <Content Include="Content\amcharts\themes\patterns.js" />
     <Content Include="Content\amcharts\thirdPartySoftwareList.txt" />
     <Content Include="Content\amcharts\xy.js" />
-    <Content Include="Content\Angular\controllers\Portal\ChildSexCalculator.js" />
+    <Content Include="Content\Angular\controllers\Portal\ImtCalculatorController.js" />
+    <Content Include="Content\Angular\controllers\Portal\ChildCalculatorController.js" />
     <Content Include="Content\Angular\controllers\Portal\RealtController.js" />
+    <Content Include="Content\Angular\controllers\Tests\ResumeController.js" />
     <Content Include="Content\Angular\controllers\Tests\WebGLController.js" />
     <Content Include="Content\Angular\controllers\Admin\ErrorsController.js" />
     <Content Include="Content\Angular\controllers\AboutController.js" />
@@ -731,8 +734,12 @@
     <Content Include="Content\Angular\controllers\MyMemory\EventsController.js" />
     <Content Include="Content\Angular\controllers\MyMemory\BooksController.js" />
     <Content Include="Content\Angular\controllers\HomeController.js" />
+    <Content Include="Content\Angular\templates\Portal\imtcalculator.html" />
     <Content Include="Content\Angular\templates\Portal\childcalculator.html" />
     <Content Include="Content\Angular\templates\Portal\realt.html" />
+    <Content Include="Content\Angular\templates\Tests\skillsdata.js" />
+    <Content Include="Content\Angular\templates\Tests\skill.js" />
+    <Content Include="Content\Angular\templates\Tests\resume.html" />
     <Content Include="Content\Angular\templates\Tests\webgl.html" />
     <Content Include="Content\Angular\templates\MyMemory\roadsEditor.html" />
     <Content Include="Content\Angular\templates\MyMemory\roads.html" />
@@ -810,6 +817,7 @@
     <Content Include="Content\Images\loading_small.gif" />
     <Content Include="Content\myseen\gmap3-menu.css" />
     <Content Include="Content\myseen\navbar.css" />
+    <Content Include="Content\myseen\skill.css" />
     <Content Include="Content\themes\base\accordion.css" />
     <Content Include="Content\themes\base\all.css" />
     <Content Include="Content\themes\base\autocomplete.css" />
@@ -1769,10 +1777,6 @@
     <Content Include="Scripts\jsnlog.min.js" />
     <Content Include="Scripts\knockout-3.4.0.debug.js" />
     <Content Include="Scripts\knockout-3.4.0.js" />
-    <Content Include="Scripts\moment-with-locales.js" />
-    <Content Include="Scripts\moment-with-locales.min.js" />
-    <Content Include="Scripts\moment.js" />
-    <Content Include="Scripts\moment.min.js" />
     <Content Include="Content\Angular\controllers\MyMemory\SerialsController.js" />
     <Content Include="Content\Angular\controllers\MyMemory\FilmsController.js" />
     <Content Include="Content\Angular\app\app.js" />
@@ -1781,6 +1785,10 @@
     <Content Include="Content\Angular\templates\_tools\modal-add-edit.html" />
     <Content Include="Content\Angular\templates\MyMemory\serials.html" />
     <Content Include="Content\Angular\templates\MyMemory\films.html" />
+    <Content Include="Scripts\moment-with-locales.js" />
+    <Content Include="Scripts\moment-with-locales.min.js" />
+    <Content Include="Scripts\moment.js" />
+    <Content Include="Scripts\moment.min.js" />
     <Content Include="Scripts\myseen\gmap.tools.js" />
     <Content Include="Scripts\myseen\gmap3menu.js" />
     <Content Include="Scripts\myseen\gmap.editor.js" />
@@ -1842,6 +1850,7 @@
     <Content Include="Views\Tools\TestCookie.cshtml" />
     <Content Include="Scripts\jsnlog.js.map" />
     <Content Include="Views\Tools\Services\Google\Translate.cshtml" />
+    <Content Include="Views\Ads\Facebook.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

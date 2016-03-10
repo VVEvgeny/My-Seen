@@ -204,6 +204,9 @@ namespace MySeenWeb.Controllers.Home
                         return Json(new TranslationDataPortalChildSexCalculator());
                     case (int)Defaults.CategoryBase.IndexesMain.Realt:
                         return Json(new TranslationDataPortalRealt());
+                    case (int)Defaults.CategoryBase.IndexesMain.Imt:
+                        return Json(new TranslationDataPortalImtCalculator());
+
                 }
                 logger.Info("CALL NOT REALIZED GetTranslation=" + pageId);
                 return new JsonResult { Data = new { success = false, error = "NOT REALIZED" } };

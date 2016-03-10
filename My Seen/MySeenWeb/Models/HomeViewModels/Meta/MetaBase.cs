@@ -52,12 +52,17 @@ namespace MySeenWeb.Models.Meta
                 || ua.Contains("YandexBot")
 
                 || ua.Contains("developers.google.com")
-                || ua.ToLower().Contains(("Google Favicon").ToLower())
+                || ua.ToLower().Contains(("Google Favicon").ToLower()) //они с разными регистрами ходят...
                 || ua.Contains("Googlebot")
                 || ua.Contains("Google Page Speed")
                 || ua.Contains("Structured-Data-Testing-Tool")
                 || ua.Contains("Google PP Default")
-                
+
+                || ua.Contains("Relap fetcher")
+
+                || ua.Contains("AddThis.com")
+
+                || ua.Contains("facebookexternalhit")
 
                 || ua.Contains("bingbot")
 

@@ -45,6 +45,7 @@ App.controller('SharedRoadsController', ['$scope', '$rootScope', '$state', '$sta
               else if ($scope.data.DataCar.length > 0) $scope.currentTab = 2;
           }
           calcTab = true;
+          $scope.showRoad(0);
       };
       function getMainPage() {
           $rootScope.GetPage(constants.Pages.Main, $http, fillScope,

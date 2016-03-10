@@ -68,7 +68,7 @@ App.controller('MemesController', [
         window.VK.init({ apiId: 5091515, onlyWidgets: true });
         if ($scope.isOne) {
             //http://vk.com/dev/widget_comments
-            window.VK.Widgets.Comments("vk_comments", { limit: 10, width: ($(window).width() - $(window).width() / 5), attach: "*", autoPublish: 0 }, $stateParams.id);
+            window.VK.Widgets.Comments("vk_comments", { limit: 10, attach: "*", autoPublish: 0 }, $stateParams.id);
         }
 
         function fillExternalServices() {

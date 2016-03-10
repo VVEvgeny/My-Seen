@@ -448,6 +448,24 @@ namespace MySeenLib {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to BMI.
+        /// </summary>
+        public static string BMI {
+            get {
+                return ResourceManager.GetString("BMI", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Body Mass Index Calculator.
+        /// </summary>
+        public static string BMICalculator {
+            get {
+                return ResourceManager.GetString("BMICalculator", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Book.
         /// </summary>
         public static string Book {
@@ -795,6 +813,15 @@ namespace MySeenLib {
         public static string DBUserDeleted {
             get {
                 return ResourceManager.GetString("DBUserDeleted", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Deadline Underweight.
+        /// </summary>
+        public static string DeadlineUnderweight {
+            get {
+                return ResourceManager.GetString("DeadlineUnderweight", resourceCulture);
             }
         }
         
@@ -1394,6 +1421,24 @@ namespace MySeenLib {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Growth.
+        /// </summary>
+        public static string Growth {
+            get {
+                return ResourceManager.GetString("Growth", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Growth In CM.
+        /// </summary>
+        public static string GrowthInCM {
+            get {
+                return ResourceManager.GetString("GrowthInCM", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Hello.
         /// </summary>
         public static string Hello {
@@ -1493,6 +1538,15 @@ namespace MySeenLib {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Lack Of Weight.
+        /// </summary>
+        public static string LackOfWeight {
+            get {
+                return ResourceManager.GetString("LackOfWeight", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Last.
         /// </summary>
         public static string Last {
@@ -1574,7 +1628,7 @@ namespace MySeenLib {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to 21.
+        ///   Looks up a localized string similar to 22.
         /// </summary>
         public static string LibVersionNum {
             get {
@@ -1790,6 +1844,15 @@ namespace MySeenLib {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Normal Weight.
+        /// </summary>
+        public static string NormalWeight {
+            get {
+                return ResourceManager.GetString("NormalWeight", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Not Authorized.
         /// </summary>
         public static string NotAuthorized {
@@ -1804,6 +1867,33 @@ namespace MySeenLib {
         public static string November {
             get {
                 return ResourceManager.GetString("November", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Obesity (Class I).
+        /// </summary>
+        public static string ObesityClassI {
+            get {
+                return ResourceManager.GetString("ObesityClassI", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Obesity (Class II).
+        /// </summary>
+        public static string ObesityClassII {
+            get {
+                return ResourceManager.GetString("ObesityClassII", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Obesity (Class III).
+        /// </summary>
+        public static string ObesityClassIII {
+            get {
+                return ResourceManager.GetString("ObesityClassIII", resourceCulture);
             }
         }
         
@@ -1840,6 +1930,15 @@ namespace MySeenLib {
         public static string OurAndroidApp {
             get {
                 return ResourceManager.GetString("OurAndroidApp", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Overweight.
+        /// </summary>
+        public static string Overweight {
+            get {
+                return ResourceManager.GetString("Overweight", resourceCulture);
             }
         }
         
@@ -2677,6 +2776,24 @@ namespace MySeenLib {
         public static string Wednesday {
             get {
                 return ResourceManager.GetString("Wednesday", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Weight.
+        /// </summary>
+        public static string Weight {
+            get {
+                return ResourceManager.GetString("Weight", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Weight In KG.
+        /// </summary>
+        public static string WeightInKG {
+            get {
+                return ResourceManager.GetString("WeightInKG", resourceCulture);
             }
         }
         

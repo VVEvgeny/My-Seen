@@ -100,7 +100,9 @@ App.config(function($stateProvider, $urlRouterProvider, $locationProvider) {
         Memes: 201,
         ChildSexCalculator: 202,
         Realt: 203,
-        TestWebGL: 900
+        IMTCalculator: 204,
+        TestWebGL: 900,
+        Resume:901
     },
     Pages: {
         Main: '/Json/GetPage/',

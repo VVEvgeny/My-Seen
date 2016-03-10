@@ -54,6 +54,7 @@ App.controller('RoadsController', ['$scope', '$rootScope', '$state', '$statePara
               else if ($scope.data.DataCar.length > 0) $scope.currentTab = 2;
           }
           calcTab = true;
+          $scope.showRoad(0);
       };
       function getMainPage() {
           $rootScope.GetPage(constants.Pages.Main, $http, fillScope,
@@ -145,8 +146,8 @@ App.controller('RoadsController', ['$scope', '$rootScope', '$state', '$statePara
       ///////////////////////////////////////////////////////////////////////           ÃŒƒ¿À‹Õ¿ﬂ ƒŒ¡¿¬À≈Õ»ﬂ / –≈ƒ¿ “»–Œ¬¿Õ»ﬂ
       ///////////////////////////////////////////////////////////////////////
       $scope.goToEditor = function () {
-          console.log($scope.editedIndex);
-          console.log(getId($scope.editedIndex));
+          //console.log($scope.editedIndex);
+          //console.log(getId($scope.editedIndex));
 
           if ($scope.editedIndex != null && getId($scope.editedIndex)) {
               $state.go('mymemory/roadsEditor', { "id": getId($scope.editedIndex) });
