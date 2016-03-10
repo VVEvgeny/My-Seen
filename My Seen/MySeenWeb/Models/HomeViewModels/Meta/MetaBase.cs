@@ -66,6 +66,12 @@ namespace MySeenWeb.Models.Meta
 
                 || ua.Contains("bingbot")
 
+                || ua.Contains("UnitPay Robot")
+
+                || ua.Contains("http://www.site-shot.com/")
+
+                || ua.Contains("http://validator.w3.org/services")
+
                 || ua.Contains("SurveyBot")
 
                 || ua.Contains("DuckDuckGo-Favicons-Bot")

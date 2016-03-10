@@ -68,19 +68,19 @@
     <script src="~/Scripts/gmap3.js"></script>
     <script src="~/Scripts/myseen/gmap.js"></script>
     <script src="~/Scripts/myseen/gmap.tools.js"></script>
-    <script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?libraries=geometry&amp;language=@CultureInfoTool.GetFirst2Culture()"></script>
-
+    <script src="~/Scripts/myseen/variables.js"></script>
 
     <script src="~/Scripts/angular.js"></script>
     <script src="~/Scripts/angular-ui-router.js"></script>
     <script src="~/Scripts/angular-ui/ui-bootstrap-tpls.js"></script>
     <script src="~/Scripts/myseen/jQueryToAngular.js"></script>
     <link href="~/Content/font-awesome.css" rel="stylesheet"/>
+
+    <!--goole maps-->
+    <script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?libraries=geometry&amp;language=@CultureInfoTool.GetFirst2Culture()"></script>
     <!--Vkontakte-->
     <script type="text/javascript" src="//vk.com/js/api/openapi.js?121"></script><!--comments-->
     <script type="text/javascript" src="//vk.com/js/api/openapi.js?105"></script><!--likes-->
-
-    <script src="~/Scripts/myseen/variables.js"></script>
 
     <script src="~/Content/Angular/app/app.js"></script>
     @if (Request.IsAuthenticated)
@@ -124,6 +124,7 @@
     <script src="~/Content/amcharts/serial.js"></script>
     <script src="~/Content/amcharts/themes/light.js"></script>
     <script src="~/Content/amcharts/plugins/export/export.js"></script>
+
     <link href="~/Content/amcharts/plugins/export/export.css" rel="stylesheet"/>
     <script src="~/Content/Angular/controllers/Portal/ChildCalculatorController.js"></script>
     <script src="~/Content/Angular/controllers/Portal/RealtController.js"></script>

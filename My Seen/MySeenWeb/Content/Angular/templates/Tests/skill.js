@@ -273,7 +273,7 @@ path.
 d3
     .select(".skills-sunburst")
     .on("mouseleave", mouseleave);
-l = path.node().__data__.value;
+//l = path.node().__data__.value;
 sunburst
     .append("circle")
     .attr("r", rad / Math.PI)

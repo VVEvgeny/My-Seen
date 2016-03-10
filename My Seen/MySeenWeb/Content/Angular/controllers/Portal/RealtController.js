@@ -9,8 +9,6 @@ App.config(function ($stateProvider) {
         });
 });
 
-var TestWebGLRun = false;
-
 App.controller('RealtController', [
     '$scope', '$rootScope', '$state', '$stateParams', '$http', '$location', 'Constants', '$log',
     function($scope, $rootScope, $state, $stateParams, $http, $location, constants) {
