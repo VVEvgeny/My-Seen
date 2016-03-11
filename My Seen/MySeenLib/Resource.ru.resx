@@ -1044,4 +1044,16 @@
   <data name="WeightInKG" xml:space="preserve">
     <value>Вес в КГ</value>
   </data>
+  <data name="Age" xml:space="preserve">
+    <value>Возраст</value>
+  </data>
+  <data name="Man" xml:space="preserve">
+    <value>Мужчина</value>
+  </data>
+  <data name="Sex" xml:space="preserve">
+    <value>Пол</value>
+  </data>
+  <data name="Woman" xml:space="preserve">
+    <value>Женщина</value>
+  </data>
 </root>

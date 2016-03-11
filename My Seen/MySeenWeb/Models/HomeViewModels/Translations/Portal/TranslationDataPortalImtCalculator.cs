@@ -19,5 +19,10 @@ namespace MySeenWeb.Models.Translations.Portal
         public string Calculate = Resource.Calculate;
         public string BMI = Resource.BMI;
         public string Level = Resource.Level;
+
+        public string Man = Resource.Man;
+        public string Woman = Resource.Woman;
+        public string Sex = Resource.Sex;
+        public string Age = Resource.Age;
     }
 }
