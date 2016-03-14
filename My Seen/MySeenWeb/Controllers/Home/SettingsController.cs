@@ -61,6 +61,29 @@ namespace MySeenWeb.Controllers.Home
         [Compress]
         [Authorize]
         [HttpPost]
+        public JsonResult SetTheme(int val)
+        {
+            var logger = new NLogLogger();
+            const string methodName = "public JsonResult SetTheme(int language)";
+            try
+            {
+                var ac = new ApplicationDbContext();
+                var userId = User.Identity.GetUserId();
+                ac.Users.First(u => u.Id == userId).Theme = val;
+                ac.SaveChanges();
+                WriteUserSideStorage(UserSideStorageKeys.Theme, val);
+                return Json(new { success = true });
+            }
+            catch (Exception ex)
+            {
+                logger.Error(methodName, ex);
+            }
+            return new JsonResult { Data = new { success = false, error = methodName } };
+        }
+
+        [Compress]
+        [Authorize]
+        [HttpPost]
         public JsonResult SetRpp(int val)
         {
             var logger = new NLogLogger();
@@ -95,72 +118,6 @@ namespace MySeenWeb.Controllers.Home
                 ac.Users.First(u => u.Id == userId).MarkersOnRoads = val;
                 ac.SaveChanges();
                 MarkersOnRoads = val;
-                return Json(new { success = true });
-            }
-            catch (Exception ex)
-            {
-                logger.Error(methodName, ex);
-            }
-            return new JsonResult { Data = new { success = false, error = methodName } };
-        }
-
-        [Compress]
-        [Authorize]
-        [HttpPost]
-        public JsonResult SetVkService(int val)
-        {
-            var logger = new NLogLogger();
-            const string methodName = "public JsonResult SetVkService(int val)";
-            try
-            {
-                var ac = new ApplicationDbContext();
-                var userId = User.Identity.GetUserId();
-                ac.Users.First(u => u.Id == userId).VkServiceEnabled = val == (int)Defaults.EnabledDisabledBase.Indexes.Enabled;
-                ac.SaveChanges();
-                return Json(new { success = true });
-            }
-            catch (Exception ex)
-            {
-                logger.Error(methodName, ex);
-            }
-            return new JsonResult { Data = new { success = false, error = methodName } };
-        }
-
-        [Compress]
-        [Authorize]
-        [HttpPost]
-        public JsonResult SetGoogleService(int val)
-        {
-            var logger = new NLogLogger();
-            const string methodName = "public JsonResult SetGoogleService(int val)";
-            try
-            {
-                var ac = new ApplicationDbContext();
-                var userId = User.Identity.GetUserId();
-                ac.Users.First(u => u.Id == userId).GoogleServiceEnabled = val == (int)Defaults.EnabledDisabledBase.Indexes.Enabled;
-                ac.SaveChanges();
-                return Json(new { success = true });
-            }
-            catch (Exception ex)
-            {
-                logger.Error(methodName, ex);
-            }
-            return new JsonResult { Data = new { success = false, error = methodName } };
-        }
-
-        [Compress]
-        [Authorize]
-        [HttpPost]
-        public JsonResult SetFacebookService(int val)
-        {
-            var logger = new NLogLogger();
-            const string methodName = "public JsonResult SetFacebookService(int val)";
-            try
-            {
-                var ac = new ApplicationDbContext();
-                var userId = User.Identity.GetUserId();
-                ac.Users.First(u => u.Id == userId).FacebookServiceEnabled = val == (int)Defaults.EnabledDisabledBase.Indexes.Enabled;
-                ac.SaveChanges();
                 return Json(new { success = true });
             }
             catch (Exception ex)

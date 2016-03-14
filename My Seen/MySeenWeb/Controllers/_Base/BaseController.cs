@@ -107,55 +107,67 @@ namespace MySeenWeb.Controllers._Base
             WriteUserSideStorage(key, value.ToString());
         }
 
+        protected int Theme
+        {
+            get
+            {
+                if (TryReadUserSideStorage(UserSideStorageKeys.Theme))
+                {
+                    var retc = ReadUserSideStorage(UserSideStorageKeys.Theme, -1);
+                    if (retc != -1) return retc;
+                }
+
+                var ret = 0;
+                if (User.Identity.IsAuthenticated)
+                {
+                    try
+                    {
+                        var ac = new ApplicationDbContext();
+                        var userId = User.Identity.GetUserId();
+                        ret = ac.Users.First(u => u.Id == userId).Theme;
+                        WriteUserSideStorage(UserSideStorageKeys.Theme, ret);
+                    }
+                    catch
+                    {
+                        LogSave.Save(User.Identity.IsAuthenticated ? User.Identity.GetUserId() : "",
+                            Request.UserHostAddress, Request.UserAgent, "Theme catch No USER");
+                    }
+                }
+                else ret = 0;
+                return ret;
+            }
+            set
+            {
+                WriteUserSideStorage(UserSideStorageKeys.Theme, value);
+            }
+        }
         protected int MarkersOnRoads
         {
             get
             {
                 if (TryReadUserSideStorage(UserSideStorageKeys.MarkersOnRoads))
                 {
-                    var ret = ReadUserSideStorage(UserSideStorageKeys.MarkersOnRoads, 0);
-                    if (!string.IsNullOrEmpty(Defaults.EnabledDisabled.GetById(ret))) return ret;
-                    var userId = string.Empty;
-                    if (User.Identity.IsAuthenticated)
-                    {
-                        try
-                        {
-                            var ac = new ApplicationDbContext();
-                            userId = User.Identity.GetUserId();
-                            var au = ac.Users.First(u => u.Id == userId);
-                            ret = au.MarkersOnRoads;
-                            WriteUserSideStorage(UserSideStorageKeys.MarkersOnRoads, ret);
-                        }
-                        catch
-                        {
-                            LogSave.Save(User.Identity.IsAuthenticated ? User.Identity.GetUserId() : "",
-                                Request.UserHostAddress, Request.UserAgent, "MarkersOnRoads catch No USER");
-                        }
-                    }
-                    return ret;
+                    var retc = ReadUserSideStorage(UserSideStorageKeys.MarkersOnRoads, 0);
+                    if (!string.IsNullOrEmpty(Defaults.EnabledDisabled.GetById(retc))) return retc;
                 }
-                else
+
+                var ret = 0;
+                if (User.Identity.IsAuthenticated)
                 {
-                    var userId = string.Empty;
-                    var ret = 0;
-                    if (User.Identity.IsAuthenticated)
+                    try
                     {
-                        try
-                        {
-                            var ac = new ApplicationDbContext();
-                            userId = User.Identity.GetUserId();
-                            var au = ac.Users.First(u => u.Id == userId);
-                            ret = au.MarkersOnRoads;
-                            WriteUserSideStorage(UserSideStorageKeys.MarkersOnRoads, au.MarkersOnRoads);
-                        }
-                        catch
-                        {
-                            LogSave.Save(User.Identity.IsAuthenticated ? User.Identity.GetUserId() : "",
-                                Request.UserHostAddress, Request.UserAgent, "MarkersOnRoads catch No USER");
-                        }
+                        var ac = new ApplicationDbContext();
+                        var userId = User.Identity.GetUserId();
+                        ret = ac.Users.First(u => u.Id == userId).MarkersOnRoads;
+                        WriteUserSideStorage(UserSideStorageKeys.MarkersOnRoads, ret);
                     }
-                    return ret;
+                    catch
+                    {
+                        LogSave.Save(User.Identity.IsAuthenticated ? User.Identity.GetUserId() : "",
+                            Request.UserHostAddress, Request.UserAgent, "MarkersOnRoads catch No USER");
+                    }
                 }
+                return ret;
             }
             set
             {
@@ -169,52 +181,32 @@ namespace MySeenWeb.Controllers._Base
             {
                 if (TryReadUserSideStorage(UserSideStorageKeys.RecordPerPage))
                 {
-                    var ret = ReadUserSideStorage(UserSideStorageKeys.RecordPerPage, (int)Defaults.RecordPerPageBase.Indexes.All);
-                    if (!string.IsNullOrEmpty(Defaults.RecordPerPage.GetById(ret)))
-                        return ret == (int)Defaults.RecordPerPageBase.Indexes.All
+                    var retc = ReadUserSideStorage(UserSideStorageKeys.RecordPerPage,
+                        (int) Defaults.RecordPerPageBase.Indexes.All);
+                    if (!string.IsNullOrEmpty(Defaults.RecordPerPage.GetById(retc)))
+                        return retc == (int)Defaults.RecordPerPageBase.Indexes.All
                             ? Defaults.RecordPerPageBase.Values.All
-                            : Convert.ToInt32(Defaults.RecordPerPage.GetById(ret));
-                    var userId = string.Empty;
-                    if (User.Identity.IsAuthenticated)
-                    {
-                        try
-                        {
-                            var ac = new ApplicationDbContext();
-                            userId = User.Identity.GetUserId();
-                            var au = ac.Users.First(u => u.Id == userId);
-                            ret = au.RecordPerPage;
-                            WriteUserSideStorage(UserSideStorageKeys.RecordPerPage, ret);
-                        }
-                        catch
-                        {
-                            LogSave.Save(User.Identity.IsAuthenticated ? User.Identity.GetUserId() : "",
-                                Request.UserHostAddress, Request.UserAgent, "RecordPerPage catch No USER");
-                        }
-                    }
-                    return ret == (int)Defaults.RecordPerPageBase.Indexes.All ? Defaults.RecordPerPageBase.Values.All : Convert.ToInt32(Defaults.RecordPerPage.GetById(ret));
+                            : Convert.ToInt32(Defaults.RecordPerPage.GetById(retc));
                 }
-                else
+                var ret = (int) Defaults.RecordPerPageBase.Indexes.All;
+                if (User.Identity.IsAuthenticated)
                 {
-                    var userId = string.Empty;
-                    var ret = (int)Defaults.RecordPerPageBase.Indexes.All;
-                    if (User.Identity.IsAuthenticated)
+                    try
                     {
-                        try
-                        {
-                            var ac = new ApplicationDbContext();
-                            userId = User.Identity.GetUserId();
-                            var au = ac.Users.First(u => u.Id == userId);
-                            ret = au.RecordPerPage;
-                            WriteUserSideStorage(UserSideStorageKeys.RecordPerPage, au.RecordPerPage);
-                        }
-                        catch
-                        {
-                            LogSave.Save(User.Identity.IsAuthenticated ? User.Identity.GetUserId() : "",
-                                Request.UserHostAddress, Request.UserAgent, "RecordPerPage catch No USER");
-                        }
+                        var ac = new ApplicationDbContext();
+                        var userId = User.Identity.GetUserId();
+                        ret = ac.Users.First(u => u.Id == userId).RecordPerPage;
+                        WriteUserSideStorage(UserSideStorageKeys.RecordPerPage, ret);
                     }
-                    return ret == (int)Defaults.RecordPerPageBase.Indexes.All ? Defaults.RecordPerPageBase.Values.All : Convert.ToInt32(Defaults.RecordPerPage.GetById(ret));
+                    catch
+                    {
+                        LogSave.Save(User.Identity.IsAuthenticated ? User.Identity.GetUserId() : "",
+                            Request.UserHostAddress, Request.UserAgent, "RecordPerPage catch No USER");
+                    }
                 }
+                return ret == (int) Defaults.RecordPerPageBase.Indexes.All
+                    ? Defaults.RecordPerPageBase.Values.All
+                    : Convert.ToInt32(Defaults.RecordPerPage.GetById(ret));
             }
             set
             {
@@ -275,14 +267,9 @@ namespace MySeenWeb.Controllers._Base
                     }
                     else
                     {
-                        if (MetaBase.IsBotRus(Request.UserAgent))
-                        {
-                            CultureInfoTool.SetCulture(CultureInfoTool.Cultures.Russian);
-                        }
-                        else
-                        {
-                            CultureInfoTool.SetCulture(CultureInfoTool.Cultures.English);
-                        }
+                        CultureInfoTool.SetCulture(MetaBase.IsBotRus(Request.UserAgent)
+                            ? CultureInfoTool.Cultures.Russian
+                            : CultureInfoTool.Cultures.English);
                     }
                 }
             }
@@ -291,59 +278,34 @@ namespace MySeenWeb.Controllers._Base
         private void AutoLogin()
         {
             var logger = new NLogLogger();
-            //var loggerStr = "";
             const string methodName = "private void AutoLogin()";
             try
             {
                 if (!User.Identity.IsAuthenticated)
                 {
                     var privateKey = ReadUserSideStorage(UserSideStorageKeys.UserCreditsForAutologin, string.Empty);
-                    //loggerStr += "!Authenticated privateKey=" + privateKey+"\n";
                     if (!string.IsNullOrEmpty(privateKey))
                     {
                         var logic = new UserCreditsLogic();
                         if (logic.Verify(privateKey, Request.UserAgent))
                         {
-                            //loggerStr += "Verify OK" + "\n";
-
-                            //LogSave.Save("", "", "", "логин проверка пройдена");
-
                             var userManager = HttpContext.GetOwinContext().GetUserManager<ApplicationUserManager>();
                             var signInManager = HttpContext.GetOwinContext().Get<ApplicationSignInManager>();
-
                             var user = userManager.FindByName(logic.UserName);
-
-                            //LogSave.Save("", "", "", "авторизуемся с", logic.UserName);
 
                             if (user != null)
                             {
-                                //loggerStr += "SignIn" + "\n";
-                                //LogSave.Save(User.Identity.IsAuthenticated ? User.Identity.GetUserId() : "",Request.UserHostAddress, Request.UserAgent, "AutoLogin", user.UserName);
                                 signInManager.SignIn(user, true, true);
 
-                                var identity = userManager.CreateIdentity(user,
-                                    DefaultAuthenticationTypes.ApplicationCookie);
+                                var identity = userManager.CreateIdentity(user, DefaultAuthenticationTypes.ApplicationCookie);
                                 var myPrincipal = new GenericPrincipal(identity, new string[] {});
-                                //LogSave.Save("", "", "", "авторизуемся myPrincipal GetUserId", myPrincipal.Identity.GetUserId());
                                 ControllerContext.HttpContext.User = myPrincipal;
                                 HttpContext.User = myPrincipal;
                                 Thread.CurrentPrincipal = myPrincipal;
-
-                                //цель чтоб тут у него уже был пользователь
-                                //LogSave.Save(User.Identity.IsAuthenticated ? User.Identity.GetUserId() : "",Request.UserHostAddress, Request.UserAgent, "AutoLoginTest", user.UserName);
                             }
-                            else
-                            {
-                                //loggerStr += "User NO FOUND user=" + logic.UserName + "\n";
-                            }
-                        }
-                        else
-                        {
-                            //loggerStr += "Verify NOT OK ErrorMessage=" + logic.ErrorMessage + "\n";
                         }
                     }
                 }
-                //if (!string.IsNullOrEmpty(loggerStr)) logger.Info(loggerStr);
             }
             catch (Exception ex)
             {

@@ -18,6 +18,7 @@ namespace MySeenWeb.Models.Translations
         public string Web = Versions.Web.ToString();
         public string LibraryVersion = Resource.LibraryVersion;
         public string LibVersionNum = Resource.LibVersionNum;
+        public string Theme = Resource.Theme;
 
         public string SetPassword = Resource.SetPassword;
         public string ChangeYourPassword = Resource.ChangeYourPassword;

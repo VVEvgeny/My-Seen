@@ -95,6 +95,11 @@ namespace MySeenWeb
                 defaults: new {controller = "Settings", action = "SetLanguage"}
                 );
             routes.MapRoute(
+                name: "Settings/SetTheme",
+                url: "Settings/SetTheme",
+                defaults: new {controller = "Settings", action = "SetTheme"}
+                );
+            routes.MapRoute(
                 name: "Settings/SetRpp",
                 url: "Settings/SetRpp",
                 defaults: new {controller = "Settings", action = "SetRpp"}
@@ -103,21 +108,6 @@ namespace MySeenWeb
                 name: "Settings/SetMor",
                 url: "Settings/SetMor",
                 defaults: new {controller = "Settings", action = "SetMor"}
-                );
-            routes.MapRoute(
-                name: "Settings/SetVkService",
-                url: "Settings/SetVkService",
-                defaults: new {controller = "Settings", action = "SetVkService"}
-                );
-            routes.MapRoute(
-                name: "Settings/SetGoogleService",
-                url: "Settings/SetGoogleService",
-                defaults: new {controller = "Settings", action = "SetGoogleService"}
-                );
-            routes.MapRoute(
-                name: "Settings/SetFacebookService",
-                url: "Settings/SetFacebookService",
-                defaults: new {controller = "Settings", action = "SetFacebookService"}
                 );
             routes.MapRoute(
                 name: "Settings/SetPassword",

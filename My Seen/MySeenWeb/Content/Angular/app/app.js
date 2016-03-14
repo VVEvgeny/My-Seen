@@ -119,6 +119,7 @@ App.config(function($stateProvider, $urlRouterProvider, $locationProvider) {
     },
     PagesSettings: {
         SetLanguage: '/Settings/SetLanguage/',
+        SetTheme: '/Settings/SetTheme/',
         SetRpp: '/Settings/SetRpp/',
         SetMor: '/Settings/SetMor/',
         SetVkService: '/Settings/SetVkService/',

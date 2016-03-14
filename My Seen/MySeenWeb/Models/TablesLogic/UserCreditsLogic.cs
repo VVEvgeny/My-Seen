@@ -62,13 +62,8 @@ namespace MySeenWeb.Models.TablesLogic
         }
         public bool Verify(string privateKey, string userAgent)
         {
-            //LogSave.Save("", "", "", "верфикация privateKey", privateKey);
-            //LogSave.Save("", "", "", "верфикация userAgent", userAgent);
-            
             if (_ac.UserCredits.Any(u => u.PrivateKey == privateKey))
             {
-                //LogSave.Save("", "", "", "верфикация поиск записи", "нашли!");
-
                 _userCredits = _ac.UserCredits.First(u => u.PrivateKey == privateKey);
 
                 if (_userCredits.DateTo < DateTime.Now)
@@ -78,22 +73,11 @@ namespace MySeenWeb.Models.TablesLogic
                     ErrorMessage = "Date To Ended record removed";
                     return false;
                 }
-                //Проверим валидный ли ключик, принадлежит ли агенту который закодирован тут
-                //_userCredits.User.Email.ToLower(),
-                //userAgent
-                //_userCredits.User.UniqueKey.ToLower()
-                //LogSave.Save("", "", "", "верфикация", "перед проверкой МД5");
-
-                //LogSave.Save("", "", "", "верфикация старый ключ", privateKey);
-                //LogSave.Save("", "", "", "верфикация новый ключ", Md5Tools.Get(_userCredits.User.Email.ToLower() + userAgent + _userCredits.User.UniqueKey.ToLower()));
                 if (Md5Tools.Get(_userCredits.User.Email.ToLower() + userAgent + _userCredits.User.UniqueKey.ToLower()) == _userCredits.PrivateKey) return true;
 
                 return false;
             }
-            else
-            {
-                ErrorMessage = "No UserCredits by this key";
-            }
+            ErrorMessage = "No UserCredits by this key";
             return false;
         }
 

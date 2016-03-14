@@ -427,6 +427,10 @@
     <Compile Include="Migrations\201603020810510_43.Designer.cs">
       <DependentUpon>201603020810510_43.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201603140854480_44.cs" />
+    <Compile Include="Migrations\201603140854480_44.Designer.cs">
+      <DependentUpon>201603140854480_44.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\HomeViewModels\Meta\Portal\MetaPortalMemes.cs" />
     <Compile Include="Models\HomeViewModels\Meta\MetaBase.cs" />
@@ -765,6 +769,13 @@
     <Content Include="Content\bootstrap-theme.min.css" />
     <Content Include="Content\bootstrap-themes\bootstrap.cerulean.min.css" />
     <Content Include="Content\bootstrap-themes\bootstrap.cosmo.min.css" />
+    <Content Include="Content\bootstrap-themes\bootstrap.sandstone.min.css" />
+    <Content Include="Content\bootstrap-themes\bootstrap.readable.min.css" />
+    <Content Include="Content\bootstrap-themes\bootstrap.paper.min.css" />
+    <Content Include="Content\bootstrap-themes\bootstrap.flatly.min.css" />
+    <Content Include="Content\bootstrap-themes\bootstrap.darkly.min.css" />
+    <Content Include="Content\bootstrap-themes\bootstrap.superhero.min.css" />
+    <Content Include="Content\bootstrap-themes\bootstrap.slate.min.css" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\font-awesome.css" />
@@ -1995,6 +2006,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201603020810510_43.resx">
       <DependentUpon>201603020810510_43.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201603140854480_44.resx">
+      <DependentUpon>201603140854480_44.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

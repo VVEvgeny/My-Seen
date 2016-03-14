@@ -53,15 +53,50 @@
 
     @Styles.Render("~/Content/css")
 
-
-
-
     <!--ТЕМЫ БУТСТРАПА-->
-    <link href="~/Content/bootstrap.min.css" rel="stylesheet" />
-    <!--<link href="~/Content/bootstrap-themes/bootstrap.cyborg.min.css" rel="stylesheet"/>-->
-    <!--<link href="~/Content/bootstrap-themes/bootstrap.cerulean.min.css" rel="stylesheet" />-->
-    <!--<link href="~/Content/bootstrap-themes/bootstrap.cosmo.min.css" rel="stylesheet" />-->
 
+    @switch (Model.Theme)
+    {
+        //<!--Инверсные-->
+        case 0:
+            <link href="~/Content/bootstrap.min.css" rel="stylesheet"/>
+            break;
+        case 1:
+            <link href="~/Content/bootstrap-themes/bootstrap.sandstone.min.css" rel="stylesheet"/>
+            break;
+        case 2:
+            <link href="~/Content/bootstrap-themes/bootstrap.superhero.min.css" rel="stylesheet"/>
+            break;
+        case 3:
+            <link href="~/Content/bootstrap-themes/bootstrap.paper.min.css" rel="stylesheet"/>
+            break;
+        case 4:
+            <link href="~/Content/bootstrap-themes/bootstrap.flatly.min.css" rel="stylesheet"/>
+            break;
+        case 5:
+            <link href="~/Content/bootstrap-themes/bootstrap.cyborg.min.css" rel="stylesheet"/>
+            break;
+        case 6:
+            <link href="~/Content/bootstrap-themes/bootstrap.cosmo.min.css" rel="stylesheet"/>
+            break;
+        case 7:
+            <link href="~/Content/bootstrap-themes/bootstrap.cerulean.min.css" rel="stylesheet"/>
+            break;
+        //<!--Прямые-->
+        case 8:
+            <link href="~/Content/bootstrap-themes/bootstrap.slate.min.css" rel="stylesheet"/>
+            break;
+        case 9:
+            <link href="~/Content/bootstrap-themes/bootstrap.readable.min.css" rel="stylesheet"/>
+            break;
+        case 10:
+            <link href="~/Content/bootstrap-themes/bootstrap.darkly.min.css" rel="stylesheet"/>
+            break;
+    }
+    @if (Model.Theme < 0 || Model.Theme > 10)
+    {
+        <link href="~/Content/bootstrap.min.css" rel="stylesheet" />
+    }
 
     @Scripts.Render("~/bundles/modernizr")
     @Scripts.Render("~/bundles/jquery", "~/bundles/bootstrap")
@@ -150,7 +185,8 @@
 
 <body class="main">
 
-    <nav class="navbar navbar-inverse sidebar navbar-fixed-top" role="navigation">
+    <!--<nav class="navbar navbar-inverse sidebar navbar-fixed-top" role="navigation">-->
+    <nav class="navbar sidebar @(Model.Theme < 8 || (Model.Theme < 0 || Model.Theme > 10) ? "navbar-inverse" : "") navbar-fixed-top" role="navigation">
         <div class="container-fluid">
             <!-- Brand and toggle get grouped for better mobile display -->
             <div class="navbar-header" data-ng-class="{'active': pageId == 200}">
@@ -195,7 +231,7 @@
                                 <a href="" class="dropdown-toggle nav-element" data-toggle="dropdown">@Resource.Testing <span class="caret"></span><span style="font-size: 16px;" class="pull-right hidden-xs showopacity fa fa-wrench"></span></a>
                                 <ul class="dropdown-menu forAnimate" role="menu">
                                     <li data-toggle="collapse" data-target=".navbar-collapse.in" data-ng-class="{'active': pageId == 900}"><a class="nav-element" data-ui-sref="webgl">WebGL<span style="font-size: 16px;" class="pull-right hidden-xs showopacity fa fa-play-circle"></span></a></li>
-                                    @if (Model.UserRoles.Contains(((int) Defaults.RolesBase.Indexes.Admin).ToString()))
+                                    @if (Model.UserRoles.Contains(((int)Defaults.RolesBase.Indexes.Admin).ToString()))
                                     {
                                         <li data-toggle="collapse" data-target=".navbar-collapse.in" data-ng-class="{'active': pageId == 901}"><a class="nav-element" data-ui-sref="resume">Resume<span style="font-size: 16px;" class="pull-right hidden-xs showopacity fa fa-play-circle"></span></a></li>
                                     }
@@ -221,11 +257,10 @@
         </div>
     </nav>
 
+
     <div class="container body-content">
 
-
         <div data-ui-view></div>
-
 
     </div>
 

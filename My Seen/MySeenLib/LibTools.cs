@@ -491,6 +491,30 @@ namespace MySeenLib
                 }
             }
         }
+        public class ThemesBase : ListStringBase
+        {
+
+            protected override void Load()
+            {
+                if (All == null)
+                {
+                    All = new List<string>
+                    {
+                        Resource.Default,
+                        "Sandstone",
+                        "Superhero",
+                        "Paper",
+                        "Flatly",
+                        "Cyborg",
+                        "Cosmo",
+                        "Cerulean",
+                        "Slate",
+                        "Readable",
+                        "Darkly"
+                    };
+                }
+            }
+        }
 
         public static readonly GenresBase Genres = new GenresBase();
         public static readonly RatingsBase Ratings = new RatingsBase();
@@ -501,6 +525,7 @@ namespace MySeenLib
         public static readonly EnabledDisabledBase EnabledDisabled = new EnabledDisabledBase();
         public static readonly EventsTypesBase EventTypes = new EventsTypesBase();
         public static readonly RolesBase RolesTypes = new RolesBase();
+        public static readonly ThemesBase Themes = new ThemesBase();
 
         private static readonly List<ListStringBase> AllResourcesLink = new List<ListStringBase>
         {
@@ -512,7 +537,8 @@ namespace MySeenLib
             RecordPerPage,
             EnabledDisabled,
             EventTypes,
-            RolesTypes
+            RolesTypes,
+            Themes
         };
 
         public static void ReloadResources()

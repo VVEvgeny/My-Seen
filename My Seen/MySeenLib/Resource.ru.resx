@@ -1056,4 +1056,10 @@
   <data name="Woman" xml:space="preserve">
     <value>Женщина</value>
   </data>
+  <data name="Default" xml:space="preserve">
+    <value>По умолчанию</value>
+  </data>
+  <data name="Theme" xml:space="preserve">
+    <value>Тема</value>
+  </data>
 </root>

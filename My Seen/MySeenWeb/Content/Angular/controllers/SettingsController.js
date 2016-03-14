@@ -39,20 +39,14 @@ App.controller('SettingsController', ['$scope', '$rootScope', '$state', '$stateP
           $scope.translation.loaded = false;
           $rootScope.GetPage(constants.PagesSettings.SetLanguage, $http, afterLanguageChange, { val: $scope.data.Lang });
       };
+      $scope.themeChange = function () {
+          $rootScope.GetPage(constants.PagesSettings.SetTheme, $http, afterLanguageChange, { val: $scope.data.Theme });
+      };
       $scope.rppChange = function () {
           $rootScope.GetPage(constants.PagesSettings.SetRpp, $http, null, { val: $scope.data.Rpp });
       };
       $scope.markersChange = function () {
           $rootScope.GetPage(constants.PagesSettings.SetMor, $http, null, { val: $scope.data.Markers });
-      };
-      $scope.googleServicesChange = function () {
-          $rootScope.GetPage(constants.PagesSettings.SetGoogleService, $http, null, { val: $scope.data.GoogleServiceEnabledInt });
-      };
-      $scope.vkServicesChange = function () {
-          $rootScope.GetPage(constants.PagesSettings.SetVkService, $http, null, { val: $scope.data.VkServiceEnabledInt });
-      };
-      $scope.facebookServicesChange = function() {
-          $rootScope.GetPage(constants.PagesSettings.SetFacebookService, $http, null, { val: $scope.data.FacebookServiceEnabledInt });
       };
 
       $scope.modalSetPassword = {};

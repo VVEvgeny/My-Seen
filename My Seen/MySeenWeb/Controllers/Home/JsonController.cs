@@ -31,7 +31,7 @@ namespace MySeenWeb.Controllers.Home
             const string methodName = "public ActionResult Index()";
             try
             {
-                return View(new HomeViewModel(User.Identity.GetUserId(), MarkersOnRoads, Request));
+                return View(new HomeViewModel(User.Identity.GetUserId(), MarkersOnRoads, Theme, Request));
             }
             catch (Exception ex)
             {
