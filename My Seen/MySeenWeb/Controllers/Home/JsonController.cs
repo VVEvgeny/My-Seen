@@ -40,7 +40,10 @@ namespace MySeenWeb.Controllers.Home
             }
             return null;
         }
-        [Compress]
+
+        #if !DEBUG
+            [Compress] 
+        #endif
         [HttpPost]
         public JsonResult GetPage(int pageId, int? page, string search, int? ended, int? year, int? complex, string shareKey, int? road, int? id, string dateMan, string dateWoman, int? price, int? deals, int? salary)
         {
@@ -112,8 +115,6 @@ namespace MySeenWeb.Controllers.Home
                     case (int)Defaults.CategoryBase.IndexesMain.Memes:
                         return Json(new PortalViewModelMemes(User.Identity.GetUserId(), page ?? 1, 20, search, id ?? 0));//Всегда по 20 на странице
                     case (int) Defaults.CategoryBase.IndexesMain.Childs:
-                        logger.Info("ChildCalculator for user=" + User.Identity.GetUserName() + ";M=" + dateMan + ";W=" +
-                                    dateWoman + ";Y=" + (year ?? 0));
                         return Json(new PortalViewModelChildCalculator(year ?? 0, dateMan, dateWoman));
                     case (int)Defaults.CategoryBase.IndexesMain.Realt:
                         return Json(new PortalViewModelRealt(year ?? 0, price ?? 0, deals ?? 0, salary ?? 0));

@@ -70,7 +70,13 @@ App.config(function($stateProvider, $urlRouterProvider, $locationProvider) {
 
             if (!silentMode) $rootScope.loading = false;
             if (jsonData.error) {
-                if (!silentMode) alert(jsonData.error);
+                if (!silentMode) {
+                    alert(jsonData.error);
+                    if (jsonData.error === window.GNoRights || jsonData.error === window.GNotAuthorized) {
+                        window.location.href = '/';
+                        $log.warn("try get not allowed page=" + pageName + " params=" + parameters);
+                    }
+                }
             } else {
                 if (pageName === Constants.Pages.Translation) {
                     $rootScope.putTranslates(parameters.pageId, jsonData);

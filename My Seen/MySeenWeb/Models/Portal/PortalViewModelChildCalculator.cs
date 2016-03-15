@@ -34,8 +34,28 @@ namespace MySeenWeb.Models.Portal
         {
             var items = new List<ChildsCalculatorView>();
 
-            var dateW = Convert.ToDateTime(dateWoman);
-            var dateM = Convert.ToDateTime(dateMan);
+            DateTime dateW;
+            DateTime dateM;
+
+            try
+            {
+                dateW = Convert.ToDateTime(dateWoman);
+                dateM = Convert.ToDateTime(dateMan);
+            }
+            catch (Exception)
+            {
+
+                try
+                {
+                    dateW = new DateTime(Convert.ToInt32(dateWoman.Split('/')[2]), Convert.ToInt32(dateWoman.Split('/')[1]), Convert.ToInt32(dateWoman.Split('/')[0]));
+                    dateM = new DateTime(Convert.ToInt32(dateMan.Split('/')[2]), Convert.ToInt32(dateMan.Split('/')[1]), Convert.ToInt32(dateMan.Split('/')[0]));
+                }
+                catch (Exception)
+                {
+                    dateW = DateTime.Now;
+                    dateM = DateTime.Now;
+                }
+            }
 
             for (var i = 1; i < 13; i++)
             {

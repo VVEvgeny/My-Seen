@@ -1,4 +1,7 @@
-﻿<!--Загрузка-->
+﻿<script type="text/javascript" src="//yastatic.net/es5-shims/0.0.2/es5-shims.min.js" charset="utf-8"></script>
+<script type="text/javascript" src="//yastatic.net/share2/share.js" charset="utf-8"></script>
+
+<!--Загрузка-->
 <data-ng-include src="'Content/Angular/templates/_tools/loading.html'"></data-ng-include>
 
 <div data-ng-show="!isOne">
@@ -68,8 +71,9 @@
                 </tr>
                 <tr>
                     <th class="align-center" colspan="3">
-                        <div class="pluso" data-background="transparent" data-options="small,round,line,horizontal,counter,theme=04" data-services="vkontakte,odnoklassniki,facebook,twitter,google,moimir,email,print"
-                             data-url="http://myseen.by/portal/memes/{{val.Id}}"></div>
+                        <div class="ya-share2" data-services="vkontakte,facebook,odnoklassniki,moimir,gplus,twitter,linkedin,viber" 
+                             data-size="s" data-copy="last" data-image="{{::val.Image}}" data-url="http://myseen.by/portal/memes/{{val.Id}}">
+                        </div>
                     </th>
                 </tr>
             </tbody>

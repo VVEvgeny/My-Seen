@@ -7,7 +7,7 @@
 <!DOCTYPE html>
 <html ng-app="MySeenApp">
 <head>
-    <meta charset="utf-8"/>
+    <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1, maximum-scale=1">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <base href="/">
@@ -16,34 +16,34 @@
     {
         <title>@Model.Meta.Title</title>
 
-        <meta class="meta" property="og:title" content="@Model.Meta.Title"/>
-        <meta class="meta" property="og:type" content="website"/>
-        <meta class="meta" property="og:locale" content="@CultureInfoTool.GetFirst2Culture()"/>
-        <meta class="meta" property="og:site_name" content="@Resource.AppName"/>
-        <meta class="meta" property="og:url" content="@Model.Meta.Url"/>
+        <meta class="meta" property="og:title" content="@Model.Meta.Title" />
+        <meta class="meta" property="og:type" content="website" />
+        <meta class="meta" property="og:locale" content="@CultureInfoTool.GetFirst2Culture()" />
+        <meta class="meta" property="og:site_name" content="@Resource.AppName" />
+        <meta class="meta" property="og:url" content="@Model.Meta.Url" />
 
         <meta name="google-play-app" content="com.vve.myseen">
 
-        <meta class="meta" property="fb:app_id" content="@Model.Meta.FacebookAppId"/>
+        <meta class="meta" property="fb:app_id" content="@Model.Meta.FacebookAppId" />
 
-        <meta class="meta" property="twitter:card" content="summary_large_image"/>
-        <meta class="meta" property="twitter:site" content="@Model.Meta.Twitter"/>
+        <meta class="meta" property="twitter:card" content="summary_large_image" />
+        <meta class="meta" property="twitter:site" content="@Model.Meta.Twitter" />
         <meta class="meta" property="twitter:creator" content="@Model.Meta.Twitter" />
-        <meta class="meta" property="twitter:title" content="@Model.Meta.Title"/>
-        <meta class="meta" property="twitter:url" content="@Model.Meta.Url"/>
+        <meta class="meta" property="twitter:title" content="@Model.Meta.Title" />
+        <meta class="meta" property="twitter:url" content="@Model.Meta.Url" />
         <meta class="meta" property="twitter:domain" content="myseen.by" />
-        
+
 
 
         if (!string.IsNullOrEmpty(Model.Meta.Description))
         {
-            <meta class="meta" property="og:description" content="@Model.Meta.Description"/>
-            <meta class="meta" property="twitter:description" content="@Model.Meta.Description"/>
+            <meta class="meta" property="og:description" content="@Model.Meta.Description" />
+            <meta class="meta" property="twitter:description" content="@Model.Meta.Description" />
         }
         if (!string.IsNullOrEmpty(Model.Meta.Image))
         {
-            <meta class="meta" property="og:image" content="@Model.Meta.Image"/>
-            <meta class="meta" property="twitter:image" content="@Model.Meta.Image"/>
+            <meta class="meta" property="og:image" content="@Model.Meta.Image" />
+            <meta class="meta" property="twitter:image" content="@Model.Meta.Image" />
         }
     }
     else
@@ -54,43 +54,42 @@
     @Styles.Render("~/Content/css")
 
     <!--ТЕМЫ БУТСТРАПА-->
-
     @switch (Model.Theme)
     {
         //<!--Инверсные-->
         case 0:
-            <link href="~/Content/bootstrap.min.css" rel="stylesheet"/>
+            <link href="~/Content/bootstrap.min.css" rel="stylesheet" />
             break;
         case 1:
-            <link href="~/Content/bootstrap-themes/bootstrap.sandstone.min.css" rel="stylesheet"/>
+        <link href="~/Content/bootstrap-themes/bootstrap.sandstone.min.css" rel="stylesheet" />
             break;
         case 2:
-            <link href="~/Content/bootstrap-themes/bootstrap.superhero.min.css" rel="stylesheet"/>
+        <link href="~/Content/bootstrap-themes/bootstrap.superhero.min.css" rel="stylesheet" />
             break;
         case 3:
-            <link href="~/Content/bootstrap-themes/bootstrap.paper.min.css" rel="stylesheet"/>
+        <link href="~/Content/bootstrap-themes/bootstrap.paper.min.css" rel="stylesheet" />
             break;
         case 4:
-            <link href="~/Content/bootstrap-themes/bootstrap.flatly.min.css" rel="stylesheet"/>
+        <link href="~/Content/bootstrap-themes/bootstrap.flatly.min.css" rel="stylesheet" />
             break;
         case 5:
-            <link href="~/Content/bootstrap-themes/bootstrap.cyborg.min.css" rel="stylesheet"/>
+        <link href="~/Content/bootstrap-themes/bootstrap.cyborg.min.css" rel="stylesheet" />
             break;
         case 6:
-            <link href="~/Content/bootstrap-themes/bootstrap.cosmo.min.css" rel="stylesheet"/>
+        <link href="~/Content/bootstrap-themes/bootstrap.cosmo.min.css" rel="stylesheet" />
             break;
         case 7:
-            <link href="~/Content/bootstrap-themes/bootstrap.cerulean.min.css" rel="stylesheet"/>
+        <link href="~/Content/bootstrap-themes/bootstrap.cerulean.min.css" rel="stylesheet" />
             break;
         //<!--Прямые-->
         case 8:
-            <link href="~/Content/bootstrap-themes/bootstrap.slate.min.css" rel="stylesheet"/>
+        <link href="~/Content/bootstrap-themes/bootstrap.slate.min.css" rel="stylesheet" />
             break;
         case 9:
-            <link href="~/Content/bootstrap-themes/bootstrap.readable.min.css" rel="stylesheet"/>
+        <link href="~/Content/bootstrap-themes/bootstrap.readable.min.css" rel="stylesheet" />
             break;
         case 10:
-            <link href="~/Content/bootstrap-themes/bootstrap.darkly.min.css" rel="stylesheet"/>
+        <link href="~/Content/bootstrap-themes/bootstrap.darkly.min.css" rel="stylesheet" />
             break;
     }
     @if (Model.Theme < 0 || Model.Theme > 10)
@@ -122,7 +121,7 @@
     <script src="~/Scripts/angular-ui-router.js"></script>
     <script src="~/Scripts/angular-ui/ui-bootstrap-tpls.js"></script>
     <script src="~/Scripts/myseen/jQueryToAngular.js"></script>
-    <link href="~/Content/font-awesome.css" rel="stylesheet"/>
+    <link href="~/Content/font-awesome.css" rel="stylesheet" />
 
     <!--goole maps-->
     <script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?libraries=geometry&amp;language=@CultureInfoTool.GetFirst2Culture()"></script>
@@ -133,7 +132,7 @@
     <script src="~/Content/Angular/app/app.js"></script>
     @if (Request.IsAuthenticated)
     {
-        if (Model.UserRoles.Contains(((int) Defaults.RolesBase.Indexes.Admin).ToString()))
+        if (Model.UserRoles.Contains(((int)Defaults.RolesBase.Indexes.Admin).ToString()))
         {
             <script src="~/Content/Angular/controllers/Admin/UsersController.js"></script>
             <script src="~/Content/Angular/controllers/Admin/LogsController.js"></script>
@@ -160,7 +159,7 @@
         <script src="~/Content/Angular/controllers/MyMemory/RoadsController.js"></script>
 
         <script src="~/Content/Angular/controllers/MyMemory/RoadsEditorController.js"></script>
-        <link href="~/Content/myseen/gmap3-menu.css" rel="stylesheet"/>
+        <link href="~/Content/myseen/gmap3-menu.css" rel="stylesheet" />
         <script src="~/Scripts/myseen/gmap3menu.js"></script>
         <script src="~/Scripts/myseen/gmap.editor.js"></script>
     }
@@ -173,7 +172,7 @@
     <script src="~/Content/amcharts/themes/light.js"></script>
     <script src="~/Content/amcharts/plugins/export/export.js"></script>
 
-    <link href="~/Content/amcharts/plugins/export/export.css" rel="stylesheet"/>
+    <link href="~/Content/amcharts/plugins/export/export.css" rel="stylesheet" />
     <script src="~/Content/Angular/controllers/Portal/ChildCalculatorController.js"></script>
     <script src="~/Content/Angular/controllers/Portal/RealtController.js"></script>
     <script src="~/Content/Angular/controllers/Portal/ImtCalculatorController.js"></script>
@@ -270,34 +269,35 @@
     @if (Request.IsAuthenticated) // Дадим возможность выхода
     {
         <script language="javascript" type="text/javascript">
-    (function ($) {
-        $(function () {
-            var $LogoutButton = $("#LogoutButton");
-            $LogoutButton.off('click');
-            $LogoutButton.on('click', function () {
+            (function ($) {
+                $(function () {
+                    var $LogoutButton = $("#LogoutButton");
+                    $LogoutButton.off('click');
+                    $LogoutButton.on('click', function () {
 
-                $.post('/Account/LogOut', {}, function (jsonData) {
+                        $.post('/Account/LogOut', {}, function (jsonData) {
 
-                    if (jsonData === '@Resource.NotAuthorized') window.location = '/';
+                            if (jsonData.error) {
+                                alert(jsonData.error);
+                                if (jsonData.error === window.GNoRights || jsonData.error === window.GNotAuthorized) {
+                                    window.location.href = '/';
+                                }
+                            } else {
+                                window.location.reload();
+                            }
+                        });
+                    });
 
-                    if (jsonData.error) {
-                        alert(jsonData.error);
-                    } else {
-                        window.location.reload();
-                    }
+                    window.GLanguage = '@CultureInfoTool.GetFirst2Culture()';
+                    window.GAuthorized = '@Request.IsAuthenticated' === 'True';
+
+                    setGmapMarkers('@Model.Markers');
+                    setGmapMenuName('@Resource.SetPointHere');
+
+
+
                 });
-            });
-
-            window.GLanguage = '@CultureInfoTool.GetFirst2Culture()';
-            window.GAuthorized = '@Request.IsAuthenticated' === 'True';
-
-            setGmapMarkers('@Model.Markers');
-            setGmapMenuName('@Resource.SetPointHere');
-
-
-
-        });
-    })(jQuery);
+            })(jQuery);
         </script>
     }
     else
@@ -470,6 +470,9 @@
                         }, function (jsonData) {
                             if (jsonData.error) {
                                 alert(jsonData.error);
+                                if (jsonData.error === window.GNoRights || jsonData.error === window.GNotAuthorized) {
+                                    window.location.href = '/';
+                                }
                             } else {
                                 window.location.href = '/';
                             }
@@ -487,6 +490,9 @@
                         }, function (jsonData) {
                             if (jsonData.error) {
                                 alert(jsonData.error);
+                                if (jsonData.error === window.GNoRights || jsonData.error === window.GNotAuthorized) {
+                                    window.location.href = '/';
+                                }
                             } else {
                                 window.location.href = '/';
                             }
@@ -510,23 +516,25 @@
         <!-- Go to www.addthis.com/dashboard to customize your tools -->
         <script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-56d05b11e11543d1"></script>
 
-        <!-- relap.io -->
-        <script type="text/javascript" async src="https://relap.io/api/v6/head.js?token=dAx0Wd1Zvck0ytHU"></script>
-        <script id="xjnG2RnZJuMZzFJS">if (window.relap) window.relap.ar('xjnG2RnZJuMZzFJS');</script>
+        <!-- relap.io No content.... -->
+        <!-- <script type="text/javascript" async src="https://relap.io/api/v6/head.js?token=dAx0Wd1Zvck0ytHU"></script> -->
+        <!-- <script id="xjnG2RnZJuMZzFJS">if (window.relap) window.relap.ar('xjnG2RnZJuMZzFJS');</script> -->
+
     }
     @Html.Partial("../Tools/TestCookie")
-<script language="javascript" type="text/javascript">
-    (function($) {
-        $(function() {
+    <script language="javascript" type="text/javascript">
+    (function ($) {
+        $(function () {
+            window.GNotAuthorized = '@Resource.NotAuthorized';
+            window.GNoRights = '@Resource.NoRights';
+            });
+        })(jQuery);
+    </script>
 
-        });
-    })(jQuery);
-</script>
 
-
-@if(!Model.HaveLanguage)
+    @if (!Model.HaveLanguage)
     {
-        @Html.Partial("../Tools/Services/Google/Translate",CultureInfoTool.GetFirst2Culture())
+        @Html.Partial("../Tools/Services/Google/Translate", CultureInfoTool.GetFirst2Culture())
     }
 
 </body>

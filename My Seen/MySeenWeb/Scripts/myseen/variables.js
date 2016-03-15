@@ -3,3 +3,5 @@
 ///////////////////////////////////////////////////////////////////////
 var GAuthorized = false;
 var GLanguage = 'en';
+var GNotAuthorized = '';
+var GNoRights = '';

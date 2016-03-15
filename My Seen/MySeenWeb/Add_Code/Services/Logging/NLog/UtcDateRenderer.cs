@@ -12,29 +12,28 @@ namespace MySeenWeb.Add_Code.Services.Logging.NLog
     {
         protected override void Append(StringBuilder builder, LogEventInfo logEvent)
         {
-            /*
-            var time = string.Empty;
             try
             {
-                time = UmtTime.To(logEvent.TimeStamp).ToString(new CultureInfo(CultureInfoTool.Cultures.English));
+                builder.Append(UmtTime.To(logEvent.TimeStamp).ToString(CultureInfo.CurrentCulture));
             }
             catch (Exception)
             {
-                time = string.Empty;
-            }
-            if (string.IsNullOrEmpty(time))
-            {
                 try
                 {
-                    time = UmtTime.To(logEvent.TimeStamp).ToString(new CultureInfo(CultureInfoTool.Cultures.Russian));
+                    builder.Append(UmtTime.To(logEvent.TimeStamp).ToString(CultureInfo.InvariantCulture));
                 }
                 catch (Exception)
                 {
-                    time = string.Empty;
+                    try
+                    {
+                        builder.Append(UmtTime.To(DateTime.Now).ToString(CultureInfo.CurrentCulture));
+                    }
+                    catch (Exception)
+                    {
+                        builder.Append(UmtTime.To(DateTime.Now).ToString(CultureInfo.InvariantCulture));
+                    }
                 }
             }
-            */
-            builder.Append(UmtTime.To(logEvent.TimeStamp).ToString(CultureInfo.CurrentCulture));
         }
     }
 }
