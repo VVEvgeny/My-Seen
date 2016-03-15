@@ -12,6 +12,7 @@ App.config(function ($stateProvider) {
 App.controller('RoadsEditorController', ['$scope', '$rootScope', '$state', '$stateParams', '$http', '$location', 'Constants',
   function ($scope, $rootScope, $state, $stateParams, $http, $location, constants) {
 
+      $rootScope.loading = true;
       //Индекс страницы, для запросов к серверу
       $rootScope.pageId = constants.PageIds.Roads;
       //Показать ли кнопку ДОБАВИТЬ
@@ -33,19 +34,21 @@ App.controller('RoadsEditorController', ['$scope', '$rootScope', '$state', '$sta
       function fillPrepared(page) {
           $scope.prepared = page;
           $scope.prepared.loaded = true;
+          if (!$scope.data || !$scope.translation.loaded) $rootScope.loading = true;
       }
       //Перевод таблицы и модальной
       function fillTranslation(page) {
           $scope.translation = page;
           $scope.translation.loaded = true;
+          if (!$scope.data || !$scope.prepared.loaded) $rootScope.loading = true;
       }
       //Основные данные
       function fillScope(page) {
           $scope.data = page;
-          coordinates = 0;
+          window.coordinates = 0;
           page.DataFoot[0].Coordinates.split(';').forEach(function (item) {
               if (item) {
-                  current = {};
+                  window.current = {};
                   current.latLng = new window.google.maps.LatLng(item.split(",")[0], item.split(",")[1]);
                   addMarkerInEditor(true);
               }

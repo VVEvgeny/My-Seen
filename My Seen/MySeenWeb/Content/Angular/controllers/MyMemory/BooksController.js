@@ -12,6 +12,7 @@ App.config(function ($stateProvider) {
 App.controller('BooksController', ['$scope', '$rootScope', '$state', '$stateParams', '$http', '$location', 'Constants', '$anchorScroll',
   function ($scope, $rootScope, $state, $stateParams, $http, $location, constants, $anchorScroll) {
 
+      $rootScope.loading = true;
       //Индекс страницы, для запросов к серверу
       $rootScope.pageId = constants.PageIds.Books;
       //Показать ли кнопку ДОБАВИТЬ
@@ -39,11 +40,13 @@ App.controller('BooksController', ['$scope', '$rootScope', '$state', '$statePara
       function fillPrepared(page) {
           $scope.prepared = page;
           $scope.prepared.loaded = true;
+          if (!$scope.data || !$scope.translation.loaded) $rootScope.loading = true;
       }
       //Перевод таблицы и модальной
       function fillTranslation(page) {
           $scope.translation = page;
           $scope.translation.loaded = true;
+          if (!$scope.data || !$scope.prepared.loaded) $rootScope.loading = true;
       }
       //Основные данные
       function fillScope(page) {

@@ -12,6 +12,7 @@ App.config(function ($stateProvider) {
 App.controller('LogsController', ['$scope', '$rootScope', '$state', '$stateParams', '$http', '$location', 'Constants', '$anchorScroll',
   function ($scope, $rootScope, $state, $stateParams, $http, $location, constants, $anchorScroll) {
 
+      $rootScope.loading = true;
       //Индекс страницы, для запросов к серверу
       $rootScope.pageId = constants.PageIds.Logs;
       //Показать ли поле ПОИСКа
@@ -28,6 +29,7 @@ App.controller('LogsController', ['$scope', '$rootScope', '$state', '$stateParam
       function fillScope(page) {
           $scope.data = page.Data;
           $scope.pages = page.Pages;
+          if (!$scope.data) $rootScope.loading = true;
       };
       function getMainPage() {
           $rootScope.GetPage(constants.Pages.Main, $http, fillScope, { pageId: $rootScope.pageId, page: ($stateParams ? $stateParams.page : null), search: ($stateParams ? $stateParams.search : null) });

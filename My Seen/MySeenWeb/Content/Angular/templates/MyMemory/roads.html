@@ -7,10 +7,11 @@
 <data-ng-include src="'Content/Angular/templates/_tools/add-search-buttons.html'"></data-ng-include>
 <br>
 
-<div data-ng-show="prepared.loaded && translation.loaded">
+<div data-ng-show="prepared.loaded && translation.loaded && data" class="animated rollIn">
     <div class="panel panel-primary col-md-3">
         <div class="panel panel-default">
-            <div class="panel-heading">{{translation.Tracks}}
+            <div class="panel-heading">
+                {{translation.Tracks}}
                 <span class="alert-info small">
                     <select class="input-sm" data-ng-model="year" data-ng-change="selectedChange()">
                         <option data-ng-repeat="val in data.YearsList" data-ng-selected="year == val.Value" value="{{val.Value}}">{{val.Text}}</option>
@@ -80,13 +81,13 @@
             <div id="my_map" class="gmap page-size-gmap"></div>
         </div>
     </div>
+</div>
 
     <!--Модальная на добавление и изменение полей-->
-    <data-ng-include src="'Content/Angular/templates/_tools/modal-add-edit.html'"></data-ng-include>
+<data-ng-include src="'Content/Angular/templates/_tools/modal-add-edit.html'"></data-ng-include>
 
-    <!--Модальная на добавление и изменение доступа-->
-    <data-ng-include src="'Content/Angular/templates/_tools/modal-share.html'"></data-ng-include>
-</div>
+<!--Модальная на добавление и изменение доступа-->
+<data-ng-include src="'Content/Angular/templates/_tools/modal-share.html'"></data-ng-include>
 <script type="text/javascript">
     (function($) {
         $(function () {

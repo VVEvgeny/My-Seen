@@ -12,6 +12,7 @@ App.config(function ($stateProvider) {
 App.controller('ErrorsController', ['$scope', '$rootScope', '$state', '$stateParams', '$http', '$location', 'Constants', '$anchorScroll',
   function ($scope, $rootScope, $state, $stateParams, $http, $location, constants, $anchorScroll) {
 
+      $rootScope.loading = true;
       //Индекс страницы, для запросов к серверу
       $rootScope.pageId = constants.PageIds.Errors;
       //Показать ли поле ПОИСКа
@@ -23,6 +24,7 @@ App.controller('ErrorsController', ['$scope', '$rootScope', '$state', '$statePar
       function fillTranslation(page) {
           $scope.translation = page;
           $scope.translation.loaded = true;
+          if (!$scope.data) $rootScope.loading = true;
       }
       //Основные данные
       function fillScope(page) {

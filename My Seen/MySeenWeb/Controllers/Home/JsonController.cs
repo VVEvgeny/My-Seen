@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Threading;
 using System.Web.Mvc;
 using Microsoft.AspNet.Identity;
 using MySeenLib;
@@ -43,12 +44,7 @@ namespace MySeenWeb.Controllers.Home
         [HttpPost]
         public JsonResult GetPage(int pageId, int? page, string search, int? ended, int? year, int? complex, string shareKey, int? road, int? id, string dateMan, string dateWoman, int? price, int? deals, int? salary)
         {
-            //if (!User.Identity.IsAuthenticated) return Json(Auth.NoAuth);
-
-            if (Admin.IsDebug)
-            {
-                //Thread.Sleep(2000); //чтобы увидеть загрузку
-            }
+            //Thread.Sleep(2000); //чтобы увидеть загрузку
             var logger = new NLogLogger();
             const string methodName = "public JsonResult GetPage(int pageId, int? page, string search, int? ended, int? year, int? complex,string shareKey)";
             try
@@ -167,6 +163,8 @@ namespace MySeenWeb.Controllers.Home
         [HttpPost]
         public JsonResult GetTranslation(int pageId)
         {
+            //Thread.Sleep(2000); //чтобы увидеть загрузку
+
             var logger = new NLogLogger();
             const string methodName = "public JsonResult GetTranslation(int pageId)";
             try

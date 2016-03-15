@@ -15,6 +15,7 @@ App.controller('SharedEventsController', ['$scope', '$rootScope', '$state', '$st
       if (!$stateParams.key) {
           $state.go('mymemory/events');
       }
+      $rootScope.loading = true;
       //Индекс страницы, для запросов к серверу
       $rootScope.pageId = constants.PageIds.Events;
       //Показать ли поле ПОИСКа
@@ -24,15 +25,11 @@ App.controller('SharedEventsController', ['$scope', '$rootScope', '$state', '$st
       //Загрузка значений по умолчанию и списков
       $scope.prepared = {};
       
-      //Для модальной готовим данные
-      function fillPrepared(page) {
-          $scope.prepared = page;
-          $scope.prepared.loaded = true;
-      }
       //Перевод таблицы и модальной
       function fillTranslation(page) {
           $scope.translation = page;
           $scope.translation.loaded = true;
+          if (!$scope.data) $rootScope.loading = true;
       }
       //Основные данные
       var eventsInterval = '';
@@ -62,7 +59,6 @@ App.controller('SharedEventsController', ['$scope', '$rootScope', '$state', '$st
       //console.log($stateParams.key);
 
       //Сразу 3 запроса на сервер, далее будет только запросы по новым данным и на добавление/изменение
-      $rootScope.GetPage(constants.Pages.Prepared, $http, fillPrepared, { pageId: $rootScope.pageId });
       $rootScope.GetPage(constants.Pages.Translation, $http, fillTranslation, { pageId: $rootScope.pageId });
       getMainPage();
 

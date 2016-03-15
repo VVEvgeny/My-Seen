@@ -12,6 +12,7 @@ App.config(function ($stateProvider) {
 App.controller('UsersController', ['$scope', '$rootScope', '$state', '$stateParams', '$http', '$location', 'Constants', '$anchorScroll',
   function ($scope, $rootScope, $state, $stateParams, $http, $location, constants, $anchorScroll) {
 
+      $rootScope.loading = true;
       //Индекс страницы, для запросов к серверу
       $rootScope.pageId = constants.PageIds.Users;
       //Показать ли поле ПОИСКа
@@ -23,6 +24,7 @@ App.controller('UsersController', ['$scope', '$rootScope', '$state', '$statePara
       function fillTranslation(page) {
           $scope.translation = page;
           $scope.translation.loaded = true;
+          if (!$scope.data) $rootScope.loading = true;
       }
       //Основные данные
       function fillScope(page) {
@@ -31,6 +33,7 @@ App.controller('UsersController', ['$scope', '$rootScope', '$state', '$statePara
           $scope.pages = page.Pages;
           $scope.userRoles = page.UserRoles;
           $scope.canControl = page.CanControl;
+          
       };
       function getMainPage() {
           $rootScope.GetPage(constants.Pages.Main, $http, fillScope, { pageId: $rootScope.pageId, page: ($stateParams ? $stateParams.page : null), search: ($stateParams ? $stateParams.search : null) });

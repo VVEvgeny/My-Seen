@@ -3,7 +3,7 @@
 <!--Кнопка добавить фильм и поиск-->
 <data-ng-include src="'Content/Angular/templates/_tools/add-search-buttons.html'"></data-ng-include>
 <br>
-<div data-ng-show="prepared.loaded && translation.loaded">
+<div data-ng-show="prepared.loaded && translation.loaded && data" class="animated rollIn">
     <!--Таблица-->
     <div class="form-inline">
         <div class="form-group">
@@ -29,51 +29,49 @@
             </div>
         </div>
     </div>
-    
+
     <div class="table-responsive">
         <table class="table table-striped">
             <thead>
-                <tr>
-                    <th class="col-sm-1" data-ng-show="canControl"></th>
-                    <th class="col-sm-1">{{translation.Complex}}</th>
-                    <th class="col-sm-1">{{translation.Found}}</th>
-                    <th class="col-sm-1">{{translation.DateFound}}</th>
-                    <th class="col-sm-3" data-ng-show="canControl">{{translation.Description}}</th>
-                    <th class="col-sm-4" data-ng-show="!canControl">{{translation.Description}}</th>
-                    <th class="col-sm-1">{{translation.DateEnd}}</th>
-                    <th class="col-sm-1">{{translation.Version}}</th>
-                    <th class="col-sm-3">{{translation.Description}}</th>
+            <tr>
+                <th class="col-sm-1" data-ng-show="canControl"></th>
+                <th class="col-sm-1">{{translation.Complex}}</th>
+                <th class="col-sm-1">{{translation.Found}}</th>
+                <th class="col-sm-1">{{translation.DateFound}}</th>
+                <th class="col-sm-3" data-ng-show="canControl">{{translation.Description}}</th>
+                <th class="col-sm-4" data-ng-show="!canControl">{{translation.Description}}</th>
+                <th class="col-sm-1">{{translation.DateEnd}}</th>
+                <th class="col-sm-1">{{translation.Version}}</th>
+                <th class="col-sm-3">{{translation.Description}}</th>
 
-                </tr>
+            </tr>
             </thead>
             <tbody>
-                <tr ng-repeat="val in data">
-                    <td data-ng-show="canControl">
-                        <!--Блок управляющих кнопок-->
-                        <span class="pull-left">
+            <tr ng-repeat="val in data">
+                <td data-ng-show="canControl">
+                    <!--Блок управляющих кнопок-->
+                    <span class="pull-left">
                             <button class="btn btn-warning btn-xs" data-ng-click="modal.editButtonClick($index)"> <span class=" glyphicon glyphicon-pencil"></span></button>
                         </span>
-                    </td>
-                    <!--Одноразовая привязка-->
-                    <td class="align-center">{{::val.ComplexText}}</td>
-                    <td class="align-center">{{::val.UserName}}</td>
-                    <td class="align-center">{{::val.DateFoundText}}</td>
-                    <td class="align-center">{{::val.Text}}</td>
-                    <td class="align-center" data-ng-show="val.Ended">{{::val.DateEndText}}</td>
-                    <td class="align-center" data-ng-show="val.Ended">{{::val.VersionText}}</td>
-                    <td class="align-center" data-ng-show="val.Ended">{{::val.TextEnd}}</td>
-                    <td class="align-center" data-ng-show="!val.Ended" colspan="3">
-                        <button type="button" class="btn btn-success btn-xs btn-block" data-ng-click="modal.editButtonClick($index,true)" data-ng-show="canControl"><span class="glyphicon glyphicon-ok"></span> {{translation.Close}}</button>
-                    </td>
-                </tr>
+                </td>
+                <!--Одноразовая привязка-->
+                <td class="align-center">{{::val.ComplexText}}</td>
+                <td class="align-center">{{::val.UserName}}</td>
+                <td class="align-center">{{::val.DateFoundText}}</td>
+                <td class="align-center">{{::val.Text}}</td>
+                <td class="align-center" data-ng-show="val.Ended">{{::val.DateEndText}}</td>
+                <td class="align-center" data-ng-show="val.Ended">{{::val.VersionText}}</td>
+                <td class="align-center" data-ng-show="val.Ended">{{::val.TextEnd}}</td>
+                <td class="align-center" data-ng-show="!val.Ended" colspan="3">
+                    <button type="button" class="btn btn-success btn-xs btn-block" data-ng-click="modal.editButtonClick($index,true)" data-ng-show="canControl"><span class="glyphicon glyphicon-ok"></span> {{translation.Close}}</button>
+                </td>
+            </tr>
             </tbody>
         </table>
     </div>
 
     <!--Моя пагинация-->
     <data-ng-include src="'Content/Angular/templates/_tools/pagination.html'"></data-ng-include>
-
-    <!--Модальная на добавление и изменение полей-->
-    <data-ng-include src="'Content/Angular/templates/_tools/modal-add-edit.html'"></data-ng-include>
-
 </div>
+    <!--Модальная на добавление и изменение полей-->
+<data-ng-include src="'Content/Angular/templates/_tools/modal-add-edit.html'"></data-ng-include>

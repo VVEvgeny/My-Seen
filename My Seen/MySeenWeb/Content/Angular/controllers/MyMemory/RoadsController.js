@@ -12,6 +12,7 @@ App.config(function ($stateProvider) {
 App.controller('RoadsController', ['$scope', '$rootScope', '$state', '$stateParams', '$http', '$location', 'Constants',
   function ($scope, $rootScope, $state, $stateParams, $http, $location, constants) {
 
+      $rootScope.loading = true;
       //Индекс страницы, для запросов к серверу
       $rootScope.pageId = constants.PageIds.Roads;
       //Показать ли кнопку ДОБАВИТЬ
@@ -38,11 +39,13 @@ App.controller('RoadsController', ['$scope', '$rootScope', '$state', '$statePara
       function fillPrepared(page) {
           $scope.prepared = page;
           $scope.prepared.loaded = true;
+          if (!$scope.data || !$scope.translation.loaded) $rootScope.loading = true;
       }
       //Перевод таблицы и модальной
       function fillTranslation(page) {
           $scope.translation = page;
           $scope.translation.loaded = true;
+          if (!$scope.data || !$scope.prepared.loaded) $rootScope.loading = true;
       }
       //Основные данные
       var calcTab = true;

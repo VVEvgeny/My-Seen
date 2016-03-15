@@ -11,6 +11,8 @@ App.config(function ($stateProvider) {
 
 App.controller('SettingsController', ['$scope', '$rootScope', '$state', '$stateParams', '$http', '$location', 'Constants',
   function ($scope, $rootScope, $state, $stateParams, $http, $location, constants) {
+
+      $rootScope.loading = true;
       //Индекс страницы, для запросов к серверу
       $rootScope.pageId = constants.PageIds.Settings;
 
@@ -18,6 +20,7 @@ App.controller('SettingsController', ['$scope', '$rootScope', '$state', '$stateP
       function fillTranslation(page) {
           $scope.translation = page;
           $scope.translation.loaded = true;
+          if (!$scope.data) $rootScope.loading = true;
       }
       //Основные данные
       function fillScope(page) {

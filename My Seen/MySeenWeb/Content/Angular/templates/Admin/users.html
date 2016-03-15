@@ -4,46 +4,46 @@
 <data-ng-include src="'Content/Angular/templates/_tools/add-search-buttons.html'"></data-ng-include>
 <br>
 
-<div data-ng-show="translation.loaded">
+<div data-ng-show="translation.loaded && data" class="animated rollIn">
     <!--Таблица-->
     <div class="table-responsive">
         <table class="table table-striped">
             <thead>
-            <tr>
-                <th class="col-sm-3">{{translation.UserName || 'User Name'}}</th>
-                <th class="col-sm-1">{{translation.Grops || 'Grops'}}</th>
-                <th class="col-sm-1">{{translation.RegisterDate || 'Register Date'}}</th>
-                <th class="col-sm-1">{{translation.LastAction || 'Last Action'}}</th>
-                <th class="col-sm-1">{{translation.CultureName || 'Culture'}}</th>
-                <th class="col-sm-1">{{translation.FilmsCount || 'Films'}}</th>
-                <th class="col-sm-1">{{translation.SerialsCount || 'Serials'}}</th>
-                <th class="col-sm-1">{{translation.BooksCount || 'Books'}}</th>
-                <th class="col-sm-1">{{translation.EventsCount || 'Events'}}</th>
-                <th class="col-sm-1">{{translation.TracksCount || 'Roads'}}</th>
-            </tr>
+                <tr>
+                    <th class="col-sm-3">{{translation.UserName || 'User Name'}}</th>
+                    <th class="col-sm-1">{{translation.Grops || 'Grops'}}</th>
+                    <th class="col-sm-1">{{translation.RegisterDate || 'Register Date'}}</th>
+                    <th class="col-sm-1">{{translation.LastAction || 'Last Action'}}</th>
+                    <th class="col-sm-1">{{translation.CultureName || 'Culture'}}</th>
+                    <th class="col-sm-1">{{translation.FilmsCount || 'Films'}}</th>
+                    <th class="col-sm-1">{{translation.SerialsCount || 'Serials'}}</th>
+                    <th class="col-sm-1">{{translation.BooksCount || 'Books'}}</th>
+                    <th class="col-sm-1">{{translation.EventsCount || 'Events'}}</th>
+                    <th class="col-sm-1">{{translation.TracksCount || 'Roads'}}</th>
+                </tr>
             </thead>
             <tbody>
-            <tr data-ng-repeat="val in data">
-                <!--Одноразовая привязка-->
-                <td class="align-center">{{::val.Name}}</td>
-                <td class="align-center">
-                    <div class="checkbox" data-ng-repeat="role in userRoles">
-                        <label><input type="checkbox" ng-disabled="!canControl" value="{{role.Value}}" ng-checked="val.Roles.indexOf(role.Value) > -1" ng-click="toggleSelection($parent.$index,role.Value)">{{role.Text}}</label>
-                    </div>
-                    <button type="button" class="btn btn-success btn-xs btn-block" data-ng-click="modal.updateButtonClick($index)"
-                            data-ng-show="canControl && (val.Roles.length != defaultData[$index].Roles.length || val.Roles.toString() != defaultData[$index].Roles.toString())">
-                        <span class="fa fa-pencil"></span> {{translation.Update || 'Update'}}
-                    </button>
-                 </td>
-                <td class="align-center">{{::val.RegisterDate}}</td>
-                <td class="align-center">{{::val.LastActionText}}</td>
-                <td class="align-center">{{::val.Culture}}</td>
-                <td class="align-center">{{::val.FilmsCount}}</td>
-                <td class="align-center">{{::val.SerialsCount}}</td>
-                <td class="align-center">{{::val.BooksCount}}</td>
-                <td class="align-center">{{::val.EventsCount}}</td>
-                <td class="align-center">{{::val.TracksCount}}</td>
-            </tr>
+                <tr data-ng-repeat="val in data">
+                    <!--Одноразовая привязка-->
+                    <td class="align-center">{{::val.Name}}</td>
+                    <td class="align-center">
+                        <div class="checkbox" data-ng-repeat="role in userRoles">
+                            <label><input type="checkbox" ng-disabled="!canControl" value="{{role.Value}}" ng-checked="val.Roles.indexOf(role.Value) > -1" ng-click="toggleSelection($parent.$index,role.Value)">{{role.Text}}</label>
+                        </div>
+                        <button type="button" class="btn btn-success btn-xs btn-block" data-ng-click="modal.updateButtonClick($index)"
+                                data-ng-show="canControl && (val.Roles.length != defaultData[$index].Roles.length || val.Roles.toString() != defaultData[$index].Roles.toString())">
+                            <span class="fa fa-pencil"></span> {{translation.Update || 'Update'}}
+                        </button>
+                    </td>
+                    <td class="align-center">{{::val.RegisterDate}}</td>
+                    <td class="align-center">{{::val.LastActionText}}</td>
+                    <td class="align-center">{{::val.Culture}}</td>
+                    <td class="align-center">{{::val.FilmsCount}}</td>
+                    <td class="align-center">{{::val.SerialsCount}}</td>
+                    <td class="align-center">{{::val.BooksCount}}</td>
+                    <td class="align-center">{{::val.EventsCount}}</td>
+                    <td class="align-center">{{::val.TracksCount}}</td>
+                </tr>
             </tbody>
         </table>
     </div>
