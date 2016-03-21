@@ -15,6 +15,7 @@ App.controller('SharedFilmsController', ['$scope', '$rootScope', '$state', '$sta
       if (!$stateParams.key) {
           $state.go('mymemory/films');
       }
+      $anchorScroll();
       $rootScope.loading = true;
       //Индекс страницы, для запросов к серверу
       $rootScope.pageId = constants.PageIds.Films;

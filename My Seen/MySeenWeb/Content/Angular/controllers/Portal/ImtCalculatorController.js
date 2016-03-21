@@ -9,9 +9,10 @@ App.config(function ($stateProvider) {
         });
 });
 
-App.controller('BmiCalculatorController', ['$scope', '$rootScope', '$state', '$stateParams', '$http', '$location', 'Constants', '$log',
-  function ($scope, $rootScope, $state, $stateParams, $http, $location, constants, $log) {
+App.controller('BmiCalculatorController', ['$scope', '$rootScope', '$state', '$stateParams', '$http', '$location', 'Constants', '$log', '$anchorScroll',
+  function ($scope, $rootScope, $state, $stateParams, $http, $location, constants, $log, $anchorScroll) {
       
+      $anchorScroll();
       $rootScope.pageId = constants.PageIds.IMTCalculator;
 
       $scope.translation = {};

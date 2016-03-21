@@ -15,6 +15,7 @@ App.controller('SharedBooksController', ['$scope', '$rootScope', '$state', '$sta
       if (!$stateParams.key) {
           $state.go('mymemory/books');
       }
+      $anchorScroll();
       $rootScope.loading = true;
       //Индекс страницы, для запросов к серверу
       $rootScope.pageId = constants.PageIds.Books;

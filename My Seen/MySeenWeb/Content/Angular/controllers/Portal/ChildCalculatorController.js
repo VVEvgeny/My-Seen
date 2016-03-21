@@ -11,9 +11,10 @@ App.config(function ($stateProvider) {
 
 var TestWebGLRun = false;
 
-App.controller('ChildCalculatorController', ['$scope', '$rootScope', '$state', '$stateParams', '$http', '$location', 'Constants', '$log',
-  function ($scope, $rootScope, $state, $stateParams, $http, $location, constants, $log) {
+App.controller('ChildCalculatorController', ['$scope', '$rootScope', '$state', '$stateParams', '$http', '$location', 'Constants', '$log', '$anchorScroll',
+  function ($scope, $rootScope, $state, $stateParams, $http, $location, constants, $log, $anchorScroll) {
       
+      $anchorScroll();
       $rootScope.pageId = constants.PageIds.ChildSexCalculator;
 
       //Основные данные

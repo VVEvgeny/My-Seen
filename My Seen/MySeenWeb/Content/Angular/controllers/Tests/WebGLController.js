@@ -11,10 +11,10 @@ App.config(function ($stateProvider) {
 
 var TestWebGLRun = false;
 
-App.controller('WebGLController', ['$scope', '$rootScope', '$state', '$stateParams', '$http', '$location', 'Constants',
-  function ($scope, $rootScope, $state, $stateParams, $http, $location, constants) {
+App.controller('WebGLController', ['$scope', '$rootScope', '$state', '$stateParams', '$http', '$location', 'Constants', '$anchorScroll',
+  function ($scope, $rootScope, $state, $stateParams, $http, $location, constants, $anchorScroll) {
 
-      
+      $anchorScroll();
       $rootScope.pageId = constants.PageIds.TestWebGL;
 
       TestWebGLRun = true;

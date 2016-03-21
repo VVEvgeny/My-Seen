@@ -9,9 +9,10 @@ App.config(function ($stateProvider) {
         });
 });
 
-App.controller('RoadsEditorController', ['$scope', '$rootScope', '$state', '$stateParams', '$http', '$location', 'Constants',
-  function ($scope, $rootScope, $state, $stateParams, $http, $location, constants) {
+App.controller('RoadsEditorController', ['$scope', '$rootScope', '$state', '$stateParams', '$http', '$location', 'Constants', '$anchorScroll',
+  function ($scope, $rootScope, $state, $stateParams, $http, $location, constants, $anchorScroll) {
 
+      $anchorScroll();
       $rootScope.loading = true;
       //Индекс страницы, для запросов к серверу
       $rootScope.pageId = constants.PageIds.Roads;
@@ -34,13 +35,13 @@ App.controller('RoadsEditorController', ['$scope', '$rootScope', '$state', '$sta
       function fillPrepared(page) {
           $scope.prepared = page;
           $scope.prepared.loaded = true;
-          if (!$scope.data || !$scope.translation.loaded) $rootScope.loading = true;
+          if ((!$scope.data && $stateParams.id) || !$scope.translation.loaded) $rootScope.loading = true;
       }
       //Перевод таблицы и модальной
       function fillTranslation(page) {
           $scope.translation = page;
           $scope.translation.loaded = true;
-          if (!$scope.data || !$scope.prepared.loaded) $rootScope.loading = true;
+          if ((!$scope.data && $stateParams.id) || !$scope.prepared.loaded) $rootScope.loading = true;
       }
       //Основные данные
       function fillScope(page) {

@@ -15,6 +15,7 @@ App.controller('SharedSerialsController', ['$scope', '$rootScope', '$state', '$s
       if (!$stateParams.key) {
           $state.go('mymemory/serials');
       }
+      $anchorScroll();
       $rootScope.loading = true;
       //Индекс страницы, для запросов к серверу
       $rootScope.pageId = constants.PageIds.Serials;

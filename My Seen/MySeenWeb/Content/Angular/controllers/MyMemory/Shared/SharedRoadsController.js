@@ -9,12 +9,13 @@ App.config(function($stateProvider) {
         });
 });
 
-App.controller('SharedRoadsController', ['$scope', '$rootScope', '$state', '$stateParams', '$http', '$location', 'Constants',
-  function ($scope, $rootScope, $state, $stateParams, $http, $location, constants) {
+App.controller('SharedRoadsController', ['$scope', '$rootScope', '$state', '$stateParams', '$http', '$location', 'Constants', '$anchorScroll',
+  function ($scope, $rootScope, $state, $stateParams, $http, $location, constants, $anchorScroll) {
 
       if (!$stateParams.key) {
           $state.go('mymemory/roads');
       }
+      $anchorScroll();
       $rootScope.loading = true;
       //Индекс страницы, для запросов к серверу
       $rootScope.pageId = constants.PageIds.Roads;

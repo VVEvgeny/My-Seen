@@ -9,9 +9,10 @@ App.config(function ($stateProvider) {
         });
 });
 
-App.controller('HomeController', ['$scope', '$rootScope', '$state', '$stateParams', '$http', '$location', 'Constants',
-  function ($scope, $rootScope, $state, $stateParams, $http, $location, constants) {
+App.controller('HomeController', ['$scope', '$rootScope', '$state', '$stateParams', '$http', '$location', 'Constants', '$anchorScroll',
+  function ($scope, $rootScope, $state, $stateParams, $http, $location, constants, $anchorScroll) {
 
+      $anchorScroll();
       $rootScope.pageId = constants.PageIds.Main;
 
       //Перевод всех данных на тек. странице

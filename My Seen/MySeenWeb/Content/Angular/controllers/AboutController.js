@@ -9,8 +9,9 @@ App.config(function($stateProvider) {
         });
 });
 
-App.controller('AboutController', ['$scope', '$rootScope', '$state', '$stateParams', '$http', '$location', 'Constants',
-  function ($scope, $rootScope, $state, $stateParams, $http, $location, constants) {
+App.controller('AboutController', ['$scope', '$rootScope', '$state', '$stateParams', '$http', '$location', 'Constants', '$anchorScroll',
+    function ($scope, $rootScope, $state, $stateParams, $http, $location, constants, $anchorScroll) {
 
+      $anchorScroll();
       $rootScope.pageId = constants.PageIds.About;
   }]);

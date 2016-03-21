@@ -10,9 +10,10 @@ App.config(function ($stateProvider) {
 });
 
 App.controller('RealtController', [
-    '$scope', '$rootScope', '$state', '$stateParams', '$http', '$location', 'Constants', '$log',
-    function($scope, $rootScope, $state, $stateParams, $http, $location, constants) {
+    '$scope', '$rootScope', '$state', '$stateParams', '$http', '$location', 'Constants', '$log', '$anchorScroll',
+    function ($scope, $rootScope, $state, $stateParams, $http, $location, constants, $anchorScroll) {
 
+        $anchorScroll();
         $rootScope.pageId = constants.PageIds.Realt;
 
         //Перевод всех данных на тек. странице

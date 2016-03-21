@@ -18,16 +18,33 @@
     }
 </script>
 
+
+
+<div class="form-group">
+    <button type="button" class="form-control btn btn-warning" onclick="fullscreen()">
+        <span class="glyphicon glyphicon-picture"></span> В полный экран
+    </button>
+</div>
 <canvas id="canvas"></canvas>
 
 <script>
-    
+    function fullscreen() {
+        var el = document.getElementById('canvas');
+
+        if (el.webkitRequestFullScreen) {
+            el.webkitRequestFullScreen();
+        }
+        else {
+            el.mozRequestFullScreen();
+        }
+    }
     // Инициализация canvas и получение из него WebGL контекста
     
     //var canvas = document.createElement('canvas');
     //document.body.appendChild(canvas);
     
     var canvas = document.getElementById('canvas');
+    //canvas.addEventListener("click", fullscreen);
 
     var gl = canvas.getContext('webgl');
 

@@ -15,6 +15,7 @@ App.controller('SharedEventsController', ['$scope', '$rootScope', '$state', '$st
       if (!$stateParams.key) {
           $state.go('mymemory/events');
       }
+      $anchorScroll();
       $rootScope.loading = true;
       //Индекс страницы, для запросов к серверу
       $rootScope.pageId = constants.PageIds.Events;

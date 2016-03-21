@@ -11,9 +11,10 @@ App.config(function ($stateProvider) {
 
 var TestWebGLRun = false;
 
-App.controller('ResumeController', ['$scope', '$rootScope', '$state', '$stateParams', '$http', '$location', 'Constants',
-  function ($scope, $rootScope, $state, $stateParams, $http, $location, constants) {
+App.controller('ResumeController', ['$scope', '$rootScope', '$state', '$stateParams', '$http', '$location', 'Constants', '$anchorScroll',
+  function ($scope, $rootScope, $state, $stateParams, $http, $location, constants, $anchorScroll) {
       
+      $anchorScroll();
       $rootScope.pageId = constants.PageIds.Resume;
 
   }]);

@@ -13,6 +13,7 @@ App.controller('MemesController', [
     '$scope', '$rootScope', '$state', '$stateParams', '$http', '$location', 'Constants', '$anchorScroll',
     function ($scope, $rootScope, $state, $stateParams, $http, $location, constants, $anchorScroll) {
 
+        $anchorScroll();
         $rootScope.pageId = constants.PageIds.Memes;
         $scope.isOne = $stateParams.id;
 
