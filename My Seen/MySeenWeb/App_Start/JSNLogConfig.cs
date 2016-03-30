@@ -1,10 +1,11 @@
+using System;
 using System.Web.Routing;
-using MySeenWeb;
+using System.Web.Mvc;
 
 [assembly: WebActivatorEx.PostApplicationStartMethod(
-    typeof(JSNLogConfig), "PostStart")]
+    typeof(MySeenWeb.App_Start.JSNLogConfig), "PostStart")]
 
-namespace MySeenWeb {
+namespace MySeenWeb.App_Start {
     public static class JSNLogConfig {
         public static void PostStart() {
             // Insert a route that ignores the jsnlog.logger route. That way,

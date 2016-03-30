@@ -47,15 +47,21 @@ App.controller('RoadsEditorController', ['$scope', '$rootScope', '$state', '$sta
       function fillScope(page) {
           $scope.data = page;
           window.coordinates = 0;
-          page.DataFoot[0].Coordinates.split(';').forEach(function (item) {
-              if (item) {
-                  window.current = {};
-                  current.latLng = new window.google.maps.LatLng(item.split(",")[0], item.split(",")[1]);
-                  addMarkerInEditor(true);
-              }
-          });
-          calculateRoute();
-          autoFit();
+          console.log($scope.data);
+          if ($scope.data && $scope.data.DataFoot.length > 0) {
+              $scope.data.DataFoot[0].Coordinates.split(';').forEach(function(item) {
+                  if (item) {
+                      window.current = {};
+                      current.latLng = new window.google.maps.LatLng(item.split(",")[0], item.split(",")[1]);
+                      addMarkerInEditor(true);
+                  }
+              });
+              calculateRoute();
+              autoFit();
+          }
+          else {
+              $state.go('mymemory/roads');
+          }
       };
       //Сразу 3 запроса на сервер, далее будет только запросы по новым данным и на добавление/изменение
       $rootScope.GetPage(constants.Pages.Prepared, $http, fillPrepared, { pageId: $rootScope.pageId });

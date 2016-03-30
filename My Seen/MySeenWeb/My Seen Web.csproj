@@ -60,8 +60,8 @@
       <HintPath>..\packages\Common.Logging.NLog20.3.3.1\lib\net40\Common.Logging.NLog20.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="JSNLog, Version=2.17.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\JSNLog.2.17.0\lib\net40\JSNLog.dll</HintPath>
+    <Reference Include="JSNLog, Version=2.17.1.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\JSNLog.2.17.1\lib\net40\JSNLog.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
@@ -83,7 +83,7 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="Newtonsoft.Json, Version=8.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
-      <HintPath>..\packages\Newtonsoft.Json.8.0.2\lib\net45\Newtonsoft.Json.dll</HintPath>
+      <HintPath>..\packages\Newtonsoft.Json.8.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Ninject, Version=3.2.0.0, Culture=neutral, PublicKeyToken=c7192dc5380945e7, processorArchitecture=MSIL">
@@ -1026,6 +1026,9 @@
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="Scripts\gmap3.js" />
     <Content Include="Scripts\gmap3.min.js" />
+    <Content Include="Scripts\bootstrap-datetimepicker.min.js.map">
+      <DependentUpon>bootstrap-datetimepicker.min.js</DependentUpon>
+    </Content>
     <Content Include="Scripts\errors.json" />
     <Content Include="Scripts\angular-touch.min.js.map" />
     <Content Include="Scripts\angular-sanitize.min.js.map" />
@@ -1038,10 +1041,8 @@
     <Content Include="Scripts\angular-aria.min.js.map" />
     <Content Include="Scripts\angular-animate.min.js.map" />
     <Content Include="Scripts\angular.min.js.map" />
-    <Content Include="Scripts\bootstrap-datetimepicker.min.js.map">
-      <DependentUpon>bootstrap-datetimepicker.min.js</DependentUpon>
-    </Content>
     <None Include="Scripts\jquery-2.2.0.intellisense.js" />
+    <None Include="Scripts\jquery-2.2.2.intellisense.js" />
     <Content Include="Scripts\i18n\angular-locale_aa-dj.js" />
     <Content Include="Scripts\i18n\angular-locale_aa-er.js" />
     <Content Include="Scripts\i18n\angular-locale_aa-et.js" />
@@ -1786,9 +1787,8 @@
     <Content Include="Scripts\i18n\angular-locale_zh.js" />
     <Content Include="Scripts\i18n\angular-locale_zu-za.js" />
     <Content Include="Scripts\i18n\angular-locale_zu.js" />
-    <None Include="Scripts\jquery-2.2.1-vsdoc.js" />
-    <Content Include="Scripts\jquery-2.2.1.js" />
-    <Content Include="Scripts\jquery-2.2.1.min.js" />
+    <Content Include="Scripts\jquery-2.2.2.js" />
+    <Content Include="Scripts\jquery-2.2.2.min.js" />
     <Content Include="Scripts\jsnlog.js" />
     <Content Include="Scripts\jsnlog.min.js" />
     <Content Include="Scripts\knockout-3.4.0.debug.js" />
@@ -1813,7 +1813,7 @@
     <Content Include="Scripts\myseen\jsNlog.js" />
     <Content Include="Scripts\myseen\variables.js" />
     <Content Include="Scripts\myseen\timer.js" />
-    <Content Include="Scripts\jquery-2.2.1.min.map" />
+    <Content Include="Scripts\jquery-2.2.2.min.map" />
     <None Include="Scripts\jquery.validate-vsdoc.js" />
     <Content Include="Scripts\jquery-ui-1.11.4.js" />
     <Content Include="Scripts\jquery-ui-1.11.4.min.js" />
@@ -1845,15 +1845,15 @@
     <Content Include="Views\Ads\Google.cshtml" />
     <Content Include="Views\Tools\Services\Google\Comments.cshtml" />
     <Content Include="Views\Tools\Services\Google\_Base.cshtml" />
-    <Content Include="Scripts\version.json" />
     <Content Include="Views\Account\ExternalLoginConfirmation.cshtml" />
     <Content Include="Views\Account\ExternalLoginFailure.cshtml" />
     <Content Include="Views\Analytics\Rambler.cshtml" />
     <Content Include="Views\Analytics\Openstat.cshtml" />
     <Content Include="Views\Tools\TestCookie.cshtml" />
-    <Content Include="Scripts\jsnlog.js.map" />
     <Content Include="Views\Tools\Services\Google\Translate.cshtml" />
     <Content Include="Views\Ads\Facebook.cshtml" />
+    <Content Include="Scripts\version.json" />
+    <Content Include="Scripts\jsnlog.js.map" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

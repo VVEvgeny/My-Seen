@@ -58,7 +58,7 @@ App.controller('RoadsController', ['$scope', '$rootScope', '$state', '$statePara
               else if ($scope.data.DataCar.length > 0) $scope.currentTab = 2;
           }
           calcTab = true;
-          $scope.showRoad(0);
+          if ($scope.data.DataFoot.length > 0 || $scope.data.DataBike.length > 0 || $scope.data.DataCar.length > 0) $scope.showRoad(0);
       };
       function getMainPage() {
           $rootScope.GetPage(constants.Pages.Main, $http, fillScope,
