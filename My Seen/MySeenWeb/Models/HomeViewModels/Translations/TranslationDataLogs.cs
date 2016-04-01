@@ -15,5 +15,7 @@ namespace MySeenWeb.Models.Translations
         public string Amount = Resource.Amount;
         public string PageName = Resource.PageName;
         public string AddData = Resource.AddData;
+        public string Filters = Resource.Filters;
+        public string ShowBots = Resource.ShowBots;
     }
 }

@@ -544,7 +544,7 @@
     <value>Тип</value>
   </data>
   <data name="LibVersionNum" xml:space="preserve">
-    <value>22</value>
+    <value>23</value>
   </data>
   <data name="Improvements" xml:space="preserve">
     <value>Улучшения</value>
@@ -1061,5 +1061,11 @@
   </data>
   <data name="Theme" xml:space="preserve">
     <value>Тема</value>
+  </data>
+  <data name="Filters" xml:space="preserve">
+    <value>Фильтры</value>
+  </data>
+  <data name="ShowBots" xml:space="preserve">
+    <value>Боты</value>
   </data>
 </root>

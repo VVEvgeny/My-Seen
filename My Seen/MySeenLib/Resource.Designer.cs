@@ -1277,6 +1277,15 @@ namespace MySeenLib {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Filters.
+        /// </summary>
+        public static string Filters {
+            get {
+                return ResourceManager.GetString("Filters", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to First Call.
         /// </summary>
         public static string FirstCall {
@@ -1646,7 +1655,7 @@ namespace MySeenLib {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to 22.
+        ///   Looks up a localized string similar to 23.
         /// </summary>
         public static string LibVersionNum {
             get {
@@ -2416,6 +2425,15 @@ namespace MySeenLib {
         public static string ShowAll {
             get {
                 return ResourceManager.GetString("ShowAll", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Show Bots.
+        /// </summary>
+        public static string ShowBots {
+            get {
+                return ResourceManager.GetString("ShowBots", resourceCulture);
             }
         }
         

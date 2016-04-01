@@ -19,7 +19,7 @@ namespace MySeenWeb.Controllers._Base
     {
         private class MySessionObject
         {
-            public string Value;
+            public readonly string Value;
 
             public MySessionObject(string value)
             {
@@ -53,7 +53,7 @@ namespace MySeenWeb.Controllers._Base
             var cookie = ControllerContext.HttpContext.Request.Cookies[key] ?? new HttpCookie(key);
             cookie.Value = value;
             cookie.Path = "/";
-            cookie.Expires = DateTime.Now.AddDays(14);
+            cookie.Expires = DateTime.Now.AddMonths(1);
             ControllerContext.HttpContext.Response.Cookies.Add(cookie);
         }
         private void WriteSession(string key, string value)
@@ -69,7 +69,11 @@ namespace MySeenWeb.Controllers._Base
         private string ReadCookie(string key, string defaultValue)
         {
             var cookie = ControllerContext.HttpContext.Request.Cookies[key];
-            if (cookie != null) return cookie.Value;
+            if (cookie != null)
+            {
+                if (cookie.Expires.AddDays(7) < DateTime.Now) WriteCookie(key, cookie.Value);//если меньше недели, обновим на месяц
+                return cookie.Value;
+            }
             WriteCookie(key, defaultValue);
             return defaultValue;
         }

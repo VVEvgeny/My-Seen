@@ -2,7 +2,7 @@ App.config(function ($stateProvider) {
 
     $stateProvider
         .state('logs', {
-            url: '/admin/logs/?:page&search',
+            url: '/admin/logs/?bots:&page&search',
             templateUrl: "Content/Angular/templates/Admin/logs.html",
             controller: 'LogsController',
             reloadOnSearch: false
@@ -33,14 +33,20 @@ App.controller('LogsController', ['$scope', '$rootScope', '$state', '$stateParam
           if (!$scope.data) $rootScope.loading = true;
       };
       function getMainPage() {
-          $rootScope.GetPage(constants.Pages.Main, $http, fillScope, { pageId: $rootScope.pageId, page: ($stateParams ? $stateParams.page : null), search: ($stateParams ? $stateParams.search : null) });
+          $rootScope.GetPage(constants.Pages.Main, $http, fillScope,
+          {
+              pageId: $rootScope.pageId,
+              page: $stateParams.page,
+              search: $stateParams.search,
+              bots: $stateParams.bots
+          });
       };
 
       $rootScope.GetPage(constants.Pages.Translation, $http, fillTranslation, { pageId: $rootScope.pageId });
       getMainPage();
 
       ///////////////////////////////////////////////////////////////////////
-      ///////////////////////////////////////////////////////////////////////           ПОИСК
+      ///////////////////////////////////////////////////////////////////////           Search
       ///////////////////////////////////////////////////////////////////////
       $scope.quickSearch = {};
       $scope.quickSearch.text = $stateParams ? $stateParams.search : null;
@@ -114,4 +120,31 @@ App.controller('LogsController', ['$scope', '$rootScope', '$state', '$stateParam
               }
           }
       };
+      ///////////////////////////////////////////////////////////////////////
+      ///////////////////////////////////////////////////////////////////////           Settings
+      ///////////////////////////////////////////////////////////////////////
+      $scope.isFilters = false;
+      $scope.showFilters = function () {
+          if ($("#filters").hasClass("out")) {
+              $("#filters").addClass("in");
+              $("#filters").removeClass("out");
+              $scope.isFilters = true;
+          } else {
+              $("#filters").addClass("out");
+              $("#filters").removeClass("in");
+              $scope.isFilters = false;
+          }
+      };
+      ///////////////////////////////////////////////////////////////////////
+      ///////////////////////////////////////////////////////////////////////           Bots
+      ///////////////////////////////////////////////////////////////////////
+      $scope.bots = $stateParams.bots === "true";
+      $scope.botsChange = function () {
+          $location.search('page', null);//с первой страницы новый поиск
+          $location.search('bots', !$scope.bots ? null : $scope.bots);
+          if ($stateParams) $stateParams.page = null;
+          if ($stateParams) $stateParams.bots = !$scope.bots ? null : $scope.bots;
+          getMainPage();
+      };
+      if ($scope.bots) $scope.showFilters();
   }]);

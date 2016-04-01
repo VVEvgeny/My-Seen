@@ -4,6 +4,31 @@
 <data-ng-include src="'Content/Angular/templates/_tools/add-search-buttons.html'"></data-ng-include>
 <br>
 
+<div class="form-horizontal" data-ng-show="translation.loaded">
+    <div class="form-group">
+        <div class="col-sm-12">
+            <button id="showSettings" type="button" class="btn btn-success" data-ng-click="showFilters()">
+                <span class="glyphicon glyphicon-plus" data-ng-show="!isFilters"></span>
+                <span class="glyphicon glyphicon-minus" data-ng-show="isFilters"></span>
+                &nbsp;{{translation.Filters || 'Filters'}}
+            </button>
+        </div>
+
+        <div class="col-sm-12 collapse out" id="filters">
+            <div class="form-group">
+                <label class="control-label">{{translation.Filters || 'Filters'}}</label>
+            </div>
+            <div class="form-group">
+                <label for="showBots" class="col-sm-2 control-label">{{translation.ShowBots || 'Show Bots'}}</label>
+                <div class="col-sm-10">
+                    <input type="checkbox" class="form-control input-sm" id="showBots" data-ng-model="bots" data-ng-click="botsChange()">
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<br>
+
 <div data-ng-show="translation.loaded && data" class="animated rollIn">
     <!--Таблица-->
     <div class="table-responsive">

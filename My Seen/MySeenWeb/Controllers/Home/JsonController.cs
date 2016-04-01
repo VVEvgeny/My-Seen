@@ -45,7 +45,7 @@ namespace MySeenWeb.Controllers.Home
             [Compress] 
         #endif
         [HttpPost]
-        public JsonResult GetPage(int pageId, int? page, string search, int? ended, int? year, int? complex, string shareKey, int? road, int? id, string dateMan, string dateWoman, int? price, int? deals, int? salary)
+        public JsonResult GetPage(int pageId, int? page, string search, int? ended, int? year, int? complex, string shareKey, int? road, int? id, string dateMan, string dateWoman, int? price, int? deals, int? salary, bool? bots)
         {
             //Thread.Sleep(2000); //чтобы увидеть загрузку
             var logger = new NLogLogger();
@@ -90,6 +90,7 @@ namespace MySeenWeb.Controllers.Home
                         return
                             Json(new HomeViewModelImprovements(User.Identity.GetUserId(),
                                 complex ?? (int) Defaults.ComplexBase.Indexes.All, page ?? 1, Rpp, search, ended ?? 0));
+
                     case (int) Defaults.CategoryBase.IndexesExt.Users:
                         if (!User.Identity.IsAuthenticated && string.IsNullOrEmpty(shareKey))
                             return new JsonResult {Data = new {success = false, error = Resource.NotAuthorized}};
@@ -107,11 +108,13 @@ namespace MySeenWeb.Controllers.Home
                             return new JsonResult {Data = new {success = false, error = Resource.NotAuthorized}};
                         if (!UserRolesLogic.IsAdmin(User.Identity.GetUserId()))
                             return new JsonResult {Data = new {success = false, error = Resource.NoRights}};
-                        return Json(new HomeViewModelLogs(page ?? 1, Rpp, search));
+                        return Json(new HomeViewModelLogs(page ?? 1, Rpp, search, bots ?? false));
+
                     case (int) Defaults.CategoryBase.IndexesExt.Settings:
                         if (!User.Identity.IsAuthenticated && string.IsNullOrEmpty(shareKey))
                             return new JsonResult {Data = new {success = false, error = Resource.NotAuthorized}};
                         return Json(new HomeViewModelSettings(User.Identity.GetUserId()));
+
                     case (int)Defaults.CategoryBase.IndexesMain.Memes:
                         return Json(new PortalViewModelMemes(User.Identity.GetUserId(), page ?? 1, 20, search, id ?? 0));//Всегда по 20 на странице
                     case (int) Defaults.CategoryBase.IndexesMain.Childs:

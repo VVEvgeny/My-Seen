@@ -71,7 +71,7 @@ namespace MySeenWeb.Controllers.Home
                 var userId = User.Identity.GetUserId();
                 ac.Users.First(u => u.Id == userId).Theme = val;
                 ac.SaveChanges();
-                WriteUserSideStorage(UserSideStorageKeys.Theme, val);
+                Theme = val;
                 return Json(new { success = true });
             }
             catch (Exception ex)

@@ -79,6 +79,8 @@ namespace MySeenWeb.Models.Meta
                 || ua.Contains("openstat.ru/Bot")
 
                 || ua.Contains("top100.rambler.ru")
+
+                || ua.Contains("CheckHost")
                 
                 ) return true;
             return false;
