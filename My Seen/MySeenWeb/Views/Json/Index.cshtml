@@ -149,7 +149,6 @@
             <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/gl-matrix/2.3.1/gl-matrix-min.js"></script>
             <script src="~/Content/Angular/controllers/Tests/WebGLController.js"></script>
         }
-        <script src="~/Content/Angular/controllers/SettingsController.js"></script>
         <script src="~/Content/Angular/controllers/ImprovementsController.js"></script>
 
         <script src="~/Content/Angular/controllers/MyMemory/FilmsController.js"></script>
@@ -163,6 +162,7 @@
         <script src="~/Scripts/myseen/gmap3menu.js"></script>
         <script src="~/Scripts/myseen/gmap.editor.js"></script>
     }
+    <script src="~/Content/Angular/controllers/SettingsController.js"></script>
     <script src="~/Content/Angular/controllers/HomeController.js"></script>
     <script src="~/Content/Angular/controllers/AboutController.js"></script>
     <script src="~/Content/Angular/controllers/Portal/MemesController.js"></script>
@@ -240,13 +240,13 @@
                                 </ul>
                             </li>
                         }
-                        <li data-toggle="collapse" data-target=".navbar-collapse.in" data-ng-class="{'active': pageId == 106}"><a class="nav-element" data-ui-sref="settings">@Resource.Settings<span style="font-size: 16px;" class="pull-right hidden-xs showopacity glyphicon glyphicon-cog"></span></a></li>
                     }
                     else
                     {
                         <li data-toggle="collapse" data-target=".navbar-collapse.in"><a class="nav-element" id="LogInButton">@Resource.Login<span style="font-size: 16px;" class="pull-right hidden-xs showopacity glyphicon glyphicon-log-in"></span></a></li>
                     }
 
+                    <li data-toggle="collapse" data-target=".navbar-collapse.in" data-ng-class="{'active': pageId == 106}"><a class="nav-element" data-ui-sref="settings">@Resource.Settings<span style="font-size: 16px;" class="pull-right hidden-xs showopacity glyphicon glyphicon-cog"></span></a></li>
                     <li data-toggle="collapse" data-target=".navbar-collapse.in"><a class="nav-element" href='https://play.google.com/store/apps/details?id=com.vve.myseen' target="_blank">@Resource.OurAndroidApp<span style="font-size: 16px;" class="pull-right hidden-xs showopacity glyphicon glyphicon-phone"></span></a></li>
                     <li data-toggle="collapse" data-target=".navbar-collapse.in" data-ng-class="{'active': pageId == 105}"><a class="nav-element" data-ui-sref="about">@Resource.About <span style="font-size: 16px;" class="pull-right hidden-xs showopacity glyphicon glyphicon-info-sign"></span></a></li>
 

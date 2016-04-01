@@ -145,6 +145,7 @@ namespace MySeenWeb.Controllers._Base
                 WriteUserSideStorage(UserSideStorageKeys.Theme, value);
             }
         }
+
         protected int MarkersOnRoads
         {
             get
@@ -217,6 +218,43 @@ namespace MySeenWeb.Controllers._Base
                 WriteUserSideStorage(UserSideStorageKeys.RecordPerPage, value);
             }
         }
+
+        protected int Language
+        {
+            get
+            {
+                if (TryReadUserSideStorage(UserSideStorageKeys.Language))
+                {
+                    var lang = ReadUserSideStorage(UserSideStorageKeys.Language, (int)Defaults.LanguagesBase.Indexes.English);
+                    return lang;
+                }
+
+                if (User.Identity.IsAuthenticated)
+                {
+                    var userId = User.Identity.GetUserId();
+                    try
+                    {
+                        var ac = new ApplicationDbContext();
+                        var au = ac.Users.First(u => u.Id == userId);
+                        return Defaults.Languages.GetIdDb(au.Culture);
+                    }
+                    catch
+                    {
+                        LogSave.Save(User.Identity.IsAuthenticated ? User.Identity.GetUserId() : "", Request.UserHostAddress, Request.UserAgent, "catch No USER");
+                    }
+                }
+                else
+                {
+                    var userLanguages = Request.UserLanguages;
+                    if (userLanguages != null && userLanguages.Any())
+                    {
+                        return Defaults.Languages.GetIdDb(userLanguages[0]);
+                    }
+                }
+                return (int)Defaults.LanguagesBase.Indexes.English;
+            }
+        }
+
         private void SetLang()
         {
             if (TryReadUserSideStorage(UserSideStorageKeys.Language))

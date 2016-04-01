@@ -21,20 +21,40 @@ namespace MySeenWeb.Models
         public IEnumerable<SelectListItem> Themes { get; set; }
         public string Theme { get; set; }
 
-        public HomeViewModelSettings(string userId)
+        public HomeViewModelSettings(string userId, int lang, int rpp, int theme)
         {
-            if (string.IsNullOrEmpty(userId)) return;
-            var ac = new ApplicationDbContext();
-            var user = ac.Users.First(u => u.Id == userId);
+            if (string.IsNullOrEmpty(userId))
+            {
+                Lang = lang.ToString();
+                Rpp = Defaults.RecordPerPage.GetId(rpp.ToString()).ToString();
+                Theme = theme.ToString();
+            }
+            else
+            {
+                var ac = new ApplicationDbContext();
+                var user = ac.Users.First(u => u.Id == userId);
 
-            Lang = Defaults.Languages.GetIdDb(user.Culture).ToString();
-            Rpp = user.RecordPerPage.ToString();
-            Markers = user.MarkersOnRoads.ToString();
-            HasPassword = user.PasswordHash != null;
-            Theme = user.Theme.ToString();
+                Lang = Defaults.Languages.GetIdDb(user.Culture).ToString();
+                Rpp = user.RecordPerPage.ToString();
+                Markers = user.MarkersOnRoads.ToString();
+                HasPassword = user.PasswordHash != null;
+                Theme = user.Theme.ToString();
 
-            var userLogic = new UserLogic();
-            CountLogins = userLogic.GetCountLogins(userId);
+                var userLogic = new UserLogic();
+                CountLogins = userLogic.GetCountLogins(userId);
+
+                MarkersOnRoadsList =
+                    Defaults.EnabledDisabled.GetAll()
+                        .Select(
+                            sel =>
+                                new SelectListItem
+                                {
+                                    Text = sel,
+                                    Value = Defaults.EnabledDisabled.GetId(sel).ToString(),
+                                    Selected = Defaults.EnabledDisabled.GetId(sel).ToString() == Markers
+                                })
+                        .ToList();
+            }
 
             LangList =
                 Defaults.Languages.GetAll()
@@ -47,6 +67,7 @@ namespace MySeenWeb.Models
                                 Selected = Defaults.Languages.GetId(sel).ToString() == Lang
                             })
                     .ToList();
+
             RppList =
                 Defaults.RecordPerPage.GetAll()
                     .Select(
@@ -58,19 +79,7 @@ namespace MySeenWeb.Models
                                 Selected = Defaults.RecordPerPage.GetId(sel).ToString() == Rpp
                             })
                     .ToList();
-
-            MarkersOnRoadsList =
-                Defaults.EnabledDisabled.GetAll()
-                    .Select(
-                        sel =>
-                            new SelectListItem
-                            {
-                                Text = sel,
-                                Value = Defaults.EnabledDisabled.GetId(sel).ToString(),
-                                Selected = Defaults.EnabledDisabled.GetId(sel).ToString() == Markers
-                            })
-                    .ToList();
-
+            
             Themes =
                 Defaults.Themes.GetAll()
                     .Select(

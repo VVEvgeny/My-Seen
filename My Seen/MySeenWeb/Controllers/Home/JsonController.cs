@@ -111,12 +111,10 @@ namespace MySeenWeb.Controllers.Home
                         return Json(new HomeViewModelLogs(page ?? 1, Rpp, search, bots ?? false));
 
                     case (int) Defaults.CategoryBase.IndexesExt.Settings:
-                        if (!User.Identity.IsAuthenticated && string.IsNullOrEmpty(shareKey))
-                            return new JsonResult {Data = new {success = false, error = Resource.NotAuthorized}};
-                        return Json(new HomeViewModelSettings(User.Identity.GetUserId()));
+                        return Json(new HomeViewModelSettings(User.Identity.GetUserId(), Language, Rpp, Theme));
 
                     case (int)Defaults.CategoryBase.IndexesMain.Memes:
-                        return Json(new PortalViewModelMemes(User.Identity.GetUserId(), page ?? 1, 20, search, id ?? 0));//Всегда по 20 на странице
+                        return Json(new PortalViewModelMemes(User.Identity.GetUserId(), page ?? 1, Rpp, search, id ?? 0));//Всегда по 20 на странице
                     case (int) Defaults.CategoryBase.IndexesMain.Childs:
                         return Json(new PortalViewModelChildCalculator(year ?? 0, dateMan, dateWoman));
                     case (int)Defaults.CategoryBase.IndexesMain.Realt:

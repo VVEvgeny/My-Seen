@@ -5,9 +5,9 @@
     <h2>{{translation.Manage}}</h2>
 
     <div>
-        <h4>{{translation.ChangeYourAccountSettings}}</h4>
+        <h4 data-ng-show="authorized">{{translation.ChangeYourAccountSettings}}</h4>
         <hr />
-        <dl class="dl-horizontal">
+        <dl class="dl-horizontal" data-ng-show="authorized">
             <dt>{{translation.Password}}:</dt>
             <dd>
                 <button type="button" class="btn btn-success btn-xs" data-ng-click="setPassword()" data-ng-show="data.HasPassword == 'false'">
@@ -18,7 +18,7 @@
                 </button>
             </dd>
         </dl>
-        <dl class="dl-horizontal">
+        <dl class="dl-horizontal" data-ng-show="authorized">
             <dt>{{translation.ExternalLogins}}:</dt>
             <dd>
                 <button type="button" class="btn btn-danger btn-xs" data-ng-click="manageExternals()">
@@ -46,7 +46,7 @@
                 </select>
             </dd>
         </dl>
-        <dl class="dl-horizontal">
+        <dl class="dl-horizontal" data-ng-show="authorized">
             <dt>{{translation.MarkersOnRoads}}:</dt>
             <dd>
                 <select class="input-sm" data-ng-model="data.Markers" data-ng-change="markersChange()">

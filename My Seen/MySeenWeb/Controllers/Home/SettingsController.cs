@@ -34,7 +34,7 @@ namespace MySeenWeb.Controllers.Home
         }
 
         [Compress]
-        [Authorize]
+        //[Authorize]
         [HttpPost]
         public JsonResult SetLanguage(int val)
         {
@@ -42,10 +42,13 @@ namespace MySeenWeb.Controllers.Home
             const string methodName = "public JsonResult SetLanguage(int language)";
             try
             {
-                var ac = new ApplicationDbContext();
                 var userId = User.Identity.GetUserId();
-                ac.Users.First(u => u.Id == userId).Culture = Defaults.Languages.GetValDb(val);
-                ac.SaveChanges();
+                if (!string.IsNullOrEmpty(userId))
+                {
+                    var ac = new ApplicationDbContext();
+                    ac.Users.First(u => u.Id == userId).Culture = Defaults.Languages.GetValDb(val);
+                    ac.SaveChanges();
+                }
                 CultureInfoTool.SetCulture(Defaults.Languages.GetValDb(val));
                 WriteUserSideStorage(UserSideStorageKeys.Language, val);
                 Defaults.ReloadResources();
@@ -59,7 +62,7 @@ namespace MySeenWeb.Controllers.Home
         }
 
         [Compress]
-        [Authorize]
+        //[Authorize]
         [HttpPost]
         public JsonResult SetTheme(int val)
         {
@@ -67,10 +70,13 @@ namespace MySeenWeb.Controllers.Home
             const string methodName = "public JsonResult SetTheme(int language)";
             try
             {
-                var ac = new ApplicationDbContext();
                 var userId = User.Identity.GetUserId();
-                ac.Users.First(u => u.Id == userId).Theme = val;
-                ac.SaveChanges();
+                if (!string.IsNullOrEmpty(userId))
+                {
+                    var ac = new ApplicationDbContext();
+                    ac.Users.First(u => u.Id == userId).Theme = val;
+                    ac.SaveChanges();
+                }
                 Theme = val;
                 return Json(new { success = true });
             }
@@ -82,7 +88,7 @@ namespace MySeenWeb.Controllers.Home
         }
 
         [Compress]
-        [Authorize]
+        //[Authorize]
         [HttpPost]
         public JsonResult SetRpp(int val)
         {
@@ -90,10 +96,13 @@ namespace MySeenWeb.Controllers.Home
             const string methodName = "public JsonResult SetRpp(int rpp)";
             try
             {
-                var ac = new ApplicationDbContext();
                 var userId = User.Identity.GetUserId();
-                ac.Users.First(u => u.Id == userId).RecordPerPage = val;
-                ac.SaveChanges();
+                if (!string.IsNullOrEmpty(userId))
+                {
+                    var ac = new ApplicationDbContext();
+                    ac.Users.First(u => u.Id == userId).RecordPerPage = val;
+                    ac.SaveChanges();
+                }
                 Rpp = val;
                 return Json(new { success = true });
             }
