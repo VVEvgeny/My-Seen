@@ -2,7 +2,7 @@ App.config(function ($stateProvider) {
 
     $stateProvider
         .state('logs', {
-            url: '/admin/logs/?bots:&page&search',
+            url: '/admin/logs/?bots:&period&page&search',
             templateUrl: "Content/Angular/templates/Admin/logs.html",
             controller: 'LogsController',
             reloadOnSearch: false
@@ -38,12 +38,32 @@ App.controller('LogsController', ['$scope', '$rootScope', '$state', '$stateParam
               pageId: $rootScope.pageId,
               page: $stateParams.page,
               search: $stateParams.search,
-              bots: $stateParams.bots
+              bots: $stateParams.bots,
+              period: $stateParams.period
           });
       };
 
       $rootScope.GetPage(constants.Pages.Translation, $http, fillTranslation, { pageId: $rootScope.pageId });
       getMainPage();
+
+      ///////////////////////////////////////////////////////////////////////
+      ///////////////////////////////////////////////////////////////////////           Period
+      ///////////////////////////////////////////////////////////////////////
+      console.log("period=" + $stateParams.period);
+      var skipPeriod = false;
+      if ($stateParams.period) {
+          $scope.period = $stateParams.period;
+          skipPeriod = true;
+      }
+      $scope.$watch(function () { return $scope.period; }, function () {
+          if ($scope.period && !skipPeriod) {
+              console.log("new period=" + $scope.period);
+              $location.search('period', $scope.period !== '0' ? $scope.period : null);
+              if ($stateParams) $stateParams.period = $scope.period;
+              getMainPage();
+          }
+          skipPeriod = false;
+      });
 
       ///////////////////////////////////////////////////////////////////////
       ///////////////////////////////////////////////////////////////////////           Search

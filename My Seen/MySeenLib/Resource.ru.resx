@@ -1068,4 +1068,22 @@
   <data name="ShowBots" xml:space="preserve">
     <value>Боты</value>
   </data>
+  <data name="LastMonth" xml:space="preserve">
+    <value>Прошлый месяц</value>
+  </data>
+  <data name="LastWeek" xml:space="preserve">
+    <value>Прошлая неделя</value>
+  </data>
+  <data name="ThisMonth" xml:space="preserve">
+    <value>Этот месяц</value>
+  </data>
+  <data name="ThisWeek" xml:space="preserve">
+    <value>Эта неделя</value>
+  </data>
+  <data name="Today" xml:space="preserve">
+    <value>Сегодня</value>
+  </data>
+  <data name="Yesterday" xml:space="preserve">
+    <value>Вчера</value>
+  </data>
 </root>

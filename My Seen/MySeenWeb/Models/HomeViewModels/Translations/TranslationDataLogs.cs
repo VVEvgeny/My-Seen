@@ -17,5 +17,14 @@ namespace MySeenWeb.Models.Translations
         public string AddData = Resource.AddData;
         public string Filters = Resource.Filters;
         public string ShowBots = Resource.ShowBots;
+
+        public string Today = Resource.Today;
+        public string Yesterday = Resource.Yesterday;
+        public string ThisWeek = Resource.ThisWeek;
+        public string LastWeek = Resource.LastWeek;
+        public string ThisMonth = Resource.ThisMonth;
+        public string LastMonth = Resource.LastMonth;
+        public string All = Resource.All;
+        
     }
 }

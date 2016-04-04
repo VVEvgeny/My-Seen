@@ -6,6 +6,38 @@
 
 <div class="form-horizontal" data-ng-show="translation.loaded">
     <div class="form-group">
+        <div class="col-sm-3">
+            <div class="radio">
+                <label><input type="radio" name="optradio" ng-model="period" value="0" ng-disabled="period==0 || !period" ng-checked="period==0 || !period">{{translation.Today || 'Today'}}</label>
+            </div>
+            <div class="radio">
+                <label><input type="radio" name="optradio" ng-model="period" value="1" ng-disabled="period==1" ng-checked="period==1">{{translation.Yesterday || 'Yesterday'}}</label>
+            </div>
+        </div>
+        <div class="col-sm-3">
+            <div class="radio">
+                <label><input type="radio" name="optradio" ng-model="period" value="10" ng-disabled="period==10" ng-checked="period==10">{{translation.ThisWeek || 'This Week'}}</label>
+            </div>
+            <div class="radio">
+                <label><input type="radio" name="optradio" ng-model="period" value="11" ng-disabled="period==11" ng-checked="period==11">{{translation.LastWeek || 'Last Week'}}</label>
+            </div>
+        </div>
+        <div class="col-sm-3">
+            <div class="radio">
+                <label><input type="radio" name="optradio" ng-model="period" value="20" ng-disabled="period==20" ng-checked="period==20">{{translation.ThisMonth || 'This Month'}}</label>
+            </div>
+            <div class="radio">
+                <label><input type="radio" name="optradio" ng-model="period" value="21" ng-disabled="period==21" ng-checked="period==21">{{translation.LastMonth || 'Last Month'}}</label>
+            </div>
+        </div>
+        <div class="col-sm-3">
+            <div class="radio">
+                <label><input type="radio" name="optradio" ng-model="period" value="99" ng-disabled="period==99" ng-checked="period==99">{{translation.All || 'All'}}</label>
+            </div>
+        </div>
+    </div>
+
+    <div class="form-group">
         <div class="col-sm-12">
             <button id="showSettings" type="button" class="btn btn-success" data-ng-click="showFilters()">
                 <span class="glyphicon glyphicon-plus" data-ng-show="!isFilters"></span>

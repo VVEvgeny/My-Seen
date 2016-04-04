@@ -45,7 +45,7 @@ namespace MySeenWeb.Controllers.Home
             [Compress] 
         #endif
         [HttpPost]
-        public JsonResult GetPage(int pageId, int? page, string search, int? ended, int? year, int? complex, string shareKey, int? road, int? id, string dateMan, string dateWoman, int? price, int? deals, int? salary, bool? bots)
+        public JsonResult GetPage(int pageId, int? page, string search, int? ended, int? year, int? complex, string shareKey, int? road, int? id, string dateMan, string dateWoman, int? price, int? deals, int? salary, bool? bots, int? period)
         {
             //Thread.Sleep(2000); //чтобы увидеть загрузку
             var logger = new NLogLogger();
@@ -108,7 +108,7 @@ namespace MySeenWeb.Controllers.Home
                             return new JsonResult {Data = new {success = false, error = Resource.NotAuthorized}};
                         if (!UserRolesLogic.IsAdmin(User.Identity.GetUserId()))
                             return new JsonResult {Data = new {success = false, error = Resource.NoRights}};
-                        return Json(new HomeViewModelLogs(page ?? 1, Rpp, search, bots ?? false));
+                        return Json(new HomeViewModelLogs(page ?? 1, Rpp, search, bots ?? false, period ?? 0));
 
                     case (int) Defaults.CategoryBase.IndexesExt.Settings:
                         return Json(new HomeViewModelSettings(User.Identity.GetUserId(), Language, Rpp, Theme));
