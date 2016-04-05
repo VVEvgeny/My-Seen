@@ -37,6 +37,12 @@ App.controller('SharedEventsController', ['$scope', '$rootScope', '$state', '$st
       $scope.$on("$destroy", function () {
           clearInterval(eventsInterval);
       });
+      //Для модальной готовим данные
+      function fillPrepared(page) {
+          $scope.prepared = page;
+          $scope.prepared.loaded = true;
+          if (!$scope.data || !$scope.translation.loaded) $rootScope.loading = true;
+      }
       function fillScope(page) {
           $scope.data = page.Data;
           $scope.isMyData = page.IsMyData;
@@ -60,6 +66,7 @@ App.controller('SharedEventsController', ['$scope', '$rootScope', '$state', '$st
       //console.log($stateParams.key);
 
       //Сразу 3 запроса на сервер, далее будет только запросы по новым данным и на добавление/изменение
+      $rootScope.GetPage(constants.Pages.Prepared, $http, fillPrepared, { pageId: $rootScope.pageId });
       $rootScope.GetPage(constants.Pages.Translation, $http, fillTranslation, { pageId: $rootScope.pageId });
       getMainPage();
 
