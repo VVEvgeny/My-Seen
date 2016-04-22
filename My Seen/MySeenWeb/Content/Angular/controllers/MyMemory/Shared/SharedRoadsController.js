@@ -2,7 +2,7 @@ App.config(function($stateProvider) {
 
     $stateProvider
         .state('mymemory/sharedRoads', {
-            url: '/mymemory/roads/shared/:key?search',
+            url: '/mymemory/roads/shared/:key?search&year',
             templateUrl: "Content/Angular/templates/MyMemory/Shared/roads.html",
             controller: 'SharedRoadsController',
             reloadOnSearch: false
@@ -46,12 +46,13 @@ App.controller('SharedRoadsController', ['$scope', '$rootScope', '$state', '$sta
           if ($scope.data.DataFoot.length > 0 || $scope.data.DataBike.length > 0 || $scope.data.DataCar.length > 0) $scope.showRoad(0);
       };
       function getMainPage() {
+          console.log($stateParams);
           $rootScope.GetPage(constants.Pages.Main, $http, fillScope,
               {
                   pageId: $rootScope.pageId,
                   shareKey: $stateParams.key,
-                  year: ($stateParams ? $stateParams.year : null),
-                  search: ($stateParams ? $stateParams.search : null)
+                  year: $stateParams.year,
+                  search: $stateParams.search
               });
       };
 
