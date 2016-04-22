@@ -49,7 +49,7 @@ App.controller('LogsController', ['$scope', '$rootScope', '$state', '$stateParam
       ///////////////////////////////////////////////////////////////////////
       ///////////////////////////////////////////////////////////////////////           Period
       ///////////////////////////////////////////////////////////////////////
-      console.log("period=" + $stateParams.period);
+      //console.log("period=" + $stateParams.period);
       var skipPeriod = false;
       if ($stateParams.period) {
           $scope.period = $stateParams.period;
@@ -57,7 +57,7 @@ App.controller('LogsController', ['$scope', '$rootScope', '$state', '$stateParam
       }
       $scope.$watch(function () { return $scope.period; }, function () {
           if ($scope.period && !skipPeriod) {
-              console.log("new period=" + $scope.period);
+              //console.log("new period=" + $scope.period);
               $location.search('period', $scope.period !== '0' ? $scope.period : null);
               if ($stateParams) $stateParams.period = $scope.period;
               getMainPage();

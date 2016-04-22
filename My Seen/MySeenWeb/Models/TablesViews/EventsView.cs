@@ -136,30 +136,48 @@ namespace MySeenWeb.Models.TablesViews
             }
             return date;
         }
+
+        private static DateTime GetNewDate(int year,int month, int day, int hour,int minute, int second)
+        {
+            if (month > 12)//add months
+            {
+                month -= 12;
+                year++;
+            }
+            if (month < 1)
+            {
+                month += 12;
+                year--;
+            }
+            DateTime d;
+            while (true)
+            {
+                try
+                {
+                    d = new DateTime(year, month, day, hour, minute, second);
+                    break;
+                }
+                catch (Exception)
+                {
+                    day--;
+                }
+            }
+            return d;
+        }
         private static DateTime CalculateTo(Defaults.EventsTypesBase.Indexes typeRepeat, DateTime beginDate)
         {
             var d = DateTime.Now;
             switch (typeRepeat)
             {
                 case Defaults.EventsTypesBase.Indexes.EveryMonthInNeedDayWithWhenSundayOrSaturdayThenMonday:
-                    d = new DateTime(DateTime.Now.Year, DateTime.Now.Month, beginDate.Day, beginDate.Hour, beginDate.Minute, beginDate.Second);
-                    d = Correct(typeRepeat, d);
-
-                    if (d < DateTime.Now)
-                    {
-                        d = new DateTime(DateTime.Now.Year, DateTime.Now.Month, beginDate.Day, beginDate.Hour, beginDate.Minute, beginDate.Second);
-                        d = d.AddMonths(1);
-                        d = Correct(typeRepeat, d);
-                    }
-                    break;
                 case Defaults.EventsTypesBase.Indexes.EveryMonthInNeedDayWithWhenSaturdayOrFridayThenThursdayWhenSundayOrMondayThenTuesday:
-                    d = new DateTime(DateTime.Now.Year, DateTime.Now.Month, beginDate.Day, beginDate.Hour, beginDate.Minute, beginDate.Second);
+                case Defaults.EventsTypesBase.Indexes.EveryMonthInNeedDayWithWhenSaturdayThenFridayWhenSundayThenMonday:
+                    d = GetNewDate(DateTime.Now.Year, DateTime.Now.Month, beginDate.Day, beginDate.Hour, beginDate.Minute, beginDate.Second);
                     d = Correct(typeRepeat, d);
 
                     if (d < DateTime.Now)
                     {
-                        d = new DateTime(DateTime.Now.Year, DateTime.Now.Month, beginDate.Day, beginDate.Hour, beginDate.Minute, beginDate.Second);
-                        d = d.AddMonths(1);
+                        d = GetNewDate(DateTime.Now.Year, DateTime.Now.Month+1, beginDate.Day, beginDate.Hour, beginDate.Minute, beginDate.Second);
                         d = Correct(typeRepeat, d);
                     }
                     break;
@@ -182,17 +200,6 @@ namespace MySeenWeb.Models.TablesViews
                         d = Correct(typeRepeat, d);
                     }
                     break;
-                case Defaults.EventsTypesBase.Indexes.EveryMonthInNeedDayWithWhenSaturdayThenFridayWhenSundayThenMonday:
-                    d = new DateTime(DateTime.Now.Year, DateTime.Now.Month, beginDate.Day, beginDate.Hour, beginDate.Minute, beginDate.Second);
-                    d = Correct(typeRepeat, d);
-
-                    if (d < DateTime.Now)
-                    {
-                        d = new DateTime(DateTime.Now.Year, DateTime.Now.Month, beginDate.Day, beginDate.Hour, beginDate.Minute, beginDate.Second);
-                        d = d.AddMonths(1);
-                        d = Correct(typeRepeat, d);
-                    }
-                    break;
             }
             return d;
         }
@@ -208,8 +215,8 @@ namespace MySeenWeb.Models.TablesViews
                     case Defaults.EventsTypesBase.Indexes.EveryMonthInNeedDayWithWhenSaturdayOrFridayThenThursdayWhenSundayOrMondayThenTuesday:
                     case Defaults.EventsTypesBase.Indexes.EveryMonthInNeedDayWithWhenSaturdayThenFridayWhenSundayThenMonday:
 
-                        d = new DateTime(DateTime.Now.Year, DateTime.Now.Month, beginDate.Day, beginDate.Hour, beginDate.Minute, beginDate.Second);
-                        if (d > DateTime.Now)d = d.AddMonths(-i);
+                        d = GetNewDate(DateTime.Now.Year, DateTime.Now.Month, beginDate.Day, beginDate.Hour, beginDate.Minute, beginDate.Second);
+                        if (d > DateTime.Now) d = GetNewDate(DateTime.Now.Year, DateTime.Now.Month - i, beginDate.Day, beginDate.Hour, beginDate.Minute, beginDate.Second);
                         d = Correct(typeRepeat, d);
                         return d;
 

@@ -33,8 +33,6 @@
         <meta class="meta" property="twitter:url" content="@Model.Meta.Url" />
         <meta class="meta" property="twitter:domain" content="myseen.by" />
 
-
-
         if (!string.IsNullOrEmpty(Model.Meta.Description))
         {
             <meta class="meta" property="og:description" content="@Model.Meta.Description" />
@@ -51,77 +49,11 @@
         <title>@Resource.AppName</title>
     }
 
-    @Styles.Render("~/Content/css")
-
     <!--ТЕМЫ БУТСТРАПА-->
-    @switch (Model.Theme)
-    {
-        //<!--Инверсные-->
-        case 0:
-            <link href="~/Content/bootstrap.min.css" rel="stylesheet" />
-            break;
-        case 1:
-        <link href="~/Content/bootstrap-themes/bootstrap.sandstone.min.css" rel="stylesheet" />
-            break;
-        case 2:
-        <link href="~/Content/bootstrap-themes/bootstrap.superhero.min.css" rel="stylesheet" />
-            break;
-        case 3:
-        <link href="~/Content/bootstrap-themes/bootstrap.paper.min.css" rel="stylesheet" />
-            break;
-        case 4:
-        <link href="~/Content/bootstrap-themes/bootstrap.flatly.min.css" rel="stylesheet" />
-            break;
-        case 5:
-        <link href="~/Content/bootstrap-themes/bootstrap.cyborg.min.css" rel="stylesheet" />
-            break;
-        case 6:
-        <link href="~/Content/bootstrap-themes/bootstrap.cosmo.min.css" rel="stylesheet" />
-            break;
-        case 7:
-        <link href="~/Content/bootstrap-themes/bootstrap.cerulean.min.css" rel="stylesheet" />
-            break;
-        //<!--Прямые-->
-        case 8:
-        <link href="~/Content/bootstrap-themes/bootstrap.slate.min.css" rel="stylesheet" />
-            break;
-        case 9:
-        <link href="~/Content/bootstrap-themes/bootstrap.readable.min.css" rel="stylesheet" />
-            break;
-        case 10:
-        <link href="~/Content/bootstrap-themes/bootstrap.darkly.min.css" rel="stylesheet" />
-            break;
-    }
-    @if (Model.Theme < 0 || Model.Theme > 10)
-    {
-        <link href="~/Content/bootstrap.min.css" rel="stylesheet" />
-    }
-    <link href="~/Content/bootstrap-theme.min.css" rel="stylesheet" />
+    <link href="~/Content/bootstrap@((Model.Theme <= 0 || Model.Theme > 10)?"":"-themes/"+Model.Theme).min.css" rel="stylesheet" />
 
-    @Scripts.Render("~/bundles/modernizr")
-    @Scripts.Render("~/bundles/jquery")
-    <script src="~/Scripts/bootstrap.min.js"></script>
-    <script src="~/Scripts/respond.js"></script>
-    @Scripts.Render("~/bundles/jqueryval")
 
-    @Scripts.Render("~/bundles/datetimepicker")
-    @Styles.Render("~/Content/datetimepicker.css")
-    <link href="~/Content/animate.min.css" rel="stylesheet" />
-
-    <script src="~/Scripts/myseen/jsNlog.js"></script>
     @Html.Raw(JSNLog.JavascriptLogging.Configure())
-
-    <script src="~/Scripts/myseen/timer.js"></script>
-    <script src="~/Scripts/gmap3.js"></script>
-    <script src="~/Scripts/myseen/gmap.js"></script>
-    <script src="~/Scripts/myseen/gmap.tools.js"></script>
-    <script src="~/Scripts/myseen/variables.js"></script>
-
-    <script src="~/Scripts/angular.js"></script>
-    <script src="~/Scripts/angular-ui-router.js"></script>
-    <script src="~/Scripts/angular-ui/ui-bootstrap-tpls.js"></script>
-    <script src="~/Scripts/myseen/jQueryToAngular.js"></script>
-    <link href="~/Content/font-awesome.css" rel="stylesheet" />
 
     <!--goole maps-->
     <script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?libraries=geometry&amp;language=@CultureInfoTool.GetFirst2Culture()"></script>
@@ -129,59 +61,12 @@
     <script type="text/javascript" src="//vk.com/js/api/openapi.js?121"></script><!--comments-->
     <script type="text/javascript" src="//vk.com/js/api/openapi.js?105"></script><!--likes-->
 
-    <script src="~/Content/Angular/app/app.js"></script>
-    @if (Request.IsAuthenticated)
-    {
-        if (Model.UserRoles.Contains(((int)Defaults.RolesBase.Indexes.Admin).ToString()))
-        {
-            <script src="~/Content/Angular/controllers/Admin/UsersController.js"></script>
-            <script src="~/Content/Angular/controllers/Admin/LogsController.js"></script>
-            <script src="~/Content/Angular/controllers/Admin/ErrorsController.js"></script>
+    <script src="http://d3js.org/d3.v3.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/gl-matrix/2.3.1/gl-matrix-min.js"></script>
 
-            <script src="~/Content/Angular/controllers/Tests/ResumeController.js"></script>
-            <script src="http://d3js.org/d3.v3.min.js"></script>
-            <link rel="stylesheet" type="text/css" href="~/Content/myseen/skill.css" />
-            <script src="~/Content/Angular/templates/Tests/skillsdata.js"></script>
-            <script src="~/Content/Angular/templates/Tests/skill.js"></script>
-        }
-        if (Model.UserRoles.Contains(((int)Defaults.RolesBase.Indexes.Tester).ToString()))
-        {
-            <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/gl-matrix/2.3.1/gl-matrix-min.js"></script>
-            <script src="~/Content/Angular/controllers/Tests/WebGLController.js"></script>
-        }
-        <script src="~/Content/Angular/controllers/ImprovementsController.js"></script>
-
-        <script src="~/Content/Angular/controllers/MyMemory/FilmsController.js"></script>
-        <script src="~/Content/Angular/controllers/MyMemory/SerialsController.js"></script>
-        <script src="~/Content/Angular/controllers/MyMemory/BooksController.js"></script>
-        <script src="~/Content/Angular/controllers/MyMemory/EventsController.js"></script>
-        <script src="~/Content/Angular/controllers/MyMemory/RoadsController.js"></script>
-
-        <script src="~/Content/Angular/controllers/MyMemory/RoadsEditorController.js"></script>
-        <link href="~/Content/myseen/gmap3-menu.css" rel="stylesheet" />
-        <script src="~/Scripts/myseen/gmap3menu.js"></script>
-        <script src="~/Scripts/myseen/gmap.editor.js"></script>
-    }
-    <script src="~/Content/Angular/controllers/SettingsController.js"></script>
-    <script src="~/Content/Angular/controllers/HomeController.js"></script>
-    <script src="~/Content/Angular/controllers/AboutController.js"></script>
-    <script src="~/Content/Angular/controllers/Portal/MemesController.js"></script>
-
-    <script src="~/Content/amcharts/amcharts.js"></script>
-    <script src="~/Content/amcharts/serial.js"></script>
-    <script src="~/Content/amcharts/themes/light.js"></script>
-    <script src="~/Content/amcharts/plugins/export/export.js"></script>
-
-    <link href="~/Content/amcharts/plugins/export/export.css" rel="stylesheet" />
-    <script src="~/Content/Angular/controllers/Portal/ChildCalculatorController.js"></script>
-    <script src="~/Content/Angular/controllers/Portal/RealtController.js"></script>
-    <script src="~/Content/Angular/controllers/Portal/ImtCalculatorController.js"></script>
-
-    <script src="~/Content/Angular/controllers/MyMemory/Shared/SharedFilmsController.js"></script>
-    <script src="~/Content/Angular/controllers/MyMemory/Shared/SharedSerialsController.js"></script>
-    <script src="~/Content/Angular/controllers/MyMemory/Shared/SharedBooksController.js"></script>
-    <script src="~/Content/Angular/controllers/MyMemory/Shared/SharedEventsController.js"></script>
-    <script src="~/Content/Angular/controllers/MyMemory/Shared/SharedRoadsController.js"></script>
+    <!--grunt-->
+    <link href="~/Content/prod/production.css" rel="stylesheet" />
+    <script src="~/Content/prod/production.js"></script>
 
 </head>
 
@@ -509,7 +394,7 @@
         @Html.Partial("../Analytics/Yandex")
         @Html.Partial("../Analytics/Google")
         @Html.Partial("../Analytics/Rambler")
-        @Html.Partial("../Analytics/Openstat")
+        
         //Хочет много контента @Html.Partial("../Ads/Google")
         //Хочет свифт банка и т.д. ка ки яндекс @Html.Partial("../Ads/Facebook")
 

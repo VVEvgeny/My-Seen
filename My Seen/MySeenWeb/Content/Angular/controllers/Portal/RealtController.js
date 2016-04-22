@@ -11,7 +11,7 @@ App.config(function ($stateProvider) {
 
 App.controller('RealtController', [
     '$scope', '$rootScope', '$state', '$stateParams', '$http', '$location', 'Constants', '$log', '$anchorScroll',
-    function ($scope, $rootScope, $state, $stateParams, $http, $location, constants, $anchorScroll) {
+    function ($scope, $rootScope, $state, $stateParams, $http, $location, constants, $log, $anchorScroll) {
 
         $anchorScroll();
         $rootScope.pageId = constants.PageIds.Realt;

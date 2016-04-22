@@ -769,20 +769,21 @@
     <Content Include="Content\bootstrap-datetimepicker.min.css" />
     <Content Include="Content\bootstrap-theme.css" />
     <Content Include="Content\bootstrap-theme.min.css" />
-    <Content Include="Content\bootstrap-themes\bootstrap.cerulean.min.css" />
-    <Content Include="Content\bootstrap-themes\bootstrap.cosmo.min.css" />
-    <Content Include="Content\bootstrap-themes\bootstrap.sandstone.min.css" />
-    <Content Include="Content\bootstrap-themes\bootstrap.readable.min.css" />
-    <Content Include="Content\bootstrap-themes\bootstrap.paper.min.css" />
-    <Content Include="Content\bootstrap-themes\bootstrap.flatly.min.css" />
-    <Content Include="Content\bootstrap-themes\bootstrap.darkly.min.css" />
-    <Content Include="Content\bootstrap-themes\bootstrap.superhero.min.css" />
-    <Content Include="Content\bootstrap-themes\bootstrap.slate.min.css" />
+    <Content Include="Content\bootstrap-themes\1.min.css" />
+    <Content Include="Content\bootstrap-themes\10.min.css" />
+    <Content Include="Content\bootstrap-themes\2.min.css" />
+    <Content Include="Content\bootstrap-themes\3.min.css" />
+    <Content Include="Content\bootstrap-themes\4.min.css" />
+    <Content Include="Content\bootstrap-themes\5.min.css" />
+    <Content Include="Content\bootstrap-themes\6.min.css" />
+    <Content Include="Content\bootstrap-themes\7.min.css" />
+    <Content Include="Content\bootstrap-themes\8.min.css" />
+    <Content Include="Content\bootstrap-themes\9.min.css" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\font-awesome.css" />
     <Content Include="Content\font-awesome.min.css" />
-    <Content Include="Content\fonts\glyphicons-halflings-regular.svg" />
+    <Content Include="Content\fonts\fontawesome-webfont.svg" />
     <Content Include="Content\Images\About\En\addBook.jpg" />
     <Content Include="Content\Images\About\En\addFilm.jpg" />
     <Content Include="Content\Images\About\En\addRoad.jpg" />
@@ -830,10 +831,12 @@
     <Content Include="Content\Images\browser-safari.png" />
     <Content Include="Content\Images\Icon-512.png" />
     <Content Include="Content\Images\loading_small.gif" />
-    <Content Include="Content\bootstrap-themes\bootstrap.cyborg.min.css" />
     <Content Include="Content\myseen\gmap3-menu.css" />
     <Content Include="Content\myseen\navbar.css" />
     <Content Include="Content\myseen\skill.css" />
+    <Content Include="Content\prod\production.css" />
+    <Content Include="Content\prod\production.js" />
+    <Content Include="Content\prod\production.min.js" />
     <Content Include="Content\themes\base\accordion.css" />
     <Content Include="Content\themes\base\all.css" />
     <Content Include="Content\themes\base\autocomplete.css" />
@@ -869,8 +872,6 @@
     <Content Include="Content\themes\base\tooltip.css" />
     <Content Include="Content\ui-bootstrap-csp.css" />
     <Content Include="favicon.ico" />
-    <Content Include="fonts\fontawesome-webfont.svg" />
-    <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
     <Content Include="Content\myseen\Site.css" />
     <Content Include="Content\bootstrap-datetimepicker-build.less" />
@@ -878,18 +879,10 @@
     <Content Include="NLog.config">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="fonts\glyphicons-halflings-regular.woff2" />
-    <Content Include="fonts\glyphicons-halflings-regular.woff" />
-    <Content Include="fonts\glyphicons-halflings-regular.ttf" />
-    <Content Include="fonts\glyphicons-halflings-regular.eot" />
     <Content Include="Content\bootstrap-theme.min.css.map" />
     <Content Include="Content\bootstrap-theme.css.map" />
     <Content Include="Content\bootstrap.min.css.map" />
     <Content Include="Content\bootstrap.css.map" />
-    <Content Include="Content\fonts\glyphicons-halflings-regular.woff2" />
-    <Content Include="Content\fonts\glyphicons-halflings-regular.woff" />
-    <Content Include="Content\fonts\glyphicons-halflings-regular.ttf" />
-    <Content Include="Content\fonts\glyphicons-halflings-regular.eot" />
     <Content Include="Content\bootstrap\wells.less" />
     <Content Include="Content\bootstrap\variables.less" />
     <Content Include="Content\bootstrap\utilities.less" />
@@ -961,11 +954,6 @@
     <Content Include="Content\bootstrap\bootstrap.less" />
     <Content Include="Content\bootstrap\badges.less" />
     <Content Include="Content\bootstrap\alerts.less" />
-    <Content Include="fonts\fontawesome-webfont.woff2" />
-    <Content Include="fonts\fontawesome-webfont.woff" />
-    <Content Include="fonts\fontawesome-webfont.ttf" />
-    <Content Include="fonts\fontawesome-webfont.eot" />
-    <Content Include="fonts\FontAwesome.otf" />
     <Content Include="Content\amcharts\plugins\responsive\responsive.min.js.map" />
     <Content Include="Content\amcharts\plugins\responsive\readme.md" />
     <Content Include="Content\amcharts\plugins\export\README.md" />
@@ -985,9 +973,16 @@
     <Content Include="Content\amcharts\plugins\dataloader\examples\data\MSFT_events.csv" />
     <Content Include="Content\amcharts\plugins\dataloader\examples\data\MSFT.csv" />
     <Content Include="Content\amcharts\plugins\dataloader\examples\data\map.json" />
+    <Content Include="Content\fonts\fontawesome-webfont.eot" />
+    <Content Include="Content\fonts\fontawesome-webfont.ttf" />
+    <Content Include="Content\fonts\fontawesome-webfont.woff" />
+    <Content Include="Content\fonts\fontawesome-webfont.woff2" />
+    <Content Include="Content\fonts\FontAwesome.otf" />
     <None Include="NLog.xsd">
       <SubType>Designer</SubType>
     </None>
+    <Content Include="package.json" />
+    <Content Include="Gruntfile.js" />
     <None Include="Properties\PublishProfiles\myseen.pubxml" />
     <Content Include="Scripts\angular-animate.js" />
     <Content Include="Scripts\angular-animate.min.js" />
@@ -1851,7 +1846,6 @@
     <Content Include="Views\Account\ExternalLoginConfirmation.cshtml" />
     <Content Include="Views\Account\ExternalLoginFailure.cshtml" />
     <Content Include="Views\Analytics\Rambler.cshtml" />
-    <Content Include="Views\Analytics\Openstat.cshtml" />
     <Content Include="Views\Tools\TestCookie.cshtml" />
     <Content Include="Views\Tools\Services\Google\Translate.cshtml" />
     <Content Include="Views\Ads\Facebook.cshtml" />

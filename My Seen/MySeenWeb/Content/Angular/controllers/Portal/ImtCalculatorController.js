@@ -143,8 +143,9 @@ App.controller('BmiCalculatorController', ['$scope', '$rootScope', '$state', '$s
               $location.search('w', $scope.weight !== 0 ? $scope.weight : null);
           }
 
-          $scope.bmi = parseInt($scope.weight / (($scope.growth / 100) * ($scope.growth / 100)));
-          $scope.level = textBmi($scope.bmi, $scope.sex, $scope.age);
+          $scope.bmi = ($scope.weight / (($scope.growth / 100) * ($scope.growth / 100))).toString();
+          if ($scope.bmi.length > 4) $scope.bmi=$scope.bmi.substr(0, 4);
+          $scope.level = textBmi($scope.weight / (($scope.growth / 100) * ($scope.growth / 100)), $scope.sex, $scope.age);
 
           var start;
           var end;
