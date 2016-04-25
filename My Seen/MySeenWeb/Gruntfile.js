@@ -1,10 +1,16 @@
 module.exports = function (grunt) {
 
     var srcScriptFiles = [
+        //jquery
+        'Scripts/jquery-*.min.js',
+        'Scripts/jquery.validate.js',
+        'Scripts/jquery.validate.unobtrusive.js',
         //angular
-        'Scripts/angular.min.js',
-        'Scripts/angular-ui-router.min.js',
-        'Scripts/angular-ui/ui-bootstrap-tpls.min.js',
+        'Scripts/angular.js',
+        'Scripts/angular-ui-router.js',
+        'Scripts/angular-ui/ui-bootstrap-tpls.js',
+        //my app
+        'Scripts/myseen/jQueryToAngular.js',
         'Content/Angular/App/app.js',
         'Content/Angular/controllers/*.js',
         'Content/Angular/controllers/Admin/*.js',
@@ -17,22 +23,22 @@ module.exports = function (grunt) {
         'Content/amcharts/serial.js',
         'Content/amcharts/themes/light.js',
         'Scripts/modernizr-*.js',
-        'Scripts/jquery-*.min.js',
-        'Scripts/jquery.validate.min.js',
-        'Scripts/jquery.validate.unobtrusive.min.js',
-        'Scripts/moment-with-locales.min.js',
-        'Scripts/bootstrap-datetimepicker.min.js',
-        'Scripts/bootstrap.min.js',
+        //bootstrap
+        'Scripts/bootstrap.js',
         'Scripts/respond.js',
+        //gmap3
         'Scripts/gmap3.js',
-        'Scripts/myseen/jsNlog.js',
-        'Scripts/myseen/timer.js',
-        'Scripts/myseen/gmap.js',
+        //jsnlog
+         'Scripts/myseen/gmap.js',
         'Scripts/myseen/gmap.tools.js',
         'Scripts/myseen/variables.js',
-        'Scripts/myseen/jQueryToAngular.js',
         'Scripts/myseen/gmap3menu.js',
         'Scripts/myseen/gmap.editor.js',
+        //tools
+        'Scripts/moment-with-locales.js',
+        'Scripts/bootstrap-datetimepicker.js',
+        'Scripts/myseen/jsNlog.js',
+        'Scripts/myseen/timer.js',
         //test
         'Content/Angular/templates/Tests/skillsdata.js',
         'Content/Angular/templates/Tests/skill.js'
@@ -41,44 +47,45 @@ module.exports = function (grunt) {
     var srcCssFiles = [
         'Content/myseen/Site.css',
         'Content/myseen/navbar.css',
-        'Content/bootstrap-datetimepicker.min.css',
-        'Content/bootstrap-theme.min.css',
-        'Content/animate.min.css',
+        'Content/bootstrap-datetimepicker.css',
+        'Content/bootstrap-theme.css',
+        'Content/animate.css',
         'Content/font-awesome.css',
         'Content/myseen/skill.css',
         'Content/myseen/gmap3-menu.css'
     ];
 
-    // 1. Вся настройка находится здесь
     grunt.initConfig({
         pkg: grunt.file.readJSON('package.json'),
 
         concat: {
-            dist: {
+            js: {
                 src: srcScriptFiles,
                 dest: 'Content/prod/production.js'
-            }
-        },
-        concat_css: {
-            options: {
-                // Task-specific options go here. 
             },
-            all: {
+            css:
+            {
                 src: srcCssFiles,
-                dest: "Content/prod/production.css"
+                dest: 'Content/prod/production.css'
             }
         },
         uglify: {
-            build: {
+            js: {
                 src: 'Content/prod/production.js',
                 dest: 'Content/prod/production.min.js'
+            }
+        },
+        cssmin: {
+            css:{
+                src: 'Content/prod/production.css',
+                dest: 'Content/prod/production.min.css'
             }
         },
         watch: {
             grunt_config:
             {
-                files: ['Gruntfile.js'],
-                tasks: ['concat', 'uglify', 'concat_css'],
+                files: 'Gruntfile.js',
+                tasks: ['concat', 'uglify', 'cssmin'],
                 options: {
                     livereload: true,
                     spawn: false
@@ -86,7 +93,7 @@ module.exports = function (grunt) {
             },
             scripts: {
                 files: srcScriptFiles,
-                tasks: ['concat', 'uglify'],
+                tasks: ['concat:js', 'uglify:js'],
                 options: {
                     livereload: true,
                     spawn: false
@@ -94,7 +101,7 @@ module.exports = function (grunt) {
             },
             css: {
                 files: srcCssFiles,
-                tasks: ['concat_css'],
+                tasks: ['concat:css','cssmin'],
                 options: {
                     livereload: true,
                     spawn: false
@@ -103,15 +110,13 @@ module.exports = function (grunt) {
         }
     });
 
-    // 3. Тут мы указываем Grunt, что хотим использовать этот плагин
     grunt.loadNpmTasks('grunt-contrib-concat');
     grunt.loadNpmTasks('grunt-contrib-uglify');
-    grunt.loadNpmTasks('grunt-concat-css');
+    grunt.loadNpmTasks('grunt-contrib-cssmin');
     grunt.loadNpmTasks('grunt-devtools');
     grunt.loadNpmTasks('grunt-contrib-watch');
 
-    // 4. Указываем, какие задачи выполняются, когда мы вводим «grunt» в терминале
-    grunt.registerTask('default', ['concat', 'uglify', 'concat_css', 'watch']);
+    grunt.registerTask('default', ['concat', 'uglify', 'cssmin']);
 
     //wath for waiting
     //devtools for waiting

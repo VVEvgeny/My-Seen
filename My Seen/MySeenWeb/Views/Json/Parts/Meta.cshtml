@@ -1,0 +1,43 @@
+﻿@model MySeenWeb.Models.Meta.MetaBase
+
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1, maximum-scale=1">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<base href="/">
+
+@if (Model.UaBot)
+{
+    <title>@Model.Title</title>
+
+    <meta class="meta" property="og:title" content="@Model.Title"/>
+    <meta class="meta" property="og:type" content="website"/>
+    <meta class="meta" property="og:locale" content="@CultureInfoTool.GetFirst2Culture()"/>
+    <meta class="meta" property="og:site_name" content="@Resource.AppName"/>
+    <meta class="meta" property="og:url" content="@Model.Url"/>
+
+    <meta name="google-play-app" content="com.vve.myseen">
+
+    <meta class="meta" property="fb:app_id" content="@Model.FacebookAppId"/>
+
+    <meta class="meta" property="twitter:card" content="summary_large_image"/>
+    <meta class="meta" property="twitter:site" content="@Model.Twitter"/>
+    <meta class="meta" property="twitter:creator" content="@Model.Twitter"/>
+    <meta class="meta" property="twitter:title" content="@Model.Title"/>
+    <meta class="meta" property="twitter:url" content="@Model.Url"/>
+    <meta class="meta" property="twitter:domain" content="myseen.by"/>
+
+    if (!string.IsNullOrEmpty(Model.Description))
+    {
+        <meta class="meta" property="og:description" content="@Model.Description"/>
+        <meta class="meta" property="twitter:description" content="@Model.Description"/>
+    }
+    if (!string.IsNullOrEmpty(Model.Image))
+    {
+        <meta class="meta" property="og:image" content="@Model.Image"/>
+        <meta class="meta" property="twitter:image" content="@Model.Image"/>
+    }
+}
+else
+{
+    <title>@Resource.AppName</title>
+}

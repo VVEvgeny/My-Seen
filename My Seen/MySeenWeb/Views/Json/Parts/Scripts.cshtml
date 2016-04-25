@@ -1,0 +1,16 @@
+﻿<!--JsNLog + AngularNLog-->
+@Html.Raw(JSNLog.JavascriptLogging.Configure())
+
+<!--goole maps-->
+<script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?libraries=geometry&amp;language=@CultureInfoTool.GetFirst2Culture()"></script>
+
+<!--Vkontakte-->
+<script type="text/javascript" src="//vk.com/js/api/openapi.js?121"></script><!--comments-->
+<script type="text/javascript" src="//vk.com/js/api/openapi.js?105"></script><!--likes-->
+
+<!--d3 graphics-->
+<script src="http://d3js.org/d3.v3.min.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/gl-matrix/2.3.1/gl-matrix-min.js"></script>
+
+<!--all project src-->
+@Scripts.Render("~/js")

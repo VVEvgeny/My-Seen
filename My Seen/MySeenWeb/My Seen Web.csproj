@@ -836,6 +836,7 @@
     <Content Include="Content\myseen\skill.css" />
     <Content Include="Content\prod\production.css" />
     <Content Include="Content\prod\production.js" />
+    <Content Include="Content\prod\production.min.css" />
     <Content Include="Content\prod\production.min.js" />
     <Content Include="Content\themes\base\accordion.css" />
     <Content Include="Content\themes\base\all.css" />
@@ -1836,7 +1837,6 @@
       <DependentUpon>Web.config</DependentUpon>
     </Content>
     <Content Include="Views\Web.config" />
-    <Content Include="Views\Json\Index.cshtml" />
     <Content Include="Views\Analytics\Google.cshtml" />
     <Content Include="Views\Analytics\Yandex.cshtml" />
     <Content Include="Views\Tools\GetPage.cshtml" />
@@ -1851,6 +1851,14 @@
     <Content Include="Views\Ads\Facebook.cshtml" />
     <Content Include="Scripts\jsnlog.js.map" />
     <Content Include="Scripts\version.json" />
+    <Content Include="Views\Json\Index.cshtml" />
+    <Content Include="Views\Json\Parts\Meta.cshtml" />
+    <Content Include="Views\Json\Parts\Scripts.cshtml" />
+    <Content Include="Views\Json\Parts\Styles.cshtml" />
+    <Content Include="Views\Json\Parts\NavBar.cshtml" />
+    <Content Include="Views\Json\Parts\Auth.cshtml" />
+    <Content Include="Views\Json\Parts\Analytics.cshtml" />
+    <Content Include="Views\Json\Parts\ToJS.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

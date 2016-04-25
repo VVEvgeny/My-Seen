@@ -1,0 +1,7 @@
+﻿@model Int32
+
+<!--Bootstrap themes-->
+<link href="~/Content/bootstrap@((Model <= 0 || Model > 10) ? "" : "-themes/" + Model).min.css" rel="stylesheet"/>
+
+<!--all project src-->
+@Styles.Render("~/css")

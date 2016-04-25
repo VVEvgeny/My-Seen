@@ -1,0 +1,73 @@
+﻿@model MySeenWeb.Models.HomeViewModel
+
+<!--<nav class="navbar navbar-inverse sidebar navbar-fixed-top" role="navigation">-->
+<nav class="navbar sidebar @(Model.Theme < 8 || (Model.Theme < 0 || Model.Theme > 10) ? "navbar-inverse" : "") navbar-fixed-top" role="navigation">
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header" data-ng-class="{'active': pageId == 200}">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-sidebar-navbar-collapse-1">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" data-ui-sref="/" data-toggle="collapse" data-target=".navbar-collapse.in">@Resource.AppName</a>
+        </div>
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <div class="collapse navbar-collapse" id="bs-sidebar-navbar-collapse-1">
+            <ul class="nav navbar-nav">
+                @if (Request.IsAuthenticated)
+                {
+                    <li class="dropdown" data-ng-class="{'active': (pageId == 0 || pageId == 1 || pageId == 2 || pageId == 3 || pageId == 4)}">
+                        <a href="" class="dropdown-toggle" data-toggle="dropdown">@Resource.MyMemory <span class="caret"></span><span style="font-size: 16px;" class="pull-right hidden-xs showopacity glyphicon glyphicon-home"></span></a>
+                        <ul class="dropdown-menu forAnimate" role="menu">
+                            <li data-toggle="collapse" data-target=".navbar-collapse.in" data-ng-class="{'active': pageId == 0}"><a class="nav-element" data-ui-sref="mymemory/films">@Resource.Films<span style="font-size: 16px;" class="pull-right hidden-xs showopacity glyphicon glyphicon-film"></span></a></li>
+                            <li data-toggle="collapse" data-target=".navbar-collapse.in" data-ng-class="{'active': pageId == 1}"><a class="nav-element" data-ui-sref="mymemory/serials">@Resource.Serials<span style="font-size: 16px;" class="pull-right hidden-xs showopacity glyphicon glyphicon-film"></span></a></li>
+                            <li data-toggle="collapse" data-target=".navbar-collapse.in" data-ng-class="{'active': pageId == 2}"><a class="nav-element" data-ui-sref="mymemory/books">@Resource.Books<span style="font-size: 16px;" class="pull-right hidden-xs showopacity glyphicon glyphicon-book"></span></a></li>
+                            <li data-toggle="collapse" data-target=".navbar-collapse.in" data-ng-class="{'active': pageId == 4}"><a class="nav-element" data-ui-sref="mymemory/events">@Resource.Events<span style="font-size: 16px;" class="pull-right hidden-xs showopacity glyphicon glyphicon-time"></span></a></li>
+                            <li data-toggle="collapse" data-target=".navbar-collapse.in" data-ng-class="{'active': pageId == 3}"><a class="nav-element" data-ui-sref="mymemory/roads">@Resource.Tracks<span style="font-size: 16px;" class="pull-right hidden-xs showopacity glyphicon glyphicon-road"></span></a></li>
+                        </ul>
+                    </li>
+                    <li data-toggle="collapse" data-target=".navbar-collapse.in" data-ng-class="{'active': pageId == 103}"><a class="nav-element" data-ui-sref="improvements">@Resource.Improvements<span style="font-size: 16px;" class="pull-right hidden-xs showopacity glyphicon glyphicon-signal"></span></a></li>
+                    if (Model.UserRoles.Contains(((int)Defaults.RolesBase.Indexes.Admin).ToString()))
+                    {
+                        <li class="dropdown" data-ng-class="{'active': (pageId == 101 || pageId == 102 || pageId == 104)}">
+                            <a href="" class="dropdown-toggle nav-element" data-toggle="dropdown">@Resource.Administration <span class="caret"></span><span style="font-size: 16px;" class="pull-right hidden-xs showopacity glyphicon glyphicon-lock"></span></a>
+                            <ul class="dropdown-menu forAnimate" role="menu">
+                                <li data-toggle="collapse" data-target=".navbar-collapse.in" data-ng-class="{'active': pageId == 101}"><a class="nav-element" data-ui-sref="users">@Resource.Users<span style="font-size: 16px;" class="pull-right hidden-xs showopacity glyphicon glyphicon-user"></span></a></li>
+                                <li data-toggle="collapse" data-target=".navbar-collapse.in" data-ng-class="{'active': pageId == 102}"><a class="nav-element" data-ui-sref="logs">@Resource.Logs<span style="font-size: 16px;" class="pull-right hidden-xs showopacity glyphicon glyphicon-scale"></span></a></li>
+                                <li data-toggle="collapse" data-target=".navbar-collapse.in" data-ng-class="{'active': pageId == 104}"><a class="nav-element" data-ui-sref="errors">@Resource.Errors<span style="font-size: 16px;" class="pull-right hidden-xs showopacity glyphicon glyphicon-random"></span></a></li>
+                            </ul>
+                        </li>
+                    }
+                    if (Model.UserRoles.Contains(((int)Defaults.RolesBase.Indexes.Tester).ToString()))
+                    {
+                        <li class="dropdown" data-ng-class="{'active': (pageId >= 900 )}">
+                            <a href="" class="dropdown-toggle nav-element" data-toggle="dropdown">@Resource.Testing <span class="caret"></span><span style="font-size: 16px;" class="pull-right hidden-xs showopacity fa fa-wrench"></span></a>
+                            <ul class="dropdown-menu forAnimate" role="menu">
+                                <li data-toggle="collapse" data-target=".navbar-collapse.in" data-ng-class="{'active': pageId == 900}"><a class="nav-element" data-ui-sref="webgl">WebGL<span style="font-size: 16px;" class="pull-right hidden-xs showopacity fa fa-play-circle"></span></a></li>
+                                @if (Model.UserRoles.Contains(((int)Defaults.RolesBase.Indexes.Admin).ToString()))
+                                {
+                                    <li data-toggle="collapse" data-target=".navbar-collapse.in" data-ng-class="{'active': pageId == 901}"><a class="nav-element" data-ui-sref="resume">Resume<span style="font-size: 16px;" class="pull-right hidden-xs showopacity fa fa-play-circle"></span></a></li>
+                                }
+                            </ul>
+                        </li>
+                    }
+                }
+                else
+                {
+                    <li data-toggle="collapse" data-target=".navbar-collapse.in"><a class="nav-element" id="LogInButton">@Resource.Login<span style="font-size: 16px;" class="pull-right hidden-xs showopacity glyphicon glyphicon-log-in"></span></a></li>
+                }
+
+                <li data-toggle="collapse" data-target=".navbar-collapse.in" data-ng-class="{'active': pageId == 106}"><a class="nav-element" data-ui-sref="settings">@Resource.Settings<span style="font-size: 16px;" class="pull-right hidden-xs showopacity glyphicon glyphicon-cog"></span></a></li>
+                <li data-toggle="collapse" data-target=".navbar-collapse.in"><a class="nav-element" href='https://play.google.com/store/apps/details?id=com.vve.myseen' target="_blank">@Resource.OurAndroidApp<span style="font-size: 16px;" class="pull-right hidden-xs showopacity glyphicon glyphicon-phone"></span></a></li>
+                <li data-toggle="collapse" data-target=".navbar-collapse.in" data-ng-class="{'active': pageId == 105}"><a class="nav-element" data-ui-sref="about">@Resource.About <span style="font-size: 16px;" class="pull-right hidden-xs showopacity glyphicon glyphicon-info-sign"></span></a></li>
+
+                @if (Request.IsAuthenticated)
+                {
+                    <li data-toggle="collapse" data-target=".navbar-collapse.in"><a class="nav-element" id="LogoutButton">@Resource.LogOff<span style="font-size: 16px;" class="pull-right hidden-xs showopacity glyphicon glyphicon-off"></span></a></li>
+                }
+            </ul>
+        </div>
+    </div>
+</nav>
