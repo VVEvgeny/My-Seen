@@ -38,9 +38,6 @@ namespace MySeenWeb.Models.TablesLogic
                 Id = Convert.ToInt32(id);
                 Text = text;
                 Complex = Convert.ToInt32(complex);
-                //TextEnd = desc;
-                //DateEnd = UmtTime.To(DateTime.Now);
-                //Version = Convert.ToInt32(version);
                 UserId = userId;
             }
             catch (Exception e)
@@ -58,7 +55,6 @@ namespace MySeenWeb.Models.TablesLogic
         {
             if (Id == 0 && string.IsNullOrEmpty(Text)) ErrorMessage = Resource.DescToShort;
             else if (Contains()) ErrorMessage = Resource.BugAlreadyExists;
-            //else if (Id != 0 && string.IsNullOrEmpty(TextEnd)) ErrorMessage = Resource.DescToShort;
             else return true;
 
             return false;
@@ -101,7 +97,7 @@ namespace MySeenWeb.Models.TablesLogic
         {
             return Fill(id, text, complex, userId) && Verify() && Update();
         }
-        public bool Delete(string id, string userId)
+        public bool Delete(string id)
         {
             try
             {
@@ -117,7 +113,7 @@ namespace MySeenWeb.Models.TablesLogic
             return true;
         }
 
-        public bool End(string id, string textEnd, string version, string userId)
+        public bool End(string id, string textEnd, string version)
         {
             try
             {

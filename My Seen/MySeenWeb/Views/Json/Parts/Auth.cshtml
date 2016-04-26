@@ -24,12 +24,8 @@
                     });
                 });
 
-                window.GLanguage = '@CultureInfoTool.GetFirst2Culture()';
-                window.GAuthorized = '@Request.IsAuthenticated' === 'True';
-
                 setGmapMarkers('@Model.Markers');
                 setGmapMenuName('@Resource.SetPointHere');
-
 
             });
         })(jQuery);

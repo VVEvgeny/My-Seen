@@ -1,8 +1,13 @@
-﻿<script language="javascript" type="text/javascript">
-        (function($) {
-            $(function() {
-                window.GNotAuthorized = '@Resource.NotAuthorized';
-                window.GNoRights = '@Resource.NoRights';
-            });
-        })(jQuery);
+﻿@model MySeenWeb.Models.HomeViewModel
+
+<script language="javascript" type="text/javascript">
+    (function ($) {
+        $(function () {
+            window.GNotAuthorized = '@Resource.NotAuthorized';
+            window.GNoRights = '@Resource.NoRights';
+            window.GLanguage = '@CultureInfoTool.GetFirst2Culture()';
+            window.GAuthorized = '@Request.IsAuthenticated' === 'True';
+            window.GIsAdmin = '@Model.UserRoles.Contains(((int)Defaults.RolesBase.Indexes.Admin).ToString())' === 'True';
+        });
+    })(jQuery);
 </script>

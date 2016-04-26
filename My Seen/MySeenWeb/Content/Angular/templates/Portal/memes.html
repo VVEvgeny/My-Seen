@@ -31,12 +31,15 @@
                             </button>
                         </span>
                     </th>
-                    <th class="col-sm-10" data-ng-click="showPost(val.Id)">
+                    <th class="col-sm-9" data-ng-click="showPost(val.Id)">
                         {{::val.Name}}
                     </th>
-                    <th class="col-sm-1" data-ui-sref="portal/memes({id: val.Id})">
-                        <span class="pull-right alert-info small" data-ng-show="!isOne">
-                            <button type="button" class="btn btn-warning btn-xs">
+                    <th class="col-sm-2">
+                        <span class="pull-right alert-info small" data-ng-show="!isOne || isAdmin">
+                            <button type="button" class="btn btn-danger btn-xs" data-ng-show="isAdmin" data-ng-click="removePost($index)">
+                                <span class="glyphicon glyphicon-trash"></span> {{translation.Delete || 'Delete'}}
+                            </button>
+                            <button type="button" class="btn btn-warning btn-xs" data-ng-show="!isOne" data-ui-sref="portal/memes({id: val.Id})">
                                 <span class="glyphicon glyphicon-link"></span> {{translation.Read || 'Read'}}
                             </button>
                         </span>

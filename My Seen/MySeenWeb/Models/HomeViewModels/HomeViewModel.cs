@@ -24,14 +24,8 @@ namespace MySeenWeb.Models
             var logic = new UserRolesLogic();
             UserRoles = logic.GetRoles(userId);
 
-            HaveLanguage = false;
-            if (request.UserLanguages !=null)
-            {
-                if (request.UserLanguages.Any())
-                {
-                    HaveLanguage = request.UserLanguages.Any(lang => lang.ToLower().Contains("ru") || lang.ToLower().Contains("en"));
-                }
-            }
+            if (request.UserLanguages !=null && request.UserLanguages.Any())HaveLanguage = request.UserLanguages.Any(lang => lang.ToLower().Contains("ru") || lang.ToLower().Contains("en"));
+            else HaveLanguage = false;
         }
     }
 }

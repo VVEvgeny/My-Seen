@@ -11,7 +11,7 @@ App.config(function ($stateProvider) {
 
 App.controller('MemesController', [
     '$scope', '$rootScope', '$state', '$stateParams', '$http', '$location', 'Constants', '$anchorScroll',
-    function ($scope, $rootScope, $state, $stateParams, $http, $location, constants, $anchorScroll) {
+    function($scope, $rootScope, $state, $stateParams, $http, $location, constants, $anchorScroll) {
 
         $anchorScroll();
         $rootScope.pageId = constants.PageIds.Memes;
@@ -19,7 +19,7 @@ App.controller('MemesController', [
 
         //Показать ли кнопку ДОБАВИТЬ
         if (!$scope.isOne) $scope.pageCanAdd = $rootScope.authorized;
-        $scope.$watch( function() { return $scope.pageCanAdd; }, function() { $scope.pageCanAdd = $rootScope.authorized;});
+        $scope.$watch(function() { return $scope.pageCanAdd; }, function() { $scope.pageCanAdd = $rootScope.authorized; });
 
         //Показать ли поле ПОИСКа
         if (!$scope.isOne) $scope.pageCanSearch = true;
@@ -57,7 +57,7 @@ App.controller('MemesController', [
         ///////////////////////////////////////////////////////////////////////
         //Не использую перехода по состояниям, они перезагружают контроллер, а так у меня в настройках для контролера стоит reloadOnSearch: false      
         $scope.pagination = {};
-        $scope.pagination.goToPage = function (page) {
+        $scope.pagination.goToPage = function(page) {
             $location.search('page', page > 1 ? page : null);
             if ($stateParams) $stateParams.page = page > 1 ? page : null;
             getMainPage();
@@ -76,15 +76,16 @@ App.controller('MemesController', [
             if ($scope.data.length > 0) {
                 for (var i = 0; i < $scope.data.length; i++) {
                     window.VK.Widgets.Like("vk_like_" + $scope.data[i].Id,
-                        {
-                            type: "button",
-                            pageUrl: "http://myseen.by/portal/memes/" + $scope.data[i].Id,
-                            pageTitle: $scope.data[i].Name,
-                            pageImage: $scope.data[i].Image
-                        });
+                    {
+                        type: "button",
+                        pageUrl: "http://myseen.by/portal/memes/" + $scope.data[i].Id,
+                        pageTitle: $scope.data[i].Name,
+                        pageImage: $scope.data[i].Image
+                    });
                 }
             }
         }
+
         ///////////////////////////////////////////////////////////////////////
         ///////////////////////////////////////////////////////////////////////           ПОИСК
         ///////////////////////////////////////////////////////////////////////
@@ -101,22 +102,23 @@ App.controller('MemesController', [
         ///////////////////////////////////////////////////////////////////////           MODAL ADD
         ///////////////////////////////////////////////////////////////////////
         $scope.modal = {};
-        $scope.addModalOpen = function () {
+        $scope.addModalOpen = function() {
             $scope.modal.name = '';
             $scope.modal.link = '';
             $("#AddModalWindow").modal("show");
         };
-        $scope.$on("$destroy", function () {
+        $scope.$on("$destroy", function() {
             $scope.addModalHide();
             $('body').removeClass('modal-open');
             $('.modal-backdrop').remove();
         });
-        $scope.addModalHide = function () {
+        $scope.addModalHide = function() {
             $("#AddModalWindow").modal("hide");
         };
+
         function afterAdd() {
             $scope.addModalHide();
-            $location.search('page', null);//с первой страницы новый поиск
+            $location.search('page', null); //с первой страницы новый поиск
             $location.search('search', null);
             if ($stateParams) {
                 $stateParams.page = null;
@@ -125,7 +127,8 @@ App.controller('MemesController', [
             $scope.quickSearch.text = null;
             getMainPage();
         };
-        $scope.modal.addButtonClick = function () {
+
+        $scope.modal.addButtonClick = function() {
             $rootScope.GetPage(constants.Pages.Add, $http, afterAdd, {
                 pageId: $rootScope.pageId,
                 name: $scope.modal.name,
@@ -176,7 +179,13 @@ App.controller('MemesController', [
                 }
             });
         };
-
-
+        $scope.removePost = function(index) {
+            $rootScope.safeApply(function() {
+                if ($scope.data.length > 0) {
+                    $rootScope.GetPage(constants.Pages.Delete, $http, null, { pageId: $rootScope.pageId, recordId: $scope.data[index].Id }, true);
+                    $scope.data.splice(index, 1);
+                }
+            });
+        };
     }
 ]);

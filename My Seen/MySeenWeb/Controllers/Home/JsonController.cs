@@ -421,8 +421,14 @@ namespace MySeenWeb.Controllers.Home
                     case (int)Defaults.CategoryBase.IndexesExt.Improvements:
                         if (!UserRolesLogic.IsAdmin(User.Identity.GetUserId())) return new JsonResult { Data = new { success = false, error = Resource.NoRights } };
                         var improvementsLogic = new ImprovementLogic();
-                        return !improvementsLogic.Delete(recordId, User.Identity.GetUserId())
+                        return !improvementsLogic.Delete(recordId)
                             ? new JsonResult { Data = new { success = false, error = improvementsLogic.ErrorMessage } }
+                            : Json(new { success = true });
+                    case (int)Defaults.CategoryBase.IndexesMain.Memes:
+                        if (!UserRolesLogic.IsAdmin(User.Identity.GetUserId())) return new JsonResult { Data = new { success = false, error = Resource.NoRights } };
+                        var memesLogic = new MemesLogic();
+                        return !memesLogic.Delete(recordId, User.Identity.GetUserId())
+                            ? new JsonResult { Data = new { success = false, error = memesLogic.ErrorMessage } }
                             : Json(new { success = true });
                 }
                 logger.Info("CALL NOT REALIZED DeleteData=" + pageId);
@@ -499,7 +505,7 @@ namespace MySeenWeb.Controllers.Home
             try
             {
                 var logic = new ImprovementLogic();
-                return !logic.End(id, name, version, User.Identity.GetUserId())
+                return !logic.End(id, name, version)
                     ? new JsonResult {Data = new {success = false, error = logic.ErrorMessage}}
                     : Json(new {success = true});
             }

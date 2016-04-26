@@ -68,5 +68,21 @@ namespace MySeenWeb.Models.TablesLogic.Portal
         {
             return Fill(text, link, userId) && Verify() && Add();
         }
+        public bool Delete(string id, string userId)
+        {
+            try
+            {
+                Id = Convert.ToInt32(id);
+                _ac.MemesStats.RemoveRange(_ac.MemesStats.Where(s => s.MemesId == Id));
+                _ac.Memes.RemoveRange(_ac.Memes.Where(b => b.Id == Id));
+                _ac.SaveChanges();
+            }
+            catch (Exception e)
+            {
+                ErrorMessage = Resource.ErrorWorkWithDB + "=" + e.Message;
+                return false;
+            }
+            return true;
+        }
     }
 }
