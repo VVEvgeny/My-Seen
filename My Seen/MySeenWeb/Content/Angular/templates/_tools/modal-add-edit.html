@@ -59,9 +59,8 @@
                     <div class="form-group" data-ng-show="modal.showRating">
                         <label class="col-sm-2 control-label">{{translation.Rating}}</label>
                         <div class="col-sm-10">
-                            <select class="form-control input-sm" data-ng-model="modal.rating">
-                                <option data-ng-repeat="rating in prepared.RatingList" data-ng-selected="modal.rating == rating.Value" value="{{rating.Value}}">{{rating.Text}}</option>
-                            </select>
+                            <uib-rating ng-model="modal.rating" max="RateMax" aria-labelledby="default-rating"></uib-rating>
+                            <span class="label" ng-class="{'label-warning': modal.rating<3, 'label-info': modal.rating>=3 && modal.rating<7, 'label-success': modal.rating>=7}">{{(ToInt(modal.rating)+1)}}</span>
                         </div>
                     </div>
                     <div class="form-group" data-ng-show="modal.showEventTypes">

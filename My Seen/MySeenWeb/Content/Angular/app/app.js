@@ -1,7 +1,7 @@
 'use strict';
 
 /* App Module */
-var App = angular.module('MySeenApp', ['ui.router', 'ui.bootstrap']);
+var App = angular.module('MySeenApp', ['ui.router', 'ngAnimate', 'ui.bootstrap']);
 
 App.config(function($stateProvider, $urlRouterProvider, $locationProvider) {
 
@@ -14,6 +14,13 @@ App.config(function($stateProvider, $urlRouterProvider, $locationProvider) {
     $urlRouterProvider.otherwise('/');
 
 }).run(function ($rootScope, $cacheFactory, Constants) {
+    ///////////////////////////////////////////////////////////////////////
+    ///////////////////////////////////////////////////////////////////////         Angular UI bootstrap Rate
+    ///////////////////////////////////////////////////////////////////////
+    $rootScope.RateMax = 9;
+    $rootScope.ToInt = function(value) {
+        return parseInt(value);
+    };
     ///////////////////////////////////////////////////////////////////////
     ///////////////////////////////////////////////////////////////////////         VARIABLES
     ///////////////////////////////////////////////////////////////////////

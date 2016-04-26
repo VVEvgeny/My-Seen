@@ -8,6 +8,7 @@ module.exports = function (grunt) {
         //angular
         'Scripts/angular.js',
         'Scripts/angular-ui-router.js',
+        'Scripts/angular-animate.js',
         'Scripts/angular-ui/ui-bootstrap-tpls.js',
         //my app
         'Scripts/myseen/jQueryToAngular.js',
@@ -85,7 +86,8 @@ module.exports = function (grunt) {
             grunt_config:
             {
                 files: 'Gruntfile.js',
-                tasks: ['concat', 'uglify', 'cssmin'],
+                //tasks: ['concat', 'uglify', 'cssmin'],
+                tasks: ['concat'],
                 options: {
                     livereload: true,
                     spawn: false
@@ -93,7 +95,8 @@ module.exports = function (grunt) {
             },
             scripts: {
                 files: srcScriptFiles,
-                tasks: ['concat:js', 'uglify:js'],
+                //tasks: ['concat:js', 'uglify:js'],
+                tasks: ['concat:js'],
                 options: {
                     livereload: true,
                     spawn: false
@@ -101,7 +104,8 @@ module.exports = function (grunt) {
             },
             css: {
                 files: srcCssFiles,
-                tasks: ['concat:css','cssmin'],
+                //tasks: ['concat:css','cssmin'],
+                tasks: ['concat:css'],
                 options: {
                     livereload: true,
                     spawn: false
@@ -117,8 +121,4 @@ module.exports = function (grunt) {
     grunt.loadNpmTasks('grunt-contrib-watch');
 
     grunt.registerTask('default', ['concat', 'uglify', 'cssmin']);
-
-    //wath for waiting
-    //devtools for waiting
-
 };
