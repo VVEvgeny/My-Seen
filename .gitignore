@@ -27,6 +27,8 @@ bld/
 *.VisualState.xml
 TestResult.xml
 
+#
+*/[Ll]ibrary/
 # Build Results of an ATL Project
 [Dd]ebugPS/
 [Rr]eleasePS/
@@ -129,7 +131,7 @@ publish/
 #*.pubxml
 
 # NuGet Packages Directory
-packages/*
+*/packages/*
 ## TODO: If the tool you use requires repositories.config
 ## uncomment the next line
 #!packages/repositories.config
