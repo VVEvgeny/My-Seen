@@ -1,3 +1,4 @@
+/// <binding AfterBuild='concat, uglify, cssmin' ProjectOpened='watch' />
 module.exports = function (grunt) {
 
     var srcScriptFiles = [
@@ -77,7 +78,7 @@ module.exports = function (grunt) {
             }
         },
         cssmin: {
-            css:{
+            css: {
                 src: 'Content/prod/production.css',
                 dest: 'Content/prod/production.min.css'
             }
