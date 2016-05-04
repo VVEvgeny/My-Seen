@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2013
-VisualStudioVersion = 12.0.40629.0
+# Visual Studio 14
+VisualStudioVersion = 14.0.25123.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "My Seen PC Win", "My Seen\My Seen PC Win.csproj", "{66387E45-307A-4637-83F9-751AAA312AFB}"
 EndProject
@@ -10,7 +10,7 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{632016C7-72D2-4EDD-AC2E-1A41D2B3EDCD}"
 	ProjectSection(SolutionItems) = preProject
 		readme.txt = readme.txt
-		Не забыть.txt = Не забыть.txt
+		Tools.txt = Tools.txt
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "My Seen Web", "MySeenWeb\My Seen Web.csproj", "{6B454E56-EE36-466F-B202-42291456E8FA}"
