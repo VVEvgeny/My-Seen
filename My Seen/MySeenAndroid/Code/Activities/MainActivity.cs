@@ -141,7 +141,7 @@ namespace MySeenAndroid
         {
             Log.Warn(LogTAG, "spinner item selected item=" + e.Position.ToString());
             Spinner spinner = (Spinner)sender;
-            if (Defaults.CategoryBase.FilmIndex == e.Position)
+            if ((int)Defaults.CategoryBase.Indexes.Films == e.Position)
             {
                 State = States.Films;
                 listview.Adapter = FilmsAdapter;

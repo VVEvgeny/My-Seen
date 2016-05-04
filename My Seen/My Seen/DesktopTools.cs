@@ -1,11 +1,8 @@
 ﻿using System.Security.Cryptography;
-using System.Data;
 using System.Linq;
 using System.Text;
 using System;
 using System.Collections.Generic;
-using System.Globalization;
-using System.Threading;
 using System.Windows.Forms;
 using System.Net;
 using MySeenLib;
@@ -23,13 +20,13 @@ namespace My_Seen
             }
             try
             {
-                WebRequest req = WebRequest.Create(
-                    MySeenWebApi.ApiHost + MySeenWebApi.ApiUsers + MD5Tools.GetMd5Hash(email.ToLower()) 
+                var req = WebRequest.Create(
+                    MySeenWebApi.ApiHost + MySeenWebApi.ApiUsers + Md5Tools.GetMd5Hash(email.ToLower()) 
                     + "/" 
-                    + ((int)MySeenWebApi.SyncModesApiUsers.isUserExists).ToString()
-                    + "/" + MySeenWebApi.ApiVersion.ToString()
+                    + (int)MySeenWebApi.SyncModesApiUsers.IsUserExists
+                    + "/" + MySeenWebApi.ApiVersion
                     );
-                MySeenWebApi.SyncJsonAnswer answer = MySeenWebApi.GetResponseAnswer((new StreamReader(req.GetResponse().GetResponseStream())).ReadToEnd());
+                var answer = MySeenWebApi.GetResponseAnswer((new StreamReader(req.GetResponse().GetResponseStream())).ReadToEnd());
                 if (answer != null)
                 {
                     if (answer.Value != MySeenWebApi.SyncJsonAnswer.Values.Ok)
@@ -38,16 +35,13 @@ namespace My_Seen
                         {
                             return Resource.UserNotExist;
                         }
-                        else if (answer.Value == MySeenWebApi.SyncJsonAnswer.Values.NoLongerSupportedVersion)
+                        if (answer.Value == MySeenWebApi.SyncJsonAnswer.Values.NoLongerSupportedVersion)
                         {
                             return Resource.NoLongerSupportedVersion;
                         }
-                        else return answer.Value.ToString();
+                        return answer.Value.ToString();
                     }
-                    else
-                    {
-                        return Resource.UserOK;
-                    }
+                    return Resource.UserOK;
                 }
                 req.GetResponse().Close();
             }
@@ -57,36 +51,36 @@ namespace My_Seen
             }
             return Resource.ApiError;
         }
-        public static bool Sync(Users User)
+        public static bool Sync(Users user)
         {
-            System.Net.ServicePointManager.Expect100Continue = false; 
+            ServicePointManager.Expect100Continue = false; 
 
-            List<MySeenWebApi.SyncJsonData> films = new List<MySeenWebApi.SyncJsonData>();
-            ModelContainer mc = new ModelContainer();
+            var films = new List<MySeenWebApi.SyncJsonData>();
+            var mc = new ModelContainer();
             //Буду отдавать ему ВСЁ, так надежнее
             films.AddRange(
-                mc.FilmsSet.Where(f => f.UsersId == User.Id).Select(Map)
-                .Union(mc.SerialsSet.Where(f => f.UsersId == User.Id).Select(Map))
-                .Union(mc.BooksSet.Where(f => f.UsersId == User.Id).Select(Map))
+                mc.FilmsSet.Where(f => f.UsersId == user.Id).Select(Map)
+                .Union(mc.SerialsSet.Where(f => f.UsersId == user.Id).Select(Map))
+                .Union(mc.BooksSet.Where(f => f.UsersId == user.Id).Select(Map))
                 );
             WebRequest req;
             MySeenWebApi.SyncJsonAnswer answer;
-            if (films.Count() != 0)
+            if (films.Count != 0)
             {
                 req = WebRequest.Create(
-                    MySeenWebApi.ApiHost + MySeenWebApi.ApiSync + MD5Tools.GetMd5Hash(User.Email.ToLower()) 
-                    + "/" + ((int)MySeenWebApi.SyncModesApiData.PostAll).ToString()
-                    + "/" + MySeenWebApi.ApiVersion.ToString()
+                    MySeenWebApi.ApiHost + MySeenWebApi.ApiSync + Md5Tools.GetMd5Hash(user.Email.ToLower()) 
+                    + "/" + (int)MySeenWebApi.SyncModesApiData.PostAll
+                    + "/" + MySeenWebApi.ApiVersion
                     );
                 req.Method = "POST";
                 req.Credentials = CredentialCache.DefaultCredentials;
                 ((HttpWebRequest)req).UserAgent = "MySeen";
                 ((HttpWebRequest)req).ProtocolVersion = HttpVersion.Version10;//для прокси
                 req.ContentType = "application/json";
-                string postData = MySeenWebApi.SetResponse(films);
-                byte[] byteArray = Encoding.UTF8.GetBytes(postData);
+                var postData = MySeenWebApi.SetResponse(films);
+                var byteArray = Encoding.UTF8.GetBytes(postData);
                 req.ContentLength = byteArray.Length;
-                Stream dataStream = req.GetRequestStream();
+                var dataStream = req.GetRequestStream();
                 dataStream.Write(byteArray, 0, byteArray.Length);
                 dataStream.Close();
 
@@ -100,12 +94,12 @@ namespace My_Seen
             }
 
             req = WebRequest.Create(
-                MySeenWebApi.ApiHost + MySeenWebApi.ApiSync + MD5Tools.GetMd5Hash(User.Email.ToLower()) 
-                + "/" + ((int)MySeenWebApi.SyncModesApiData.GetAll).ToString()
-                + "/" + MySeenWebApi.ApiVersion.ToString()
+                MySeenWebApi.ApiHost + MySeenWebApi.ApiSync + Md5Tools.GetMd5Hash(user.Email.ToLower()) 
+                + "/" + (int)MySeenWebApi.SyncModesApiData.GetAll
+                + "/" + MySeenWebApi.ApiVersion
                 );
 
-            string data = (new StreamReader(req.GetResponse().GetResponseStream())).ReadToEnd();
+            var data = (new StreamReader(req.GetResponse().GetResponseStream())).ReadToEnd();
             req.GetResponse().Close();
 
             answer = MySeenWebApi.GetResponseAnswer(data);
@@ -125,23 +119,23 @@ namespace My_Seen
             else
             {
                 //Для 2х БД алгоритм хороший, но тут есть 3 БД, надо между всеми...
-                mc.FilmsSet.RemoveRange(mc.FilmsSet.Where(f => f.UsersId == User.Id));
-                mc.SerialsSet.RemoveRange(mc.SerialsSet.Where(f => f.UsersId == User.Id));
-                mc.BooksSet.RemoveRange(mc.BooksSet.Where(f => f.UsersId == User.Id));
+                mc.FilmsSet.RemoveRange(mc.FilmsSet.Where(f => f.UsersId == user.Id));
+                mc.SerialsSet.RemoveRange(mc.SerialsSet.Where(f => f.UsersId == user.Id));
+                mc.BooksSet.RemoveRange(mc.BooksSet.Where(f => f.UsersId == user.Id));
                 mc.SaveChanges();
-                foreach (MySeenWebApi.SyncJsonData film in MySeenWebApi.GetResponse(data))
+                foreach (var film in MySeenWebApi.GetResponse(data))
                 {
                     if (film.DataMode==(int)MySeenWebApi.DataModes.Film)
                     {
-                        mc.FilmsSet.Add(MapToFilm(film, User.Id));
+                        mc.FilmsSet.Add(MapToFilm(film, user.Id));
                     }
                     else if (film.DataMode == (int)MySeenWebApi.DataModes.Serial)
                     {
-                        mc.SerialsSet.Add(MapToSerial(film, User.Id));
+                        mc.SerialsSet.Add(MapToSerial(film, user.Id));
                     }
                     else
                     {
-                        mc.BooksSet.Add(MapToBook(film, User.Id));
+                        mc.BooksSet.Add(MapToBook(film, user.Id));
                     }
                 }
             }
@@ -149,7 +143,8 @@ namespace My_Seen
             MessageBox.Show(Resource.SyncOK);
             return true;//LoadItemsToListView();
         }
-        public static MySeenWebApi.SyncJsonData Map(Films model)
+
+        private static MySeenWebApi.SyncJsonData Map(Films model)
         {
             if (model == null) return new MySeenWebApi.SyncJsonData();
 
@@ -161,11 +156,11 @@ namespace My_Seen
                 DateChange = model.DateChange,
                 DateSee = model.DateSee,
                 Genre = model.Genre,
-                Rating = model.Rating,
-                isDeleted = model.isDeleted
+                Rating = model.Rating
             };
         }
-        public static MySeenWebApi.SyncJsonData Map(Serials model)
+
+        private static MySeenWebApi.SyncJsonData Map(Serials model)
         {
             if (model == null) return new MySeenWebApi.SyncJsonData();
 
@@ -181,10 +176,10 @@ namespace My_Seen
                 DateLast = model.DateLast,
                 LastSeason = model.LastSeason,
                 LastSeries = model.LastSeries,
-                isDeleted = model.isDeleted
             };
         }
-        public static MySeenWebApi.SyncJsonData Map(Books model)
+
+        private static MySeenWebApi.SyncJsonData Map(Books model)
         {
             if (model == null) return new MySeenWebApi.SyncJsonData();
 
@@ -196,12 +191,12 @@ namespace My_Seen
                 DateChange = model.DateChange,
                 Genre = model.Genre,
                 Rating = model.Rating,
-                isDeleted = model.isDeleted, 
                 Authors=model.Authors,
                DateRead=model.DateRead,
             };
         }
-        public static Films MapToFilm(MySeenWebApi.SyncJsonData model, int user_id)
+
+        private static Films MapToFilm(MySeenWebApi.SyncJsonData model, int userId)
         {
             if (model == null) return new Films();
 
@@ -213,11 +208,11 @@ namespace My_Seen
                 DateSee = model.DateSee,
                 Genre = model.Genre,
                 Rating = model.Rating,
-                isDeleted = model.isDeleted,
-                UsersId = user_id
+                UsersId = userId
             };
         }
-        public static Serials MapToSerial(MySeenWebApi.SyncJsonData model, int user_id)
+
+        private static Serials MapToSerial(MySeenWebApi.SyncJsonData model, int userId)
         {
             if (model == null) return new Serials();
 
@@ -232,11 +227,11 @@ namespace My_Seen
                 DateLast = model.DateLast,
                 LastSeason = model.LastSeason,
                 LastSeries = model.LastSeries,
-                isDeleted = model.isDeleted,
-                UsersId = user_id
+                UsersId = userId
             };
         }
-        public static Books MapToBook(MySeenWebApi.SyncJsonData model, int user_id)
+
+        private static Books MapToBook(MySeenWebApi.SyncJsonData model, int userId)
         {
             if (model == null) return new Books();
 
@@ -247,8 +242,7 @@ namespace My_Seen
                 DateChange = model.DateChange,
                 Genre = model.Genre,
                 Rating = model.Rating,
-                isDeleted = model.isDeleted,
-                UsersId = user_id,
+                UsersId = userId,
                 Authors=model.Authors, 
                 DateRead=model.DateRead
             };
@@ -261,12 +255,12 @@ namespace My_Seen
         public event MySeenEventHandler Event;
         public void Exec()
         {
-            if (Event != null) Event();
+            Event?.Invoke();
         }
     }
     public static class ErrorProviderTools
     {
-        public static bool isValid(ErrorProvider errorProvider)
+        public static bool IsValid(ErrorProvider errorProvider)
         {
           foreach (Control c in errorProvider.ContainerControl.Controls)
                 if (!string.IsNullOrEmpty(errorProvider.GetError(c)))
@@ -275,41 +269,32 @@ namespace My_Seen
         }
     }
 
-    #region MD5Tools
-    public static class MD5Tools
+    public static class Md5Tools
     {
         public static string GetMd5Hash(string input)
         {
             try
             {
-                MD5 md5Hash = MD5.Create();
-                byte[] data = md5Hash.ComputeHash(Encoding.UTF8.GetBytes(input));
+                var md5Hash = MD5.Create();
+                var data = md5Hash.ComputeHash(Encoding.UTF8.GetBytes(input));
                 StringBuilder sBuilder = new StringBuilder();
-                for (int i = 0; i < data.Length; i++)
+                foreach (var t in data)
                 {
-                    sBuilder.Append(data[i].ToString("x2"));
+                    sBuilder.Append(t.ToString("x2"));
                 }
                 return sBuilder.ToString();
             }
-            catch
+            catch (Exception)
             {
-
+                // ignored
             }
             return string.Empty;
         }
         public static bool VerifyMd5Hash(string input, string hash)
         {
-            string hashOfInput = GetMd5Hash(input);
-            StringComparer comparer = StringComparer.OrdinalIgnoreCase;
-            if (0 == comparer.Compare(hashOfInput, hash))
-            {
-                return true;
-            }
-            else
-            {
-                return false;
-            }
+            var hashOfInput = GetMd5Hash(input);
+            var comparer = StringComparer.OrdinalIgnoreCase;
+            return 0 == comparer.Compare(hashOfInput, hash);
         }
     }
-    #endregion
 }

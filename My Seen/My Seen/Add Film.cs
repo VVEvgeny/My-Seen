@@ -93,7 +93,7 @@ namespace My_Seen
                     errorProvider.SetError(textBox1, Resource.FilmNameAlreadyExists);
                 }
             }
-            if (!ErrorProviderTools.isValid(errorProvider)) return;
+            if (!ErrorProviderTools.IsValid(errorProvider)) return;
 
             if (EditId != 0) newFilm = new Films() { Id = EditId, UsersId = user.Id, Name = textBox1.Text, DateSee = dateTimePicker1.Value, DateChange = DateTime.Now, Rating = Defaults.Ratings.GetId(comboBox1.Text), Genre = Defaults.Genres.GetId(comboBox2.Text) };
             else newFilm = new Films() { UsersId = user.Id, Name = textBox1.Text, DateSee = dateTimePicker1.Value, DateChange = DateTime.Now, Rating = Defaults.Ratings.GetId(comboBox1.Text), Genre = Defaults.Genres.GetId(comboBox2.Text) };

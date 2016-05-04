@@ -32,27 +32,17 @@ namespace MySeenLib
 
     public static class UmtTime
     {
-        public static DateTime To(DateTime datetime)
-        {
-            return datetime.ToUniversalTime();
-        }
         public static DateTime? To(DateTime? datetime)
         {
-            return !datetime.HasValue ? (DateTime?) null : datetime.Value.ToUniversalTime();
-        }
-
-        public static DateTime From(DateTime datetime)
-        {
-            return datetime.ToLocalTime();
+            return datetime?.ToUniversalTime();
         }
         public static DateTime? From(DateTime? datetime)
         {
-            return !datetime.HasValue ? (DateTime?) null : datetime.Value.ToLocalTime();
+            return datetime?.ToLocalTime();
         }
     }
     public static class CultureInfoTool
     {
-        public static string CoockieCultureKey = "_culture";
         public static class Cultures
         {
             static Cultures()
@@ -61,9 +51,9 @@ namespace MySeenLib
                 English = "en";
             }
 
-            public static string English { get; private set; }
+            public static string English { get; }
 
-            public static string Russian { get; private set; }
+            public static string Russian { get; }
         }
         public static string GetFirst2Culture()
         {
@@ -93,31 +83,12 @@ namespace MySeenLib
     public static class MySeenWebApi
     {
         public static int ApiVersion = 2;
-        public static string ApiHost
-        {
-            get
-            {
-                return Admin.IsDebug ? "http://localhost:44301" : "http://myseen.by";
-            }
-        }
-        public static string ApiHostAndroid
-        {
-            get
-            {
-                return Admin.IsDebug ? "https://10.0.2.2:443" : ApiHost;
-            }
-        }
+        public static string ApiHost => Admin.IsDebug ? "http://localhost:44301" : "http://myseen.by";
+        public static string ApiHostAndroid => Admin.IsDebug ? "https://10.0.2.2:443" : ApiHost;
 
         public static string ApiUsers = @"/api/ApiUsers/";
         public static string ApiSync = @"/api/ApiSync/";
 
-        /*
-        public static string ShareFilms = @"/Share/Films/";
-        public static string ShareTracks = @"/Share/Tracks/";
-        public static string ShareEvents = @"/Share/Events/";
-        public static string ShareSerials = @"/Share/Serials/";
-        public static string ShareBooks = @"/Share/Books/";
-        */
         public static string ShareTracks = @"/roads/shared/";
         public static string ShareEvents = @"/events/shared/";
         public static string ShareFilms = @"/films/shared/";
@@ -236,7 +207,7 @@ namespace MySeenLib
             public int GetId(string str)
             {
                 if (All == null) Load();
-                return All != null ? All.IndexOf(str) : -1;
+                return All?.IndexOf(str) ?? -1;
             }
 
             public string GetById(int id)
@@ -248,7 +219,7 @@ namespace MySeenLib
             public int GetMaxId()
             {
                 if (All == null) Load();
-                return All != null ? All.Count - 1 : 0;
+                return All?.Count - 1 ?? 0;
             }
 
             public string GetMaxValue()

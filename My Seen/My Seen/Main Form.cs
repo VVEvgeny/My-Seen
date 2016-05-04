@@ -68,11 +68,11 @@ namespace My_Seen
             {
                 if (string.IsNullOrEmpty(errorProvider.GetError(comboBox1))) errorProvider.SetError(comboBox1, Resource.UserNotExist);
             }
-            if(user!=null && !MD5Tools.VerifyMd5Hash(textBox2.Text,user.Password))
+            if(user!=null && !Md5Tools.VerifyMd5Hash(textBox2.Text,user.Password))
             {
                 if (string.IsNullOrEmpty(errorProvider.GetError(textBox2))) errorProvider.SetError(textBox2, Resource.WrongPassword);
             }
-            if (!ErrorProviderTools.isValid(errorProvider)) return;
+            if (!ErrorProviderTools.IsValid(errorProvider)) return;
 
             Hide();
             Data form = new Data();

@@ -1,7 +1,4 @@
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using PortableRazor;
 using MySeenMobileWebViewLib.Views;
 using MySeenLib;
@@ -10,27 +7,22 @@ namespace MySeenMobileWebViewLib
 {
     public class HomeController
     {
-    	private IHybridWebView webView;
-        private IDataAccess dataAccess;
-        private int CurrentView = Defaults.CategoryBase.FilmIndex;
-        public string lastPage;
+    	private readonly IHybridWebView webView;
+        private readonly IDataAccess dataAccess;
+        private int _currentView = (int)Defaults.CategoryBase.Indexes.Films;
+        private string _lastPage;
+
         public HomeController(IHybridWebView webView, IDataAccess dataAccess)
 		{
 			this.webView = webView;
             this.dataAccess = dataAccess;
-            lastPage = string.Empty;
+            _lastPage = string.Empty;
 		}
-        public void ChangeSelected()
+
+        private void ShowFilmList()
         {
-            if (CurrentView == Defaults.CategoryBase.FilmIndex) CurrentView = Defaults.CategoryBase.SerialIndex;
-            else CurrentView = Defaults.CategoryBase.FilmIndex;
-            ShowFilmList();
-        }
-        public void ShowFilmList()
-        {
-            HomeViewModel model = new HomeViewModel();
-            model.isFilm = CurrentView == Defaults.CategoryBase.FilmIndex;
-            if (CurrentView == Defaults.CategoryBase.FilmIndex)
+            var model = new HomeViewModel {isFilm = _currentView == (int) Defaults.CategoryBase.Indexes.Films};
+            if (_currentView == (int)Defaults.CategoryBase.Indexes.Films)
             {
                 model.FilmsList = dataAccess.LoadFilms();
             }
@@ -40,61 +32,60 @@ namespace MySeenMobileWebViewLib
             }
             var template = new Home { Model = model };
             var page = template.GenerateString();
-            lastPage = page;
+            _lastPage = page;
             webView.LoadHtmlString(page);
          }
         public void AddFilm()
         {
-            FilmAddViewModel model = new FilmAddViewModel();
+            var model = new FilmAddViewModel();
             var template = new AddFilm { Model = model };
             var page = template.GenerateString();
-            lastPage = page;
+            _lastPage = page;
             webView.LoadHtmlString(page);
         }
-        public void EditFilm(string _id)
+        public void EditFilm(string id)
         {
-            FilmAddViewModel model = new FilmAddViewModel();
-            model.Error = " id=" + _id.ToString();
+            var model = new FilmAddViewModel();
+            model.Error = " id=" + id.ToString();
             //model.id = _id;
             dataAccess.GetFilmById(model.id, ref model.Name, ref model.Genre, ref model.Rating);
             var template = new AddFilm { Model = model };
             var page = template.GenerateString();
-            lastPage = page;
+            _lastPage = page;
             webView.LoadHtmlString(page);
         }
         public void AddSerial()
         {
-            SerialAddViewModel model = new SerialAddViewModel();
+            var model = new SerialAddViewModel();
             var template = new AddSerial { Model = model };
             var page = template.GenerateString();
-            lastPage = page;
+            _lastPage = page;
             webView.LoadHtmlString(page);
         }
-        public void SaveFilm(string Name, string Genre, string Rating)
+        public void SaveFilm(string name, string genre, string rating)
         {
-            FilmAddViewModel model = new FilmAddViewModel();
+            var model = new FilmAddViewModel();
             if (string.IsNullOrEmpty(model.Error))
             {
-                if (Name.Length == 0)
+                if (name.Length == 0)
                 {
                     model.Error = "Too Short Film Name";
                 }
-                else if (dataAccess.isFilmNameExist(Name))
+                else if (dataAccess.IsFilmNameExist(name))
                 {
                     model.Error = "Film already exist";
                 }
                 else
                 {
-                    model.Name = Name;
+                    model.Name = name;
                 }
             }
-            int iGenre = 0;
-            int iRating = 0;
             if (string.IsNullOrEmpty(model.Error))
             {
+                int iGenre;
                 try
                 {
-                    iGenre = Convert.ToInt32(Genre);
+                    iGenre = Convert.ToInt32(genre);
                     model.Genre = iGenre;
                 }
                 catch
@@ -102,9 +93,10 @@ namespace MySeenMobileWebViewLib
                     iGenre = Defaults.Genres.GetMaxId();
                 }
 
+                int iRating;
                 try
                 {
-                    iRating = Convert.ToInt32(Rating);
+                    iRating = Convert.ToInt32(rating);
                     model.Rating = iRating;
                 }
                 catch
@@ -121,30 +113,30 @@ namespace MySeenMobileWebViewLib
             {
                 var template = new AddFilm { Model = model };
                 var page = template.GenerateString();
-                lastPage = page;
+                _lastPage = page;
                 webView.LoadHtmlString(page);
                 return;
             }
             ShowFilmList();
         }
-        public void SaveSerial(string Name, string Season, string Series, string Genre, string Rating)
+        public void SaveSerial(string name, string season, string series, string genre, string rating)
         {
-            SerialAddViewModel model = new SerialAddViewModel();
+            var model = new SerialAddViewModel();
 
             //model.Error = "Name=" + Name + " Season=" + Season + " Series=" + Series + " Genre=" + Genre + " Rating=" + Rating;
             if (string.IsNullOrEmpty(model.Error))
             {
-                if (Name.Length == 0)
+                if (name.Length == 0)
                 {
                     model.Error = "Too Short Film Name";
                 }
-                else if (dataAccess.isFilmNameExist(Name))
+                else if (dataAccess.IsFilmNameExist(name))
                 {
                     model.Error = "Film already exist";
                 }
                 else
                 {
-                    model.Name = Name;
+                    model.Name = name;
                 }
             }
             int iSeason = 0;
@@ -155,7 +147,7 @@ namespace MySeenMobileWebViewLib
             {
                 try
                 {
-                    iSeason = Convert.ToInt32(Season);
+                    iSeason = Convert.ToInt32(season);
                     model.Season = iSeason;
                 }
                 catch
@@ -164,7 +156,7 @@ namespace MySeenMobileWebViewLib
                 }
                 try
                 {
-                    iSeries = Convert.ToInt32(Series);
+                    iSeries = Convert.ToInt32(series);
                     model.Series = iSeries;
                 }
                 catch
@@ -173,7 +165,7 @@ namespace MySeenMobileWebViewLib
                 }
                 try
                 {
-                    iGenre = Convert.ToInt32(Genre);
+                    iGenre = Convert.ToInt32(genre);
                     model.Genre = iGenre;
                 }
                 catch
@@ -182,7 +174,7 @@ namespace MySeenMobileWebViewLib
                 }
                 try
                 {
-                    iRating = Convert.ToInt32(Rating);
+                    iRating = Convert.ToInt32(rating);
                     model.Rating = iRating;
                 }
                 catch
@@ -198,7 +190,7 @@ namespace MySeenMobileWebViewLib
             {
                 var template = new AddSerial { Model = model };
                 var page = template.GenerateString();
-                lastPage = page;
+                _lastPage = page;
                 webView.LoadHtmlString(page);
                 return;
             }

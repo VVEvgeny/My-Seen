@@ -42,18 +42,20 @@ namespace My_Seen
         {
             if(textBox2.Text.Length!=0)
             {
-                if(MD5Tools.GetMd5Hash(textBox2.Text)!=User.Password)
+                if(Md5Tools.GetMd5Hash(textBox2.Text)!=User.Password)
                 {
                     MessageBox.Show(Resource.WrongPassword);
                     return;
                 }
                 string msg = "";
+                /*
                 if (!Validations.ValidatePassword(ref msg, textBox3.Text, textBox4.Text))
                 {
                     MessageBox.Show(msg);
                     return;
                 }
-                User.Password = MD5Tools.GetMd5Hash(textBox2.Text);
+                */
+                User.Password = Md5Tools.GetMd5Hash(textBox2.Text);
             }
             ModelContainer mc = new ModelContainer();
             Users update_user = mc.UsersSet.First(u => u.Id == User.Id);
@@ -111,7 +113,6 @@ namespace My_Seen
                 DateSee = model.DateSee,
                 Genre = model.Genre,
                 Rating = model.Rating,
-                isDeleted = model.isDeleted,
                 UsersId = User.Id
             };
         }
@@ -125,7 +126,6 @@ namespace My_Seen
                 Name = model.Name,
                 Genre = model.Genre,
                 Rating = model.Rating,
-                isDeleted = model.isDeleted,
                 UsersId = User.Id,
                 DateBegin = model.DateBegin,
                 DateLast = model.DateLast,

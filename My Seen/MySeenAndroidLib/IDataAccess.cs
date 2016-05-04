@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 
 namespace MySeenMobileWebViewLib
 {
@@ -11,11 +7,11 @@ namespace MySeenMobileWebViewLib
         IEnumerable<FilmsView> LoadFilms();
         IEnumerable<SerialsView> LoadSerials();
 
-        bool isFilmNameExist(string Name);
-        void AddFilm(string Name, int Genre, int Rating);
+        bool IsFilmNameExist(string name);
+        void AddFilm(string name, int genre, int rating);
         void GetFilmById(int id, ref string name, ref int genre, ref int rating);
 
-        bool isSerialNameExist(string Name);
-        void AddSerial(string Name, int Season,int Series, int Genre, int Rating);
+        bool IsSerialNameExist(string name);
+        void AddSerial(string name, int season,int series, int genre, int rating);
     }
 }

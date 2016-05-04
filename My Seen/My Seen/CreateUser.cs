@@ -22,6 +22,7 @@ namespace My_Seen
         {
             errorProvider.Clear();
             string msg = "";
+            /*
             if (!Validations.ValidateUserName(ref msg, textBox1.Text))
             {
                 errorProvider.SetError(textBox1, msg);
@@ -31,17 +32,18 @@ namespace My_Seen
                 errorProvider.SetError(textBox2, msg);
                 errorProvider.SetError(textBox3, msg);
             }
+            */
 
             ModelContainer mc = new ModelContainer();
             if(mc.UsersSet.Count(u=>u.Name==textBox1.Text)!=0)
             {
                 MessageBox.Show(Resource.UserAlreadyExists);
             }
-            if (!ErrorProviderTools.isValid(errorProvider)) return;
+            if (!ErrorProviderTools.IsValid(errorProvider)) return;
 
             Users us = new Users();
             us.Name = textBox1.Text;
-            us.Password = MD5Tools.GetMd5Hash(textBox2.Text);
+            us.Password = Md5Tools.GetMd5Hash(textBox2.Text);
             us.CreationDate = DateTime.Now;
 
             mc.UsersSet.Add(us);
