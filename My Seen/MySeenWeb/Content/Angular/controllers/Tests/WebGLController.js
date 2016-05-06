@@ -1,7 +1,8 @@
-App.config(function ($stateProvider) {
+App.config(function($stateProvider) {
 
     $stateProvider
-        .state('webgl', {
+        .state('webgl',
+        {
             url: '/tests/webgl/',
             templateUrl: "Content/Angular/templates/tests/webgl.html",
             controller: 'WebGLController',
@@ -11,19 +12,23 @@ App.config(function ($stateProvider) {
 
 var TestWebGLRun = false;
 
-App.controller('WebGLController', ['$scope', '$rootScope', '$state', '$stateParams', '$http', '$location', 'Constants', '$anchorScroll',
-  function ($scope, $rootScope, $state, $stateParams, $http, $location, constants, $anchorScroll) {
+App.controller('WebGLController',
+[
+    '$scope', '$rootScope', '$state', '$stateParams', '$http', '$location', 'Constants', '$anchorScroll',
+    function($scope, $rootScope, $state, $stateParams, $http, $location, constants, $anchorScroll) {
 
-      $anchorScroll();
-      $rootScope.pageId = constants.PageIds.TestWebGL;
+        $anchorScroll();
+        $rootScope.pageId = constants.PageIds.TestWebGL;
 
-      TestWebGLRun = true;
-      requestAnimationFrame(render);
+        TestWebGLRun = true;
+        requestAnimationFrame(render);
 
-      $scope.$on("$destroy", function () {
+        $scope.$on("$destroy",
+            function() {
 
-          TestWebGLRun = false;
+                TestWebGLRun = false;
 
-      });
+            });
 
-  }]);
+    }
+]);

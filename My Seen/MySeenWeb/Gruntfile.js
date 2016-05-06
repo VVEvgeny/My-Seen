@@ -1,5 +1,5 @@
 /// <binding AfterBuild='concat, uglify, cssmin' ProjectOpened='watch' />
-module.exports = function (grunt) {
+module.exports = function(grunt) {
 
     var srcScriptFiles = [
         //jquery
@@ -31,7 +31,7 @@ module.exports = function (grunt) {
         //gmap3
         'Scripts/gmap3.js',
         //jsnlog
-         'Scripts/myseen/gmap.js',
+        'Scripts/myseen/gmap.js',
         'Scripts/myseen/gmap.tools.js',
         'Scripts/myseen/variables.js',
         'Scripts/myseen/gmap3menu.js',
@@ -74,7 +74,10 @@ module.exports = function (grunt) {
         uglify: {
             js: {
                 src: 'Content/prod/production.js',
-                dest: 'Content/prod/production.min.js'
+                dest: 'Content/prod/production.min.js',
+                options: {
+                    mangle: false
+                }
             }
         },
         cssmin: {

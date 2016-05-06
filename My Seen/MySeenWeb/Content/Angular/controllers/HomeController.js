@@ -1,7 +1,8 @@
-App.config(function ($stateProvider) {
+App.config(function($stateProvider) {
 
     $stateProvider
-        .state('/', {
+        .state('/',
+        {
             url: '/',
             templateUrl: "Content/Angular/templates/home.html",
             controller: 'HomeController',
@@ -9,19 +10,24 @@ App.config(function ($stateProvider) {
         });
 });
 
-App.controller('HomeController', ['$scope', '$rootScope', '$state', '$stateParams', '$http', '$location', 'Constants', '$anchorScroll',
-  function ($scope, $rootScope, $state, $stateParams, $http, $location, constants, $anchorScroll) {
+App.controller('HomeController',
+[
+    '$scope', '$rootScope', '$state', '$stateParams', '$http', '$location', 'Constants', '$anchorScroll',
+    function($scope, $rootScope, $state, $stateParams, $http, $location, constants, $anchorScroll) {
 
-      $anchorScroll();
-      $rootScope.pageId = constants.PageIds.Main;
+        $anchorScroll();
+        $rootScope.pageId = constants.PageIds.Main;
 
-      //Перевод всех данных на тек. странице
-      $scope.translation = {};
-      //Перевод таблицы и модальной
-      function fillTranslation(page) {
-          $scope.translation = page;
-          $scope.translation.loaded = true;
-      }
-      $rootScope.GetPage(constants.Pages.Translation, $http, fillTranslation, { pageId: $rootScope.pageId });
+        //Перевод всех данных на тек. странице
+        $scope.translation = {};
 
-  }]);
+        //Перевод таблицы и модальной
+        function fillTranslation(page) {
+            $scope.translation = page;
+            $scope.translation.loaded = true;
+        }
+
+        $rootScope.GetPage(constants.Pages.Translation, $http, fillTranslation, { pageId: $rootScope.pageId });
+
+    }
+]);

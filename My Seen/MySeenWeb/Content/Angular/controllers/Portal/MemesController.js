@@ -1,7 +1,8 @@
-App.config(function ($stateProvider) {
+App.config(function($stateProvider) {
 
     $stateProvider
-        .state('portal/memes', {
+        .state('portal/memes',
+        {
             url: '/portal/memes/:id?:page&search',
             templateUrl: "Content/Angular/templates/portal/memes.html",
             controller: 'MemesController',
@@ -9,7 +10,8 @@ App.config(function ($stateProvider) {
         });
 });
 
-App.controller('MemesController', [
+App.controller('MemesController',
+[
     '$scope', '$rootScope', '$state', '$stateParams', '$http', '$location', 'Constants', '$anchorScroll',
     function($scope, $rootScope, $state, $stateParams, $http, $location, constants, $anchorScroll) {
 
@@ -19,7 +21,8 @@ App.controller('MemesController', [
 
         //Ïîêàçàòü ëè êíîïêó ÄÎÁÀÂÈÒÜ
         if (!$scope.isOne) $scope.pageCanAdd = $rootScope.authorized;
-        $scope.$watch(function() { return $scope.pageCanAdd; }, function() { $scope.pageCanAdd = $rootScope.authorized; });
+        $scope.$watch(function() { return $scope.pageCanAdd; },
+            function() { $scope.pageCanAdd = $rootScope.authorized; });
 
         //Ïîêàçàòü ëè ïîëå ÏÎÈÑÊà
         if (!$scope.isOne) $scope.pageCanSearch = true;
@@ -42,12 +45,15 @@ App.controller('MemesController', [
         };
 
         function getMainPage() {
-            $rootScope.GetPage(constants.Pages.Main, $http, fillScope, {
-                Id: ($stateParams ? $stateParams.id : null),
-                pageId: $rootScope.pageId,
-                page: ($stateParams ? $stateParams.page : null),
-                search: ($stateParams ? $stateParams.search : null)
-            });
+            $rootScope.GetPage(constants.Pages.Main,
+                $http,
+                fillScope,
+                {
+                    Id: ($stateParams ? $stateParams.id : null),
+                    pageId: $rootScope.pageId,
+                    page: ($stateParams ? $stateParams.page : null),
+                    search: ($stateParams ? $stateParams.search : null)
+                });
         };
 
         getMainPage();
@@ -107,11 +113,12 @@ App.controller('MemesController', [
             $scope.modal.link = '';
             $("#AddModalWindow").modal("show");
         };
-        $scope.$on("$destroy", function() {
-            $scope.addModalHide();
-            $('body').removeClass('modal-open');
-            $('.modal-backdrop').remove();
-        });
+        $scope.$on("$destroy",
+            function() {
+                $scope.addModalHide();
+                $('body').removeClass('modal-open');
+                $('.modal-backdrop').remove();
+            });
         $scope.addModalHide = function() {
             $("#AddModalWindow").modal("hide");
         };
@@ -129,11 +136,14 @@ App.controller('MemesController', [
         };
 
         $scope.modal.addButtonClick = function() {
-            $rootScope.GetPage(constants.Pages.Add, $http, afterAdd, {
-                pageId: $rootScope.pageId,
-                name: $scope.modal.name,
-                link: $scope.modal.link
-            });
+            $rootScope.GetPage(constants.Pages.Add,
+                $http,
+                afterAdd,
+                {
+                    pageId: $rootScope.pageId,
+                    name: $scope.modal.name,
+                    link: $scope.modal.link
+                });
         };
         ///////////////////////////////////////////////////////////////////////
         ///////////////////////////////////////////////////////////////////////           FUNCTIONS
@@ -159,11 +169,16 @@ App.controller('MemesController', [
             $rootScope.safeApply(function() {
                 // every changes goes here
                 if ($scope.data.length > 0) {
-                    if ($scope.data[index].Stats.Plus) $scope.data[index].Stats.Plus = $scope.data[index].Stats.Plus + 1;
+                    if ($scope.data[index].Stats.Plus)
+                        $scope.data[index].Stats.Plus = $scope.data[index].Stats.Plus + 1;
                     else $scope.data[index].Stats.Plus = 1;
                     $scope.data[index].Stats.Select = true;
 
-                    $rootScope.GetPage(constants.PagesPortal.RateMem, $http, null, { recordId: $scope.data[index].Id, plus: true }, true);
+                    $rootScope.GetPage(constants.PagesPortal.RateMem,
+                        $http,
+                        null,
+                        { recordId: $scope.data[index].Id, plus: true },
+                        true);
                 }
             });
         };
@@ -171,18 +186,27 @@ App.controller('MemesController', [
             $rootScope.safeApply(function() {
                 // every changes goes here
                 if ($scope.data.length > 0) {
-                    if ($scope.data[index].Stats.Minus) $scope.data[index].Stats.Minus = $scope.data[index].Stats.Minus + 1;
+                    if ($scope.data[index].Stats.Minus)
+                        $scope.data[index].Stats.Minus = $scope.data[index].Stats.Minus + 1;
                     else $scope.data[index].Stats.Minus = 1;
                     $scope.data[index].Stats.Select = true;
 
-                    $rootScope.GetPage(constants.PagesPortal.RateMem, $http, null, { recordId: $scope.data[index].Id, plus: false }, true);
+                    $rootScope.GetPage(constants.PagesPortal.RateMem,
+                        $http,
+                        null,
+                        { recordId: $scope.data[index].Id, plus: false },
+                        true);
                 }
             });
         };
         $scope.removePost = function(index) {
             $rootScope.safeApply(function() {
                 if ($scope.data.length > 0) {
-                    $rootScope.GetPage(constants.Pages.Delete, $http, null, { pageId: $rootScope.pageId, recordId: $scope.data[index].Id }, true);
+                    $rootScope.GetPage(constants.Pages.Delete,
+                        $http,
+                        null,
+                        { pageId: $rootScope.pageId, recordId: $scope.data[index].Id },
+                        true);
                     $scope.data.splice(index, 1);
                 }
             });

@@ -1,7 +1,8 @@
 App.config(function($stateProvider) {
 
     $stateProvider
-        .state('about', {
+        .state('about',
+        {
             url: '/about/',
             templateUrl: "Content/Angular/templates/about.html",
             controller: 'AboutController',
@@ -9,9 +10,12 @@ App.config(function($stateProvider) {
         });
 });
 
-App.controller('AboutController', ['$scope', '$rootScope', '$state', '$stateParams', '$http', '$location', 'Constants', '$anchorScroll',
-    function ($scope, $rootScope, $state, $stateParams, $http, $location, constants, $anchorScroll) {
+App.controller('AboutController',
+[
+    '$scope', '$rootScope', '$state', '$stateParams', '$http', '$location', 'Constants', '$anchorScroll',
+    function($scope, $rootScope, $state, $stateParams, $http, $location, constants, $anchorScroll) {
 
-      $anchorScroll();
-      $rootScope.pageId = constants.PageIds.About;
-  }]);
+        $anchorScroll();
+        $rootScope.pageId = constants.PageIds.About;
+    }
+]);

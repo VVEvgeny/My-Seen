@@ -81,6 +81,8 @@ namespace MySeenWeb.Models.Meta
                 || ua.Contains("top100.rambler.ru")
 
                 || ua.Contains("CheckHost")
+
+                || ua.Contains("Yahoo! Slurp")
                 
                 ) return true;
             return false;

@@ -32,13 +32,13 @@ namespace MySeenLib
 
     public static class UmtTime
     {
-        public static DateTime? To(DateTime? datetime)
+        public static DateTime To(DateTime datetime)
         {
-            return datetime?.ToUniversalTime();
+            return datetime.ToUniversalTime();
         }
-        public static DateTime? From(DateTime? datetime)
+        public static DateTime From(DateTime datetime)
         {
-            return datetime?.ToLocalTime();
+            return datetime.ToLocalTime();
         }
     }
     public static class CultureInfoTool

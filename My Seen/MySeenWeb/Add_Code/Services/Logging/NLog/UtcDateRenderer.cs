@@ -14,23 +14,23 @@ namespace MySeenWeb.Add_Code.Services.Logging.NLog
         {
             try
             {
-                builder.Append(UmtTime.To(logEvent.TimeStamp).ToString(CultureInfo.CurrentCulture));
+                builder.Append(UmtTime.To(logEvent.TimeStamp));
             }
             catch (Exception)
             {
                 try
                 {
-                    builder.Append(UmtTime.To(logEvent.TimeStamp).ToString(CultureInfo.InvariantCulture));
+                    builder.Append(UmtTime.To(logEvent.TimeStamp));
                 }
                 catch (Exception)
                 {
                     try
                     {
-                        builder.Append(UmtTime.To(DateTime.Now).ToString(CultureInfo.CurrentCulture));
+                        builder.Append(UmtTime.To(DateTime.Now));
                     }
                     catch (Exception)
                     {
-                        builder.Append(UmtTime.To(DateTime.Now).ToString(CultureInfo.InvariantCulture));
+                        builder.Append(UmtTime.To(DateTime.Now));
                     }
                 }
             }
