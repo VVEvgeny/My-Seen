@@ -3,6 +3,10 @@ using System.Linq;
 using MySeenLib;
 using MySeenWeb.Models.OtherViewModels;
 using MySeenWeb.Models.Tables;
+using static System.Convert;
+using static MySeenLib.Defaults;
+using static MySeenLib.MySeenWebApi;
+using static MySeenLib.UmtTime;
 
 namespace MySeenWeb.Models.TablesLogic
 {
@@ -22,9 +26,9 @@ namespace MySeenWeb.Models.TablesLogic
             try
             {
                 Name = name;
-                Date = UmtTime.To(Convert.ToDateTime(datetime));
-                RepeatType = Convert.ToInt32(type);
-                DateChange = UmtTime.To(DateTime.Now);
+                Date = To(ToDateTime(datetime));
+                RepeatType = ToInt32(type);
+                DateChange = To(DateTime.Now);
                 UserId = userId;
             }
             catch (Exception e)
@@ -39,7 +43,7 @@ namespace MySeenWeb.Models.TablesLogic
         {
             try
             {
-                Id = Convert.ToInt32(id);
+                Id = ToInt32(id);
             }
             catch (Exception e)
             {
@@ -60,7 +64,7 @@ namespace MySeenWeb.Models.TablesLogic
             {
                 ErrorMessage = Resource.EnterEventName;
             }
-            if (string.IsNullOrEmpty(Defaults.EventTypes.GetById(RepeatType)))
+            if (string.IsNullOrEmpty(EventTypes.GetById(RepeatType)))
             {
                 ErrorMessage = Resource.IncorrectEventType;
             }
@@ -121,7 +125,7 @@ namespace MySeenWeb.Models.TablesLogic
         {
             try
             {
-                Id = Convert.ToInt32(id);
+                Id = ToInt32(id);
                 _ac.Events.RemoveRange(_ac.Events.Where(f => f.UserId == userId && f.Id == Id));
                 _ac.SaveChanges();
             }
@@ -137,11 +141,11 @@ namespace MySeenWeb.Models.TablesLogic
         {
             try
             {
-                Id = Convert.ToInt32(id);
+                Id = ToInt32(id);
                 if (_ac.Events.First(f => f.UserId == userId && f.Id == Id).Shared)
                 {
                     var key = _ac.Users.First(t => t.Id == userId).ShareEventsKey;
-                    return MySeenWebApi.ApiHost + MySeenWebApi.ShareEvents + key;
+                    return ApiHost + ShareEvents + key;
                 }
             }
             catch (Exception e)
@@ -153,16 +157,16 @@ namespace MySeenWeb.Models.TablesLogic
 
         public string GenerateShare(string id, string userId)
         {
-            var iid = Convert.ToInt32(id);
+            var iid = ToInt32(id);
             var key = _ac.Users.First(t => t.Id == userId).ShareEventsKey;
             _ac.Events.First(e => e.Id == iid).Shared = true;
             _ac.SaveChanges();
-            return MySeenWebApi.ApiHost + MySeenWebApi.ShareEvents + key;
+            return ApiHost + ShareEvents + key;
         }
 
         public string DeleteShare(string id, string userId)
         {
-            var iid = Convert.ToInt32(id);
+            var iid = ToInt32(id);
             _ac.Events.First(e => e.Id == iid && e.UserId == userId).Shared = false;
             _ac.SaveChanges();
             return "-";

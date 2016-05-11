@@ -1,8 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Globalization;
-using System.Threading;
 using Newtonsoft.Json;
+using static System.Threading.Thread;
+using static MySeenLib.Admin;
+using static MySeenLib.CultureInfoTool.Cultures;
+using static MySeenLib.Defaults;
 
 namespace MySeenLib
 {
@@ -45,29 +48,23 @@ namespace MySeenLib
 
     public static class CultureInfoTool
     {
-        public static string GetFirst2Culture()
-        {
-            return Thread.CurrentThread.CurrentUICulture.ToString().Substring(0, 2);
-        }
+        public static string First2Culture => CurrentThread.CurrentUICulture.ToString().Substring(0, 2);
 
-        public static string GetCulture()
-        {
-            return Thread.CurrentThread.CurrentUICulture.ToString();
-        }
+        public static string Culture => CurrentThread.CurrentUICulture.ToString();
 
         public static bool SetCulture(string cult)
         {
-            if (GetCulture() == cult) return false;
+            if (Culture == cult) return false;
             var culture = new CultureInfo(cult);
 
             var datetimeformat = culture.DateTimeFormat;
-            datetimeformat.LongTimePattern = cult == Cultures.English ? "h:mm:ss tt" : "HH:mm:ss";
+            datetimeformat.LongTimePattern = cult == English ? "h:mm:ss tt" : "HH:mm:ss";
             culture.DateTimeFormat = datetimeformat;
 
-            Thread.CurrentThread.CurrentCulture = culture;
-            Thread.CurrentThread.CurrentUICulture = culture;
+            CurrentThread.CurrentCulture = culture;
+            CurrentThread.CurrentUICulture = culture;
 
-            Defaults.ReloadResources();
+            ReloadResources();
 
             return true;
         }
@@ -88,8 +85,8 @@ namespace MySeenLib
 
     public static class MySeenWebApi
     {
-        public static string ApiHost => Admin.IsDebug ? "http://localhost:44301" : "http://myseen.by";
-        public static string ApiHostAndroid => Admin.IsDebug ? "https://10.0.2.2:443" : ApiHost;
+        public static string ApiHost => IsDebug ? "http://localhost:44301" : "http://myseen.by";
+        public static string ApiHostAndroid => IsDebug ? "https://10.0.2.2:443" : ApiHost;
 
         public enum DataModes
         {
@@ -441,13 +438,13 @@ namespace MySeenLib
             public int GetIdDb(string s)
             {
                 Load();
-                return s == CultureInfoTool.Cultures.English ? (int) Indexes.English : (int) Indexes.Russian;
+                return s == English ? (int) Indexes.English : (int) Indexes.Russian;
             }
 
             public string GetValDb(int i)
             {
                 Load();
-                return i == (int) Indexes.English ? CultureInfoTool.Cultures.English : CultureInfoTool.Cultures.Russian;
+                return i == (int) Indexes.English ? English : Russian;
             }
         }
 
@@ -478,7 +475,7 @@ namespace MySeenLib
             {
                 if (All == null)
                 {
-                    All = Admin.IsDebug
+                    All = IsDebug
                         ? new List<string> {Resource.All, "3", "5", "20", "500"}
                         : new List<string> {Resource.All, "20", "50", "100", "500"};
                 }

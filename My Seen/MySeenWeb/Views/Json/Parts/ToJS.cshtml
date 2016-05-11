@@ -5,7 +5,7 @@
         $(function () {
             window.GNotAuthorized = '@Resource.NotAuthorized';
             window.GNoRights = '@Resource.NoRights';
-            window.GLanguage = '@CultureInfoTool.GetFirst2Culture()';
+            window.GLanguage = '@CultureInfoTool.First2Culture';
             window.GAuthorized = '@Request.IsAuthenticated' === 'True';
             window.GIsAdmin = '@Model.UserRoles.Contains(((int)Defaults.RolesBase.Indexes.Admin).ToString())' === 'True';
         });

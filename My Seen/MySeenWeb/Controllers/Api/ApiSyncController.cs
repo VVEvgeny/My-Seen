@@ -2,22 +2,22 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web.Http;
-using MySeenLib;
 using MySeenWeb.Add_Code.Services.Logging.NLog;
 using MySeenWeb.Models.OtherViewModels;
 using MySeenWeb.Models.Tables;
+using static MySeenLib.MySeenWebApi;
 
 namespace MySeenWeb.Controllers.Api
 {
     public class ApiSyncController : ApiController
     {
-        public static MySeenWebApi.SyncJsonData Map(Films model)
+        public static SyncJsonData Map(Films model)
         {
-            if (model == null) return new MySeenWebApi.SyncJsonData();
+            if (model == null) return new SyncJsonData();
 
-            return new MySeenWebApi.SyncJsonData
+            return new SyncJsonData
             {
-                DataMode = (int)MySeenWebApi.DataModes.Film,
+                DataMode = (int)DataModes.Film,
                 Id = model.Id,
                 Name = model.Name,
                 DateChange = model.DateChange,
@@ -26,7 +26,7 @@ namespace MySeenWeb.Controllers.Api
                 Rating = model.Rating
             };
         }
-        public static Films MapToFilm(MySeenWebApi.SyncJsonData model, string userId)
+        public static Films MapToFilm(SyncJsonData model, string userId)
         {
             if (model == null) return new Films();
 
@@ -40,13 +40,13 @@ namespace MySeenWeb.Controllers.Api
                 UserId = userId
             };
         }
-        public static MySeenWebApi.SyncJsonData Map(Serials model)
+        public static SyncJsonData Map(Serials model)
         {
-            if (model == null) return new MySeenWebApi.SyncJsonData();
+            if (model == null) return new SyncJsonData();
 
-            return new MySeenWebApi.SyncJsonData
+            return new SyncJsonData
             {
-                DataMode = (int)MySeenWebApi.DataModes.Serial,
+                DataMode = (int)DataModes.Serial,
                 Id = model.Id,
                 Name = model.Name,
                 DateChange = model.DateChange,
@@ -58,7 +58,7 @@ namespace MySeenWeb.Controllers.Api
                 LastSeries = model.LastSeries
             };
         }
-        public static Serials MapToSerial(MySeenWebApi.SyncJsonData model, string userId)
+        public static Serials MapToSerial(SyncJsonData model, string userId)
         {
             if (model == null) return new Serials();
 
@@ -75,13 +75,13 @@ namespace MySeenWeb.Controllers.Api
                 UserId = userId
             };
         }
-        public static MySeenWebApi.SyncJsonData Map(Books model)
+        public static SyncJsonData Map(Books model)
         {
-            if (model == null) return new MySeenWebApi.SyncJsonData();
+            if (model == null) return new SyncJsonData();
 
-            return new MySeenWebApi.SyncJsonData
+            return new SyncJsonData
             {
-                DataMode = (int)MySeenWebApi.DataModes.Book,
+                DataMode = (int)DataModes.Book,
                 Id = model.Id,
                 Name = model.Name,
                 DateChange = model.DateChange,
@@ -91,7 +91,7 @@ namespace MySeenWeb.Controllers.Api
                 DateRead = model.DateRead
             };
         }
-        public static Books MapToBook(MySeenWebApi.SyncJsonData model, string userId)
+        public static Books MapToBook(SyncJsonData model, string userId)
         {
             if (model == null) return new Books();
 
@@ -109,23 +109,19 @@ namespace MySeenWeb.Controllers.Api
         public string GetUserId(string userKey)
         {
             var ac = new ApplicationDbContext();
-            if (ac.Users.Any(u => u.UniqueKey == userKey))
-            {
-                return ac.Users.First(u => u.UniqueKey == userKey).Id;
-            }
-            return string.Empty;
+            return ac.Users.Any(u => u.UniqueKey == userKey) ? ac.Users.First(u => u.UniqueKey == userKey).Id : string.Empty;
         }
         public IHttpActionResult Get()
         {
-            return Ok(new MySeenWebApi.SyncJsonAnswer { Value = MySeenWebApi.SyncJsonAnswer.Values.BadRequestMode });
+            return Ok(new SyncJsonAnswer { Value = SyncJsonAnswer.Values.BadRequestMode });
         }
         public IHttpActionResult Get(string userKey)
         {
-            return Ok(new MySeenWebApi.SyncJsonAnswer { Value = MySeenWebApi.SyncJsonAnswer.Values.BadRequestMode });
+            return Ok(new SyncJsonAnswer { Value = SyncJsonAnswer.Values.BadRequestMode });
         }
         public IHttpActionResult Get(string userKey, int mode)
         {
-            return Ok(new MySeenWebApi.SyncJsonAnswer { Value = MySeenWebApi.SyncJsonAnswer.Values.NoLongerSupportedVersion });
+            return Ok(new SyncJsonAnswer { Value = SyncJsonAnswer.Values.NoLongerSupportedVersion });
         }
         public IHttpActionResult Get(string userKey, int mode, int apiVersion)
         {
@@ -133,20 +129,20 @@ namespace MySeenWeb.Controllers.Api
             const string methodName = "public IHttpActionResult Get(string userKey, int mode, int apiVersion)";
             try
             {
-                if (apiVersion != MySeenWebApi.ApiVersion)
+                if (apiVersion != ApiVersion)
                 {
-                    return Ok(new MySeenWebApi.SyncJsonAnswer { Value = MySeenWebApi.SyncJsonAnswer.Values.NoLongerSupportedVersion });
+                    return Ok(new SyncJsonAnswer { Value = SyncJsonAnswer.Values.NoLongerSupportedVersion });
                 }
 
                 var ac = new ApplicationDbContext();
                 var userId = GetUserId(userKey);
                 if (string.IsNullOrEmpty(userId))
                 {
-                    return Ok(new MySeenWebApi.SyncJsonAnswer { Value = MySeenWebApi.SyncJsonAnswer.Values.UserNotExist });
+                    return Ok(new SyncJsonAnswer { Value = SyncJsonAnswer.Values.UserNotExist });
                 }
-                if ((MySeenWebApi.SyncModesApiData)mode == MySeenWebApi.SyncModesApiData.GetAll)
+                if ((SyncModesApiData)mode == SyncModesApiData.GetAll)
                 {
-                    var film = new List<MySeenWebApi.SyncJsonData>();
+                    var film = new List<SyncJsonData>();
                     film.AddRange(ac.Films.Where(f => f.UserId == userId).Select(Map)
                         .Union(ac.Serials.Where(f => f.UserId == userId).Select(Map))
                         .Union(ac.Books.Where(f => f.UserId == userId).Select(Map)));
@@ -155,64 +151,64 @@ namespace MySeenWeb.Controllers.Api
                     {
                         return Ok(film.AsEnumerable());
                     }
-                    return Ok(new MySeenWebApi.SyncJsonAnswer { Value = MySeenWebApi.SyncJsonAnswer.Values.NoData });
+                    return Ok(new SyncJsonAnswer { Value = SyncJsonAnswer.Values.NoData });
                 }
-                return Ok(new MySeenWebApi.SyncJsonAnswer { Value = MySeenWebApi.SyncJsonAnswer.Values.BadRequestMode });
+                return Ok(new SyncJsonAnswer { Value = SyncJsonAnswer.Values.BadRequestMode });
             }
             catch (Exception ex)
             {
                 logger.Error(methodName, ex);
             }
-            return Ok(new MySeenWebApi.SyncJsonAnswer { Value = MySeenWebApi.SyncJsonAnswer.Values.SomeErrorObtained });
+            return Ok(new SyncJsonAnswer { Value = SyncJsonAnswer.Values.SomeErrorObtained });
         }
 
         [HttpPost]
         public IHttpActionResult Post()
         {
-            return Ok(new MySeenWebApi.SyncJsonAnswer { Value = MySeenWebApi.SyncJsonAnswer.Values.BadRequestMode });
+            return Ok(new SyncJsonAnswer { Value = SyncJsonAnswer.Values.BadRequestMode });
         }
         [HttpPost]
         public IHttpActionResult Post([FromUri]string userKey)
         {
-            return Ok(new MySeenWebApi.SyncJsonAnswer { Value = MySeenWebApi.SyncJsonAnswer.Values.BadRequestMode });
+            return Ok(new SyncJsonAnswer { Value = SyncJsonAnswer.Values.BadRequestMode });
         }
         [HttpPost]
         public IHttpActionResult Post([FromUri]string userKey, [FromUri]int mode)
         {
-            return Ok(new MySeenWebApi.SyncJsonAnswer { Value = MySeenWebApi.SyncJsonAnswer.Values.BadRequestMode });
+            return Ok(new SyncJsonAnswer { Value = SyncJsonAnswer.Values.BadRequestMode });
         }
         [HttpPost]
-        public IHttpActionResult Post([FromUri]string userKey, [FromUri]int mode, [FromBody] IEnumerable<MySeenWebApi.SyncJsonData> data)
+        public IHttpActionResult Post([FromUri]string userKey, [FromUri]int mode, [FromBody] IEnumerable<SyncJsonData> data)
         {
-            return Ok(new MySeenWebApi.SyncJsonAnswer { Value = MySeenWebApi.SyncJsonAnswer.Values.NoLongerSupportedVersion });
+            return Ok(new SyncJsonAnswer { Value = SyncJsonAnswer.Values.NoLongerSupportedVersion });
         }
         [HttpPost]
-        public IHttpActionResult Post([FromUri]string userKey, [FromUri]int mode, [FromUri]int apiVersion, [FromBody] IEnumerable<MySeenWebApi.SyncJsonData> data)
+        public IHttpActionResult Post([FromUri]string userKey, [FromUri]int mode, [FromUri]int apiVersion, [FromBody] IEnumerable<SyncJsonData> data)
         {
             var logger = new NLogLogger();
             const string methodName = "public IHttpActionResult Get(string userKey, int mode, int apiVersion)";
             try
             {
-                if (apiVersion != MySeenWebApi.ApiVersion)
+                if (apiVersion != ApiVersion)
                 {
-                    return Ok(new MySeenWebApi.SyncJsonAnswer { Value = MySeenWebApi.SyncJsonAnswer.Values.NoLongerSupportedVersion });
+                    return Ok(new SyncJsonAnswer { Value = SyncJsonAnswer.Values.NoLongerSupportedVersion });
                 }
-                if (data == null || (MySeenWebApi.SyncModesApiData)mode != MySeenWebApi.SyncModesApiData.PostAll)
+                if (data == null || (SyncModesApiData)mode != SyncModesApiData.PostAll)
                 {
-                    return Ok(new MySeenWebApi.SyncJsonAnswer { Value = MySeenWebApi.SyncJsonAnswer.Values.BadRequestMode });
+                    return Ok(new SyncJsonAnswer { Value = SyncJsonAnswer.Values.BadRequestMode });
                 }
                 var userId = GetUserId(userKey);
                 if (string.IsNullOrEmpty(userId))
                 {
-                    return Ok(new MySeenWebApi.SyncJsonAnswer { Value = MySeenWebApi.SyncJsonAnswer.Values.UserNotExist });
+                    return Ok(new SyncJsonAnswer { Value = SyncJsonAnswer.Values.UserNotExist });
                 }
-                var syncJsonDatas = data as MySeenWebApi.SyncJsonData[] ?? data.ToArray();
+                var syncJsonDatas = data as SyncJsonData[] ?? data.ToArray();
                 if (syncJsonDatas.Any())
                 {
                     var ac = new ApplicationDbContext();
                     foreach (var film in syncJsonDatas)
                     {
-                        if (film.DataMode == (int)MySeenWebApi.DataModes.Film)
+                        if (film.DataMode == (int)DataModes.Film)
                         {
                             if (film.Id == null)
                             {
@@ -252,7 +248,7 @@ namespace MySeenWeb.Controllers.Api
                                 }
                             }
                         }
-                        else if (film.DataMode == (int)MySeenWebApi.DataModes.Serial)
+                        else if (film.DataMode == (int)DataModes.Serial)
                         {
                             if (film.Id == null)//Новый 
                             {
@@ -342,15 +338,15 @@ namespace MySeenWeb.Controllers.Api
                         }
                     }
                     ac.SaveChanges();
-                    return Ok(new MySeenWebApi.SyncJsonAnswer { Value = MySeenWebApi.SyncJsonAnswer.Values.NewDataRecieved });
+                    return Ok(new SyncJsonAnswer { Value = SyncJsonAnswer.Values.NewDataRecieved });
                 }
-                return Ok(new MySeenWebApi.SyncJsonAnswer { Value = MySeenWebApi.SyncJsonAnswer.Values.BadRequestMode });
+                return Ok(new SyncJsonAnswer { Value = SyncJsonAnswer.Values.BadRequestMode });
             }
             catch (Exception ex)
             {
                 logger.Error(methodName, ex);
             }
-            return Ok(new MySeenWebApi.SyncJsonAnswer { Value = MySeenWebApi.SyncJsonAnswer.Values.SomeErrorObtained });
+            return Ok(new SyncJsonAnswer { Value = SyncJsonAnswer.Values.SomeErrorObtained });
         }
     }
 }

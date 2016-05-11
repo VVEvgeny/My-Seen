@@ -1,9 +1,9 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System.Web;
-using MySeenLib;
 using MySeenWeb.Models.Meta;
 using MySeenWeb.Models.TablesLogic;
+using static MySeenLib.Defaults;
 
 namespace MySeenWeb.Models
 {
@@ -17,7 +17,7 @@ namespace MySeenWeb.Models
 
         public HomeViewModel(string userId, int markers, int theme, HttpRequestBase request)
         {
-            Markers = markers == (int) Defaults.EnabledDisabledBase.Indexes.Enabled;
+            Markers = markers == (int) EnabledDisabledBase.Indexes.Enabled;
             Meta = MetaBase.Create(request);
             Theme = theme;
 

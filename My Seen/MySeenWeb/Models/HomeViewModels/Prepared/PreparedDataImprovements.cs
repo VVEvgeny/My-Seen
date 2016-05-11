@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Web.Mvc;
 using MySeenLib;
+using static MySeenLib.Defaults;
 
 namespace MySeenWeb.Models.Prepared
 {
@@ -14,14 +15,14 @@ namespace MySeenWeb.Models.Prepared
         public PreparedDataImprovements()
         {
             SelectedList =
-                Defaults.Complexes.GetAll()
+                Complexes.GetAll()
                     .Select(
                         sel =>
                             new SelectListItem
                             {
                                 Text = sel,
-                                Value = Defaults.Complexes.GetId(sel).ToString(),
-                                Selected = Defaults.Complexes.GetId(sel) == (int) Defaults.ComplexBase.Indexes.All
+                                Value = Complexes.GetId(sel).ToString(),
+                                Selected = Complexes.GetId(sel) == (int) ComplexBase.Indexes.All
                             })
                     .ToList();
 

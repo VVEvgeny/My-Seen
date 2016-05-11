@@ -4,6 +4,7 @@ using System.Globalization;
 using System.Linq;
 using System.Web.Mvc;
 using MySeenLib;
+using static MySeenLib.Defaults;
 
 namespace MySeenWeb.Models.Prepared
 {
@@ -16,15 +17,15 @@ namespace MySeenWeb.Models.Prepared
         public PreparedDataEvents()
         {
             TypeList =
-                Defaults.EventTypes.GetAll()
+                EventTypes.GetAll()
                     .Select(
                         sel =>
                             new SelectListItem
                             {
                                 Text = sel,
-                                Value = Defaults.EventTypes.GetId(sel).ToString(),
+                                Value = EventTypes.GetId(sel).ToString(),
                                 Selected =
-                                    Defaults.EventTypes.GetId(sel) == (int) Defaults.EventsTypesBase.Indexes.OneTime
+                                    EventTypes.GetId(sel) == (int) EventsTypesBase.Indexes.OneTime
                             })
                     .ToList();
 

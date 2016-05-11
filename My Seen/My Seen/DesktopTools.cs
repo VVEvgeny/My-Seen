@@ -7,6 +7,7 @@ using System.Windows.Forms;
 using System.Net;
 using MySeenLib;
 using System.IO;
+using static MySeenLib.MySeenWebApi;
 
 namespace My_Seen
 {
@@ -21,25 +22,21 @@ namespace My_Seen
             try
             {
                 var req = WebRequest.Create(
-                    MySeenWebApi.ApiHost + MySeenWebApi.ApiUsers + Md5Tools.GetMd5Hash(email.ToLower()) 
+                    ApiHost + ApiUsers + Md5Tools.GetMd5Hash(email.ToLower()) 
                     + "/" 
-                    + (int)MySeenWebApi.SyncModesApiUsers.IsUserExists
-                    + "/" + MySeenWebApi.ApiVersion
+                    + (int)SyncModesApiUsers.IsUserExists
+                    + "/" + ApiVersion
                     );
-                var answer = MySeenWebApi.GetResponseAnswer((new StreamReader(req.GetResponse().GetResponseStream())).ReadToEnd());
+                var answer = GetResponseAnswer(new StreamReader(req.GetResponse().GetResponseStream()).ReadToEnd());
                 if (answer != null)
                 {
-                    if (answer.Value != MySeenWebApi.SyncJsonAnswer.Values.Ok)
+                    if (answer.Value != SyncJsonAnswer.Values.Ok)
                     {
-                        if (answer.Value == MySeenWebApi.SyncJsonAnswer.Values.UserNotExist)
+                        if (answer.Value == SyncJsonAnswer.Values.UserNotExist)
                         {
                             return Resource.UserNotExist;
                         }
-                        if (answer.Value == MySeenWebApi.SyncJsonAnswer.Values.NoLongerSupportedVersion)
-                        {
-                            return Resource.NoLongerSupportedVersion;
-                        }
-                        return answer.Value.ToString();
+                        return answer.Value == SyncJsonAnswer.Values.NoLongerSupportedVersion ? Resource.NoLongerSupportedVersion : answer.Value.ToString();
                     }
                     return Resource.UserOK;
                 }
@@ -55,7 +52,7 @@ namespace My_Seen
         {
             ServicePointManager.Expect100Continue = false; 
 
-            var films = new List<MySeenWebApi.SyncJsonData>();
+            var films = new List<SyncJsonData>();
             var mc = new ModelContainer();
             //Буду отдавать ему ВСЁ, так надежнее
             films.AddRange(
@@ -64,27 +61,27 @@ namespace My_Seen
                 .Union(mc.BooksSet.Where(f => f.UsersId == user.Id).Select(Map))
                 );
             WebRequest req;
-            MySeenWebApi.SyncJsonAnswer answer;
+            SyncJsonAnswer answer;
             if (films.Count != 0)
             {
                 req = WebRequest.Create(
-                    MySeenWebApi.ApiHost + MySeenWebApi.ApiSync + Md5Tools.GetMd5Hash(user.Email.ToLower()) 
-                    + "/" + (int)MySeenWebApi.SyncModesApiData.PostAll
-                    + "/" + MySeenWebApi.ApiVersion
+                    ApiHost + ApiSync + Md5Tools.GetMd5Hash(user.Email.ToLower()) 
+                    + "/" + (int)SyncModesApiData.PostAll
+                    + "/" + ApiVersion
                     );
                 req.Method = "POST";
                 req.Credentials = CredentialCache.DefaultCredentials;
                 ((HttpWebRequest)req).UserAgent = "MySeen";
                 ((HttpWebRequest)req).ProtocolVersion = HttpVersion.Version10;//для прокси
                 req.ContentType = "application/json";
-                var postData = MySeenWebApi.SetResponse(films);
+                var postData = SetResponse(films);
                 var byteArray = Encoding.UTF8.GetBytes(postData);
                 req.ContentLength = byteArray.Length;
                 var dataStream = req.GetRequestStream();
                 dataStream.Write(byteArray, 0, byteArray.Length);
                 dataStream.Close();
 
-                answer = MySeenWebApi.GetResponseAnswer((new StreamReader(req.GetResponse().GetResponseStream())).ReadToEnd());
+                answer = GetResponseAnswer((new StreamReader(req.GetResponse().GetResponseStream())).ReadToEnd());
                 req.GetResponse().Close();
                 if (answer == null)
                 {
@@ -94,23 +91,23 @@ namespace My_Seen
             }
 
             req = WebRequest.Create(
-                MySeenWebApi.ApiHost + MySeenWebApi.ApiSync + Md5Tools.GetMd5Hash(user.Email.ToLower()) 
-                + "/" + (int)MySeenWebApi.SyncModesApiData.GetAll
-                + "/" + MySeenWebApi.ApiVersion
+                ApiHost + ApiSync + Md5Tools.GetMd5Hash(user.Email.ToLower()) 
+                + "/" + (int)SyncModesApiData.GetAll
+                + "/" + ApiVersion
                 );
 
             var data = (new StreamReader(req.GetResponse().GetResponseStream())).ReadToEnd();
             req.GetResponse().Close();
 
-            answer = MySeenWebApi.GetResponseAnswer(data);
+            answer = GetResponseAnswer(data);
 
             if (answer != null)
             {
-                if (answer.Value == MySeenWebApi.SyncJsonAnswer.Values.UserNotExist)
+                if (answer.Value == SyncJsonAnswer.Values.UserNotExist)
                 {
                     MessageBox.Show(Resource.UserNotExist);
                 }
-                else if (answer.Value == MySeenWebApi.SyncJsonAnswer.Values.BadRequestMode)
+                else if (answer.Value == SyncJsonAnswer.Values.BadRequestMode)
                 {
                     MessageBox.Show(Resource.BadRequestMode);
                 }
@@ -123,13 +120,13 @@ namespace My_Seen
                 mc.SerialsSet.RemoveRange(mc.SerialsSet.Where(f => f.UsersId == user.Id));
                 mc.BooksSet.RemoveRange(mc.BooksSet.Where(f => f.UsersId == user.Id));
                 mc.SaveChanges();
-                foreach (var film in MySeenWebApi.GetResponse(data))
+                foreach (var film in GetResponse(data))
                 {
-                    if (film.DataMode==(int)MySeenWebApi.DataModes.Film)
+                    if (film.DataMode==(int)DataModes.Film)
                     {
                         mc.FilmsSet.Add(MapToFilm(film, user.Id));
                     }
-                    else if (film.DataMode == (int)MySeenWebApi.DataModes.Serial)
+                    else if (film.DataMode == (int)DataModes.Serial)
                     {
                         mc.SerialsSet.Add(MapToSerial(film, user.Id));
                     }
@@ -144,13 +141,13 @@ namespace My_Seen
             return true;//LoadItemsToListView();
         }
 
-        private static MySeenWebApi.SyncJsonData Map(Films model)
+        private static SyncJsonData Map(Films model)
         {
-            if (model == null) return new MySeenWebApi.SyncJsonData();
+            if (model == null) return new SyncJsonData();
 
-            return new MySeenWebApi.SyncJsonData
+            return new SyncJsonData
             {
-                DataMode = (int)MySeenWebApi.DataModes.Film,
+                DataMode = (int)DataModes.Film,
                 Id = model.Id_R,
                 Name = model.Name,
                 DateChange = model.DateChange,
@@ -160,13 +157,13 @@ namespace My_Seen
             };
         }
 
-        private static MySeenWebApi.SyncJsonData Map(Serials model)
+        private static SyncJsonData Map(Serials model)
         {
-            if (model == null) return new MySeenWebApi.SyncJsonData();
+            if (model == null) return new SyncJsonData();
 
-            return new MySeenWebApi.SyncJsonData
+            return new SyncJsonData
             {
-                DataMode = (int)MySeenWebApi.DataModes.Serial,
+                DataMode = (int)DataModes.Serial,
                 Id = model.Id_R,
                 Name = model.Name,
                 DateChange = model.DateChange,
@@ -179,13 +176,13 @@ namespace My_Seen
             };
         }
 
-        private static MySeenWebApi.SyncJsonData Map(Books model)
+        private static SyncJsonData Map(Books model)
         {
-            if (model == null) return new MySeenWebApi.SyncJsonData();
+            if (model == null) return new SyncJsonData();
 
-            return new MySeenWebApi.SyncJsonData
+            return new SyncJsonData
             {
-                DataMode = (int)MySeenWebApi.DataModes.Book,
+                DataMode = (int)DataModes.Book,
                 Id = model.Id_R,
                 Name = model.Name,
                 DateChange = model.DateChange,
@@ -196,7 +193,7 @@ namespace My_Seen
             };
         }
 
-        private static Films MapToFilm(MySeenWebApi.SyncJsonData model, int userId)
+        private static Films MapToFilm(SyncJsonData model, int userId)
         {
             if (model == null) return new Films();
 
@@ -212,7 +209,7 @@ namespace My_Seen
             };
         }
 
-        private static Serials MapToSerial(MySeenWebApi.SyncJsonData model, int userId)
+        private static Serials MapToSerial(SyncJsonData model, int userId)
         {
             if (model == null) return new Serials();
 
@@ -231,7 +228,7 @@ namespace My_Seen
             };
         }
 
-        private static Books MapToBook(MySeenWebApi.SyncJsonData model, int userId)
+        private static Books MapToBook(SyncJsonData model, int userId)
         {
             if (model == null) return new Books();
 

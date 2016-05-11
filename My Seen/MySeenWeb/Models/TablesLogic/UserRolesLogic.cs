@@ -4,6 +4,7 @@ using System.Linq;
 using Microsoft.AspNet.Identity.EntityFramework;
 using MySeenLib;
 using MySeenWeb.Models.OtherViewModels;
+using static MySeenLib.Defaults;
 
 namespace MySeenWeb.Models.TablesLogic
 {
@@ -23,7 +24,7 @@ namespace MySeenWeb.Models.TablesLogic
             var ac = new ApplicationDbContext();
             return
                 ac.UserRoles.Any(
-                    r => r.RoleId == ((int) Defaults.RolesBase.Indexes.Admin).ToString() && r.UserId == userId);
+                    r => r.RoleId == ((int) RolesBase.Indexes.Admin).ToString() && r.UserId == userId);
         }
 
         public static bool IsTester(string userId)
@@ -31,7 +32,7 @@ namespace MySeenWeb.Models.TablesLogic
             var ac = new ApplicationDbContext();
             return
                 ac.UserRoles.Any(
-                    r => r.RoleId == ((int) Defaults.RolesBase.Indexes.Tester).ToString() && r.UserId == userId);
+                    r => r.RoleId == ((int) RolesBase.Indexes.Tester).ToString() && r.UserId == userId);
         }
 
         public IEnumerable<string> GetRoles(string userId)
@@ -56,9 +57,9 @@ namespace MySeenWeb.Models.TablesLogic
             try
             {
                 UserId = _ac.Users.First(u => u.UserName == userName).Id;
-                foreach (var role in Defaults.RolesTypes.GetAll())
+                foreach (var role in RolesTypes.GetAll())
                 {
-                    var idRole = Defaults.RolesTypes.GetId(role).ToString();
+                    var idRole = RolesTypes.GetId(role).ToString();
                     if (roles != null && roles.Any() && roles.Contains(idRole))
                         // если есть роль в выбраных, проверим, если в БД, если есть ничего не делаем, если нет, добавим
                     {
@@ -71,7 +72,7 @@ namespace MySeenWeb.Models.TablesLogic
                     {
                         if (_ac.UserRoles.Any(r => r.UserId == UserId && r.RoleId == idRole))
                         {
-                            if (idRole == ((int) Defaults.RolesBase.Indexes.Admin).ToString())
+                            if (idRole == ((int) RolesBase.Indexes.Admin).ToString())
                             {
                                 if (_ac.UserRoles.Count(r => r.RoleId == idRole) < 2)
                                 {

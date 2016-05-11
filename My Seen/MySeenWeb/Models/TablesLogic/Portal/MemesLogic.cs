@@ -3,6 +3,7 @@ using System.Linq;
 using MySeenLib;
 using MySeenWeb.Models.OtherViewModels;
 using MySeenWeb.Models.Tables.Portal;
+using static MySeenLib.UmtTime;
 
 namespace MySeenWeb.Models.TablesLogic.Portal
 {
@@ -27,7 +28,7 @@ namespace MySeenWeb.Models.TablesLogic.Portal
             try
             {
                 Name = text;
-                Date = UmtTime.To(DateTime.Now);
+                Date = To(DateTime.Now);
                 Image = link;
                 UserId = userId;
             }

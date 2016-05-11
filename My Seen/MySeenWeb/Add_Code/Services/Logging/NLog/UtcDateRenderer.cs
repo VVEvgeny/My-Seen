@@ -1,9 +1,8 @@
 ﻿using System;
-using System.Globalization;
 using System.Text;
-using MySeenLib;
 using NLog;
 using NLog.LayoutRenderers;
+using static MySeenLib.UmtTime;
 
 namespace MySeenWeb.Add_Code.Services.Logging.NLog
 {
@@ -14,23 +13,23 @@ namespace MySeenWeb.Add_Code.Services.Logging.NLog
         {
             try
             {
-                builder.Append(UmtTime.To(logEvent.TimeStamp));
+                builder.Append(To(logEvent.TimeStamp));
             }
             catch (Exception)
             {
                 try
                 {
-                    builder.Append(UmtTime.To(logEvent.TimeStamp));
+                    builder.Append(To(logEvent.TimeStamp));
                 }
                 catch (Exception)
                 {
                     try
                     {
-                        builder.Append(UmtTime.To(DateTime.Now));
+                        builder.Append(To(DateTime.Now));
                     }
                     catch (Exception)
                     {
-                        builder.Append(UmtTime.To(DateTime.Now));
+                        builder.Append(To(DateTime.Now));
                     }
                 }
             }

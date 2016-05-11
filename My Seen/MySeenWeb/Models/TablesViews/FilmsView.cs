@@ -1,40 +1,23 @@
 ﻿using System.Globalization;
-using MySeenLib;
 using MySeenWeb.Models.Tables;
+using static MySeenLib.Defaults;
+using static MySeenLib.UmtTime;
 
 namespace MySeenWeb.Models.TablesViews
 {
     public class FilmsView : Films
     {
-        public string GenreText
-        {
-            get { return Defaults.Genres.GetById(Genre); }
-        }
+        public string GenreText => Genres.GetById(Genre);
 
-        public string RatingText
-        {
-            get { return Defaults.Ratings.GetById(Rating); }
-        }
+        public string RatingText => Ratings.GetById(Rating);
 
-        public string GenreVal
-        {
-            get { return Genre.ToString(); }
-        }
+        public string GenreVal => Genre.ToString();
 
-        public string RatingVal
-        {
-            get { return Rating.ToString(); }
-        }
+        public string RatingVal => Rating.ToString();
 
-        public string YearText
-        {
-            get { return Year == 0 ? "" : Year.ToString(); }
-        }
+        public string YearText => Year == 0 ? "" : Year.ToString();
 
-        public string DateSeeText
-        {
-            get { return DateSee.ToString(CultureInfo.CurrentCulture); }
-        }
+        public string DateSeeText => DateSee.ToString(CultureInfo.CurrentCulture);
 
         public static FilmsView Map(Films model)
         {
@@ -46,8 +29,8 @@ namespace MySeenWeb.Models.TablesViews
                 Name = model.Name,
                 Year = model.Year,
                 UserId = model.UserId,
-                DateChange = UmtTime.From(model.DateChange),
-                DateSee = UmtTime.From(model.DateSee),
+                DateChange = From(model.DateChange),
+                DateSee = From(model.DateSee),
                 Genre = model.Genre,
                 Rating = model.Rating,
                 Shared = model.Shared

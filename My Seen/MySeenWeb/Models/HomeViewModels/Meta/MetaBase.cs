@@ -2,20 +2,15 @@
 using MySeenLib;
 using MySeenWeb.Models.Meta.Portal;
 using MySeenWeb.Models.Meta.Shared;
+using static MySeenLib.MySeenWebApi;
 
 namespace MySeenWeb.Models.Meta
 {
     public class MetaBase
     {
-        public string Twitter
-        {
-            get { return "@vvevgeny"; }
-        }
+        public string Twitter => "@vvevgeny";
 
-        public string FacebookAppId
-        {
-            get { return "1485611081742857"; }
-        }
+        public string FacebookAppId => "1485611081742857";
 
         public string Title { get; set; }
         public string Url { get; set; }
@@ -26,9 +21,9 @@ namespace MySeenWeb.Models.Meta
         public MetaBase(HttpRequestBase request)
         {
             Title = Resource.AppName;
-            Url = MySeenWebApi.ApiHost + request.Path;
+            Url = ApiHost + request.Path;
             UaBot = IsBot(request.UserAgent);
-            Image = MySeenWebApi.ApiHost + "/content/images/icon-512.png";
+            Image = ApiHost + "/content/images/icon-512.png";
         }
 
         public static MetaBase Create(HttpRequestBase request)

@@ -6,12 +6,15 @@ using System.Web;
 using System.Web.Mvc;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
-using MySeenLib;
 using MySeenWeb.Add_Code.Services.Logging.NLog;
-using MySeenWeb.Models.Meta;
 using MySeenWeb.Models.OtherViewModels;
 using MySeenWeb.Models.TablesLogic;
 using MySeenWeb.Models.Tools;
+using static System.Convert;
+using static MySeenLib.CultureInfoTool;
+using static MySeenLib.CultureInfoTool.Cultures;
+using static MySeenLib.Defaults;
+using static MySeenWeb.Models.Meta.MetaBase;
 
 namespace MySeenWeb.Controllers._Base
 {
@@ -58,8 +61,9 @@ namespace MySeenWeb.Controllers._Base
         }
         private void WriteSession(string key, string value)
         {
-            if (ControllerContext.HttpContext.Session != null) ControllerContext.HttpContext.Session.Add(key, new MySessionObject(value));
+            ControllerContext.HttpContext.Session?.Add(key, new MySessionObject(value));
         }
+
         private void WriteUserSideStorage(string key, string value)
         {
             if (IsCookieEnabled) WriteCookie(key, value);
@@ -97,7 +101,7 @@ namespace MySeenWeb.Controllers._Base
             int readed;
             try
             {
-                readed = Convert.ToInt32(ReadUserSideStorage(key, defaultValue.ToString()));
+                readed = ToInt32(ReadUserSideStorage(key, defaultValue.ToString()));
             }
             catch
             {
@@ -153,7 +157,7 @@ namespace MySeenWeb.Controllers._Base
                 if (TryReadUserSideStorage(UserSideStorageKeys.MarkersOnRoads))
                 {
                     var retc = ReadUserSideStorage(UserSideStorageKeys.MarkersOnRoads, 0);
-                    if (!string.IsNullOrEmpty(Defaults.EnabledDisabled.GetById(retc))) return retc;
+                    if (!string.IsNullOrEmpty(EnabledDisabled.GetById(retc))) return retc;
                 }
 
                 var ret = 0;
@@ -187,13 +191,13 @@ namespace MySeenWeb.Controllers._Base
                 if (TryReadUserSideStorage(UserSideStorageKeys.RecordPerPage))
                 {
                     var retc = ReadUserSideStorage(UserSideStorageKeys.RecordPerPage,
-                        (int) Defaults.RecordPerPageBase.Indexes.All);
-                    if (!string.IsNullOrEmpty(Defaults.RecordPerPage.GetById(retc)))
-                        return retc == (int)Defaults.RecordPerPageBase.Indexes.All
-                            ? Defaults.RecordPerPageBase.Values.All
-                            : Convert.ToInt32(Defaults.RecordPerPage.GetById(retc));
+                        (int) RecordPerPageBase.Indexes.All);
+                    if (!string.IsNullOrEmpty(RecordPerPage.GetById(retc)))
+                        return retc == (int)RecordPerPageBase.Indexes.All
+                            ? RecordPerPageBase.Values.All
+                            : ToInt32(RecordPerPage.GetById(retc));
                 }
-                var ret = (int) Defaults.RecordPerPageBase.Indexes.All;
+                var ret = (int) RecordPerPageBase.Indexes.All;
                 if (User.Identity.IsAuthenticated)
                 {
                     try
@@ -209,9 +213,9 @@ namespace MySeenWeb.Controllers._Base
                             Request.UserHostAddress, Request.UserAgent, "RecordPerPage catch No USER");
                     }
                 }
-                return ret == (int) Defaults.RecordPerPageBase.Indexes.All
-                    ? Defaults.RecordPerPageBase.Values.All
-                    : Convert.ToInt32(Defaults.RecordPerPage.GetById(ret));
+                return ret == (int) RecordPerPageBase.Indexes.All
+                    ? RecordPerPageBase.Values.All
+                    : ToInt32(RecordPerPage.GetById(ret));
             }
             set
             {
@@ -225,7 +229,7 @@ namespace MySeenWeb.Controllers._Base
             {
                 if (TryReadUserSideStorage(UserSideStorageKeys.Language))
                 {
-                    var lang = ReadUserSideStorage(UserSideStorageKeys.Language, (int)Defaults.LanguagesBase.Indexes.English);
+                    var lang = ReadUserSideStorage(UserSideStorageKeys.Language, (int)LanguagesBase.Indexes.English);
                     return lang;
                 }
 
@@ -236,7 +240,7 @@ namespace MySeenWeb.Controllers._Base
                     {
                         var ac = new ApplicationDbContext();
                         var au = ac.Users.First(u => u.Id == userId);
-                        return Defaults.Languages.GetIdDb(au.Culture);
+                        return Languages.GetIdDb(au.Culture);
                     }
                     catch
                     {
@@ -248,10 +252,10 @@ namespace MySeenWeb.Controllers._Base
                     var userLanguages = Request.UserLanguages;
                     if (userLanguages != null && userLanguages.Any())
                     {
-                        return Defaults.Languages.GetIdDb(userLanguages[0]);
+                        return Languages.GetIdDb(userLanguages[0]);
                     }
                 }
-                return (int)Defaults.LanguagesBase.Indexes.English;
+                return (int)LanguagesBase.Indexes.English;
             }
         }
 
@@ -259,10 +263,10 @@ namespace MySeenWeb.Controllers._Base
         {
             if (TryReadUserSideStorage(UserSideStorageKeys.Language))
             {
-                var lang = ReadUserSideStorage(UserSideStorageKeys.Language, (int)Defaults.LanguagesBase.Indexes.English);
+                var lang = ReadUserSideStorage(UserSideStorageKeys.Language, (int)LanguagesBase.Indexes.English);
                 try
                 {
-                    CultureInfoTool.SetCulture(Defaults.Languages.GetValDb(lang));
+                    SetCulture(Languages.GetValDb(lang));
                 }
                 catch
                 {
@@ -280,7 +284,7 @@ namespace MySeenWeb.Controllers._Base
                         var au = ac.Users.First(u => u.Id == userId);
                         try
                         {
-                            CultureInfoTool.SetCulture(au.Culture);
+                            SetCulture(au.Culture);
                         }
                         catch
                         {
@@ -300,18 +304,18 @@ namespace MySeenWeb.Controllers._Base
                         //LogSave.Save(User.Identity.IsAuthenticated ? User.Identity.GetUserId() : "", Request.UserHostAddress, Request.UserAgent, "languages", Request.UserLanguages.Aggregate(String.Empty, (current, s) => current + (s + "|")));
                         try
                         {
-                            CultureInfoTool.SetCulture(userLanguages[0]);
+                            SetCulture(userLanguages[0]);
                         }
                         catch
                         {
-                            CultureInfoTool.SetCulture(CultureInfoTool.Cultures.English);
+                            SetCulture(English);
                         }
                     }
                     else
                     {
-                        CultureInfoTool.SetCulture(MetaBase.IsBotRus(Request.UserAgent)
-                            ? CultureInfoTool.Cultures.Russian
-                            : CultureInfoTool.Cultures.English);
+                        SetCulture(IsBotRus(Request.UserAgent)
+                            ? Russian
+                            : English);
                     }
                 }
             }

@@ -3,6 +3,8 @@ using System.Linq;
 using MySeenLib;
 using MySeenWeb.Models.OtherViewModels;
 using MySeenWeb.Models.Tables;
+using static System.Convert;
+using static MySeenLib.UmtTime;
 
 namespace MySeenWeb.Models.TablesLogic
 {
@@ -22,8 +24,8 @@ namespace MySeenWeb.Models.TablesLogic
             try
             {
                 Text = text;
-                DateFound = UmtTime.To(DateTime.Now);
-                Complex = Convert.ToInt32(complex);
+                DateFound = To(DateTime.Now);
+                Complex = ToInt32(complex);
                 UserId = userId;
             }
             catch (Exception e)
@@ -38,9 +40,9 @@ namespace MySeenWeb.Models.TablesLogic
         {
             try
             {
-                Id = Convert.ToInt32(id);
+                Id = ToInt32(id);
                 Text = text;
-                Complex = Convert.ToInt32(complex);
+                Complex = ToInt32(complex);
                 UserId = userId;
             }
             catch (Exception e)
@@ -111,7 +113,7 @@ namespace MySeenWeb.Models.TablesLogic
         {
             try
             {
-                Id = Convert.ToInt32(id);
+                Id = ToInt32(id);
                 _ac.Bugs.RemoveRange(_ac.Bugs.Where(b => b.Id == Id));
                 _ac.SaveChanges();
             }
@@ -127,12 +129,12 @@ namespace MySeenWeb.Models.TablesLogic
         {
             try
             {
-                Id = Convert.ToInt32(id);
+                Id = ToInt32(id);
 
                 var elem = _ac.Bugs.First(f => f.Id == Id);
                 elem.TextEnd = textEnd;
                 elem.DateEnd = DateTime.Now;
-                elem.Version = Convert.ToInt32(version);
+                elem.Version = ToInt32(version);
 
                 _ac.SaveChanges();
             }

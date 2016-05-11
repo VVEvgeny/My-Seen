@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Web.Mvc;
-using MySeenLib;
+using static MySeenLib.Defaults;
 
 namespace MySeenWeb.Models.Prepared
 {
@@ -17,26 +17,26 @@ namespace MySeenWeb.Models.Prepared
         public PreparedDataSerials()
         {
             RatingList =
-                Defaults.Ratings.GetAll()
+                Ratings.GetAll()
                     .Select(
                         sel =>
                             new SelectListItem
                             {
                                 Text = sel,
-                                Value = Defaults.Ratings.GetId(sel).ToString(),
-                                Selected = Defaults.Ratings.GetId(sel) == 0
+                                Value = Ratings.GetId(sel).ToString(),
+                                Selected = Ratings.GetId(sel) == 0
                             })
                     .ToList();
 
             GenreList =
-                Defaults.Genres.GetAll()
+                Genres.GetAll()
                     .Select(
                         sel =>
                             new SelectListItem
                             {
                                 Text = sel,
-                                Value = Defaults.Genres.GetId(sel).ToString(),
-                                Selected = Defaults.Genres.GetId(sel) == 0
+                                Value = Genres.GetId(sel).ToString(),
+                                Selected = Genres.GetId(sel) == 0
                             })
                     .ToList();
             Year = DateTime.Now.Year;

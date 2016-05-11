@@ -1,9 +1,9 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using MySeenLib;
 using MySeenWeb.Models.OtherViewModels;
 using MySeenWeb.Models.TablesViews;
 using MySeenWeb.Models.Tools;
+using static MySeenLib.Defaults;
 
 namespace MySeenWeb.Models
 {
@@ -29,9 +29,9 @@ namespace MySeenWeb.Models
                         e =>
                             ended == 1
                                 ? e.EstimatedTicks <= 0 &&
-                                  e.RepeatType != (int) Defaults.EventsTypesBase.Indexes.OneTimeWithPast
+                                  e.RepeatType != (int) EventsTypesBase.Indexes.OneTimeWithPast
                                 : e.EstimatedTicks > 0 ||
-                                  e.RepeatType == (int) Defaults.EventsTypesBase.Indexes.OneTimeWithPast
+                                  e.RepeatType == (int) EventsTypesBase.Indexes.OneTimeWithPast
                     )
                     .OrderBy(e => e.EstimatedTicks);
 

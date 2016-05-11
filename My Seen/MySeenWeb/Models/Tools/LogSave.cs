@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Linq;
-using MySeenLib;
 using MySeenWeb.Models.OtherViewModels;
 using MySeenWeb.Models.Tables;
+using static MySeenLib.Admin;
 
 namespace MySeenWeb.Models.Tools
 {
@@ -15,7 +15,7 @@ namespace MySeenWeb.Models.Tools
 
         public static void Save(string userId, string ipAdress, string userAgent, string addData)
         {
-            if (!Admin.IsDebug)
+            if (!IsDebug)
             {
                 var ac = new ApplicationDbContext();
                 var date = DateTime.Now.ToShortDateString();

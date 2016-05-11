@@ -1,16 +1,13 @@
 ﻿using System.Linq;
-using MySeenLib;
 using MySeenWeb.Models.OtherViewModels;
 using MySeenWeb.Models.Tables;
+using static MySeenLib.Defaults;
 
 namespace MySeenWeb.Models.TablesViews
 {
     public class BugsView : Bugs
     {
-        public string ComplexText
-        {
-            get { return Defaults.Complexes.GetById(Complex); }
-        }
+        public string ComplexText => Complexes.GetById(Complex);
 
         public string UserName
         {
@@ -28,25 +25,13 @@ namespace MySeenWeb.Models.TablesViews
             }
         }
 
-        public string DateEndText
-        {
-            get { return DateEnd != null ? DateEnd.Value.ToShortDateString() : string.Empty; }
-        }
+        public string DateEndText => DateEnd?.ToShortDateString() ?? string.Empty;
 
-        public string DateFoundText
-        {
-            get { return DateFound.ToShortDateString(); }
-        }
+        public string DateFoundText => DateFound.ToShortDateString();
 
-        public string VersionText
-        {
-            get { return Version != 0 ? Version.ToString() : string.Empty; }
-        }
+        public string VersionText => Version != 0 ? Version.ToString() : string.Empty;
 
-        public bool Ended
-        {
-            get { return !string.IsNullOrEmpty(TextEnd); }
-        }
+        public bool Ended => !string.IsNullOrEmpty(TextEnd);
 
         public static BugsView Map(Bugs model)
         {

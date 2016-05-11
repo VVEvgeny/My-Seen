@@ -1,5 +1,5 @@
 ﻿using System.Web.Optimization;
-using MySeenLib;
+using static MySeenLib.Admin;
 
 namespace MySeenWeb
 {
@@ -12,8 +12,8 @@ namespace MySeenWeb
             // но т.к. надо min файлы напишу сам...
 
             //=> grunt
-            bundles.Add(new ScriptBundle("~/js").Include("~/Content/prod/production" + (Admin.IsDebug ? "" : ".min") + ".js"));
-            bundles.Add(new StyleBundle("~/css").Include("~/Content/prod/production" + (Admin.IsDebug ? "" : ".min") + ".css"));
+            bundles.Add(new ScriptBundle("~/js").Include("~/Content/prod/production" + (IsDebug ? "" : ".min") + ".js"));
+            bundles.Add(new StyleBundle("~/css").Include("~/Content/prod/production" + (IsDebug ? "" : ".min") + ".css"));
         }
     }
 }

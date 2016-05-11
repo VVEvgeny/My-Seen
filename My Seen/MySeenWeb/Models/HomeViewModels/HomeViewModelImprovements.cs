@@ -1,11 +1,11 @@
 ﻿using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
-using MySeenLib;
 using MySeenWeb.Models.OtherViewModels;
 using MySeenWeb.Models.TablesLogic;
 using MySeenWeb.Models.TablesViews;
 using MySeenWeb.Models.Tools;
+using static MySeenLib.Defaults;
 
 namespace MySeenWeb.Models
 {
@@ -20,15 +20,15 @@ namespace MySeenWeb.Models
             var ac = new ApplicationDbContext();
             CanControl = UserRolesLogic.IsAdmin(userId);
 
-            if (string.IsNullOrEmpty(Defaults.Complexes.GetById(complex)))
-                complex = (int) Defaults.ComplexBase.Indexes.All;
+            if (string.IsNullOrEmpty(Complexes.GetById(complex)))
+                complex = (int) ComplexBase.Indexes.All;
 
             Pages = new Pagination(page,
                 ac.Bugs.Count(
                     b =>
                         (ended == 0 || (ended == 1 && b.DateEnd == null) || (ended == 2 && b.DateEnd != null)) &&
                         (CanControl || b.UserId == userId) &&
-                        (complex == (int) Defaults.ComplexBase.Indexes.All || b.Complex == complex) &&
+                        (complex == (int) ComplexBase.Indexes.All || b.Complex == complex) &&
                         (string.IsNullOrEmpty(search) || b.Text.Contains(search))), countInPage);
 
             Data = ac.Bugs.AsNoTracking()
@@ -36,7 +36,7 @@ namespace MySeenWeb.Models
                     b =>
                         (ended == 0 || (ended == 1 && b.DateEnd == null) || (ended == 2 && b.DateEnd != null)) &&
                         (CanControl || b.UserId == userId) &&
-                        (complex == (int) Defaults.ComplexBase.Indexes.All || b.Complex == complex) &&
+                        (complex == (int) ComplexBase.Indexes.All || b.Complex == complex) &&
                         (string.IsNullOrEmpty(search) || b.Text.Contains(search)))
                 .OrderByDescending(b => b.DateEnd == null)
                 .ThenByDescending(b => b.DateEnd)

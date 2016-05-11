@@ -16,6 +16,9 @@ using MySeenWeb.Models.OtherViewModels;
 using MySeenWeb.Models.TablesLogic;
 using MySeenWeb.Models.Tools;
 using Nemiro.OAuth;
+using static MySeenLib.CultureInfoTool;
+using static MySeenLib.MySeenWebApi;
+using static MySeenWeb.Add_Code.Md5Tools;
 
 namespace MySeenWeb.Controllers.Account
 {
@@ -36,18 +39,12 @@ namespace MySeenWeb.Controllers.Account
             private set { _userManager = value; }
         }
 
-        public AccountController()
-        {
-        }
-
         public AccountController(ApplicationUserManager userManager, ApplicationSignInManager signInManager)
         {
             UserManager = userManager;
             SignInManager = signInManager;
         }
 
-        //
-        // POST: /Account/LoginMain
         [Compress]
         [HttpPost]
         [AllowAnonymous]
@@ -77,7 +74,6 @@ namespace MySeenWeb.Controllers.Account
             return new JsonResult { Data = new { success = false, error = methodName } };
         }
 
-        // POST: /Account/Register
         [Compress]
         [HttpPost]
         [AllowAnonymous]
@@ -110,12 +106,9 @@ namespace MySeenWeb.Controllers.Account
             return new JsonResult {Data = new {success = false, error = methodName}};
         }
         
-        //
-        // POST: /Account/ExternalLogin
         [Compress]
         [HttpPost]
         [AllowAnonymous]
-        //[ValidateAntiForgeryToken]
         public ActionResult ExternalLogin(string provider, string returnUrl)
         {
             var logger = new NLogLogger();
@@ -127,7 +120,7 @@ namespace MySeenWeb.Controllers.Account
                     || provider == ExternalNotOwinProviders.MailRu)
                 {
                     //logger.Info("provider YANDEX");
-                    returnUrl = MySeenWebApi.ApiHost + "/Account/ExternalLoginCallback";
+                    returnUrl = ApiHost + "/Account/ExternalLoginCallback";
                     return Redirect(OAuthWeb.GetAuthorizationUrl(provider, returnUrl));
                 }
                 // Request a redirect to the external login provider
@@ -146,17 +139,16 @@ namespace MySeenWeb.Controllers.Account
             {
                 UserName = email,
                 Email = email,
-                UniqueKey = Md5Tools.Get(email),
-                ShareBooksKey = Md5Tools.Generate(email, 1, 1),
-                ShareEventsKey = Md5Tools.Generate(email, 2, 2),
-                ShareFilmsKey = Md5Tools.Generate(email, 3, 3),
-                ShareSerialsKey = Md5Tools.Generate(email, 4, 4),
-                Culture = CultureInfoTool.GetCulture(),
+                UniqueKey = Get(email),
+                ShareBooksKey = Generate(email, 1, 1),
+                ShareEventsKey = Generate(email, 2, 2),
+                ShareFilmsKey = Generate(email, 3, 3),
+                ShareSerialsKey = Generate(email, 4, 4),
+                Culture = Culture,
                 RegisterDate = DateTime.Now
             };
         }
-        //
-        // GET: /Account/ExternalLoginCallback
+
         [Compress]
         [AllowAnonymous]
         public async Task<ActionResult> ExternalLoginCallback(string returnUrl)
@@ -330,12 +322,9 @@ namespace MySeenWeb.Controllers.Account
             return RedirectToAction("Index", "Json");
         }
 
-        //
-        // POST: /Account/ExternalLoginConfirmation
         [Compress]
         [HttpPost]
         [AllowAnonymous]
-        //[ValidateAntiForgeryToken]
         public async Task<ActionResult> ExternalLoginConfirmation(ExternalLoginConfirmationViewModel model, string returnUrl)
         {
             var logger = new NLogLogger();
@@ -387,8 +376,6 @@ namespace MySeenWeb.Controllers.Account
             return RedirectToAction("Index", "Json");
         }
 
-        //
-        // GET: /Account/ExternalLoginFailure
         [Compress]
         [AllowAnonymous]
         public ActionResult ExternalLoginFailure()
@@ -396,8 +383,6 @@ namespace MySeenWeb.Controllers.Account
             return View();
         }
 
-        //
-        // POST: /Account/LogOut
         [Compress]
         [HttpPost]
         public JsonResult LogOut()
@@ -440,17 +425,7 @@ namespace MySeenWeb.Controllers.Account
             base.Dispose(disposing);
         }
 
-        #region Helpers
-        // Used for XSRF protection when adding external logins
-        private const string XsrfKey = "XsrfId";
-
-        private IAuthenticationManager AuthenticationManager
-        {
-            get
-            {
-                return HttpContext.GetOwinContext().Authentication;
-            }
-        }
+        private IAuthenticationManager AuthenticationManager => HttpContext.GetOwinContext().Authentication;
 
         private void AddErrors(IdentityResult result)
         {
@@ -468,7 +443,5 @@ namespace MySeenWeb.Controllers.Account
             }
             return RedirectToAction("Index", "Json");
         }
-
-        #endregion
     }
 }

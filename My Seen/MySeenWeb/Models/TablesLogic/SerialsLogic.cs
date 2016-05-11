@@ -4,6 +4,10 @@ using MySeenLib;
 using MySeenWeb.Add_Code;
 using MySeenWeb.Models.OtherViewModels;
 using MySeenWeb.Models.Tables;
+using static System.Convert;
+using static MySeenLib.MySeenWebApi;
+using static MySeenLib.UmtTime;
+using static MySeenWeb.Add_Code.CacheNames;
 
 namespace MySeenWeb.Models.TablesLogic
 {
@@ -31,14 +35,14 @@ namespace MySeenWeb.Models.TablesLogic
             {
                 if (string.IsNullOrEmpty(datetime)) throw new Exception("Нужна дата");
                 Name = name;
-                Year = string.IsNullOrEmpty(year) ? 0 : Convert.ToInt32(year);
-                LastSeason = string.IsNullOrEmpty(season) ? 1 : Convert.ToInt32(season);
-                LastSeries = string.IsNullOrEmpty(series) ? 1 : Convert.ToInt32(series);
-                DateBegin = UmtTime.To(Convert.ToDateTime(datetime));
-                Genre = Convert.ToInt32(genre);
-                Rating = Convert.ToInt32(rating);
-                DateChange = UmtTime.To(DateTime.Now);
-                DateLast = UmtTime.To(DateTime.Now);
+                Year = string.IsNullOrEmpty(year) ? 0 : ToInt32(year);
+                LastSeason = string.IsNullOrEmpty(season) ? 1 : ToInt32(season);
+                LastSeries = string.IsNullOrEmpty(series) ? 1 : ToInt32(series);
+                DateBegin = To(ToDateTime(datetime));
+                Genre = ToInt32(genre);
+                Rating = ToInt32(rating);
+                DateChange = To(DateTime.Now);
+                DateLast = To(DateTime.Now);
                 UserId = userId;
             }
             catch (Exception e)
@@ -54,7 +58,7 @@ namespace MySeenWeb.Models.TablesLogic
         {
             try
             {
-                Id = Convert.ToInt32(id);
+                Id = ToInt32(id);
             }
             catch (Exception e)
             {
@@ -90,7 +94,7 @@ namespace MySeenWeb.Models.TablesLogic
             {
                 _ac.Serials.Add(this);
                 _ac.SaveChanges();
-                _cache.Remove(CacheNames.UserSerials.ToString(), UserId);
+                _cache.Remove(UserSerials.ToString(), UserId);
             }
             catch (Exception e)
             {
@@ -107,17 +111,14 @@ namespace MySeenWeb.Models.TablesLogic
                 var film = _ac.Serials.First(f => f.UserId == UserId && f.Id == Id);
                 film.Name = Name;
                 film.Year = Year;
-                if (film.LastSeason != LastSeason || film.LastSeries != LastSeries)
-                {
-                    film.DateLast = DateLast;
-                }
+                if (film.LastSeason != LastSeason || film.LastSeries != LastSeries) film.DateLast = DateLast;
                 film.LastSeason = LastSeason;
                 film.LastSeries = LastSeries;
                 film.Genre = Genre;
                 film.Rating = Rating;
                 film.DateChange = DateChange;
                 film.DateBegin = DateBegin;
-                _cache.Remove(CacheNames.UserSerials.ToString(), UserId);
+                _cache.Remove(UserSerials.ToString(), UserId);
                 _ac.SaveChanges();
             }
             catch (Exception e)
@@ -144,12 +145,12 @@ namespace MySeenWeb.Models.TablesLogic
         {
             try
             {
-                Id = Convert.ToInt32(id);
+                Id = ToInt32(id);
                 if (_ac.Serials.Any(f => f.UserId == userId && f.Id == Id))
                 {
                     _ac.Serials.First(f => f.UserId == userId && f.Id == Id).LastSeries++;
-                    _ac.Serials.First(f => f.UserId == userId && f.Id == Id).DateLast = UmtTime.From(DateTime.Now);
-                    _cache.Remove(CacheNames.UserSerials.ToString(), userId);
+                    _ac.Serials.First(f => f.UserId == userId && f.Id == Id).DateLast = From(DateTime.Now);
+                    _cache.Remove(UserSerials.ToString(), userId);
                     _ac.SaveChanges();
                 }
                 else
@@ -170,11 +171,11 @@ namespace MySeenWeb.Models.TablesLogic
         {
             try
             {
-                Id = Convert.ToInt32(id);
+                Id = ToInt32(id);
                 if (_ac.Serials.Any(f => f.UserId == userId && f.Id == Id))
                 {
                     _ac.Serials.RemoveRange(_ac.Serials.Where(f => f.UserId == userId && f.Id == Id));
-                    _cache.Remove(CacheNames.UserSerials.ToString(), userId);
+                    _cache.Remove(UserSerials.ToString(), userId);
                     _ac.SaveChanges();
                 }
                 else
@@ -195,11 +196,11 @@ namespace MySeenWeb.Models.TablesLogic
         {
             try
             {
-                Id = Convert.ToInt32(id);
+                Id = ToInt32(id);
                 if (_ac.Serials.First(f => f.UserId == userId && f.Id == Id).Shared)
                 {
                     var key = _ac.Users.First(t => t.Id == userId).ShareSerialsKey;
-                    return MySeenWebApi.ApiHost + MySeenWebApi.ShareSerials + key;
+                    return ApiHost + ShareSerials + key;
                 }
             }
             catch (Exception e)
@@ -211,19 +212,19 @@ namespace MySeenWeb.Models.TablesLogic
 
         public string GenerateShare(string id, string userId)
         {
-            var iid = Convert.ToInt32(id);
+            var iid = ToInt32(id);
             var key = _ac.Users.First(t => t.Id == userId).ShareSerialsKey;
             _ac.Serials.First(e => e.Id == iid).Shared = true;
-            _cache.Remove(CacheNames.UserSerials.ToString(), userId);
+            _cache.Remove(UserSerials.ToString(), userId);
             _ac.SaveChanges();
-            return MySeenWebApi.ApiHost + MySeenWebApi.ShareSerials + key;
+            return ApiHost + ShareSerials + key;
         }
 
         public string DeleteShare(string id, string userId)
         {
-            var iid = Convert.ToInt32(id);
+            var iid = ToInt32(id);
             _ac.Serials.First(e => e.Id == iid && e.UserId == userId).Shared = false;
-            _cache.Remove(CacheNames.UserSerials.ToString(), userId);
+            _cache.Remove(UserSerials.ToString(), userId);
             _ac.SaveChanges();
             return "-";
         }

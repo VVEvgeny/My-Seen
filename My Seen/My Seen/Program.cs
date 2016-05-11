@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using MySeenLib;
+using static MySeenLib.CultureInfoTool;
 
 namespace My_Seen
 {
@@ -17,24 +17,23 @@ namespace My_Seen
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            //Application.Run(new Main_Form());
 
-            CultureInfoTool.SetCulture(Properties.Settings.Default.LastLanguage);
+            SetCulture(Properties.Settings.Default.LastLanguage);
 
             for (; ; )
             {
-                Main_Form form = new Main_Form();
+                var form = new MainForm();
                 form.ShowDialog();
                 try
                 {
-                    if (form.isRestart)
+                    if (form.IsRestart)
                     {
                         continue;
                     }
                 }
                 catch
                 {
-                    break;
+                    // ignored
                 }
                 break;
             }

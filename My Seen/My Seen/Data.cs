@@ -3,6 +3,7 @@ using System.Linq;
 using System.Windows.Forms;
 using MySeenLib;
 using System.Threading;
+using static MySeenLib.UmtTime;
 
 namespace My_Seen
 {
@@ -235,17 +236,17 @@ namespace My_Seen
 
         private void LoadItemsToListView(Books film, bool oneToTop = false)
         {
-            var lvi = new ListViewItem(new string[] { film.Id.ToString(), film.Name, film.Authors, Defaults.Genres.GetById(film.Genre), UmtTime.From(film.DateRead).ToString(), Defaults.Ratings.GetById(film.Rating)});
+            var lvi = new ListViewItem(new string[] { film.Id.ToString(), film.Name, film.Authors, Defaults.Genres.GetById(film.Genre), From(film.DateRead).ToString(), Defaults.Ratings.GetById(film.Rating)});
             AddToList(lvi, oneToTop);
         }
         private void LoadItemsToListView(Serials film, bool oneToTop = false)
         {
-            var lvi = new ListViewItem(new string[] { film.Id.ToString(), film.Name, film.LastSeason + "-" + film.LastSeries, Defaults.Genres.GetById(film.Genre), UmtTime.From(film.DateLast).ToString(), UmtTime.From(film.DateBegin).ToString(), Defaults.Ratings.GetById(film.Rating) });
+            var lvi = new ListViewItem(new string[] { film.Id.ToString(), film.Name, film.LastSeason + "-" + film.LastSeries, Defaults.Genres.GetById(film.Genre), From(film.DateLast).ToString(), From(film.DateBegin).ToString(), Defaults.Ratings.GetById(film.Rating) });
             AddToList(lvi, oneToTop);
         }
         private void LoadItemsToListView(Films film, bool oneToTop = false)
         {
-            var lvi = new ListViewItem(new string[] { film.Id.ToString(), film.Name, Defaults.Genres.GetById(film.Genre), UmtTime.From(film.DateSee).ToString(), Defaults.Ratings.GetById(film.Rating) });
+            var lvi = new ListViewItem(new string[] { film.Id.ToString(), film.Name, Defaults.Genres.GetById(film.Genre), From(film.DateSee).ToString(), Defaults.Ratings.GetById(film.Rating) });
             AddToList(lvi, oneToTop);
         }
         private void AddToList(ListViewItem lvi, bool oneToTop)
@@ -276,9 +277,9 @@ namespace My_Seen
                     Films film = mc.FilmsSet.First(f => f.Id == f_id);
                     film.UsersId = User.Id;
                     film.Name = form.NewFilm.Name;
-                    film.DateSee = UmtTime.To(form.NewFilm.DateSee);
+                    film.DateSee = To(form.NewFilm.DateSee);
                     film.Rating = form.NewFilm.Rating;
-                    film.DateChange = UmtTime.To(form.NewFilm.DateChange);
+                    film.DateChange = To(form.NewFilm.DateChange);
                     if (form.DelRecord)
                     {
                         film.isDeleted = true;
@@ -310,10 +311,10 @@ namespace My_Seen
                     film.Name = form.NewFilm.Name;
                     film.LastSeason = form.NewFilm.LastSeason;
                     film.LastSeries = form.NewFilm.LastSeries;
-                    film.DateBegin = UmtTime.To(form.NewFilm.DateBegin);
-                    film.DateLast = UmtTime.To(form.NewFilm.DateLast);
+                    film.DateBegin = To(form.NewFilm.DateBegin);
+                    film.DateLast = To(form.NewFilm.DateLast);
                     film.Rating = form.NewFilm.Rating;
-                    film.DateChange = UmtTime.To(form.NewFilm.DateChange);
+                    film.DateChange = To(form.NewFilm.DateChange);
                     if (form.DelRecord)
                     {
                         film.isDeleted = true;
@@ -346,10 +347,10 @@ namespace My_Seen
                     Books film = mc.BooksSet.First(f => f.Id == f_id);
                     film.UsersId = User.Id;
                     film.Name = form.NewFilm.Name;
-                    film.DateRead = UmtTime.To(form.NewFilm.DateRead);
+                    film.DateRead = To(form.NewFilm.DateRead);
                     film.Authors = form.NewFilm.Authors;
                     film.Rating = form.NewFilm.Rating;
-                    film.DateChange = UmtTime.To(form.NewFilm.DateChange);
+                    film.DateChange = To(form.NewFilm.DateChange);
                     if (form.DelRecord)
                     {
                         film.isDeleted = true;
@@ -378,8 +379,8 @@ namespace My_Seen
                 if (form.NewFilm != null)
                 {
                     ModelContainer mc = new ModelContainer();
-                    form.NewFilm.DateSee = UmtTime.To(form.NewFilm.DateSee);
-                    form.NewFilm.DateChange = UmtTime.To(form.NewFilm.DateChange);
+                    form.NewFilm.DateSee = To(form.NewFilm.DateSee);
+                    form.NewFilm.DateChange = To(form.NewFilm.DateChange);
                     mc.FilmsSet.Add(form.NewFilm);
                     mc.SaveChanges();
                     LoadItemsToListView(form.NewFilm, true);
@@ -394,9 +395,9 @@ namespace My_Seen
                 if (form.NewFilm != null)
                 {
                     ModelContainer mc = new ModelContainer();
-                    form.NewFilm.DateChange = UmtTime.To(form.NewFilm.DateChange);
-                    form.NewFilm.DateBegin = UmtTime.To(form.NewFilm.DateBegin);
-                    form.NewFilm.DateLast = UmtTime.To(form.NewFilm.DateLast);
+                    form.NewFilm.DateChange = To(form.NewFilm.DateChange);
+                    form.NewFilm.DateBegin = To(form.NewFilm.DateBegin);
+                    form.NewFilm.DateLast = To(form.NewFilm.DateLast);
                     mc.SerialsSet.Add(form.NewFilm);
                     mc.SaveChanges();
                     LoadItemsToListView(form.NewFilm, true);
@@ -411,8 +412,8 @@ namespace My_Seen
                 if (form.NewFilm != null)
                 {
                     ModelContainer mc = new ModelContainer();
-                    form.NewFilm.DateChange = UmtTime.To(form.NewFilm.DateChange);
-                    form.NewFilm.DateRead = UmtTime.To(form.NewFilm.DateRead);
+                    form.NewFilm.DateChange = To(form.NewFilm.DateChange);
+                    form.NewFilm.DateRead = To(form.NewFilm.DateRead);
                     mc.BooksSet.Add(form.NewFilm);
                     mc.SaveChanges();
                     LoadItemsToListView(form.NewFilm, true);

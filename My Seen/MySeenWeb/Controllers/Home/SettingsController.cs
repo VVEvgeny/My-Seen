@@ -6,7 +6,6 @@ using System.Web.Mvc;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
-using MySeenLib;
 using MySeenWeb.ActionFilters;
 using MySeenWeb.Add_Code;
 using MySeenWeb.Add_Code.Services.Logging.NLog;
@@ -14,27 +13,21 @@ using MySeenWeb.Controllers._Base;
 using MySeenWeb.Models.OtherViewModels;
 using MySeenWeb.Models.Tools;
 using Nemiro.OAuth;
+using static MySeenLib.CultureInfoTool;
+using static MySeenLib.Defaults;
+using static MySeenLib.MySeenWebApi;
 
 namespace MySeenWeb.Controllers.Home
 {
     public class SettingsController : BaseController
     {
-        private ApplicationUserManager UserManager
-        {
-            get { return HttpContext.GetOwinContext().GetUserManager<ApplicationUserManager>(); }
-        }
+        private ApplicationUserManager UserManager => HttpContext.GetOwinContext().GetUserManager<ApplicationUserManager>();
 
-        private ApplicationSignInManager SignInManager
-        {
-            get { return HttpContext.GetOwinContext().Get<ApplicationSignInManager>(); }
-        }
-        private IAuthenticationManager AuthenticationManager
-        {
-            get { return HttpContext.GetOwinContext().Authentication; }
-        }
+        private ApplicationSignInManager SignInManager => HttpContext.GetOwinContext().Get<ApplicationSignInManager>();
+
+        private IAuthenticationManager AuthenticationManager => HttpContext.GetOwinContext().Authentication;
 
         [Compress]
-        //[Authorize]
         [HttpPost]
         public JsonResult SetLanguage(int val)
         {
@@ -46,12 +39,12 @@ namespace MySeenWeb.Controllers.Home
                 if (!string.IsNullOrEmpty(userId))
                 {
                     var ac = new ApplicationDbContext();
-                    ac.Users.First(u => u.Id == userId).Culture = Defaults.Languages.GetValDb(val);
+                    ac.Users.First(u => u.Id == userId).Culture = Languages.GetValDb(val);
                     ac.SaveChanges();
                 }
-                CultureInfoTool.SetCulture(Defaults.Languages.GetValDb(val));
+                SetCulture(Languages.GetValDb(val));
                 WriteUserSideStorage(UserSideStorageKeys.Language, val);
-                Defaults.ReloadResources();
+                ReloadResources();
                 return Json(new { success = true });
             }
             catch (Exception ex)
@@ -62,7 +55,6 @@ namespace MySeenWeb.Controllers.Home
         }
 
         [Compress]
-        //[Authorize]
         [HttpPost]
         public JsonResult SetTheme(int val)
         {
@@ -88,7 +80,6 @@ namespace MySeenWeb.Controllers.Home
         }
 
         [Compress]
-        //[Authorize]
         [HttpPost]
         public JsonResult SetRpp(int val)
         {
@@ -250,7 +241,7 @@ namespace MySeenWeb.Controllers.Home
                     )
                 {
                     //logger.Info("provider YANDEX");
-                    var returnUrl = MySeenWebApi.ApiHost + "/Account/ExternalLoginCallback";
+                    var returnUrl = ApiHost + "/Account/ExternalLoginCallback";
                     return Redirect(OAuthWeb.GetAuthorizationUrl(provider, returnUrl));
                 }
                 // Request a redirect to the external login provider to link a login for the current user
@@ -262,7 +253,7 @@ namespace MySeenWeb.Controllers.Home
             }
             return new JsonResult { Data = new { success = false, error = methodName } };
         }
-        // Used for XSRF protection when adding external logins
+
         private const string XsrfKey = "XsrfId";
         public async Task<ActionResult> LinkLoginCallback()
         {
@@ -291,12 +282,7 @@ namespace MySeenWeb.Controllers.Home
         }
         internal class ChallengeResult : HttpUnauthorizedResult
         {
-            public ChallengeResult(string provider, string redirectUri)
-                : this(provider, redirectUri, null)
-            {
-            }
-
-            public ChallengeResult(string provider, string redirectUri, string userId)
+            public ChallengeResult(string provider, string redirectUri, string userId = null)
             {
                 LoginProvider = provider;
                 RedirectUri = redirectUri;

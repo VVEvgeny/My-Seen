@@ -4,6 +4,7 @@ using System.Web.Mvc;
 using MySeenLib;
 using MySeenWeb.Models.OtherViewModels;
 using MySeenWeb.Models.TablesLogic;
+using static MySeenLib.Defaults;
 
 namespace MySeenWeb.Models
 {
@@ -26,7 +27,7 @@ namespace MySeenWeb.Models
             if (string.IsNullOrEmpty(userId))
             {
                 Lang = lang.ToString();
-                Rpp = Defaults.RecordPerPage.GetId(rpp.ToString()).ToString();
+                Rpp = RecordPerPage.GetId(rpp.ToString()).ToString();
                 Theme = theme.ToString();
             }
             else
@@ -34,7 +35,7 @@ namespace MySeenWeb.Models
                 var ac = new ApplicationDbContext();
                 var user = ac.Users.First(u => u.Id == userId);
 
-                Lang = Defaults.Languages.GetIdDb(user.Culture).ToString();
+                Lang = Languages.GetIdDb(user.Culture).ToString();
                 Rpp = user.RecordPerPage.ToString();
                 Markers = user.MarkersOnRoads.ToString();
                 HasPassword = user.PasswordHash != null;
@@ -44,39 +45,39 @@ namespace MySeenWeb.Models
                 CountLogins = userLogic.GetCountLogins(userId);
 
                 MarkersOnRoadsList =
-                    Defaults.EnabledDisabled.GetAll()
+                    EnabledDisabled.GetAll()
                         .Select(
                             sel =>
                                 new SelectListItem
                                 {
                                     Text = sel,
-                                    Value = Defaults.EnabledDisabled.GetId(sel).ToString(),
-                                    Selected = Defaults.EnabledDisabled.GetId(sel).ToString() == Markers
+                                    Value = EnabledDisabled.GetId(sel).ToString(),
+                                    Selected = EnabledDisabled.GetId(sel).ToString() == Markers
                                 })
                         .ToList();
             }
 
             LangList =
-                Defaults.Languages.GetAll()
+                Languages.GetAll()
                     .Select(
                         sel =>
                             new SelectListItem
                             {
                                 Text = sel,
-                                Value = Defaults.Languages.GetId(sel).ToString(),
-                                Selected = Defaults.Languages.GetId(sel).ToString() == Lang
+                                Value = Languages.GetId(sel).ToString(),
+                                Selected = Languages.GetId(sel).ToString() == Lang
                             })
                     .ToList();
 
             RppList =
-                Defaults.RecordPerPage.GetAll()
+                RecordPerPage.GetAll()
                     .Select(
                         sel =>
                             new SelectListItem
                             {
                                 Text = sel,
-                                Value = Defaults.RecordPerPage.GetId(sel).ToString(),
-                                Selected = Defaults.RecordPerPage.GetId(sel).ToString() == Rpp
+                                Value = RecordPerPage.GetId(sel).ToString(),
+                                Selected = RecordPerPage.GetId(sel).ToString() == Rpp
                             })
                     .ToList();
 

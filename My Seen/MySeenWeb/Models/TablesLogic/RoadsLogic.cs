@@ -5,6 +5,9 @@ using MySeenWeb.Add_Code;
 using MySeenWeb.Models.OtherViewModels;
 using MySeenWeb.Models.Tables;
 using MySeenWeb.Models.TablesViews;
+using static System.Convert;
+using static MySeenLib.MySeenWebApi;
+using static MySeenLib.UmtTime;
 
 namespace MySeenWeb.Models.TablesLogic
 {
@@ -30,12 +33,12 @@ namespace MySeenWeb.Models.TablesLogic
             try
             {
                 Name = name;
-                Date = UmtTime.To(Convert.ToDateTime(datetime));
-                Type = Convert.ToInt32(type);
+                Date = To(ToDateTime(datetime));
+                Type = ToInt32(type);
                 Coordinates = coordinates;
                 if (distance.Contains('.'))
                     distance = distance.Remove(distance.IndexOf('.')); //Только кол-во КМ запишем
-                Distance = Convert.ToDouble(distance);
+                Distance = ToDouble(distance);
                 UserId = userId;
             }
             catch (Exception e)
@@ -51,7 +54,7 @@ namespace MySeenWeb.Models.TablesLogic
         {
             try
             {
-                Id = Convert.ToInt32(id);
+                Id = ToInt32(id);
             }
             catch (Exception e)
             {
@@ -122,7 +125,7 @@ namespace MySeenWeb.Models.TablesLogic
         {
             try
             {
-                Id = Convert.ToInt32(id);
+                Id = ToInt32(id);
                 if (_ac.Tracks.Any(f => f.UserId == userId && f.Id == Id))
                 {
                     _ac.Tracks.RemoveRange(_ac.Tracks.Where(f => f.UserId == userId && f.Id == Id));
@@ -151,7 +154,7 @@ namespace MySeenWeb.Models.TablesLogic
                 if (id.Contains("-"))
                 {
                     id = id.Remove(0, 1);
-                    var iid = Convert.ToInt32(id);
+                    var iid = ToInt32(id);
                     switch (iid)
                     {
                         case (int) RoadTypes.Bike:
@@ -171,11 +174,11 @@ namespace MySeenWeb.Models.TablesLogic
                 }
                 else
                 {
-                    var iid = Convert.ToInt32(id);
+                    var iid = ToInt32(id);
                     key = _ac.Tracks.First(t => t.UserId == userId && t.Id == iid).ShareKey;
                 }
                 if (string.IsNullOrEmpty(key)) return "-";
-                return MySeenWebApi.ApiHost + MySeenWebApi.ShareTracks + key;
+                return ApiHost + ShareTracks + key;
             }
             catch (Exception e)
             {
@@ -198,7 +201,7 @@ namespace MySeenWeb.Models.TablesLogic
             if (id.Contains("-"))
             {
                 id = id.Remove(0, 1);
-                var iid = Convert.ToInt32(id);
+                var iid = ToInt32(id);
                 switch (iid)
                 {
                     case (int) RoadTypes.Bike:
@@ -218,12 +221,12 @@ namespace MySeenWeb.Models.TablesLogic
             }
             else
             {
-                var iid = Convert.ToInt32(id);
+                var iid = ToInt32(id);
                 if (_ac.Tracks != null) _ac.Tracks.First(t => t.UserId == userId && t.Id == iid).ShareKey = genkey;
             }
             _ac.SaveChanges();
             _cache.Remove(CacheNames.UserRoads.ToString(), userId);
-            return MySeenWebApi.ApiHost + MySeenWebApi.ShareTracks + genkey;
+            return ApiHost + ShareTracks + genkey;
         }
 
         public string DeleteShare(string id, string userId)
@@ -231,7 +234,7 @@ namespace MySeenWeb.Models.TablesLogic
             if (id.Contains("-"))
             {
                 id = id.Remove(0, 1);
-                var iid = Convert.ToInt32(id);
+                var iid = ToInt32(id);
                 switch (iid)
                 {
                     case (int) RoadTypes.Bike:
@@ -251,7 +254,7 @@ namespace MySeenWeb.Models.TablesLogic
             }
             else
             {
-                var iid = Convert.ToInt32(id);
+                var iid = ToInt32(id);
                 _ac.Tracks.First(t => t.UserId == userId && t.Id == iid).ShareKey = string.Empty;
             }
             _ac.SaveChanges();
@@ -264,7 +267,6 @@ namespace MySeenWeb.Models.TablesLogic
             return
                 _ac.Tracks.Count(
                     f =>
-                        //!string.IsNullOrEmpty(f.ShareKey) &&
                         f.User.ShareTracksAllKey == key || f.User.ShareTracksFootKey == key ||
                         f.User.ShareTracksCarKey == key || f.User.ShareTracksBikeKey == key);
         }

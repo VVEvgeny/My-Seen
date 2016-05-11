@@ -4,6 +4,9 @@ using MySeenLib;
 using MySeenWeb.Add_Code;
 using MySeenWeb.Models.OtherViewModels;
 using MySeenWeb.Models.Tables;
+using static System.Convert;
+using static MySeenLib.MySeenWebApi;
+using static MySeenLib.UmtTime;
 
 namespace MySeenWeb.Models.TablesLogic
 {
@@ -30,11 +33,11 @@ namespace MySeenWeb.Models.TablesLogic
             {
                 if (string.IsNullOrEmpty(datetime)) throw new Exception("Нужна дата");
                 Name = name;
-                Year = string.IsNullOrEmpty(year) ? 0 : Convert.ToInt32(year);
-                DateSee = UmtTime.To(Convert.ToDateTime(datetime));
-                Genre = Convert.ToInt32(genre);
-                Rating = Convert.ToInt32(rating);
-                DateChange = UmtTime.To(DateTime.Now);
+                Year = string.IsNullOrEmpty(year) ? 0 : ToInt32(year);
+                DateSee = To(ToDateTime(datetime));
+                Genre = ToInt32(genre);
+                Rating = ToInt32(rating);
+                DateChange = To(DateTime.Now);
                 UserId = userId;
             }
             catch (Exception e)
@@ -50,7 +53,7 @@ namespace MySeenWeb.Models.TablesLogic
         {
             try
             {
-                Id = Convert.ToInt32(id);
+                Id = ToInt32(id);
             }
             catch (Exception e)
             {
@@ -133,7 +136,7 @@ namespace MySeenWeb.Models.TablesLogic
         {
             try
             {
-                Id = Convert.ToInt32(id);
+                Id = ToInt32(id);
                 if (_ac.Films.Any(f => f.UserId == userId && f.Id == Id))
                 {
                     _ac.Films.RemoveRange(_ac.Films.Where(f => f.UserId == userId && f.Id == Id));
@@ -158,11 +161,11 @@ namespace MySeenWeb.Models.TablesLogic
         {
             try
             {
-                Id = Convert.ToInt32(id);
+                Id = ToInt32(id);
                 if (_ac.Films.First(f => f.UserId == userId && f.Id == Id).Shared)
                 {
                     var key = _ac.Users.First(t => t.Id == userId).ShareFilmsKey;
-                    return MySeenWebApi.ApiHost + MySeenWebApi.ShareFilms + key;
+                    return ApiHost + ShareFilms + key;
                 }
             }
             catch (Exception e)
@@ -174,17 +177,17 @@ namespace MySeenWeb.Models.TablesLogic
 
         public string GenerateShare(string id, string userId)
         {
-            var iid = Convert.ToInt32(id);
+            var iid = ToInt32(id);
             var key = _ac.Users.First(t => t.Id == userId).ShareFilmsKey;
             _ac.Films.First(e => e.Id == iid).Shared = true;
             _ac.SaveChanges();
             _cache.Remove(CacheNames.UserFilms.ToString(), userId);
-            return MySeenWebApi.ApiHost + MySeenWebApi.ShareFilms + key;
+            return ApiHost + ShareFilms + key;
         }
 
         public string DeleteShare(string id, string userId)
         {
-            var iid = Convert.ToInt32(id);
+            var iid = ToInt32(id);
             _ac.Films.First(e => e.Id == iid && e.UserId == userId).Shared = false;
             _ac.SaveChanges();
             _cache.Remove(CacheNames.UserFilms.ToString(), userId);

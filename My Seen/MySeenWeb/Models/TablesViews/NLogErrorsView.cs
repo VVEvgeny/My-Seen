@@ -1,15 +1,12 @@
 ﻿using System.Globalization;
-using MySeenLib;
 using MySeenWeb.Models.Tables;
+using static MySeenLib.UmtTime;
 
 namespace MySeenWeb.Models.TablesViews
 {
     public class NLogErrorsView : NLogErrors
     {
-        public string DateTimeStampText
-        {
-            get { return DateTimeStamp.ToString(CultureInfo.CurrentCulture); }
-        }
+        public string DateTimeStampText => DateTimeStamp.ToString(CultureInfo.CurrentCulture);
 
         public static NLogErrorsView Map(NLogErrors model)
         {
@@ -18,7 +15,7 @@ namespace MySeenWeb.Models.TablesViews
             return new NLogErrorsView
             {
                 Id = model.Id,
-                DateTimeStamp = UmtTime.From(model.DateTimeStamp),
+                DateTimeStamp = From(model.DateTimeStamp),
                 Host = model.Host,
                 Message = model.Message,
                 Level = model.Level,

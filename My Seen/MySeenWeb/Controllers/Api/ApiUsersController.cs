@@ -1,9 +1,10 @@
 ﻿using System;
 using System.Linq;
 using System.Web.Http;
-using MySeenLib;
 using MySeenWeb.Add_Code.Services.Logging.NLog;
 using MySeenWeb.Models.OtherViewModels;
+using static MySeenLib.MySeenWebApi;
+using static MySeenLib.MySeenWebApi.SyncJsonAnswer;
 
 namespace MySeenWeb.Controllers.Api
 {
@@ -15,41 +16,41 @@ namespace MySeenWeb.Controllers.Api
             const string methodName = "public IHttpActionResult Get(string userKey, int mode, int apiVersion)";
             try
             {
-                if (apiVersion != MySeenWebApi.ApiVersion)
+                if (apiVersion != ApiVersion)
                 {
-                    return Ok(new MySeenWebApi.SyncJsonAnswer { Value = MySeenWebApi.SyncJsonAnswer.Values.NoLongerSupportedVersion });
+                    return Ok(new SyncJsonAnswer { Value = Values.NoLongerSupportedVersion });
                 }
-                if ((MySeenWebApi.SyncModesApiUsers)mode == MySeenWebApi.SyncModesApiUsers.IsUserExists)
+                if ((SyncModesApiUsers)mode == SyncModesApiUsers.IsUserExists)
                 {
                     var ac = new ApplicationDbContext();
                     if (!ac.Users.Any(u => u.UniqueKey == userKey))
                     {
-                        return Ok(new MySeenWebApi.SyncJsonAnswer { Value = MySeenWebApi.SyncJsonAnswer.Values.UserNotExist });
+                        return Ok(new SyncJsonAnswer { Value = Values.UserNotExist });
                     }
                     else
                     {
-                        return Ok(new MySeenWebApi.SyncJsonAnswer { Value = MySeenWebApi.SyncJsonAnswer.Values.Ok });
+                        return Ok(new SyncJsonAnswer { Value = Values.Ok });
                     }
                 }
-                return Ok(new MySeenWebApi.SyncJsonAnswer { Value = MySeenWebApi.SyncJsonAnswer.Values.BadRequestMode });
+                return Ok(new SyncJsonAnswer { Value = Values.BadRequestMode });
             }
             catch (Exception ex)
             {
                 logger.Error(methodName, ex);
             }
-            return Ok(new MySeenWebApi.SyncJsonAnswer { Value = MySeenWebApi.SyncJsonAnswer.Values.SomeErrorObtained });
+            return Ok(new SyncJsonAnswer { Value = Values.SomeErrorObtained });
         }
         public IHttpActionResult Get(string userKey, int mode)
         {
-            return Ok(new MySeenWebApi.SyncJsonAnswer { Value = MySeenWebApi.SyncJsonAnswer.Values.NoLongerSupportedVersion });
+            return Ok(new SyncJsonAnswer { Value = Values.NoLongerSupportedVersion });
         }
         public IHttpActionResult Get(string userKey)
         {
-            return Ok(new MySeenWebApi.SyncJsonAnswer { Value = MySeenWebApi.SyncJsonAnswer.Values.BadRequestMode });
+            return Ok(new SyncJsonAnswer { Value = Values.BadRequestMode });
         }
         public IHttpActionResult Get()
         {
-            return Ok(new MySeenWebApi.SyncJsonAnswer { Value = MySeenWebApi.SyncJsonAnswer.Values.BadRequestMode });
+            return Ok(new SyncJsonAnswer { Value = Values.BadRequestMode });
         }
     }
 }

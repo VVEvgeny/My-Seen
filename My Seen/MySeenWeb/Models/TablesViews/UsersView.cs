@@ -2,8 +2,9 @@ using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
-using MySeenLib;
 using MySeenWeb.Models.OtherViewModels;
+using static MySeenLib.CultureInfoTool;
+using static MySeenLib.Defaults;
 
 namespace MySeenWeb.Models.TablesViews
 {
@@ -20,10 +21,7 @@ namespace MySeenWeb.Models.TablesViews
         public DateTime LastAction { get; set; }
         public IEnumerable<string> Roles { get; set; }
 
-        public string LastActionText
-        {
-            get { return LastAction.ToString(CultureInfo.CurrentCulture); }
-        }
+        public string LastActionText => LastAction.ToString(CultureInfo.CurrentCulture);
 
         public static UsersView Map(ApplicationUser model)
         {
@@ -33,12 +31,11 @@ namespace MySeenWeb.Models.TablesViews
 
             return new UsersView
             {
-                //Name = model.UserName.Remove(model.UserName.IndexOf('@')),
                 Name = model.UserName,
                 RegisterDate = model.RegisterDate.ToShortDateString(),
-                Culture = model.Culture == CultureInfoTool.Cultures.English
-                    ? Defaults.Languages.GetById((int) Defaults.LanguagesBase.Indexes.English)
-                    : Defaults.Languages.GetById((int) Defaults.LanguagesBase.Indexes.Russian),
+                Culture = model.Culture == Cultures.English
+                    ? Languages.GetById((int) LanguagesBase.Indexes.English)
+                    : Languages.GetById((int) LanguagesBase.Indexes.Russian),
                 FilmsCount = ap.Films.Count(f => f.UserId == model.Id),
                 SerialsCount = ap.Serials.Count(f => f.UserId == model.Id),
                 BooksCount = ap.Books.Count(f => f.UserId == model.Id),

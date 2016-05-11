@@ -2,9 +2,9 @@
 using System.Data.Entity;
 using System.Globalization;
 using System.Linq;
-using MySeenLib;
 using MySeenWeb.Models.OtherViewModels;
 using MySeenWeb.Models.TablesViews.Portal;
+using static MySeenLib.UmtTime;
 
 namespace MySeenWeb.Models.Portal
 {
@@ -26,7 +26,7 @@ namespace MySeenWeb.Models.Portal
             var enumerable = Data as IList<RealtView> ?? Data.ToList();
             //var lastPriceData = enumerable.Max(r => r.Date);
             //LastUpdatedPrice = lastPriceData.Day + "/" + lastPriceData.Month + "/" + lastPriceData.Year;
-            LastUpdatedPrice = UmtTime.From(enumerable.Max(r => r.Date)).ToString(CultureInfo.CurrentCulture);
+            LastUpdatedPrice = From(enumerable.Max(r => r.Date)).ToString(CultureInfo.CurrentCulture);
 
             if (year != 0)
             {

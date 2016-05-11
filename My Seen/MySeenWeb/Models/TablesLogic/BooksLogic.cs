@@ -4,6 +4,9 @@ using MySeenLib;
 using MySeenWeb.Add_Code;
 using MySeenWeb.Models.OtherViewModels;
 using MySeenWeb.Models.Tables;
+using static System.Convert;
+using static MySeenLib.MySeenWebApi;
+using static MySeenLib.UmtTime;
 
 namespace MySeenWeb.Models.TablesLogic
 {
@@ -31,11 +34,11 @@ namespace MySeenWeb.Models.TablesLogic
             {
                 Name = name;
                 Authors = authors;
-                DateRead = UmtTime.To(Convert.ToDateTime(datetime));
-                Year = string.IsNullOrEmpty(year) ? 0 : Convert.ToInt32(year);
-                Genre = Convert.ToInt32(genre);
-                Rating = Convert.ToInt32(rating);
-                DateChange = UmtTime.To(DateTime.Now);
+                DateRead = To(ToDateTime(datetime));
+                Year = string.IsNullOrEmpty(year) ? 0 : ToInt32(year);
+                Genre = ToInt32(genre);
+                Rating = ToInt32(rating);
+                DateChange = To(DateTime.Now);
                 UserId = userId;
             }
             catch (Exception e)
@@ -51,7 +54,7 @@ namespace MySeenWeb.Models.TablesLogic
         {
             try
             {
-                Id = Convert.ToInt32(id);
+                Id = ToInt32(id);
             }
             catch (Exception e)
             {
@@ -140,7 +143,7 @@ namespace MySeenWeb.Models.TablesLogic
         {
             try
             {
-                Id = Convert.ToInt32(id);
+                Id = ToInt32(id);
                 if (_ac.Books.Any(f => f.UserId == userId && f.Id == Id))
                 {
                     _ac.Books.RemoveRange(_ac.Books.Where(f => f.UserId == userId && f.Id == Id));
@@ -165,11 +168,11 @@ namespace MySeenWeb.Models.TablesLogic
         {
             try
             {
-                Id = Convert.ToInt32(id);
+                Id = ToInt32(id);
                 if (_ac.Books.First(f => f.UserId == userId && f.Id == Id).Shared)
                 {
                     var key = _ac.Users.First(t => t.Id == userId).ShareBooksKey;
-                    return MySeenWebApi.ApiHost + MySeenWebApi.ShareBooks + key;
+                    return ApiHost + ShareBooks + key;
                 }
             }
             catch (Exception e)
@@ -181,17 +184,17 @@ namespace MySeenWeb.Models.TablesLogic
 
         public string GenerateShare(string id, string userId)
         {
-            var iid = Convert.ToInt32(id);
+            var iid = ToInt32(id);
             var key = _ac.Users.First(t => t.Id == userId).ShareBooksKey;
             _ac.Books.First(e => e.Id == iid).Shared = true;
             _ac.SaveChanges();
             _cache.Remove(CacheNames.UserBooks.ToString(), userId);
-            return MySeenWebApi.ApiHost + MySeenWebApi.ShareBooks + key;
+            return ApiHost + ShareBooks + key;
         }
 
         public string DeleteShare(string id, string userId)
         {
-            var iid = Convert.ToInt32(id);
+            var iid = ToInt32(id);
             _ac.Books.First(e => e.Id == iid && e.UserId == userId).Shared = false;
             _ac.SaveChanges();
             _cache.Remove(CacheNames.UserBooks.ToString(), userId);

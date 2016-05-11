@@ -2,11 +2,11 @@
 using System.Data.Entity;
 using System.Linq;
 using System.Web.Mvc;
-using MySeenLib;
 using MySeenWeb.Models.OtherViewModels;
 using MySeenWeb.Models.TablesLogic;
 using MySeenWeb.Models.TablesViews;
 using MySeenWeb.Models.Tools;
+using static MySeenLib.Defaults;
 
 namespace MySeenWeb.Models
 {
@@ -34,13 +34,13 @@ namespace MySeenWeb.Models
             CanControl = UserRolesLogic.IsAdmin(userId);
 
             UserRoles =
-                Defaults.RolesTypes.GetAll()
+                RolesTypes.GetAll()
                     .Select(
                         sel =>
                             new SelectListItem
                             {
                                 Text = sel,
-                                Value = Defaults.RolesTypes.GetId(sel).ToString()
+                                Value = RolesTypes.GetId(sel).ToString()
                             })
                     .ToList();
         }
