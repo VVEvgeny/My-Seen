@@ -9,33 +9,6 @@ namespace MySeenWeb.Models.TablesViews
 {
     public class UsersView
     {
-        public static UsersView Map(ApplicationUser model)
-        {
-            if (model == null) return new UsersView();
-
-            var ap = new ApplicationDbContext();
-
-            return new UsersView
-            {
-                //Name = model.UserName.Remove(model.UserName.IndexOf('@')),
-                Name = model.UserName,
-                RegisterDate = model.RegisterDate.ToShortDateString(),
-                Culture = model.Culture == CultureInfoTool.Cultures.English
-                    ? Defaults.Languages.GetById((int)Defaults.LanguagesBase.Indexes.English)
-                    : Defaults.Languages.GetById((int)Defaults.LanguagesBase.Indexes.Russian),
-                FilmsCount = ap.Films.Count(f => f.UserId == model.Id),
-                SerialsCount = ap.Serials.Count(f => f.UserId == model.Id),
-                BooksCount = ap.Books.Count(f => f.UserId == model.Id),
-                TracksCount = ap.Tracks.Count(f => f.UserId == model.Id),
-                EventsCount = ap.Events.Count(f => f.UserId == model.Id),
-                LastAction =
-                    ap.Logs.Any(l => l.UserId == model.Id)
-                        ? ap.Logs.Where(l => l.UserId == model.Id).Max(l => l.DateLast)
-                        : model.RegisterDate,
-                Roles = ap.UserRoles.Where(r => r.UserId == model.Id).Select(r=>r.RoleId)
-            };
-        }
-
         public string Name { get; set; }
         public string Culture { get; set; }
         public int FilmsCount { get; set; }
@@ -50,6 +23,33 @@ namespace MySeenWeb.Models.TablesViews
         public string LastActionText
         {
             get { return LastAction.ToString(CultureInfo.CurrentCulture); }
+        }
+
+        public static UsersView Map(ApplicationUser model)
+        {
+            if (model == null) return new UsersView();
+
+            var ap = new ApplicationDbContext();
+
+            return new UsersView
+            {
+                //Name = model.UserName.Remove(model.UserName.IndexOf('@')),
+                Name = model.UserName,
+                RegisterDate = model.RegisterDate.ToShortDateString(),
+                Culture = model.Culture == CultureInfoTool.Cultures.English
+                    ? Defaults.Languages.GetById((int) Defaults.LanguagesBase.Indexes.English)
+                    : Defaults.Languages.GetById((int) Defaults.LanguagesBase.Indexes.Russian),
+                FilmsCount = ap.Films.Count(f => f.UserId == model.Id),
+                SerialsCount = ap.Serials.Count(f => f.UserId == model.Id),
+                BooksCount = ap.Books.Count(f => f.UserId == model.Id),
+                TracksCount = ap.Tracks.Count(f => f.UserId == model.Id),
+                EventsCount = ap.Events.Count(f => f.UserId == model.Id),
+                LastAction =
+                    ap.Logs.Any(l => l.UserId == model.Id)
+                        ? ap.Logs.Where(l => l.UserId == model.Id).Max(l => l.DateLast)
+                        : model.RegisterDate,
+                Roles = ap.UserRoles.Where(r => r.UserId == model.Id).Select(r => r.RoleId)
+            };
         }
     }
 }

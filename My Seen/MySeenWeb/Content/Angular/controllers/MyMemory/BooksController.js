@@ -1,18 +1,18 @@
 App.config(function($stateProvider) {
 
     $stateProvider
-        .state('mymemory/books',
+        .state("mymemory/books",
         {
-            url: '/mymemory/books/?:page&search',
+            url: "/mymemory/books/?:page&search",
             templateUrl: "Content/Angular/templates/MyMemory/books.html",
-            controller: 'BooksController',
+            controller: "BooksController",
             reloadOnSearch: false
         });
 });
 
-App.controller('BooksController',
+App.controller("BooksController",
 [
-    '$scope', '$rootScope', '$state', '$stateParams', '$http', '$location', 'Constants', '$anchorScroll',
+    "$scope", "$rootScope", "$state", "$stateParams", "$http", "$location", "Constants", "$anchorScroll",
     function($scope, $rootScope, $state, $stateParams, $http, $location, constants, $anchorScroll) {
 
         $anchorScroll();
@@ -82,10 +82,10 @@ App.controller('BooksController',
         $scope.quickSearch = {};
         $scope.quickSearch.text = $stateParams ? $stateParams.search : null;
         $scope.searchButtonClick = function() {
-            $location.search('search', $scope.quickSearch.text !== '' ? $scope.quickSearch.text : null);
-            $location.search('page', null); //с первой страницы новый поиск
+            $location.search("search", $scope.quickSearch.text !== "" ? $scope.quickSearch.text : null);
+            $location.search("page", null); //с первой страницы новый поиск
             if ($stateParams) $stateParams.page = null;
-            if ($stateParams) $stateParams.search = $scope.quickSearch.text !== '' ? $scope.quickSearch.text : null;
+            if ($stateParams) $stateParams.search = $scope.quickSearch.text !== "" ? $scope.quickSearch.text : null;
             getMainPage();
         };
         ///////////////////////////////////////////////////////////////////////
@@ -94,11 +94,11 @@ App.controller('BooksController',
         //Не использую перехода по состояниям, они перезагружают контроллер, а так у меня в настройках для контролера стоит reloadOnSearch: false      
         $scope.pagination = {};
         $scope.pagination.goToPage = function(page) {
-            $location.search('page', page > 1 ? page : null);
+            $location.search("page", page > 1 ? page : null);
             if ($stateParams) $stateParams.page = page > 1 ? page : null;
             getMainPage();
             $anchorScroll();
-        }
+        };
         ///////////////////////////////////////////////////////////////////////
         ///////////////////////////////////////////////////////////////////////           МОДАЛЬНАЯ ДОБАВЛЕНИЯ / РЕДАКТИРОВАНИЯ
         ///////////////////////////////////////////////////////////////////////
@@ -106,9 +106,9 @@ App.controller('BooksController',
         //Готовлю данные для добавления новой записи и отображаю модальную
         $scope.addModalOpen = function() {
             $scope.modal.title = $scope.translation.TitleAdd;
-            $scope.modal.name = '';
+            $scope.modal.name = "";
             $scope.modal.year = $scope.prepared.Year;
-            $scope.modal.authors = '';
+            $scope.modal.authors = "";
             $scope.modal.datetimeNow = $scope.prepared.DateTimeNow;
             if ($scope.modal
                 .genre !==
@@ -127,8 +127,8 @@ App.controller('BooksController',
         $scope.$on("$destroy",
             function() {
                 $scope.addModalHide();
-                $('body').removeClass('modal-open');
-                $('.modal-backdrop').remove();
+                $("body").removeClass("modal-open");
+                $(".modal-backdrop").remove();
             });
         $scope.addModalHide = function() {
             $("#AddModalWindow").modal("hide");
@@ -137,8 +137,8 @@ App.controller('BooksController',
         //в случае успеха закроем модальное и перезапросим данные, с первой страницы
         function afterAdd() {
             $scope.addModalHide();
-            $location.search('page', null); //с первой страницы новый поиск
-            $location.search('search', null);
+            $location.search("page", null); //с первой страницы новый поиск
+            $location.search("search", null);
             if ($stateParams) {
                 $stateParams.page = null;
                 $stateParams.search = null;
@@ -216,9 +216,9 @@ App.controller('BooksController',
         //Изменения после запросов с модальной доступа
         function getShareCallBack(link) {
             $scope.modalShare.loading = false;
-            if (link === '-') { //нет ссылки, показать кнопку - Получить
+            if (link === "-") { //нет ссылки, показать кнопку - Получить
                 $scope.modalShare.addButton = true;
-                $scope.modalShare.link = '';
+                $scope.modalShare.link = "";
             } else { //есть ссылка, заполним, показать кнопку - Попробовать + Удалить
                 $scope.modalShare.tryButton = true;
                 $scope.modalShare.deleteButton = true;
@@ -248,8 +248,8 @@ App.controller('BooksController',
         //Нажата кнопка попробовать в модальной доступа, откроем на соседней вкладке ссылку
         $scope.modalShare.tryButtonClick = function() {
             //window.open($scope.modalShare.link, '_blank');
-            $state.go('mymemory/sharedBooks',
-            { "key": $scope.modalShare.link.split('/')[$scope.modalShare.link.split('/').length - 1] });
+            $state.go("mymemory/sharedBooks",
+            { "key": $scope.modalShare.link.split("/")[$scope.modalShare.link.split("/").length - 1] });
         };
         //Удаляем доступ к текущей записи из модальной доступа
         $scope.modalShare.deleteButtonClick = function() {

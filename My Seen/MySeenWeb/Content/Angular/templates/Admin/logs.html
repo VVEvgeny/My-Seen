@@ -66,49 +66,49 @@
     <div class="table-responsive">
         <table class="table table-striped">
             <thead>
-                <tr>
-                    <th class="col-sm-1">{{translation.UserName}}</th>
-                    <th class="col-sm-2">{{translation.UserAgent}}</th>
-                    <th class="col-sm-1">{{translation.IPAdress}}</th>
-                    <th class="col-sm-1">{{translation.FirstCall}}</th>
-                    <th class="col-sm-1">{{translation.DateLast}}</th>
-                    <th class="col-sm-1">{{translation.Amount}}</th>
-                    <th class="col-sm-5">
-                        <div data-ng-click="showPost('all')">
-                            <span class="pull-left alert-info small">
+            <tr>
+                <th class="col-sm-1">{{translation.UserName}}</th>
+                <th class="col-sm-2">{{translation.UserAgent}}</th>
+                <th class="col-sm-1">{{translation.IPAdress}}</th>
+                <th class="col-sm-1">{{translation.FirstCall}}</th>
+                <th class="col-sm-1">{{translation.DateLast}}</th>
+                <th class="col-sm-1">{{translation.Amount}}</th>
+                <th class="col-sm-5">
+                    <div data-ng-click="showPost('all')">
+                        <span class="pull-left alert-info small">
                                 <button type="button" class="btn btn-info btn-xs">
                                     <span id="postPlus_all" class="glyphicon glyphicon-plus hidden"></span>
                                     <span id="postMinus_all" class="glyphicon glyphicon-minus"></span>
                                 </button>
                             </span>
-                        </div>
-                        {{translation.AddData}}
-                    </th>
-                </tr>
+                    </div>
+                    {{translation.AddData}}
+                </th>
+            </tr>
             </thead>
             <tbody>
-                <tr data-ng-repeat="val in data">
-                    <!--Одноразовая привязка-->
-                    <td class="align-center">{{::val.UserName}}</td>
-                    <td class="align-center">{{::val.UserAgent}}</td>
-                    <td class="align-center">{{::val.IPAdress}}</td>
-                    <td class="align-center">{{::val.DateFirstText}}</td>
-                    <td class="align-center">{{::val.DateLastText}}</td>
-                    <td class="align-center">{{::val.Count}}</td>
-                    <td class="align-center">
-                        <div data-ng-click="showPost($index)" data-ng-show="val.AddDataText.length > 2">
-                            <span class="pull-left alert-info small">
+            <tr data-ng-repeat="val in data">
+                <!--Одноразовая привязка-->
+                <td class="align-center">{{::val.UserName}}</td>
+                <td class="align-center">{{::val.UserAgent}}</td>
+                <td class="align-center">{{::val.IPAdress}}</td>
+                <td class="align-center">{{::val.DateFirstText}}</td>
+                <td class="align-center">{{::val.DateLastText}}</td>
+                <td class="align-center">{{::val.Count}}</td>
+                <td class="align-center">
+                    <div data-ng-click="showPost($index)" data-ng-show="val.AddDataText.length > 2">
+                        <span class="pull-left alert-info small">
                                 <button type="button" class="btn btn-info btn-xs">
                                     <span id="postPlus_{{$index}}" class="glyphicon glyphicon-plus hidden"></span>
                                     <span id="postMinus_{{$index}}" class="glyphicon glyphicon-minus"></span>
                                 </button>
                             </span>
-                        </div>
-                        <div class="collapse in" id="collapseme_{{$index}}">
-                            <div data-ng-repeat="item in val.AddDataText track by $index">{{item}}</div>
-                        </div>
-                    </td>
-                </tr>
+                    </div>
+                    <div class="collapse in" id="collapseme_{{$index}}">
+                        <div data-ng-repeat="item in val.AddDataText track by $index">{{item}}</div>
+                    </div>
+                </td>
+            </tr>
             </tbody>
         </table>
     </div>

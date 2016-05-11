@@ -11,17 +11,20 @@ namespace MySeenWeb.Models.TablesLogic
     public class RoadsLogic : Tracks
     {
         private readonly ApplicationDbContext _ac;
-        public string ErrorMessage;
         private readonly ICacheService _cache;
+        public string ErrorMessage;
+
         public RoadsLogic()
         {
             ErrorMessage = string.Empty;
             _ac = new ApplicationDbContext();
         }
+
         public RoadsLogic(ICacheService cache) : this()
         {
             _cache = cache;
         }
+
         private bool Fill(string name, string datetime, string type, string coordinates, string distance, string userId)
         {
             try
@@ -30,7 +33,8 @@ namespace MySeenWeb.Models.TablesLogic
                 Date = UmtTime.To(Convert.ToDateTime(datetime));
                 Type = Convert.ToInt32(type);
                 Coordinates = coordinates;
-                if (distance.Contains('.')) distance = distance.Remove(distance.IndexOf('.'));//Только кол-во КМ запишем
+                if (distance.Contains('.'))
+                    distance = distance.Remove(distance.IndexOf('.')); //Только кол-во КМ запишем
                 Distance = Convert.ToDouble(distance);
                 UserId = userId;
             }
@@ -41,7 +45,9 @@ namespace MySeenWeb.Models.TablesLogic
             }
             return true;
         }
-        private bool Fill(string id, string name, string datetime, string type, string coordinates, string distance, string userId)
+
+        private bool Fill(string id, string name, string datetime, string type, string coordinates, string distance,
+            string userId)
         {
             try
             {
@@ -100,14 +106,18 @@ namespace MySeenWeb.Models.TablesLogic
             }
             return true;
         }
+
         public bool Add(string name, string datetime, string type, string coordinates, string distance, string userId)
         {
             return Fill(name, datetime, type, coordinates, distance, userId) && Verify() && Add();
         }
-        public bool Update(string id, string name, string datetime, string type, string coordinates, string distance, string userId)
+
+        public bool Update(string id, string name, string datetime, string type, string coordinates, string distance,
+            string userId)
         {
             return Fill(id, name, datetime, type, coordinates, distance, userId) && Verify() && Update();
         }
+
         public bool Delete(string id, string userId)
         {
             try
@@ -132,6 +142,7 @@ namespace MySeenWeb.Models.TablesLogic
             }
             return true;
         }
+
         public string GetShare(string id, string userId)
         {
             try
@@ -143,13 +154,13 @@ namespace MySeenWeb.Models.TablesLogic
                     var iid = Convert.ToInt32(id);
                     switch (iid)
                     {
-                        case (int)RoadTypes.Bike:
+                        case (int) RoadTypes.Bike:
                             key = _ac.Users.First(t => t.Id == userId).ShareTracksBikeKey;
                             break;
-                        case (int)RoadTypes.Car:
+                        case (int) RoadTypes.Car:
                             key = _ac.Users.First(t => t.Id == userId).ShareTracksCarKey;
                             break;
-                        case (int)RoadTypes.Foot:
+                        case (int) RoadTypes.Foot:
                             key = _ac.Users.First(t => t.Id == userId).ShareTracksFootKey;
                             break;
                     }
@@ -172,6 +183,7 @@ namespace MySeenWeb.Models.TablesLogic
             }
             return "-";
         }
+
         public string GenerateShare(string id, string userId)
         {
             var genkey = string.Empty;
@@ -189,13 +201,13 @@ namespace MySeenWeb.Models.TablesLogic
                 var iid = Convert.ToInt32(id);
                 switch (iid)
                 {
-                    case (int)RoadTypes.Bike:
+                    case (int) RoadTypes.Bike:
                         _ac.Users.First(t => t.Id == userId).ShareTracksBikeKey = genkey;
                         break;
-                    case (int)RoadTypes.Car:
+                    case (int) RoadTypes.Car:
                         _ac.Users.First(t => t.Id == userId).ShareTracksCarKey = genkey;
                         break;
-                    case (int)RoadTypes.Foot:
+                    case (int) RoadTypes.Foot:
                         _ac.Users.First(t => t.Id == userId).ShareTracksFootKey = genkey;
                         break;
                 }
@@ -213,6 +225,7 @@ namespace MySeenWeb.Models.TablesLogic
             _cache.Remove(CacheNames.UserRoads.ToString(), userId);
             return MySeenWebApi.ApiHost + MySeenWebApi.ShareTracks + genkey;
         }
+
         public string DeleteShare(string id, string userId)
         {
             if (id.Contains("-"))
@@ -221,13 +234,13 @@ namespace MySeenWeb.Models.TablesLogic
                 var iid = Convert.ToInt32(id);
                 switch (iid)
                 {
-                    case (int)RoadTypes.Bike:
+                    case (int) RoadTypes.Bike:
                         _ac.Users.First(t => t.Id == userId).ShareTracksBikeKey = string.Empty;
                         break;
-                    case (int)RoadTypes.Car:
+                    case (int) RoadTypes.Car:
                         _ac.Users.First(t => t.Id == userId).ShareTracksCarKey = string.Empty;
                         break;
-                    case (int)RoadTypes.Foot:
+                    case (int) RoadTypes.Foot:
                         _ac.Users.First(t => t.Id == userId).ShareTracksFootKey = string.Empty;
                         break;
                 }
@@ -245,19 +258,22 @@ namespace MySeenWeb.Models.TablesLogic
             _cache.Remove(CacheNames.UserRoads.ToString(), userId);
             return "-";
         }
+
         public int GetCountShared(string key)
         {
             return
                 _ac.Tracks.Count(
                     f =>
                         //!string.IsNullOrEmpty(f.ShareKey) &&
-                        (f.User.ShareTracksAllKey == key || f.User.ShareTracksFootKey == key ||
-                         f.User.ShareTracksCarKey == key || f.User.ShareTracksBikeKey == key));
+                        f.User.ShareTracksAllKey == key || f.User.ShareTracksFootKey == key ||
+                        f.User.ShareTracksCarKey == key || f.User.ShareTracksBikeKey == key);
         }
+
         public bool IsSingle(string key)
         {
             return _ac.Tracks.Any(f => f.ShareKey == key);
         }
+
         public Tracks GetOne(string key)
         {
             return _ac.Tracks.FirstOrDefault(f => f.ShareKey == key);

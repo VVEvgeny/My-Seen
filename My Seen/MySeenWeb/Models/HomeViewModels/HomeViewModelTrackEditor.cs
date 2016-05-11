@@ -20,33 +20,33 @@ namespace MySeenWeb.Models
             var ac = new ApplicationDbContext();
             Id = string.IsNullOrEmpty(id) ? -1 : Convert.ToInt32(id);
             var typeValue = RoadTypes.Foot;
-            NewTrack = !ac.Tracks.Any(t => t.UserId == userId && t.Id == Id);//Если пустое или с таким айди нет трека
+            NewTrack = !ac.Tracks.Any(t => t.UserId == userId && t.Id == Id); //Если пустое или с таким айди нет трека
             if (!NewTrack)
             {
                 Data = ac.Tracks.AsNoTracking().Select(RoadsView.Map).First(t => t.UserId == userId && t.Id == Id);
-                typeValue = (RoadTypes)Data.Type;
+                typeValue = (RoadTypes) Data.Type;
             }
             TypeList = new List<SelectListItem>
+            {
+                new SelectListItem
                 {
-                    new SelectListItem
-                    {
-                        Text = Resource.Foot,
-                        Value = ((int) RoadTypes.Foot).ToString(),
-                        Selected = RoadTypes.Foot == typeValue
-                    },
-                    new SelectListItem
-                    {
-                        Text = Resource.Car,
-                        Value = ((int) RoadTypes.Car).ToString(),
-                        Selected = RoadTypes.Car == typeValue
-                    },
-                    new SelectListItem
-                    {
-                        Text = Resource.Bike,
-                        Value = ((int) RoadTypes.Bike).ToString(),
-                        Selected = RoadTypes.Bike == typeValue
-                    }
-                };
+                    Text = Resource.Foot,
+                    Value = ((int) RoadTypes.Foot).ToString(),
+                    Selected = RoadTypes.Foot == typeValue
+                },
+                new SelectListItem
+                {
+                    Text = Resource.Car,
+                    Value = ((int) RoadTypes.Car).ToString(),
+                    Selected = RoadTypes.Car == typeValue
+                },
+                new SelectListItem
+                {
+                    Text = Resource.Bike,
+                    Value = ((int) RoadTypes.Bike).ToString(),
+                    Selected = RoadTypes.Bike == typeValue
+                }
+            };
         }
     }
 }

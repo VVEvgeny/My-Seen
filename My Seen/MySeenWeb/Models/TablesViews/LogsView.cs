@@ -8,23 +8,6 @@ namespace MySeenWeb.Models.TablesViews
 {
     public class LogsView : Logs
     {
-        public static LogsView Map(Logs model)
-        {
-            if (model == null) return new LogsView();
-
-            return new LogsView
-            {
-                AddData = model.AddData,
-                Count = model.Count,
-                DateFirst = model.DateFirst,
-                DateLast = model.DateLast,
-                Id = model.Id,
-                IPAdress = model.IPAdress,
-                OnlyDate = model.OnlyDate,
-                UserAgent = model.UserAgent,
-                UserId = model.UserId
-            };
-        }
         public string UserName
         {
             get
@@ -35,7 +18,7 @@ namespace MySeenWeb.Models.TablesViews
                     var firstOrDefault = ac.Users.FirstOrDefault(u => u.Id == UserId);
                     if (firstOrDefault != null)
                     {
-                        string user = firstOrDefault.UserName;
+                        var user = firstOrDefault.UserName;
                         if (string.IsNullOrEmpty(user)) return string.Empty;
                         if (user.Contains('@')) user = user.Remove(user.IndexOf('@'));
                         return user;
@@ -45,7 +28,7 @@ namespace MySeenWeb.Models.TablesViews
             }
         }
 
-        public string DateFirstText 
+        public string DateFirstText
         {
             get { return DateFirst.ToString(CultureInfo.CurrentCulture); }
         }
@@ -64,6 +47,24 @@ namespace MySeenWeb.Models.TablesViews
                 while (result.Contains("/")) result.Remove("/");
                 return result;
             }
+        }
+
+        public static LogsView Map(Logs model)
+        {
+            if (model == null) return new LogsView();
+
+            return new LogsView
+            {
+                AddData = model.AddData,
+                Count = model.Count,
+                DateFirst = model.DateFirst,
+                DateLast = model.DateLast,
+                Id = model.Id,
+                IPAdress = model.IPAdress,
+                OnlyDate = model.OnlyDate,
+                UserAgent = model.UserAgent,
+                UserId = model.UserId
+            };
         }
     }
 }

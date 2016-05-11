@@ -1,18 +1,18 @@
 App.config(function($stateProvider) {
 
     $stateProvider
-        .state('mymemory/events',
+        .state("mymemory/events",
         {
-            url: '/mymemory/events/?:page&search&ended',
+            url: "/mymemory/events/?:page&search&ended",
             templateUrl: "Content/Angular/templates/MyMemory/events.html",
-            controller: 'EventsController',
+            controller: "EventsController",
             reloadOnSearch: false
         });
 });
 
-App.controller('EventsController',
+App.controller("EventsController",
 [
-    '$scope', '$rootScope', '$state', '$stateParams', '$http', '$location', 'Constants', '$anchorScroll',
+    "$scope", "$rootScope", "$state", "$stateParams", "$http", "$location", "Constants", "$anchorScroll",
     function($scope, $rootScope, $state, $stateParams, $http, $location, constants, $anchorScroll) {
 
         $anchorScroll();
@@ -52,7 +52,7 @@ App.controller('EventsController',
         }
 
         //Основные данные
-        var eventsInterval = '';
+        var eventsInterval = "";
         $scope.$on("$destroy",
             function() {
                 clearInterval(eventsInterval);
@@ -86,13 +86,13 @@ App.controller('EventsController',
         ///////////////////////////////////////////////////////////////////////
         ///////////////////////////////////////////////////////////////////////           ТИП СОБЫИТЯ
         ///////////////////////////////////////////////////////////////////////
-        $scope.eventSelect = $stateParams ? $stateParams.ended ? $stateParams.ended : '0' : '0';
+        $scope.eventSelect = $stateParams ? $stateParams.ended ? $stateParams.ended : "0" : "0";
         $scope.selectedChange = function() {
-            $location.search('page', null);
-            $location.search('ended', $scope.eventSelect === '0' ? null : $scope.eventSelect);
+            $location.search("page", null);
+            $location.search("ended", $scope.eventSelect === "0" ? null : $scope.eventSelect);
             if ($stateParams) {
                 $stateParams.page = null;
-                $stateParams.ended = $scope.eventSelect === '0' ? null : $scope.eventSelect;
+                $stateParams.ended = $scope.eventSelect === "0" ? null : $scope.eventSelect;
             }
             getMainPage();
         };
@@ -102,10 +102,10 @@ App.controller('EventsController',
         $scope.quickSearch = {};
         $scope.quickSearch.text = $stateParams ? $stateParams.search : null;
         $scope.searchButtonClick = function() {
-            $location.search('search', $scope.quickSearch.text !== '' ? $scope.quickSearch.text : null);
-            $location.search('page', null); //с первой страницы новый поиск
+            $location.search("search", $scope.quickSearch.text !== "" ? $scope.quickSearch.text : null);
+            $location.search("page", null); //с первой страницы новый поиск
             if ($stateParams) $stateParams.page = null;
-            if ($stateParams) $stateParams.search = $scope.quickSearch.text !== '' ? $scope.quickSearch.text : null;
+            if ($stateParams) $stateParams.search = $scope.quickSearch.text !== "" ? $scope.quickSearch.text : null;
             getMainPage();
         };
         ///////////////////////////////////////////////////////////////////////
@@ -114,7 +114,7 @@ App.controller('EventsController',
         //Не использую перехода по состояниям, они перезагружают контроллер, а так у меня в настройках для контролера стоит reloadOnSearch: false      
         $scope.pagination = {};
         $scope.pagination.goToPage = function(page) {
-            $location.search('page', page > 1 ? page : null);
+            $location.search("page", page > 1 ? page : null);
             if ($stateParams) $stateParams.page = page > 1 ? page : null;
             getMainPage();
             $anchorScroll();
@@ -126,7 +126,7 @@ App.controller('EventsController',
         //Готовлю данные для добавления новой записи и отображаю модальную
         $scope.addModalOpen = function() {
             $scope.modal.title = $scope.translation.TitleAdd;
-            $scope.modal.name = '';
+            $scope.modal.name = "";
             $scope.modal.datetimeNow = $scope.prepared.DateTimeNow;
             if ($scope.modal
                 .eventType !==
@@ -142,8 +142,8 @@ App.controller('EventsController',
         $scope.$on("$destroy",
             function() {
                 $scope.addModalHide();
-                $('body').removeClass('modal-open');
-                $('.modal-backdrop').remove();
+                $("body").removeClass("modal-open");
+                $(".modal-backdrop").remove();
             });
         $scope.addModalHide = function() {
             $("#AddModalWindow").modal("hide");
@@ -152,8 +152,8 @@ App.controller('EventsController',
         //в случае успеха закроем модальное и перезапросим данные, с первой страницы
         function afterAdd() {
             $scope.addModalHide();
-            $location.search('page', null); //с первой страницы новый поиск
-            $location.search('search', null);
+            $location.search("page", null); //с первой страницы новый поиск
+            $location.search("search", null);
             if ($stateParams) {
                 $stateParams.page = null;
                 $stateParams.search = null;
@@ -224,9 +224,9 @@ App.controller('EventsController',
         //Изменения после запросов с модальной доступа
         function getShareCallBack(link) {
             $scope.modalShare.loading = false;
-            if (link === '-') { //нет ссылки, показать кнопку - Получить
+            if (link === "-") { //нет ссылки, показать кнопку - Получить
                 $scope.modalShare.addButton = true;
-                $scope.modalShare.link = '';
+                $scope.modalShare.link = "";
             } else { //есть ссылка, заполним, показать кнопку - Попробовать + Удалить
                 $scope.modalShare.tryButton = true;
                 $scope.modalShare.deleteButton = true;
@@ -256,8 +256,8 @@ App.controller('EventsController',
         //Нажата кнопка попробовать в модальной доступа, откроем на соседней вкладке ссылку
         $scope.modalShare.tryButtonClick = function() {
             //window.open($scope.modalShare.link, '_blank');
-            $state.go('mymemory/sharedEvents',
-            { "key": $scope.modalShare.link.split('/')[$scope.modalShare.link.split('/').length - 1] });
+            $state.go("mymemory/sharedEvents",
+            { "key": $scope.modalShare.link.split("/")[$scope.modalShare.link.split("/").length - 1] });
         };
         //Удаляем доступ к текущей записи из модальной доступа
         $scope.modalShare.deleteButtonClick = function() {

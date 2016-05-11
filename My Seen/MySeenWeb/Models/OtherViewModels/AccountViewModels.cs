@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.Web.Mvc;
 using MySeenLib;
 
 namespace MySeenWeb.Models.OtherViewModels
@@ -19,7 +20,7 @@ namespace MySeenWeb.Models.OtherViewModels
     public class SendCodeViewModel
     {
         public string SelectedProvider { get; set; }
-        public ICollection<System.Web.Mvc.SelectListItem> Providers { get; set; }
+        public ICollection<SelectListItem> Providers { get; set; }
         public string ReturnUrl { get; set; }
         public bool RememberMe { get; set; }
     }
@@ -32,6 +33,7 @@ namespace MySeenWeb.Models.OtherViewModels
         [Required]
         [Display(Name = "Code")]
         public string Code { get; set; }
+
         public string ReturnUrl { get; set; }
 
         [Display(Name = "Remember this browser?")]
@@ -71,14 +73,17 @@ namespace MySeenWeb.Models.OtherViewModels
         public string Email { get; set; }
 
         [Required]
-        [StringLength(100, ErrorMessageResourceName = "TheMustBeAtLeastCharactersLong", MinimumLength = 6, ErrorMessageResourceType = typeof(Resource))]
+        [StringLength(100, ErrorMessageResourceName = "TheMustBeAtLeastCharactersLong", MinimumLength = 6,
+            ErrorMessageResourceType = typeof(Resource))]
         [DataType(DataType.Password)]
         [Display(Name = "Password", ResourceType = typeof(Resource))]
         public string Password { get; set; }
 
         [DataType(DataType.Password)]
         [Display(Name = "ConfirmPassword", ResourceType = typeof(Resource))]
-        [Compare("Password", ErrorMessageResourceName = "ThePasswordAndConfirmationPasswordDoNotMatch", ErrorMessageResourceType = typeof(Resource))]
+        [System.ComponentModel.DataAnnotations.Compare("Password",
+            ErrorMessageResourceName = "ThePasswordAndConfirmationPasswordDoNotMatch",
+            ErrorMessageResourceType = typeof(Resource))]
         public string ConfirmPassword { get; set; }
     }
 
@@ -90,14 +95,17 @@ namespace MySeenWeb.Models.OtherViewModels
         public string Email { get; set; }
 
         [Required]
-        [StringLength(100, ErrorMessageResourceName = "TheMustBeAtLeastCharactersLong", MinimumLength = 6, ErrorMessageResourceType = typeof(Resource))]
+        [StringLength(100, ErrorMessageResourceName = "TheMustBeAtLeastCharactersLong", MinimumLength = 6,
+            ErrorMessageResourceType = typeof(Resource))]
         [DataType(DataType.Password)]
         [Display(Name = "Password", ResourceType = typeof(Resource))]
         public string Password { get; set; }
 
         [DataType(DataType.Password)]
         [Display(Name = "ConfirmPassword", ResourceType = typeof(Resource))]
-        [Compare("Password", ErrorMessageResourceName = "ThePasswordAndConfirmationPasswordDoNotMatch", ErrorMessageResourceType = typeof(Resource))]
+        [System.ComponentModel.DataAnnotations.Compare("Password",
+            ErrorMessageResourceName = "ThePasswordAndConfirmationPasswordDoNotMatch",
+            ErrorMessageResourceType = typeof(Resource))]
         public string ConfirmPassword { get; set; }
 
         public string Code { get; set; }

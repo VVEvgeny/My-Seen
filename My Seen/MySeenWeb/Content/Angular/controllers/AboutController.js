@@ -1,18 +1,18 @@
 App.config(function($stateProvider) {
 
     $stateProvider
-        .state('about',
+        .state("about",
         {
-            url: '/about/',
+            url: "/about/",
             templateUrl: "Content/Angular/templates/about.html",
-            controller: 'AboutController',
+            controller: "AboutController",
             reloadOnSearch: false
         });
 });
 
-App.controller('AboutController',
+App.controller("AboutController",
 [
-    '$scope', '$rootScope', '$state', '$stateParams', '$http', '$location', 'Constants', '$anchorScroll',
+    "$scope", "$rootScope", "$state", "$stateParams", "$http", "$location", "Constants", "$anchorScroll",
     function($scope, $rootScope, $state, $stateParams, $http, $location, constants, $anchorScroll) {
 
         $anchorScroll();

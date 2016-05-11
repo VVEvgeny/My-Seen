@@ -21,12 +21,17 @@ namespace MySeenWeb.Models.TablesLogic
         public static bool IsAdmin(string userId)
         {
             var ac = new ApplicationDbContext();
-            return ac.UserRoles.Any(r => r.RoleId == ((int)Defaults.RolesBase.Indexes.Admin).ToString() && r.UserId == userId);
+            return
+                ac.UserRoles.Any(
+                    r => r.RoleId == ((int) Defaults.RolesBase.Indexes.Admin).ToString() && r.UserId == userId);
         }
+
         public static bool IsTester(string userId)
         {
             var ac = new ApplicationDbContext();
-            return ac.UserRoles.Any(r => r.RoleId == ((int)Defaults.RolesBase.Indexes.Tester).ToString() && r.UserId == userId);
+            return
+                ac.UserRoles.Any(
+                    r => r.RoleId == ((int) Defaults.RolesBase.Indexes.Tester).ToString() && r.UserId == userId);
         }
 
         public IEnumerable<string> GetRoles(string userId)
@@ -35,7 +40,7 @@ namespace MySeenWeb.Models.TablesLogic
             {
                 if (_ac.UserRoles.Any(r => r.UserId == userId))
                 {
-                    return _ac.UserRoles.Where(r => r.UserId == userId).Select(r=>r.RoleId);
+                    return _ac.UserRoles.Where(r => r.UserId == userId).Select(r => r.RoleId);
                 }
             }
             catch (Exception e)
@@ -45,6 +50,7 @@ namespace MySeenWeb.Models.TablesLogic
             }
             return new List<string>();
         }
+
         public bool Update(string userName, IEnumerable<string> roles)
         {
             try
@@ -53,11 +59,12 @@ namespace MySeenWeb.Models.TablesLogic
                 foreach (var role in Defaults.RolesTypes.GetAll())
                 {
                     var idRole = Defaults.RolesTypes.GetId(role).ToString();
-                    if (roles!=null && roles.Any() && roles.Contains(idRole)) // если есть роль в выбраных, проверим, если в БД, если есть ничего не делаем, если нет, добавим
+                    if (roles != null && roles.Any() && roles.Contains(idRole))
+                        // если есть роль в выбраных, проверим, если в БД, если есть ничего не делаем, если нет, добавим
                     {
                         if (!_ac.UserRoles.Any(r => r.UserId == UserId && r.RoleId == idRole))
                         {
-                            _ac.UserRoles.Add(new IdentityUserRole{RoleId = idRole, UserId = UserId});
+                            _ac.UserRoles.Add(new IdentityUserRole {RoleId = idRole, UserId = UserId});
                         }
                     }
                     else //если нет в выборке, возможно снимаем, проверим может надо по БД снять

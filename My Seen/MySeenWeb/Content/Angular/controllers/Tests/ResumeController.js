@@ -1,18 +1,18 @@
 App.config(function($stateProvider) {
 
     $stateProvider
-        .state('resume',
+        .state("resume",
         {
-            url: '/tests/resume/',
+            url: "/tests/resume/",
             templateUrl: "Content/Angular/templates/tests/resume.html",
-            controller: 'ResumeController',
+            controller: "ResumeController",
             reloadOnSearch: false
         });
 });
 
-App.controller('ResumeController',
+App.controller("ResumeController",
 [
-    '$scope', '$rootScope', '$state', '$stateParams', '$http', '$location', 'Constants', '$anchorScroll',
+    "$scope", "$rootScope", "$state", "$stateParams", "$http", "$location", "Constants", "$anchorScroll",
     function($scope, $rootScope, $state, $stateParams, $http, $location, constants, $anchorScroll) {
 
         $anchorScroll();

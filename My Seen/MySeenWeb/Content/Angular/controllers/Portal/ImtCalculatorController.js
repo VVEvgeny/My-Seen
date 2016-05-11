@@ -1,18 +1,18 @@
 App.config(function($stateProvider) {
 
     $stateProvider
-        .state('portal/imtCalculator',
+        .state("portal/imtCalculator",
         {
-            url: '/portal/BmiCalculator/?a&s&g&w',
+            url: "/portal/BmiCalculator/?a&s&g&w",
             templateUrl: "Content/Angular/templates/Portal/imtcalculator.html",
-            controller: 'BmiCalculatorController',
+            controller: "BmiCalculatorController",
             reloadOnSearch: false
         });
 });
 
-App.controller('BmiCalculatorController',
+App.controller("BmiCalculatorController",
 [
-    '$scope', '$rootScope', '$state', '$stateParams', '$http', '$location', 'Constants', '$log', '$anchorScroll',
+    "$scope", "$rootScope", "$state", "$stateParams", "$http", "$location", "Constants", "$log", "$anchorScroll",
     function($scope, $rootScope, $state, $stateParams, $http, $location, constants, $log, $anchorScroll) {
 
         $anchorScroll();
@@ -23,8 +23,8 @@ App.controller('BmiCalculatorController',
         var sexs = { Man: 1, Woman: 2 };
         var ages = { to24: 1, to34: 2, to44: 3, to54: 4, to64: 5, more64: 6 };
         $scope.sexs = [
-            { id: sexs.Man, name: $scope.translation.Man || 'Man' },
-            { id: sexs.Woman, name: $scope.translation.Woman || 'Woman' }
+            { id: sexs.Man, name: $scope.translation.Man || "Man" },
+            { id: sexs.Woman, name: $scope.translation.Woman || "Woman" }
         ];
 
         function fillTranslation(page) {
@@ -33,20 +33,20 @@ App.controller('BmiCalculatorController',
 
             if (calculateAfterLoad) $scope.calculate();
             $scope.sexs = [
-                { id: sexs.Man, name: $scope.translation.Man || 'Man' },
-                { id: sexs.Woman, name: $scope.translation.Woman || 'Woman' }
+                { id: sexs.Man, name: $scope.translation.Man || "Man" },
+                { id: sexs.Woman, name: $scope.translation.Woman || "Woman" }
             ];
         }
 
         $rootScope.GetPage(constants.Pages.Translation, $http, fillTranslation, { pageId: $rootScope.pageId });
 
         $scope.ages = [
-            { id: ages.to24, name: '19-24' },
-            { id: ages.to34, name: '25-34' },
-            { id: ages.to44, name: '35-44' },
-            { id: ages.to54, name: '45-54' },
-            { id: ages.to64, name: '55-64' },
-            { id: ages.more64, name: '65+' }
+            { id: ages.to24, name: "19-24" },
+            { id: ages.to34, name: "25-34" },
+            { id: ages.to44, name: "35-44" },
+            { id: ages.to54, name: "45-54" },
+            { id: ages.to64, name: "55-64" },
+            { id: ages.more64, name: "65+" }
         ];
         var bmis = {
             DeadlineUnderweight: 1,
@@ -72,9 +72,9 @@ App.controller('BmiCalculatorController',
             if ($stateParams
                 .s &&
                 (parseInt($stateParams
-                    .s) ===
-                sexs.Man ||
-                parseInt($stateParams.s) === sexs.Woman)) $scope.sex = parseInt($stateParams.s);
+                        .s) ===
+                    sexs.Man ||
+                    parseInt($stateParams.s) === sexs.Woman)) $scope.sex = parseInt($stateParams.s);
             else $scope.sex = 1;
             if ($stateParams.g) $scope.growth = parseInt($stateParams.g);
             if ($stateParams.w) $scope.weight = parseInt($stateParams.w);
@@ -141,10 +141,10 @@ App.controller('BmiCalculatorController',
         $scope.calculate = function() {
 
             if ($stateParams) {
-                $location.search('a', $scope.age !== 1 ? $scope.age : null);
-                $location.search('s', $scope.sex !== 1 ? $scope.sex : null);
-                $location.search('g', $scope.growth !== 0 ? $scope.growth : null);
-                $location.search('w', $scope.weight !== 0 ? $scope.weight : null);
+                $location.search("a", $scope.age !== 1 ? $scope.age : null);
+                $location.search("s", $scope.sex !== 1 ? $scope.sex : null);
+                $location.search("g", $scope.growth !== 0 ? $scope.growth : null);
+                $location.search("w", $scope.weight !== 0 ? $scope.weight : null);
             }
 
             $scope.bmi = ($scope.weight / (($scope.growth / 100) * ($scope.growth / 100))).toString();

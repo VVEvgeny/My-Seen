@@ -6,6 +6,46 @@ namespace MySeenWeb.Models.TablesViews
 {
     public class SerialsView : Serials
     {
+        public string GenreText
+        {
+            get { return Defaults.Genres.GetById(Genre); }
+        }
+
+        public string RatingText
+        {
+            get { return Defaults.Ratings.GetById(Rating); }
+        }
+
+        public string GenreVal
+        {
+            get { return Genre.ToString(); }
+        }
+
+        public string RatingVal
+        {
+            get { return Rating.ToString(); }
+        }
+
+        public string YearText
+        {
+            get { return Year == 0 ? "" : Year.ToString(); }
+        }
+
+        public string SeasonSeries
+        {
+            get { return LastSeason + "-" + LastSeries; }
+        }
+
+        public string DateLastText
+        {
+            get { return DateLast.ToString(CultureInfo.CurrentCulture); }
+        }
+
+        public string DateBeginText
+        {
+            get { return DateBegin.ToString(CultureInfo.CurrentCulture); }
+        }
+
         public static SerialsView Map(Serials model)
         {
             if (model == null) return new SerialsView();
@@ -25,38 +65,6 @@ namespace MySeenWeb.Models.TablesViews
                 LastSeries = model.LastSeries,
                 Shared = model.Shared
             };
-        }
-        public string GenreText
-        {
-            get { return Defaults.Genres.GetById(Genre); }
-        }
-        public string RatingText
-        {
-            get { return Defaults.Ratings.GetById(Rating); }
-        }
-        public string GenreVal
-        {
-            get { return Genre.ToString(); }
-        }
-        public string RatingVal
-        {
-            get { return Rating.ToString(); }
-        }
-        public string YearText
-        {
-            get { return Year == 0 ? "" : Year.ToString(); }
-        }
-        public string SeasonSeries
-        {
-            get { return LastSeason + "-" + LastSeries; }
-        }
-        public string DateLastText
-        {
-            get { return DateLast.ToString(CultureInfo.CurrentCulture); }
-        }
-        public string DateBeginText
-        {
-            get { return DateBegin.ToString(CultureInfo.CurrentCulture); }
         }
     }
 }

@@ -1,7 +1,7 @@
-'use strict';
+"use strict";
 
 /* App Module */
-var App = angular.module('MySeenApp', ['ui.router', 'ngAnimate', 'ui.bootstrap']);
+var App = angular.module("MySeenApp", ["ui.router", "ngAnimate", "ui.bootstrap"]);
 
 App.config(function($stateProvider, $urlRouterProvider, $locationProvider) {
 
@@ -9,9 +9,9 @@ App.config(function($stateProvider, $urlRouterProvider, $locationProvider) {
             enabled: true,
             requireBase: false
         });
-        $locationProvider.hashPrefix('!');
+        $locationProvider.hashPrefix("!");
 
-        $urlRouterProvider.otherwise('/');
+        $urlRouterProvider.otherwise("/");
 
     })
     .run(function($rootScope, $cacheFactory, Constants) {
@@ -33,7 +33,7 @@ App.config(function($stateProvider, $urlRouterProvider, $locationProvider) {
         ///////////////////////////////////////////////////////////////////////
         var cacheEnabled = true;
         $rootScope.keysTranslates = [];
-        $rootScope.cacheTranslates = $cacheFactory('translates');
+        $rootScope.cacheTranslates = $cacheFactory("translates");
         $rootScope.putTranslates = function(key, value) {
             if (angular.isUndefined($rootScope.cacheTranslates.get(key))) {
                 $rootScope.keysTranslates.push(key);
@@ -49,8 +49,8 @@ App.config(function($stateProvider, $urlRouterProvider, $locationProvider) {
         ///////////////////////////////////////////////////////////////////////
         $rootScope.safeApply = function(fn) {
             var phase = this.$root.$$phase;
-            if (phase == '$apply' || phase == '$digest') {
-                if (fn && (typeof (fn) === 'function')) {
+            if (phase == "$apply" || phase == "$digest") {
+                if (fn && (typeof (fn) === "function")) {
                     fn();
                 }
             } else {
@@ -84,7 +84,7 @@ App.config(function($stateProvider, $urlRouterProvider, $locationProvider) {
                         if (!silentMode) {
                             alert(jsonData.error);
                             if (jsonData.error === window.GNoRights || jsonData.error === window.GNotAuthorized) {
-                                window.location.href = '/';
+                                window.location.href = "/";
                                 $log.warn("try get not allowed page=" + pageName + " params=" + parameters);
                             }
                         }
@@ -97,7 +97,7 @@ App.config(function($stateProvider, $urlRouterProvider, $locationProvider) {
                 });
         };
     })
-    .constant('Constants',
+    .constant("Constants",
     {
         ///////////////////////////////////////////////////////////////////////
         ///////////////////////////////////////////////////////////////////////           Constants
@@ -124,78 +124,78 @@ App.config(function($stateProvider, $urlRouterProvider, $locationProvider) {
             Resume: 901
         },
         Pages: {
-            Main: '/Json/GetPage/',
-            Add: '/Json/AddData/',
-            Update: '/Json/UpdateData/',
-            Prepared: '/Json/GetPrepared/',
-            Translation: '/Json/GetTranslation/',
-            Delete: '/Json/DeleteData/',
-            GetShare: '/Json/GetShare/',
-            DeleteShare: '/Json/DeleteShare/',
-            GenerateShare: '/Json/GenerateShare/',
-            EndImprovement: '/Json/EndImprovement/',
-            RemoveAllError: '/Json/RemoveAllError/'
+            Main: "/Json/GetPage/",
+            Add: "/Json/AddData/",
+            Update: "/Json/UpdateData/",
+            Prepared: "/Json/GetPrepared/",
+            Translation: "/Json/GetTranslation/",
+            Delete: "/Json/DeleteData/",
+            GetShare: "/Json/GetShare/",
+            DeleteShare: "/Json/DeleteShare/",
+            GenerateShare: "/Json/GenerateShare/",
+            EndImprovement: "/Json/EndImprovement/",
+            RemoveAllError: "/Json/RemoveAllError/"
         },
         PagesSettings: {
-            SetLanguage: '/Settings/SetLanguage/',
-            SetTheme: '/Settings/SetTheme/',
-            SetRpp: '/Settings/SetRpp/',
-            SetMor: '/Settings/SetMor/',
-            SetVkService: '/Settings/SetVkService/',
-            SetGoogleService: '/Settings/SetGoogleService/',
-            SetFacebookService: '/Settings/SetFacebookService/',
-            SetPassword: '/Settings/SetPassword/',
-            GetLogins: '/Settings/GetLogins/',
-            RemoveLogin: '/Settings/RemoveLogin/',
+            SetLanguage: "/Settings/SetLanguage/",
+            SetTheme: "/Settings/SetTheme/",
+            SetRpp: "/Settings/SetRpp/",
+            SetMor: "/Settings/SetMor/",
+            SetVkService: "/Settings/SetVkService/",
+            SetGoogleService: "/Settings/SetGoogleService/",
+            SetFacebookService: "/Settings/SetFacebookService/",
+            SetPassword: "/Settings/SetPassword/",
+            GetLogins: "/Settings/GetLogins/",
+            RemoveLogin: "/Settings/RemoveLogin/",
         },
         PagesPortal:
         {
-            RateMem: '/Portal/RateMem/'
+            RateMem: "/Portal/RateMem/"
         },
         PagesAdmin:
         {
-            UpdateUser: '/Json/UpdateUser/'
+            UpdateUser: "/Json/UpdateUser/"
         }
     })
-    .service('$log',
+    .service("$log",
         function() {
             ///////////////////////////////////////////////////////////////////////
             ///////////////////////////////////////////////////////////////////////           Angular NLog
             ///////////////////////////////////////////////////////////////////////
             this.log = function(msg) {
-                JL('Angular').trace(msg);
-            }
+                JL("Angular").trace(msg);
+            };
             this.debug = function(msg) {
-                JL('Angular').debug(msg);
-            }
+                JL("Angular").debug(msg);
+            };
             this.info = function(msg) {
-                JL('Angular').info(msg);
-            }
+                JL("Angular").info(msg);
+            };
             this.warn = function(msg) {
-                JL('Angular').warn(msg);
-            }
+                JL("Angular").warn(msg);
+            };
             this.error = function(msg) {
-                JL('Angular').error(msg);
-            }
+                JL("Angular").error(msg);
+            };
         })
-    .factory('$exceptionHandler',
+    .factory("$exceptionHandler",
         function() {
             return function(exception, cause) {
-                JL('Angular').fatalException(cause, exception);
+                JL("Angular").fatalException(cause, exception);
                 throw exception;
             };
         })
-    .directive('bsDropdown',
+    .directive("bsDropdown",
         function($compile) {
             return {
-                restrict: 'E',
+                restrict: "E",
                 scope: {
-                    items: '=dropdownData',
-                    doSelect: '&selectVal',
-                    selectedItem: '=preselectedItem'
+                    items: "=dropdownData",
+                    doSelect: "&selectVal",
+                    selectedItem: "=preselectedItem"
                 },
                 link: function(scope, element, attrs) {
-                    var html = '';
+                    var html = "";
                     switch (attrs.menuType) {
                     case "button":
                         html +=
@@ -218,10 +218,10 @@ App.config(function($stateProvider, $urlRouterProvider, $locationProvider) {
                     scope.selectVal = function(item) {
                         switch (attrs.menuType) {
                         case "button":
-                            $('button.button-label', element).html(item.name);
+                            $("button.button-label", element).html(item.name);
                             break;
                         default:
-                            $('a.dropdown-toggle', element).html('<b class="caret"></b> ' + item.name);
+                            $("a.dropdown-toggle", element).html('<b class="caret"></b> ' + item.name);
                             break;
                         }
                         scope.doSelect({
@@ -232,4 +232,3 @@ App.config(function($stateProvider, $urlRouterProvider, $locationProvider) {
                 }
             };
         });
-

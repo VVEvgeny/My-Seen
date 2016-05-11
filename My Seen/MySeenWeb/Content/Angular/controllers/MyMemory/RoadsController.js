@@ -1,18 +1,18 @@
 App.config(function($stateProvider) {
 
     $stateProvider
-        .state('mymemory/roads',
+        .state("mymemory/roads",
         {
-            url: '/mymemory/roads/?:year&search',
+            url: "/mymemory/roads/?:year&search",
             templateUrl: "Content/Angular/templates/MyMemory/roads.html",
-            controller: 'RoadsController',
+            controller: "RoadsController",
             reloadOnSearch: false
         });
 });
 
-App.controller('RoadsController',
+App.controller("RoadsController",
 [
-    '$scope', '$rootScope', '$state', '$stateParams', '$http', '$location', 'Constants', '$anchorScroll',
+    "$scope", "$rootScope", "$state", "$stateParams", "$http", "$location", "Constants", "$anchorScroll",
     function($scope, $rootScope, $state, $stateParams, $http, $location, constants, $anchorScroll) {
 
         $anchorScroll();
@@ -93,18 +93,18 @@ App.controller('RoadsController',
         $scope.quickSearch = {};
         $scope.quickSearch.text = $stateParams ? $stateParams.search : null;
         $scope.searchButtonClick = function() {
-            $location.search('search', $scope.quickSearch.text !== '' ? $scope.quickSearch.text : null);
-            if ($stateParams) $stateParams.search = $scope.quickSearch.text !== '' ? $scope.quickSearch.text : null;
+            $location.search("search", $scope.quickSearch.text !== "" ? $scope.quickSearch.text : null);
+            if ($stateParams) $stateParams.search = $scope.quickSearch.text !== "" ? $scope.quickSearch.text : null;
             getMainPage();
         };
         ///////////////////////////////////////////////////////////////////////
         ///////////////////////////////////////////////////////////////////////           Выбор года
         ///////////////////////////////////////////////////////////////////////
-        $scope.year = $stateParams ? $stateParams.year ? $stateParams.year.toString() : '0' : '0';
+        $scope.year = $stateParams ? $stateParams.year ? $stateParams.year.toString() : "0" : "0";
         $scope.selectedChange = function() {
-            $location.search('year', $scope.year === '0' ? null : $scope.year);
+            $location.search("year", $scope.year === "0" ? null : $scope.year);
             if ($stateParams) {
-                $stateParams.year = $scope.year === '0' ? null : $scope.year;
+                $stateParams.year = $scope.year === "0" ? null : $scope.year;
             }
             getMainPage();
         };
@@ -168,9 +168,9 @@ App.controller('RoadsController',
             //console.log(getId($scope.editedIndex));
 
             if ($scope.editedIndex != null && getId($scope.editedIndex)) {
-                $state.go('mymemory/roadsEditor', { "id": getId($scope.editedIndex) });
+                $state.go("mymemory/roadsEditor", { "id": getId($scope.editedIndex) });
             } else {
-                $state.go('mymemory/roadsEditor');
+                $state.go("mymemory/roadsEditor");
             }
         };
         //Прячу модальную Добавить/Редактировать
@@ -178,12 +178,12 @@ App.controller('RoadsController',
         $scope.addModalOpen = function() {
             $scope.editedIndex = null;
             $scope.modal.title = $scope.translation.TitleAdd;
-            $scope.modal.name = '';
+            $scope.modal.name = "";
             $scope.modal.datetimeNow = $scope.prepared.DateTimeNow;
             if ($scope.modal
                 .roadType !==
                 $scope.prepared.TypeList[0].Value) $scope.modal.roadType = $scope.prepared.TypeList[0].Value;
-            $scope.modal.coordinates = '';
+            $scope.modal.coordinates = "";
 
             $scope.modal.addButton = true;
             $scope.modal.shareButton = false;
@@ -195,8 +195,8 @@ App.controller('RoadsController',
         $scope.$on("$destroy",
             function() {
                 $scope.addModalHide();
-                $('body').removeClass('modal-open');
-                $('.modal-backdrop').remove();
+                $("body").removeClass("modal-open");
+                $(".modal-backdrop").remove();
             });
         $scope.addModalHide = function() {
             $("#AddModalWindow").modal("hide");
@@ -289,9 +289,9 @@ App.controller('RoadsController',
         //Изменения после запросов с модальной доступа
         function getShareCallBack(link) {
             $scope.modalShare.loading = false;
-            if (link === '-') { //нет ссылки, показать кнопку - Получить
+            if (link === "-") { //нет ссылки, показать кнопку - Получить
                 $scope.modalShare.addButton = true;
-                $scope.modalShare.link = '';
+                $scope.modalShare.link = "";
             } else { //есть ссылка, заполним, показать кнопку - Попробовать + Удалить
                 $scope.modalShare.tryButton = true;
                 $scope.modalShare.deleteButton = true;
@@ -322,8 +322,8 @@ App.controller('RoadsController',
         //Нажата кнопка попробовать в модальной доступа, откроем на соседней вкладке ссылку
         $scope.modalShare.tryButtonClick = function() {
             //window.open($scope.modalShare.link, '_blank');
-            $state.go('mymemory/sharedRoads',
-            { "key": $scope.modalShare.link.split('/')[$scope.modalShare.link.split('/').length - 1] });
+            $state.go("mymemory/sharedRoads",
+            { "key": $scope.modalShare.link.split("/")[$scope.modalShare.link.split("/").length - 1] });
         };
         //Удаляем доступ к текущей записи из модальной доступа
         $scope.modalShare.deleteButtonClick = function() {

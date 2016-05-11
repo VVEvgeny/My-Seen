@@ -19,7 +19,6 @@
 </script>
 
 
-
 <div class="form-group">
     <button type="button" class="form-control btn btn-warning" onclick="fullscreen()">
         <span class="glyphicon glyphicon-picture"></span> В полный экран
@@ -33,16 +32,16 @@
 
         if (el.webkitRequestFullScreen) {
             el.webkitRequestFullScreen();
-        }
-        else {
+        } else {
             el.mozRequestFullScreen();
         }
     }
+
     // Инициализация canvas и получение из него WebGL контекста
-    
+
     //var canvas = document.createElement('canvas');
     //document.body.appendChild(canvas);
-    
+
     var canvas = document.getElementById('canvas');
     //canvas.addEventListener("click", fullscreen);
 
@@ -94,7 +93,6 @@
         -1, -1, -1,
         1, -1, -1,
         -1, -1, 1,
-
         1, -1, 1,
         -1, -1, 1,
         1, -1, -1,
@@ -103,7 +101,6 @@
         -1, 1, -1,
         -1, 1, 1,
         1, 1, -1,
-
         1, 1, 1,
         1, 1, -1,
         -1, 1, 1,
@@ -112,7 +109,6 @@
         -1, -1, -1,
         -1, 1, -1,
         1, -1, -1,
-
         1, 1, -1,
         1, -1, -1,
         -1, 1, -1,
@@ -121,7 +117,6 @@
         -1, -1, 1,
         1, -1, 1,
         -1, 1, 1,
-
         1, 1, 1,
         -1, 1, 1,
         1, -1, 1,
@@ -130,7 +125,6 @@
         -1, -1, -1,
         -1, -1, 1,
         -1, 1, -1,
-
         -1, 1, 1,
         -1, 1, -1,
         -1, -1, 1,
@@ -139,7 +133,6 @@
         1, -1, -1,
         1, 1, -1,
         1, -1, 1,
-
         1, 1, 1,
         1, -1, 1,
         1, 1, -1
@@ -211,7 +204,7 @@
     var lastRenderTime = Date.now();
 
     function render() {
-        
+
         // Запрашиваем рендеринг на следующий кадр
         if (TestWebGLRun) requestAnimationFrame(render);
 

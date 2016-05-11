@@ -16,7 +16,8 @@ namespace MySeenWeb.Models.Portal
         {
             var ac = new ApplicationDbContext();
 
-            Pages = new Pagination(page, ac.Memes.Count(f => (string.IsNullOrEmpty(search) || f.Name.Contains(search))),countInPage);
+            Pages = new Pagination(page, ac.Memes.Count(f => string.IsNullOrEmpty(search) || f.Name.Contains(search)),
+                countInPage);
             if (id != 0) Pages.SkipRecords = 0;
             Data = MemesView.Map(ac.Memes.Where(f =>
                 (string.IsNullOrEmpty(search) || f.Name.Contains(search)) &&

@@ -4,9 +4,9 @@ namespace MySeenWeb.Models.Translations.Portal
 {
     public class TranslationDataPortalMain
     {
-        public string Memes = Resource.Memes;
+        public string BMICalculator = Resource.BMICalculator;
         public string ChildSexCalculator = Resource.ChildSexCalculator;
         public string HomePriceSalarityGraph = Resource.HomePriceSalarityGraph;
-        public string BMICalculator = Resource.BMICalculator;
+        public string Memes = Resource.Memes;
     }
 }

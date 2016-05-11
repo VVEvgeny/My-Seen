@@ -1,10 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Globalization;
-using System.Linq;
 using System.Web.Mvc;
 using MySeenLib;
-using MySeenWeb.Models.OtherViewModels;
 using MySeenWeb.Models.TablesViews;
 
 namespace MySeenWeb.Models.Prepared

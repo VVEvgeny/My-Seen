@@ -9,25 +9,25 @@
  **/
 function Gmap3Menu($div) {
     var that = this,
-      items = [],
-      ts = null,
-      namespace = "gmap3-menu";
+        items = [],
+        ts = null,
+        namespace = "gmap3-menu";
 
     // create an item using a new closure
     function create(item) {
         var $item = $("<div class='item " + item.cl + "'>" + item.label + "</div>");
         $item
-          // bind click on item
-          .click(function () {
-              if (typeof item.fnc === "function") {
-                  item.fnc.apply($(this), []);
-              }
-          })
-          // manage mouse over coloration
-          .hover(
-            function () { $(this).addClass("hover"); },
-            function () { $(this).removeClass("hover"); }
-          );
+            // bind click on item
+            .click(function() {
+                if (typeof item.fnc === "function") {
+                    item.fnc.apply($(this), []);
+                }
+            })
+            // manage mouse over coloration
+            .hover(
+                function() { $(this).addClass("hover"); },
+                function() { $(this).removeClass("hover"); }
+            );
         return $item;
     }
 
@@ -39,10 +39,10 @@ function Gmap3Menu($div) {
     }
 
     function initTs(t) {
-        ts = setTimeout(function () { that.close(); }, t);
+        ts = setTimeout(function() { that.close(); }, t);
     }
 
-    this.add = function (label, cl, fnc) {
+    this.add = function(label, cl, fnc) {
         items.push({
             label: label,
             fnc: fnc,
@@ -51,19 +51,20 @@ function Gmap3Menu($div) {
     };
 
     // close previous and open a new menu 
-    this.open = function (event) {
+    this.open = function(event) {
         this.close();
         var offset = { x: 0, y: 0 },
-          $menu = $("<div id='" + namespace + "'></div>");
+            $menu = $("<div id='" + namespace + "'></div>");
 
         // add items in menu
-        $.each(items, function (i, item) {
-            $menu.append(create(item));
-        });
+        $.each(items,
+            function(i, item) {
+                $menu.append(create(item));
+            });
         // manage auto-close menu on mouse hover / out
         $menu.hover(
-          function () { clearTs(); },
-          function () { initTs(3000); }
+            function() { clearTs(); },
+            function() { initTs(3000); }
         );
 
         // change the offset to get the menu visible (#menu width & height must be defined in CSS to use this simple code)
@@ -89,7 +90,7 @@ function Gmap3Menu($div) {
     };
 
     // close the menu
-    this.close = function () {
+    this.close = function() {
         clearTs();
         $div.gmap3({ clear: { name: "overlay", tag: namespace } });
     };

@@ -12,6 +12,7 @@ namespace MySeenWeb.Models.Tools
         {
             Save(userId, ipAdress, userAgent, string.Empty);
         }
+
         public static void Save(string userId, string ipAdress, string userAgent, string addData)
         {
             if (!Admin.IsDebug)
@@ -23,7 +24,7 @@ namespace MySeenWeb.Models.Tools
                     !ac.Logs.Any(
                         l =>
                             l.IPAdress == ipAdress && l.UserAgent == userAgent && l.UserId == userId &&
-                            l.OnlyDate == date ))
+                            l.OnlyDate == date))
                 {
                     ac.Logs.Add(new Logs
                     {

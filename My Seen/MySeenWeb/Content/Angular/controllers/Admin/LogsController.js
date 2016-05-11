@@ -1,18 +1,18 @@
 App.config(function($stateProvider) {
 
     $stateProvider
-        .state('logs',
+        .state("logs",
         {
-            url: '/admin/logs/?bots:&period&page&search',
+            url: "/admin/logs/?bots:&period&page&search",
             templateUrl: "Content/Angular/templates/Admin/logs.html",
-            controller: 'LogsController',
+            controller: "LogsController",
             reloadOnSearch: false
         });
 });
 
-App.controller('LogsController',
+App.controller("LogsController",
 [
-    '$scope', '$rootScope', '$state', '$stateParams', '$http', '$location', 'Constants', '$anchorScroll',
+    "$scope", "$rootScope", "$state", "$stateParams", "$http", "$location", "Constants", "$anchorScroll",
     function($scope, $rootScope, $state, $stateParams, $http, $location, constants, $anchorScroll) {
 
         $anchorScroll();
@@ -66,7 +66,7 @@ App.controller('LogsController',
             function() {
                 if ($scope.period && !skipPeriod) {
                     //console.log("new period=" + $scope.period);
-                    $location.search('period', $scope.period !== '0' ? $scope.period : null);
+                    $location.search("period", $scope.period !== "0" ? $scope.period : null);
                     if ($stateParams) $stateParams.period = $scope.period;
                     getMainPage();
                 }
@@ -79,10 +79,10 @@ App.controller('LogsController',
         $scope.quickSearch = {};
         $scope.quickSearch.text = $stateParams ? $stateParams.search : null;
         $scope.searchButtonClick = function() {
-            $location.search('search', $scope.quickSearch.text !== '' ? $scope.quickSearch.text : null);
-            $location.search('page', null); //с первой страницы новый поиск
+            $location.search("search", $scope.quickSearch.text !== "" ? $scope.quickSearch.text : null);
+            $location.search("page", null); //с первой страницы новый поиск
             if ($stateParams) $stateParams.page = null;
-            if ($stateParams) $stateParams.search = $scope.quickSearch.text !== '' ? $scope.quickSearch.text : null;
+            if ($stateParams) $stateParams.search = $scope.quickSearch.text !== "" ? $scope.quickSearch.text : null;
             getMainPage();
         };
 
@@ -92,16 +92,16 @@ App.controller('LogsController',
         //Не использую перехода по состояниям, они перезагружают контроллер, а так у меня в настройках для контролера стоит reloadOnSearch: false      
         $scope.pagination = {};
         $scope.pagination.goToPage = function(page) {
-            $location.search('page', page > 1 ? page : null);
+            $location.search("page", page > 1 ? page : null);
             if ($stateParams) $stateParams.page = page > 1 ? page : null;
             getMainPage();
             $anchorScroll();
-        }
+        };
         ///////////////////////////////////////////////////////////////////////
         ///////////////////////////////////////////////////////////////////////           COLLAPSE
         ///////////////////////////////////////////////////////////////////////
         $scope.showPost = function(id) {
-            if (id === 'all') {
+            if (id === "all") {
                 if ($("#postPlus_" + id).hasClass("hidden")) {
 
                     $("#postMinus_" + id).addClass("hidden");
@@ -168,8 +168,8 @@ App.controller('LogsController',
         ///////////////////////////////////////////////////////////////////////
         $scope.bots = $stateParams.bots === "true";
         $scope.botsChange = function() {
-            $location.search('page', null); //с первой страницы новый поиск
-            $location.search('bots', !$scope.bots ? null : $scope.bots);
+            $location.search("page", null); //с первой страницы новый поиск
+            $location.search("bots", !$scope.bots ? null : $scope.bots);
             if ($stateParams) $stateParams.page = null;
             if ($stateParams) $stateParams.bots = !$scope.bots ? null : $scope.bots;
             getMainPage();

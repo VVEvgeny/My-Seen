@@ -10,18 +10,20 @@ namespace MySeenWeb.Models.TablesLogic
     {
         private readonly ApplicationDbContext _ac;
         public string ErrorMessage;
+
         public EventsLogic()
         {
             ErrorMessage = string.Empty;
             _ac = new ApplicationDbContext();
         }
+
         private bool Fill(string name, string datetime, string type, string userId)
         {
             try
             {
                 Name = name;
                 Date = UmtTime.To(Convert.ToDateTime(datetime));
-                RepeatType = Convert.ToInt32(type);                
+                RepeatType = Convert.ToInt32(type);
                 DateChange = UmtTime.To(DateTime.Now);
                 UserId = userId;
             }
@@ -32,6 +34,7 @@ namespace MySeenWeb.Models.TablesLogic
             }
             return true;
         }
+
         private bool Fill(string id, string name, string datetime, string type, string userId)
         {
             try
@@ -43,12 +46,14 @@ namespace MySeenWeb.Models.TablesLogic
                 ErrorMessage = e.Message;
                 return false;
             }
-            return Fill(name,  datetime, type, userId);
+            return Fill(name, datetime, type, userId);
         }
+
         private bool Contains()
         {
             return _ac.Events.Any(f => f.Name == Name && f.UserId == UserId && f.Id != Id);
         }
+
         private bool Verify()
         {
             if (string.IsNullOrEmpty(Name))
@@ -67,6 +72,7 @@ namespace MySeenWeb.Models.TablesLogic
 
             return false;
         }
+
         private bool Add()
         {
             try
@@ -81,6 +87,7 @@ namespace MySeenWeb.Models.TablesLogic
             }
             return true;
         }
+
         private bool Update()
         {
             try
@@ -99,14 +106,17 @@ namespace MySeenWeb.Models.TablesLogic
             }
             return true;
         }
+
         public bool Add(string name, string datetime, string type, string userId)
         {
             return Fill(name, datetime, type, userId) && Verify() && Add();
         }
+
         public bool Update(string id, string name, string datetime, string type, string userId)
         {
             return Fill(id, name, datetime, type, userId) && Verify() && Update();
         }
+
         public bool Delete(string id, string userId)
         {
             try
@@ -122,6 +132,7 @@ namespace MySeenWeb.Models.TablesLogic
             }
             return true;
         }
+
         public string GetShare(string id, string userId)
         {
             try
@@ -139,6 +150,7 @@ namespace MySeenWeb.Models.TablesLogic
             }
             return "-";
         }
+
         public string GenerateShare(string id, string userId)
         {
             var iid = Convert.ToInt32(id);
@@ -147,6 +159,7 @@ namespace MySeenWeb.Models.TablesLogic
             _ac.SaveChanges();
             return MySeenWebApi.ApiHost + MySeenWebApi.ShareEvents + key;
         }
+
         public string DeleteShare(string id, string userId)
         {
             var iid = Convert.ToInt32(id);
@@ -154,6 +167,7 @@ namespace MySeenWeb.Models.TablesLogic
             _ac.SaveChanges();
             return "-";
         }
+
         public int GetCountShared(string key)
         {
             return _ac.Events.Count(f => f.Shared && f.User.ShareEventsKey == key);

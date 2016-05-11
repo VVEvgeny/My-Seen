@@ -1,22 +1,22 @@
 App.config(function($stateProvider) {
 
     $stateProvider
-        .state('mymemory/sharedSerials',
+        .state("mymemory/sharedSerials",
         {
-            url: '/mymemory/serials/shared/:key?page&search',
+            url: "/mymemory/serials/shared/:key?page&search",
             templateUrl: "Content/Angular/templates/MyMemory/Shared/serials.html",
-            controller: 'SharedSerialsController',
+            controller: "SharedSerialsController",
             reloadOnSearch: false
         });
 });
 
-App.controller('SharedSerialsController',
+App.controller("SharedSerialsController",
 [
-    '$scope', '$rootScope', '$state', '$stateParams', '$http', '$location', 'Constants', '$anchorScroll',
+    "$scope", "$rootScope", "$state", "$stateParams", "$http", "$location", "Constants", "$anchorScroll",
     function($scope, $rootScope, $state, $stateParams, $http, $location, constants, $anchorScroll) {
 
         if (!$stateParams.key) {
-            $state.go('mymemory/serials');
+            $state.go("mymemory/serials");
         }
         $anchorScroll();
         $rootScope.loading = true;
@@ -68,10 +68,10 @@ App.controller('SharedSerialsController',
         $scope.quickSearch = {};
         $scope.quickSearch.text = $stateParams ? $stateParams.search : null;
         $scope.searchButtonClick = function() {
-            $location.search('search', $scope.quickSearch.text !== '' ? $scope.quickSearch.text : null);
-            $location.search('page', null); //с первой страницы новый поиск
+            $location.search("search", $scope.quickSearch.text !== "" ? $scope.quickSearch.text : null);
+            $location.search("page", null); //с первой страницы новый поиск
             if ($stateParams) $stateParams.page = null;
-            if ($stateParams) $stateParams.search = $scope.quickSearch.text !== '' ? $scope.quickSearch.text : null;
+            if ($stateParams) $stateParams.search = $scope.quickSearch.text !== "" ? $scope.quickSearch.text : null;
             getMainPage();
         };
         ///////////////////////////////////////////////////////////////////////
@@ -80,7 +80,7 @@ App.controller('SharedSerialsController',
         //Не использую перехода по состояниям, они перезагружают контроллер, а так у меня в настройках для контролера стоит reloadOnSearch: false      
         $scope.pagination = {};
         $scope.pagination.goToPage = function(page) {
-            $location.search('page', page > 1 ? page : null);
+            $location.search("page", page > 1 ? page : null);
             if ($stateParams) $stateParams.page = page > 1 ? page : null;
             getMainPage();
             $anchorScroll();

@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
-using System.Security;
 using MySeenLib;
 using MySeenWeb.Models.OtherViewModels;
 using MySeenWeb.Models.Tables.Portal;
@@ -10,7 +9,7 @@ namespace MySeenWeb.Models.TablesViews.Portal
 {
     public class MemesView : Memes
     {
-        public string DateText 
+        public string DateText
         {
             get { return Date.ToString(CultureInfo.CurrentCulture); }
         }
@@ -34,6 +33,7 @@ namespace MySeenWeb.Models.TablesViews.Portal
             list.AddRange(model.Select(elem => Map(elem, userId)));
             return list;
         }
+
         private static MemesView Map(Memes model, string userId)
         {
             if (model == null) return new MemesView();

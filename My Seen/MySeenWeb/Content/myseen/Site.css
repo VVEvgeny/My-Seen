@@ -1,110 +1,106 @@
 ﻿#ad_root {
-        display: none;
-        font-size: 14px;
-        height: 250px;
-        line-height: 16px;
-        position: relative;
-        width: 300px;
-      }
-
-      .thirdPartyMediaClass {
-        height: 157px;
-        width: 300px;
-      }
-
-      .thirdPartyTitleClass {
-        font-weight: 600;
-        font-size: 16px;
-        margin: 8px 0 4px 0;
-        overflow: hidden;
-        text-overflow: ellipsis;
-        white-space: nowrap;
-      }
-
-      .thirdPartyBodyClass {
-        display: -webkit-box;
-        height: 32px;
-        -webkit-line-clamp: 2;
-        overflow: hidden;
-      }
-
-      .thirdPartyCallToActionClass {
-        color: #326891;
-        font-family: sans-serif;
-        font-weight: 600;
-        margin-top: 8px;
-      }
-
-
-
-
-
-
-
-.fb-comments{
-   width: 90% !important;
+    display: none;
+    font-size: 14px;
+    height: 250px;
+    line-height: 16px;
+    position: relative;
+    width: 300px;
 }
 
-.fit { /* set relative picture size */
-    max-width: 83.33333333%;
+.thirdPartyMediaClass {
+    height: 157px;
+    width: 300px;
+}
+
+.thirdPartyTitleClass {
+    font-size: 16px;
+    font-weight: 600;
+    margin: 8px 0 4px 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.thirdPartyBodyClass {
+    -webkit-line-clamp: 2;
+    display: -webkit-box;
+    height: 32px;
+    overflow: hidden;
+}
+
+.thirdPartyCallToActionClass {
+    color: #326891;
+    font-family: sans-serif;
+    font-weight: 600;
+    margin-top: 8px;
+}
+
+
+
+
+
+
+
+.fb-comments { width: 90% !important; }
+
+.fit {
     max-height: 100%;
+    /* set relative picture size */
+    max-width: 83.33333333%;
 }
 
 .myseen-button-mobile-about {
-    margin-bottom:4px;
+    margin-bottom: 4px;
     white-space: normal;
-  }
+}
 
 .myseen-modal-close {
     color: #ff0000;
-    opacity: 1; 
+    opacity: 1;
 }
 
-.width-450 {
-    width: 450px;
-  }
+.width-450 { width: 450px; }
 
-body {
-  scroll-behavior: smooth;
-}
+body { scroll-behavior: smooth; }
 
 body .modal-images {
-    /* new custom width */
-    width: 1000px;
     height: 1000px;
     /* must be half of the width, minus scrollbar on the left (30px) */
     margin-left: 0;
+    /* new custom width */
+    width: 1000px;
 }
 
-.gmap{
-        margin: 20px auto;
-        border: 1px dashed #C0C0C0;
-        width: 100%;
- }
-.page-size-gmap
-{
-        height: 600px;
-        max-height: 600px; 
+.gmap {
+    border: 1px dashed #C0C0C0;
+    margin: 20px auto;
+    width: 100%;
 }
+
+.page-size-gmap {
+    height: 600px;
+    max-height: 600px;
+}
+
 .page-size-gmap-roads {
-            height: 588px;
-        max-height: 588px; 
+    height: 588px;
+    max-height: 588px;
 }
+
 .page-size-gmap-coordinates {
-            height: 640px;
-        max-height: 640px; 
+    height: 640px;
+    max-height: 640px;
 }
-.page-scrolable
-{
-        overflow-y: scroll;
-}
+
+.page-scrolable { overflow-y: scroll; }
 
 body {
-    padding-top: 15px;
     padding-bottom: 15px;
+    padding-top: 15px;
 }
 
 /* Set padding to keep content from hitting the edges */
+
 .body-content {
     padding-left: 15px;
     padding-right: 15px;
@@ -113,47 +109,39 @@ body {
 /* Override the default bootstrap behavior where horizontal description lists 
    will truncate terms that are too long to fit in the left column 
 */
-.dl-horizontal dt {
-    white-space: normal;
-}
+
+.dl-horizontal dt { white-space: normal; }
 
 /* Set width on the form input elements since they're 100% wide by default */
+
 input,
 select,
-textarea {
-    max-width: 280px;
-}
+textarea { max-width: 280px; }
 
 /* TABLE ----------------------------------------------------------*/
-table 
-{
-  border: solid 1px #e8eef4;
-  border-collapse: collapse;
-}
-table td 
-{
-  padding: 5px;   
-  border: solid 1px #e8eef4;
-  vertical-align: inherit;
-}
-table th
-{
-  padding: 6px 5px;
-  text-align: center;
-  background-color: #e8eef4; 
-  border: solid 1px #e8eef4;   
-  vertical-align: inherit;
-  font-weight: bold;
+
+table {
+    border: solid 1px #e8eef4;
+    border-collapse: collapse;
 }
 
-.align-center {
-text-align: center;
+table td {
+    border: solid 1px #e8eef4;
+    padding: 5px;
+    vertical-align: inherit;
 }
 
-.alignCenter {
-text-align: center;
+table th {
+    background-color: #e8eef4;
+    border: solid 1px #e8eef4;
+    font-weight: bold;
+    padding: 6px 5px;
+    text-align: center;
+    vertical-align: inherit;
 }
 
-.align-left {
-text-align: left;
-}
+.align-center { text-align: center; }
+
+.alignCenter { text-align: center; }
+
+.align-left { text-align: left; }

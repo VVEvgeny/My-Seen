@@ -4,6 +4,7 @@ using System.Security.Claims;
 using System.Threading.Tasks;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
+using MySeenWeb.Migrations;
 using MySeenWeb.Models.Tables;
 using MySeenWeb.Models.Tables.Portal;
 
@@ -38,12 +39,6 @@ namespace MySeenWeb.Models.OtherViewModels
 
     public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
     {
-        public ApplicationDbContext()
-            : base("DefaultConnection", throwIfV1Schema: false)
-        {
-            Database.SetInitializer(new MigrateDatabaseToLatestVersion<ApplicationDbContext, Migrations.Configuration>("DefaultConnection"));
-        }
-
         public IDbSet<IdentityUserLogin> UserLogins { get; set; }
         public IDbSet<IdentityUserRole> UserRoles { get; set; }
         public DbSet<Films> Films { get; set; }
@@ -61,6 +56,13 @@ namespace MySeenWeb.Models.OtherViewModels
 
         public DbSet<Realt> Realt { get; set; }
         public DbSet<Salary> Salary { get; set; }
+
+        public ApplicationDbContext()
+            : base("DefaultConnection", false)
+        {
+            Database.SetInitializer(
+                new MigrateDatabaseToLatestVersion<ApplicationDbContext, Configuration>("DefaultConnection"));
+        }
 
         public static ApplicationDbContext Create()
         {

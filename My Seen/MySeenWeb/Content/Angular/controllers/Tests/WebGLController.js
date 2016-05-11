@@ -1,20 +1,20 @@
 App.config(function($stateProvider) {
 
     $stateProvider
-        .state('webgl',
+        .state("webgl",
         {
-            url: '/tests/webgl/',
+            url: "/tests/webgl/",
             templateUrl: "Content/Angular/templates/tests/webgl.html",
-            controller: 'WebGLController',
+            controller: "WebGLController",
             reloadOnSearch: false
         });
 });
 
 var TestWebGLRun = false;
 
-App.controller('WebGLController',
+App.controller("WebGLController",
 [
-    '$scope', '$rootScope', '$state', '$stateParams', '$http', '$location', 'Constants', '$anchorScroll',
+    "$scope", "$rootScope", "$state", "$stateParams", "$http", "$location", "Constants", "$anchorScroll",
     function($scope, $rootScope, $state, $stateParams, $http, $location, constants, $anchorScroll) {
 
         $anchorScroll();

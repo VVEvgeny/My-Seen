@@ -14,10 +14,15 @@ namespace MySeenWeb.Models
         public Pagination Pages { get; set; }
         public bool IsMyData { get; set; }
 
-        public HomeViewModelFilms(string userId, int page, int countInPage, string search, string shareKey, ICacheService cache)
+        public HomeViewModelFilms(string userId, int page, int countInPage, string search, string shareKey,
+            ICacheService cache)
         {
-            Pages = cache.Get<Pagination>(cache.GetFormatedName(CacheNames.UserFilmsPages.ToString(), userId, page, countInPage, search, shareKey));
-            Data = cache.Get<IEnumerable<FilmsView>>(cache.GetFormatedName(CacheNames.UserFilms.ToString(), userId, page, countInPage, search, shareKey));
+            Pages =
+                cache.Get<Pagination>(cache.GetFormatedName(CacheNames.UserFilmsPages.ToString(), userId, page,
+                    countInPage, search, shareKey));
+            Data =
+                cache.Get<IEnumerable<FilmsView>>(cache.GetFormatedName(CacheNames.UserFilms.ToString(), userId, page,
+                    countInPage, search, shareKey));
 
             if (Pages == null || Data == null)
             {
@@ -32,7 +37,9 @@ namespace MySeenWeb.Models
                              (!string.IsNullOrEmpty(shareKey) && f.User.ShareFilmsKey == shareKey && f.Shared))
                             && (string.IsNullOrEmpty(search) || f.Name.Contains(search))),
                         countInPage);
-                    cache.Set(cache.GetFormatedName(CacheNames.UserFilmsPages.ToString(), userId, page, countInPage, search, shareKey), Pages, 15);
+                    cache.Set(
+                        cache.GetFormatedName(CacheNames.UserFilmsPages.ToString(), userId, page, countInPage, search,
+                            shareKey), Pages, 15);
                 }
                 if (Data == null)
                 {
@@ -46,7 +53,9 @@ namespace MySeenWeb.Models
                         .Skip(() => Pages.SkipRecords)
                         .Take(() => countInPage)
                         .Select(FilmsView.Map);
-                    cache.Set(cache.GetFormatedName(CacheNames.UserFilms.ToString(), userId, page, countInPage, search, shareKey), Data, 15);
+                    cache.Set(
+                        cache.GetFormatedName(CacheNames.UserFilms.ToString(), userId, page, countInPage, search,
+                            shareKey), Data, 15);
                 }
             }
             IsMyData = !string.IsNullOrEmpty(shareKey) && Data.Any() && Data.First().UserId == userId;

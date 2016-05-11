@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Globalization;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
 using MySeenLib;
@@ -12,6 +10,7 @@ namespace MySeenWeb.Models.Prepared
         public IEnumerable<SelectListItem> SelectedList { get; set; }
         public IEnumerable<SelectListItem> SelectedListForAdd { get; set; }
         public IEnumerable<SelectListItem> TypeList { get; set; }
+
         public PreparedDataImprovements()
         {
             SelectedList =
@@ -26,7 +25,7 @@ namespace MySeenWeb.Models.Prepared
                             })
                     .ToList();
 
-            SelectedListForAdd = SelectedList.Where(l=>l.Value != "0");
+            SelectedListForAdd = SelectedList.Where(l => l.Value != "0");
 
             TypeList = new List<SelectListItem>
             {

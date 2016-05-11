@@ -79,7 +79,7 @@ namespace MySeenWeb.Models
                                 Selected = Defaults.RecordPerPage.GetId(sel).ToString() == Rpp
                             })
                     .ToList();
-            
+
             Themes =
                 Defaults.Themes.GetAll()
                     .Select(

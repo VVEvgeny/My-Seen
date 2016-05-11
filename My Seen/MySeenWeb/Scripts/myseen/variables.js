@@ -2,7 +2,7 @@
 ///////////////////////////////////////////////////////////////////////           Global variables
 ///////////////////////////////////////////////////////////////////////
 var GAuthorized = false;
-var GLanguage = 'en';
-var GNotAuthorized = '';
-var GNoRights = '';
+var GLanguage = "en";
+var GNotAuthorized = "";
+var GNoRights = "";
 var GIsAdmin = false;

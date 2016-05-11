@@ -10,12 +10,13 @@ namespace MySeenWeb.Models.TablesLogic
     {
         private readonly ApplicationDbContext _ac;
         public string ErrorMessage;
+
         public NLogErrorsLogic()
         {
             ErrorMessage = string.Empty;
             _ac = new ApplicationDbContext();
         }
-        
+
         public bool Delete(string id, string userId)
         {
             try

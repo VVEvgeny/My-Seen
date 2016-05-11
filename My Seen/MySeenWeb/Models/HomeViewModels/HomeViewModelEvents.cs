@@ -12,6 +12,7 @@ namespace MySeenWeb.Models
         public IEnumerable<EventsView> Data { get; set; }
         public Pagination Pages { get; set; }
         public bool IsMyData { get; set; }
+
         public HomeViewModelEvents(string userId, int page, int countInPage, string search, int ended, string shareKey)
         {
             var ac = new ApplicationDbContext();

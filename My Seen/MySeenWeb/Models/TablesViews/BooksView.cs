@@ -6,6 +6,36 @@ namespace MySeenWeb.Models.TablesViews
 {
     public class BooksView : Books
     {
+        public string GenreText
+        {
+            get { return Defaults.Genres.GetById(Genre); }
+        }
+
+        public string RatingText
+        {
+            get { return Defaults.Ratings.GetById(Rating); }
+        }
+
+        public string GenreVal
+        {
+            get { return Genre.ToString(); }
+        }
+
+        public string RatingVal
+        {
+            get { return Rating.ToString(); }
+        }
+
+        public string YearText
+        {
+            get { return Year == 0 ? "" : Year.ToString(); }
+        }
+
+        public string DateReadText
+        {
+            get { return DateRead.ToString(CultureInfo.CurrentCulture); }
+        }
+
         public static BooksView Map(Books model)
         {
             if (model == null) return new BooksView();
@@ -23,31 +53,6 @@ namespace MySeenWeb.Models.TablesViews
                 Authors = model.Authors,
                 Shared = model.Shared
             };
-        }
-        public string GenreText
-        {
-            get { return Defaults.Genres.GetById(Genre); }
-        }
-        public string RatingText
-        {
-            get { return Defaults.Ratings.GetById(Rating); }
-        }
-        public string GenreVal
-        {
-            get { return Genre.ToString(); }
-        }
-        public string RatingVal
-        {
-            get { return Rating.ToString(); }
-        }
-        public string YearText
-        {
-            get { return Year == 0 ? "" : Year.ToString(); }
-        }
-
-        public string DateReadText
-        {
-            get { return DateRead.ToString(CultureInfo.CurrentCulture); }
         }
     }
 }

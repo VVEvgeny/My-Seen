@@ -1,18 +1,18 @@
 App.config(function($stateProvider) {
 
     $stateProvider
-        .state('mymemory/roadsEditor',
+        .state("mymemory/roadsEditor",
         {
-            url: '/mymemory/roads/editor/:id',
+            url: "/mymemory/roads/editor/:id",
             templateUrl: "Content/Angular/templates/MyMemory/roadsEditor.html",
-            controller: 'RoadsEditorController',
+            controller: "RoadsEditorController",
             reloadOnSearch: false
         });
 });
 
-App.controller('RoadsEditorController',
+App.controller("RoadsEditorController",
 [
-    '$scope', '$rootScope', '$state', '$stateParams', '$http', '$location', 'Constants', '$anchorScroll',
+    "$scope", "$rootScope", "$state", "$stateParams", "$http", "$location", "Constants", "$anchorScroll",
     function($scope, $rootScope, $state, $stateParams, $http, $location, constants, $anchorScroll) {
 
         $anchorScroll();
@@ -54,7 +54,7 @@ App.controller('RoadsEditorController',
             window.coordinates = 0;
             console.log($scope.data);
             if ($scope.data && $scope.data.DataFoot.length > 0) {
-                $scope.data.DataFoot[0].Coordinates.split(';')
+                $scope.data.DataFoot[0].Coordinates.split(";")
                     .forEach(function(item) {
                         if (item) {
                             window.current = {};
@@ -65,7 +65,7 @@ App.controller('RoadsEditorController',
                 calculateRoute();
                 autoFit();
             } else {
-                $state.go('mymemory/roads');
+                $state.go("mymemory/roads");
             }
         };
 
@@ -97,7 +97,7 @@ App.controller('RoadsEditorController',
                 $scope.modal.addButton = false;
             } else { //ка кдобавление
                 $scope.modal.title = $scope.translation.TitleAdd;
-                $scope.modal.name = '';
+                $scope.modal.name = "";
                 $scope.modal.datetimeNow = $scope.prepared.DateTimeNow;
                 if ($scope.modal
                     .roadType !==
@@ -109,12 +109,12 @@ App.controller('RoadsEditorController',
 
             var $panel = $("#panelCoordinates");
             var $rows = $panel.find("div");
-            $scope.modal.coordinates = '';
+            $scope.modal.coordinates = "";
             $rows.each(function(index, element) {
                 var $row = $(element);
                 var id = $row.attr("id");
                 //console.log("id=", id);
-                id = id.replace('(', '').replace(')', '');
+                id = id.replace("(", "").replace(")", "");
                 $scope.modal.coordinates += id + ";";
             });
 
@@ -123,8 +123,8 @@ App.controller('RoadsEditorController',
         $scope.$on("$destroy",
             function() {
                 $scope.addModalHide();
-                $('body').removeClass('modal-open');
-                $('.modal-backdrop').remove();
+                $("body").removeClass("modal-open");
+                $(".modal-backdrop").remove();
             });
         $scope.addModalHide = function() {
             $("#AddModalWindow").modal("hide");
@@ -133,7 +133,7 @@ App.controller('RoadsEditorController',
         //в случае успеха закроем модальное и перезапросим данные, с первой страницы
         function afterAdd() {
             $scope.addModalHide();
-            $state.go('mymemory/roads');
+            $state.go("mymemory/roads");
         };
 
         //Готовлю данные для отправки и вызову глобальную AddData

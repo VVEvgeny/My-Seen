@@ -9,11 +9,13 @@ namespace MySeenWeb.Models.TablesLogic
     {
         private readonly ApplicationDbContext _ac;
         public string ErrorMessage;
+
         public ErrorsLogic()
         {
             ErrorMessage = string.Empty;
             _ac = new ApplicationDbContext();
         }
+
         public bool RemoveAll()
         {
             try

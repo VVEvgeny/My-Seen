@@ -10,18 +10,22 @@ namespace MySeenWeb.Models.TablesLogic
     public class SerialsLogic : Serials
     {
         private readonly ApplicationDbContext _ac;
-        public string ErrorMessage;
         private readonly ICacheService _cache;
+        public string ErrorMessage;
+
         public SerialsLogic()
         {
             ErrorMessage = string.Empty;
             _ac = new ApplicationDbContext();
         }
+
         public SerialsLogic(ICacheService cache) : this()
         {
             _cache = cache;
         }
-        private bool Fill(string name, string year, string season, string series, string datetime, string genre, string rating, string userId)
+
+        private bool Fill(string name, string year, string season, string series, string datetime, string genre,
+            string rating, string userId)
         {
             try
             {
@@ -31,7 +35,7 @@ namespace MySeenWeb.Models.TablesLogic
                 LastSeason = string.IsNullOrEmpty(season) ? 1 : Convert.ToInt32(season);
                 LastSeries = string.IsNullOrEmpty(series) ? 1 : Convert.ToInt32(series);
                 DateBegin = UmtTime.To(Convert.ToDateTime(datetime));
-                Genre = Convert.ToInt32(genre);                
+                Genre = Convert.ToInt32(genre);
                 Rating = Convert.ToInt32(rating);
                 DateChange = UmtTime.To(DateTime.Now);
                 DateLast = UmtTime.To(DateTime.Now);
@@ -44,7 +48,9 @@ namespace MySeenWeb.Models.TablesLogic
             }
             return true;
         }
-        private bool Fill(string id, string name, string year, string season, string series, string datetime, string genre, string rating, string userId)
+
+        private bool Fill(string id, string name, string year, string season, string series, string datetime,
+            string genre, string rating, string userId)
         {
             try
             {
@@ -57,10 +63,12 @@ namespace MySeenWeb.Models.TablesLogic
             }
             return Fill(name, year, season, series, datetime, genre, rating, userId);
         }
+
         private bool Contains()
         {
             return _ac.Serials.Any(f => f.Name == Name && f.UserId == UserId && f.Id != Id && f.Year == Year);
         }
+
         private bool Verify()
         {
             if (string.IsNullOrEmpty(Name))
@@ -75,6 +83,7 @@ namespace MySeenWeb.Models.TablesLogic
 
             return false;
         }
+
         private bool Add()
         {
             try
@@ -90,6 +99,7 @@ namespace MySeenWeb.Models.TablesLogic
             }
             return true;
         }
+
         private bool Update()
         {
             try
@@ -117,14 +127,19 @@ namespace MySeenWeb.Models.TablesLogic
             }
             return true;
         }
-        public bool Add(string name, string year, string season, string series, string datetime, string genre, string rating,string userId)
+
+        public bool Add(string name, string year, string season, string series, string datetime, string genre,
+            string rating, string userId)
         {
-            return Fill(name, year,season, series, datetime, genre, rating, userId) && Verify() && Add();
+            return Fill(name, year, season, series, datetime, genre, rating, userId) && Verify() && Add();
         }
-        public bool Update(string id, string name, string year, string season, string series, string datetime, string genre, string rating, string userId)
+
+        public bool Update(string id, string name, string year, string season, string series, string datetime,
+            string genre, string rating, string userId)
         {
             return Fill(id, name, year, season, series, datetime, genre, rating, userId) && Verify() && Update();
         }
+
         public bool AddSeries(string id, string userId)
         {
             try
@@ -150,6 +165,7 @@ namespace MySeenWeb.Models.TablesLogic
             }
             return true;
         }
+
         public bool Delete(string id, string userId)
         {
             try
@@ -174,6 +190,7 @@ namespace MySeenWeb.Models.TablesLogic
             }
             return true;
         }
+
         public string GetShare(string id, string userId)
         {
             try
@@ -191,6 +208,7 @@ namespace MySeenWeb.Models.TablesLogic
             }
             return "-";
         }
+
         public string GenerateShare(string id, string userId)
         {
             var iid = Convert.ToInt32(id);
@@ -200,6 +218,7 @@ namespace MySeenWeb.Models.TablesLogic
             _ac.SaveChanges();
             return MySeenWebApi.ApiHost + MySeenWebApi.ShareSerials + key;
         }
+
         public string DeleteShare(string id, string userId)
         {
             var iid = Convert.ToInt32(id);
@@ -208,6 +227,7 @@ namespace MySeenWeb.Models.TablesLogic
             _ac.SaveChanges();
             return "-";
         }
+
         public int GetCountShared(string key)
         {
             return _ac.Serials.Count(f => f.Shared && f.User.ShareSerialsKey == key);

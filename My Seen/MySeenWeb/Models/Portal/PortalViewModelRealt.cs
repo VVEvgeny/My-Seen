@@ -38,7 +38,7 @@ namespace MySeenWeb.Models.Portal
                 var dateFirst = realtViews.Max(r => r.Date);
                 var priceFirst = 1242;
                 var countFirst = 9653;
-                for (var i = 0; i < ((year*365)/7); i++) //недель....
+                for (var i = 0; i < year*365/7; i++) //недель....
                 {
                     dateFirst = dateFirst.AddDays(7);
                     if (priceFirst != 0)

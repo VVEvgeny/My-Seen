@@ -1,18 +1,18 @@
 App.config(function($stateProvider) {
 
     $stateProvider
-        .state('portal/memes',
+        .state("portal/memes",
         {
-            url: '/portal/memes/:id?:page&search',
+            url: "/portal/memes/:id?:page&search",
             templateUrl: "Content/Angular/templates/portal/memes.html",
-            controller: 'MemesController',
+            controller: "MemesController",
             reloadOnSearch: false
         });
 });
 
-App.controller('MemesController',
+App.controller("MemesController",
 [
-    '$scope', '$rootScope', '$state', '$stateParams', '$http', '$location', 'Constants', '$anchorScroll',
+    "$scope", "$rootScope", "$state", "$stateParams", "$http", "$location", "Constants", "$anchorScroll",
     function($scope, $rootScope, $state, $stateParams, $http, $location, constants, $anchorScroll) {
 
         $anchorScroll();
@@ -64,7 +64,7 @@ App.controller('MemesController',
         //Не использую перехода по состояниям, они перезагружают контроллер, а так у меня в настройках для контролера стоит reloadOnSearch: false      
         $scope.pagination = {};
         $scope.pagination.goToPage = function(page) {
-            $location.search('page', page > 1 ? page : null);
+            $location.search("page", page > 1 ? page : null);
             if ($stateParams) $stateParams.page = page > 1 ? page : null;
             getMainPage();
             $anchorScroll();
@@ -98,10 +98,10 @@ App.controller('MemesController',
         $scope.quickSearch = {};
         $scope.quickSearch.text = $stateParams ? $stateParams.search : null;
         $scope.searchButtonClick = function() {
-            $location.search('search', $scope.quickSearch.text !== '' ? $scope.quickSearch.text : null);
-            $location.search('page', null); //с первой страницы новый поиск
+            $location.search("search", $scope.quickSearch.text !== "" ? $scope.quickSearch.text : null);
+            $location.search("page", null); //с первой страницы новый поиск
             if ($stateParams) $stateParams.page = null;
-            if ($stateParams) $stateParams.search = $scope.quickSearch.text !== '' ? $scope.quickSearch.text : null;
+            if ($stateParams) $stateParams.search = $scope.quickSearch.text !== "" ? $scope.quickSearch.text : null;
             getMainPage();
         };
         ///////////////////////////////////////////////////////////////////////
@@ -109,15 +109,15 @@ App.controller('MemesController',
         ///////////////////////////////////////////////////////////////////////
         $scope.modal = {};
         $scope.addModalOpen = function() {
-            $scope.modal.name = '';
-            $scope.modal.link = '';
+            $scope.modal.name = "";
+            $scope.modal.link = "";
             $("#AddModalWindow").modal("show");
         };
         $scope.$on("$destroy",
             function() {
                 $scope.addModalHide();
-                $('body').removeClass('modal-open');
-                $('.modal-backdrop').remove();
+                $("body").removeClass("modal-open");
+                $(".modal-backdrop").remove();
             });
         $scope.addModalHide = function() {
             $("#AddModalWindow").modal("hide");
@@ -125,8 +125,8 @@ App.controller('MemesController',
 
         function afterAdd() {
             $scope.addModalHide();
-            $location.search('page', null); //с первой страницы новый поиск
-            $location.search('search', null);
+            $location.search("page", null); //с первой страницы новый поиск
+            $location.search("search", null);
             if ($stateParams) {
                 $stateParams.page = null;
                 $stateParams.search = null;

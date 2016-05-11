@@ -1,18 +1,18 @@
 App.config(function($stateProvider) {
 
     $stateProvider
-        .state('settings',
+        .state("settings",
         {
-            url: '/settings/',
+            url: "/settings/",
             templateUrl: "Content/Angular/templates/settings.html",
-            controller: 'SettingsController',
+            controller: "SettingsController",
             reloadOnSearch: false
         });
 });
 
-App.controller('SettingsController',
+App.controller("SettingsController",
 [
-    '$scope', '$rootScope', '$state', '$stateParams', '$http', '$location', 'Constants', '$anchorScroll',
+    "$scope", "$rootScope", "$state", "$stateParams", "$http", "$location", "Constants", "$anchorScroll",
     function($scope, $rootScope, $state, $stateParams, $http, $location, constants, $anchorScroll) {
 
         $anchorScroll();
@@ -68,9 +68,9 @@ App.controller('SettingsController',
 
         $scope.modalSetPassword = {};
         $scope.setPassword = function() {
-            $scope.modalSetPassword.password = '';
-            $scope.modalSetPassword.newPassword = '';
-            $scope.modalSetPassword.passwordConfirm = '';
+            $scope.modalSetPassword.password = "";
+            $scope.modalSetPassword.newPassword = "";
+            $scope.modalSetPassword.passwordConfirm = "";
 
             $("#PasswordModalWindow").modal("show");
         };
@@ -78,8 +78,8 @@ App.controller('SettingsController',
         $scope.$on("$destroy",
             function() {
                 $("#PasswordModalWindow").modal("hide");
-                $('body').removeClass('modal-open');
-                $('.modal-backdrop').remove();
+                $("body").removeClass("modal-open");
+                $(".modal-backdrop").remove();
             });
 
         function afterSetPassword() {

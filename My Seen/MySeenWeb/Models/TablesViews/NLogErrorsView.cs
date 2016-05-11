@@ -4,8 +4,13 @@ using MySeenWeb.Models.Tables;
 
 namespace MySeenWeb.Models.TablesViews
 {
-    public class NLogErrorsView :NLogErrors
+    public class NLogErrorsView : NLogErrors
     {
+        public string DateTimeStampText
+        {
+            get { return DateTimeStamp.ToString(CultureInfo.CurrentCulture); }
+        }
+
         public static NLogErrorsView Map(NLogErrors model)
         {
             if (model == null) return new NLogErrorsView();
@@ -20,11 +25,6 @@ namespace MySeenWeb.Models.TablesViews
                 StackTrace = model.StackTrace,
                 Variables = model.Variables
             };
-        }
-
-        public string DateTimeStampText
-        {
-            get { return DateTimeStamp.ToString(CultureInfo.CurrentCulture); }
         }
     }
 }

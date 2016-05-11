@@ -7,28 +7,18 @@ namespace MySeenWeb.Models.Portal
     {
         public int Day { get; set; }
         public int Boy { get; set; }
-        public int Girl { get; set; }        
+        public int Girl { get; set; }
     }
+
     public class ChildsCalculatorView
     {
         public int Month { get; set; }
         public List<ChildCalculatorView> Data { get; set; }
     }
+
     public class PortalViewModelChildCalculator
     {
         public IEnumerable<ChildsCalculatorView> Data { get; set; }
-
-        private enum MyEnum
-        {
-            Man,
-            Woman
-        }
-
-        private double GetDaysFromLastUpdate(DateTime date, DateTime forDate, MyEnum type)
-        {
-            var span = forDate - date;
-            return span.TotalDays%(365*(type == MyEnum.Man ? 4 : 3));
-        }
 
         public PortalViewModelChildCalculator(int year, string dateWoman, string dateMan)
         {
@@ -44,11 +34,12 @@ namespace MySeenWeb.Models.Portal
             }
             catch (Exception)
             {
-
                 try
                 {
-                    dateW = new DateTime(Convert.ToInt32(dateWoman.Split('/')[2]), Convert.ToInt32(dateWoman.Split('/')[1]), Convert.ToInt32(dateWoman.Split('/')[0]));
-                    dateM = new DateTime(Convert.ToInt32(dateMan.Split('/')[2]), Convert.ToInt32(dateMan.Split('/')[1]), Convert.ToInt32(dateMan.Split('/')[0]));
+                    dateW = new DateTime(Convert.ToInt32(dateWoman.Split('/')[2]),
+                        Convert.ToInt32(dateWoman.Split('/')[1]), Convert.ToInt32(dateWoman.Split('/')[0]));
+                    dateM = new DateTime(Convert.ToInt32(dateMan.Split('/')[2]), Convert.ToInt32(dateMan.Split('/')[1]),
+                        Convert.ToInt32(dateMan.Split('/')[0]));
                 }
                 catch (Exception)
                 {
@@ -65,7 +56,7 @@ namespace MySeenWeb.Models.Portal
                     Data = new List<ChildCalculatorView>()
                 };
 
-                for (var j = 1; j < DateTime.DaysInMonth(year,i) +1 ; j++)
+                for (var j = 1; j < DateTime.DaysInMonth(year, i) + 1; j++)
                 {
                     var man = GetDaysFromLastUpdate(dateM, new DateTime(year, i, j), MyEnum.Man);
                     var woman = GetDaysFromLastUpdate(dateW, new DateTime(year, i, j), MyEnum.Woman);
@@ -91,6 +82,18 @@ namespace MySeenWeb.Models.Portal
                 items.Add(item);
             }
             Data = items;
+        }
+
+        private double GetDaysFromLastUpdate(DateTime date, DateTime forDate, MyEnum type)
+        {
+            var span = forDate - date;
+            return span.TotalDays%(365*(type == MyEnum.Man ? 4 : 3));
+        }
+
+        private enum MyEnum
+        {
+            Man,
+            Woman
         }
     }
 }

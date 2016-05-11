@@ -1,22 +1,22 @@
 App.config(function($stateProvider) {
 
     $stateProvider
-        .state('mymemory/sharedEvents',
+        .state("mymemory/sharedEvents",
         {
-            url: '/mymemory/events/shared/:key?page&search&ended',
+            url: "/mymemory/events/shared/:key?page&search&ended",
             templateUrl: "Content/Angular/templates/MyMemory/Shared/events.html",
-            controller: 'SharedEventsController',
+            controller: "SharedEventsController",
             reloadOnSearch: false
         });
 });
 
-App.controller('SharedEventsController',
+App.controller("SharedEventsController",
 [
-    '$scope', '$rootScope', '$state', '$stateParams', '$http', '$location', 'Constants', '$anchorScroll',
+    "$scope", "$rootScope", "$state", "$stateParams", "$http", "$location", "Constants", "$anchorScroll",
     function($scope, $rootScope, $state, $stateParams, $http, $location, constants, $anchorScroll) {
 
         if (!$stateParams.key) {
-            $state.go('mymemory/events');
+            $state.go("mymemory/events");
         }
         $anchorScroll();
         $rootScope.loading = true;
@@ -37,7 +37,7 @@ App.controller('SharedEventsController',
         }
 
         //Основные данные
-        var eventsInterval = '';
+        var eventsInterval = "";
         $scope.$on("$destroy",
             function() {
                 clearInterval(eventsInterval);
@@ -83,13 +83,13 @@ App.controller('SharedEventsController',
         ///////////////////////////////////////////////////////////////////////
         ///////////////////////////////////////////////////////////////////////           ТИП СОБЫИТЯ
         ///////////////////////////////////////////////////////////////////////
-        $scope.eventSelect = $stateParams ? $stateParams.ended ? $stateParams.ended : '0' : '0';
+        $scope.eventSelect = $stateParams ? $stateParams.ended ? $stateParams.ended : "0" : "0";
         $scope.selectedChange = function() {
-            $location.search('page', null);
-            $location.search('ended', $scope.eventSelect === '0' ? null : $scope.eventSelect);
+            $location.search("page", null);
+            $location.search("ended", $scope.eventSelect === "0" ? null : $scope.eventSelect);
             if ($stateParams) {
                 $stateParams.page = null;
-                $stateParams.ended = $scope.eventSelect === '0' ? null : $scope.eventSelect;
+                $stateParams.ended = $scope.eventSelect === "0" ? null : $scope.eventSelect;
             }
             getMainPage();
         };
@@ -99,10 +99,10 @@ App.controller('SharedEventsController',
         $scope.quickSearch = {};
         $scope.quickSearch.text = $stateParams ? $stateParams.search : null;
         $scope.searchButtonClick = function() {
-            $location.search('search', $scope.quickSearch.text !== '' ? $scope.quickSearch.text : null);
-            $location.search('page', null); //с первой страницы новый поиск
+            $location.search("search", $scope.quickSearch.text !== "" ? $scope.quickSearch.text : null);
+            $location.search("page", null); //с первой страницы новый поиск
             if ($stateParams) $stateParams.page = null;
-            if ($stateParams) $stateParams.search = $scope.quickSearch.text !== '' ? $scope.quickSearch.text : null;
+            if ($stateParams) $stateParams.search = $scope.quickSearch.text !== "" ? $scope.quickSearch.text : null;
             getMainPage();
         };
         ///////////////////////////////////////////////////////////////////////
@@ -111,7 +111,7 @@ App.controller('SharedEventsController',
         //Не использую перехода по состояниям, они перезагружают контроллер, а так у меня в настройках для контролера стоит reloadOnSearch: false      
         $scope.pagination = {};
         $scope.pagination.goToPage = function(page) {
-            $location.search('page', page > 1 ? page : null);
+            $location.search("page", page > 1 ? page : null);
             if ($stateParams) $stateParams.page = page > 1 ? page : null;
             getMainPage();
             $anchorScroll();

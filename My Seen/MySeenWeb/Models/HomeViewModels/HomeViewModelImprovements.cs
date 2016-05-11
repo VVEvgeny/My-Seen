@@ -20,6 +20,9 @@ namespace MySeenWeb.Models
             var ac = new ApplicationDbContext();
             CanControl = UserRolesLogic.IsAdmin(userId);
 
+            if (string.IsNullOrEmpty(Defaults.Complexes.GetById(complex)))
+                complex = (int) Defaults.ComplexBase.Indexes.All;
+
             Pages = new Pagination(page,
                 ac.Bugs.Count(
                     b =>

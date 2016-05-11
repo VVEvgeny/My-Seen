@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Linq;
 using MySeenLib;
-using MySeenWeb.Add_Code;
 using MySeenWeb.Models.OtherViewModels;
 using MySeenWeb.Models.Tables.Portal;
 
@@ -11,12 +10,14 @@ namespace MySeenWeb.Models.TablesLogic.Portal
     {
         private readonly ApplicationDbContext _ac;
         public string ErrorMessage;
+
         public MemesStatsLogic()
         {
             ErrorMessage = string.Empty;
             _ac = new ApplicationDbContext();
         }
-        public bool AddRate(string id,string userId,bool plus)
+
+        public bool AddRate(string id, string userId, bool plus)
         {
             try
             {

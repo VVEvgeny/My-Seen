@@ -11,6 +11,7 @@ namespace MySeenWeb.Models.TablesViews
         Car = 2,
         Bike = 3
     }
+
     public class Location
     {
         public double Latitude { get; set; }
@@ -18,16 +19,63 @@ namespace MySeenWeb.Models.TablesViews
 
         public Location()
         {
-
         }
+
         public Location(double latitude, double longitude)
         {
             Latitude = latitude;
             Longitude = longitude;
         }
     }
+
     public class RoadsView : Tracks
     {
+        public string DateText
+        {
+            get
+            {
+                if (Date == new DateTime(1980, 3, 3))
+                {
+                    return UserId;
+                }
+                return Date.ToShortDateString();
+            }
+        }
+
+        public string DateFullText
+        {
+            get
+            {
+                if (Date == new DateTime(1980, 3, 3))
+                {
+                    return UserId;
+                }
+                return Date.ToString(CultureInfo.CurrentCulture);
+            }
+        }
+
+        public string DistanceText
+        {
+            get
+            {
+                //return ((int)(Distance / (CultureInfoTool.GetCulture() == CultureInfoTool.Cultures.English ? 1.66 : 1))).ToString() + " " + Resource.Km;
+                var distance =
+                    (Distance/(CultureInfoTool.GetCulture() == CultureInfoTool.Cultures.English ? 1.66 : 1)).ToString(
+                        CultureInfo.CurrentCulture);
+                var div = CultureInfoTool.GetCulture() == CultureInfoTool.Cultures.English ? '.' : ',';
+                if (distance.IndexOf(div) != -1)
+                {
+                    if (distance.Length > distance.IndexOf(div) + 4)
+                        distance = distance.Remove(distance.IndexOf(div) + 4);
+                    else if (distance.Length > distance.IndexOf(div) + 3)
+                        distance = distance.Remove(distance.IndexOf(div) + 3);
+                    else if (distance.Length > distance.IndexOf(div) + 2)
+                        distance = distance.Remove(distance.IndexOf(div) + 2);
+                }
+                return distance += " " + Resource.Km;
+            }
+        }
+
         public static RoadsView Map(Tracks model)
         {
             if (model == null) return new RoadsView();
@@ -43,45 +91,6 @@ namespace MySeenWeb.Models.TablesViews
                 ShareKey = model.ShareKey,
                 Coordinates = model.Coordinates
             };
-        }
-
-        public string DateText
-        {
-            get
-            {
-                if (Date == new DateTime(1980, 3, 3))
-                {
-                    return UserId;
-                }
-                return Date.ToShortDateString();
-            }
-        }
-        public string DateFullText
-        {
-            get
-            {
-                if (Date == new DateTime(1980, 3, 3))
-                {
-                    return UserId;
-                }
-                return Date.ToString(CultureInfo.CurrentCulture);
-            }
-        }
-        public string DistanceText
-        {
-            get
-            {
-                //return ((int)(Distance / (CultureInfoTool.GetCulture() == CultureInfoTool.Cultures.English ? 1.66 : 1))).ToString() + " " + Resource.Km;
-                string distance = (Distance / (CultureInfoTool.GetCulture() == CultureInfoTool.Cultures.English ? 1.66 : 1)).ToString(CultureInfo.CurrentCulture);
-                char div = CultureInfoTool.GetCulture() == CultureInfoTool.Cultures.English ? '.' : ',';
-                if (distance.IndexOf(div) != -1)
-                {
-                    if (distance.Length > distance.IndexOf(div) + 4) distance = distance.Remove(distance.IndexOf(div) + 4);
-                    else if (distance.Length > distance.IndexOf(div) + 3) distance = distance.Remove(distance.IndexOf(div) + 3);
-                    else if (distance.Length > distance.IndexOf(div) + 2) distance = distance.Remove(distance.IndexOf(div) + 2);
-                }
-                return distance += " " + Resource.Km;
-            }
         }
     }
 }

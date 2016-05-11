@@ -8,6 +8,7 @@ namespace MySeenWeb.Models.Meta.Shared
     public class MetaSharedEvents : MetaBase
     {
         public static string Path = "/mymemory/events/shared/";
+
         public MetaSharedEvents(HttpRequestBase request)
             : base(request)
         {
@@ -15,7 +16,8 @@ namespace MySeenWeb.Models.Meta.Shared
             try
             {
                 var logic = new EventsLogic();
-                Description = Resource.Total + ": " + logic.GetCountShared(request.Path.Split('/')[request.Path.Split('/').Length - 1]);
+                Description = Resource.Total + ": " +
+                              logic.GetCountShared(request.Path.Split('/')[request.Path.Split('/').Length - 1]);
             }
             catch (Exception)
             {

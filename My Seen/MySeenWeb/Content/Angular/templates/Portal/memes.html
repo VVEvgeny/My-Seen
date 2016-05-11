@@ -22,20 +22,20 @@
 
         <table class="table table-striped" data-ng-repeat="val in data">
             <thead>
-                <tr>
-                    <th class="col-sm-1" data-ng-click="showPost(val.Id)">
-                        <span class="pull-left alert-info small">
+            <tr>
+                <th class="col-sm-1" data-ng-click="showPost(val.Id)">
+                    <span class="pull-left alert-info small">
                             <button type="button" class="btn btn-info btn-xs" data-ng-show="!isOne">
                                 <span id="postPlus_{{::val.Id}}" class="glyphicon glyphicon-plus hidden"></span>
                                 <span id="postMinus_{{::val.Id}}" class="glyphicon glyphicon-minus"></span>
                             </button>
                         </span>
-                    </th>
-                    <th class="col-sm-9" data-ng-click="showPost(val.Id)">
-                        {{::val.Name}}
-                    </th>
-                    <th class="col-sm-2">
-                        <span class="pull-right alert-info small" data-ng-show="!isOne || isAdmin">
+                </th>
+                <th class="col-sm-9" data-ng-click="showPost(val.Id)">
+                    {{::val.Name}}
+                </th>
+                <th class="col-sm-2">
+                    <span class="pull-right alert-info small" data-ng-show="!isOne || isAdmin">
                             <button type="button" class="btn btn-danger btn-xs" data-ng-show="isAdmin" data-ng-click="removePost($index)">
                                 <span class="glyphicon glyphicon-trash"></span> {{translation.Delete || 'Delete'}}
                             </button>
@@ -43,42 +43,44 @@
                                 <span class="glyphicon glyphicon-link"></span> {{translation.Read || 'Read'}}
                             </button>
                         </span>
-                    </th>
-                </tr>
+                </th>
+            </tr>
             </thead>
 
             <tbody class="collapse in" id="collapseme_{{::val.Id}}">
-                <tr>
-                    <th class="text-left col-sm-12" colspan="3">{{translation.Added || 'Added'}}:<b>{{::val.DateText}}</b></th>
-                </tr>
-                <tr class="align-center">
-                    <td class="align-center" colspan="3">
-                        <a href="{{::val.Image}}" target="whatever"><img class="fit" data-ng-attr-src="{{::val.Image}}"></a>
-                    </td>
-                </tr>
-                <tr>
-                    <th class="align-center">
-                        <button type="button" class="btn btn-success btn-xs" data-ng-show="!val.Stats.Select && authorized" data-ng-click="plusPost($index)">
-                            <span class="glyphicon glyphicon-thumbs-up"></span> {{val.Stats.Plus}}
-                        </button>
-                    </th>
-                    <th class="align-center">
-                        <span class="glyphicon glyphicon-stats"></span> {{val.Stats.Plus - val.Stats.Minus}}
-                        <br>
-                    </th>
-                    <th class="align-center">
-                        <button type="button" class="btn btn-danger btn-xs" data-ng-show="!val.Stats.Select && authorized" data-ng-click="minusPost($index)">
-                            <span class="glyphicon glyphicon-thumbs-down"></span> {{val.Stats.Minus}}
-                        </button>
-                    </th>
-                </tr>
-                <tr>
-                    <th class="align-center" colspan="3">
-                        <div class="ya-share2" data-services="vkontakte,facebook,odnoklassniki,moimir,gplus,twitter,linkedin,viber" 
-                             data-size="s" data-copy="last" data-image="{{::val.Image}}" data-url="http://myseen.by/portal/memes/{{val.Id}}">
-                        </div>
-                    </th>
-                </tr>
+            <tr>
+                <th class="text-left col-sm-12" colspan="3">{{translation.Added || 'Added'}}:<b>{{::val.DateText}}</b></th>
+            </tr>
+            <tr class="align-center">
+                <td class="align-center" colspan="3">
+                    <a href="{{::val.Image}}" target="whatever">
+                        <img class="fit" data-ng-attr-src="{{::val.Image}}">
+                    </a>
+                </td>
+            </tr>
+            <tr>
+                <th class="align-center">
+                    <button type="button" class="btn btn-success btn-xs" data-ng-show="!val.Stats.Select && authorized" data-ng-click="plusPost($index)">
+                        <span class="glyphicon glyphicon-thumbs-up"></span> {{val.Stats.Plus}}
+                    </button>
+                </th>
+                <th class="align-center">
+                    <span class="glyphicon glyphicon-stats"></span> {{val.Stats.Plus - val.Stats.Minus}}
+                    <br>
+                </th>
+                <th class="align-center">
+                    <button type="button" class="btn btn-danger btn-xs" data-ng-show="!val.Stats.Select && authorized" data-ng-click="minusPost($index)">
+                        <span class="glyphicon glyphicon-thumbs-down"></span> {{val.Stats.Minus}}
+                    </button>
+                </th>
+            </tr>
+            <tr>
+                <th class="align-center" colspan="3">
+                    <div class="ya-share2" data-services="vkontakte,facebook,odnoklassniki,moimir,gplus,twitter,linkedin,viber"
+                         data-size="s" data-copy="last" data-image="{{::val.Image}}" data-url="http://myseen.by/portal/memes/{{val.Id}}">
+                    </div>
+                </th>
+            </tr>
             </tbody>
         </table>
         <div align="center" data-ng-show="isOne">
@@ -99,7 +101,8 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <button type="button" class="close myseen-modal-close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <button type="button" class="close myseen-modal-close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span></button>
                 <h4 class="modal-title text-center">{{translation.Title || 'Title'}}</h4>
             </div>
             <div class="modal-body">
@@ -129,19 +132,19 @@
 </div>
 
 
-
 <script type="text/javascript">
-        (function () {
-            if (window.pluso) if (typeof window.pluso.start == "function") return;
-            if (window.ifpluso == undefined) {
-                window.ifpluso = 1;
-                var d = document, s = d.createElement('script'), g = 'getElementsByTagName';
-                s.type = 'text/javascript';
-                s.charset = 'UTF-8';
-                s.async = true;
-                s.src = ('https:' == window.location.protocol ? 'https' : 'http') + '://share.pluso.ru/pluso-like.js?api_key=eb4a1ac77fc27eb58620';
-                var h = d[g]('body')[0];
-                h.appendChild(s);
-            }
-        })();
+    (function() {
+        if (window.pluso) if (typeof window.pluso.start == "function") return;
+        if (window.ifpluso == undefined) {
+            window.ifpluso = 1;
+            var d = document, s = d.createElement('script'), g = 'getElementsByTagName';
+            s.type = 'text/javascript';
+            s.charset = 'UTF-8';
+            s.async = true;
+            s.src = ('https:' == window.location.protocol ? 'https' : 'http') +
+                '://share.pluso.ru/pluso-like.js?api_key=eb4a1ac77fc27eb58620';
+            var h = d[g]('body')[0];
+            h.appendChild(s);
+        }
+    })();
 </script>

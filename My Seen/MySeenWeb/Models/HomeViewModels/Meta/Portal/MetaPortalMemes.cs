@@ -8,6 +8,7 @@ namespace MySeenWeb.Models.Meta.Portal
     public class MetaPortalMemes : MetaBase
     {
         public static string Path = "/portal/memes/";
+
         public MetaPortalMemes(HttpRequestBase request)
             : base(request)
         {

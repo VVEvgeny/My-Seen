@@ -17,16 +17,16 @@ namespace MySeenWeb.Models.Prepared
         public PreparedDataBooks()
         {
             RatingList =
-               Defaults.Ratings.GetAll()
-                   .Select(
-                       sel =>
-                           new SelectListItem
-                           {
-                               Text = sel,
-                               Value = Defaults.Ratings.GetId(sel).ToString(),
-                               Selected = Defaults.Ratings.GetId(sel) == 0
-                           })
-                   .ToList();
+                Defaults.Ratings.GetAll()
+                    .Select(
+                        sel =>
+                            new SelectListItem
+                            {
+                                Text = sel,
+                                Value = Defaults.Ratings.GetId(sel).ToString(),
+                                Selected = Defaults.Ratings.GetId(sel) == 0
+                            })
+                    .ToList();
 
             GenreList =
                 Defaults.Genres.GetAll()

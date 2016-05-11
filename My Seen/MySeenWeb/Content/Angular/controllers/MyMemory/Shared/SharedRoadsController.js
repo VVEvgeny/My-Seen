@@ -1,22 +1,22 @@
 App.config(function($stateProvider) {
 
     $stateProvider
-        .state('mymemory/sharedRoads',
+        .state("mymemory/sharedRoads",
         {
-            url: '/mymemory/roads/shared/:key?search&year',
+            url: "/mymemory/roads/shared/:key?search&year",
             templateUrl: "Content/Angular/templates/MyMemory/Shared/roads.html",
-            controller: 'SharedRoadsController',
+            controller: "SharedRoadsController",
             reloadOnSearch: false
         });
 });
 
-App.controller('SharedRoadsController',
+App.controller("SharedRoadsController",
 [
-    '$scope', '$rootScope', '$state', '$stateParams', '$http', '$location', 'Constants', '$anchorScroll',
+    "$scope", "$rootScope", "$state", "$stateParams", "$http", "$location", "Constants", "$anchorScroll",
     function($scope, $rootScope, $state, $stateParams, $http, $location, constants, $anchorScroll) {
 
         if (!$stateParams.key) {
-            $state.go('mymemory/roads');
+            $state.go("mymemory/roads");
         }
         $anchorScroll();
         $rootScope.loading = true;
@@ -77,20 +77,20 @@ App.controller('SharedRoadsController',
         $scope.quickSearch = {};
         $scope.quickSearch.text = $stateParams ? $stateParams.search : null;
         $scope.searchButtonClick = function() {
-            $location.search('search', $scope.quickSearch.text !== '' ? $scope.quickSearch.text : null);
-            $location.search('page', null); //с первой страницы новый поиск
+            $location.search("search", $scope.quickSearch.text !== "" ? $scope.quickSearch.text : null);
+            $location.search("page", null); //с первой страницы новый поиск
             if ($stateParams) $stateParams.page = null;
-            if ($stateParams) $stateParams.search = $scope.quickSearch.text !== '' ? $scope.quickSearch.text : null;
+            if ($stateParams) $stateParams.search = $scope.quickSearch.text !== "" ? $scope.quickSearch.text : null;
             getMainPage();
         };
         ///////////////////////////////////////////////////////////////////////
         ///////////////////////////////////////////////////////////////////////           Выбор года
         ///////////////////////////////////////////////////////////////////////
-        $scope.year = $stateParams ? $stateParams.year ? $stateParams.year.toString() : '0' : '0';
+        $scope.year = $stateParams ? $stateParams.year ? $stateParams.year.toString() : "0" : "0";
         $scope.selectedChange = function() {
-            $location.search('year', $scope.year === '0' ? null : $scope.year);
+            $location.search("year", $scope.year === "0" ? null : $scope.year);
             if ($stateParams) {
-                $stateParams.year = $scope.year === '0' ? null : $scope.year;
+                $stateParams.year = $scope.year === "0" ? null : $scope.year;
             }
             getMainPage();
         };

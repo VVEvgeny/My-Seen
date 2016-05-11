@@ -16,7 +16,8 @@ namespace MySeenWeb.Models
         public IEnumerable<RoadsView> DataBike { get; set; }
         public IEnumerable<SelectListItem> YearsList { get; set; }
 
-        public HomeViewModelRoads(string userId, int roadYear, string search, string shareKey, ICacheService cache, int road)
+        public HomeViewModelRoads(string userId, int roadYear, string search, string shareKey, ICacheService cache,
+            int road)
         {
             if (road != 0)
             {
@@ -74,7 +75,9 @@ namespace MySeenWeb.Models
                         };
                         DataFoot = dataFootAll.Concat(DataFoot);
                     }
-                    cache.Set(cache.GetFormatedName(CacheNames.UserRoadsFoot.ToString(), userId, roadYear, search, shareKey), DataFoot, 15);
+                    cache.Set(
+                        cache.GetFormatedName(CacheNames.UserRoadsFoot.ToString(), userId, roadYear, search, shareKey),
+                        DataFoot, 15);
                 }
                 if (DataCar == null)
                 {
@@ -109,7 +112,9 @@ namespace MySeenWeb.Models
                         };
                         DataCar = dataCarAll.Concat(DataCar);
                     }
-                    cache.Set(cache.GetFormatedName(CacheNames.UserRoadsCar.ToString(), userId, roadYear, search, shareKey), DataCar, 15);
+                    cache.Set(
+                        cache.GetFormatedName(CacheNames.UserRoadsCar.ToString(), userId, roadYear, search, shareKey),
+                        DataCar, 15);
                 }
                 if (DataBike == null)
                 {
@@ -144,7 +149,9 @@ namespace MySeenWeb.Models
                         };
                         DataBike = dataBikeAll.Concat(DataBike);
                     }
-                    cache.Set(cache.GetFormatedName(CacheNames.UserRoadsBike.ToString(), userId, roadYear, search, shareKey), DataBike, 15);
+                    cache.Set(
+                        cache.GetFormatedName(CacheNames.UserRoadsBike.ToString(), userId, roadYear, search, shareKey),
+                        DataBike, 15);
                 }
                 if (YearsList == null)
                 {
@@ -161,9 +168,9 @@ namespace MySeenWeb.Models
                         ((string.IsNullOrEmpty(shareKey) && t.UserId == userId)
                          ||
                          (!string.IsNullOrEmpty(shareKey) &&
-                          (((t.User.ShareTracksBikeKey == shareKey && t.Type == (int) RoadTypes.Bike) ||
-                            (t.User.ShareTracksCarKey == shareKey && t.Type == (int) RoadTypes.Car) ||
-                            (t.User.ShareTracksFootKey == shareKey && t.Type == (int) RoadTypes.Foot))
+                          ((t.User.ShareTracksBikeKey == shareKey && t.Type == (int) RoadTypes.Bike) ||
+                           (t.User.ShareTracksCarKey == shareKey && t.Type == (int) RoadTypes.Car) ||
+                           (t.User.ShareTracksFootKey == shareKey && t.Type == (int) RoadTypes.Foot)
                            || t.ShareKey == shareKey)))
                         && (string.IsNullOrEmpty(search) || t.Name.Contains(search))
                         ).Select(t => t.Date.Year).Distinct())
@@ -176,7 +183,9 @@ namespace MySeenWeb.Models
                         });
                     }
                     YearsList = years.OrderByDescending(y => y.Text);
-                    cache.Set(cache.GetFormatedName(CacheNames.UserRoadsYearsList.ToString(), userId, roadYear, search, shareKey), YearsList, 15);
+                    cache.Set(
+                        cache.GetFormatedName(CacheNames.UserRoadsYearsList.ToString(), userId, roadYear, search,
+                            shareKey), YearsList, 15);
                 }
             }
         }

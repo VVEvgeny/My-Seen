@@ -10,6 +10,7 @@ namespace MySeenWeb.Models.TablesLogic.Portal
     {
         private readonly ApplicationDbContext _ac;
         public string ErrorMessage;
+
         public MemesLogic()
         {
             ErrorMessage = string.Empty;
@@ -37,19 +38,21 @@ namespace MySeenWeb.Models.TablesLogic.Portal
             }
             return true;
         }
+
         private bool Contains()
         {
             return _ac.Memes.Any(f => f.Image == Image);
         }
+
         private bool Verify()
         {
-
             if (string.IsNullOrEmpty(Name) || string.IsNullOrEmpty(Image)) ErrorMessage = Resource.DescToShort;
             else if (Contains()) ErrorMessage = Resource.AlreadyExists;
             else return true;
 
             return false;
         }
+
         private bool Add()
         {
             try
@@ -64,10 +67,12 @@ namespace MySeenWeb.Models.TablesLogic.Portal
             }
             return true;
         }
+
         public bool Add(string text, string link, string userId)
         {
             return Fill(text, link, userId) && Verify() && Add();
         }
+
         public bool Delete(string id, string userId)
         {
             try

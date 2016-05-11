@@ -6,6 +6,36 @@ namespace MySeenWeb.Models.TablesViews
 {
     public class FilmsView : Films
     {
+        public string GenreText
+        {
+            get { return Defaults.Genres.GetById(Genre); }
+        }
+
+        public string RatingText
+        {
+            get { return Defaults.Ratings.GetById(Rating); }
+        }
+
+        public string GenreVal
+        {
+            get { return Genre.ToString(); }
+        }
+
+        public string RatingVal
+        {
+            get { return Rating.ToString(); }
+        }
+
+        public string YearText
+        {
+            get { return Year == 0 ? "" : Year.ToString(); }
+        }
+
+        public string DateSeeText
+        {
+            get { return DateSee.ToString(CultureInfo.CurrentCulture); }
+        }
+
         public static FilmsView Map(Films model)
         {
             if (model == null) return new FilmsView();
@@ -22,31 +52,6 @@ namespace MySeenWeb.Models.TablesViews
                 Rating = model.Rating,
                 Shared = model.Shared
             };
-        }
-        public string GenreText
-        {
-            get { return Defaults.Genres.GetById(Genre); }
-        }
-        public string RatingText
-        {
-            get { return Defaults.Ratings.GetById(Rating); }
-        }
-        public string GenreVal
-        {
-            get { return Genre.ToString(); }
-        }
-        public string RatingVal
-        {
-            get { return Rating.ToString(); }
-        }
-        public string YearText
-        {
-            get { return Year == 0 ? "" : Year.ToString(); }
-        }
-
-        public string DateSeeText
-        {
-            get { return DateSee.ToString(CultureInfo.CurrentCulture); }
         }
     }
 }

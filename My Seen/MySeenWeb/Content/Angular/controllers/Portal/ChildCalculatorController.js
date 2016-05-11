@@ -1,20 +1,20 @@
 App.config(function($stateProvider) {
 
     $stateProvider
-        .state('portal/childCalculator',
+        .state("portal/childCalculator",
         {
-            url: '/portal/ChildSexCalculator/',
+            url: "/portal/ChildSexCalculator/",
             templateUrl: "Content/Angular/templates/Portal/childcalculator.html",
-            controller: 'ChildCalculatorController',
+            controller: "ChildCalculatorController",
             reloadOnSearch: false
         });
 });
 
 var TestWebGLRun = false;
 
-App.controller('ChildCalculatorController',
+App.controller("ChildCalculatorController",
 [
-    '$scope', '$rootScope', '$state', '$stateParams', '$http', '$location', 'Constants', '$log', '$anchorScroll',
+    "$scope", "$rootScope", "$state", "$stateParams", "$http", "$location", "Constants", "$log", "$anchorScroll",
     function($scope, $rootScope, $state, $stateParams, $http, $location, constants, $log, $anchorScroll) {
 
         $anchorScroll();

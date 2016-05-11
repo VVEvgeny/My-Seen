@@ -1,18 +1,18 @@
 App.config(function($stateProvider) {
 
     $stateProvider
-        .state('portal/realt',
+        .state("portal/realt",
         {
-            url: '/portal/realt/?:year&price&deals&salary',
+            url: "/portal/realt/?:year&price&deals&salary",
             templateUrl: "Content/Angular/templates/portal/realt.html",
-            controller: 'RealtController',
+            controller: "RealtController",
             reloadOnSearch: false
         });
 });
 
-App.controller('RealtController',
+App.controller("RealtController",
 [
-    '$scope', '$rootScope', '$state', '$stateParams', '$http', '$location', 'Constants', '$log', '$anchorScroll',
+    "$scope", "$rootScope", "$state", "$stateParams", "$http", "$location", "Constants", "$log", "$anchorScroll",
     function($scope, $rootScope, $state, $stateParams, $http, $location, constants, $log, $anchorScroll) {
 
         $anchorScroll();
@@ -46,34 +46,34 @@ App.controller('RealtController',
 
         function getMainPage() {
 
-            $stateParams.year = ($scope.year !== 0 && $scope.year !== '') ? $scope.year : null;
-            $stateParams.price = ($scope.price !== '') ? $scope.price : null;
-            $stateParams.deals = ($scope.deals !== '') ? $scope.deals : null;
-            $stateParams.salary = ($scope.salary !== '') ? $scope.salary : null;
+            $stateParams.year = ($scope.year !== 0 && $scope.year !== "") ? $scope.year : null;
+            $stateParams.price = ($scope.price !== "") ? $scope.price : null;
+            $stateParams.deals = ($scope.deals !== "") ? $scope.deals : null;
+            $stateParams.salary = ($scope.salary !== "") ? $scope.salary : null;
 
             $rootScope.GetPage(constants.Pages.Main,
                 $http,
                 fillScope,
                 {
                     pageId: $rootScope.pageId,
-                    year: ($stateParams && $stateParams.year !== '' && $stateParams.year !== 0
+                    year: ($stateParams && $stateParams.year !== "" && $stateParams.year !== 0
                         ? $stateParams.year
                         : null),
-                    price: ($stateParams && $stateParams.price !== '' ? $stateParams.price : null),
-                    deals: ($stateParams && $stateParams.deals !== '' ? $stateParams.deals : null),
-                    salary: ($stateParams && $stateParams.salary !== '' ? $stateParams.salary : null)
+                    price: ($stateParams && $stateParams.price !== "" ? $stateParams.price : null),
+                    deals: ($stateParams && $stateParams.deals !== "" ? $stateParams.deals : null),
+                    salary: ($stateParams && $stateParams.salary !== "" ? $stateParams.salary : null)
                 });
         };
 
         if ($stateParams) {
             if ($stateParams.year) $scope.year = parseInt($stateParams.year);
-            else $scope.year = '';
+            else $scope.year = "";
             if ($stateParams.price) $scope.price = parseInt($stateParams.price);
-            else $scope.price = '';
+            else $scope.price = "";
             if ($stateParams.deals) $scope.deals = parseInt($stateParams.deals);
-            else $scope.deals = '';
+            else $scope.deals = "";
             if ($stateParams.salary) $scope.salary = parseInt($stateParams.salary);
-            else $scope.salary = '';
+            else $scope.salary = "";
         }
 
         $scope.isParams = false;
@@ -102,10 +102,10 @@ App.controller('RealtController',
             }
         };
 
-        if ($scope.year !== '' && $scope.year !== 0 ||
-            ($scope.year !== '' &&
+        if ($scope.year !== "" && $scope.year !== 0 ||
+            ($scope.year !== "" &&
                 $scope.year !== 0 &&
-                ($scope.price !== '' || $scope.deals !== '' || $scope.salary !== ''))
+                ($scope.price !== "" || $scope.deals !== "" || $scope.salary !== ""))
         ) {
             $scope.showParams();
         }
@@ -114,35 +114,35 @@ App.controller('RealtController',
 
 
         $scope.reset = function() {
-            $location.search('year', null);
-            $location.search('price', null);
-            $location.search('deals', null);
-            $location.search('salary', null);
+            $location.search("year", null);
+            $location.search("price", null);
+            $location.search("deals", null);
+            $location.search("salary", null);
             if ($stateParams) {
                 $stateParams.year = null;
                 $stateParams.price = null;
                 $stateParams.deals = null;
                 $stateParams.salary = null;
             }
-            $scope.year = '';
-            $scope.price = '';
-            $scope.deals = '';
-            $scope.salary = '';
+            $scope.year = "";
+            $scope.price = "";
+            $scope.deals = "";
+            $scope.salary = "";
 
             getMainPage();
             $scope.showParams();
         };
         $scope.calculate = function() {
-            $location.search('year', ($scope.year !== 0 && $scope.year !== '') ? $scope.year : null);
-            $location.search('price', ($scope.price !== '') ? $scope.price : null);
-            $location.search('deals', ($scope.deals !== '') ? $scope.deals : null);
-            $location.search('salary', ($scope.salary !== '') ? $scope.salary : null);
+            $location.search("year", ($scope.year !== 0 && $scope.year !== "") ? $scope.year : null);
+            $location.search("price", ($scope.price !== "") ? $scope.price : null);
+            $location.search("deals", ($scope.deals !== "") ? $scope.deals : null);
+            $location.search("salary", ($scope.salary !== "") ? $scope.salary : null);
 
             if ($stateParams) {
-                $stateParams.year = ($scope.year !== 0 && $scope.year !== '') ? $scope.year : null;
-                $stateParams.price = ($scope.price !== '') ? $scope.price : null;
-                $stateParams.deals = ($scope.deals !== '') ? $scope.deals : null;
-                $stateParams.salary = ($scope.salary !== '') ? $scope.salary : null;
+                $stateParams.year = ($scope.year !== 0 && $scope.year !== "") ? $scope.year : null;
+                $stateParams.price = ($scope.price !== "") ? $scope.price : null;
+                $stateParams.deals = ($scope.deals !== "") ? $scope.deals : null;
+                $stateParams.salary = ($scope.salary !== "") ? $scope.salary : null;
             }
             getMainPage();
         };
@@ -174,9 +174,9 @@ App.controller('RealtController',
                 for (var i = 0; i < $scope.data.length; i++) {
                     chartData.push(
                     {
-                        "date": new Date($scope.data[i].DateText.split('/')[2],
-                            parseInt($scope.data[i].DateText.split('/')[1] - 1),
-                            $scope.data[i].DateText.split('/')[0]),
+                        "date": new Date($scope.data[i].DateText.split("/")[2],
+                            parseInt($scope.data[i].DateText.split("/")[1] - 1),
+                            $scope.data[i].DateText.split("/")[0]),
                         "price": $scope.data[i].Price,
                         "count": $scope.data[i].Count,
                         "salary": $scope.dataSalary[i].Amount
@@ -198,13 +198,13 @@ App.controller('RealtController',
 
                 chart.categoryField = "date";
                 chart.zoomOutButton = {
-                    backgroundColor: '#000000',
+                    backgroundColor: "#000000",
                     backgroundAlpha: 0.15
                 };
 
                 // listen for "dataUpdated" event (fired when chart is inited) and call zoomChart method when it happens
                 //chart.addListener("dataUpdated", zoomChart);
-                chart.zoomOutText = $scope.translation.ShowAll || 'Show all';
+                chart.zoomOutText = $scope.translation.ShowAll || "Show all";
 
                 // AXES
                 // category
@@ -219,14 +219,14 @@ App.controller('RealtController',
                 priceAxis.axisAlpha = 0.5; // no axis line
                 priceAxis.position = "left";
                 priceAxis.inside = true;
-                priceAxis.unit = " " + ($scope.translation.USDM2 || 'USD/m2');
+                priceAxis.unit = " " + ($scope.translation.USDM2 || "USD/m2");
                 chart.addValueAxis(priceAxis);
 
                 var salaryAxis = new AmCharts.ValueAxis();
                 salaryAxis.axisAlpha = 0.5; // no axis line
                 salaryAxis.position = "left";
                 salaryAxis.inside = true;
-                salaryAxis.unit = " " + ($scope.translation.USD || 'USD');
+                salaryAxis.unit = " " + ($scope.translation.USD || "USD");
                 if ($scope.showSalary) chart.addValueAxis(salaryAxis);
 
                 var countAxis = new AmCharts.ValueAxis();
@@ -249,7 +249,7 @@ App.controller('RealtController',
                 priceGraph.bulletBorderThickness = 2;
                 priceGraph.lineThickness = 1;
                 priceGraph.valueField = "price";
-                priceGraph.balloonText = "[[value]] " + ($scope.translation.USDM2 || 'USD/m2');
+                priceGraph.balloonText = "[[value]] " + ($scope.translation.USDM2 || "USD/m2");
                 priceGraph
                     .hideBulletsCount = 55;
 // this makes the chart to hide bullets when there are more than 55 series in selection
@@ -272,7 +272,7 @@ App.controller('RealtController',
                 salaryGraph.bulletBorderThickness = 2;
                 salaryGraph.lineThickness = 1;
                 salaryGraph.valueField = "salary";
-                salaryGraph.balloonText = "[[value]] " + ($scope.translation.USD || 'USD');
+                salaryGraph.balloonText = "[[value]] " + ($scope.translation.USD || "USD");
                 salaryGraph
                     .hideBulletsCount = 55;
 // this makes the chart to hide bullets when there are more than 55 series in selection
@@ -286,8 +286,8 @@ App.controller('RealtController',
                 countGraph.valueAxis = countAxis; // indicate which axis should be used
                 countGraph.lineColor = "#000000";
                 countGraph.valueField = "count";
-                countGraph.balloonText = "[[value]] " + ($scope.translation.Deals || 'Deals');
-                countGraph.title = ($scope.translation.Deals || 'Deals');
+                countGraph.balloonText = "[[value]] " + ($scope.translation.Deals || "Deals");
+                countGraph.title = ($scope.translation.Deals || "Deals");
                 countGraph.fillAlphas = 0.1;
                 countGraph.lineAlpha = 0;
                 if ($scope.showDeals) chart.addGraph(countGraph);
@@ -317,11 +317,11 @@ App.controller('RealtController',
                 legend.align = "center";
 
                 legend.data = [];
-                legend.data.push({ title: $scope.translation.Price || 'Price', color: "#ff0000" });
+                legend.data.push({ title: $scope.translation.Price || "Price", color: "#ff0000" });
                 if ($scope.showSalary)
-                    legend.data.push({ title: $scope.translation.Salary || 'Salary', color: "#00ff00" });
+                    legend.data.push({ title: $scope.translation.Salary || "Salary", color: "#00ff00" });
                 if ($scope.showDeals)
-                    legend.data.push({ title: $scope.translation.Deals || 'Deals', color: "#666666" });
+                    legend.data.push({ title: $scope.translation.Deals || "Deals", color: "#666666" });
 
                 chart.addLegend(legend);
                 // WRITE

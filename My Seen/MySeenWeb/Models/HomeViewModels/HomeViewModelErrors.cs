@@ -15,10 +15,11 @@ namespace MySeenWeb.Models
         public HomeViewModelErrors(int page, int countInPage, string search)
         {
             var ac = new ApplicationDbContext();
-            Pages = new Pagination(page, ac.NLogErrors.Count(f => (string.IsNullOrEmpty(search) || f.Message.Contains(search))), countInPage);
+            Pages = new Pagination(page,
+                ac.NLogErrors.Count(f => string.IsNullOrEmpty(search) || f.Message.Contains(search)), countInPage);
             Data =
                 ac.NLogErrors.AsNoTracking()
-                    .Where(f => (string.IsNullOrEmpty(search) || f.Message.Contains(search)))
+                    .Where(f => string.IsNullOrEmpty(search) || f.Message.Contains(search))
                     .OrderByDescending(l => l.DateTimeStamp)
                     .Skip(() => Pages.SkipRecords)
                     .Take(() => countInPage)

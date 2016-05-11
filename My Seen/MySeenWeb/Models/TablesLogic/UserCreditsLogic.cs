@@ -10,8 +10,13 @@ namespace MySeenWeb.Models.TablesLogic
     public class UserCreditsLogic : UserCredits
     {
         private readonly ApplicationDbContext _ac;
-        public string ErrorMessage;
         private UserCredits _userCredits;
+        public string ErrorMessage;
+
+        public string UserName
+        {
+            get { return _userCredits.User.UserName; }
+        }
 
         public UserCreditsLogic()
         {
@@ -28,9 +33,10 @@ namespace MySeenWeb.Models.TablesLogic
             DateTo = DateTime.Now.AddDays(14);
             PrivateKey = Md5Tools.Get(User.Email.ToLower() + userAgent + User.UniqueKey.ToLower());
             if (Exists(PrivateKey)) Delete(PrivateKey);
-            Add();                
+            Add();
             return PrivateKey;
         }
+
         public void Remove(string userId, string userAgent)
         {
             var user = _ac.Users.First(u => u.Id == userId);
@@ -42,6 +48,7 @@ namespace MySeenWeb.Models.TablesLogic
         {
             return _ac.UserCredits.Any(u => u.PrivateKey == privateKey);
         }
+
         private bool Add()
         {
             try
@@ -56,10 +63,7 @@ namespace MySeenWeb.Models.TablesLogic
             }
             return true;
         }
-        public string UserName
-        {
-            get { return _userCredits.User.UserName; }
-        }
+
         public bool Verify(string privateKey, string userAgent)
         {
             if (_ac.UserCredits.Any(u => u.PrivateKey == privateKey))
@@ -73,7 +77,9 @@ namespace MySeenWeb.Models.TablesLogic
                     ErrorMessage = "Date To Ended record removed";
                     return false;
                 }
-                if (Md5Tools.Get(_userCredits.User.Email.ToLower() + userAgent + _userCredits.User.UniqueKey.ToLower()) == _userCredits.PrivateKey) return true;
+                if (
+                    Md5Tools.Get(_userCredits.User.Email.ToLower() + userAgent + _userCredits.User.UniqueKey.ToLower()) ==
+                    _userCredits.PrivateKey) return true;
 
                 return false;
             }
@@ -103,6 +109,5 @@ namespace MySeenWeb.Models.TablesLogic
             }
             return true;
         }
-
     }
 }

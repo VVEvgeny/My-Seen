@@ -1,18 +1,18 @@
 App.config(function($stateProvider) {
 
     $stateProvider
-        .state('/',
+        .state("/",
         {
-            url: '/',
+            url: "/",
             templateUrl: "Content/Angular/templates/home.html",
-            controller: 'HomeController',
+            controller: "HomeController",
             reloadOnSearch: false
         });
 });
 
-App.controller('HomeController',
+App.controller("HomeController",
 [
-    '$scope', '$rootScope', '$state', '$stateParams', '$http', '$location', 'Constants', '$anchorScroll',
+    "$scope", "$rootScope", "$state", "$stateParams", "$http", "$location", "Constants", "$anchorScroll",
     function($scope, $rootScope, $state, $stateParams, $http, $location, constants, $anchorScroll) {
 
         $anchorScroll();

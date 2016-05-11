@@ -31,20 +31,22 @@
 <data-ng-include src="'Content/Angular/templates/_tools/modal-add-edit.html'"></data-ng-include>
 
 <script type="text/javascript">
-    (function ($) {
+    (function($) {
         $(function() {
             initialGmapEditor();
 
             var $panel = $("#panelCoordinates");
 
             $panel.off('click', '.btn-danger');
-            $panel.on('click', '.btn-danger', function () {
-                var $item = $(this);
-                var id = $item.attr('id');
-                //console.log(" id=", id);
-                $(".track-id-" + id).remove();
-                removeMarker(id);
-            });
+            $panel.on('click',
+                '.btn-danger',
+                function() {
+                    var $item = $(this);
+                    var id = $item.attr('id');
+                    //console.log(" id=", id);
+                    $(".track-id-" + id).remove();
+                    removeMarker(id);
+                });
         });
     })(jQuery);
 </script>

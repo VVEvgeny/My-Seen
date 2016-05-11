@@ -11,22 +11,27 @@ namespace MySeenWeb.Models.TablesViews
         {
             get { return Defaults.EventTypes.GetTypeById(RepeatType) && Date < DateTime.Now; }
         }
+
         public DateTime DateTo
         {
-            get { return CalculateTo((Defaults.EventsTypesBase.Indexes)RepeatType, Date); }
+            get { return CalculateTo((Defaults.EventsTypesBase.Indexes) RepeatType, Date); }
         }
+
         public string DayOfWeekTo
         {
             get { return GetDayOfWeek(DateTo); }
         }
+
         public string EstimatedTo
         {
             get { return GetTimeSpan(DateTo); }
         }
+
         public long EstimatedTicks
         {
             get { return (DateTo - DateTime.Now).Ticks; }
         }
+
         public bool IsEnd
         {
             get { return DateTo < DateTime.Now; }
@@ -34,12 +39,14 @@ namespace MySeenWeb.Models.TablesViews
 
         public DateTime DateLast
         {
-            get { return CalculateLast((Defaults.EventsTypesBase.Indexes)RepeatType, Date); }
+            get { return CalculateLast((Defaults.EventsTypesBase.Indexes) RepeatType, Date); }
         }
+
         public string DayOfWeekLast
         {
             get { return GetDayOfWeek(DateLast); }
         }
+
         public string EstimatedLast
         {
             get { return GetTimeSpan(DateLast); }
@@ -49,10 +56,12 @@ namespace MySeenWeb.Models.TablesViews
         {
             get { return DateTo.ToString(CultureInfo.CurrentCulture); }
         }
+
         public string DateText
         {
             get { return Date.ToString(CultureInfo.CurrentCulture); }
         }
+
         public string DateLastText
         {
             get { return DateLast.ToString(CultureInfo.CurrentCulture); }
@@ -71,11 +80,12 @@ namespace MySeenWeb.Models.TablesViews
                     years++;
                 } while (days > 365);
             }
-            else while (days < -365)
-            {
-                days += 365;
-                years--;
-            }
+            else
+                while (days < -365)
+                {
+                    days += 365;
+                    years--;
+                }
             var minus = ts.Hours < 0 || ts.Minutes < 0 || ts.Seconds < 0 || ts.Days < 0;
 
             if (years < 0) years *= -1;
@@ -100,20 +110,29 @@ namespace MySeenWeb.Models.TablesViews
                        ? string.Empty
                        : (seconds < 10 ? "0" + seconds : seconds.ToString()));
         }
+
         private static string GetDayOfWeek(DateTime date)
         {
             switch (date.DayOfWeek)
             {
-                case DayOfWeek.Monday: return Resource.Monday;
-                case DayOfWeek.Tuesday: return Resource.Tuesday;
-                case DayOfWeek.Wednesday: return Resource.Wednesday;
-                case DayOfWeek.Thursday: return Resource.Thursday;
-                case DayOfWeek.Friday: return Resource.Friday;
-                case DayOfWeek.Saturday: return Resource.Saturday;
-                case DayOfWeek.Sunday: return Resource.Sunday;
+                case DayOfWeek.Monday:
+                    return Resource.Monday;
+                case DayOfWeek.Tuesday:
+                    return Resource.Tuesday;
+                case DayOfWeek.Wednesday:
+                    return Resource.Wednesday;
+                case DayOfWeek.Thursday:
+                    return Resource.Thursday;
+                case DayOfWeek.Friday:
+                    return Resource.Friday;
+                case DayOfWeek.Saturday:
+                    return Resource.Saturday;
+                case DayOfWeek.Sunday:
+                    return Resource.Sunday;
             }
             return string.Empty;
         }
+
         private static DateTime Correct(Defaults.EventsTypesBase.Indexes typeRepeat, DateTime date)
         {
             switch (typeRepeat)
@@ -122,7 +141,9 @@ namespace MySeenWeb.Models.TablesViews
                     if (date.DayOfWeek == DayOfWeek.Saturday) date = date.AddDays(1);
                     if (date.DayOfWeek == DayOfWeek.Sunday) date = date.AddDays(1);
                     break;
-                case Defaults.EventsTypesBase.Indexes.EveryMonthInNeedDayWithWhenSaturdayOrFridayThenThursdayWhenSundayOrMondayThenTuesday:
+                case
+                    Defaults.EventsTypesBase.Indexes
+                        .EveryMonthInNeedDayWithWhenSaturdayOrFridayThenThursdayWhenSundayOrMondayThenTuesday:
                     if (date.DayOfWeek == DayOfWeek.Friday) date = date.AddDays(-1);
                     if (date.DayOfWeek == DayOfWeek.Saturday) date = date.AddDays(-2);
                     if (date.DayOfWeek == DayOfWeek.Sunday) date = date.AddDays(2);
@@ -137,9 +158,9 @@ namespace MySeenWeb.Models.TablesViews
             return date;
         }
 
-        private static DateTime GetNewDate(int year,int month, int day, int hour,int minute, int second)
+        private static DateTime GetNewDate(int year, int month, int day, int hour, int minute, int second)
         {
-            if (month > 12)//add months
+            if (month > 12) //add months
             {
                 month -= 12;
                 year++;
@@ -164,38 +185,49 @@ namespace MySeenWeb.Models.TablesViews
             }
             return d;
         }
+
         private static DateTime CalculateTo(Defaults.EventsTypesBase.Indexes typeRepeat, DateTime beginDate)
         {
             var d = DateTime.Now;
             switch (typeRepeat)
             {
                 case Defaults.EventsTypesBase.Indexes.EveryMonthInNeedDayWithWhenSundayOrSaturdayThenMonday:
-                case Defaults.EventsTypesBase.Indexes.EveryMonthInNeedDayWithWhenSaturdayOrFridayThenThursdayWhenSundayOrMondayThenTuesday:
+                case
+                    Defaults.EventsTypesBase.Indexes
+                        .EveryMonthInNeedDayWithWhenSaturdayOrFridayThenThursdayWhenSundayOrMondayThenTuesday:
                 case Defaults.EventsTypesBase.Indexes.EveryMonthInNeedDayWithWhenSaturdayThenFridayWhenSundayThenMonday:
-                    d = GetNewDate(DateTime.Now.Year, DateTime.Now.Month, beginDate.Day, beginDate.Hour, beginDate.Minute, beginDate.Second);
+                    d = GetNewDate(DateTime.Now.Year, DateTime.Now.Month, beginDate.Day, beginDate.Hour,
+                        beginDate.Minute, beginDate.Second);
                     d = Correct(typeRepeat, d);
 
                     if (d < DateTime.Now)
                     {
-                        d = GetNewDate(DateTime.Now.Year, DateTime.Now.Month+1, beginDate.Day, beginDate.Hour, beginDate.Minute, beginDate.Second);
+                        d = GetNewDate(DateTime.Now.Year, DateTime.Now.Month + 1, beginDate.Day, beginDate.Hour,
+                            beginDate.Minute, beginDate.Second);
                         d = Correct(typeRepeat, d);
                     }
                     break;
                 case Defaults.EventsTypesBase.Indexes.OneTime:
                 case Defaults.EventsTypesBase.Indexes.OneTimeWithPast:
-                    d = new DateTime(beginDate.Year, beginDate.Month, beginDate.Day, beginDate.Hour, beginDate.Minute, beginDate.Second);
+                    d = new DateTime(beginDate.Year, beginDate.Month, beginDate.Day, beginDate.Hour, beginDate.Minute,
+                        beginDate.Second);
                     break;
                 case Defaults.EventsTypesBase.Indexes.EveryYear:
-                    d = new DateTime(DateTime.Now.Year, beginDate.Month, beginDate.Day, beginDate.Hour, beginDate.Minute, beginDate.Second);
-                    if (d < DateTime.Now) d = new DateTime(DateTime.Now.Year + 1, beginDate.Month, beginDate.Day, beginDate.Hour, beginDate.Minute, beginDate.Second);
+                    d = new DateTime(DateTime.Now.Year, beginDate.Month, beginDate.Day, beginDate.Hour, beginDate.Minute,
+                        beginDate.Second);
+                    if (d < DateTime.Now)
+                        d = new DateTime(DateTime.Now.Year + 1, beginDate.Month, beginDate.Day, beginDate.Hour,
+                            beginDate.Minute, beginDate.Second);
                     break;
                 case Defaults.EventsTypesBase.Indexes.EveryYearWithWhenSaturdayThenFridayAndWhenSundayThenMonday:
-                    d = new DateTime(DateTime.Now.Year, beginDate.Month, beginDate.Day, beginDate.Hour, beginDate.Minute, beginDate.Second);
+                    d = new DateTime(DateTime.Now.Year, beginDate.Month, beginDate.Day, beginDate.Hour, beginDate.Minute,
+                        beginDate.Second);
                     d = Correct(typeRepeat, d);
 
                     if (d < DateTime.Now)
                     {
-                        d = new DateTime(DateTime.Now.Year, beginDate.Month, beginDate.Day, beginDate.Hour, beginDate.Minute, beginDate.Second);
+                        d = new DateTime(DateTime.Now.Year, beginDate.Month, beginDate.Day, beginDate.Hour,
+                            beginDate.Minute, beginDate.Second);
                         d = d.AddYears(1);
                         d = Correct(typeRepeat, d);
                     }
@@ -212,17 +244,25 @@ namespace MySeenWeb.Models.TablesViews
                 switch (typeRepeat)
                 {
                     case Defaults.EventsTypesBase.Indexes.EveryMonthInNeedDayWithWhenSundayOrSaturdayThenMonday:
-                    case Defaults.EventsTypesBase.Indexes.EveryMonthInNeedDayWithWhenSaturdayOrFridayThenThursdayWhenSundayOrMondayThenTuesday:
-                    case Defaults.EventsTypesBase.Indexes.EveryMonthInNeedDayWithWhenSaturdayThenFridayWhenSundayThenMonday:
+                    case
+                        Defaults.EventsTypesBase.Indexes
+                            .EveryMonthInNeedDayWithWhenSaturdayOrFridayThenThursdayWhenSundayOrMondayThenTuesday:
+                    case
+                        Defaults.EventsTypesBase.Indexes
+                            .EveryMonthInNeedDayWithWhenSaturdayThenFridayWhenSundayThenMonday:
 
-                        d = GetNewDate(DateTime.Now.Year, DateTime.Now.Month, beginDate.Day, beginDate.Hour, beginDate.Minute, beginDate.Second);
-                        if (d > DateTime.Now) d = GetNewDate(DateTime.Now.Year, DateTime.Now.Month - i, beginDate.Day, beginDate.Hour, beginDate.Minute, beginDate.Second);
+                        d = GetNewDate(DateTime.Now.Year, DateTime.Now.Month, beginDate.Day, beginDate.Hour,
+                            beginDate.Minute, beginDate.Second);
+                        if (d > DateTime.Now)
+                            d = GetNewDate(DateTime.Now.Year, DateTime.Now.Month - i, beginDate.Day, beginDate.Hour,
+                                beginDate.Minute, beginDate.Second);
                         d = Correct(typeRepeat, d);
                         return d;
 
                     case Defaults.EventsTypesBase.Indexes.EveryYear:
                     case Defaults.EventsTypesBase.Indexes.EveryYearWithWhenSaturdayThenFridayAndWhenSundayThenMonday:
-                        d = new DateTime(DateTime.Now.Year, beginDate.Month, beginDate.Day, beginDate.Hour, beginDate.Minute, beginDate.Second);
+                        d = new DateTime(DateTime.Now.Year, beginDate.Month, beginDate.Day, beginDate.Hour,
+                            beginDate.Minute, beginDate.Second);
                         if (d > DateTime.Now) d = d.AddYears(-i);
                         d = Correct(typeRepeat, d);
                         return d;
@@ -230,6 +270,7 @@ namespace MySeenWeb.Models.TablesViews
             }
             return d;
         }
+
         public static EventsView Map(Events model)
         {
             if (model == null) return new EventsView();
@@ -242,7 +283,7 @@ namespace MySeenWeb.Models.TablesViews
                 Date = UmtTime.From(model.Date),
                 RepeatType = model.RepeatType,
                 DateChange = UmtTime.From(model.DateChange),
-                Shared =  model.Shared
+                Shared = model.Shared
             };
         }
     }

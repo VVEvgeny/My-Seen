@@ -9,7 +9,7 @@ function getTime(value) {
     var minutes = 0;
     var seconds = 0;
     var isMinus = false;
-    if (estimatedTo[0] === '-') { //Накапливаем
+    if (estimatedTo[0] === "-") { //Накапливаем
         isMinus = true;
         estimatedTo = estimatedTo.slice(2);
     }
@@ -39,7 +39,7 @@ function getTime(value) {
     if (estimatedTo.split(":").length === 1) {
         seconds = estimatedTo.split(":")[0];
     }
-    if (years === 0 && days === 0 && hours === 0 && minutes === 0 && (seconds === 0 || seconds === '00')) {
+    if (years === 0 && days === 0 && hours === 0 && minutes === 0 && (seconds === 0 || seconds === "00")) {
         return $scope.translation.Ready;
     }
 
@@ -80,10 +80,13 @@ function getTime(value) {
         years++;
     }
 
-    return (isMinus === true ? "- " : "")
-        + (years === 0 ? "" : (years + ":"))
-        + (years === 0 && days === 0 ? "" : (days + ":"))
-        + (years === 0 && days === 0 && hours === 0 ? "" : (hours.toString().length < 2 ? ("0" + hours + ":") : (hours + ":")))
-        + (years === 0 && days === 0 && hours === 0 && minutes === 0 ? "" : (minutes.toString().length < 2 ? ("0" + minutes + ":") : (minutes + ":")))
-        + (seconds < 10 ? "0" + seconds : seconds);
+    return (isMinus === true ? "- " : "") +
+    (years === 0 ? "" : (years + ":")) +
+    (years === 0 && days === 0 ? "" : (days + ":")) +
+    (years === 0 && days === 0 && hours === 0 ? "" : (hours.toString().length < 2 ? ("0" + hours + ":") : (hours + ":"))
+    ) +
+    (years === 0 && days === 0 && hours === 0 && minutes === 0
+        ? ""
+        : (minutes.toString().length < 2 ? ("0" + minutes + ":") : (minutes + ":"))) +
+    (seconds < 10 ? "0" + seconds : seconds);
 };

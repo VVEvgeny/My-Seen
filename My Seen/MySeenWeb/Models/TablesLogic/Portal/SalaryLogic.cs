@@ -7,6 +7,7 @@ namespace MySeenWeb.Models.TablesLogic.Portal
     {
         private readonly ApplicationDbContext _ac;
         public string ErrorMessage;
+
         public SalaryLogic()
         {
             ErrorMessage = string.Empty;

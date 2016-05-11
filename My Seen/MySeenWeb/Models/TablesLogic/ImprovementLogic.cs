@@ -10,11 +10,13 @@ namespace MySeenWeb.Models.TablesLogic
     {
         private readonly ApplicationDbContext _ac;
         public string ErrorMessage;
+
         public ImprovementLogic()
         {
             ErrorMessage = string.Empty;
             _ac = new ApplicationDbContext();
         }
+
         private bool Fill(string text, string complex, string userId)
         {
             try
@@ -31,6 +33,7 @@ namespace MySeenWeb.Models.TablesLogic
             }
             return true;
         }
+
         private bool Fill(string id, string text, string complex, string userId)
         {
             try
@@ -47,10 +50,12 @@ namespace MySeenWeb.Models.TablesLogic
             }
             return true;
         }
+
         private bool Contains()
         {
             return _ac.Bugs.Any(f => f.Text == Text && f.Id != Id);
         }
+
         private bool Verify()
         {
             if (Id == 0 && string.IsNullOrEmpty(Text)) ErrorMessage = Resource.DescToShort;
@@ -59,6 +64,7 @@ namespace MySeenWeb.Models.TablesLogic
 
             return false;
         }
+
         private bool Add()
         {
             try
@@ -73,6 +79,7 @@ namespace MySeenWeb.Models.TablesLogic
             }
             return true;
         }
+
         private bool Update()
         {
             try
@@ -89,14 +96,17 @@ namespace MySeenWeb.Models.TablesLogic
             }
             return true;
         }
+
         public bool Add(string text, string complex, string userId)
         {
             return Fill(text, complex, userId) && Verify() && Add();
         }
+
         public bool Update(string id, string text, string complex, string userId)
         {
             return Fill(id, text, complex, userId) && Verify() && Update();
         }
+
         public bool Delete(string id)
         {
             try

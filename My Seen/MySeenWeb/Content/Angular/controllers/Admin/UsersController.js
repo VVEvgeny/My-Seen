@@ -1,18 +1,18 @@
 App.config(function($stateProvider) {
 
     $stateProvider
-        .state('users',
+        .state("users",
         {
-            url: '/admin/users/?:page&search',
+            url: "/admin/users/?:page&search",
             templateUrl: "Content/Angular/templates/Admin/users.html",
-            controller: 'UsersController',
+            controller: "UsersController",
             reloadOnSearch: false
         });
 });
 
-App.controller('UsersController',
+App.controller("UsersController",
 [
-    '$scope', '$rootScope', '$state', '$stateParams', '$http', '$location', 'Constants', '$anchorScroll',
+    "$scope", "$rootScope", "$state", "$stateParams", "$http", "$location", "Constants", "$anchorScroll",
     function($scope, $rootScope, $state, $stateParams, $http, $location, constants, $anchorScroll) {
 
         $anchorScroll();
@@ -61,10 +61,10 @@ App.controller('UsersController',
         $scope.quickSearch = {};
         $scope.quickSearch.text = $stateParams ? $stateParams.search : null;
         $scope.searchButtonClick = function() {
-            $location.search('search', $scope.quickSearch.text !== '' ? $scope.quickSearch.text : null);
-            $location.search('page', null); //с первой страницы новый поиск
+            $location.search("search", $scope.quickSearch.text !== "" ? $scope.quickSearch.text : null);
+            $location.search("page", null); //с первой страницы новый поиск
             if ($stateParams) $stateParams.page = null;
-            if ($stateParams) $stateParams.search = $scope.quickSearch.text !== '' ? $scope.quickSearch.text : null;
+            if ($stateParams) $stateParams.search = $scope.quickSearch.text !== "" ? $scope.quickSearch.text : null;
             getMainPage();
         };
 
@@ -73,11 +73,11 @@ App.controller('UsersController',
         ///////////////////////////////////////////////////////////////////////
         $scope.pagination = {};
         $scope.pagination.goToPage = function(page) {
-            $location.search('page', page > 1 ? page : null);
+            $location.search("page", page > 1 ? page : null);
             if ($stateParams) $stateParams.page = page > 1 ? page : null;
             getMainPage();
             $anchorScroll();
-        }
+        };
         ///////////////////////////////////////////////////////////////////////
         ///////////////////////////////////////////////////////////////////////           MODAL
         ///////////////////////////////////////////////////////////////////////

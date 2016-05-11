@@ -7,7 +7,8 @@ namespace MySeenWeb.Models.Meta.Shared
 {
     public class MetaSharedBooks : MetaBase
     {
-        public static string Path = "/mymemory/books/shared/";
+        public static readonly string Path = "/mymemory/books/shared/";
+
         public MetaSharedBooks(HttpRequestBase request)
             : base(request)
         {
@@ -15,7 +16,8 @@ namespace MySeenWeb.Models.Meta.Shared
             try
             {
                 var logic = new BooksLogic();
-                Description = Resource.Total + ": " + logic.GetCountShared(request.Path.Split('/')[request.Path.Split('/').Length - 1]);
+                Description = Resource.Total + ": " +
+                              logic.GetCountShared(request.Path.Split('/')[request.Path.Split('/').Length - 1]);
             }
             catch (Exception)
             {

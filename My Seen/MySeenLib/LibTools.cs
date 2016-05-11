@@ -9,7 +9,7 @@ namespace MySeenLib
     public static class Versions
     {
         //Строка с версией библиотеки в ресурсах LibVersionNum
-        public static int Web = 23;
+        public static int Web = 24;
         public static int Android = 1;
         public static int AndroidLib = 1;
         public static int Pc = 1;
@@ -21,9 +21,9 @@ namespace MySeenLib
         {
             get
             {
-                #if DEBUG
-                    return true;
-                #else
+#if DEBUG
+                return true;
+#else
                     return false;
                 #endif
             }
@@ -36,33 +36,25 @@ namespace MySeenLib
         {
             return datetime.ToUniversalTime();
         }
+
         public static DateTime From(DateTime datetime)
         {
             return datetime.ToLocalTime();
         }
     }
+
     public static class CultureInfoTool
     {
-        public static class Cultures
-        {
-            static Cultures()
-            {
-                Russian = "ru";
-                English = "en";
-            }
-
-            public static string English { get; }
-
-            public static string Russian { get; }
-        }
         public static string GetFirst2Culture()
         {
-            return Thread.CurrentThread.CurrentUICulture.ToString().Substring(0,2);
+            return Thread.CurrentThread.CurrentUICulture.ToString().Substring(0, 2);
         }
+
         public static string GetCulture()
         {
             return Thread.CurrentThread.CurrentUICulture.ToString();
         }
+
         public static bool SetCulture(string cult)
         {
             if (GetCulture() == cult) return false;
@@ -79,12 +71,45 @@ namespace MySeenLib
 
             return true;
         }
+
+        public static class Cultures
+        {
+            public static string English { get; }
+
+            public static string Russian { get; }
+
+            static Cultures()
+            {
+                Russian = "ru";
+                English = "en";
+            }
+        }
     }
+
     public static class MySeenWebApi
     {
-        public static int ApiVersion = 2;
         public static string ApiHost => Admin.IsDebug ? "http://localhost:44301" : "http://myseen.by";
         public static string ApiHostAndroid => Admin.IsDebug ? "https://10.0.2.2:443" : ApiHost;
+
+        public enum DataModes
+        {
+            Film = 1,
+            Serial = 2,
+            Book = 3
+        }
+
+        public enum SyncModesApiData
+        {
+            GetAll = 1,
+            PostAll = 2
+        }
+
+        public enum SyncModesApiUsers
+        {
+            IsUserExists = 1
+        }
+
+        public static int ApiVersion = 2;
 
         public static string ApiUsers = @"/api/ApiUsers/";
         public static string ApiSync = @"/api/ApiSync/";
@@ -95,83 +120,16 @@ namespace MySeenLib
         public static string ShareSerials = @"/serials/shared/";
         public static string ShareBooks = @"/books/shared/";
 
-        public enum SyncModesApiUsers
-        {
-            IsUserExists = 1
-        }
-        public enum SyncModesApiData
-        {
-            GetAll = 1,
-            PostAll = 2
-        }
-        public class SyncJsonAnswer
-        {
-            public enum Values
-            {
-                Ok = 1,
-                NoData = 2,
-                BadRequestMode = 3,
-                UserNotExist = 4,
-                NewDataRecieved = 5,
-                NoLongerSupportedVersion = 6,
-                SomeErrorObtained = 7
-            }
-            [JsonProperty("Value")]
-            public Values Value { get; set; }
-            public override string ToString()
-            {
-                return Value.ToString();
-            }
-        }
-        public enum DataModes
-        {
-            Film = 1,
-            Serial = 2,
-            Book = 3
-        }
-        public class SyncJsonData
-        {
-            [JsonProperty("DataMode")]
-            public int DataMode { get; set; }//in DataModes
-            [JsonProperty("Id")]
-            public int? Id { get; set; }
-            [JsonProperty("Name")]
-            public string Name { get; set; }
-            [JsonProperty("Genre")]
-            public int Genre { get; set; }
-            [JsonProperty("Rating")]
-            public int Rating { get; set; }
-            [JsonProperty("DateSee")]
-            public DateTime DateSee { get; set; }
-            [JsonProperty("DateChange")]
-            public DateTime DateChange { get; set; }
-            [JsonProperty("IsDeleted")]
-            public bool? IsDeleted { get; set; }
-
-            //serials
-            [JsonProperty("LastSeason")]
-            public int LastSeason { get; set; }
-            [JsonProperty("LastSeries")]
-            public int LastSeries { get; set; }
-            [JsonProperty("DateLast")]
-            public DateTime DateLast { get; set; }
-            [JsonProperty("DateBegin")]
-            public DateTime DateBegin { get; set; }
-
-            //books
-            [JsonProperty("DateRead")]
-            public DateTime DateRead { get; set; }
-            [JsonProperty("Authors")]
-            public string Authors { get; set; }
-        }
         public static IEnumerable<SyncJsonData> GetResponse(string data)
         {
             return JsonConvert.DeserializeObject<IEnumerable<SyncJsonData>>(data);
         }
+
         public static string SetResponse(IEnumerable<SyncJsonData> data)
         {
             return JsonConvert.SerializeObject(data);
         }
+
         public static SyncJsonAnswer GetResponseAnswer(string data)
         {
             SyncJsonAnswer answer = null;
@@ -185,19 +143,123 @@ namespace MySeenLib
             }
             return answer;
         }
+
+        public class SyncJsonAnswer
+        {
+            [JsonProperty("Value")]
+            public Values Value { get; set; }
+
+            public enum Values
+            {
+                Ok = 1,
+                NoData = 2,
+                BadRequestMode = 3,
+                UserNotExist = 4,
+                NewDataRecieved = 5,
+                NoLongerSupportedVersion = 6,
+                SomeErrorObtained = 7
+            }
+
+            public override string ToString()
+            {
+                return Value.ToString();
+            }
+        }
+
+        public class SyncJsonData
+        {
+            [JsonProperty("DataMode")]
+            public int DataMode { get; set; } //in DataModes
+
+            [JsonProperty("Id")]
+            public int? Id { get; set; }
+
+            [JsonProperty("Name")]
+            public string Name { get; set; }
+
+            [JsonProperty("Genre")]
+            public int Genre { get; set; }
+
+            [JsonProperty("Rating")]
+            public int Rating { get; set; }
+
+            [JsonProperty("DateSee")]
+            public DateTime DateSee { get; set; }
+
+            [JsonProperty("DateChange")]
+            public DateTime DateChange { get; set; }
+
+            [JsonProperty("IsDeleted")]
+            public bool? IsDeleted { get; set; }
+
+            //serials
+            [JsonProperty("LastSeason")]
+            public int LastSeason { get; set; }
+
+            [JsonProperty("LastSeries")]
+            public int LastSeries { get; set; }
+
+            [JsonProperty("DateLast")]
+            public DateTime DateLast { get; set; }
+
+            [JsonProperty("DateBegin")]
+            public DateTime DateBegin { get; set; }
+
+            //books
+            [JsonProperty("DateRead")]
+            public DateTime DateRead { get; set; }
+
+            [JsonProperty("Authors")]
+            public string Authors { get; set; }
+        }
     }
+
     public static class Defaults
     {
+        public static readonly GenresBase Genres = new GenresBase();
+        public static readonly RatingsBase Ratings = new RatingsBase();
+        public static readonly CategoryBase Categories = new CategoryBase();
+        public static readonly LanguagesBase Languages = new LanguagesBase();
+        public static readonly ComplexBase Complexes = new ComplexBase();
+        public static readonly RecordPerPageBase RecordPerPage = new RecordPerPageBase();
+        public static readonly EnabledDisabledBase EnabledDisabled = new EnabledDisabledBase();
+        public static readonly EventsTypesBase EventTypes = new EventsTypesBase();
+        public static readonly RolesBase RolesTypes = new RolesBase();
+        public static readonly ThemesBase Themes = new ThemesBase();
+
+        private static readonly List<ListStringBase> AllResourcesLink = new List<ListStringBase>
+        {
+            Genres,
+            Ratings,
+            Categories,
+            Languages,
+            Complexes,
+            RecordPerPage,
+            EnabledDisabled,
+            EventTypes,
+            RolesTypes,
+            Themes
+        };
+
+        public static void ReloadResources()
+        {
+            foreach (var val in AllResourcesLink)
+            {
+                val.Reload();
+            }
+        }
+
         public abstract class ListStringBase
         {
+            protected List<string> All;
             protected abstract void Load();
 
-            protected List<string> All;
             public void Reload()
             {
                 All = null;
                 Load();
             }
+
             public List<string> GetAll()
             {
                 if (All == null) Load();
@@ -216,6 +278,7 @@ namespace MySeenLib
                 if (All != null && (id >= All.Count || id < 0)) return "";
                 return All != null ? All[id] : "";
             }
+
             public int GetMaxId()
             {
                 if (All == null) Load();
@@ -229,7 +292,8 @@ namespace MySeenLib
                 return All != null ? All[GetMaxId()] : "";
             }
         }
-        public abstract class ListStringBoolBase: ListStringBase
+
+        public abstract class ListStringBoolBase : ListStringBase
         {
             protected List<bool> Type;
 
@@ -239,6 +303,7 @@ namespace MySeenLib
                 if (All != null && id >= All.Count) return false;
                 return All != null && Type[id];
             }
+
             public new void Reload()
             {
                 Type = null;
@@ -267,6 +332,7 @@ namespace MySeenLib
                 }
             }
         }
+
         public class RatingsBase : ListStringBase
         {
             protected override void Load()
@@ -277,6 +343,7 @@ namespace MySeenLib
                 }
             }
         }
+
         public class CategoryBase : ListStringBase
         {
             public enum Indexes
@@ -314,8 +381,8 @@ namespace MySeenLib
 
             public static bool IsCategoryExt(int category)
             {
-                return category == (int)IndexesExt.Users || category == (int)IndexesExt.Logs ||
-                       category == (int)IndexesExt.Improvements || category == (int)IndexesExt.Errors;
+                return category == (int) IndexesExt.Users || category == (int) IndexesExt.Logs ||
+                       category == (int) IndexesExt.Improvements || category == (int) IndexesExt.Errors;
             }
 
             protected override void Load()
@@ -333,6 +400,7 @@ namespace MySeenLib
                 }
             }
         }
+
         public class RolesBase : ListStringBase
         {
             public enum Indexes
@@ -353,6 +421,7 @@ namespace MySeenLib
                 }
             }
         }
+
         public class LanguagesBase : ListStringBase
         {
             public enum Indexes
@@ -368,17 +437,20 @@ namespace MySeenLib
                     All = new List<string> {Resource.English, Resource.Russian};
                 }
             }
+
             public int GetIdDb(string s)
             {
                 Load();
-                return s == CultureInfoTool.Cultures.English ? (int)Indexes.English : (int)Indexes.Russian;
+                return s == CultureInfoTool.Cultures.English ? (int) Indexes.English : (int) Indexes.Russian;
             }
+
             public string GetValDb(int i)
             {
                 Load();
-                return i == (int)Indexes.English ? CultureInfoTool.Cultures.English : CultureInfoTool.Cultures.Russian;
+                return i == (int) Indexes.English ? CultureInfoTool.Cultures.English : CultureInfoTool.Cultures.Russian;
             }
         }
+
         public class ComplexBase : ListStringBase
         {
             public enum Indexes
@@ -390,19 +462,16 @@ namespace MySeenLib
             {
                 if (All == null)
                 {
-                    All = new List<string> {Resource.All, Resource.WEB, Resource.Android, Resource.PC};
+                    All = new List<string> {Resource.All, Resource.WEB, Resource.Android, Resource.PC, "2048"};
                 }
             }
         }
+
         public class RecordPerPageBase : ListStringBase
         {
             public enum Indexes
             {
                 All
-            }
-            public static class Values
-            {
-                public static int All = int.MaxValue;
             }
 
             protected override void Load()
@@ -414,7 +483,13 @@ namespace MySeenLib
                         : new List<string> {Resource.All, "20", "50", "100", "500"};
                 }
             }
+
+            public static class Values
+            {
+                public static int All = int.MaxValue;
+            }
         }
+
         public class EnabledDisabledBase : ListStringBase
         {
             public enum Indexes
@@ -427,10 +502,11 @@ namespace MySeenLib
             {
                 if (All == null)
                 {
-                    All = new List<string> { Resource.Enabled, Resource.Disabled };
+                    All = new List<string> {Resource.Enabled, Resource.Disabled};
                 }
             }
         }
+
         public class EventsTypesBase : ListStringBoolBase
         {
             public enum Indexes
@@ -438,8 +514,10 @@ namespace MySeenLib
                 OneTime, //1 раз в указанную дату
                 OneTimeWithPast, //1 раз в указанную дату + показывать пройденное
                 EveryMonthInNeedDayWithWhenSundayOrSaturdayThenMonday,
-                EveryMonthInNeedDayWithWhenSaturdayOrFridayThenThursdayWhenSundayOrMondayThenTuesday, //Каждый месяц нужного числа, если ПТ или СБ значит ЧТ если ВС или ПН значит ВТ
-                EveryMonthInNeedDayWithWhenSaturdayThenFridayWhenSundayThenMonday, //Каждый месяц нужного числа, если СБ или ВСКР значит в ПН
+                EveryMonthInNeedDayWithWhenSaturdayOrFridayThenThursdayWhenSundayOrMondayThenTuesday,
+                //Каждый месяц нужного числа, если ПТ или СБ значит ЧТ если ВС или ПН значит ВТ
+                EveryMonthInNeedDayWithWhenSaturdayThenFridayWhenSundayThenMonday,
+                //Каждый месяц нужного числа, если СБ или ВСКР значит в ПН
                 EveryYear, //Каждый год без погрешности
                 EveryYearWithWhenSaturdayThenFridayAndWhenSundayThenMonday
             }
@@ -458,13 +536,13 @@ namespace MySeenLib
                         Resource.EveryYearWithoutError,
                         Resource.EveryYearIfSaturdayIsFridayIfSundayIsMonday
                     };
-                    Type = new List<bool> { false, false, true, true, true, true, true };
+                    Type = new List<bool> {false, false, true, true, true, true, true};
                 }
             }
         }
+
         public class ThemesBase : ListStringBase
         {
-
             protected override void Load()
             {
                 if (All == null)
@@ -484,39 +562,6 @@ namespace MySeenLib
                         "Darkly"
                     };
                 }
-            }
-        }
-
-        public static readonly GenresBase Genres = new GenresBase();
-        public static readonly RatingsBase Ratings = new RatingsBase();
-        public static readonly CategoryBase Categories = new CategoryBase();
-        public static readonly LanguagesBase Languages = new LanguagesBase();
-        public static readonly ComplexBase Complexes = new ComplexBase();
-        public static readonly RecordPerPageBase RecordPerPage = new RecordPerPageBase();
-        public static readonly EnabledDisabledBase EnabledDisabled = new EnabledDisabledBase();
-        public static readonly EventsTypesBase EventTypes = new EventsTypesBase();
-        public static readonly RolesBase RolesTypes = new RolesBase();
-        public static readonly ThemesBase Themes = new ThemesBase();
-
-        private static readonly List<ListStringBase> AllResourcesLink = new List<ListStringBase>
-        {
-            Genres,
-            Ratings,
-            Categories,
-            Languages,
-            Complexes,
-            RecordPerPage,
-            EnabledDisabled,
-            EventTypes,
-            RolesTypes,
-            Themes
-        };
-
-        public static void ReloadResources()
-        {
-            foreach (var val in AllResourcesLink)
-            {
-                val.Reload();
             }
         }
     }

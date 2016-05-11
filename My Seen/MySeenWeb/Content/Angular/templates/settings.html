@@ -6,7 +6,7 @@
 
     <div>
         <h4 data-ng-show="authorized">{{translation.ChangeYourAccountSettings}}</h4>
-        <hr />
+        <hr/>
         <dl class="dl-horizontal" data-ng-show="authorized">
             <dt>{{translation.Password}}:</dt>
             <dd>
@@ -79,7 +79,8 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <button type="button" class="close myseen-modal-close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <button type="button" class="close myseen-modal-close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span></button>
                 <h4 class="modal-title text-center">{{translation.SetPassword}}</h4>
             </div>
             <div class="modal-body">
@@ -117,7 +118,8 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <button type="button" class="close myseen-modal-close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <button type="button" class="close myseen-modal-close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span></button>
                 <h4 class="modal-title text-center">{{translation.ExternalLogins}}</h4>
             </div>
             <div class="modal-body">
@@ -125,20 +127,20 @@
                 <div class="form-horizontal">
                     <table class="table table-striped">
                         <thead>
-                            <tr>
-                                <th class="col-sm-3">{{translation.Service}}</th>
-                                <th class="col-sm-9">{{translation.Action}}</th>
-                            </tr>
+                        <tr>
+                            <th class="col-sm-3">{{translation.Service}}</th>
+                            <th class="col-sm-9">{{translation.Action}}</th>
+                        </tr>
                         </thead>
                         <tbody>
-                            <tr ng-repeat="val in userLogins">
-                                <td class="align-center">{{::val.LoginProvider}}</td>
-                                <td class="align-center">
-                                    <button type="button" class="btn btn-danger btn-block btn-xs" data-ng-click="modalLogins.removeButtonClick($index)" data-ng-show="data.HasPassword">
-                                        <span class="glyphicon glyphicon-remove"></span> {{translation.Remove}}
-                                    </button>
-                                </td>
-                            </tr>
+                        <tr ng-repeat="val in userLogins">
+                            <td class="align-center">{{::val.LoginProvider}}</td>
+                            <td class="align-center">
+                                <button type="button" class="btn btn-danger btn-block btn-xs" data-ng-click="modalLogins.removeButtonClick($index)" data-ng-show="data.HasPassword">
+                                    <span class="glyphicon glyphicon-remove"></span> {{translation.Remove}}
+                                </button>
+                            </td>
+                        </tr>
                         </tbody>
                     </table>
                 </div>
@@ -147,20 +149,20 @@
                     <form action="/Settings/AddLogin" method="post">
                         <table class="table table-striped">
                             <thead>
-                                <tr>
-                                    <th class="col-sm-3">{{translation.Service}}</th>
-                                    <th class="col-sm-9">{{translation.Action}}</th>
-                                </tr>
+                            <tr>
+                                <th class="col-sm-3">{{translation.Service}}</th>
+                                <th class="col-sm-9">{{translation.Action}}</th>
+                            </tr>
                             </thead>
                             <tbody>
-                                <tr data-ng-repeat="val in otherLogins">
-                                    <td class="align-center">{{::val.Caption}}</td>
-                                    <td class="align-center">
-                                        <button type="submit" class="btn btn-success btn-block btn-xs" id="{{val.AuthenticationType}}" name="provider" value="{{val.AuthenticationType}}">
-                                            <span class="glyphicon glyphicon-plus"></span> {{translation.Add}}
-                                        </button>
-                                    </td>
-                                </tr>
+                            <tr data-ng-repeat="val in otherLogins">
+                                <td class="align-center">{{::val.Caption}}</td>
+                                <td class="align-center">
+                                    <button type="submit" class="btn btn-success btn-block btn-xs" id="{{val.AuthenticationType}}" name="provider" value="{{val.AuthenticationType}}">
+                                        <span class="glyphicon glyphicon-plus"></span> {{translation.Add}}
+                                    </button>
+                                </td>
+                            </tr>
                             </tbody>
                         </table>
                     </form>
