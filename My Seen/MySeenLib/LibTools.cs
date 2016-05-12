@@ -12,10 +12,10 @@ namespace MySeenLib
     public static class Versions
     {
         //Строка с версией библиотеки в ресурсах LibVersionNum
-        public static int Web = 24;
-        public static int Android = 1;
-        public static int AndroidLib = 1;
-        public static int Pc = 1;
+        public static int Web { get; } = 24;
+        public static int Android { get; } = 1;
+        public static int AndroidLib { get; } = 1;
+        public static int Pc { get; } = 1;
     }
 
     public static class Admin
@@ -71,15 +71,9 @@ namespace MySeenLib
 
         public static class Cultures
         {
-            public static string English { get; }
+            public static string English { get; } = "ru";
 
-            public static string Russian { get; }
-
-            static Cultures()
-            {
-                Russian = "ru";
-                English = "en";
-            }
+            public static string Russian { get; } = "en";
         }
     }
 
@@ -108,14 +102,14 @@ namespace MySeenLib
 
         public static int ApiVersion = 2;
 
-        public static string ApiUsers = @"/api/ApiUsers/";
-        public static string ApiSync = @"/api/ApiSync/";
+        public static string ApiUsers { get; } = @"/api/ApiUsers/";
+        public static string ApiSync { get; } = @"/api/ApiSync/";
 
-        public static string ShareTracks = @"/roads/shared/";
-        public static string ShareEvents = @"/events/shared/";
-        public static string ShareFilms = @"/films/shared/";
-        public static string ShareSerials = @"/serials/shared/";
-        public static string ShareBooks = @"/books/shared/";
+        public static string ShareTracks { get; } = @"/roads/shared/";
+        public static string ShareEvents { get; } = @"/events/shared/";
+        public static string ShareFilms { get; } = @"/films/shared/";
+        public static string ShareSerials { get; } = @"/serials/shared/";
+        public static string ShareBooks { get; } = @"/books/shared/";
 
         public static IEnumerable<SyncJsonData> GetResponse(string data)
         {

@@ -12,9 +12,19 @@ namespace MySeenWeb.Models
 {
     public class HomeViewModelUsers
     {
-        public IEnumerable<UsersView> Data;
+        public IEnumerable<UsersView> Data { get; set; }
 
-        public IEnumerable<SelectListItem> UserRoles;
+        public IEnumerable<SelectListItem> UserRoles { get; } =
+            RolesTypes.GetAll()
+                .Select(
+                    sel =>
+                        new SelectListItem
+                        {
+                            Text = sel,
+                            Value = RolesTypes.GetId(sel).ToString()
+                        })
+                .ToList();
+
         public Pagination Pages { get; set; }
         public bool CanControl { get; set; }
 
@@ -32,17 +42,6 @@ namespace MySeenWeb.Models
                 .OrderByDescending(l => l.LastAction);
 
             CanControl = UserRolesLogic.IsAdmin(userId);
-
-            UserRoles =
-                RolesTypes.GetAll()
-                    .Select(
-                        sel =>
-                            new SelectListItem
-                            {
-                                Text = sel,
-                                Value = RolesTypes.GetId(sel).ToString()
-                            })
-                    .ToList();
         }
     }
 }
