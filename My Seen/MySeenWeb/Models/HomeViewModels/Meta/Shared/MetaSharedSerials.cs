@@ -12,7 +12,7 @@ namespace MySeenWeb.Models.Meta.Shared
         public MetaSharedSerials(HttpRequestBase request)
             : base(request)
         {
-            Title = Resource.Serials + " " + Resource.User2;
+            Title = $"{Resource.Serials} {Resource.User2}; ";
             try
             {
                 var logic = new SerialsLogic();

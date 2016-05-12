@@ -25,7 +25,7 @@ namespace MySeenWeb.Models.TablesLogic
         public string GetEmailByProvider(string provider, string key)
         {
             var userId = _ac.UserLogins.First(ul => ul.LoginProvider == provider && ul.ProviderKey == key).UserId;
-            return _ac.Users.First(u => u.Id == userId).Email;
+            return _ac.Users.First(u => u.Id == userId)?.Email;
         }
 
         public int GetCountLogins(string userId)

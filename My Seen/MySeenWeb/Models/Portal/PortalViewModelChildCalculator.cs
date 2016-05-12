@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using static System.Convert;
 
 namespace MySeenWeb.Models.Portal
 {
@@ -29,17 +30,17 @@ namespace MySeenWeb.Models.Portal
 
             try
             {
-                dateW = Convert.ToDateTime(dateWoman);
-                dateM = Convert.ToDateTime(dateMan);
+                dateW = ToDateTime(dateWoman);
+                dateM = ToDateTime(dateMan);
             }
             catch (Exception)
             {
                 try
                 {
-                    dateW = new DateTime(Convert.ToInt32(dateWoman.Split('/')[2]),
-                        Convert.ToInt32(dateWoman.Split('/')[1]), Convert.ToInt32(dateWoman.Split('/')[0]));
-                    dateM = new DateTime(Convert.ToInt32(dateMan.Split('/')[2]), Convert.ToInt32(dateMan.Split('/')[1]),
-                        Convert.ToInt32(dateMan.Split('/')[0]));
+                    dateW = new DateTime(ToInt32(dateWoman.Split('/')[2]),
+                        ToInt32(dateWoman.Split('/')[1]), ToInt32(dateWoman.Split('/')[0]));
+                    dateM = new DateTime(ToInt32(dateMan.Split('/')[2]), ToInt32(dateMan.Split('/')[1]),
+                        ToInt32(dateMan.Split('/')[0]));
                 }
                 catch (Exception)
                 {

@@ -76,7 +76,7 @@ namespace MySeenWeb.Models.TablesLogic
             }
             catch (Exception e)
             {
-                ErrorMessage = Resource.ErrorWorkWithDB + "=" + e.Message;
+                ErrorMessage = $"{Resource.ErrorWorkWithDB} = {e.Message}";
                 return false;
             }
             return true;
@@ -93,7 +93,7 @@ namespace MySeenWeb.Models.TablesLogic
             }
             catch (Exception e)
             {
-                ErrorMessage = Resource.ErrorWorkWithDB + "=" + e.Message;
+                ErrorMessage = $"{Resource.ErrorWorkWithDB} = {e.Message}";
                 return false;
             }
             return true;
@@ -119,7 +119,7 @@ namespace MySeenWeb.Models.TablesLogic
             }
             catch (Exception e)
             {
-                ErrorMessage = Resource.ErrorWorkWithDB + "=" + e.Message;
+                ErrorMessage = $"{Resource.ErrorWorkWithDB} = {e.Message}";
                 return false;
             }
             return true;
@@ -140,7 +140,7 @@ namespace MySeenWeb.Models.TablesLogic
             }
             catch (Exception e)
             {
-                ErrorMessage = Resource.ErrorWorkWithDB + "=" + e.Message;
+                ErrorMessage = $"{Resource.ErrorWorkWithDB} = {e.Message}";
                 return false;
             }
             return true;

@@ -31,7 +31,7 @@ namespace MySeenWeb.Models.TablesLogic
         {
             try
             {
-                if (string.IsNullOrEmpty(datetime)) throw new Exception("Нужна дата");
+                if (string.IsNullOrEmpty(datetime)) throw new Exception(nameof(datetime));
                 Name = name;
                 Year = string.IsNullOrEmpty(year) ? 0 : ToInt32(year);
                 DateSee = To(ToDateTime(datetime));
@@ -93,7 +93,7 @@ namespace MySeenWeb.Models.TablesLogic
             }
             catch (Exception e)
             {
-                ErrorMessage = Resource.ErrorWorkWithDB + "=" + e.Message;
+                ErrorMessage = $"{Resource.ErrorWorkWithDB} = {e.Message}";
                 return false;
             }
             return true;
@@ -115,7 +115,7 @@ namespace MySeenWeb.Models.TablesLogic
             }
             catch (Exception e)
             {
-                ErrorMessage = Resource.ErrorWorkWithDB + "=" + e.Message;
+                ErrorMessage = $"{Resource.ErrorWorkWithDB} = {e.Message}";
                 return false;
             }
             return true;
@@ -151,7 +151,7 @@ namespace MySeenWeb.Models.TablesLogic
             }
             catch (Exception e)
             {
-                ErrorMessage = Resource.ErrorWorkWithDB + "=" + e.Message;
+                ErrorMessage = $"{Resource.ErrorWorkWithDB} = {e.Message}";
                 return false;
             }
             return true;
@@ -170,7 +170,7 @@ namespace MySeenWeb.Models.TablesLogic
             }
             catch (Exception e)
             {
-                ErrorMessage = Resource.ErrorWorkWithDB + "=" + e.Message;
+                ErrorMessage = $"{Resource.ErrorWorkWithDB} = {e.Message}";
             }
             return "-";
         }

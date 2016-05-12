@@ -8,11 +8,11 @@ namespace MySeenWeb.Models.Meta
 {
     public class MetaBase
     {
-        public string Twitter => "@vvevgeny";
+        public string Twitter { get; } = "@vvevgeny";
 
-        public string FacebookAppId => "1485611081742857";
+        public string FacebookAppId { get; } = "1485611081742857";
 
-        public string Title { get; set; }
+        public string Title { get; } = Resource.AppName;
         public string Url { get; set; }
         public string Description { get; set; }
         public string Image { get; set; }
@@ -20,7 +20,6 @@ namespace MySeenWeb.Models.Meta
 
         public MetaBase(HttpRequestBase request)
         {
-            Title = Resource.AppName;
             Url = ApiHost + request.Path;
             UaBot = IsBot(request.UserAgent);
             Image = ApiHost + "/content/images/icon-512.png";

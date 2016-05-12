@@ -20,7 +20,7 @@ namespace MySeenWeb.Models.Meta.Shared
                     //Ссылка на одичный трек, покажем название, расстояние и дату
                 {
                     var item = logic.GetOne(request.Path.Split('/')[request.Path.Split('/').Length - 1]);
-                    Description = Resource.Name + ": " + item.Name + "; " + Resource.DateFound + ": " + item.Date + "; ";
+                    Description = $"{Resource.Name} : {item.Name} ; {Resource.DateFound} : {item.Date} ;";
                 }
                 else
                 {

@@ -83,7 +83,7 @@ namespace MySeenWeb.Models.TablesLogic
             }
             catch (Exception e)
             {
-                ErrorMessage = Resource.ErrorWorkWithDB + "=" + e.Message;
+                ErrorMessage = $"{Resource.ErrorWorkWithDB} = {e.Message}";
                 return false;
             }
             return true;
@@ -104,7 +104,7 @@ namespace MySeenWeb.Models.TablesLogic
             }
             catch (Exception e)
             {
-                ErrorMessage = Resource.ErrorWorkWithDB + "=" + e.Message;
+                ErrorMessage = $"{Resource.ErrorWorkWithDB} = {e.Message}";
                 return false;
             }
             return true;
@@ -140,7 +140,7 @@ namespace MySeenWeb.Models.TablesLogic
             }
             catch (Exception e)
             {
-                ErrorMessage = Resource.ErrorWorkWithDB + "=" + e.Message;
+                ErrorMessage = $"{Resource.ErrorWorkWithDB} = {e.Message}";
                 return false;
             }
             return true;
@@ -182,7 +182,7 @@ namespace MySeenWeb.Models.TablesLogic
             }
             catch (Exception e)
             {
-                ErrorMessage = Resource.ErrorWorkWithDB + "=" + e.Message;
+                ErrorMessage = $"{Resource.ErrorWorkWithDB} = {e.Message}";
             }
             return "-";
         }
@@ -222,7 +222,7 @@ namespace MySeenWeb.Models.TablesLogic
             else
             {
                 var iid = ToInt32(id);
-                if (_ac.Tracks != null) _ac.Tracks.First(t => t.UserId == userId && t.Id == iid).ShareKey = genkey;
+                _ac.Tracks.First(t => t.UserId == userId && t.Id == iid).ShareKey = genkey;
             }
             _ac.SaveChanges();
             _cache.Remove(CacheNames.UserRoads.ToString(), userId);

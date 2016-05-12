@@ -13,10 +13,7 @@ namespace MySeenWeb.Models.TablesLogic
         private UserCredits _userCredits;
         public string ErrorMessage;
 
-        public string UserName
-        {
-            get { return _userCredits.User.UserName; }
-        }
+        public string UserName => _userCredits.User.UserName;
 
         public UserCreditsLogic()
         {
@@ -104,7 +101,7 @@ namespace MySeenWeb.Models.TablesLogic
             }
             catch (Exception e)
             {
-                ErrorMessage = Resource.ErrorWorkWithDB + "=" + e.Message;
+                ErrorMessage = $"{Resource.ErrorWorkWithDB} = {e.Message}";
                 return false;
             }
             return true;

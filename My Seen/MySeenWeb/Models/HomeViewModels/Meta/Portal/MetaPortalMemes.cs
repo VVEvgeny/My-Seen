@@ -20,9 +20,9 @@ namespace MySeenWeb.Models.Meta.Portal
                 {
                     var logic = new MemesLogic();
                     var mem = logic.Get(Convert.ToInt32(request.Path.Split('/')[request.Path.Split('/').Length - 1]));
-                    Title = Resource.Mem + ": " + mem.Name + "";
+                    Title = $"{Resource.Mem} : {mem.Name}";
                     Image = mem.Image;
-                    Description = Title + "; " + Resource.Added + ": " + mem.Date + "";
+                    Description = $"{Title}; {Resource.Added} : {mem.Date}";
                 }
                 catch
                 {
