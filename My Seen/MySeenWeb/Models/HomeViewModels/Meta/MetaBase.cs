@@ -12,7 +12,7 @@ namespace MySeenWeb.Models.Meta
 
         public string FacebookAppId { get; } = "1485611081742857";
 
-        public string Title { get; } = Resource.AppName;
+        public string Title { get; set; } = Resource.AppName;
         public string Url { get; set; }
         public string Description { get; set; }
         public string Image { get; set; }

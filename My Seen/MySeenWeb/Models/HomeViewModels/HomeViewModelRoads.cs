@@ -182,7 +182,11 @@ namespace MySeenWeb.Models
                             Selected = roadYear == elem
                         });
                     }
-                    YearsList = years.OrderByDescending(y => y.Text);
+                    //remove year from shares if have only 1 year
+                    var yearsList = years.OrderByDescending(y => y.Text).ToList();
+                    if (yearsList.Count == 2) yearsList.RemoveAt(1);
+                    YearsList = yearsList;
+
                     cache.Set(
                         cache.GetFormatedName(CacheNames.UserRoadsYearsList.ToString(), userId, roadYear, search,
                             shareKey), YearsList, 15);

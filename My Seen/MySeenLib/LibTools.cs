@@ -71,9 +71,9 @@ namespace MySeenLib
 
         public static class Cultures
         {
-            public static string English { get; } = "ru";
+            public static string English { get; } = "en";
 
-            public static string Russian { get; } = "en";
+            public static string Russian { get; } = "ru";
         }
     }
 

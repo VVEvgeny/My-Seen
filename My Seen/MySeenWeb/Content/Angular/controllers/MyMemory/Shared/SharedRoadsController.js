@@ -55,7 +55,7 @@ App.controller("SharedRoadsController",
         };
 
         function getMainPage() {
-            console.log($stateParams);
+            //console.log($stateParams);
             $rootScope.GetPage(constants.Pages.Main,
                 $http,
                 fillScope,

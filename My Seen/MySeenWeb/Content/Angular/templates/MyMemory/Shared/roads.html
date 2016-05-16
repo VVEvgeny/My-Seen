@@ -10,7 +10,7 @@
             <div class="panel-heading">
                 {{translation.Tracks}}
                 <span class="alert-info small">
-                    <select class="input-sm" data-ng-model="year" data-ng-change="selectedChange()">
+                    <select class="input-sm" data-ng-model="year" data-ng-change="selectedChange()" data-ng-disabled="data.YearsList.length < 2">
                         <option data-ng-repeat="val in data.YearsList" data-ng-selected="year == val.Value" value="{{val.Value}}">{{val.Text}}</option>
                     </select>
                 </span>
