@@ -47,9 +47,7 @@ App.controller("SharedRoadsController",
                 else if ($scope.data.DataCar.length > 0) $scope.currentTab = 2;
             }
             calcTab = true;
-            if ($scope.data.DataFoot
-                .length >
-                0 ||
+            if ($scope.data.DataFoot.length > 0 ||
                 $scope.data.DataBike.length > 0 ||
                 $scope.data.DataCar.length > 0) $scope.showRoad(0);
         };

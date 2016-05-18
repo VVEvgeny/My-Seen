@@ -831,6 +831,7 @@
     <Content Include="Content\prod\production.js" />
     <Content Include="Content\prod\production.min.css" />
     <Content Include="Content\prod\production.min.js" />
+    <Content Include="Content\prod\production.purify.css" />
     <Content Include="Content\themes\base\accordion.css" />
     <Content Include="Content\themes\base\all.css" />
     <Content Include="Content\themes\base\autocomplete.css" />
