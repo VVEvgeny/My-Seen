@@ -4,10 +4,7 @@ namespace MySeenWeb.Models.TablesViews.Portal
 {
     public class RealtView : Realt
     {
-        public string DateText
-        {
-            get { return Date.Day + "/" + Date.Month + "/" + Date.Year; }
-        }
+        public string DateText => Date.Day + "/" + Date.Month + "/" + Date.Year;
 
         public static RealtView Map(Realt model)
         {

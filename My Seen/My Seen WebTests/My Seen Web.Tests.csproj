@@ -1,0 +1,164 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{581684EC-F174-4D0D-ABFF-E71FB46DCF79}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>My_Seen_WebTests</RootNamespace>
+    <AssemblyName>My Seen WebTests</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <ProjectTypeGuids>{3AC096D0-A1C2-E12C-1390-A8335801FDAB};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+    <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
+    <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
+    <ReferencePath>$(ProgramFiles)\Common Files\microsoft shared\VSTT\$(VisualStudioVersion)\UITestExtensionPackages</ReferencePath>
+    <IsCodedUITest>False</IsCodedUITest>
+    <TestProjectType>UnitTest</TestProjectType>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+  </ItemGroup>
+  <Choose>
+    <When Condition="('$(VisualStudioVersion)' == '10.0' or '$(VisualStudioVersion)' == '') and '$(TargetFrameworkVersion)' == 'v3.5'">
+      <ItemGroup>
+        <Reference Include="Microsoft.VisualStudio.QualityTools.UnitTestFramework, Version=10.1.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL" />
+      </ItemGroup>
+    </When>
+    <Otherwise>
+      <ItemGroup>
+        <Reference Include="Microsoft.VisualStudio.QualityTools.UnitTestFramework" />
+      </ItemGroup>
+    </Otherwise>
+  </Choose>
+  <ItemGroup>
+    <Compile Include="Add_Code\InMemoryCacheTests.cs" />
+    <Compile Include="Add_Code\Md5ToolsTests.cs" />
+    <Compile Include="Add_Code\NinjectControllerFactoryTests.cs" />
+    <Compile Include="Add_Code\Services\Logging\NLog\NLogLoggerTests.cs" />
+    <Compile Include="Add_Code\Services\Logging\NLog\WebVariablesRendererTests.cs" />
+    <Compile Include="Add_Code\VveAuthTests.cs" />
+    <Compile Include="App_Start\ApplicationSignInManagerTests.cs" />
+    <Compile Include="App_Start\ApplicationUserManagerTests.cs" />
+    <Compile Include="App_Start\BundleConfigTests.cs" />
+    <Compile Include="App_Start\EmailServiceTests.cs" />
+    <Compile Include="App_Start\FilterConfigTests.cs" />
+    <Compile Include="App_Start\JSNLogConfigTests.cs" />
+    <Compile Include="App_Start\RouteConfigTests.cs" />
+    <Compile Include="App_Start\SmsServiceTests.cs" />
+    <Compile Include="App_Start\StartupTests.cs" />
+    <Compile Include="App_Start\WebApiConfigTests.cs" />
+    <Compile Include="Controllers\Account\AccountControllerTests.cs" />
+    <Compile Include="Controllers\Api\ApiSyncControllerTests.cs" />
+    <Compile Include="Controllers\Api\ApiUsersControllerTests.cs" />
+    <Compile Include="Controllers\Home\JsonControllerTests.cs" />
+    <Compile Include="Controllers\Home\PortalControllerTests.cs" />
+    <Compile Include="Controllers\Home\SettingsControllerTests.cs" />
+    <Compile Include="Controllers\_Base\BaseControllerTests.cs" />
+    <Compile Include="Models\HomeViewModels\HomeViewModelBooksTests.cs" />
+    <Compile Include="Models\HomeViewModels\HomeViewModelErrorsTests.cs" />
+    <Compile Include="Models\HomeViewModels\HomeViewModelEventsTests.cs" />
+    <Compile Include="Models\HomeViewModels\HomeViewModelFilmsTests.cs" />
+    <Compile Include="Models\HomeViewModels\HomeViewModelImprovementsTests.cs" />
+    <Compile Include="Models\HomeViewModels\HomeViewModelLogsTests.cs" />
+    <Compile Include="Models\HomeViewModels\HomeViewModelRoadsTests.cs" />
+    <Compile Include="Models\HomeViewModels\HomeViewModelSerialsTests.cs" />
+    <Compile Include="Models\HomeViewModels\HomeViewModelSettingsTests.cs" />
+    <Compile Include="Models\HomeViewModels\HomeViewModelTests.cs" />
+    <Compile Include="Models\HomeViewModels\HomeViewModelTrackEditorTests.cs" />
+    <Compile Include="Models\HomeViewModels\HomeViewModelUsersTests.cs" />
+    <Compile Include="Models\HomeViewModels\Meta\MetaBaseTests.cs" />
+    <Compile Include="Models\HomeViewModels\Meta\Portal\MetaPortalMemesTests.cs" />
+    <Compile Include="Models\HomeViewModels\Meta\Shared\MetaSharedBooksTests.cs" />
+    <Compile Include="Models\HomeViewModels\Meta\Shared\MetaSharedEventsTests.cs" />
+    <Compile Include="Models\HomeViewModels\Meta\Shared\MetaSharedFilmsTests.cs" />
+    <Compile Include="Models\HomeViewModels\Meta\Shared\MetaSharedRoadsTests.cs" />
+    <Compile Include="Models\HomeViewModels\Meta\Shared\MetaSharedSerialsTests.cs" />
+    <Compile Include="Models\OtherViewModels\ApplicationUserTests.cs" />
+    <Compile Include="Models\Portal\PortalViewModelChildCalculatorTests.cs" />
+    <Compile Include="Models\Portal\PortalViewModelMemesTests.cs" />
+    <Compile Include="Models\Portal\PortalViewModelRealtTests.cs" />
+    <Compile Include="Models\TablesLogic\BooksLogicTests.cs" />
+    <Compile Include="Models\TablesLogic\ErrorsLogicTests.cs" />
+    <Compile Include="Models\TablesLogic\EventsLogicTests.cs" />
+    <Compile Include="Models\TablesLogic\FilmsLogicTests.cs" />
+    <Compile Include="Models\TablesLogic\ImprovementLogicTests.cs" />
+    <Compile Include="Models\TablesLogic\NLogErrorsLogicTests.cs" />
+    <Compile Include="Models\TablesLogic\Portal\MemesLogicTests.cs" />
+    <Compile Include="Models\TablesLogic\Portal\MemesStatsLogicTests.cs" />
+    <Compile Include="Models\TablesLogic\Portal\RealtLogicTests.cs" />
+    <Compile Include="Models\TablesLogic\Portal\SalaryLogicTests.cs" />
+    <Compile Include="Models\TablesLogic\RoadsLogicTests.cs" />
+    <Compile Include="Models\TablesLogic\SerialsLogicTests.cs" />
+    <Compile Include="Models\TablesLogic\UserCreditsLogicTests.cs" />
+    <Compile Include="Models\TablesLogic\UserLogicTests.cs" />
+    <Compile Include="Models\TablesLogic\UserRolesLogicTests.cs" />
+    <Compile Include="Models\TablesViews\BooksViewTests.cs" />
+    <Compile Include="Models\TablesViews\BugsViewTests.cs" />
+    <Compile Include="Models\TablesViews\EventsViewTests.cs" />
+    <Compile Include="Models\TablesViews\FilmsViewTests.cs" />
+    <Compile Include="Models\TablesViews\LogsViewTests.cs" />
+    <Compile Include="Models\TablesViews\NLogErrorsViewTests.cs" />
+    <Compile Include="Models\TablesViews\Portal\MemesStatsViewTests.cs" />
+    <Compile Include="Models\TablesViews\Portal\MemesViewTests.cs" />
+    <Compile Include="Models\TablesViews\Portal\RealtViewTests.cs" />
+    <Compile Include="Models\TablesViews\Portal\SalaryViewTests.cs" />
+    <Compile Include="Models\TablesViews\RoadsViewTests.cs" />
+    <Compile Include="Models\TablesViews\SerialsViewTests.cs" />
+    <Compile Include="Models\TablesViews\UsersViewTests.cs" />
+    <Compile Include="Models\Tools\LogSaveTests.cs" />
+    <Compile Include="Models\Tools\PaginationTests.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\MySeenWeb\My Seen Web.csproj">
+      <Project>{6B454E56-EE36-466F-B202-42291456E8FA}</Project>
+      <Name>My Seen Web</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Choose>
+    <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">
+      <ItemGroup>
+        <Reference Include="Microsoft.VisualStudio.QualityTools.CodedUITestFramework, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+          <Private>False</Private>
+        </Reference>
+        <Reference Include="Microsoft.VisualStudio.TestTools.UITest.Common, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+          <Private>False</Private>
+        </Reference>
+        <Reference Include="Microsoft.VisualStudio.TestTools.UITest.Extension, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+          <Private>False</Private>
+        </Reference>
+        <Reference Include="Microsoft.VisualStudio.TestTools.UITesting, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+          <Private>False</Private>
+        </Reference>
+      </ItemGroup>
+    </When>
+  </Choose>
+  <Import Project="$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets" Condition="Exists('$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets')" />
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>
