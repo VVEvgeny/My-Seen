@@ -27,7 +27,7 @@ namespace MySeenWeb.Models
                 ac.Bugs.Count(
                     b =>
                         (ended == 0 || (ended == 1 && b.DateEnd == null) || (ended == 2 && b.DateEnd != null)) &&
-                        (CanControl || b.UserId == userId) &&
+                        (CanControl || b.UserId == userId || b.DateEnd == null) &&
                         (complex == (int) ComplexBase.Indexes.All || b.Complex == complex) &&
                         (string.IsNullOrEmpty(search) || b.Text.Contains(search))), countInPage);
 
@@ -35,7 +35,7 @@ namespace MySeenWeb.Models
                 .Where(
                     b =>
                         (ended == 0 || (ended == 1 && b.DateEnd == null) || (ended == 2 && b.DateEnd != null)) &&
-                        (CanControl || b.UserId == userId) &&
+                        (CanControl || b.UserId == userId || b.DateEnd == null) &&
                         (complex == (int) ComplexBase.Indexes.All || b.Complex == complex) &&
                         (string.IsNullOrEmpty(search) || b.Text.Contains(search)))
                 .OrderByDescending(b => b.DateEnd == null)

@@ -39,6 +39,11 @@ namespace MySeenWeb.Controllers.Account
             private set { _userManager = value; }
         }
 
+        public AccountController()
+        {
+            // for ninject
+        }
+
         public AccountController(ApplicationUserManager userManager, ApplicationSignInManager signInManager)
         {
             UserManager = userManager;
