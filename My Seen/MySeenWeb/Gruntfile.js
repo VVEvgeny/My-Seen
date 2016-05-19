@@ -1,4 +1,4 @@
-/// <binding AfterBuild='concat, uglify, purifycss, cssmin' ProjectOpened='watch' />
+/// <binding AfterBuild='concat, uglify, purifycss, cssmin'/>
 module.exports = function(grunt) {
 
     var srcScriptFiles = [
@@ -98,20 +98,21 @@ module.exports = function(grunt) {
                 }
             }
         },
-        cssmin: {
-            css: {
-                src: "Content/prod/production.purify.css",
-                dest: "Content/prod/production.min.css"
-            }
-        },
         purifycss: {
-            options: { },
+            options: {},
             target: {
                 src: srcHtmlFiles,
                 css: ["Content/prod/production.css"],
                 dest: "Content/prod/production.purify.css"
             }
         },
+        cssmin: {
+            css: {
+                src: "Content/prod/production.purify.css",
+                dest: "Content/prod/production.min.css"
+            }
+        }
+        /*,
         watch: {
             scripts: {
                 files: srcScriptFiles,
@@ -129,7 +130,7 @@ module.exports = function(grunt) {
                     spawn: false
                 }
             }
-        }
+        }*/
     });
 
     grunt.loadNpmTasks("grunt-contrib-concat");
