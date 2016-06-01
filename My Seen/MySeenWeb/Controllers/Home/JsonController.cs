@@ -11,6 +11,7 @@ using MySeenWeb.Models;
 using MySeenWeb.Models.Portal;
 using MySeenWeb.Models.Prepared;
 using MySeenWeb.Models.TablesLogic;
+using MySeenWeb.Models.TablesLogic.Base;
 using MySeenWeb.Models.TablesLogic.Portal;
 using MySeenWeb.Models.Translations;
 using MySeenWeb.Models.Translations.Portal;
@@ -21,10 +22,12 @@ namespace MySeenWeb.Controllers.Home
     public class JsonController : BaseController
     {
         private readonly ICacheService _cache;
+
         public JsonController(ICacheService cache)
         {
             _cache = cache;
         }
+
         [Compress]
         public ActionResult Index()
         {
@@ -41,14 +44,18 @@ namespace MySeenWeb.Controllers.Home
             return null;
         }
 
-        #if !DEBUG
+#if !DEBUG
             [Compress] 
         #endif
+
         [HttpPost]
-        public JsonResult GetPage(int pageId, int? page, string search, int? ended, int? year, int? complex, string shareKey, int? road, int? id, string dateMan, string dateWoman, int? price, int? deals, int? salary, bool? bots, int? period)
+        public JsonResult GetPage(int pageId, int? page, string search, int? ended, int? year, int? complex,
+            string shareKey, int? road, int? id, string dateMan, string dateWoman, int? price, int? deals, int? salary,
+            bool? bots, int? period)
         {
             var logger = new NLogLogger();
-            const string methodName = "public JsonResult GetPage(int pageId, int? page, string search, int? ended, int? year, int? complex,string shareKey)";
+            const string methodName =
+                "public JsonResult GetPage(int pageId, int? page, string search, int? ended, int? year, int? complex,string shareKey)";
             try
             {
                 switch (pageId)
@@ -112,22 +119,25 @@ namespace MySeenWeb.Controllers.Home
                     case (int) CategoryBase.IndexesExt.Settings:
                         return Json(new HomeViewModelSettings(User.Identity.GetUserId(), Language, Rpp, Theme));
 
-                    case (int)CategoryBase.IndexesMain.Memes:
-                        return Json(new PortalViewModelMemes(User.Identity.GetUserId(), page ?? 1, Rpp, search, id ?? 0));//Всегда по 20 на странице
+                    case (int) CategoryBase.IndexesMain.Memes:
+                        return
+                            Json(new PortalViewModelMemes(User.Identity.GetUserId(), page ?? 1, Rpp, search, id ?? 0,
+                                _cache)); //Всегда по 20 на странице
                     case (int) CategoryBase.IndexesMain.Childs:
                         return Json(new PortalViewModelChildCalculator(year ?? 0, dateMan, dateWoman));
-                    case (int)CategoryBase.IndexesMain.Realt:
+                    case (int) CategoryBase.IndexesMain.Realt:
                         return Json(new PortalViewModelRealt(year ?? 0, price ?? 0, deals ?? 0, salary ?? 0));
                 }
                 logger.Info("CALL NOT REALIZED GetPage=" + pageId);
-                return new JsonResult { Data = new { success = false, error = "NOT REALIZED" } };
+                return new JsonResult {Data = new {success = false, error = "NOT REALIZED"}};
             }
             catch (Exception ex)
             {
                 logger.Error(methodName, ex);
             }
-            return new JsonResult { Data = new { success = false, error = methodName } };
+            return new JsonResult {Data = new {success = false, error = methodName}};
         }
+
         [Compress]
         [HttpPost]
         public JsonResult GetPrepared(int pageId)
@@ -138,17 +148,17 @@ namespace MySeenWeb.Controllers.Home
             {
                 switch (pageId)
                 {
-                    case (int)CategoryBase.Indexes.Films:
+                    case (int) CategoryBase.Indexes.Films:
                         return Json(new PreparedDataFilms());
-                    case (int)CategoryBase.Indexes.Serials:
+                    case (int) CategoryBase.Indexes.Serials:
                         return Json(new PreparedDataSerials());
-                    case (int)CategoryBase.Indexes.Books:
+                    case (int) CategoryBase.Indexes.Books:
                         return Json(new PreparedDataBooks());
-                    case (int)CategoryBase.Indexes.Events:
+                    case (int) CategoryBase.Indexes.Events:
                         return Json(new PreparedDataEvents());
-                    case (int)CategoryBase.Indexes.Roads:
+                    case (int) CategoryBase.Indexes.Roads:
                         return Json(new PreparedDataRoads());
-                    case (int)CategoryBase.IndexesExt.Improvements:
+                    case (int) CategoryBase.IndexesExt.Improvements:
                         return Json(new PreparedDataImprovements());
                 }
                 logger.Info("CALL NOT REALIZED GetPrepared=" + pageId);
@@ -158,8 +168,9 @@ namespace MySeenWeb.Controllers.Home
             {
                 logger.Error(methodName, ex);
             }
-            return new JsonResult { Data = new { success = false, error = methodName } };
+            return new JsonResult {Data = new {success = false, error = methodName}};
         }
+
         [Compress]
         [HttpPost]
         public JsonResult GetTranslation(int pageId)
@@ -179,34 +190,36 @@ namespace MySeenWeb.Controllers.Home
                     case (int) CategoryBase.Indexes.Events:
                         return Json(new TranslationDataEvents());
                     case (int) CategoryBase.IndexesExt.Users:
-                        if (!UserRolesLogic.IsAdmin(User.Identity.GetUserId())) return new JsonResult { Data = new { success = false, error = Resource.NoRights } };
+                        if (!UserRolesLogic.IsAdmin(User.Identity.GetUserId()))
+                            return new JsonResult {Data = new {success = false, error = Resource.NoRights}};
                         return Json(new TranslationDataUsers());
                     case (int) CategoryBase.IndexesExt.Logs:
-                        if (!UserRolesLogic.IsAdmin(User.Identity.GetUserId())) return new JsonResult { Data = new { success = false, error = Resource.NoRights } };
+                        if (!UserRolesLogic.IsAdmin(User.Identity.GetUserId()))
+                            return new JsonResult {Data = new {success = false, error = Resource.NoRights}};
                         return Json(new TranslationDataLogs());
-                    case (int)CategoryBase.IndexesExt.Errors:
-                        if (!UserRolesLogic.IsAdmin(User.Identity.GetUserId())) return new JsonResult { Data = new { success = false, error = Resource.NoRights } };
+                    case (int) CategoryBase.IndexesExt.Errors:
+                        if (!UserRolesLogic.IsAdmin(User.Identity.GetUserId()))
+                            return new JsonResult {Data = new {success = false, error = Resource.NoRights}};
                         return Json(new TranslationDataErrors());
-                    case (int)CategoryBase.Indexes.Roads:
+                    case (int) CategoryBase.Indexes.Roads:
                         return Json(new TranslationDataRoads());
-                    case (int)CategoryBase.IndexesExt.Improvements:
+                    case (int) CategoryBase.IndexesExt.Improvements:
                         return Json(new TranslationDataImprovements());
-                    case (int)CategoryBase.IndexesExt.Settings:
+                    case (int) CategoryBase.IndexesExt.Settings:
                         return Json(new TranslationDataSettings());
-                    case (int)CategoryBase.IndexesMain.Main:
+                    case (int) CategoryBase.IndexesMain.Main:
                         return Json(new TranslationDataPortalMain());
-                    case (int)CategoryBase.IndexesMain.Memes:
+                    case (int) CategoryBase.IndexesMain.Memes:
                         return Json(new TranslationDataPortalMemes());
-                    case (int)CategoryBase.IndexesMain.Childs:
+                    case (int) CategoryBase.IndexesMain.Childs:
                         return Json(new TranslationDataPortalChildSexCalculator());
-                    case (int)CategoryBase.IndexesMain.Realt:
+                    case (int) CategoryBase.IndexesMain.Realt:
                         return Json(new TranslationDataPortalRealt());
-                    case (int)CategoryBase.IndexesMain.Imt:
+                    case (int) CategoryBase.IndexesMain.Imt:
                         return Json(new TranslationDataPortalImtCalculator());
-
                 }
                 logger.Info("CALL NOT REALIZED GetTranslation=" + pageId);
-                return new JsonResult { Data = new { success = false, error = "NOT REALIZED" } };
+                return new JsonResult {Data = new {success = false, error = "NOT REALIZED"}};
             }
             catch (Exception ex)
             {
@@ -214,6 +227,7 @@ namespace MySeenWeb.Controllers.Home
             }
             return new JsonResult {Data = new {success = false, error = methodName}};
         }
+
         [Compress]
         [Authorize]
         [HttpPost]
@@ -249,6 +263,7 @@ namespace MySeenWeb.Controllers.Home
             }
             return Json("-");
         }
+
         [Compress]
         [Authorize]
         [HttpPost]
@@ -260,19 +275,19 @@ namespace MySeenWeb.Controllers.Home
             {
                 switch (pageId)
                 {
-                    case (int)CategoryBase.Indexes.Films:
+                    case (int) CategoryBase.Indexes.Films:
                         var filmsLogic = new FilmsLogic(_cache);
                         return Json(filmsLogic.GenerateShare(recordId, User.Identity.GetUserId()));
-                    case (int)CategoryBase.Indexes.Serials:
+                    case (int) CategoryBase.Indexes.Serials:
                         var serialsLogic = new SerialsLogic(_cache);
                         return Json(serialsLogic.GenerateShare(recordId, User.Identity.GetUserId()));
-                    case (int)CategoryBase.Indexes.Books:
+                    case (int) CategoryBase.Indexes.Books:
                         var booksLogic = new BooksLogic(_cache);
                         return Json(booksLogic.GenerateShare(recordId, User.Identity.GetUserId()));
-                    case (int)CategoryBase.Indexes.Events:
+                    case (int) CategoryBase.Indexes.Events:
                         var eventsLogic = new EventsLogic();
                         return Json(eventsLogic.GenerateShare(recordId, User.Identity.GetUserId()));
-                    case (int)CategoryBase.Indexes.Roads:
+                    case (int) CategoryBase.Indexes.Roads:
                         var roadsLogic = new RoadsLogic(_cache);
                         return Json(roadsLogic.GenerateShare(recordId, User.Identity.GetUserId()));
                 }
@@ -284,6 +299,7 @@ namespace MySeenWeb.Controllers.Home
             }
             return Json("-");
         }
+
         [Compress]
         [Authorize]
         [HttpPost]
@@ -295,19 +311,19 @@ namespace MySeenWeb.Controllers.Home
             {
                 switch (pageId)
                 {
-                    case (int)CategoryBase.Indexes.Films:
+                    case (int) CategoryBase.Indexes.Films:
                         var filmsLogic = new FilmsLogic(_cache);
                         return Json(filmsLogic.DeleteShare(recordId, User.Identity.GetUserId()));
-                    case (int)CategoryBase.Indexes.Serials:
+                    case (int) CategoryBase.Indexes.Serials:
                         var serialsLogic = new SerialsLogic(_cache);
                         return Json(serialsLogic.DeleteShare(recordId, User.Identity.GetUserId()));
-                    case (int)CategoryBase.Indexes.Books:
+                    case (int) CategoryBase.Indexes.Books:
                         var booksLogic = new BooksLogic(_cache);
                         return Json(booksLogic.DeleteShare(recordId, User.Identity.GetUserId()));
-                    case (int)CategoryBase.Indexes.Events:
+                    case (int) CategoryBase.Indexes.Events:
                         var eventsLogic = new EventsLogic();
                         return Json(eventsLogic.DeleteShare(recordId, User.Identity.GetUserId()));
-                    case (int)CategoryBase.Indexes.Roads:
+                    case (int) CategoryBase.Indexes.Roads:
                         var roadsLogic = new RoadsLogic(_cache);
                         return Json(roadsLogic.DeleteShare(recordId, User.Identity.GetUserId()));
                 }
@@ -319,14 +335,17 @@ namespace MySeenWeb.Controllers.Home
             }
             return Json("-");
         }
+
         [Compress]
         [Authorize]
         [HttpPost]
-        public JsonResult AddData(int pageId, string name, string year, string datetime, string genre, string rating, string season
+        public JsonResult AddData(int pageId, string name, string year, string datetime, string genre, string rating,
+            string season
             , string series, string authors, string type, string coordinates, string distance, string link)
         {
             var logger = new NLogLogger();
-            var methodName = "public JsonResult AddData(int pageId, string name, string year, string datetime, string genre, string rating, string season, string series, string authors, string type, string coordinates, string distance, string desc, string complex)";
+            var methodName =
+                "public JsonResult AddData(int pageId, string name, string year, string datetime, string genre, string rating, string season, string series, string authors, string type, string coordinates, string distance, string desc, string complex)";
             try
             {
                 switch (pageId)
@@ -334,36 +353,36 @@ namespace MySeenWeb.Controllers.Home
                     case (int) CategoryBase.Indexes.Films:
                         var filmsLogic = new FilmsLogic(_cache);
                         return !filmsLogic.Add(name, year, datetime, genre, rating, User.Identity.GetUserId())
-                            ? new JsonResult { Data = new { success = false, error = filmsLogic.ErrorMessage } }
+                            ? new JsonResult {Data = new {success = false, error = filmsLogic.ErrorMessage}}
                             : Json(new {success = true});
-                    case (int)CategoryBase.Indexes.Serials:
+                    case (int) CategoryBase.Indexes.Serials:
                         var serialsLogic = new SerialsLogic(_cache);
                         return
                             !serialsLogic.Add(name, year, season, series, datetime, genre, rating,
                                 User.Identity.GetUserId())
                                 ? new JsonResult {Data = new {success = false, error = serialsLogic.ErrorMessage}}
                                 : Json(new {success = true});
-                    case (int)CategoryBase.Indexes.Books:
+                    case (int) CategoryBase.Indexes.Books:
                         var booksLogic = new BooksLogic(_cache);
                         return !booksLogic.Add(name, year, authors, datetime, genre, rating, User.Identity.GetUserId())
                             ? new JsonResult {Data = new {success = false, error = booksLogic.ErrorMessage}}
                             : Json(new {success = true});
-                    case (int)CategoryBase.Indexes.Roads:
+                    case (int) CategoryBase.Indexes.Roads:
                         var tracksLogic = new RoadsLogic(_cache);
                         return !tracksLogic.Add(name, datetime, type, coordinates, distance, User.Identity.GetUserId())
                             ? new JsonResult {Data = new {success = false, error = tracksLogic.ErrorMessage}}
                             : Json(new {success = true});
-                    case (int)CategoryBase.Indexes.Events:
+                    case (int) CategoryBase.Indexes.Events:
                         var eventsLogic = new EventsLogic();
                         return !eventsLogic.Add(name, datetime, type, User.Identity.GetUserId())
                             ? new JsonResult {Data = new {success = false, error = eventsLogic.ErrorMessage}}
                             : Json(new {success = true});
-                    case (int)CategoryBase.IndexesExt.Improvements:
+                    case (int) CategoryBase.IndexesExt.Improvements:
                         var improvementLogic = new ImprovementLogic();
                         return !improvementLogic.Add(name, type, User.Identity.GetUserId())
-                            ? new JsonResult { Data = new { success = false, error = improvementLogic.ErrorMessage } }
+                            ? new JsonResult {Data = new {success = false, error = improvementLogic.ErrorMessage}}
                             : Json(new {success = true});
-                    case (int)CategoryBase.IndexesMain.Memes:
+                    case (int) CategoryBase.IndexesMain.Memes:
                         var memesLogic = new MemesLogic();
                         return !memesLogic.Add(name, link, User.Identity.GetUserId())
                             ? new JsonResult {Data = new {success = false, error = memesLogic.ErrorMessage}}
@@ -376,8 +395,9 @@ namespace MySeenWeb.Controllers.Home
             {
                 logger.Error(methodName, ex);
             }
-            return new JsonResult { Data = new { success = false, error = methodName } };
+            return new JsonResult {Data = new {success = false, error = methodName}};
         }
+
         [Compress]
         [Authorize]
         [HttpPost]
@@ -387,46 +407,22 @@ namespace MySeenWeb.Controllers.Home
             var methodName = "public JsonResult DelData(int pageId, int recordId)";
             try
             {
+                //verify
                 switch (pageId)
                 {
-                    case (int)CategoryBase.Indexes.Films:
-                        var filmsLogic = new FilmsLogic(_cache);
-                        return !filmsLogic.Delete(recordId, User.Identity.GetUserId())
-                            ? new JsonResult { Data = new { success = false, error = filmsLogic.ErrorMessage } }
-                            : Json(new { success = true });
-                    case (int)CategoryBase.Indexes.Serials:
-                        var serialsLogic = new SerialsLogic(_cache);
-                        return
-                            !serialsLogic.Delete(recordId, User.Identity.GetUserId())
-                                ? new JsonResult { Data = new { success = false, error = serialsLogic.ErrorMessage } }
-                                : Json(new { success = true });
-                    case (int)CategoryBase.Indexes.Books:
-                        var booksLogic = new BooksLogic(_cache);
-                        return !booksLogic.Delete(recordId, User.Identity.GetUserId())
-                            ? new JsonResult { Data = new { success = false, error = booksLogic.ErrorMessage } }
-                            : Json(new { success = true });
-                    case (int)CategoryBase.Indexes.Roads:
-                        var tracksLogic = new RoadsLogic(_cache);
-                        return !tracksLogic.Delete(recordId, User.Identity.GetUserId())
-                            ? new JsonResult { Data = new { success = false, error = tracksLogic.ErrorMessage } }
-                            : Json(new { success = true });
-                    case (int)CategoryBase.Indexes.Events:
-                        var eventsLogic = new EventsLogic();
-                        return !eventsLogic.Delete(recordId, User.Identity.GetUserId())
-                            ? new JsonResult { Data = new { success = false, error = eventsLogic.ErrorMessage } }
-                            : Json(new { success = true });
-                    case (int)CategoryBase.IndexesExt.Improvements:
-                        if (!UserRolesLogic.IsAdmin(User.Identity.GetUserId())) return new JsonResult { Data = new { success = false, error = Resource.NoRights } };
-                        var improvementsLogic = new ImprovementLogic();
-                        return !improvementsLogic.Delete(recordId)
-                            ? new JsonResult { Data = new { success = false, error = improvementsLogic.ErrorMessage } }
-                            : Json(new { success = true });
-                    case (int)CategoryBase.IndexesMain.Memes:
-                        if (!UserRolesLogic.IsAdmin(User.Identity.GetUserId())) return new JsonResult { Data = new { success = false, error = Resource.NoRights } };
-                        var memesLogic = new MemesLogic();
-                        return !memesLogic.Delete(recordId, User.Identity.GetUserId())
-                            ? new JsonResult { Data = new { success = false, error = memesLogic.ErrorMessage } }
-                            : Json(new { success = true });
+                    case (int) CategoryBase.IndexesExt.Improvements:
+                    case (int) CategoryBase.IndexesMain.Memes:
+                        if (!UserRolesLogic.IsAdmin(User.Identity.GetUserId()))
+                            return new JsonResult {Data = new {success = false, error = Resource.NoRights}};
+                        break;
+                }
+                //action
+                var logic = BaseLogicFactory.Create(pageId, _cache);
+                if (logic != null)
+                {
+                    return logic.Delete(recordId, User.Identity.GetUserId())
+                        ? new JsonResult {Data = new {success = false, error = logic.GetError()}}
+                        : Json(new {success = true});
                 }
                 logger.Info("CALL NOT REALIZED DeleteData=" + pageId);
                 return Json("NOT REALIZED");
@@ -435,52 +431,61 @@ namespace MySeenWeb.Controllers.Home
             {
                 logger.Error(methodName, ex);
             }
-            return new JsonResult { Data = new { success = false, error = methodName } };
+            return new JsonResult {Data = new {success = false, error = methodName}};
         }
+
         [Compress]
         [Authorize]
         [HttpPost]
-        public JsonResult UpdateData(int pageId, string id, string name, string year, string datetime, string genre, string rating, string season, string series, string authors, string type, string coordinates, string distance)
+        public JsonResult UpdateData(int pageId, string id, string name, string year, string datetime, string genre,
+            string rating, string season, string series, string authors, string type, string coordinates,
+            string distance)
         {
             var logger = new NLogLogger();
-            var methodName = "public JsonResult UpdateData(int pageId, string name, string year, string datetime, string genre, string rating, string season, string series, string authors, string type, string coordinates, string distance, string desc, string complex)";
+            var methodName =
+                "public JsonResult UpdateData(int pageId, string name, string year, string datetime, string genre, string rating, string season, string series, string authors, string type, string coordinates, string distance, string desc, string complex)";
             try
             {
                 switch (pageId)
                 {
-                    case (int)CategoryBase.Indexes.Films:
+                    case (int) CategoryBase.Indexes.Films:
                         var filmsLogic = new FilmsLogic(_cache);
                         return !filmsLogic.Update(id, name, year, datetime, genre, rating, User.Identity.GetUserId())
-                            ? new JsonResult { Data = new { success = false, error = filmsLogic.ErrorMessage } }
-                            : Json(new { success = true });
-                    case (int)CategoryBase.Indexes.Serials:
+                            ? new JsonResult {Data = new {success = false, error = filmsLogic.ErrorMessage}}
+                            : Json(new {success = true});
+                    case (int) CategoryBase.Indexes.Serials:
                         var serialsLogic = new SerialsLogic(_cache);
                         return
                             !serialsLogic.Update(id, name, year, season, series, datetime, genre, rating,
                                 User.Identity.GetUserId())
-                                ? new JsonResult { Data = new { success = false, error = serialsLogic.ErrorMessage } }
-                                : Json(new { success = true });
-                    case (int)CategoryBase.Indexes.Books:
+                                ? new JsonResult {Data = new {success = false, error = serialsLogic.ErrorMessage}}
+                                : Json(new {success = true});
+                    case (int) CategoryBase.Indexes.Books:
                         var booksLogic = new BooksLogic(_cache);
-                        return !booksLogic.Update(id, name, year, authors, datetime, genre, rating, User.Identity.GetUserId())
-                            ? new JsonResult { Data = new { success = false, error = booksLogic.ErrorMessage } }
-                            : Json(new { success = true });
-                    case (int)CategoryBase.Indexes.Roads:
+                        return
+                            !booksLogic.Update(id, name, year, authors, datetime, genre, rating,
+                                User.Identity.GetUserId())
+                                ? new JsonResult {Data = new {success = false, error = booksLogic.ErrorMessage}}
+                                : Json(new {success = true});
+                    case (int) CategoryBase.Indexes.Roads:
                         var tracksLogic = new RoadsLogic(_cache);
-                        return !tracksLogic.Update(id, name, datetime, type, coordinates, distance, User.Identity.GetUserId())
-                            ? new JsonResult { Data = new { success = false, error = tracksLogic.ErrorMessage } }
-                            : Json(new { success = true });
-                    case (int)CategoryBase.Indexes.Events:
+                        return
+                            !tracksLogic.Update(id, name, datetime, type, coordinates, distance,
+                                User.Identity.GetUserId())
+                                ? new JsonResult {Data = new {success = false, error = tracksLogic.ErrorMessage}}
+                                : Json(new {success = true});
+                    case (int) CategoryBase.Indexes.Events:
                         var eventsLogic = new EventsLogic();
                         return !eventsLogic.Update(id, name, datetime, type, User.Identity.GetUserId())
-                            ? new JsonResult { Data = new { success = false, error = eventsLogic.ErrorMessage } }
-                            : Json(new { success = true });
-                    case (int)CategoryBase.IndexesExt.Improvements:
-                        if (!UserRolesLogic.IsAdmin(User.Identity.GetUserId())) return new JsonResult { Data = new { success = false, error = Resource.NoRights } };
+                            ? new JsonResult {Data = new {success = false, error = eventsLogic.ErrorMessage}}
+                            : Json(new {success = true});
+                    case (int) CategoryBase.IndexesExt.Improvements:
+                        if (!UserRolesLogic.IsAdmin(User.Identity.GetUserId()))
+                            return new JsonResult {Data = new {success = false, error = Resource.NoRights}};
                         var improvementsLogic = new ImprovementLogic();
                         return !improvementsLogic.Update(id, name, type, User.Identity.GetUserId())
-                            ? new JsonResult { Data = new { success = false, error = improvementsLogic.ErrorMessage } }
-                            : Json(new { success = true });
+                            ? new JsonResult {Data = new {success = false, error = improvementsLogic.ErrorMessage}}
+                            : Json(new {success = true});
                 }
                 logger.Info("CALL NOT REALIZED UpdateData=" + pageId);
                 return Json("NOT REALIZED");
@@ -489,8 +494,9 @@ namespace MySeenWeb.Controllers.Home
             {
                 logger.Error(methodName, ex);
             }
-            return new JsonResult { Data = new { success = false, error = methodName } };
+            return new JsonResult {Data = new {success = false, error = methodName}};
         }
+
         [Compress]
         [Authorize]
         [IsAdmin]
@@ -512,6 +518,7 @@ namespace MySeenWeb.Controllers.Home
             }
             return new JsonResult {Data = new {success = false, error = methodName}};
         }
+
         [Compress]
         [Authorize]
         [IsAdmin]
@@ -534,6 +541,7 @@ namespace MySeenWeb.Controllers.Home
             }
             return new JsonResult {Data = new {success = false, error = methodName}};
         }
+
         [Compress]
         [Authorize]
         [HttpPost]
@@ -544,14 +552,17 @@ namespace MySeenWeb.Controllers.Home
             try
             {
                 var logic = new SerialsLogic(_cache);
-                return !logic.AddSeries(recordId, User.Identity.GetUserId()) ? new JsonResult { Data = new { success = false, error = logic.ErrorMessage } } : Json(new { success = true });
+                return !logic.AddSeries(recordId, User.Identity.GetUserId())
+                    ? new JsonResult {Data = new {success = false, error = logic.ErrorMessage}}
+                    : Json(new {success = true});
             }
             catch (Exception ex)
             {
                 logger.Error(methodName, ex);
             }
-            return new JsonResult { Data = new { success = false, error = methodName } };
+            return new JsonResult {Data = new {success = false, error = methodName}};
         }
+
         [Compress]
         [Authorize]
         [IsAdmin]
@@ -564,14 +575,14 @@ namespace MySeenWeb.Controllers.Home
             {
                 var logic = new UserRolesLogic();
                 return !logic.Update(name, roles)
-                    ? new JsonResult { Data = new { success = false, error = logic.ErrorMessage } }
-                    : Json(new { success = true });
+                    ? new JsonResult {Data = new {success = false, error = logic.ErrorMessage}}
+                    : Json(new {success = true});
             }
             catch (Exception ex)
             {
                 logger.Error(methodName, ex);
             }
-            return new JsonResult { Data = new { success = false, error = methodName } };
+            return new JsonResult {Data = new {success = false, error = methodName}};
         }
     }
 }

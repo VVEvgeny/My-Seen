@@ -4,6 +4,7 @@ using MySeenLib;
 using MySeenWeb.Add_Code;
 using MySeenWeb.Models.OtherViewModels;
 using MySeenWeb.Models.Tables;
+using MySeenWeb.Models.TablesLogic.Base;
 using static System.Convert;
 using static MySeenLib.MySeenWebApi;
 using static MySeenLib.UmtTime;
@@ -11,7 +12,7 @@ using static MySeenWeb.Add_Code.CacheNames;
 
 namespace MySeenWeb.Models.TablesLogic
 {
-    public class SerialsLogic : Serials
+    public class SerialsLogic : Serials, IBaseLogic
     {
         private readonly ApplicationDbContext _ac;
         private readonly ICacheService _cache;
@@ -26,6 +27,36 @@ namespace MySeenWeb.Models.TablesLogic
         public SerialsLogic(ICacheService cache) : this()
         {
             _cache = cache;
+        }
+
+        public string GetError()
+        {
+            return ErrorMessage;
+        }
+
+        public bool Delete(string id, string userId)
+        {
+            try
+            {
+                Id = ToInt32(id);
+                if (_ac.Serials.Any(f => f.UserId == userId && f.Id == Id))
+                {
+                    _ac.Serials.RemoveRange(_ac.Serials.Where(f => f.UserId == userId && f.Id == Id));
+                    _cache.Remove(UserSerials.ToString(), userId);
+                    _ac.SaveChanges();
+                }
+                else
+                {
+                    ErrorMessage = Resource.NoData;
+                    return false;
+                }
+            }
+            catch (Exception e)
+            {
+                ErrorMessage = $"{Resource.ErrorWorkWithDB} = {e.Message}";
+                return false;
+            }
+            return true;
         }
 
         private bool Fill(string name, string year, string season, string series, string datetime, string genre,
@@ -162,31 +193,6 @@ namespace MySeenWeb.Models.TablesLogic
             catch (Exception e)
             {
                 ErrorMessage = Resource.ErrorWorkWithDB + "=" + e.Message;
-                return false;
-            }
-            return true;
-        }
-
-        public bool Delete(string id, string userId)
-        {
-            try
-            {
-                Id = ToInt32(id);
-                if (_ac.Serials.Any(f => f.UserId == userId && f.Id == Id))
-                {
-                    _ac.Serials.RemoveRange(_ac.Serials.Where(f => f.UserId == userId && f.Id == Id));
-                    _cache.Remove(UserSerials.ToString(), userId);
-                    _ac.SaveChanges();
-                }
-                else
-                {
-                    ErrorMessage = Resource.NoData;
-                    return false;
-                }
-            }
-            catch (Exception e)
-            {
-                ErrorMessage = $"{Resource.ErrorWorkWithDB} = {e.Message}";
                 return false;
             }
             return true;

@@ -1,4 +1,4 @@
-/// <binding AfterBuild='concat, uglify, purifycss, cssmin'/>
+//// <binding AfterBuild='concat, uglify, purifycss, cssmin'/>
 module.exports = function(grunt) {
 
     var srcScriptFiles = [

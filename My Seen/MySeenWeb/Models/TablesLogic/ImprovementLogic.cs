@@ -3,12 +3,13 @@ using System.Linq;
 using MySeenLib;
 using MySeenWeb.Models.OtherViewModels;
 using MySeenWeb.Models.Tables;
+using MySeenWeb.Models.TablesLogic.Base;
 using static System.Convert;
 using static MySeenLib.UmtTime;
 
 namespace MySeenWeb.Models.TablesLogic
 {
-    public class ImprovementLogic : Bugs
+    public class ImprovementLogic : Bugs, IBaseLogic
     {
         private readonly ApplicationDbContext _ac;
         public string ErrorMessage;
@@ -17,6 +18,27 @@ namespace MySeenWeb.Models.TablesLogic
         {
             ErrorMessage = string.Empty;
             _ac = new ApplicationDbContext();
+        }
+
+        public string GetError()
+        {
+            return ErrorMessage;
+        }
+
+        public bool Delete(string id, string userId)
+        {
+            try
+            {
+                Id = ToInt32(id);
+                _ac.Bugs.RemoveRange(_ac.Bugs.Where(b => b.Id == Id));
+                _ac.SaveChanges();
+            }
+            catch (Exception e)
+            {
+                ErrorMessage = $"{Resource.ErrorWorkWithDB} = {e.Message}";
+                return false;
+            }
+            return true;
         }
 
         private bool Fill(string text, string complex, string userId)
@@ -107,22 +129,6 @@ namespace MySeenWeb.Models.TablesLogic
         public bool Update(string id, string text, string complex, string userId)
         {
             return Fill(id, text, complex, userId) && Verify() && Update();
-        }
-
-        public bool Delete(string id)
-        {
-            try
-            {
-                Id = ToInt32(id);
-                _ac.Bugs.RemoveRange(_ac.Bugs.Where(b => b.Id == Id));
-                _ac.SaveChanges();
-            }
-            catch (Exception e)
-            {
-                ErrorMessage = $"{Resource.ErrorWorkWithDB} = {e.Message}";
-                return false;
-            }
-            return true;
         }
 
         public bool End(string id, string textEnd, string version)

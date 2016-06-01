@@ -4,6 +4,7 @@ using MySeenLib;
 using MySeenWeb.Add_Code;
 using MySeenWeb.Models.OtherViewModels;
 using MySeenWeb.Models.Tables;
+using MySeenWeb.Models.TablesLogic.Base;
 using MySeenWeb.Models.TablesViews;
 using static System.Convert;
 using static MySeenLib.MySeenWebApi;
@@ -11,7 +12,7 @@ using static MySeenLib.UmtTime;
 
 namespace MySeenWeb.Models.TablesLogic
 {
-    public class RoadsLogic : Tracks
+    public class RoadsLogic : Tracks, IBaseLogic
     {
         private readonly ApplicationDbContext _ac;
         private readonly ICacheService _cache;
@@ -26,6 +27,36 @@ namespace MySeenWeb.Models.TablesLogic
         public RoadsLogic(ICacheService cache) : this()
         {
             _cache = cache;
+        }
+
+        public string GetError()
+        {
+            return ErrorMessage;
+        }
+
+        public bool Delete(string id, string userId)
+        {
+            try
+            {
+                Id = ToInt32(id);
+                if (_ac.Tracks.Any(f => f.UserId == userId && f.Id == Id))
+                {
+                    _ac.Tracks.RemoveRange(_ac.Tracks.Where(f => f.UserId == userId && f.Id == Id));
+                    _ac.SaveChanges();
+                    _cache.Remove(CacheNames.UserRoads.ToString(), userId);
+                }
+                else
+                {
+                    ErrorMessage = Resource.NoData;
+                    return false;
+                }
+            }
+            catch (Exception e)
+            {
+                ErrorMessage = $"{Resource.ErrorWorkWithDB} = {e.Message}";
+                return false;
+            }
+            return true;
         }
 
         private bool Fill(string name, string datetime, string type, string coordinates, string distance, string userId)
@@ -119,31 +150,6 @@ namespace MySeenWeb.Models.TablesLogic
             string userId)
         {
             return Fill(id, name, datetime, type, coordinates, distance, userId) && Verify() && Update();
-        }
-
-        public bool Delete(string id, string userId)
-        {
-            try
-            {
-                Id = ToInt32(id);
-                if (_ac.Tracks.Any(f => f.UserId == userId && f.Id == Id))
-                {
-                    _ac.Tracks.RemoveRange(_ac.Tracks.Where(f => f.UserId == userId && f.Id == Id));
-                    _ac.SaveChanges();
-                    _cache.Remove(CacheNames.UserRoads.ToString(), userId);
-                }
-                else
-                {
-                    ErrorMessage = Resource.NoData;
-                    return false;
-                }
-            }
-            catch (Exception e)
-            {
-                ErrorMessage = $"{Resource.ErrorWorkWithDB} = {e.Message}";
-                return false;
-            }
-            return true;
         }
 
         public string GetShare(string id, string userId)

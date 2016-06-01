@@ -3,6 +3,7 @@ using System.Linq;
 using MySeenLib;
 using MySeenWeb.Models.OtherViewModels;
 using MySeenWeb.Models.Tables;
+using MySeenWeb.Models.TablesLogic.Base;
 using static System.Convert;
 using static MySeenLib.Defaults;
 using static MySeenLib.MySeenWebApi;
@@ -10,7 +11,7 @@ using static MySeenLib.UmtTime;
 
 namespace MySeenWeb.Models.TablesLogic
 {
-    public class EventsLogic : Events
+    public class EventsLogic : Events, IBaseLogic
     {
         private readonly ApplicationDbContext _ac;
         public string ErrorMessage;
@@ -19,6 +20,27 @@ namespace MySeenWeb.Models.TablesLogic
         {
             ErrorMessage = string.Empty;
             _ac = new ApplicationDbContext();
+        }
+
+        public string GetError()
+        {
+            return ErrorMessage;
+        }
+
+        public bool Delete(string id, string userId)
+        {
+            try
+            {
+                Id = ToInt32(id);
+                _ac.Events.RemoveRange(_ac.Events.Where(f => f.UserId == userId && f.Id == Id));
+                _ac.SaveChanges();
+            }
+            catch (Exception e)
+            {
+                ErrorMessage = $"{Resource.ErrorWorkWithDB} = {e.Message}";
+                return false;
+            }
+            return true;
         }
 
         private bool Fill(string name, string datetime, string type, string userId)
@@ -119,22 +141,6 @@ namespace MySeenWeb.Models.TablesLogic
         public bool Update(string id, string name, string datetime, string type, string userId)
         {
             return Fill(id, name, datetime, type, userId) && Verify() && Update();
-        }
-
-        public bool Delete(string id, string userId)
-        {
-            try
-            {
-                Id = ToInt32(id);
-                _ac.Events.RemoveRange(_ac.Events.Where(f => f.UserId == userId && f.Id == Id));
-                _ac.SaveChanges();
-            }
-            catch (Exception e)
-            {
-                ErrorMessage = $"{Resource.ErrorWorkWithDB} = {e.Message}";
-                return false;
-            }
-            return true;
         }
 
         public string GetShare(string id, string userId)

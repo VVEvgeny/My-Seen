@@ -4,13 +4,14 @@ using MySeenLib;
 using MySeenWeb.Add_Code;
 using MySeenWeb.Models.OtherViewModels;
 using MySeenWeb.Models.Tables;
+using MySeenWeb.Models.TablesLogic.Base;
 using static System.Convert;
 using static MySeenLib.MySeenWebApi;
 using static MySeenLib.UmtTime;
 
 namespace MySeenWeb.Models.TablesLogic
 {
-    public class FilmsLogic : Films
+    public class FilmsLogic : Films, IBaseLogic
     {
         private readonly ApplicationDbContext _ac;
         private readonly ICacheService _cache;
@@ -25,6 +26,36 @@ namespace MySeenWeb.Models.TablesLogic
         public FilmsLogic(ICacheService cache) : this()
         {
             _cache = cache;
+        }
+
+        public string GetError()
+        {
+            return ErrorMessage;
+        }
+
+        public bool Delete(string id, string userId)
+        {
+            try
+            {
+                Id = ToInt32(id);
+                if (_ac.Films.Any(f => f.UserId == userId && f.Id == Id))
+                {
+                    _ac.Films.RemoveRange(_ac.Films.Where(f => f.UserId == userId && f.Id == Id));
+                    _ac.SaveChanges();
+                    _cache.Remove(CacheNames.UserFilms.ToString(), userId);
+                }
+                else
+                {
+                    ErrorMessage = Resource.NoData;
+                    return false;
+                }
+            }
+            catch (Exception e)
+            {
+                ErrorMessage = $"{Resource.ErrorWorkWithDB} = {e.Message}";
+                return false;
+            }
+            return true;
         }
 
         private bool Fill(string name, string year, string datetime, string genre, string rating, string userId)
@@ -130,31 +161,6 @@ namespace MySeenWeb.Models.TablesLogic
             string userId)
         {
             return Fill(id, name, year, datetime, genre, rating, userId) && Verify() && Update();
-        }
-
-        public bool Delete(string id, string userId)
-        {
-            try
-            {
-                Id = ToInt32(id);
-                if (_ac.Films.Any(f => f.UserId == userId && f.Id == Id))
-                {
-                    _ac.Films.RemoveRange(_ac.Films.Where(f => f.UserId == userId && f.Id == Id));
-                    _ac.SaveChanges();
-                    _cache.Remove(CacheNames.UserFilms.ToString(), userId);
-                }
-                else
-                {
-                    ErrorMessage = Resource.NoData;
-                    return false;
-                }
-            }
-            catch (Exception e)
-            {
-                ErrorMessage = $"{Resource.ErrorWorkWithDB} = {e.Message}";
-                return false;
-            }
-            return true;
         }
 
         public string GetShare(string id, string userId)
