@@ -16,11 +16,5 @@ namespace MySeenWeb.Models.Tools.Tests
         {
 
         }
-
-        [TestMethod()]
-        public void SaveTest1()
-        {
-
-        }
     }
 }

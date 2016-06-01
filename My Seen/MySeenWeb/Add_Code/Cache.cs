@@ -34,7 +34,8 @@ namespace MySeenWeb.Add_Code
         string GetFormatedName(string name, params object[] values);
     }
 
-    public abstract class InMemoryCache : ICacheService
+    // ReSharper disable once ClassNeverInstantiated.Global
+    public class InMemoryCache : ICacheService
     {
         public string GetFormatedName(string name, params object[] values)
         {

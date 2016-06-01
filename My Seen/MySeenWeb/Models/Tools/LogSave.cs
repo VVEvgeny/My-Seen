@@ -8,11 +8,6 @@ namespace MySeenWeb.Models.Tools
 {
     public static class LogSave
     {
-        public static void Save(string userId, string ipAdress, string userAgent)
-        {
-            Save(userId, ipAdress, userAgent, string.Empty);
-        }
-
         public static void Save(string userId, string ipAdress, string userAgent, string addData)
         {
             if (!IsDebug)
