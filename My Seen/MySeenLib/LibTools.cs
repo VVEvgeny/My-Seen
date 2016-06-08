@@ -84,26 +84,28 @@ namespace MySeenLib
 
         public enum DataModes
         {
-            Film = 1,
-            Serial = 2,
-            Book = 3
+            Road = 1
         }
 
         public enum SyncModesApiData
         {
-            GetAll = 1,
-            PostAll = 2
+            GetRoads = 1
         }
 
         public enum SyncModesApiUsers
         {
             IsUserExists = 1
         }
+        public enum SyncModesApiLogin
+        {
+            GetKey = 1
+        }
 
         public static int ApiVersion = 2;
 
-        public static string ApiUsers { get; } = @"/api/ApiUsers/";
-        public static string ApiSync { get; } = @"/api/ApiSync/";
+        public static string ApiUsers { get; } = @"/api/Users/";
+        public static string ApiLogin { get; } = @"/api/Login/";
+        public static string ApiSync { get; } = @"/api/Sync/";
 
         public static string ShareTracks { get; } = @"/roads/shared/";
         public static string ShareEvents { get; } = @"/events/shared/";
@@ -140,6 +142,9 @@ namespace MySeenLib
             [JsonProperty("Value")]
             public Values Value { get; set; }
 
+            [JsonProperty("Data")]
+            public string Data { get; set; }
+
             public enum Values
             {
                 Ok = 1,
@@ -162,46 +167,20 @@ namespace MySeenLib
             [JsonProperty("DataMode")]
             public int DataMode { get; set; } //in DataModes
 
-            [JsonProperty("Id")]
-            public int? Id { get; set; }
-
             [JsonProperty("Name")]
             public string Name { get; set; }
 
-            [JsonProperty("Genre")]
-            public int Genre { get; set; }
+            [JsonProperty("Type")]
+            public int Type { get; set; }
 
-            [JsonProperty("Rating")]
-            public int Rating { get; set; }
+            //[JsonProperty("Date")]
+            //public DateTime Date { get; set; }
 
-            [JsonProperty("DateSee")]
-            public DateTime DateSee { get; set; }
+            [JsonProperty("Coordinates")]
+            public string Coordinates { get; set; }
 
-            [JsonProperty("DateChange")]
-            public DateTime DateChange { get; set; }
-
-            [JsonProperty("IsDeleted")]
-            public bool? IsDeleted { get; set; }
-
-            //serials
-            [JsonProperty("LastSeason")]
-            public int LastSeason { get; set; }
-
-            [JsonProperty("LastSeries")]
-            public int LastSeries { get; set; }
-
-            [JsonProperty("DateLast")]
-            public DateTime DateLast { get; set; }
-
-            [JsonProperty("DateBegin")]
-            public DateTime DateBegin { get; set; }
-
-            //books
-            [JsonProperty("DateRead")]
-            public DateTime DateRead { get; set; }
-
-            [JsonProperty("Authors")]
-            public string Authors { get; set; }
+            [JsonProperty("Distance")]
+            public double Distance { get; set; }
         }
     }
 

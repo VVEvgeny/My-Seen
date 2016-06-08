@@ -3,8 +3,6 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
 VisualStudioVersion = 14.0.25123.0
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "My Seen PC Win", "My Seen\My Seen PC Win.csproj", "{66387E45-307A-4637-83F9-751AAA312AFB}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "My Seen Library", "MySeenLib\My Seen Library.csproj", "{D7761030-BBF7-467B-A41D-3D215396FD72}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{632016C7-72D2-4EDD-AC2E-1A41D2B3EDCD}"
@@ -15,16 +13,12 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "My Seen Web", "MySeenWeb\My Seen Web.csproj", "{6B454E56-EE36-466F-B202-42291456E8FA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "My Seen Android", "MySeenAndroid\My Seen Android.csproj", "{9FF5FC66-5B06-465A-B85B-B06E7D09937F}"
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{6420D087-58A3-4388-96B9-1AF2BB94245F}"
 	ProjectSection(SolutionItems) = preProject
 		.nuget\NuGet.Config = .nuget\NuGet.Config
 		.nuget\NuGet.exe = .nuget\NuGet.exe
 		.nuget\NuGet.targets = .nuget\NuGet.targets
 	EndProjectSection
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "My Seen Mobile Web View Library", "MySeenAndroidLib\My Seen Mobile Web View Library.csproj", "{DE72CA4D-8D2B-46DA-9071-FBFB58BB3479}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "My Seen Web.Tests", "My Seen WebTests\My Seen Web.Tests.csproj", "{581684EC-F174-4D0D-ABFF-E71FB46DCF79}"
 EndProject
@@ -34,10 +28,6 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{66387E45-307A-4637-83F9-751AAA312AFB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{66387E45-307A-4637-83F9-751AAA312AFB}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{66387E45-307A-4637-83F9-751AAA312AFB}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{66387E45-307A-4637-83F9-751AAA312AFB}.Release|Any CPU.Build.0 = Release|Any CPU
 		{D7761030-BBF7-467B-A41D-3D215396FD72}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{D7761030-BBF7-467B-A41D-3D215396FD72}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D7761030-BBF7-467B-A41D-3D215396FD72}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -46,16 +36,6 @@ Global
 		{6B454E56-EE36-466F-B202-42291456E8FA}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6B454E56-EE36-466F-B202-42291456E8FA}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6B454E56-EE36-466F-B202-42291456E8FA}.Release|Any CPU.Build.0 = Release|Any CPU
-		{9FF5FC66-5B06-465A-B85B-B06E7D09937F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{9FF5FC66-5B06-465A-B85B-B06E7D09937F}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{9FF5FC66-5B06-465A-B85B-B06E7D09937F}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
-		{9FF5FC66-5B06-465A-B85B-B06E7D09937F}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{9FF5FC66-5B06-465A-B85B-B06E7D09937F}.Release|Any CPU.Build.0 = Release|Any CPU
-		{9FF5FC66-5B06-465A-B85B-B06E7D09937F}.Release|Any CPU.Deploy.0 = Release|Any CPU
-		{DE72CA4D-8D2B-46DA-9071-FBFB58BB3479}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{DE72CA4D-8D2B-46DA-9071-FBFB58BB3479}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{DE72CA4D-8D2B-46DA-9071-FBFB58BB3479}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{DE72CA4D-8D2B-46DA-9071-FBFB58BB3479}.Release|Any CPU.Build.0 = Release|Any CPU
 		{581684EC-F174-4D0D-ABFF-E71FB46DCF79}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{581684EC-F174-4D0D-ABFF-E71FB46DCF79}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{581684EC-F174-4D0D-ABFF-E71FB46DCF79}.Release|Any CPU.ActiveCfg = Release|Any CPU
