@@ -25,14 +25,14 @@
                 <td>
                     <!--Блок управляющих кнопок-->
                     <span class="pull-left">
-                            <button class="btn btn-warning btn-xs" data-ng-click="modal.editButtonClick($index)"> <span class=" glyphicon glyphicon-pencil"></span></button>
+                            <button class="btn btn-warning btn-xs" data-ng-click="modal.editButtonClick($index)"> <span class="glyphicon glyphicon-pencil"></span></button>
                             <button class="btn btn-info btn-xs" data-ng-click="modalShare.shareButtonClick($index)" data-ng-show="val.Shared"><span class="glyphicon glyphicon-share"></span></button>
                         </span>
                 </td>
                 <!--Одноразовая привязка-->
                 <td class="align-center">{{::val.Name}}</td>
                 <td class="align-center">{{::val.YearText}}</td>
-                <td class="align-center">{{::val.LastSeason}}-{{::val.LastSeries}}</td>
+                <td class="align-center">{{::val.LastSeason}}-{{::val.LastSeries}}<button class="btn btn-info btn-xs pull-right" data-ng-click="addSeries($index)"><span class="glyphicon glyphicon-plus"></span></button></td>
                 <td class="align-center">{{::val.DateLastText}}</td>
                 <td class="align-center">{{::val.DateBeginText}}</td>
                 <td class="align-center">{{::val.GenreText}}</td>

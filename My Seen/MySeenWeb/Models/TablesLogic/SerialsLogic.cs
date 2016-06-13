@@ -169,6 +169,12 @@ namespace MySeenWeb.Models.TablesLogic
         public bool Update(string id, string name, string year, string season, string series, string datetime,
             string genre, string rating, string userId)
         {
+            if (string.IsNullOrEmpty(name) && string.IsNullOrEmpty(year) && string.IsNullOrEmpty(season) &&
+                string.IsNullOrEmpty(series) && string.IsNullOrEmpty(datetime)
+                && string.IsNullOrEmpty(genre) && string.IsNullOrEmpty(rating))
+            {
+                return AddSeries(id, userId);
+            }
             return Fill(id, name, year, season, series, datetime, genre, rating, userId) && Verify() && Update();
         }
 
@@ -177,10 +183,11 @@ namespace MySeenWeb.Models.TablesLogic
             try
             {
                 Id = ToInt32(id);
-                if (_ac.Serials.Any(f => f.UserId == userId && f.Id == Id))
+                var serial = _ac.Serials.First(f => f.UserId == userId && f.Id == Id);
+                if (serial != null)
                 {
-                    _ac.Serials.First(f => f.UserId == userId && f.Id == Id).LastSeries++;
-                    _ac.Serials.First(f => f.UserId == userId && f.Id == Id).DateLast = From(DateTime.Now);
+                    serial.LastSeries++;
+                    serial.DateLast = From(DateTime.Now);
                     _cache.Remove(UserSerials.ToString(), userId);
                     _ac.SaveChanges();
                 }

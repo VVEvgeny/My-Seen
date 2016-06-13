@@ -70,7 +70,7 @@ App.config(function($stateProvider, $urlRouterProvider, $locationProvider) {
                 if (pageName === Constants.Pages.Translation) {
                     if ($rootScope.getTranslates(parameters.pageId) != null) {
                         if (!silentMode) $rootScope.loading = false;
-                        callback($rootScope.getTranslates(parameters.pageId));
+                        if (callback)callback($rootScope.getTranslates(parameters.pageId));
                         return;
                     }
                 }
@@ -85,7 +85,7 @@ App.config(function($stateProvider, $urlRouterProvider, $locationProvider) {
                             alert(jsonData.error);
                             if (jsonData.error === window.GNoRights || jsonData.error === window.GNotAuthorized) {
                                 window.location.href = "/";
-                                $log.warn("try get not allowed page=" + pageName + " params=" + parameters);
+                                $log.warn("try get not alowed page=" + pageName + " params=" + parameters);
                             }
                         }
                     } else {

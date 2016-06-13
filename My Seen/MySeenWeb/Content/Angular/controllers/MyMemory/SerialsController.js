@@ -61,7 +61,7 @@ App.controller("SerialsController",
             $scope.pages = page.Pages;
         };
 
-        function getMainPage() {
+        function getMainPage(silent) {
             $rootScope.GetPage(constants.Pages.Main,
                 $http,
                 fillScope,
@@ -69,14 +69,22 @@ App.controller("SerialsController",
                     pageId: $rootScope.pageId,
                     page: ($stateParams ? $stateParams.page : null),
                     search: ($stateParams ? $stateParams.search : null)
-                });
+                }, silent);
         };
-
         //Сразу 3 запроса на сервер, далее будет только запросы по новым данным и на добавление/изменение
         $rootScope.GetPage(constants.Pages.Prepared, $http, fillPrepared, { pageId: $rootScope.pageId });
         $rootScope.GetPage(constants.Pages.Translation, $http, fillTranslation, { pageId: $rootScope.pageId });
         getMainPage();
 
+        ///////////////////////////////////////////////////////////////////////
+        ///////////////////////////////////////////////////////////////////////           Add Series
+        ///////////////////////////////////////////////////////////////////////
+        function afterAddSeries() {
+            getMainPage(true);
+        }
+        $scope.addSeries = function(index) {
+            $rootScope.GetPage(constants.Pages.Update, $http, afterAddSeries, { pageId: $rootScope.pageId, id: $scope.data[index].Id }, true);
+        };
         ///////////////////////////////////////////////////////////////////////
         ///////////////////////////////////////////////////////////////////////           ПОИСК
         ///////////////////////////////////////////////////////////////////////
