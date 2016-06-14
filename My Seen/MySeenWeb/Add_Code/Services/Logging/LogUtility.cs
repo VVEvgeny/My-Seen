@@ -2,7 +2,7 @@
 
 namespace MySeenWeb.Add_Code.Services.Logging
 {
-    internal class LogUtility
+    class LogUtility
     {
         public static string BuildExceptionMessage(Exception x)
         {

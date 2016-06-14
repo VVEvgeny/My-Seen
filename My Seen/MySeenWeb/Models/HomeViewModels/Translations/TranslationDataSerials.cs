@@ -20,8 +20,8 @@ namespace MySeenWeb.Models.Translations
         public string Series = Resource.Series;
 
         public string Share = Resource.Share;
-        public string TitleAdd = Resource.Add + " " + Resource.Book;
-        public string TitleEdit = Resource.Edit + " " + Resource.Book;
+        public string TitleAdd = Resource.Add + " " + Resource.Serial;
+        public string TitleEdit = Resource.Edit + " " + Resource.Serial;
         public string Try = Resource.Try;
         public string When = Resource.When;
         public string Year = Resource.Year;

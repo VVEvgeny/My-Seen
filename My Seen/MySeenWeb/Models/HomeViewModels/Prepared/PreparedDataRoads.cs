@@ -9,7 +9,7 @@ namespace MySeenWeb.Models.Prepared
 {
     public class PreparedDataRoads
     {
-        public string DateTimeNow { get; } = DateTime.Now.ToString(CultureInfo.CurrentCulture);
+        public string DateTimeNow { get; } = DateTime.Now.ToString(CultureInfo.CurrentCulture).Remove(DateTime.Now.ToString(CultureInfo.CurrentCulture).Length - 3);
 
         public IEnumerable<SelectListItem> TypeList { get; } = new List<SelectListItem>
         {

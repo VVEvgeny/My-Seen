@@ -19,9 +19,9 @@ namespace MySeenWeb.Models.TablesViews
 
         public string SeasonSeries => LastSeason + "-" + LastSeries;
 
-        public string DateLastText => DateLast.ToString(CultureInfo.CurrentCulture);
+        public string DateLastText => DateLast.ToString(CultureInfo.CurrentCulture).Remove(DateLast.ToString(CultureInfo.CurrentCulture).Length - 3);
 
-        public string DateBeginText => DateBegin.ToString(CultureInfo.CurrentCulture);
+        public string DateBeginText => DateBegin.ToString(CultureInfo.CurrentCulture).Remove(DateBegin.ToString(CultureInfo.CurrentCulture).Length - 3);
 
         public static SerialsView Map(Serials model)
         {

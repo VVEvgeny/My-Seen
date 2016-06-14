@@ -184,7 +184,7 @@ App.controller("SerialsController",
             $scope.editedIndex = id;
             $scope.modal.title = $scope.translation.TitleEdit;
             $scope.modal.name = $scope.data[id].Name;
-            $scope.modal.year = $scope.data[id].Year === 0 ? null : $scope.data[id].Year;
+            $scope.modal.year = parseInt($scope.data[id].YearText);
             $scope.modal.season = $scope.data[id].LastSeason;
             $scope.modal.series = $scope.data[id].LastSeries;
             $scope.modal.datetimeNow = $scope.data[id].DateBeginText;

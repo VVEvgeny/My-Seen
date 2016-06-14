@@ -173,7 +173,7 @@ App.controller("BooksController",
             $scope.editedIndex = id;
             $scope.modal.title = $scope.translation.TitleEdit;
             $scope.modal.name = $scope.data[id].Name;
-            $scope.modal.year = $scope.data[id].Year === 0 ? null : $scope.data[id].Year;
+            $scope.modal.year = parseInt($scope.data[id].YearText);
             $scope.modal.authors = $scope.data[id].Authors;
             $scope.modal.datetimeNow = $scope.data[id].DateReadText;
             if ($scope.modal.genre !== $scope.data[id].GenreVal) $scope.modal.genre = $scope.data[id].GenreVal;

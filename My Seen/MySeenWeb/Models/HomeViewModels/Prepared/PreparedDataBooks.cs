@@ -33,6 +33,9 @@ namespace MySeenWeb.Models.Prepared
                         })
                 .ToList();
         public int Year { get; } = DateTime.Now.Year;
-        public string DateTimeNow { get; } = DateTime.Now.ToString(CultureInfo.CurrentCulture);
+
+        public string DateTimeNow { get; } =
+            DateTime.Now.ToString(CultureInfo.CurrentCulture)
+                .Remove(DateTime.Now.ToString(CultureInfo.CurrentCulture).Length - 3);
     }
 }

@@ -29,6 +29,6 @@ namespace MySeenWeb.Models.Prepared
             new SelectListItem {Text = Resource.Ended, Value = "1", Selected = false}
         };
 
-        public string DateTimeNow { get; } = DateTime.Now.ToString(CultureInfo.CurrentCulture);
+        public string DateTimeNow { get; } = DateTime.Now.ToString(CultureInfo.CurrentCulture).Remove(DateTime.Now.ToString(CultureInfo.CurrentCulture).Length - 3);
     }
 }

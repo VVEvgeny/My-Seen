@@ -50,6 +50,7 @@ namespace MySeenWeb.Models
                              (!string.IsNullOrEmpty(shareKey) && f.User.ShareFilmsKey == shareKey && f.Shared))
                             && (string.IsNullOrEmpty(search) || f.Name.Contains(search)))
                         .OrderByDescending(f => f.DateSee)
+                        .ThenBy(f => f.Name)
                         .Skip(() => Pages.SkipRecords)
                         .Take(() => countInPage)
                         .Select(FilmsView.Map);

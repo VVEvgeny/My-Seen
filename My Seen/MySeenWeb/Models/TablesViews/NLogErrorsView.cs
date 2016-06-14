@@ -17,6 +17,7 @@ namespace MySeenWeb.Models.TablesViews
                 Id = model.Id,
                 DateTimeStamp = From(model.DateTimeStamp),
                 Host = model.Host,
+                Type = model.Type,
                 Message = model.Message,
                 Level = model.Level,
                 StackTrace = model.StackTrace,

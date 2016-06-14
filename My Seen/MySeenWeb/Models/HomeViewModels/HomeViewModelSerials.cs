@@ -48,6 +48,7 @@ namespace MySeenWeb.Models
                              (!string.IsNullOrEmpty(shareKey) && f.User.ShareSerialsKey == shareKey && f.Shared))
                             && (string.IsNullOrEmpty(search) || f.Name.Contains(search)))
                         .OrderByDescending(f => f.DateLast)
+                        .ThenBy(f => f.Name)
                         .Skip(() => Pages.SkipRecords).Take(() => countInPage).Select(SerialsView.Map);
                     cache.Set(
                         cache.GetFormatedName(CacheNames.UserSerials.ToString(), userId, page, countInPage, search,

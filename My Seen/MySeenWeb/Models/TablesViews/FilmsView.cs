@@ -17,7 +17,7 @@ namespace MySeenWeb.Models.TablesViews
 
         public string YearText => Year == 0 ? "" : Year.ToString();
 
-        public string DateSeeText => DateSee.ToString(CultureInfo.CurrentCulture);
+        public string DateSeeText => DateSee.ToString(CultureInfo.CurrentCulture).Remove(DateSee.ToString(CultureInfo.CurrentCulture).Length - 3);
 
         public static FilmsView Map(Films model)
         {

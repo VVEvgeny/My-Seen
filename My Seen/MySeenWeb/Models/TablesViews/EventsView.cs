@@ -27,11 +27,11 @@ namespace MySeenWeb.Models.TablesViews
 
         public string EstimatedLast => GetTimeSpan(DateLast);
 
-        public string DateToText => DateTo.ToString(CultureInfo.CurrentCulture);
+        public string DateToText => DateTo.ToString(CultureInfo.CurrentCulture).Remove(DateTo.ToString(CultureInfo.CurrentCulture).Length - 3);
 
         public string DateText => Date.ToString(CultureInfo.CurrentCulture);
 
-        public string DateLastText => DateLast.ToString(CultureInfo.CurrentCulture);
+        public string DateLastText => DateLast.ToString(CultureInfo.CurrentCulture).Remove(DateLast.ToString(CultureInfo.CurrentCulture).Length - 3);
 
         private static string GetTimeSpan(DateTime date)
         {
