@@ -4,13 +4,13 @@ module.exports = function(grunt) {
     var srcScriptFiles = [
         //jquery
         "Scripts/jquery-*.min.js",
-        "Scripts/jquery.validate.js",
-        "Scripts/jquery.validate.unobtrusive.js",
+        //"node_modules/jquery/dist/jquery.js", //13/06/16 bootstrap.js:15 Uncaught Error: Bootstrap's JavaScript requires jQuery version 1.9.1 or higher, but lower than version 3 
+        "node_modules/jquery-validation/dist/jquery.validate.js",
         //angular
-        "Scripts/angular.js",
-        "Scripts/angular-ui-router.js",
-        "Scripts/angular-animate.js",
-        "Scripts/angular-ui/ui-bootstrap-tpls.js",
+        "node_modules/angular/angular.js",
+        "node_modules/angular-ui-router/release/angular-ui-router.js",
+        "node_modules/angular-animate/angular-animate.js",
+        "node_modules/angular-ui-bootstrap/dist/ui-bootstrap-tpls.js",
         //my app
         "Scripts/myseen/jQueryToAngular.js",
         "Content/Angular/App/app.js",
@@ -21,13 +21,14 @@ module.exports = function(grunt) {
         "Content/Angular/controllers/Portal/*.js",
         "Content/Angular/controllers/Tests/*.js",
         //amcharts
-        "Content/amcharts/amcharts.js",
-        "Content/amcharts/serial.js",
-        "Content/amcharts/themes/light.js",
-        "Scripts/modernizr-*.js",
+        "node_modules/amcharts/amcharts/amcharts.js",
+        "node_modules/amcharts/amcharts/serial.js",
+        "node_modules/amcharts/amcharts/themes/light.js",
+        //tools
+        "Scripts/modernizr-*.js",//бле не нашел в ноде норм скрипт, туча исходников...
         //bootstrap
-        "Scripts/bootstrap.js",
-        "Scripts/respond.js",
+        "node_modules/bootstrap/dist/js/bootstrap.js",
+        "node_modules/respond/main.js",
         //gmap3
         "Scripts/gmap3.js",
         //jsnlog
@@ -37,8 +38,8 @@ module.exports = function(grunt) {
         "Scripts/myseen/gmap3menu.js",
         "Scripts/myseen/gmap.editor.js",
         //tools
-        "Scripts/moment-with-locales.js",
-        "Scripts/bootstrap-datetimepicker.js",
+        "node_modules/moment/min/moment-with-locales.js",
+        "node_modules/eonasdan-bootstrap-datetimepicker/build/js/bootstrap-datetimepicker.min.js",
         "Scripts/myseen/jsNlog.js",
         "Scripts/myseen/timer.js",
         //test
@@ -47,10 +48,10 @@ module.exports = function(grunt) {
     ];
 
     var srcCssFiles = [
+        "node_modules/bootstrap/dist/css/bootstrap-theme.css",
+        "node_modules/eonasdan-bootstrap-datetimepicker/build/css/bootstrap-datetimepicker.css",
         "Content/myseen/Site.css",
         "Content/myseen/navbar.css",
-        "Content/bootstrap-datetimepicker.css",
-        "Content/bootstrap-theme.css",
         "Content/animate.css",
         "Content/font-awesome.css",
         "Content/myseen/skill.css",

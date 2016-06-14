@@ -15,7 +15,6 @@ using MySeenWeb.Controllers._Base;
 using MySeenWeb.Models.OtherViewModels;
 using MySeenWeb.Models.TablesLogic;
 using MySeenWeb.Models.Tools;
-using Nemiro.OAuth;
 using static MySeenLib.CultureInfoTool;
 using static MySeenLib.MySeenWebApi;
 using static MySeenWeb.Add_Code.Md5Tools;
@@ -121,13 +120,6 @@ namespace MySeenWeb.Controllers.Account
 
             try
             {
-                if (provider == ExternalNotOwinProviders.Yandex
-                    || provider == ExternalNotOwinProviders.MailRu)
-                {
-                    //logger.Info("provider YANDEX");
-                    returnUrl = ApiHost + "/Account/ExternalLoginCallback";
-                    return Redirect(OAuthWeb.GetAuthorizationUrl(provider, returnUrl));
-                }
                 // Request a redirect to the external login provider
                 return new SettingsController.ChallengeResult(provider, Url.Action("ExternalLoginCallback", "Account", new { ReturnUrl = returnUrl }));
             }
@@ -168,74 +160,6 @@ namespace MySeenWeb.Controllers.Account
                 var userLogic = new UserLogic();
                 if (loginInfo == null)
                 {
-                    var authorizationResult = OAuthWeb.VerifyAuthorization();
-                    if (authorizationResult.IsSuccessfully)
-                    {
-                        //logger.Info("authorizationResult.UserInfo.Email=" + authorizationResult.UserInfo.Email);
-
-                        if (userLogic.IsExist(authorizationResult.UserInfo.Email) ||
-                            userLogic.IsExistInProvider(authorizationResult.ProviderName,
-                                authorizationResult.UserInfo.Email))
-                        {
-                            //logger.Info("Создаю кредиты для автоавторизации");
-                            var email = authorizationResult.UserInfo.Email;
-                            if (userLogic.IsExistInProvider(authorizationResult.ProviderName,
-                                authorizationResult.UserInfo.Email))
-                                //если по провайдеру то его рейалынй эмейл будет другим
-                            {
-                                email = userLogic.GetEmailByProvider(authorizationResult.ProviderName,
-                                    authorizationResult.UserInfo.Email);
-                            }
-
-                            WriteUserSideStorage(UserSideStorageKeys.UserCreditsForAutologin,
-                                logic.GetNew(email, Request.UserAgent));
-                            //Дальше разбереться UserCredits и авторизует его по имени
-                            //Проверим, может это добавление нового сервиса
-                            if (
-                                !userLogic.IsExistInProvider(authorizationResult.ProviderName,
-                                    authorizationResult.UserInfo.Email))
-                            {
-                                //logger.Info("Пользователь есть, добавим ему ещё авторизацию");
-                                var info = new ExternalLoginInfo
-                                {
-                                    Login =
-                                        new UserLoginInfo(authorizationResult.ProviderName,
-                                            authorizationResult.UserInfo.Email)
-                                };
-                                var resultAddLoginAsync = UserManager.AddLogin(User.Identity.GetUserId(), info.Login);
-                                if (resultAddLoginAsync.Succeeded) return RedirectToAction("Index", "Json");
-                            }
-                        }
-                        else //первичная регистрация, обойдусь без страницы подтверждения почты, она и так есть
-                        {
-                            var info = new ExternalLoginInfo
-                            {
-                                Login =
-                                    new UserLoginInfo(authorizationResult.ProviderName,
-                                        authorizationResult.UserInfo.Email)
-                            };
-                            var user = CreateUser(authorizationResult.UserInfo.Email);
-                            //logger.Info("Перед созданием пользователя");
-                            var resultCreateAsync = await UserManager.CreateAsync(user);
-                            //logger.Info("После созданием пользователя");
-                            if (resultCreateAsync.Succeeded)
-                            {
-                                //logger.Info("Успех созданием пользователя");
-                                resultCreateAsync = await UserManager.AddLoginAsync(user.Id, info.Login);
-                                //logger.Info("После авторизации пользователя");
-                                if (resultCreateAsync.Succeeded)
-                                {
-                                    //logger.Info("Успех авторизации пользователя");
-                                    await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
-
-                                    WriteUserSideStorage(UserSideStorageKeys.UserCreditsForAutologin,
-                                        logic.GetNew(authorizationResult.UserInfo.Email, Request.UserAgent));
-                                    return RedirectToLocal(returnUrl);
-                                }
-                            }
-                        }
-                        return RedirectToLocal(returnUrl);
-                    }
                     return RedirectToAction("Index", "Json");
                 }
 

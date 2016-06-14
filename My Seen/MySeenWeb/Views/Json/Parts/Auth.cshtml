@@ -45,7 +45,7 @@ else
                         @{
                             var loginProviders = Context.GetOwinContext().Authentication.GetExternalAuthenticationTypes();
                             var authenticationDescriptions = loginProviders as IList<AuthenticationDescription> ?? loginProviders.ToList();
-                            if (authenticationDescriptions.Any() || Nemiro.OAuth.OAuthManager.RegisteredClients.Count != 0)
+                            if (authenticationDescriptions.Any())
                             {
                                 <div class="form-group col-sm-12">
                                     <button type="button" class="btn btn-danger btn-md btn-block" id="UseAnotherServiceToLogIn">
@@ -106,12 +106,6 @@ else
                                     {
                                         <div class="col-sm-12">
                                             <button type="submit" class="btn btn-primary btn-block" id="@p.AuthenticationType" name="provider" value="@p.AuthenticationType" title="@Resource.LogInUsingYour @p.Caption @Resource.Account ">@p.AuthenticationType</button>
-                                        </div>
-                                    }
-                                    foreach (var p in Nemiro.OAuth.OAuthManager.RegisteredClients)
-                                    {
-                                        <div class="col-sm-12">
-                                            <button type="submit" class="btn btn-primary btn-block" id="@p.Key" name="provider" value="@p.Key" title="@Resource.LogInUsingYour @p.Value.ProviderName @Resource.Account ">@p.Key</button>
                                         </div>
                                     }
                                 }

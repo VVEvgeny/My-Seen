@@ -12,7 +12,6 @@ using MySeenWeb.Add_Code.Services.Logging.NLog;
 using MySeenWeb.Controllers._Base;
 using MySeenWeb.Models.OtherViewModels;
 using MySeenWeb.Models.Tools;
-using Nemiro.OAuth;
 using static MySeenLib.CultureInfoTool;
 using static MySeenLib.Defaults;
 using static MySeenLib.MySeenWebApi;
@@ -236,14 +235,6 @@ namespace MySeenWeb.Controllers.Home
             const string methodName = "public ActionResult AddLogin(string provider)";
             try
             {
-                if (provider == ExternalNotOwinProviders.Yandex
-                    || provider == ExternalNotOwinProviders.MailRu
-                    )
-                {
-                    //logger.Info("provider YANDEX");
-                    var returnUrl = ApiHost + "/Account/ExternalLoginCallback";
-                    return Redirect(OAuthWeb.GetAuthorizationUrl(provider, returnUrl));
-                }
                 // Request a redirect to the external login provider to link a login for the current user
                 return new ChallengeResult(provider, Url.Action("LinkLoginCallback", "Settings"), User.Identity.GetUserId());
             }

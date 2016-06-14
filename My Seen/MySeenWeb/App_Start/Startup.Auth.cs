@@ -8,8 +8,6 @@ using MySeenLib;
 using MySeenWeb.Add_Code;
 using Owin;
 using MySeenWeb.Models.OtherViewModels;
-using Nemiro.OAuth;
-using Nemiro.OAuth.Clients;
 using Owin.Security.Providers.Dropbox;
 using Owin.Security.Providers.GitHub;
 using Owin.Security.Providers.LinkedIn;
@@ -114,16 +112,6 @@ namespace MySeenWeb
             if (mySeenAuths.Have("Google"))
             {
                 app.UseGoogleAuthentication(new GoogleOAuth2AuthenticationOptions() { ClientId = mySeenAuths.Id("Google"), ClientSecret = mySeenAuths.Secret("Google") });
-            }
-
-            //oauth2 Yandex
-            if (mySeenAuths.Have("Yandex"))
-            {
-                OAuthManager.RegisterClient(new YandexClient(mySeenAuths.Id("Yandex"), mySeenAuths.Secret("Yandex")));
-            }
-            if (mySeenAuths.Have("MailRu"))
-            {
-                OAuthManager.RegisterClient(new MailRuClient(mySeenAuths.Id("MailRu"), mySeenAuths.Secret("MailRu")));
             }
         }
     }
