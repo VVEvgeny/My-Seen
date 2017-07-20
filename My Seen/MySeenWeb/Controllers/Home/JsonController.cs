@@ -44,7 +44,7 @@ namespace MySeenWeb.Controllers.Home
             return null;
         }
 
-#if !DEBUG
+        #if !DEBUG
             [Compress] 
         #endif
 
@@ -74,7 +74,7 @@ namespace MySeenWeb.Controllers.Home
                                 _cache));
                     case (int) CategoryBase.Indexes.Books:
                         if (!User.Identity.IsAuthenticated && string.IsNullOrEmpty(shareKey))
-                            return new JsonResult {Data = new {success = false, error = Resource.NotAuthorized}};
+                          return new JsonResult {Data = new {success = false, error = Resource.NotAuthorized}};
                         return
                             Json(new HomeViewModelBooks(User.Identity.GetUserId(), page ?? 1, Rpp, search, shareKey,
                                 _cache));
@@ -124,7 +124,7 @@ namespace MySeenWeb.Controllers.Home
                             Json(new PortalViewModelMemes(User.Identity.GetUserId(), page ?? 1, Rpp, search, id ?? 0,
                                 _cache)); //Всегда по 20 на странице
                     case (int) CategoryBase.IndexesMain.Childs:
-                        return Json(new PortalViewModelChildCalculator(year ?? 0, dateMan, dateWoman));
+                        return Json(new PortalViewModelChildCalculator(year ?? 0, dateWoman, dateMan));
                     case (int) CategoryBase.IndexesMain.Realt:
                         return Json(new PortalViewModelRealt(year ?? 0, price ?? 0, deals ?? 0, salary ?? 0));
                 }

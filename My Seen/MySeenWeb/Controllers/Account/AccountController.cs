@@ -8,7 +8,6 @@ using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using MySeenLib;
 using MySeenWeb.ActionFilters;
-using MySeenWeb.Add_Code;
 using MySeenWeb.Add_Code.Services.Logging.NLog;
 using MySeenWeb.Controllers.Home;
 using MySeenWeb.Controllers._Base;
@@ -16,7 +15,6 @@ using MySeenWeb.Models.OtherViewModels;
 using MySeenWeb.Models.TablesLogic;
 using MySeenWeb.Models.Tools;
 using static MySeenLib.CultureInfoTool;
-using static MySeenLib.MySeenWebApi;
 using static MySeenWeb.Add_Code.Md5Tools;
 
 namespace MySeenWeb.Controllers.Account
@@ -59,7 +57,7 @@ namespace MySeenWeb.Controllers.Account
             try
             {
                 var errorMessage = string.Empty;
-                if (string.IsNullOrEmpty(errorMessage) && await SignInManager.PasswordSignInAsync(userName.ToLower(), password, bool.Parse(remember), shouldLockout: false) != SignInStatus.Success)
+                if (await SignInManager.PasswordSignInAsync(userName.ToLower(), password, bool.Parse(remember), shouldLockout: false) != SignInStatus.Success)
                 {
                     errorMessage = Resource.EmailIncorrect;
                 }

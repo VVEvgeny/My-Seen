@@ -1,0 +1,957 @@
+<?xml version="1.0" standalone="yes"?>
+<NewDataSet>
+  <xs:schema id="NewDataSet" xmlns="" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xs:element name="NewDataSet" msdata:IsDataSet="true" msdata:UseCurrentLocale="true">
+      <xs:complexType>
+        <xs:choice minOccurs="0" maxOccurs="unbounded">
+          <xs:element name="Solution_Path">
+            <xs:complexType>
+              <xs:sequence>
+                <xs:element name="SolutionPath" type="xs:string" minOccurs="0" />
+                <xs:element name="SolutionVersion" type="xs:string" minOccurs="0" />
+                <xs:element name="PlogVersion" type="xs:unsignedInt" minOccurs="0" />
+                <xs:element name="ModificationDate" msdata:DateTimeMode="Utc" type="xs:dateTime" minOccurs="0" />
+              </xs:sequence>
+            </xs:complexType>
+          </xs:element>
+          <xs:element name="PVS-Studio_Analysis_Log">
+            <xs:complexType>
+              <xs:sequence>
+                <xs:element name="FavIcon" type="xs:boolean" minOccurs="0" />
+                <xs:element name="Level" type="xs:unsignedInt" minOccurs="0" />
+                <xs:element name="DefaultOrder" type="xs:int" minOccurs="0" />
+                <xs:element name="ErrorCode" type="xs:string" minOccurs="0" />
+                <xs:element name="Message" type="xs:string" />
+                <xs:element name="Project" type="xs:string" minOccurs="0" />
+                <xs:element name="ShortFile" type="xs:string" minOccurs="0" />
+                <xs:element name="Line" type="xs:int" />
+                <xs:element name="FalseAlarm" type="xs:boolean" minOccurs="0" />
+                <xs:element name="File" type="xs:string" />
+                <xs:element name="CodePrev" type="xs:unsignedInt" minOccurs="0" />
+                <xs:element name="CodeCurrent" type="xs:unsignedInt" minOccurs="0" />
+                <xs:element name="CodeNext" type="xs:unsignedInt" minOccurs="0" />
+                <xs:element name="TrialMessage" type="xs:boolean" minOccurs="0" />
+                <xs:element name="Analyzer" type="xs:int" minOccurs="0" />
+                <xs:element name="LineExtension" type="xs:string" minOccurs="0" />
+                <xs:element name="Retired" type="xs:boolean" default="false" minOccurs="0" />
+                <xs:element name="AnalyzedSourceFiles" type="xs:string" minOccurs="0" />
+              </xs:sequence>
+            </xs:complexType>
+          </xs:element>
+        </xs:choice>
+      </xs:complexType>
+      <xs:unique name="Constraint1" msdata:PrimaryKey="true">
+        <xs:selector xpath=".//PVS-Studio_Analysis_Log" />
+        <xs:field xpath="Line" />
+        <xs:field xpath="Message" />
+        <xs:field xpath="File" />
+      </xs:unique>
+    </xs:element>
+  </xs:schema>
+  <Solution_Path>
+    <SolutionPath>D:\Work_vve\workspace_sharp_git\vvevgeny_myseen\My Seen\My Seen.sln</SolutionPath>
+    <SolutionVersion>14.0</SolutionVersion>
+    <PlogVersion>4</PlogVersion>
+    <ModificationDate>2017-02-20T13:16:39.8540539Z</ModificationDate>
+  </Solution_Path>
+  <PVS-Studio_Analysis_Log>
+    <FavIcon>false</FavIcon>
+    <Level>2</Level>
+    <DefaultOrder>1</DefaultOrder>
+    <ErrorCode>V3114</ErrorCode>
+    <Message>IDisposable object '_ac' is not disposed before method returns.</Message>
+    <Project>My Seen Web</Project>
+    <ShortFile>201602260811297_38.cs</ShortFile>
+    <Line>15</Line>
+    <FalseAlarm>false</FalseAlarm>
+    <File>D:\Work_vve\workspace_sharp_git\vvevgeny_myseen\My Seen\MySeenWeb\Migrations\201602260811297_38.cs</File>
+    <CodePrev>123</CodePrev>
+    <CodeCurrent>2240488221</CodeCurrent>
+    <CodeNext>0</CodeNext>
+    <TrialMessage>false</TrialMessage>
+    <Analyzer>4</Analyzer>
+    <LineExtension />
+    <Retired>false</Retired>
+    <AnalyzedSourceFiles />
+  </PVS-Studio_Analysis_Log>
+  <PVS-Studio_Analysis_Log>
+    <FavIcon>false</FavIcon>
+    <Level>2</Level>
+    <DefaultOrder>2</DefaultOrder>
+    <ErrorCode>V3114</ErrorCode>
+    <Message>IDisposable object 'ac' is not disposed before method returns.</Message>
+    <Project>My Seen Web</Project>
+    <ShortFile>201603020810510_43.cs</ShortFile>
+    <Line>13</Line>
+    <FalseAlarm>false</FalseAlarm>
+    <File>D:\Work_vve\workspace_sharp_git\vvevgeny_myseen\My Seen\MySeenWeb\Migrations\201603020810510_43.cs</File>
+    <CodePrev>123</CodePrev>
+    <CodeCurrent>1703617377</CodeCurrent>
+    <CodeNext>0</CodeNext>
+    <TrialMessage>false</TrialMessage>
+    <Analyzer>4</Analyzer>
+    <LineExtension />
+    <Retired>false</Retired>
+    <AnalyzedSourceFiles />
+  </PVS-Studio_Analysis_Log>
+  <PVS-Studio_Analysis_Log>
+    <FavIcon>false</FavIcon>
+    <Level>2</Level>
+    <DefaultOrder>3</DefaultOrder>
+    <ErrorCode>V3114</ErrorCode>
+    <Message>IDisposable object 'ac' is not disposed before method returns.</Message>
+    <Project>My Seen Web</Project>
+    <ShortFile>HomeViewModelErrors.cs</ShortFile>
+    <Line>17</Line>
+    <FalseAlarm>false</FalseAlarm>
+    <File>D:\Work_vve\workspace_sharp_git\vvevgeny_myseen\My Seen\MySeenWeb\Models\HomeViewModels\HomeViewModelErrors.cs</File>
+    <CodePrev>123</CodePrev>
+    <CodeCurrent>1703617377</CodeCurrent>
+    <CodeNext>1912957298</CodeNext>
+    <TrialMessage>false</TrialMessage>
+    <Analyzer>4</Analyzer>
+    <LineExtension />
+    <Retired>false</Retired>
+    <AnalyzedSourceFiles />
+  </PVS-Studio_Analysis_Log>
+  <PVS-Studio_Analysis_Log>
+    <FavIcon>false</FavIcon>
+    <Level>2</Level>
+    <DefaultOrder>4</DefaultOrder>
+    <ErrorCode>V3114</ErrorCode>
+    <Message>IDisposable object 'ac' is not disposed before method returns.</Message>
+    <Project>My Seen Web</Project>
+    <ShortFile>HomeViewModelTrackEditor.cs</ShortFile>
+    <Line>20</Line>
+    <FalseAlarm>false</FalseAlarm>
+    <File>D:\Work_vve\workspace_sharp_git\vvevgeny_myseen\My Seen\MySeenWeb\Models\HomeViewModels\HomeViewModelTrackEditor.cs</File>
+    <CodePrev>123</CodePrev>
+    <CodeCurrent>1703617377</CodeCurrent>
+    <CodeNext>2257598735</CodeNext>
+    <TrialMessage>false</TrialMessage>
+    <Analyzer>4</Analyzer>
+    <LineExtension />
+    <Retired>false</Retired>
+    <AnalyzedSourceFiles />
+  </PVS-Studio_Analysis_Log>
+  <PVS-Studio_Analysis_Log>
+    <FavIcon>false</FavIcon>
+    <Level>2</Level>
+    <DefaultOrder>5</DefaultOrder>
+    <ErrorCode>V3114</ErrorCode>
+    <Message>IDisposable object 'ac' is not disposed before method returns.</Message>
+    <Project>My Seen Web</Project>
+    <ShortFile>PortalViewModelRealt.cs</ShortFile>
+    <Line>23</Line>
+    <FalseAlarm>false</FalseAlarm>
+    <File>D:\Work_vve\workspace_sharp_git\vvevgeny_myseen\My Seen\MySeenWeb\Models\Portal\PortalViewModelRealt.cs</File>
+    <CodePrev>123</CodePrev>
+    <CodeCurrent>1703617377</CodeCurrent>
+    <CodeNext>3403294841</CodeNext>
+    <TrialMessage>false</TrialMessage>
+    <Analyzer>4</Analyzer>
+    <LineExtension />
+    <Retired>false</Retired>
+    <AnalyzedSourceFiles />
+  </PVS-Studio_Analysis_Log>
+  <PVS-Studio_Analysis_Log>
+    <FavIcon>false</FavIcon>
+    <Level>2</Level>
+    <DefaultOrder>6</DefaultOrder>
+    <ErrorCode>V3114</ErrorCode>
+    <Message>IDisposable object 'ac' is not disposed before method returns.</Message>
+    <Project>My Seen Web</Project>
+    <ShortFile>HomeViewModelEvents.cs</ShortFile>
+    <Line>18</Line>
+    <FalseAlarm>false</FalseAlarm>
+    <File>D:\Work_vve\workspace_sharp_git\vvevgeny_myseen\My Seen\MySeenWeb\Models\HomeViewModels\HomeViewModelEvents.cs</File>
+    <CodePrev>123</CodePrev>
+    <CodeCurrent>1703617377</CodeCurrent>
+    <CodeNext>0</CodeNext>
+    <TrialMessage>false</TrialMessage>
+    <Analyzer>4</Analyzer>
+    <LineExtension />
+    <Retired>false</Retired>
+    <AnalyzedSourceFiles />
+  </PVS-Studio_Analysis_Log>
+  <PVS-Studio_Analysis_Log>
+    <FavIcon>false</FavIcon>
+    <Level>2</Level>
+    <DefaultOrder>7</DefaultOrder>
+    <ErrorCode>V3114</ErrorCode>
+    <Message>IDisposable object 'ac' is not disposed before method returns.</Message>
+    <Project>My Seen Web</Project>
+    <ShortFile>PortalViewModelMemes.cs</ShortFile>
+    <Line>27</Line>
+    <FalseAlarm>false</FalseAlarm>
+    <File>D:\Work_vve\workspace_sharp_git\vvevgeny_myseen\My Seen\MySeenWeb\Models\Portal\PortalViewModelMemes.cs</File>
+    <CodePrev>123</CodePrev>
+    <CodeCurrent>1703617377</CodeCurrent>
+    <CodeNext>0</CodeNext>
+    <TrialMessage>false</TrialMessage>
+    <Analyzer>4</Analyzer>
+    <LineExtension />
+    <Retired>false</Retired>
+    <AnalyzedSourceFiles />
+  </PVS-Studio_Analysis_Log>
+  <PVS-Studio_Analysis_Log>
+    <FavIcon>false</FavIcon>
+    <Level>2</Level>
+    <DefaultOrder>8</DefaultOrder>
+    <ErrorCode>V3072</ErrorCode>
+    <Message>The 'ErrorsLogic' class containing IDisposable members does not itself implement IDisposable. Inspect: _ac.</Message>
+    <Project>My Seen Web</Project>
+    <ShortFile>ErrorsLogic.cs</ShortFile>
+    <Line>8</Line>
+    <FalseAlarm>false</FalseAlarm>
+    <File>D:\Work_vve\workspace_sharp_git\vvevgeny_myseen\My Seen\MySeenWeb\Models\TablesLogic\ErrorsLogic.cs</File>
+    <CodePrev>123</CodePrev>
+    <CodeCurrent>1817525880</CodeCurrent>
+    <CodeNext>123</CodeNext>
+    <TrialMessage>false</TrialMessage>
+    <Analyzer>4</Analyzer>
+    <LineExtension>8,10</LineExtension>
+    <Retired>false</Retired>
+    <AnalyzedSourceFiles />
+  </PVS-Studio_Analysis_Log>
+  <PVS-Studio_Analysis_Log>
+    <FavIcon>false</FavIcon>
+    <Level>2</Level>
+    <DefaultOrder>9</DefaultOrder>
+    <ErrorCode>V3062</ErrorCode>
+    <Message>An object '_ac.NLogErrors' is used as an argument to its own method. Consider checking the first actual argument of the 'RemoveRange' method.</Message>
+    <Project>My Seen Web</Project>
+    <ShortFile>ErrorsLogic.cs</ShortFile>
+    <Line>23</Line>
+    <FalseAlarm>false</FalseAlarm>
+    <File>D:\Work_vve\workspace_sharp_git\vvevgeny_myseen\My Seen\MySeenWeb\Models\TablesLogic\ErrorsLogic.cs</File>
+    <CodePrev>123</CodePrev>
+    <CodeCurrent>488987115</CodeCurrent>
+    <CodeNext>15440097</CodeNext>
+    <TrialMessage>false</TrialMessage>
+    <Analyzer>4</Analyzer>
+    <LineExtension />
+    <Retired>false</Retired>
+    <AnalyzedSourceFiles />
+  </PVS-Studio_Analysis_Log>
+  <PVS-Studio_Analysis_Log>
+    <FavIcon>false</FavIcon>
+    <Level>2</Level>
+    <DefaultOrder>10</DefaultOrder>
+    <ErrorCode>V3072</ErrorCode>
+    <Message>The 'SalaryLogic' class containing IDisposable members does not itself implement IDisposable. Inspect: _ac.</Message>
+    <Project>My Seen Web</Project>
+    <ShortFile>SalaryLogic.cs</ShortFile>
+    <Line>6</Line>
+    <FalseAlarm>false</FalseAlarm>
+    <File>D:\Work_vve\workspace_sharp_git\vvevgeny_myseen\My Seen\MySeenWeb\Models\TablesLogic\Portal\SalaryLogic.cs</File>
+    <CodePrev>123</CodePrev>
+    <CodeCurrent>2976373260</CodeCurrent>
+    <CodeNext>123</CodeNext>
+    <TrialMessage>false</TrialMessage>
+    <Analyzer>4</Analyzer>
+    <LineExtension>6,8</LineExtension>
+    <Retired>false</Retired>
+    <AnalyzedSourceFiles />
+  </PVS-Studio_Analysis_Log>
+  <PVS-Studio_Analysis_Log>
+    <FavIcon>false</FavIcon>
+    <Level>2</Level>
+    <DefaultOrder>11</DefaultOrder>
+    <ErrorCode>V3072</ErrorCode>
+    <Message>The 'RealtLogic' class containing IDisposable members does not itself implement IDisposable. Inspect: _ac.</Message>
+    <Project>My Seen Web</Project>
+    <ShortFile>RealtLogic.cs</ShortFile>
+    <Line>6</Line>
+    <FalseAlarm>false</FalseAlarm>
+    <File>D:\Work_vve\workspace_sharp_git\vvevgeny_myseen\My Seen\MySeenWeb\Models\TablesLogic\Portal\RealtLogic.cs</File>
+    <CodePrev>123</CodePrev>
+    <CodeCurrent>1817814305</CodeCurrent>
+    <CodeNext>123</CodeNext>
+    <TrialMessage>false</TrialMessage>
+    <Analyzer>4</Analyzer>
+    <LineExtension>6,8</LineExtension>
+    <Retired>false</Retired>
+    <AnalyzedSourceFiles />
+  </PVS-Studio_Analysis_Log>
+  <PVS-Studio_Analysis_Log>
+    <FavIcon>false</FavIcon>
+    <Level>2</Level>
+    <DefaultOrder>12</DefaultOrder>
+    <ErrorCode>V3072</ErrorCode>
+    <Message>The 'MemesStatsLogic' class containing IDisposable members does not itself implement IDisposable. Inspect: _ac.</Message>
+    <Project>My Seen Web</Project>
+    <ShortFile>MemesStatsLogic.cs</ShortFile>
+    <Line>9</Line>
+    <FalseAlarm>false</FalseAlarm>
+    <File>D:\Work_vve\workspace_sharp_git\vvevgeny_myseen\My Seen\MySeenWeb\Models\TablesLogic\Portal\MemesStatsLogic.cs</File>
+    <CodePrev>123</CodePrev>
+    <CodeCurrent>1562090654</CodeCurrent>
+    <CodeNext>123</CodeNext>
+    <TrialMessage>false</TrialMessage>
+    <Analyzer>4</Analyzer>
+    <LineExtension>9,11</LineExtension>
+    <Retired>false</Retired>
+    <AnalyzedSourceFiles />
+  </PVS-Studio_Analysis_Log>
+  <PVS-Studio_Analysis_Log>
+    <FavIcon>false</FavIcon>
+    <Level>2</Level>
+    <DefaultOrder>13</DefaultOrder>
+    <ErrorCode>V3072</ErrorCode>
+    <Message>The 'MemesLogic' class containing IDisposable members does not itself implement IDisposable. Inspect: _ac.</Message>
+    <Project>My Seen Web</Project>
+    <ShortFile>MemesLogic.cs</ShortFile>
+    <Line>12</Line>
+    <FalseAlarm>false</FalseAlarm>
+    <File>D:\Work_vve\workspace_sharp_git\vvevgeny_myseen\My Seen\MySeenWeb\Models\TablesLogic\Portal\MemesLogic.cs</File>
+    <CodePrev>123</CodePrev>
+    <CodeCurrent>3093816599</CodeCurrent>
+    <CodeNext>123</CodeNext>
+    <TrialMessage>false</TrialMessage>
+    <Analyzer>4</Analyzer>
+    <LineExtension>12,14</LineExtension>
+    <Retired>false</Retired>
+    <AnalyzedSourceFiles />
+  </PVS-Studio_Analysis_Log>
+  <PVS-Studio_Analysis_Log>
+    <FavIcon>false</FavIcon>
+    <Level>2</Level>
+    <DefaultOrder>14</DefaultOrder>
+    <ErrorCode>V3072</ErrorCode>
+    <Message>The 'EventsLogic' class containing IDisposable members does not itself implement IDisposable. Inspect: _ac.</Message>
+    <Project>My Seen Web</Project>
+    <ShortFile>EventsLogic.cs</ShortFile>
+    <Line>14</Line>
+    <FalseAlarm>false</FalseAlarm>
+    <File>D:\Work_vve\workspace_sharp_git\vvevgeny_myseen\My Seen\MySeenWeb\Models\TablesLogic\EventsLogic.cs</File>
+    <CodePrev>123</CodePrev>
+    <CodeCurrent>3754832895</CodeCurrent>
+    <CodeNext>123</CodeNext>
+    <TrialMessage>false</TrialMessage>
+    <Analyzer>4</Analyzer>
+    <LineExtension>14,16</LineExtension>
+    <Retired>false</Retired>
+    <AnalyzedSourceFiles />
+  </PVS-Studio_Analysis_Log>
+  <PVS-Studio_Analysis_Log>
+    <FavIcon>false</FavIcon>
+    <Level>2</Level>
+    <DefaultOrder>15</DefaultOrder>
+    <ErrorCode>V3072</ErrorCode>
+    <Message>The 'BooksLogic' class containing IDisposable members does not itself implement IDisposable. Inspect: _ac.</Message>
+    <Project>My Seen Web</Project>
+    <ShortFile>BooksLogic.cs</ShortFile>
+    <Line>14</Line>
+    <FalseAlarm>false</FalseAlarm>
+    <File>D:\Work_vve\workspace_sharp_git\vvevgeny_myseen\My Seen\MySeenWeb\Models\TablesLogic\BooksLogic.cs</File>
+    <CodePrev>123</CodePrev>
+    <CodeCurrent>2506245399</CodeCurrent>
+    <CodeNext>123</CodeNext>
+    <TrialMessage>false</TrialMessage>
+    <Analyzer>4</Analyzer>
+    <LineExtension>14,16</LineExtension>
+    <Retired>false</Retired>
+    <AnalyzedSourceFiles />
+  </PVS-Studio_Analysis_Log>
+  <PVS-Studio_Analysis_Log>
+    <FavIcon>false</FavIcon>
+    <Level>2</Level>
+    <DefaultOrder>16</DefaultOrder>
+    <ErrorCode>V3072</ErrorCode>
+    <Message>The 'RoadsLogic' class containing IDisposable members does not itself implement IDisposable. Inspect: _ac.</Message>
+    <Project>My Seen Web</Project>
+    <ShortFile>RoadsLogic.cs</ShortFile>
+    <Line>15</Line>
+    <FalseAlarm>false</FalseAlarm>
+    <File>D:\Work_vve\workspace_sharp_git\vvevgeny_myseen\My Seen\MySeenWeb\Models\TablesLogic\RoadsLogic.cs</File>
+    <CodePrev>123</CodePrev>
+    <CodeCurrent>3118225584</CodeCurrent>
+    <CodeNext>123</CodeNext>
+    <TrialMessage>false</TrialMessage>
+    <Analyzer>4</Analyzer>
+    <LineExtension>15,17</LineExtension>
+    <Retired>false</Retired>
+    <AnalyzedSourceFiles />
+  </PVS-Studio_Analysis_Log>
+  <PVS-Studio_Analysis_Log>
+    <FavIcon>false</FavIcon>
+    <Level>3</Level>
+    <DefaultOrder>17</DefaultOrder>
+    <ErrorCode>V3024</ErrorCode>
+    <Message>An odd precise comparison: Distance == 0. Consider using a comparison with defined precision: Math.Abs(A - B) &lt; Epsilon.</Message>
+    <Project>My Seen Web</Project>
+    <ShortFile>RoadsLogic.cs</ShortFile>
+    <Line>102</Line>
+    <FalseAlarm>false</FalseAlarm>
+    <File>D:\Work_vve\workspace_sharp_git\vvevgeny_myseen\My Seen\MySeenWeb\Models\TablesLogic\RoadsLogic.cs</File>
+    <CodePrev>3470308135</CodePrev>
+    <CodeCurrent>2837604134</CodeCurrent>
+    <CodeNext>1146933</CodeNext>
+    <TrialMessage>false</TrialMessage>
+    <Analyzer>4</Analyzer>
+    <LineExtension />
+    <Retired>false</Retired>
+    <AnalyzedSourceFiles />
+  </PVS-Studio_Analysis_Log>
+  <PVS-Studio_Analysis_Log>
+    <FavIcon>false</FavIcon>
+    <Level>2</Level>
+    <DefaultOrder>18</DefaultOrder>
+    <ErrorCode>V3072</ErrorCode>
+    <Message>The 'NLogErrorsLogic' class containing IDisposable members does not itself implement IDisposable. Inspect: _ac.</Message>
+    <Project>My Seen Web</Project>
+    <ShortFile>NLogErrorsLogic.cs</ShortFile>
+    <Line>9</Line>
+    <FalseAlarm>false</FalseAlarm>
+    <File>D:\Work_vve\workspace_sharp_git\vvevgeny_myseen\My Seen\MySeenWeb\Models\TablesLogic\NLogErrorsLogic.cs</File>
+    <CodePrev>123</CodePrev>
+    <CodeCurrent>3319610991</CodeCurrent>
+    <CodeNext>123</CodeNext>
+    <TrialMessage>false</TrialMessage>
+    <Analyzer>4</Analyzer>
+    <LineExtension>9,11</LineExtension>
+    <Retired>false</Retired>
+    <AnalyzedSourceFiles />
+  </PVS-Studio_Analysis_Log>
+  <PVS-Studio_Analysis_Log>
+    <FavIcon>false</FavIcon>
+    <Level>2</Level>
+    <DefaultOrder>19</DefaultOrder>
+    <ErrorCode>V3072</ErrorCode>
+    <Message>The 'ImprovementLogic' class containing IDisposable members does not itself implement IDisposable. Inspect: _ac.</Message>
+    <Project>My Seen Web</Project>
+    <ShortFile>ImprovementLogic.cs</ShortFile>
+    <Line>12</Line>
+    <FalseAlarm>false</FalseAlarm>
+    <File>D:\Work_vve\workspace_sharp_git\vvevgeny_myseen\My Seen\MySeenWeb\Models\TablesLogic\ImprovementLogic.cs</File>
+    <CodePrev>123</CodePrev>
+    <CodeCurrent>3323126304</CodeCurrent>
+    <CodeNext>123</CodeNext>
+    <TrialMessage>false</TrialMessage>
+    <Analyzer>4</Analyzer>
+    <LineExtension>12,14</LineExtension>
+    <Retired>false</Retired>
+    <AnalyzedSourceFiles />
+  </PVS-Studio_Analysis_Log>
+  <PVS-Studio_Analysis_Log>
+    <FavIcon>false</FavIcon>
+    <Level>2</Level>
+    <DefaultOrder>20</DefaultOrder>
+    <ErrorCode>V3072</ErrorCode>
+    <Message>The 'FilmsLogic' class containing IDisposable members does not itself implement IDisposable. Inspect: _ac.</Message>
+    <Project>My Seen Web</Project>
+    <ShortFile>FilmsLogic.cs</ShortFile>
+    <Line>14</Line>
+    <FalseAlarm>false</FalseAlarm>
+    <File>D:\Work_vve\workspace_sharp_git\vvevgeny_myseen\My Seen\MySeenWeb\Models\TablesLogic\FilmsLogic.cs</File>
+    <CodePrev>123</CodePrev>
+    <CodeCurrent>2304886039</CodeCurrent>
+    <CodeNext>123</CodeNext>
+    <TrialMessage>false</TrialMessage>
+    <Analyzer>4</Analyzer>
+    <LineExtension>14,16</LineExtension>
+    <Retired>false</Retired>
+    <AnalyzedSourceFiles />
+  </PVS-Studio_Analysis_Log>
+  <PVS-Studio_Analysis_Log>
+    <FavIcon>false</FavIcon>
+    <Level>2</Level>
+    <DefaultOrder>21</DefaultOrder>
+    <ErrorCode>V3072</ErrorCode>
+    <Message>The 'UserLogic' class containing IDisposable members does not itself implement IDisposable. Inspect: _ac.</Message>
+    <Project>My Seen Web</Project>
+    <ShortFile>UserLogic.cs</ShortFile>
+    <Line>6</Line>
+    <FalseAlarm>false</FalseAlarm>
+    <File>D:\Work_vve\workspace_sharp_git\vvevgeny_myseen\My Seen\MySeenWeb\Models\TablesLogic\UserLogic.cs</File>
+    <CodePrev>123</CodePrev>
+    <CodeCurrent>3205695812</CodeCurrent>
+    <CodeNext>123</CodeNext>
+    <TrialMessage>false</TrialMessage>
+    <Analyzer>4</Analyzer>
+    <LineExtension>6,8</LineExtension>
+    <Retired>false</Retired>
+    <AnalyzedSourceFiles />
+  </PVS-Studio_Analysis_Log>
+  <PVS-Studio_Analysis_Log>
+    <FavIcon>false</FavIcon>
+    <Level>2</Level>
+    <DefaultOrder>22</DefaultOrder>
+    <ErrorCode>V3072</ErrorCode>
+    <Message>The 'UserRolesLogic' class containing IDisposable members does not itself implement IDisposable. Inspect: _ac.</Message>
+    <Project>My Seen Web</Project>
+    <ShortFile>UserRolesLogic.cs</ShortFile>
+    <Line>11</Line>
+    <FalseAlarm>false</FalseAlarm>
+    <File>D:\Work_vve\workspace_sharp_git\vvevgeny_myseen\My Seen\MySeenWeb\Models\TablesLogic\UserRolesLogic.cs</File>
+    <CodePrev>123</CodePrev>
+    <CodeCurrent>3110460798</CodeCurrent>
+    <CodeNext>123</CodeNext>
+    <TrialMessage>false</TrialMessage>
+    <Analyzer>4</Analyzer>
+    <LineExtension>11,13</LineExtension>
+    <Retired>false</Retired>
+    <AnalyzedSourceFiles />
+  </PVS-Studio_Analysis_Log>
+  <PVS-Studio_Analysis_Log>
+    <FavIcon>false</FavIcon>
+    <Level>2</Level>
+    <DefaultOrder>23</DefaultOrder>
+    <ErrorCode>V3114</ErrorCode>
+    <Message>IDisposable object 'ac' is not disposed before method returns.</Message>
+    <Project>My Seen Web</Project>
+    <ShortFile>UserRolesLogic.cs</ShortFile>
+    <Line>24</Line>
+    <FalseAlarm>false</FalseAlarm>
+    <File>D:\Work_vve\workspace_sharp_git\vvevgeny_myseen\My Seen\MySeenWeb\Models\TablesLogic\UserRolesLogic.cs</File>
+    <CodePrev>123</CodePrev>
+    <CodeCurrent>1703617377</CodeCurrent>
+    <CodeNext>2798</CodeNext>
+    <TrialMessage>false</TrialMessage>
+    <Analyzer>4</Analyzer>
+    <LineExtension />
+    <Retired>false</Retired>
+    <AnalyzedSourceFiles />
+  </PVS-Studio_Analysis_Log>
+  <PVS-Studio_Analysis_Log>
+    <FavIcon>false</FavIcon>
+    <Level>2</Level>
+    <DefaultOrder>24</DefaultOrder>
+    <ErrorCode>V3114</ErrorCode>
+    <Message>IDisposable object 'ac' is not disposed before method returns.</Message>
+    <Project>My Seen Web</Project>
+    <ShortFile>UserRolesLogic.cs</ShortFile>
+    <Line>32</Line>
+    <FalseAlarm>false</FalseAlarm>
+    <File>D:\Work_vve\workspace_sharp_git\vvevgeny_myseen\My Seen\MySeenWeb\Models\TablesLogic\UserRolesLogic.cs</File>
+    <CodePrev>123</CodePrev>
+    <CodeCurrent>1703617377</CodeCurrent>
+    <CodeNext>2798</CodeNext>
+    <TrialMessage>false</TrialMessage>
+    <Analyzer>4</Analyzer>
+    <LineExtension />
+    <Retired>false</Retired>
+    <AnalyzedSourceFiles />
+  </PVS-Studio_Analysis_Log>
+  <PVS-Studio_Analysis_Log>
+    <FavIcon>false</FavIcon>
+    <Level>2</Level>
+    <DefaultOrder>25</DefaultOrder>
+    <ErrorCode>V3072</ErrorCode>
+    <Message>The 'UserCreditsLogic' class containing IDisposable members does not itself implement IDisposable. Inspect: _ac.</Message>
+    <Project>My Seen Web</Project>
+    <ShortFile>UserCreditsLogic.cs</ShortFile>
+    <Line>10</Line>
+    <FalseAlarm>false</FalseAlarm>
+    <File>D:\Work_vve\workspace_sharp_git\vvevgeny_myseen\My Seen\MySeenWeb\Models\TablesLogic\UserCreditsLogic.cs</File>
+    <CodePrev>123</CodePrev>
+    <CodeCurrent>4193739274</CodeCurrent>
+    <CodeNext>123</CodeNext>
+    <TrialMessage>false</TrialMessage>
+    <Analyzer>4</Analyzer>
+    <LineExtension>10,12</LineExtension>
+    <Retired>false</Retired>
+    <AnalyzedSourceFiles />
+  </PVS-Studio_Analysis_Log>
+  <PVS-Studio_Analysis_Log>
+    <FavIcon>false</FavIcon>
+    <Level>2</Level>
+    <DefaultOrder>26</DefaultOrder>
+    <ErrorCode>V3072</ErrorCode>
+    <Message>The 'SerialsLogic' class containing IDisposable members does not itself implement IDisposable. Inspect: _ac.</Message>
+    <Project>My Seen Web</Project>
+    <ShortFile>SerialsLogic.cs</ShortFile>
+    <Line>15</Line>
+    <FalseAlarm>false</FalseAlarm>
+    <File>D:\Work_vve\workspace_sharp_git\vvevgeny_myseen\My Seen\MySeenWeb\Models\TablesLogic\SerialsLogic.cs</File>
+    <CodePrev>123</CodePrev>
+    <CodeCurrent>2477377624</CodeCurrent>
+    <CodeNext>123</CodeNext>
+    <TrialMessage>false</TrialMessage>
+    <Analyzer>4</Analyzer>
+    <LineExtension>15,17</LineExtension>
+    <Retired>false</Retired>
+    <AnalyzedSourceFiles />
+  </PVS-Studio_Analysis_Log>
+  <PVS-Studio_Analysis_Log>
+    <FavIcon>false</FavIcon>
+    <Level>2</Level>
+    <DefaultOrder>27</DefaultOrder>
+    <ErrorCode>V3114</ErrorCode>
+    <Message>IDisposable object 'ap' is not disposed before method returns.</Message>
+    <Project>My Seen Web</Project>
+    <ShortFile>MemesView.cs</ShortFile>
+    <Line>33</Line>
+    <FalseAlarm>false</FalseAlarm>
+    <File>D:\Work_vve\workspace_sharp_git\vvevgeny_myseen\My Seen\MySeenWeb\Models\TablesViews\Portal\MemesView.cs</File>
+    <CodePrev>0</CodePrev>
+    <CodeCurrent>4253754209</CodeCurrent>
+    <CodeNext>0</CodeNext>
+    <TrialMessage>false</TrialMessage>
+    <Analyzer>4</Analyzer>
+    <LineExtension />
+    <Retired>false</Retired>
+    <AnalyzedSourceFiles />
+  </PVS-Studio_Analysis_Log>
+  <PVS-Studio_Analysis_Log>
+    <FavIcon>false</FavIcon>
+    <Level>2</Level>
+    <DefaultOrder>28</DefaultOrder>
+    <ErrorCode>V3063</ErrorCode>
+    <Message>A part of conditional expression is always false if it is evaluated: ts.Hours &lt; 0.</Message>
+    <Project>My Seen Web</Project>
+    <ShortFile>EventsView.cs</ShortFile>
+    <Line>55</Line>
+    <FalseAlarm>false</FalseAlarm>
+    <File>D:\Work_vve\workspace_sharp_git\vvevgeny_myseen\My Seen\MySeenWeb\Models\TablesViews\EventsView.cs</File>
+    <CodePrev>125</CodePrev>
+    <CodeCurrent>3718662631</CodeCurrent>
+    <CodeNext>0</CodeNext>
+    <TrialMessage>false</TrialMessage>
+    <Analyzer>4</Analyzer>
+    <LineExtension />
+    <Retired>false</Retired>
+    <AnalyzedSourceFiles />
+  </PVS-Studio_Analysis_Log>
+  <PVS-Studio_Analysis_Log>
+    <FavIcon>false</FavIcon>
+    <Level>2</Level>
+    <DefaultOrder>29</DefaultOrder>
+    <ErrorCode>V3063</ErrorCode>
+    <Message>A part of conditional expression is always false if it is evaluated: ts.Minutes &lt; 0.</Message>
+    <Project>My Seen Web</Project>
+    <ShortFile>EventsView.cs</ShortFile>
+    <Line>55</Line>
+    <FalseAlarm>false</FalseAlarm>
+    <File>D:\Work_vve\workspace_sharp_git\vvevgeny_myseen\My Seen\MySeenWeb\Models\TablesViews\EventsView.cs</File>
+    <CodePrev>125</CodePrev>
+    <CodeCurrent>3718662631</CodeCurrent>
+    <CodeNext>0</CodeNext>
+    <TrialMessage>false</TrialMessage>
+    <Analyzer>4</Analyzer>
+    <LineExtension />
+    <Retired>false</Retired>
+    <AnalyzedSourceFiles />
+  </PVS-Studio_Analysis_Log>
+  <PVS-Studio_Analysis_Log>
+    <FavIcon>false</FavIcon>
+    <Level>2</Level>
+    <DefaultOrder>30</DefaultOrder>
+    <ErrorCode>V3063</ErrorCode>
+    <Message>A part of conditional expression is always false if it is evaluated: ts.Seconds &lt; 0.</Message>
+    <Project>My Seen Web</Project>
+    <ShortFile>EventsView.cs</ShortFile>
+    <Line>55</Line>
+    <FalseAlarm>false</FalseAlarm>
+    <File>D:\Work_vve\workspace_sharp_git\vvevgeny_myseen\My Seen\MySeenWeb\Models\TablesViews\EventsView.cs</File>
+    <CodePrev>125</CodePrev>
+    <CodeCurrent>3718662631</CodeCurrent>
+    <CodeNext>0</CodeNext>
+    <TrialMessage>false</TrialMessage>
+    <Analyzer>4</Analyzer>
+    <LineExtension />
+    <Retired>false</Retired>
+    <AnalyzedSourceFiles />
+  </PVS-Studio_Analysis_Log>
+  <PVS-Studio_Analysis_Log>
+    <FavIcon>false</FavIcon>
+    <Level>3</Level>
+    <DefaultOrder>31</DefaultOrder>
+    <ErrorCode>V3002</ErrorCode>
+    <Message>The switch statement does not cover all values of the 'Indexes' enum: OneTime, OneTimeWithPast, EveryYear.</Message>
+    <Project>My Seen Web</Project>
+    <ShortFile>EventsView.cs</ShortFile>
+    <Line>98</Line>
+    <FalseAlarm>false</FalseAlarm>
+    <File>D:\Work_vve\workspace_sharp_git\vvevgeny_myseen\My Seen\MySeenWeb\Models\TablesViews\EventsView.cs</File>
+    <CodePrev>123</CodePrev>
+    <CodeCurrent>11689421</CodeCurrent>
+    <CodeNext>123</CodeNext>
+    <TrialMessage>false</TrialMessage>
+    <Analyzer>4</Analyzer>
+    <LineExtension />
+    <Retired>false</Retired>
+    <AnalyzedSourceFiles />
+  </PVS-Studio_Analysis_Log>
+  <PVS-Studio_Analysis_Log>
+    <FavIcon>false</FavIcon>
+    <Level>3</Level>
+    <DefaultOrder>32</DefaultOrder>
+    <ErrorCode>V3002</ErrorCode>
+    <Message>The switch statement does not cover all values of the 'Indexes' enum: OneTime, OneTimeWithPast.</Message>
+    <Project>My Seen Web</Project>
+    <ShortFile>EventsView.cs</ShortFile>
+    <Line>204</Line>
+    <FalseAlarm>false</FalseAlarm>
+    <File>D:\Work_vve\workspace_sharp_git\vvevgeny_myseen\My Seen\MySeenWeb\Models\TablesViews\EventsView.cs</File>
+    <CodePrev>123</CodePrev>
+    <CodeCurrent>11689421</CodeCurrent>
+    <CodeNext>123</CodeNext>
+    <TrialMessage>false</TrialMessage>
+    <Analyzer>4</Analyzer>
+    <LineExtension />
+    <Retired>false</Retired>
+    <AnalyzedSourceFiles />
+  </PVS-Studio_Analysis_Log>
+  <PVS-Studio_Analysis_Log>
+    <FavIcon>false</FavIcon>
+    <Level>2</Level>
+    <DefaultOrder>33</DefaultOrder>
+    <ErrorCode>V3114</ErrorCode>
+    <Message>IDisposable object 'ac' is not disposed before method returns.</Message>
+    <Project>My Seen Web</Project>
+    <ShortFile>BugsView.cs</ShortFile>
+    <Line>18</Line>
+    <FalseAlarm>false</FalseAlarm>
+    <File>D:\Work_vve\workspace_sharp_git\vvevgeny_myseen\My Seen\MySeenWeb\Models\TablesViews\BugsView.cs</File>
+    <CodePrev>123</CodePrev>
+    <CodeCurrent>1703617377</CodeCurrent>
+    <CodeNext>2445271353</CodeNext>
+    <TrialMessage>false</TrialMessage>
+    <Analyzer>4</Analyzer>
+    <LineExtension />
+    <Retired>false</Retired>
+    <AnalyzedSourceFiles />
+  </PVS-Studio_Analysis_Log>
+  <PVS-Studio_Analysis_Log>
+    <FavIcon>false</FavIcon>
+    <Level>2</Level>
+    <DefaultOrder>34</DefaultOrder>
+    <ErrorCode>V3114</ErrorCode>
+    <Message>IDisposable object 'ac' is not disposed before method returns.</Message>
+    <Project>My Seen Web</Project>
+    <ShortFile>HomeViewModelBooks.cs</ShortFile>
+    <Line>29</Line>
+    <FalseAlarm>false</FalseAlarm>
+    <File>D:\Work_vve\workspace_sharp_git\vvevgeny_myseen\My Seen\MySeenWeb\Models\HomeViewModels\HomeViewModelBooks.cs</File>
+    <CodePrev>123</CodePrev>
+    <CodeCurrent>1703617377</CodeCurrent>
+    <CodeNext>1546857</CodeNext>
+    <TrialMessage>false</TrialMessage>
+    <Analyzer>4</Analyzer>
+    <LineExtension />
+    <Retired>false</Retired>
+    <AnalyzedSourceFiles />
+  </PVS-Studio_Analysis_Log>
+  <PVS-Studio_Analysis_Log>
+    <FavIcon>false</FavIcon>
+    <Level>2</Level>
+    <DefaultOrder>35</DefaultOrder>
+    <ErrorCode>V3114</ErrorCode>
+    <Message>IDisposable object 'ac' is not disposed before method returns.</Message>
+    <Project>My Seen Web</Project>
+    <ShortFile>HomeViewModelSerials.cs</ShortFile>
+    <Line>29</Line>
+    <FalseAlarm>false</FalseAlarm>
+    <File>D:\Work_vve\workspace_sharp_git\vvevgeny_myseen\My Seen\MySeenWeb\Models\HomeViewModels\HomeViewModelSerials.cs</File>
+    <CodePrev>123</CodePrev>
+    <CodeCurrent>1703617377</CodeCurrent>
+    <CodeNext>0</CodeNext>
+    <TrialMessage>false</TrialMessage>
+    <Analyzer>4</Analyzer>
+    <LineExtension />
+    <Retired>false</Retired>
+    <AnalyzedSourceFiles />
+  </PVS-Studio_Analysis_Log>
+  <PVS-Studio_Analysis_Log>
+    <FavIcon>false</FavIcon>
+    <Level>2</Level>
+    <DefaultOrder>36</DefaultOrder>
+    <ErrorCode>V3114</ErrorCode>
+    <Message>IDisposable object 'ac' is not disposed before method returns.</Message>
+    <Project>My Seen Web</Project>
+    <ShortFile>HomeViewModelFilms.cs</ShortFile>
+    <Line>29</Line>
+    <FalseAlarm>false</FalseAlarm>
+    <File>D:\Work_vve\workspace_sharp_git\vvevgeny_myseen\My Seen\MySeenWeb\Models\HomeViewModels\HomeViewModelFilms.cs</File>
+    <CodePrev>123</CodePrev>
+    <CodeCurrent>1703617377</CodeCurrent>
+    <CodeNext>0</CodeNext>
+    <TrialMessage>false</TrialMessage>
+    <Analyzer>4</Analyzer>
+    <LineExtension />
+    <Retired>false</Retired>
+    <AnalyzedSourceFiles />
+  </PVS-Studio_Analysis_Log>
+  <PVS-Studio_Analysis_Log>
+    <FavIcon>false</FavIcon>
+    <Level>2</Level>
+    <DefaultOrder>37</DefaultOrder>
+    <ErrorCode>V3114</ErrorCode>
+    <Message>IDisposable object 'ac' is not disposed before method returns.</Message>
+    <Project>My Seen Web</Project>
+    <ShortFile>HomeViewModelLogs.cs</ShortFile>
+    <Line>19</Line>
+    <FalseAlarm>false</FalseAlarm>
+    <File>D:\Work_vve\workspace_sharp_git\vvevgeny_myseen\My Seen\MySeenWeb\Models\HomeViewModels\HomeViewModelLogs.cs</File>
+    <CodePrev>123</CodePrev>
+    <CodeCurrent>1703617377</CodeCurrent>
+    <CodeNext>0</CodeNext>
+    <TrialMessage>false</TrialMessage>
+    <Analyzer>4</Analyzer>
+    <LineExtension />
+    <Retired>false</Retired>
+    <AnalyzedSourceFiles />
+  </PVS-Studio_Analysis_Log>
+  <PVS-Studio_Analysis_Log>
+    <FavIcon>false</FavIcon>
+    <Level>2</Level>
+    <DefaultOrder>38</DefaultOrder>
+    <ErrorCode>V3114</ErrorCode>
+    <Message>IDisposable object 'ac' is not disposed before method returns.</Message>
+    <Project>My Seen Web</Project>
+    <ShortFile>LogsView.cs</ShortFile>
+    <Line>17</Line>
+    <FalseAlarm>false</FalseAlarm>
+    <File>D:\Work_vve\workspace_sharp_git\vvevgeny_myseen\My Seen\MySeenWeb\Models\TablesViews\LogsView.cs</File>
+    <CodePrev>123</CodePrev>
+    <CodeCurrent>1703617377</CodeCurrent>
+    <CodeNext>1691684858</CodeNext>
+    <TrialMessage>false</TrialMessage>
+    <Analyzer>4</Analyzer>
+    <LineExtension />
+    <Retired>false</Retired>
+    <AnalyzedSourceFiles />
+  </PVS-Studio_Analysis_Log>
+  <PVS-Studio_Analysis_Log>
+    <FavIcon>false</FavIcon>
+    <Level>2</Level>
+    <DefaultOrder>39</DefaultOrder>
+    <ErrorCode>V3114</ErrorCode>
+    <Message>IDisposable object 'ac' is not disposed before method returns.</Message>
+    <Project>My Seen Web</Project>
+    <ShortFile>HomeViewModelUsers.cs</ShortFile>
+    <Line>33</Line>
+    <FalseAlarm>false</FalseAlarm>
+    <File>D:\Work_vve\workspace_sharp_git\vvevgeny_myseen\My Seen\MySeenWeb\Models\HomeViewModels\HomeViewModelUsers.cs</File>
+    <CodePrev>123</CodePrev>
+    <CodeCurrent>1703617377</CodeCurrent>
+    <CodeNext>1912957298</CodeNext>
+    <TrialMessage>false</TrialMessage>
+    <Analyzer>4</Analyzer>
+    <LineExtension />
+    <Retired>false</Retired>
+    <AnalyzedSourceFiles />
+  </PVS-Studio_Analysis_Log>
+  <PVS-Studio_Analysis_Log>
+    <FavIcon>false</FavIcon>
+    <Level>2</Level>
+    <DefaultOrder>40</DefaultOrder>
+    <ErrorCode>V3114</ErrorCode>
+    <Message>IDisposable object 'ac' is not disposed before method returns.</Message>
+    <Project>My Seen Web</Project>
+    <ShortFile>HomeViewModelImprovements.cs</ShortFile>
+    <Line>20</Line>
+    <FalseAlarm>false</FalseAlarm>
+    <File>D:\Work_vve\workspace_sharp_git\vvevgeny_myseen\My Seen\MySeenWeb\Models\HomeViewModels\HomeViewModelImprovements.cs</File>
+    <CodePrev>123</CodePrev>
+    <CodeCurrent>1703617377</CodeCurrent>
+    <CodeNext>3111190378</CodeNext>
+    <TrialMessage>false</TrialMessage>
+    <Analyzer>4</Analyzer>
+    <LineExtension />
+    <Retired>false</Retired>
+    <AnalyzedSourceFiles />
+  </PVS-Studio_Analysis_Log>
+  <PVS-Studio_Analysis_Log>
+    <FavIcon>false</FavIcon>
+    <Level>2</Level>
+    <DefaultOrder>41</DefaultOrder>
+    <ErrorCode>V3114</ErrorCode>
+    <Message>IDisposable object 'ac' is not disposed before method returns.</Message>
+    <Project>My Seen Web</Project>
+    <ShortFile>LogSave.cs</ShortFile>
+    <Line>15</Line>
+    <FalseAlarm>false</FalseAlarm>
+    <File>D:\Work_vve\workspace_sharp_git\vvevgeny_myseen\My Seen\MySeenWeb\Models\Tools\LogSave.cs</File>
+    <CodePrev>123</CodePrev>
+    <CodeCurrent>1703617377</CodeCurrent>
+    <CodeNext>1261567245</CodeNext>
+    <TrialMessage>false</TrialMessage>
+    <Analyzer>4</Analyzer>
+    <LineExtension />
+    <Retired>false</Retired>
+    <AnalyzedSourceFiles />
+  </PVS-Studio_Analysis_Log>
+  <PVS-Studio_Analysis_Log>
+    <FavIcon>false</FavIcon>
+    <Level>2</Level>
+    <DefaultOrder>42</DefaultOrder>
+    <ErrorCode>V3114</ErrorCode>
+    <Message>IDisposable object 'ac' is not disposed before method returns.</Message>
+    <Project>My Seen Web</Project>
+    <ShortFile>HomeViewModelRoads.cs</ShortFile>
+    <Line>24</Line>
+    <FalseAlarm>false</FalseAlarm>
+    <File>D:\Work_vve\workspace_sharp_git\vvevgeny_myseen\My Seen\MySeenWeb\Models\HomeViewModels\HomeViewModelRoads.cs</File>
+    <CodePrev>123</CodePrev>
+    <CodeCurrent>1703617377</CodeCurrent>
+    <CodeNext>1041201431</CodeNext>
+    <TrialMessage>false</TrialMessage>
+    <Analyzer>4</Analyzer>
+    <LineExtension />
+    <Retired>false</Retired>
+    <AnalyzedSourceFiles />
+  </PVS-Studio_Analysis_Log>
+  <PVS-Studio_Analysis_Log>
+    <FavIcon>false</FavIcon>
+    <Level>2</Level>
+    <DefaultOrder>43</DefaultOrder>
+    <ErrorCode>V3114</ErrorCode>
+    <Message>IDisposable object 'ac' is not disposed before method returns.</Message>
+    <Project>My Seen Web</Project>
+    <ShortFile>HomeViewModelRoads.cs</ShortFile>
+    <Line>43</Line>
+    <FalseAlarm>false</FalseAlarm>
+    <File>D:\Work_vve\workspace_sharp_git\vvevgeny_myseen\My Seen\MySeenWeb\Models\HomeViewModels\HomeViewModelRoads.cs</File>
+    <CodePrev>123</CodePrev>
+    <CodeCurrent>1703617377</CodeCurrent>
+    <CodeNext>0</CodeNext>
+    <TrialMessage>false</TrialMessage>
+    <Analyzer>4</Analyzer>
+    <LineExtension />
+    <Retired>false</Retired>
+    <AnalyzedSourceFiles />
+  </PVS-Studio_Analysis_Log>
+  <PVS-Studio_Analysis_Log>
+    <FavIcon>false</FavIcon>
+    <Level>2</Level>
+    <DefaultOrder>44</DefaultOrder>
+    <ErrorCode>V3114</ErrorCode>
+    <Message>IDisposable object 'ap' is not disposed before method returns.</Message>
+    <Project>My Seen Web</Project>
+    <ShortFile>UsersView.cs</ShortFile>
+    <Line>30</Line>
+    <FalseAlarm>false</FalseAlarm>
+    <File>D:\Work_vve\workspace_sharp_git\vvevgeny_myseen\My Seen\MySeenWeb\Models\TablesViews\UsersView.cs</File>
+    <CodePrev>0</CodePrev>
+    <CodeCurrent>4253754209</CodeCurrent>
+    <CodeNext>0</CodeNext>
+    <TrialMessage>false</TrialMessage>
+    <Analyzer>4</Analyzer>
+    <LineExtension />
+    <Retired>false</Retired>
+    <AnalyzedSourceFiles />
+  </PVS-Studio_Analysis_Log>
+  <PVS-Studio_Analysis_Log>
+    <FavIcon>false</FavIcon>
+    <Level>2</Level>
+    <DefaultOrder>45</DefaultOrder>
+    <ErrorCode>V3114</ErrorCode>
+    <Message>IDisposable object 'ac' is not disposed before method returns.</Message>
+    <Project>My Seen Web</Project>
+    <ShortFile>201603011357238_41.cs</ShortFile>
+    <Line>13</Line>
+    <FalseAlarm>false</FalseAlarm>
+    <File>D:\Work_vve\workspace_sharp_git\vvevgeny_myseen\My Seen\MySeenWeb\Migrations\201603011357238_41.cs</File>
+    <CodePrev>123</CodePrev>
+    <CodeCurrent>1703617377</CodeCurrent>
+    <CodeNext>0</CodeNext>
+    <TrialMessage>false</TrialMessage>
+    <Analyzer>4</Analyzer>
+    <LineExtension />
+    <Retired>false</Retired>
+    <AnalyzedSourceFiles />
+  </PVS-Studio_Analysis_Log>
+</NewDataSet>

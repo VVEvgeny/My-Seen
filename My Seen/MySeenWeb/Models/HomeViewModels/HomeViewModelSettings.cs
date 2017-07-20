@@ -32,29 +32,31 @@ namespace MySeenWeb.Models
             }
             else
             {
-                var ac = new ApplicationDbContext();
-                var user = ac.Users.First(u => u.Id == userId);
+                using (var ac = new ApplicationDbContext())
+                {
+                    var user = ac.Users.First(u => u.Id == userId);
 
-                Lang = Languages.GetIdDb(user.Culture).ToString();
-                Rpp = user.RecordPerPage.ToString();
-                Markers = user.MarkersOnRoads.ToString();
-                HasPassword = user.PasswordHash != null;
-                Theme = user.Theme.ToString();
+                    Lang = Languages.GetIdDb(user.Culture).ToString();
+                    Rpp = user.RecordPerPage.ToString();
+                    Markers = user.MarkersOnRoads.ToString();
+                    HasPassword = user.PasswordHash != null;
+                    Theme = user.Theme.ToString();
 
-                var userLogic = new UserLogic();
-                CountLogins = userLogic.GetCountLogins(userId);
+                    var userLogic = new UserLogic();
+                    CountLogins = userLogic.GetCountLogins(userId);
 
-                MarkersOnRoadsList =
-                    EnabledDisabled.GetAll()
-                        .Select(
-                            sel =>
-                                new SelectListItem
-                                {
-                                    Text = sel,
-                                    Value = EnabledDisabled.GetId(sel).ToString(),
-                                    Selected = EnabledDisabled.GetId(sel).ToString() == Markers
-                                })
-                        .ToList();
+                    MarkersOnRoadsList =
+                        EnabledDisabled.GetAll()
+                            .Select(
+                                sel =>
+                                    new SelectListItem
+                                    {
+                                        Text = sel,
+                                        Value = EnabledDisabled.GetId(sel).ToString(),
+                                        Selected = EnabledDisabled.GetId(sel).ToString() == Markers
+                                    })
+                            .ToList();
+                }
             }
 
             LangList =

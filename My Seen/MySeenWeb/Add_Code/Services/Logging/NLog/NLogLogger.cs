@@ -6,7 +6,7 @@ namespace MySeenWeb.Add_Code.Services.Logging.NLog
     public class NLogLogger : ILogger
     {
 
-        private readonly Logger _logger;
+        public readonly Logger _logger;
 
         public NLogLogger()
         {

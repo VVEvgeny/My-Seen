@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using MySeenWeb.Add_Code.Services.Logging.NLog;
 using MySeenWeb.Models.Meta;
 using MySeenWeb.Models.OtherViewModels;
 using MySeenWeb.Models.TablesViews;
 using MySeenWeb.Models.Tools;
+using NLog;
 using static MySeenLib.UmtTime;
 
 namespace MySeenWeb.Models
@@ -13,6 +15,7 @@ namespace MySeenWeb.Models
     {
         public IEnumerable<LogsView> Data { get; set; }
         public Pagination Pages { get; set; }
+        public string DebugData { get; set; }
 
         public HomeViewModelLogs(int page, int countInPage, string search, bool withBots, int period)
         {
@@ -66,6 +69,35 @@ namespace MySeenWeb.Models
                 case 99: //All
                     break;
             }
+
+
+
+
+            LogManager.ThrowExceptions = true;
+            DebugData = string.Empty;
+
+
+
+
+            var logger2 = new NLogLogger();
+            logger2.Info("req123");
+            DebugData += "NLogLogger" + Environment.NewLine;
+            DebugData += "logger2._logger.IsDebugEnabled=" + (logger2._logger.IsDebugEnabled ? "+" : "-") + Environment.NewLine;
+            DebugData += "logger2._logger.IsInfoEnabled=" + (logger2._logger.IsInfoEnabled ? "+" : "-") + Environment.NewLine;
+            DebugData += "logger2._logger.Name=" + (logger2._logger.Name) + Environment.NewLine;
+
+
+            var logger = LogManager.GetLogger("databaselog");
+            logger.Info("req123");
+            DebugData += "LogManager.GetLogger(\"databaselog\")" + Environment.NewLine;
+            DebugData += "logger.IsDebugEnabled=" + (logger.IsDebugEnabled ? "+" : "-") + Environment.NewLine;
+            DebugData += "logger.IsInfoEnabled=" + (logger.IsInfoEnabled ? "+" : "-") + Environment.NewLine;
+            DebugData += "logger.Name=" + (logger.Name) + Environment.NewLine;
+
+
+
+
+
 
             Pages = new Pagination(page,
                 ac.Logs.AsNoTracking().AsEnumerable().Count(
