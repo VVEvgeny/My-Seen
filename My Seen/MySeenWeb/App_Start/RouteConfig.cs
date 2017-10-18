@@ -110,6 +110,11 @@ namespace MySeenWeb
                 defaults: new {controller = "Settings", action = "SetMor"}
                 );
             routes.MapRoute(
+                name: "Settings/SetEnableAnimation",
+                url: "Settings/SetEnableAnimation",
+                defaults: new { controller = "Settings", action = "SetEnableAnimation" }
+            );
+            routes.MapRoute(
                 name: "Settings/SetPassword",
                 url: "Settings/SetPassword",
                 defaults: new {controller = "Settings", action = "SetPassword"}

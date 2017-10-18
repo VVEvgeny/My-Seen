@@ -1,7 +1,12 @@
-﻿@model Int32
+﻿@model MySeenWeb.Models.Style.Style
 
 <!--Bootstrap themes-->
-<link href="~/Content/bootstrap@((Model <= 0 || Model > 10) ? "" : "-themes/" + Model).min.css" rel="stylesheet"/>
+<link href="~/Content/bootstrap@((Model.Theme <= 0 || Model.Theme > 10) ? "" : "-themes/" + Model.Theme).min.css" rel="stylesheet"/>
 
 <!--all project src-->
 @Styles.Render("~/css")
+
+@if (Model.AnimationEnabled == (int)Defaults.EnabledDisabledBase.Indexes.Enabled)
+{
+    @Styles.Render("~/css_animate")
+}

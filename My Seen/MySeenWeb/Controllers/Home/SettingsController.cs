@@ -104,7 +104,6 @@ namespace MySeenWeb.Controllers.Home
         }
 
         [Compress]
-        [Authorize]
         [HttpPost]
         public JsonResult SetMor(int val)
         {
@@ -112,11 +111,40 @@ namespace MySeenWeb.Controllers.Home
             const string methodName = "public JsonResult SetMor(int mor)";
             try
             {
-                var ac = new ApplicationDbContext();
                 var userId = User.Identity.GetUserId();
-                ac.Users.First(u => u.Id == userId).MarkersOnRoads = val;
-                ac.SaveChanges();
+                if (!string.IsNullOrEmpty(userId))
+                {
+                    var ac = new ApplicationDbContext();
+                    ac.Users.First(u => u.Id == userId).MarkersOnRoads = val;
+                    ac.SaveChanges();
+                }
+
                 MarkersOnRoads = val;
+                return Json(new { success = true });
+            }
+            catch (Exception ex)
+            {
+                logger.Error(methodName, ex);
+            }
+            return new JsonResult { Data = new { success = false, error = methodName } };
+        }
+        [Compress]
+        [HttpPost]
+        public JsonResult SetEnableAnimation(int val)
+        {
+            var logger = new NLogLogger();
+            const string methodName = "public JsonResult SetEnableAnimation(int val)";
+            try
+            {
+                var userId = User.Identity.GetUserId();
+                if (!string.IsNullOrEmpty(userId))
+                {
+                    var ac = new ApplicationDbContext();
+                    ac.Users.First(u => u.Id == userId).EnableAnimation = val;
+                    ac.SaveChanges();
+                }
+
+                EnableAnimation = val;
                 return Json(new { success = true });
             }
             catch (Exception ex)

@@ -63,7 +63,6 @@ namespace MySeenWeb
                     "~/node_modules/bootstrap/dist/css/bootstrap-theme.css",
                     "~/Content/myseen/Site.css",
                     "~/Content/myseen/navbar.css",
-                    "~/Content/animate.css",
                     "~/Content/font-awesome.css",
                     "~/Content/myseen/skill.css",
                     "~/Content/myseen/gmap3-menu.css"
@@ -82,6 +81,8 @@ namespace MySeenWeb
                 //bundles.Add(new StyleBundle("~/css").Include("~/Content/prod/production.purify.css"));
 
             }
+
+            bundles.Add(new StyleBundle("~/css_animate").Include("~/Content/animate.css"));
         }
     }
 }

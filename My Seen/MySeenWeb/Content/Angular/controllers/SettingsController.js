@@ -65,6 +65,9 @@ App.controller("SettingsController",
         $scope.markersChange = function() {
             $rootScope.GetPage(constants.PagesSettings.SetMor, $http, null, { val: $scope.data.Markers });
         };
+        $scope.enableAnimationChange = function () {
+            $rootScope.GetPage(constants.PagesSettings.SetEnableAnimation, $http, afterLanguageChange, { val: $scope.data.EnableAnimation });
+        };
 
         $scope.modalSetPassword = {};
         $scope.setPassword = function() {

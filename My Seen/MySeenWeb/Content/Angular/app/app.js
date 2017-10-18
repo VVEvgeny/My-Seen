@@ -49,7 +49,7 @@ App.config(function($stateProvider, $urlRouterProvider, $locationProvider) {
         ///////////////////////////////////////////////////////////////////////
         $rootScope.safeApply = function(fn) {
             var phase = this.$root.$$phase;
-            if (phase == "$apply" || phase == "$digest") {
+            if (phase === "$apply" || phase === "$digest") {
                 if (fn && (typeof (fn) === "function")) {
                     fn();
                 }
@@ -71,7 +71,7 @@ App.config(function($stateProvider, $urlRouterProvider, $locationProvider) {
                     $rootScope.cacheTranslates.removeAll();
                 }
                 if (pageName === Constants.Pages.Translation) {
-                    if ($rootScope.getTranslates(parameters.pageId) != null) {
+                    if ($rootScope.getTranslates(parameters.pageId) !== null) {
                         if (!silentMode)
                         {
                             $rootScope.loading = false;
@@ -151,12 +151,13 @@ App.config(function($stateProvider, $urlRouterProvider, $locationProvider) {
             SetTheme: "/Settings/SetTheme/",
             SetRpp: "/Settings/SetRpp/",
             SetMor: "/Settings/SetMor/",
+            SetEnableAnimation: "/Settings/SetEnableAnimation/",
             SetVkService: "/Settings/SetVkService/",
             SetGoogleService: "/Settings/SetGoogleService/",
             SetFacebookService: "/Settings/SetFacebookService/",
             SetPassword: "/Settings/SetPassword/",
             GetLogins: "/Settings/GetLogins/",
-            RemoveLogin: "/Settings/RemoveLogin/",
+            RemoveLogin: "/Settings/RemoveLogin/"
         },
         PagesPortal:
         {
