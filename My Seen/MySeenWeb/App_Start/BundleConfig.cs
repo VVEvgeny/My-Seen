@@ -82,8 +82,6 @@ namespace MySeenWeb
                 //bundles.Add(new StyleBundle("~/css").Include("~/Content/prod/production.purify.css"));
 
             }
-
-            bundles.Add(new StyleBundle("~/css_animate").Include("~/Content/animate.css"));
         }
     }
 }

@@ -14,8 +14,8 @@ namespace MySeenWeb.Models.Translations
         public string ExternalLogins = Resource.ExternalLogins;
         public string FacebookServices = Resource.FacebookServices;
         public string GoogleServices = Resource.GoogleServices;
-        public string ResourceVersion = Resource.ResourceVersion;
-        public string ResourceVersionNum = Resource.ResourceVersionNum;
+        public string LibraryVersion = Resource.LibraryVersion;
+        public string LibVersionNum = Resource.LibVersionNum;
         public string Manage = Resource.Manage;
         public string MarkersOnRoads = Resource.MarkersOnRoads;
         public string NewPassword = Resource.NewPassword;
@@ -27,9 +27,9 @@ namespace MySeenWeb.Models.Translations
         public string Service = Resource.Service;
 
         public string SetPassword = Resource.SetPassword;
-        public string Version = Resource.Version;
+        public string SiteVersion = Resource.SiteVersion;
         public string Theme = Resource.Theme;
         public string VkServices = Resource.VkServices;
-        public string Web = Versions.Version.ToString();
+        public string Web = Versions.Web.ToString();
     }
 }
