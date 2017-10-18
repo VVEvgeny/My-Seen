@@ -60,8 +60,11 @@ App.config(function($stateProvider, $urlRouterProvider, $locationProvider) {
         ///////////////////////////////////////////////////////////////////////
         ///////////////////////////////////////////////////////////////////////           REQUESTS
         ///////////////////////////////////////////////////////////////////////
-        $rootScope.GetPage = function(pageName, $http, callback, parameters, silentMode) {
-            if (!silentMode) $rootScope.loading = true;
+        $rootScope.GetPage = function (pageName, $http, callback, parameters, silentMode) {
+
+            var timeoutLoading = setTimeout(function () {
+                if (!silentMode) $rootScope.loading = true;
+            }, 1000);
 
             if (cacheEnabled) {
                 if (pageName === Constants.PagesSettings.SetLanguage) {
@@ -69,7 +72,11 @@ App.config(function($stateProvider, $urlRouterProvider, $locationProvider) {
                 }
                 if (pageName === Constants.Pages.Translation) {
                     if ($rootScope.getTranslates(parameters.pageId) != null) {
-                        if (!silentMode) $rootScope.loading = false;
+                        if (!silentMode)
+                        {
+                            $rootScope.loading = false;
+                            clearTimeout(timeoutLoading);
+                        }
                         if (callback)callback($rootScope.getTranslates(parameters.pageId));
                         return;
                     }
@@ -79,7 +86,10 @@ App.config(function($stateProvider, $urlRouterProvider, $locationProvider) {
             $http.post(pageName, parameters)
                 .success(function(jsonData) {
 
-                    if (!silentMode) $rootScope.loading = false;
+                    if (!silentMode) {
+                        $rootScope.loading = false;
+                        clearTimeout(timeoutLoading);
+                    }
                     if (jsonData.error) {
                         if (!silentMode) {
                             alert(jsonData.error);

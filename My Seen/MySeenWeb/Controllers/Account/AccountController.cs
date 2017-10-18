@@ -82,7 +82,7 @@ namespace MySeenWeb.Controllers.Account
         public async Task<JsonResult> Register(string userName, string password, string repeatPassword)
         {
             var logger = new NLogLogger();
-            const string methodName = "public async Task<ActionResult> Register(string userName, string password, string repeatPassword)";
+             string methodName = "public async Task<ActionResult> Register(string userName, string password, string repeatPassword)";
             try
             {
                 if (password != repeatPassword)
@@ -103,6 +103,7 @@ namespace MySeenWeb.Controllers.Account
             }
             catch (Exception ex)
             {
+                methodName += ";" + ex.Message;
                 logger.Error(methodName, ex);
             }
             return new JsonResult {Data = new {success = false, error = methodName}};

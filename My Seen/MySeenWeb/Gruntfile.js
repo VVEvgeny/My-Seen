@@ -3,7 +3,8 @@ module.exports = function(grunt) {
 
     var srcScriptFiles = [
         //jquery
-        "Scripts/jquery-*.min.js",
+        //"Scripts/jquery-*.min.js",
+        "Scripts/jquery-2.2.3.js",
         //"node_modules/jquery/dist/jquery.js", //13/06/16 bootstrap.js:15 Uncaught Error: Bootstrap's JavaScript requires jQuery version 1.9.1 or higher, but lower than version 3 
         "node_modules/jquery-validation/dist/jquery.validate.js",
         //angular
@@ -21,17 +22,16 @@ module.exports = function(grunt) {
         "Content/Angular/controllers/Portal/*.js",
         "Content/Angular/controllers/Tests/*.js",
         //amcharts
-        "node_modules/amcharts/amcharts/amcharts.js",
-        "node_modules/amcharts/amcharts/serial.js",
-        "node_modules/amcharts/amcharts/themes/light.js",
+        "node_modules/amcharts/dist/amcharts/amcharts.js",
+        "node_modules/amcharts/dist/amcharts/serial.js",
+        "node_modules/amcharts/dist/amcharts/themes/light.js",
         //tools
         "Scripts/modernizr-*.js",//бле не нашел в ноде норм скрипт, туча исходников...
         //bootstrap
         "node_modules/bootstrap/dist/js/bootstrap.js",
-        "node_modules/respond/main.js",
+        //"node_modules/respond/main.js",
         //gmap3
         "Scripts/gmap3.js",
-        //jsnlog
         "Scripts/myseen/gmap.js",
         "Scripts/myseen/gmap.tools.js",
         "Scripts/myseen/variables.js",
@@ -48,8 +48,8 @@ module.exports = function(grunt) {
     ];
 
     var srcCssFiles = [
-        "node_modules/bootstrap/dist/css/bootstrap-theme.css",
         "node_modules/eonasdan-bootstrap-datetimepicker/build/css/bootstrap-datetimepicker.css",
+        "node_modules/bootstrap/dist/css/bootstrap-theme.css",
         "Content/myseen/Site.css",
         "Content/myseen/navbar.css",
         "Content/animate.css",
@@ -113,7 +113,7 @@ module.exports = function(grunt) {
                 dest: "Content/prod/production.min.css"
             }
         }
-        /*,
+        ,
         watch: {
             scripts: {
                 files: srcScriptFiles,
@@ -131,7 +131,7 @@ module.exports = function(grunt) {
                     spawn: false
                 }
             }
-        }*/
+        }
     });
 
     grunt.loadNpmTasks("grunt-contrib-concat");

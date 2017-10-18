@@ -71,8 +71,16 @@ namespace MySeenWeb
             }
             else
             {
-                bundles.Add(new ScriptBundle("~/js").Include("~/Content/prod/production.min.js"));
-                bundles.Add(new StyleBundle("~/css").Include("~/Content/prod/production.min.css"));
+                bundles.Add(new ScriptBundle("~/js").Include("~/Content/prod/production.js"));
+                //uglify портит, Uncaught ReferenceError: module is not defined
+                //bundles.Add(new ScriptBundle("~/js").Include("~/Content/prod/production.min.js"));
+
+
+                bundles.Add(new StyleBundle("~/css").Include("~/Content/prod/production.css"));
+                //cssmin портит бутстрап меню.............
+                //bundles.Add(new StyleBundle("~/css").Include("~/Content/prod/production.min.css"));
+                //bundles.Add(new StyleBundle("~/css").Include("~/Content/prod/production.purify.css"));
+
             }
         }
     }

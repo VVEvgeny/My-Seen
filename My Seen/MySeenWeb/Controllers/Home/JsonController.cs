@@ -44,17 +44,14 @@ namespace MySeenWeb.Controllers.Home
             return null;
         }
 
-        #if !DEBUG
-            [Compress] 
-        #endif
-
+        [Compress] 
         [HttpPost]
         public JsonResult GetPage(int pageId, int? page, string search, int? ended, int? year, int? complex,
             string shareKey, int? road, int? id, string dateMan, string dateWoman, int? price, int? deals, int? salary,
             bool? bots, int? period)
         {
             var logger = new NLogLogger();
-            const string methodName =
+            string methodName =
                 "public JsonResult GetPage(int pageId, int? page, string search, int? ended, int? year, int? complex,string shareKey)";
             try
             {
@@ -133,6 +130,7 @@ namespace MySeenWeb.Controllers.Home
             }
             catch (Exception ex)
             {
+                methodName += ";" + ex.Message + ";;;" + ex.InnerException?.Message;
                 logger.Error(methodName, ex);
             }
             return new JsonResult {Data = new {success = false, error = methodName}};
