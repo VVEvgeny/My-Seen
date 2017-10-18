@@ -477,11 +477,8 @@
   <data name="UserAgent" xml:space="preserve">
     <value>User Agent</value>
   </data>
-  <data name="LibraryVersion" xml:space="preserve">
-    <value>Library Version</value>
-  </data>
-  <data name="SiteVersion" xml:space="preserve">
-    <value>Site Version</value>
+  <data name="ResourceVersion" xml:space="preserve">
+    <value>Resource Version</value>
   </data>
   <data name="Version" xml:space="preserve">
     <value>Version</value>
@@ -543,8 +540,8 @@
   <data name="Type" xml:space="preserve">
     <value>Type</value>
   </data>
-  <data name="LibVersionNum" xml:space="preserve">
-    <value>24</value>
+  <data name="ResourceVersionNum" xml:space="preserve">
+    <value>25</value>
   </data>
   <data name="Improvements" xml:space="preserve">
     <value>Improvements</value>
