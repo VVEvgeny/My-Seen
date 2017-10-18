@@ -1083,4 +1083,7 @@
   <data name="Yesterday" xml:space="preserve">
     <value>Yesterday</value>
   </data>
+  <data name="Animation" xml:space="preserve">
+    <value>Animation</value>
+  </data>
 </root>

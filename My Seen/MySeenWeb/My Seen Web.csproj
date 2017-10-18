@@ -615,6 +615,10 @@
     <Compile Include="Migrations\201603140854480_44.Designer.cs">
       <DependentUpon>201603140854480_44.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201710181000501_45.cs" />
+    <Compile Include="Migrations\201710181000501_45.Designer.cs">
+      <DependentUpon>201710181000501_45.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\HomeViewModels\Style\Style.cs" />
     <Compile Include="Models\HomeViewModels\Meta\Portal\MetaPortalMemes.cs" />
@@ -1067,6 +1071,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201603140854480_44.resx">
       <DependentUpon>201603140854480_44.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201710181000501_45.resx">
+      <DependentUpon>201710181000501_45.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

@@ -6,7 +6,7 @@
 <!--all project src-->
 @Styles.Render("~/css")
 
-@if (Model.AnimationEnabled)
+@if (Model.AnimationEnabled == (int)Defaults.EnabledDisabledBase.Indexes.Enabled)
 {
     @Styles.Render("~/css_animate")
 }

@@ -31,5 +31,7 @@ namespace MySeenWeb.Models.Translations
         public string Theme = Resource.Theme;
         public string VkServices = Resource.VkServices;
         public string Web = Versions.Version.ToString();
+
+        public string Animation = Resource.Animation;
     }
 }

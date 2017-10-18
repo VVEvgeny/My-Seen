@@ -43,7 +43,7 @@ namespace MySeenWeb.Controllers._Base
         {
             var logger = new NLogLogger();
             logger.Info("TryReadSession key=" + key);
-            return ControllerContext.HttpContext.Session != null && ControllerContext.HttpContext.Session[key] != null;
+            return ControllerContext.HttpContext.Session?[key] != null;
         }
 
         private bool TryReadUserSideStorage(string key)
@@ -144,10 +144,7 @@ namespace MySeenWeb.Controllers._Base
                 else ret = 0;
                 return ret;
             }
-            set
-            {
-                WriteUserSideStorage(UserSideStorageKeys.Theme, value);
-            }
+            set => WriteUserSideStorage(UserSideStorageKeys.Theme, value);
         }
 
         protected int MarkersOnRoads
@@ -178,10 +175,38 @@ namespace MySeenWeb.Controllers._Base
                 }
                 return ret;
             }
-            set
+            set => WriteUserSideStorage(UserSideStorageKeys.MarkersOnRoads, value);
+        }
+
+        protected int EnableAnimation
+        {
+            get
             {
-                WriteUserSideStorage(UserSideStorageKeys.MarkersOnRoads, value);
+                if (TryReadUserSideStorage(UserSideStorageKeys.EnableAnimation))
+                {
+                    var retc = ReadUserSideStorage(UserSideStorageKeys.EnableAnimation, 0);
+                    if (!string.IsNullOrEmpty(EnabledDisabled.GetById(retc))) return retc;
+                }
+
+                var ret = 0;
+                if (User.Identity.IsAuthenticated)
+                {
+                    try
+                    {
+                        var ac = new ApplicationDbContext();
+                        var userId = User.Identity.GetUserId();
+                        ret = ac.Users.First(u => u.Id == userId).EnableAnimation;
+                        WriteUserSideStorage(UserSideStorageKeys.EnableAnimation, ret);
+                    }
+                    catch
+                    {
+                        LogSave.Save(User.Identity.IsAuthenticated ? User.Identity.GetUserId() : "",
+                            Request.UserHostAddress, Request.UserAgent, "EnableAnimation catch No USER");
+                    }
+                }
+                return ret;
             }
+            set => WriteUserSideStorage(UserSideStorageKeys.EnableAnimation, value);
         }
 
         protected int Rpp
@@ -217,10 +242,7 @@ namespace MySeenWeb.Controllers._Base
                     ? RecordPerPageBase.Values.All
                     : ToInt32(RecordPerPage.GetById(ret));
             }
-            set
-            {
-                WriteUserSideStorage(UserSideStorageKeys.RecordPerPage, value);
-            }
+            set => WriteUserSideStorage(UserSideStorageKeys.RecordPerPage, value);
         }
 
         protected int Language

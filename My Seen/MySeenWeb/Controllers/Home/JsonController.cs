@@ -35,7 +35,7 @@ namespace MySeenWeb.Controllers.Home
             const string methodName = "public ActionResult Index()";
             try
             {
-                return View(new HomeViewModel(User.Identity.GetUserId(), MarkersOnRoads, Theme, false, Request));
+                return View(new HomeViewModel(User.Identity.GetUserId(), MarkersOnRoads, Theme, EnableAnimation, Request));
             }
             catch (Exception ex)
             {
@@ -114,7 +114,7 @@ namespace MySeenWeb.Controllers.Home
                         return Json(new HomeViewModelLogs(page ?? 1, Rpp, search, bots ?? false, period ?? 0));
 
                     case (int) CategoryBase.IndexesExt.Settings:
-                        return Json(new HomeViewModelSettings(User.Identity.GetUserId(), Language, Rpp, Theme));
+                        return Json(new HomeViewModelSettings(User.Identity.GetUserId(), Language, Rpp, Theme, MarkersOnRoads, EnableAnimation));
 
                     case (int) CategoryBase.IndexesMain.Memes:
                         return

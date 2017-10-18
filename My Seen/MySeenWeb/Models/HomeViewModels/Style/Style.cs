@@ -4,6 +4,12 @@
     {
         public int Theme { get; set; }
 
-        public bool AnimationEnabled { get; set; }
+        public int AnimationEnabled { get; set; }
+
+        public Style(int theme, int animationEnabled)
+        {
+            Theme = theme;
+            AnimationEnabled = animationEnabled;
+        }
     }
 }

@@ -46,7 +46,7 @@
                 </select>
             </dd>
         </dl>
-        <dl class="dl-horizontal" data-ng-show="authorized">
+        <dl class="dl-horizontal">
             <dt>{{translation.MarkersOnRoads}}:</dt>
             <dd>
                 <select class="input-sm" data-ng-model="data.Markers" data-ng-change="markersChange()">
@@ -61,6 +61,16 @@
             <dd>
                 <select class="input-sm" data-ng-model="data.Theme" data-ng-change="themeChange()">
                     <option data-ng-repeat="type in data.Themes" data-ng-selected="data.Theme == type.Value" value="{{type.Value}}">
+                        {{type.Text}}
+                    </option>
+                </select>
+            </dd>
+        </dl>
+        <dl class="dl-horizontal">
+            <dt>{{translation.Animation ||'Animation'}}:</dt>
+            <dd>
+                <select class="input-sm" data-ng-model="data.EnableAnimation" data-ng-change="enableAnimationChange()">
+                    <option data-ng-repeat="type in data.EnableAnimationList" data-ng-selected="data.EnableAnimation == type.Value" value="{{type.Value}}">
                         {{type.Text}}
                     </option>
                 </select>

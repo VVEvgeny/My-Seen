@@ -18,6 +18,7 @@ namespace MySeenWeb.Models.OtherViewModels
         public DateTime RegisterDate { get; set; }
         public int RecordPerPage { get; set; }
         public int MarkersOnRoads { get; set; }
+        public int EnableAnimation { get; set; }
         public string ShareTracksAllKey { get; set; }
         public string ShareTracksFootKey { get; set; }
         public string ShareTracksCarKey { get; set; }

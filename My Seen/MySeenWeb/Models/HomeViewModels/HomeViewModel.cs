@@ -15,13 +15,12 @@ namespace MySeenWeb.Models
         public bool HaveLanguage { get; set; }
         public Style.Style Style { get; set; }
 
-        public HomeViewModel(string userId, int markers, int theme, bool animationEnabled, HttpRequestBase request)
+        public HomeViewModel(string userId, int markers, int theme, int animationEnabled, HttpRequestBase request)
         {
             Markers = markers == (int) EnabledDisabledBase.Indexes.Enabled;
             Meta = MetaBase.Create(request);
 
-            Style.Theme = theme;
-            Style.AnimationEnabled = animationEnabled;
+            Style = new Style.Style(theme, animationEnabled);
 
             var logic = new UserRolesLogic();
             UserRoles = logic.GetRoles(userId);

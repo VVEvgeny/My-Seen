@@ -8,5 +8,7 @@
 
         public static string Language = "Language";
         public static string UserCreditsForAutologin = "UserCreditsForAutologin";
+
+        public static string EnableAnimation = "EnableAnimation";
     }
 }

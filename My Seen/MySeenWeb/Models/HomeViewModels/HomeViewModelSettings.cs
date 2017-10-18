@@ -21,14 +21,18 @@ namespace MySeenWeb.Models
         public bool HaveData { get; set; }
         public IEnumerable<SelectListItem> Themes { get; set; }
         public string Theme { get; set; }
+        public string EnableAnimation { get; set; }
+        public IEnumerable<SelectListItem> EnableAnimationList { get; set; }
 
-        public HomeViewModelSettings(string userId, int lang, int rpp, int theme)
+        public HomeViewModelSettings(string userId, int lang, int rpp, int theme, int markersOnRoads, int enableAnimation)
         {
             if (string.IsNullOrEmpty(userId))
             {
                 Lang = lang.ToString();
                 Rpp = RecordPerPage.GetId(rpp.ToString()).ToString();
                 Theme = theme.ToString();
+                Markers = markersOnRoads.ToString();
+                EnableAnimation = enableAnimation.ToString();
             }
             else
             {
@@ -41,23 +45,35 @@ namespace MySeenWeb.Models
                     Markers = user.MarkersOnRoads.ToString();
                     HasPassword = user.PasswordHash != null;
                     Theme = user.Theme.ToString();
+                    EnableAnimation = user.EnableAnimation.ToString();
 
                     var userLogic = new UserLogic();
                     CountLogins = userLogic.GetCountLogins(userId);
-
-                    MarkersOnRoadsList =
-                        EnabledDisabled.GetAll()
-                            .Select(
-                                sel =>
-                                    new SelectListItem
-                                    {
-                                        Text = sel,
-                                        Value = EnabledDisabled.GetId(sel).ToString(),
-                                        Selected = EnabledDisabled.GetId(sel).ToString() == Markers
-                                    })
-                            .ToList();
                 }
             }
+
+            MarkersOnRoadsList =
+                EnabledDisabled.GetAll()
+                    .Select(
+                        sel =>
+                            new SelectListItem
+                            {
+                                Text = sel,
+                                Value = EnabledDisabled.GetId(sel).ToString(),
+                                Selected = EnabledDisabled.GetId(sel).ToString() == Markers
+                            })
+                    .ToList();
+
+            EnableAnimationList = EnabledDisabled.GetAll()
+                .Select(
+                    sel =>
+                        new SelectListItem
+                        {
+                            Text = sel,
+                            Value = EnabledDisabled.GetId(sel).ToString(),
+                            Selected = EnabledDisabled.GetId(sel).ToString() == Markers
+                        })
+                .ToList();
 
             LangList =
                 Languages.GetAll()

@@ -394,6 +394,15 @@ namespace MySeenLib {
         }
         
         /// <summary>
+        ///   Ищет локализованную строку, похожую на Animation.
+        /// </summary>
+        public static string Animation {
+            get {
+                return ResourceManager.GetString("Animation", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Ищет локализованную строку, похожую на Web Api Work Error.
         /// </summary>
         public static string ApiError {
