@@ -27,10 +27,15 @@ namespace MySeenWeb.Add_Code
     {
         T Get<T>(string cacheId) where T : class;
         T Set<T>(string cacheId, T item, int expMinutes) where T : class;
+        
         //void Remove(string cacheId);
-        void Remove(Func<KeyValuePair<string, object>, bool> predicate);
+        //void Remove(Func<KeyValuePair<string, object>, bool> predicate);
 
-        void Remove(string cacheTemplate, string cacheTemplate2);
+        void Remove(string cacheId);//for all users
+        void Remove(string cacheId, string userId);
+
+        int RemoveAndCount(string cacheId, string userId); 
+
         string GetFormatedName(string name, params object[] values);
     }
 
@@ -54,20 +59,47 @@ namespace MySeenWeb.Add_Code
                 Cache.NoSlidingExpiration, CacheItemPriority.Default, null);
             return item;
         }
-
-        public void Remove(string cacheTemplate, string cacheTemplate2)
+        public void Remove(string cacheId)
         {
-            if (string.IsNullOrEmpty(cacheTemplate) || string.IsNullOrEmpty(cacheTemplate2)) return;
+            if (string.IsNullOrEmpty(cacheId)) return;
 
             var cacheEnum = HttpRuntime.Cache.GetEnumerator();
             while (cacheEnum.MoveNext())
             {
-                if (cacheEnum.Key.ToString().Contains(cacheTemplate) &&
-                    cacheEnum.Key.ToString().Contains(cacheTemplate2))
+                if (cacheEnum.Key.ToString().Contains(cacheId))
                     HttpRuntime.Cache.Remove(cacheEnum.Key.ToString());
             }
         }
+        public void Remove(string cacheId, string userId)
+        {
+            if (string.IsNullOrEmpty(cacheId) || string.IsNullOrEmpty(userId)) return;
 
+            var cacheEnum = HttpRuntime.Cache.GetEnumerator();
+            while (cacheEnum.MoveNext())
+            {
+                if (cacheEnum.Key.ToString().Contains(cacheId) &&
+                    cacheEnum.Key.ToString().Contains(userId))
+                    HttpRuntime.Cache.Remove(cacheEnum.Key.ToString());
+            }
+        }
+        public int RemoveAndCount(string cacheId, string userId)
+        {
+            int i = 0;
+            if (string.IsNullOrEmpty(cacheId) || string.IsNullOrEmpty(userId)) return i;
+
+            var cacheEnum = HttpRuntime.Cache.GetEnumerator();
+            while (cacheEnum.MoveNext())
+            {
+                if (cacheEnum.Key.ToString().Contains(cacheId) &&
+                    cacheEnum.Key.ToString().Contains(userId))
+                {
+                    HttpRuntime.Cache.Remove(cacheEnum.Key.ToString());
+                    i++;
+                }
+            }
+            return i;
+        }
+        /*
         public void Remove(Func<KeyValuePair<string, object>, bool> predicate)
         {
             var cacheEnum = HttpRuntime.Cache.GetEnumerator();
@@ -88,7 +120,8 @@ namespace MySeenWeb.Add_Code
                 HttpRuntime.Cache.Remove(item.Key);
             }
         }
-
+        */
+        /*
         public void Remove(string cacheId)
         {
             if (string.IsNullOrEmpty(cacheId))
@@ -105,5 +138,6 @@ namespace MySeenWeb.Add_Code
                 if (HttpRuntime.Cache[cacheId] != null) HttpRuntime.Cache.Remove(cacheId);
             }
         }
+        */
     }
 }

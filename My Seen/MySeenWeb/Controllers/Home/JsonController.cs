@@ -381,7 +381,7 @@ namespace MySeenWeb.Controllers.Home
                             ? new JsonResult {Data = new {success = false, error = improvementLogic.ErrorMessage}}
                             : Json(new {success = true});
                     case (int) CategoryBase.IndexesMain.Memes:
-                        var memesLogic = new MemesLogic();
+                        var memesLogic = new MemesLogic(_cache);
                         return !memesLogic.Add(name, link, User.Identity.GetUserId())
                             ? new JsonResult {Data = new {success = false, error = memesLogic.ErrorMessage}}
                             : Json(new {success = true});
@@ -418,7 +418,7 @@ namespace MySeenWeb.Controllers.Home
                 var logic = BaseLogicFactory.Create(pageId, _cache);
                 if (logic != null)
                 {
-                    return logic.Delete(recordId, User.Identity.GetUserId())
+                    return !logic.Delete(recordId, User.Identity.GetUserId())
                         ? new JsonResult {Data = new {success = false, error = logic.GetError()}}
                         : Json(new {success = true});
                 }

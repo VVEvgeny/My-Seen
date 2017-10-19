@@ -66,7 +66,7 @@ namespace MySeenWeb.Models.TablesLogic.Portal
             {
                 _ac.Memes.Add(this);
                 _ac.SaveChanges();
-                _cache.Remove(CacheNames.Memes.ToString(), UserId);
+                _cache.Remove(CacheNames.Memes.ToString());
             }
             catch (Exception e)
             {
@@ -94,7 +94,7 @@ namespace MySeenWeb.Models.TablesLogic.Portal
                 _ac.MemesStats.RemoveRange(_ac.MemesStats.Where(s => s.MemesId == Id));
                 _ac.Memes.RemoveRange(_ac.Memes.Where(b => b.Id == Id));
                 _ac.SaveChanges();
-                _cache.Remove(CacheNames.Memes.ToString(), UserId);
+                _cache.Remove(CacheNames.Memes.ToString());
             }
             catch (Exception e)
             {
