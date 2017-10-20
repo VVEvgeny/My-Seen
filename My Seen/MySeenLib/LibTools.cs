@@ -9,6 +9,22 @@ using static MySeenLib.Defaults;
 
 namespace MySeenLib
 {
+    public static class SyncJsonAnswerExtension
+    {
+        public static string SplitByWords(this MySeenWebApi.SyncJsonAnswer.Values value)
+        {
+            var s = value.ToString();
+            var ss = string.Empty;
+
+            for (var index = 0; index < s.Length; index++)
+            {
+                var c = s[index];
+                if (index != 0 && char.IsUpper(c)) ss += " ";
+                ss += c.ToString();
+            }
+            return ss;
+        }
+    }
     public static class Versions
     {
         //Строка с версией библиотеки в ресурсах LibVersionNum
@@ -101,7 +117,14 @@ namespace MySeenLib
             GetKey = 1
         }
 
-        public static int ApiVersion = 2;
+        public static int ApiVersion = 1;
+
+        public static bool CheckApiVersion(int apiVersion)
+        {
+            if (apiVersion > ApiVersion) return false;
+
+            return true;
+        }
 
         public static string ApiUsers { get; } = @"/api/Users/";
         public static string ApiLogin { get; } = @"/api/Login/";
@@ -136,7 +159,6 @@ namespace MySeenLib
             }
             return answer;
         }
-
         public class SyncJsonAnswer
         {
             [JsonProperty("Value")]

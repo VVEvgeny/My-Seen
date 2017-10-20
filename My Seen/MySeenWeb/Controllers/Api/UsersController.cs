@@ -1,41 +1,41 @@
 ﻿using System;
 using System.Linq;
 using System.Web.Http;
+using MySeenLib;
 using MySeenWeb.Add_Code.Services.Logging.NLog;
 using MySeenWeb.Models.OtherViewModels;
 using static MySeenLib.MySeenWebApi;
 using static MySeenLib.MySeenWebApi.SyncJsonAnswer;
-using MySeenWeb.Add_Code;
 
 namespace MySeenWeb.Controllers.Api
 {
     public class UsersController : BaseApiController
     {
-        public IHttpActionResult Get(string userKey, int mode, int apiVersion)
+        [HttpPost]
+        [ActionName("CheckKey")]
+        public IHttpActionResult CheckKey([FromUri]int apiVersion, [FromUri]string userKey)
         {
             var logger = new NLogLogger();
-            const string methodName = "public IHttpActionResult Get(string userKey, int mode, int apiVersion)";
+            const string methodName = "public IHttpActionResult CheckKey([FromUri]int apiVersion, [FromUri]string userKey)";
             try
             {
-                if (apiVersion != ApiVersion)
+                if (!CheckApiVersion(apiVersion))
                 {
-                    return Ok(new SyncJsonAnswer { Value = Values.NoLongerSupportedVersion });
+                    return Ok(new SyncJsonAnswer { Value = Values.NoLongerSupportedVersion, Data = Values.NoLongerSupportedVersion.SplitByWords()});
                 }
-                if ((SyncModesApiUsers) mode == SyncModesApiUsers.IsUserExists)
-                {
-                    var ac = new ApplicationDbContext();
-                    return
-                        Ok(ac.Users.Select(u => u.Id).ToList().Any(s => Md5Tools.Get(s) == userKey)
-                            ? new SyncJsonAnswer {Value = Values.Ok}
-                            : new SyncJsonAnswer {Value = Values.UserNotExist});
-                }
-                return Ok(new SyncJsonAnswer { Value = Values.BadRequestMode });
+                var ac = new ApplicationDbContext();
+                var user = ac.Users.FirstOrDefault(u => u.UniqueKey == userKey);
+
+                return
+                    Ok(user != null
+                        ? new SyncJsonAnswer { Value = Values.Ok, Data = user.Email }
+                        : new SyncJsonAnswer { Value = Values.UserNotExist, Data = Values.UserNotExist.SplitByWords() });
             }
             catch (Exception ex)
             {
                 logger.Error(methodName, ex);
             }
-            return Ok(new SyncJsonAnswer { Value = Values.SomeErrorObtained });
+            return Ok(new SyncJsonAnswer { Value = Values.SomeErrorObtained, Data = Values.SomeErrorObtained.SplitByWords() });
         }
     }
 }

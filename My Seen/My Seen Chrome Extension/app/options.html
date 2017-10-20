@@ -1,0 +1,38 @@
+<!doctype html>
+<html>
+<head>
+    <link rel="stylesheet" type="text/css" href="bootstrap.min.css" />
+    <title>My Seen Extension Options</title>
+    <style>
+        body {
+            min-width: 357px;
+            overflow-x: hidden;
+        }
+
+        img {
+            margin: 5px;
+            border: 2px solid black;
+            vertical-align: middle;
+            width: 75px;
+            height: 75px;
+        }
+    </style>
+</head>
+  <body>
+  
+  <div class="form-group pull-left">
+      <div id="status"></div>
+      <label>
+          Enter your user Key
+          <input type="text" id="key" class="form-control btn-xs" placeholder="Enter your user Key">
+      </label>
+      <button id="save" class="form-control btn btn-primary btn-xs">Save</button>
+      <button id="check" class="form-control btn btn-warning btn-xs">Check</button>
+  </div>
+      
+  <!--For full load page and after script..-->
+  <script src="server.js"></script>
+  <script src="options.js"></script>
+  </body>
+</html>
+

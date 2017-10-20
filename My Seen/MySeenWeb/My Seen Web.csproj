@@ -123,6 +123,12 @@
       <HintPath>..\packages\Ninject.3.2.2.0\lib\net45-full\Ninject.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="Ninject.Web.Common, Version=3.2.0.0, Culture=neutral, PublicKeyToken=c7192dc5380945e7, processorArchitecture=MSIL">
+      <HintPath>..\packages\Ninject.Web.Common.3.2.0.0\lib\net45-full\Ninject.Web.Common.dll</HintPath>
+    </Reference>
+    <Reference Include="Ninject.Web.Mvc, Version=3.2.0.0, Culture=neutral, PublicKeyToken=c7192dc5380945e7, processorArchitecture=MSIL">
+      <HintPath>..\packages\Ninject.MVC3.3.2.1.0\lib\net45-full\Ninject.Web.Mvc.dll</HintPath>
+    </Reference>
     <Reference Include="NLog, Version=4.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c, processorArchitecture=MSIL">
       <HintPath>..\packages\NLog.4.3.5\lib\net45\NLog.dll</HintPath>
       <Private>True</Private>
@@ -413,6 +419,7 @@
     <Compile Include="ActionFilters\IsAdmin.cs" />
     <Compile Include="Add_Code\Auths.cs" />
     <Compile Include="Add_Code\NinjectControllerFactory.cs" />
+    <Compile Include="Add_Code\NinjectDependencyResolver.cs" />
     <Compile Include="Add_Code\Services\Logging\ILogger.cs" />
     <Compile Include="Add_Code\Services\Logging\LogUtility.cs" />
     <Compile Include="Add_Code\Services\Logging\NLog\NLogLogger.cs" />
@@ -424,12 +431,14 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\IdentityConfig.cs" />
     <Compile Include="App_Start\JSNLogConfig.cs" />
+    <Compile Include="App_Start\NinjectWebCommon.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\Account\AccountController.cs" />
     <Compile Include="Controllers\Api\BaseApiController.cs" />
     <Compile Include="Controllers\Api\LoginController.cs" />
+    <Compile Include="Controllers\Api\PortalMemesController.cs" />
     <Compile Include="Controllers\Api\UsersController.cs" />
     <Compile Include="Controllers\Home\PortalController.cs" />
     <Compile Include="Controllers\Home\JsonController.cs" />

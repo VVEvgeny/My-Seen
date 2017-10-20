@@ -7,9 +7,10 @@ namespace MySeenWeb.Controllers.Api
 {
     public class BaseApiController : ApiController
     {
+        /*
         public IHttpActionResult Get(string userKey, int mode)
         {
-            return Ok(new SyncJsonAnswer { Value = Values.NoLongerSupportedVersion });
+            return Ok(new SyncJsonAnswer { Value = Values.NoLongerSupportedVersion, Data = "В разработке 2" });
         }
         public IHttpActionResult Get(string userKey)
         {
@@ -39,5 +40,6 @@ namespace MySeenWeb.Controllers.Api
         {
             return Ok(new SyncJsonAnswer { Value = SyncJsonAnswer.Values.NoLongerSupportedVersion });
         }
+        */
     }
 }
