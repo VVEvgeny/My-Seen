@@ -1,4 +1,4 @@
-var DEBUG = true;
+var DEBUG = false;
 
 function checkUser(userKey, callback) {
     server("Users/CheckKey",userKey, null, callback);
@@ -16,7 +16,8 @@ function server(action, userKey, data, callback)
     }
 
     var xhr = new XMLHttpRequest();
-    var url = "http://localhost:44301/api/" + action + "/?" + "apiVersion=1&userKey=" + userKey;
+    //var url = "http://localhost:44301/api/" + action + "/?" + "apiVersion=1&userKey=" + userKey;
+    var url = "http://myseen.by/api/" + action + "/?" + "apiVersion=1&userKey=" + userKey;
 
     xhr.open("POST", url, true);
     xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");

@@ -56,9 +56,13 @@ namespace MySeenWeb.Models.TablesViews
 
             if (years < 0) years *= -1;
             if (days < 0) days *= -1;
+
             var hours = ts.Hours;
             var minutes = ts.Minutes;
             var seconds = ts.Seconds;
+            if (hours < 0) hours *= -1;
+            if (minutes < 0) minutes *= -1;
+            if (seconds < 0) seconds *= -1;
 
             return (minus ? "- " : string.Empty) +
                    (years == 0 ? string.Empty : years + ":") +
