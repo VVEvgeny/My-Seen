@@ -17,6 +17,7 @@ namespace MySeenWeb.Models.TablesViews
         public int BooksCount { get; set; }
         public int TracksCount { get; set; }
         public int EventsCount { get; set; }
+        public int MemesCount { get; set; }
         public string RegisterDate { get; set; }
         public DateTime LastAction { get; set; }
         public IEnumerable<string> Roles { get; set; }
@@ -41,6 +42,7 @@ namespace MySeenWeb.Models.TablesViews
                 BooksCount = ap.Books.Count(f => f.UserId == model.Id),
                 TracksCount = ap.Tracks.Count(f => f.UserId == model.Id),
                 EventsCount = ap.Events.Count(f => f.UserId == model.Id),
+                MemesCount = ap.Memes.Count(f => f.UserId == model.Id),
                 LastAction =
                     ap.Logs.Any(l => l.UserId == model.Id)
                         ? ap.Logs.Where(l => l.UserId == model.Id).Max(l => l.DateLast)

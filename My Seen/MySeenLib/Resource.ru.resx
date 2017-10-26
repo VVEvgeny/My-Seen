@@ -1086,4 +1086,7 @@
   <data name="Animation" xml:space="preserve">
     <value>Анимация</value>
   </data>
+  <data name="MemesCount" xml:space="preserve">
+    <value>Мемов</value>
+  </data>
 </root>

@@ -1808,6 +1808,15 @@ namespace MySeenLib {
         }
         
         /// <summary>
+        ///   Ищет локализованную строку, похожую на Memes.
+        /// </summary>
+        public static string MemesCount {
+            get {
+                return ResourceManager.GetString("MemesCount", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Ищет локализованную строку, похожую на Message.
         /// </summary>
         public static string Message {

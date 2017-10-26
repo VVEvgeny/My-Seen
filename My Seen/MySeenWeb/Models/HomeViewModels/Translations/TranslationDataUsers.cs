@@ -15,6 +15,7 @@ namespace MySeenWeb.Models.Translations
         public string RegisterDate = Resource.RegisterDate;
         public string SerialsCount = Resource.SerialsCount;
         public string TracksCount = Resource.TracksCount;
+        public string MemesCount = Resource.MemesCount;
         public string Update = Resource.Update;
 
         public string UserName = Resource.UserName;
