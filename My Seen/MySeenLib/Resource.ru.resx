@@ -1089,4 +1089,7 @@
   <data name="MemesCount" xml:space="preserve">
     <value>Мемов</value>
   </data>
+  <data name="Extension" xml:space="preserve">
+    <value>Расширение</value>
+  </data>
 </root>

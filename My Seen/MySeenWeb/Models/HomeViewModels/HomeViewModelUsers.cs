@@ -2,6 +2,7 @@
 using System.Data.Entity;
 using System.Linq;
 using System.Web.Mvc;
+using MySeenWeb.Add_Code;
 using MySeenWeb.Models.OtherViewModels;
 using MySeenWeb.Models.TablesLogic;
 using MySeenWeb.Models.TablesViews;
@@ -28,7 +29,7 @@ namespace MySeenWeb.Models
         public Pagination Pages { get; set; }
         public bool CanControl { get; set; }
 
-        public HomeViewModelUsers(string userId, int page, int countInPage, string search)
+        public HomeViewModelUsers(string userId, int page, int countInPage, string search, ICacheService cache)
         {
             var ac = new ApplicationDbContext();
             Pages = new Pagination(page,
@@ -41,7 +42,7 @@ namespace MySeenWeb.Models
                 .Select(UsersView.Map)
                 .OrderByDescending(l => l.LastAction);
 
-            CanControl = UserRolesLogic.IsAdmin(userId);
+            CanControl = UserRolesLogic.IsAdmin(userId, cache);
         }
     }
 }

@@ -1,0 +1,42 @@
+﻿<div class="modal fade modal-window" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" id="SalaryModalWindow">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close myseen-modal-close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title text-center">{{modal.title}}</h4>
+            </div>
+            <div class="modal-body">
+                <div class="form-horizontal">
+
+                    <div class="form-group" data-ng-show="modal.showWhen">
+                        <label for="modalFieldWhen" class="col-sm-2 control-label">{{translation.When}}</label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control input-sm" id="modalFieldWhen" data-ng-model="modal.monthYear" placeholder=""/>
+                        </div>
+                    </div>
+                    <div class="form-group" data-ng-show="modal.showSalary">
+                        <label for="modalFieldSalary" class="col-sm-2 control-label">{{translation.Salary}}</label>
+                        <div class="col-sm-10">
+                            <input type="number" class="form-control input-sm" id="modalFieldSalary" data-ng-model="modal.salary" placeholder="0">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-success btn-block" data-ng-click="modal.addButtonClick()" data-ng-show="modal.addButton">
+                    <span class="glyphicon glyphicon-ok"></span>
+                    &nbsp;{{translation.Add}}
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+    $("#modalFieldWhen")
+        .datetimepicker({
+            locale: 'ru',
+            format: 'MM-YYYY'
+        });
+</script>

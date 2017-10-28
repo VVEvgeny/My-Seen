@@ -26,7 +26,7 @@ App.config(function($stateProvider, $urlRouterProvider, $locationProvider) {
         ///////////////////////////////////////////////////////////////////////         VARIABLES
         ///////////////////////////////////////////////////////////////////////
         $rootScope.$watch(function() { return window.GAuthorized; },
-            function() { $rootScope.authorized = window.GAuthorized; });
+            function () { $rootScope.authorized = window.GAuthorized; });
         $rootScope.$watch(function() { return window.GIsAdmin; }, function() { $rootScope.isAdmin = window.GIsAdmin; });
         ///////////////////////////////////////////////////////////////////////
         ///////////////////////////////////////////////////////////////////////         CACHE
@@ -168,7 +168,7 @@ App.config(function($stateProvider, $urlRouterProvider, $locationProvider) {
             UpdateUser: "/Json/UpdateUser/"
         }
     })
-    .service("$log",
+    /*.service("$log",
         function() {
             ///////////////////////////////////////////////////////////////////////
             ///////////////////////////////////////////////////////////////////////           Angular NLog
@@ -195,7 +195,7 @@ App.config(function($stateProvider, $urlRouterProvider, $locationProvider) {
                 JL("Angular").fatalException(cause, exception);
                 throw exception;
             };
-        })
+        })*/
     .directive("bsDropdown",
         function($compile) {
             return {

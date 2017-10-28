@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Microsoft.AspNet.Identity.EntityFramework;
 using MySeenLib;
+using MySeenWeb.Add_Code;
 using MySeenWeb.Models.OtherViewModels;
 using static MySeenLib.Defaults;
 
@@ -10,6 +11,7 @@ namespace MySeenWeb.Models.TablesLogic
 {
     public class UserRolesLogic : IdentityUserRole
     {
+        private readonly ICacheService _cache;
         private readonly ApplicationDbContext _ac;
         public string ErrorMessage;
 
@@ -18,30 +20,46 @@ namespace MySeenWeb.Models.TablesLogic
             ErrorMessage = string.Empty;
             _ac = new ApplicationDbContext();
         }
-
-        public static bool IsAdmin(string userId)
+        public UserRolesLogic(ICacheService cache)
         {
-            var ac = new ApplicationDbContext();
-            return
-                ac.UserRoles.Any(
-                    r => r.RoleId == ((int) RolesBase.Indexes.Admin).ToString() && r.UserId == userId);
+            _cache = cache;
         }
 
-        public static bool IsTester(string userId)
+        private static IEnumerable<IdentityUserRole> GetAllRoles()
         {
-            var ac = new ApplicationDbContext();
-            return
-                ac.UserRoles.Any(
-                    r => r.RoleId == ((int) RolesBase.Indexes.Tester).ToString() && r.UserId == userId);
+            return new ApplicationDbContext().UserRoles;
+        }
+        private static IEnumerable<IdentityUserRole> GetAllRoles(ICacheService cache)
+        {
+            var roles = cache.Get<List<IdentityUserRole>>(cache.GetFormatedName(CacheNames.UserRoles.ToString()));
+            if (roles == null)
+            {
+                roles = new ApplicationDbContext().UserRoles.ToList();
+                cache.Set(cache.GetFormatedName(CacheNames.UserRoles.ToString()), roles, 15);
+            }
+            return roles;
+        }
+        public static bool IsAdmin(string userId, ICacheService cache)
+        {
+            return GetAllRoles(cache).Any(r => r.RoleId == ((int) RolesBase.Indexes.Admin).ToString() && r.UserId == userId);
+        }
+        public static bool IsAdmin(string userId)
+        {
+            return GetAllRoles().Any(r => r.RoleId == ((int)RolesBase.Indexes.Admin).ToString() && r.UserId == userId);
+        }
+
+        public static bool IsTester(string userId, ICacheService cache)
+        {
+            return GetAllRoles(cache).Any(r => r.RoleId == ((int)RolesBase.Indexes.Tester).ToString() && r.UserId == userId);
         }
 
         public IEnumerable<string> GetRoles(string userId)
         {
             try
             {
-                if (_ac.UserRoles.Any(r => r.UserId == userId))
+                if (GetAllRoles(_cache).Any(r => r.UserId == userId))
                 {
-                    return _ac.UserRoles.Where(r => r.UserId == userId).Select(r => r.RoleId);
+                    return GetAllRoles(_cache).Where(r => r.UserId == userId).Select(r => r.RoleId);
                 }
             }
             catch (Exception e)
@@ -63,23 +81,25 @@ namespace MySeenWeb.Models.TablesLogic
                     if (roles != null && roles.Any() && roles.Contains(idRole))
                         // если есть роль в выбраных, проверим, если в БД, если есть ничего не делаем, если нет, добавим
                     {
-                        if (!_ac.UserRoles.Any(r => r.UserId == UserId && r.RoleId == idRole))
+                        if (!GetAllRoles(_cache).Any(r => r.UserId == UserId && r.RoleId == idRole))
                         {
                             _ac.UserRoles.Add(new IdentityUserRole {RoleId = idRole, UserId = UserId});
+                            _cache.Remove(CacheNames.UserRoles.ToString());
                         }
                     }
                     else //если нет в выборке, возможно снимаем, проверим может надо по БД снять
                     {
-                        if (_ac.UserRoles.Any(r => r.UserId == UserId && r.RoleId == idRole))
+                        if (GetAllRoles(_cache).Any(r => r.UserId == UserId && r.RoleId == idRole))
                         {
                             if (idRole == ((int) RolesBase.Indexes.Admin).ToString())
                             {
-                                if (_ac.UserRoles.Count(r => r.RoleId == idRole) < 2)
+                                if (GetAllRoles(_cache).Count(r => r.RoleId == idRole) < 2)
                                 {
                                     throw new Exception(Resource.CantDeleteLastAdmin);
                                 }
                             }
                             _ac.UserRoles.Remove(_ac.UserRoles.First(r => r.UserId == UserId && r.RoleId == idRole));
+                            _cache.Remove(CacheNames.UserRoles.ToString());
                         }
                     }
                 }

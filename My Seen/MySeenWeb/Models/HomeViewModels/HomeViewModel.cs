@@ -23,7 +23,7 @@ namespace MySeenWeb.Models
 
             Style = new Style.Style(theme, animationEnabled);
 
-            var logic = new UserRolesLogic();
+            var logic = new UserRolesLogic(cache);
             UserRoles = logic.GetRoles(userId);
 
             if (request.UserLanguages != null && request.UserLanguages.Any())

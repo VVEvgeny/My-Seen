@@ -23,7 +23,7 @@ namespace MySeenWeb.Models
             Data =
                 cache.Get<IEnumerable<FilmsView>>(cache.GetFormatedName(CacheNames.UserFilms.ToString(), userId, page,
                     countInPage, search, shareKey));
-
+            
             if (Pages == null || Data == null)
             {
                 var ac = new ApplicationDbContext();
@@ -53,7 +53,7 @@ namespace MySeenWeb.Models
                         .ThenBy(f => f.Name)
                         .Skip(() => Pages.SkipRecords)
                         .Take(() => countInPage)
-                        .Select(FilmsView.Map);
+                        .Select(FilmsView.Map).ToList();
                     cache.Set(
                         cache.GetFormatedName(CacheNames.UserFilms.ToString(), userId, page, countInPage, search,
                             shareKey), Data, 15);

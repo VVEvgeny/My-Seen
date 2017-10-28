@@ -40,5 +40,10 @@ namespace MySeenWeb.Models.Translations.Portal
         public string USD = Resource.USD;
         public string USDM2 = Resource.USDM2;
         public string Year = Resource.Year;
+
+
+        public string TitleAdd = Resource.Add + " " + Resource.Salary;
+        public string When = Resource.When;
+        public string Add = Resource.Add;
     }
 }

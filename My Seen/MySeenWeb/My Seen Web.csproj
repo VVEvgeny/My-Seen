@@ -757,6 +757,7 @@
     <Content Include="Content\Angular\templates\MyMemory\Shared\films.html" />
     <Content Include="Content\Angular\templates\MyMemory\Shared\roads.html" />
     <Content Include="Content\Angular\templates\MyMemory\Shared\serials.html" />
+    <Content Include="Content\Angular\templates\_tools\modal-add-salary.html" />
     <Content Include="Content\Angular\templates\_tools\modal-share.html" />
     <Content Include="Content\animate.css" />
     <Content Include="Content\animate.min.css" />

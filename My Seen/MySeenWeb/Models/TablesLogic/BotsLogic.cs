@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 using MySeenLib;
 using MySeenWeb.Add_Code;
 using MySeenWeb.Models.OtherViewModels;
@@ -9,14 +10,14 @@ namespace MySeenWeb.Models.TablesLogic
 {
     public class BotsLogic : Films, IBaseLogic
     {
-        private readonly ApplicationDbContext _ac;
+        //private readonly ApplicationDbContext _ac;
         private readonly ICacheService _cache;
         public string ErrorMessage;
 
         public BotsLogic()
         {
             ErrorMessage = string.Empty;
-            _ac = new ApplicationDbContext();
+            //_ac = new ApplicationDbContext();
         }
 
         public BotsLogic(ICacheService cache) : this()
@@ -35,25 +36,34 @@ namespace MySeenWeb.Models.TablesLogic
             return true;
         }
 
+        private static IEnumerable<Bots> GetAll(ICacheService cache)
+        {
+            var bots = cache.Get<List<Bots>>(cache.GetFormatedName(CacheNames.Bots.ToString()));
+            if (bots == null)
+            {
+                var ac = new ApplicationDbContext();
+                bots = ac.Bots.ToList();
+                cache.Set(cache.GetFormatedName(CacheNames.Bots.ToString()), bots, 15);
+            }
+            return bots;
+        }
 
         public static bool Contains(ICacheService cache, string us)
         {
-            var ac = new ApplicationDbContext();
-            return ac.Bots.Any(f => us.Contains(f.UserAgent));
+            return GetAll(cache).Any(f => us.Contains(f.UserAgent));
         }
         public static bool Contains(ICacheService cache, string us, int language)
         {
-            var ac = new ApplicationDbContext();
-            return ac.Bots.Any(f => us.Contains(f.UserAgent) && f.Language == language);
+            return GetAll(cache).Any(f => us.Contains(f.UserAgent) && f.Language == language);
         }
 
         public bool Contains(string us)
         {
-            return _ac.Bots.Any(f => us.Contains(f.UserAgent));
+            return GetAll(_cache).Any(f => us.Contains(f.UserAgent));
         }
         public bool Contains(string us, int language)
         {
-            return _ac.Bots.Any(f => us.Contains(f.UserAgent) && f.Language == language);
+            return GetAll(_cache).Any(f => us.Contains(f.UserAgent) && f.Language == language);
         }
     }
 }

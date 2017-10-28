@@ -47,7 +47,7 @@ namespace MySeenWeb.Models
                         && (string.IsNullOrEmpty(search) || f.Name.Contains(search)))
                         .OrderByDescending(f => f.DateRead)
                         .ThenBy(f => f.Name)
-                        .Skip(() => Pages.SkipRecords).Take(() => countInPage).Select(BooksView.Map);
+                        .Skip(() => Pages.SkipRecords).Take(() => countInPage).Select(BooksView.Map).ToList();
                     cache.Set(
                         cache.GetFormatedName(CacheNames.UserBooks.ToString(), userId, page, countInPage, search,
                             shareKey), Data, 15);

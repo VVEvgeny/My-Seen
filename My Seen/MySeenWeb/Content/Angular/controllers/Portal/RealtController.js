@@ -18,6 +18,9 @@ App.controller("RealtController",
         $anchorScroll();
         $rootScope.pageId = constants.PageIds.Realt;
 
+        //Показать ли кнопку ДОБАВИТЬ
+        $scope.pageCanAdd = $rootScope.isAdmin;
+
         //Перевод всех данных на тек. странице
         $scope.translation = {};
 
@@ -146,7 +149,58 @@ App.controller("RealtController",
             }
             getMainPage();
         };
+        ///////////////////////////////////////////////////////////////////////
+        ///////////////////////////////////////////////////////////////////////           МОДАЛЬНАЯ ДОБАВЛЕНИЯ / РЕДАКТИРОВАНИЯ
+        ///////////////////////////////////////////////////////////////////////
+        //Модальная добавления/редактирования Указываем какие поля будем видеть
+        $scope.modal = {
+            showWhen: true,
+            showSalary: true
+        };
+        //Прячу модальную Добавить/Редактировать
+        //Готовлю данные для добавления новой записи и отображаю модальную
+        $scope.addModalOpen = function () {
+            $scope.modal.title = $scope.translation.TitleAdd;
 
+            $scope.modal.addButton = true;
+
+            $("#SalaryModalWindow").modal("show");
+        };
+        $scope.$on("$destroy",
+            function () {
+                $scope.addModalHide();
+                $("body").removeClass("modal-open");
+                $(".modal-backdrop").remove();
+            });
+        $scope.addModalHide = function () {
+            $("#SalaryModalWindow").modal("hide");
+        };
+
+        //в случае успеха закроем модальное и перезапросим данные, с первой страницы
+        function afterAdd() {
+            $scope.addModalHide();
+            getMainPage();
+        };
+
+        //Обновим текущую страницу
+        function afterSave() {
+            $scope.addModalHide();
+            getMainPage();
+        };
+
+        //Готовлю данные для отправки и вызову глобальную AddData
+        $scope.modal.addButtonClick = function () {
+            $rootScope.GetPage(constants.Pages.Add,
+                $http,
+                afterAdd,
+                {
+                    pageId: $rootScope.pageId,
+                    name: 'salary',
+                    datetime: $scope.modal.monthYear,
+                    other: $scope.modal.salary
+                });
+        };
+        ////////
 
         //Основные данные
         function fillScope(page) {

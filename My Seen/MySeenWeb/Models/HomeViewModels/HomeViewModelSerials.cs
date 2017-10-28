@@ -49,7 +49,7 @@ namespace MySeenWeb.Models
                             && (string.IsNullOrEmpty(search) || f.Name.Contains(search)))
                         .OrderByDescending(f => f.DateLast)
                         .ThenBy(f => f.Name)
-                        .Skip(() => Pages.SkipRecords).Take(() => countInPage).Select(SerialsView.Map);
+                        .Skip(() => Pages.SkipRecords).Take(() => countInPage).Select(SerialsView.Map).ToList();
                     cache.Set(
                         cache.GetFormatedName(CacheNames.UserSerials.ToString(), userId, page, countInPage, search,
                             shareKey), Data, 15);

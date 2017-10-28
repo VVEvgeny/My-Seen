@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
+using MySeenWeb.Add_Code;
 using MySeenWeb.Models.OtherViewModels;
 using MySeenWeb.Models.TablesLogic;
 using MySeenWeb.Models.TablesViews;
@@ -15,10 +16,10 @@ namespace MySeenWeb.Models
         public Pagination Pages { get; set; }
         public bool CanControl { get; set; }
 
-        public HomeViewModelImprovements(string userId, int complex, int page, int countInPage, string search, int ended)
+        public HomeViewModelImprovements(string userId, int complex, int page, int countInPage, string search, int ended, ICacheService cache)
         {
             var ac = new ApplicationDbContext();
-            CanControl = UserRolesLogic.IsAdmin(userId);
+            CanControl = UserRolesLogic.IsAdmin(userId, cache);
 
             if (string.IsNullOrEmpty(Complexes.GetById(complex)))
                 complex = (int) ComplexBase.Indexes.All;

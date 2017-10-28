@@ -454,7 +454,15 @@ namespace MySeenLib
             {
                 if (All == null)
                 {
-                    All = new List<string> {Resource.All, Resource.WEB, Resource.Android, Resource.PC, "2048"};
+                    All = new List<string>
+                    {
+                        Resource.All,
+                        Resource.WEB,
+                        Resource.Android,
+                        Resource.PC,
+                        "2048",
+                        Resource.Extension
+                    };
                 }
             }
         }

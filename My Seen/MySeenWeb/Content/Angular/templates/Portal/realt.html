@@ -1,5 +1,7 @@
 ﻿<!--Загрузка-->
 <data-ng-include src="'Content/Angular/templates/_tools/loading.html'"></data-ng-include>
+<!--Кнопка добавить и поиск-->
+<data-ng-include src="'Content/Angular/templates/_tools/add-search-buttons.html'"></data-ng-include>
 
 <div class="form-horizontal" data-ng-show="translation.loaded && LastUpdatedPrice">
     <div class="form-group col-sm-12">
@@ -96,3 +98,6 @@
         </div>
     </div>
 </div>
+
+<!--Модальная на добавление и изменение полей-->
+<data-ng-include src="'Content/Angular/templates/_tools/modal-add-salary.html'"></data-ng-include>

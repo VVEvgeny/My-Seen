@@ -20,7 +20,11 @@ namespace MySeenWeb.Add_Code
         UserRoadsBike,
         UserRoadsCar,
         Memes,
-        MemesPages
+        MemesPages,
+        Salaries,
+        Realt,
+        UserRoles,
+        Bots
     }
 
     public interface ICacheService

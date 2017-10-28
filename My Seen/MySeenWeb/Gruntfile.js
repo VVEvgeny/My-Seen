@@ -1,4 +1,4 @@
-//// <binding AfterBuild='concat, uglify, purifycss, cssmin'/>
+/// <binding ProjectOpened='watch' />
 module.exports = function(grunt) {
 
     var srcScriptFiles = [
@@ -26,7 +26,7 @@ module.exports = function(grunt) {
         "node_modules/amcharts/dist/amcharts/serial.js",
         "node_modules/amcharts/dist/amcharts/themes/light.js",
         //tools
-        "Scripts/modernizr-*.js",//бле не нашел в ноде норм скрипт, туча исходников...
+        "Scripts/modernizr-*.js",//пїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ, пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ...
         //bootstrap
         "node_modules/bootstrap/dist/js/bootstrap.js",
         //"node_modules/respond/main.js",

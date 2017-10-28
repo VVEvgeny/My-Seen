@@ -1223,6 +1223,15 @@ namespace MySeenLib {
         }
         
         /// <summary>
+        ///   Ищет локализованную строку, похожую на Extension.
+        /// </summary>
+        public static string Extension {
+            get {
+                return ResourceManager.GetString("Extension", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Ищет локализованную строку, похожую на External Logins.
         /// </summary>
         public static string ExternalLogins {

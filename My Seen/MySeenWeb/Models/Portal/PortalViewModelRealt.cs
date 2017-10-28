@@ -2,7 +2,10 @@
 using System.Data.Entity;
 using System.Globalization;
 using System.Linq;
+using MySeenWeb.Add_Code;
 using MySeenWeb.Models.OtherViewModels;
+using MySeenWeb.Models.Tables.Portal;
+using MySeenWeb.Models.TablesLogic.Portal;
 using MySeenWeb.Models.TablesViews.Portal;
 using static MySeenLib.UmtTime;
 
@@ -18,11 +21,31 @@ namespace MySeenWeb.Models.Portal
 
         //mode == 0 - current data
         //mode == n - current + new calculated (+n)
-        public PortalViewModelRealt(int year, int priceChange, int dealsChange, int salaryChange)
+        public PortalViewModelRealt(int year, int priceChange, int dealsChange, int salaryChange, ICacheService cache)
         {
-            var ac = new ApplicationDbContext();
-            Data = ac.Realt.OrderBy(r => r.Date).AsNoTracking().Select(RealtView.Map);
+            /*
+            Data = cache.Get<List<RealtView>>(cache.GetFormatedName(CacheNames.Realt.ToString()));
 
+            if (Data == null)
+            {
+                var ac = new ApplicationDbContext();
+                Data = ac.Realt.OrderBy(r => r.Date).AsNoTracking().Select(RealtView.Map).ToList();
+                cache.Set(CacheNames.Realt.ToString(), Data, 15);
+            }
+            */
+
+            Data = RealtLogic.GetAll(cache).OrderBy(r => r.Date).Select(RealtView.Map).ToList();
+
+
+
+            DataSalary = SalaryView.Make(Data, SalaryLogic.GetAll(cache), salaryChange);
+
+            LastUpdatedPrice = From(Data.Max(r => r.Date)).ToShortDateString();
+
+            var lastSalary = SalaryLogic.GetAll(cache).OrderByDescending(f => f.Year).ThenByDescending(f => f.Month).FirstOrDefault();
+            if(lastSalary != null) LastUpdatedSalary = lastSalary.Month + "/" + lastSalary.Year;
+
+            /*
             var enumerable = Data as IList<RealtView> ?? Data.ToList();
             //var lastPriceData = enumerable.Max(r => r.Date);
             //LastUpdatedPrice = lastPriceData.Day + "/" + lastPriceData.Month + "/" + lastPriceData.Year;
@@ -60,8 +83,7 @@ namespace MySeenWeb.Models.Portal
             var salarys = ac.Salary.AsNoTracking().AsEnumerable().ToList();
             DataSalary = SalaryView.Make(realtViews2, salarys, salaryChange);
 
-            var lastSalary = salarys.OrderByDescending(s => s.Year).ThenByDescending(s => s.Month).First();
-            LastUpdatedSalary = lastSalary.Month + "/" + lastSalary.Year;
+            */
         }
     }
 }
