@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using MySeenWeb.Add_Code;
 using MySeenWeb.Models.Meta;
 using MySeenWeb.Models.TablesLogic;
 using static MySeenLib.Defaults;
@@ -15,10 +16,10 @@ namespace MySeenWeb.Models
         public bool HaveLanguage { get; set; }
         public Style.Style Style { get; set; }
 
-        public HomeViewModel(string userId, int markers, int theme, int animationEnabled, HttpRequestBase request)
+        public HomeViewModel(string userId, int markers, int theme, int animationEnabled, HttpRequestBase request, ICacheService cache)
         {
             Markers = markers == (int) EnabledDisabledBase.Indexes.Enabled;
-            Meta = MetaBase.Create(request);
+            Meta = MetaBase.Create(request, cache);
 
             Style = new Style.Style(theme, animationEnabled);
 

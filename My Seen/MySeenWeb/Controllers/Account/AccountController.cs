@@ -8,7 +8,7 @@ using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using MySeenLib;
 using MySeenWeb.ActionFilters;
-using MySeenWeb.Add_Code.Services.Logging.NLog;
+using MySeenWeb.Add_Code;
 using MySeenWeb.Controllers.Home;
 using MySeenWeb.Controllers._Base;
 using MySeenWeb.Models.OtherViewModels;
@@ -36,12 +36,12 @@ namespace MySeenWeb.Controllers.Account
             private set { _userManager = value; }
         }
 
-        public AccountController()
+        public AccountController(ICacheService cache):base(cache)
         {
             // for ninject
         }
 
-        public AccountController(ApplicationUserManager userManager, ApplicationSignInManager signInManager)
+        public AccountController(ApplicationUserManager userManager, ApplicationSignInManager signInManager, ICacheService cache) : base(cache)
         {
             UserManager = userManager;
             SignInManager = signInManager;
@@ -52,8 +52,6 @@ namespace MySeenWeb.Controllers.Account
         [AllowAnonymous]
         public async Task<JsonResult> LoginMain(string userName, string password, string remember)
         {
-            var logger = new NLogLogger();
-            const string methodName = "public async Task<JsonResult> LoginMain(string userName, string password, string remember)";
             try
             {
                 var errorMessage = string.Empty;
@@ -71,9 +69,8 @@ namespace MySeenWeb.Controllers.Account
             }
             catch (Exception ex)
             {
-                logger.Error(methodName, ex);
+                return new JsonResult { Data = new { success = false, error = System.Reflection.MethodBase.GetCurrentMethod().Name } };
             }
-            return new JsonResult { Data = new { success = false, error = methodName } };
         }
 
         [Compress]
@@ -81,8 +78,6 @@ namespace MySeenWeb.Controllers.Account
         [AllowAnonymous]
         public async Task<JsonResult> Register(string userName, string password, string repeatPassword)
         {
-            var logger = new NLogLogger();
-             string methodName = "public async Task<ActionResult> Register(string userName, string password, string repeatPassword)";
             try
             {
                 if (password != repeatPassword)
@@ -103,10 +98,8 @@ namespace MySeenWeb.Controllers.Account
             }
             catch (Exception ex)
             {
-                methodName += ";" + ex.Message;
-                logger.Error(methodName, ex);
             }
-            return new JsonResult {Data = new {success = false, error = methodName}};
+            return new JsonResult {Data = new {success = false, error = System.Reflection.MethodBase.GetCurrentMethod().Name } };
         }
         
         [Compress]
@@ -114,9 +107,6 @@ namespace MySeenWeb.Controllers.Account
         [AllowAnonymous]
         public ActionResult ExternalLogin(string provider, string returnUrl)
         {
-            var logger = new NLogLogger();
-            const string methodName = "public ActionResult ExternalLogin(string provider, string returnUrl)";
-
             try
             {
                 // Request a redirect to the external login provider
@@ -124,7 +114,6 @@ namespace MySeenWeb.Controllers.Account
             }
             catch (Exception ex)
             {
-                logger.Error(methodName, ex);
             }
             return RedirectToAction("Index", "Json");
         }
@@ -149,9 +138,6 @@ namespace MySeenWeb.Controllers.Account
         [AllowAnonymous]
         public async Task<ActionResult> ExternalLoginCallback(string returnUrl)
         {
-            var logger = new NLogLogger();
-            const string methodName = "public async Task<ActionResult> ExternalLoginCallback(string returnUrl)";
-
             try
             {
                 var logic = new UserCreditsLogic();
@@ -245,7 +231,6 @@ namespace MySeenWeb.Controllers.Account
             }
             catch (Exception ex)
             {
-                logger.Error(methodName, ex);
             }
             return RedirectToAction("Index", "Json");
         }
@@ -255,8 +240,6 @@ namespace MySeenWeb.Controllers.Account
         [AllowAnonymous]
         public async Task<ActionResult> ExternalLoginConfirmation(ExternalLoginConfirmationViewModel model, string returnUrl)
         {
-            var logger = new NLogLogger();
-            const string methodName = "public async Task<ActionResult> ExternalLoginConfirmation(ExternalLoginConfirmationViewModel model, string returnUrl)";
             try
             {
                 if (User.Identity.IsAuthenticated)
@@ -269,10 +252,8 @@ namespace MySeenWeb.Controllers.Account
                     var info = await AuthenticationManager.GetExternalLoginInfoAsync();
                     if (info == null)
                     {
-                        logger.Info("ViewBag.LoginProvider =" + ViewBag.LoginProvider);
                         if (ViewBag.LoginProvider == "Yandex")
                         {
-                            logger.Info("ViewBag.LoginProvider == Yandex");
                             info = new ExternalLoginInfo {Login = new UserLoginInfo("Yandex", model.Email)};
                         }
                         else
@@ -299,7 +280,6 @@ namespace MySeenWeb.Controllers.Account
             }
             catch (Exception ex)
             {
-                logger.Error(methodName, ex);
             }
             return RedirectToAction("Index", "Json");
         }
@@ -315,8 +295,6 @@ namespace MySeenWeb.Controllers.Account
         [HttpPost]
         public JsonResult LogOut()
         {
-            var logger = new NLogLogger();
-            const string methodName = "public JsonResult LogOut()";
             try
             {
                 AuthenticationManager.SignOut(DefaultAuthenticationTypes.ApplicationCookie);
@@ -328,9 +306,8 @@ namespace MySeenWeb.Controllers.Account
             }
             catch (Exception ex)
             {
-                logger.Error(methodName, ex);
             }
-            return new JsonResult { Data = new { success = false, error = methodName } };
+            return new JsonResult { Data = new { success = false, error = System.Reflection.MethodBase.GetCurrentMethod().Name } };
         }
 
         protected override void Dispose(bool disposing)

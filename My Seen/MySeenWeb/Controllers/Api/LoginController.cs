@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Web.Http;
-using MySeenWeb.Add_Code.Services.Logging.NLog;
 using static MySeenLib.MySeenWebApi;
 using static MySeenLib.MySeenWebApi.SyncJsonAnswer;
 using MySeenWeb.Models.OtherViewModels;
@@ -17,8 +16,6 @@ namespace MySeenWeb.Controllers.Api
 
         public IHttpActionResult Get(string userKey, int mode, int apiVersion)
         {
-            var logger = new NLogLogger();
-            const string methodName = "public IHttpActionResult Get(string userKey, int mode, int apiVersion)";
             try
             {
                 if (apiVersion != ApiVersion)
@@ -43,7 +40,7 @@ namespace MySeenWeb.Controllers.Api
             }
             catch (Exception ex)
             {
-                logger.Error(methodName, ex);
+                
             }
             return Ok(new SyncJsonAnswer { Value = Values.SomeErrorObtained });
         }

@@ -57,14 +57,6 @@
       <HintPath>..\packages\Common.Logging.Core.3.3.1\lib\net40\Common.Logging.Core.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="Common.Logging.NLog20, Version=3.3.1.0, Culture=neutral, PublicKeyToken=af08829b84f0328e, processorArchitecture=MSIL">
-      <HintPath>..\packages\Common.Logging.NLog20.3.3.1\lib\net40\Common.Logging.NLog20.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="JSNLog, Version=2.17.3.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\JSNLog.2.17.3\lib\net40\JSNLog.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
     <Reference Include="Microsoft.AI.Agent.Intercept, Version=1.2.1.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.ApplicationInsights.Agent.Intercept.1.2.1\lib\net45\Microsoft.AI.Agent.Intercept.dll</HintPath>
       <Private>True</Private>
@@ -91,10 +83,6 @@
     </Reference>
     <Reference Include="Microsoft.ApplicationInsights, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.ApplicationInsights.2.0.0\lib\net45\Microsoft.ApplicationInsights.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="Microsoft.ApplicationInsights.NLogTarget, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.ApplicationInsights.NLogTarget.2.0.0\lib\net45\Microsoft.ApplicationInsights.NLogTarget.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
@@ -128,14 +116,6 @@
     </Reference>
     <Reference Include="Ninject.Web.Mvc, Version=3.2.0.0, Culture=neutral, PublicKeyToken=c7192dc5380945e7, processorArchitecture=MSIL">
       <HintPath>..\packages\Ninject.MVC3.3.2.1.0\lib\net45-full\Ninject.Web.Mvc.dll</HintPath>
-    </Reference>
-    <Reference Include="NLog, Version=4.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c, processorArchitecture=MSIL">
-      <HintPath>..\packages\NLog.4.3.5\lib\net45\NLog.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="NLog.Web, Version=0.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c, processorArchitecture=MSIL">
-      <HintPath>..\packages\NLog.Web.4.2.1\lib\net35\NLog.Web.dll</HintPath>
-      <Private>True</Private>
     </Reference>
     <Reference Include="Owin.Security.Providers.Buffer, Version=2.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\Owin.Security.Providers.Buffer.2.3.0\lib\net45\Owin.Security.Providers.Buffer.dll</HintPath>
@@ -420,17 +400,11 @@
     <Compile Include="Add_Code\Auths.cs" />
     <Compile Include="Add_Code\NinjectControllerFactory.cs" />
     <Compile Include="Add_Code\NinjectDependencyResolver.cs" />
-    <Compile Include="Add_Code\Services\Logging\ILogger.cs" />
-    <Compile Include="Add_Code\Services\Logging\LogUtility.cs" />
-    <Compile Include="Add_Code\Services\Logging\NLog\NLogLogger.cs" />
-    <Compile Include="Add_Code\Services\Logging\NLog\UtcDateRenderer.cs" />
-    <Compile Include="Add_Code\Services\Logging\NLog\WebVariablesRenderer.cs" />
     <Compile Include="Add_Code\WebTools.cs" />
     <Compile Include="Add_Code\Cache.cs" />
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\IdentityConfig.cs" />
-    <Compile Include="App_Start\JSNLogConfig.cs" />
     <Compile Include="App_Start\NinjectWebCommon.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
@@ -628,7 +602,16 @@
     <Compile Include="Migrations\201710181000501_45.Designer.cs">
       <DependentUpon>201710181000501_45.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201710270733596_46.cs" />
+    <Compile Include="Migrations\201710270733596_46.Designer.cs">
+      <DependentUpon>201710270733596_46.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201710270734593_46_add_bots_data.cs" />
+    <Compile Include="Migrations\201710270734593_46_add_bots_data.Designer.cs">
+      <DependentUpon>201710270734593_46_add_bots_data.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
+    <Compile Include="Models\HomeViewModels\Meta\UserAgents.cs" />
     <Compile Include="Models\HomeViewModels\Style\Style.cs" />
     <Compile Include="Models\HomeViewModels\Meta\Portal\MetaPortalMemes.cs" />
     <Compile Include="Models\HomeViewModels\Meta\MetaBase.cs" />
@@ -668,6 +651,7 @@
     <Compile Include="Models\TablesLogic\Base\BaseLogicFactory.cs" />
     <Compile Include="Models\TablesLogic\Base\IBaseLogic.cs" />
     <Compile Include="Models\TablesLogic\ErrorsLogic.cs" />
+    <Compile Include="Models\TablesLogic\BotsLogic.cs" />
     <Compile Include="Models\TablesLogic\Portal\SalaryLogic.cs" />
     <Compile Include="Models\TablesLogic\Portal\RealtLogic.cs" />
     <Compile Include="Models\TablesLogic\Portal\MemesStatsLogic.cs" />
@@ -689,6 +673,7 @@
     <Compile Include="Models\TablesViews\Portal\SalaryView.cs" />
     <Compile Include="Models\TablesViews\Portal\RealtView.cs" />
     <Compile Include="Models\TablesViews\Portal\MemesView.cs" />
+    <Compile Include="Models\Tables\Bots.cs" />
     <Compile Include="Models\Tables\NLogErrors.cs" />
     <Compile Include="Models\Tables\Events.cs" />
     <Compile Include="Models\Tables\Portal\Salary.cs" />
@@ -842,10 +827,6 @@
     <Content Include="fonts\fontawesome-webfont.svg" />
     <Content Include="Global.asax" />
     <Content Include="Content\myseen\Site.css" />
-    <Content Include="NLog.config">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-      <SubType>Designer</SubType>
-    </Content>
     <Content Include="Content\fonts\fontawesome-webfont.eot" />
     <Content Include="Content\fonts\fontawesome-webfont.ttf" />
     <Content Include="Content\fonts\fontawesome-webfont.woff" />
@@ -861,9 +842,6 @@
     <Content Include="fonts\FontAwesome.otf" />
     <Content Include="package.json" />
     <Content Include="Gruntfile.js" />
-    <None Include="NLog.xsd">
-      <SubType>Designer</SubType>
-    </None>
     <None Include="Properties\PublishProfiles\myseen.pubxml" />
     <Content Include="Scripts\ai.0.22.9-build00167.js" />
     <Content Include="Scripts\ai.0.22.9-build00167.min.js" />
@@ -873,8 +851,6 @@
     <None Include="Scripts\jquery-2.2.3.intellisense.js" />
     <Content Include="Scripts\jquery-2.2.3.js" />
     <Content Include="Scripts\jquery-2.2.3.min.js" />
-    <Content Include="Scripts\jsnlog.js" />
-    <Content Include="Scripts\jsnlog.min.js" />
     <Content Include="Content\Angular\controllers\MyMemory\SerialsController.js" />
     <Content Include="Content\Angular\controllers\MyMemory\FilmsController.js" />
     <Content Include="Content\Angular\app\app.js" />
@@ -935,7 +911,6 @@
     <Content Include="Views\Json\Parts\Auth.cshtml" />
     <Content Include="Views\Json\Parts\Analytics.cshtml" />
     <Content Include="Views\Json\Parts\ToJS.cshtml" />
-    <Content Include="Scripts\jsnlog.js.map" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -1083,6 +1058,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201710181000501_45.resx">
       <DependentUpon>201710181000501_45.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201710270733596_46.resx">
+      <DependentUpon>201710270733596_46.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201710270734593_46_add_bots_data.resx">
+      <DependentUpon>201710270734593_46_add_bots_data.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

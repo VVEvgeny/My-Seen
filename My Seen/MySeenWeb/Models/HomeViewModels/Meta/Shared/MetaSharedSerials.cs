@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Web;
 using MySeenLib;
+using MySeenWeb.Add_Code;
 using MySeenWeb.Models.TablesLogic;
 
 namespace MySeenWeb.Models.Meta.Shared
@@ -9,8 +10,8 @@ namespace MySeenWeb.Models.Meta.Shared
     {
         public static string Path = "/mymemory/serials/shared/";
 
-        public MetaSharedSerials(HttpRequestBase request)
-            : base(request)
+        public MetaSharedSerials(HttpRequestBase request, ICacheService cache)
+            : base(request, cache)
         {
             Title = $"{Resource.Serials} {Resource.User2}; ";
             try

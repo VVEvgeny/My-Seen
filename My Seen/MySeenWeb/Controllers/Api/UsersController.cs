@@ -2,7 +2,6 @@
 using System.Linq;
 using System.Web.Http;
 using MySeenLib;
-using MySeenWeb.Add_Code.Services.Logging.NLog;
 using MySeenWeb.Models.OtherViewModels;
 using static MySeenLib.MySeenWebApi;
 using static MySeenLib.MySeenWebApi.SyncJsonAnswer;
@@ -15,8 +14,6 @@ namespace MySeenWeb.Controllers.Api
         [ActionName("CheckKey")]
         public IHttpActionResult CheckKey([FromUri]int apiVersion, [FromUri]string userKey)
         {
-            var logger = new NLogLogger();
-            const string methodName = "public IHttpActionResult CheckKey([FromUri]int apiVersion, [FromUri]string userKey)";
             try
             {
                 if (!CheckApiVersion(apiVersion))
@@ -33,7 +30,7 @@ namespace MySeenWeb.Controllers.Api
             }
             catch (Exception ex)
             {
-                logger.Error(methodName, ex);
+
             }
             return Ok(new SyncJsonAnswer { Value = Values.SomeErrorObtained, Data = Values.SomeErrorObtained.SplitByWords() });
         }

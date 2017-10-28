@@ -6,7 +6,7 @@ using System.Web;
 using System.Web.Mvc;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
-using MySeenWeb.Add_Code.Services.Logging.NLog;
+using MySeenWeb.Add_Code;
 using MySeenWeb.Models.OtherViewModels;
 using MySeenWeb.Models.TablesLogic;
 using MySeenWeb.Models.Tools;
@@ -14,12 +14,18 @@ using static System.Convert;
 using static MySeenLib.CultureInfoTool;
 using static MySeenLib.CultureInfoTool.Cultures;
 using static MySeenLib.Defaults;
-using static MySeenWeb.Models.Meta.MetaBase;
 
 namespace MySeenWeb.Controllers._Base
 {
     public class BaseController : Controller
     {
+        protected readonly ICacheService Cache;
+
+        public BaseController(ICacheService cache)
+        {
+            Cache = cache;
+        }
+
         private class MySessionObject
         {
             public readonly string Value;
@@ -41,8 +47,6 @@ namespace MySeenWeb.Controllers._Base
         }
         private bool TryReadSession(string key)
         {
-            var logger = new NLogLogger();
-            logger.Info("TryReadSession key=" + key);
             return ControllerContext.HttpContext.Session?[key] != null;
         }
 
@@ -335,7 +339,7 @@ namespace MySeenWeb.Controllers._Base
                     }
                     else
                     {
-                        SetCulture(IsBotRus(Request.UserAgent)
+                        SetCulture(BotsLogic.Contains(Cache, Request.UserAgent,(int)LanguagesBase.Indexes.Russian )
                             ? Russian
                             : English);
                     }
@@ -345,8 +349,6 @@ namespace MySeenWeb.Controllers._Base
 
         private void AutoLogin()
         {
-            var logger = new NLogLogger();
-            const string methodName = "private void AutoLogin()";
             try
             {
                 if (!User.Identity.IsAuthenticated)
@@ -377,13 +379,10 @@ namespace MySeenWeb.Controllers._Base
             }
             catch (Exception ex)
             {
-                logger.Error(methodName, ex);
             }
         }
         protected override void ExecuteCore()
         {
-            var logger = new NLogLogger();
-            const string methodName = "protected override void ExecuteCore()";
             try
             {
                 AutoLogin();
@@ -392,14 +391,11 @@ namespace MySeenWeb.Controllers._Base
             }
             catch (Exception ex)
             {
-                logger.Error(methodName, ex);
             }
             base.ExecuteCore();
         }
         protected override IAsyncResult BeginExecuteCore(AsyncCallback callback, object state)
         {
-            var logger = new NLogLogger();
-            const string methodName = "protected override IAsyncResult BeginExecuteCore(AsyncCallback callback, object state)";
             try
             {
                 AutoLogin();
@@ -408,7 +404,6 @@ namespace MySeenWeb.Controllers._Base
             }
             catch (Exception ex)
             {
-                logger.Error(methodName, ex);
             }
             return base.BeginExecuteCore(callback, state);
         }

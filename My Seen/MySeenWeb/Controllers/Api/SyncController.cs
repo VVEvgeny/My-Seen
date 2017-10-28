@@ -4,7 +4,6 @@ using System.Linq;
 using System.Web.Http;
 using MySeenLib;
 using MySeenWeb.Add_Code;
-using MySeenWeb.Add_Code.Services.Logging.NLog;
 using MySeenWeb.Models.OtherViewModels;
 using MySeenWeb.Models.Tables;
 using static MySeenLib.MySeenWebApi;
@@ -29,8 +28,6 @@ namespace MySeenWeb.Controllers.Api
         }
         public IHttpActionResult Get(string userKey, int mode, int apiVersion)
         {
-            var logger = new NLogLogger();
-            const string methodName = "public IHttpActionResult Get(string userKey, int mode, int apiVersion)";
             try
             {
                 if (apiVersion != ApiVersion)
@@ -65,7 +62,7 @@ namespace MySeenWeb.Controllers.Api
             }
             catch (Exception ex)
             {
-                logger.Error(methodName, ex);
+                
             }
             return Ok(new SyncJsonAnswer { Value = SyncJsonAnswer.Values.SomeErrorObtained });
         }

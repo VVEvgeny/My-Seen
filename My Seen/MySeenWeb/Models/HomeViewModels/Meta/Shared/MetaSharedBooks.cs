@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Web;
 using MySeenLib;
+using MySeenWeb.Add_Code;
 using MySeenWeb.Models.TablesLogic;
 
 namespace MySeenWeb.Models.Meta.Shared
@@ -9,8 +10,8 @@ namespace MySeenWeb.Models.Meta.Shared
     {
         public static readonly string Path = "/mymemory/books/shared/";
 
-        public MetaSharedBooks(HttpRequestBase request)
-            : base(request)
+        public MetaSharedBooks(HttpRequestBase request, ICacheService cache)
+            : base(request, cache)
         {
             Title = Resource.Books + " " + Resource.User2;
             try

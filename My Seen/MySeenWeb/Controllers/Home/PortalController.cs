@@ -2,7 +2,7 @@
 using System.Web.Mvc;
 using Microsoft.AspNet.Identity;
 using MySeenWeb.ActionFilters;
-using MySeenWeb.Add_Code.Services.Logging.NLog;
+using MySeenWeb.Add_Code;
 using MySeenWeb.Controllers._Base;
 using MySeenWeb.Models.TablesLogic.Portal;
 
@@ -11,13 +11,15 @@ namespace MySeenWeb.Controllers.Home
 {
     public class PortalController : BaseController
     {
+        public PortalController(ICacheService cache) : base(cache)
+        {
+            
+        }
         [Compress]
         [Authorize]
         [HttpPost]
         public JsonResult RateMem(string recordId, bool plus)
         {
-            var logger = new NLogLogger();
-            var methodName = "public JsonResult MemesRate(string recordId, bool plus)";
             try
             {
                 var logic = new MemesStatsLogic();
@@ -25,9 +27,8 @@ namespace MySeenWeb.Controllers.Home
             }
             catch (Exception ex)
             {
-                logger.Error(methodName, ex);
             }
-            return new JsonResult { Data = new { success = false, error = methodName } };
+            return new JsonResult { Data = new { success = false, error = System.Reflection.MethodBase.GetCurrentMethod().Name } };
         }
     }
 }

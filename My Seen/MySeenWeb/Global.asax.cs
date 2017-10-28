@@ -4,7 +4,6 @@ using System.Web.Optimization;
 using System.Web.Routing;
 using System.Web.Helpers;
 using MySeenWeb.Add_Code;
-using NLog.Config;
 
 namespace MySeenWeb
 {
@@ -20,10 +19,6 @@ namespace MySeenWeb
             BundleConfig.RegisterBundles(BundleTable.Bundles);
 
             ControllerBuilder.Current.SetControllerFactory(new NinjectControllerFactory());
-
-            // Register custom NLog Layout renderers
-            ConfigurationItemFactory.Default.LayoutRenderers.RegisterDefinition("web_variables", typeof(Add_Code.Services.Logging.NLog.WebVariablesRenderer));
-            ConfigurationItemFactory.Default.LayoutRenderers.RegisterDefinition("utc_date", typeof(Add_Code.Services.Logging.NLog.UtcDateRenderer));
         }
     }
 }

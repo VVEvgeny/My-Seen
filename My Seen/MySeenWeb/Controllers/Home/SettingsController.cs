@@ -8,18 +8,20 @@ using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using MySeenWeb.ActionFilters;
 using MySeenWeb.Add_Code;
-using MySeenWeb.Add_Code.Services.Logging.NLog;
 using MySeenWeb.Controllers._Base;
 using MySeenWeb.Models.OtherViewModels;
 using MySeenWeb.Models.Tools;
 using static MySeenLib.CultureInfoTool;
 using static MySeenLib.Defaults;
-using static MySeenLib.MySeenWebApi;
 
 namespace MySeenWeb.Controllers.Home
 {
     public class SettingsController : BaseController
     {
+        public SettingsController(ICacheService cache) : base(cache)
+        {
+
+        }
         private ApplicationUserManager UserManager => HttpContext.GetOwinContext().GetUserManager<ApplicationUserManager>();
 
         private ApplicationSignInManager SignInManager => HttpContext.GetOwinContext().Get<ApplicationSignInManager>();
@@ -30,8 +32,6 @@ namespace MySeenWeb.Controllers.Home
         [HttpPost]
         public JsonResult SetLanguage(int val)
         {
-            var logger = new NLogLogger();
-            const string methodName = "public JsonResult SetLanguage(int language)";
             try
             {
                 var userId = User.Identity.GetUserId();
@@ -48,17 +48,14 @@ namespace MySeenWeb.Controllers.Home
             }
             catch (Exception ex)
             {
-                logger.Error(methodName, ex);
             }
-            return new JsonResult { Data = new { success = false, error = methodName } };
+            return new JsonResult { Data = new { success = false, error = System.Reflection.MethodBase.GetCurrentMethod().Name } };
         }
 
         [Compress]
         [HttpPost]
         public JsonResult SetTheme(int val)
         {
-            var logger = new NLogLogger();
-            const string methodName = "public JsonResult SetTheme(int language)";
             try
             {
                 var userId = User.Identity.GetUserId();
@@ -73,17 +70,14 @@ namespace MySeenWeb.Controllers.Home
             }
             catch (Exception ex)
             {
-                logger.Error(methodName, ex);
             }
-            return new JsonResult { Data = new { success = false, error = methodName } };
+            return new JsonResult { Data = new { success = false, error = System.Reflection.MethodBase.GetCurrentMethod().Name } };
         }
 
         [Compress]
         [HttpPost]
         public JsonResult SetRpp(int val)
         {
-            var logger = new NLogLogger();
-            const string methodName = "public JsonResult SetRpp(int rpp)";
             try
             {
                 var userId = User.Identity.GetUserId();
@@ -98,17 +92,14 @@ namespace MySeenWeb.Controllers.Home
             }
             catch (Exception ex)
             {
-                logger.Error(methodName, ex);
             }
-            return new JsonResult { Data = new { success = false, error = methodName } };
+            return new JsonResult { Data = new { success = false, error = System.Reflection.MethodBase.GetCurrentMethod().Name } };
         }
 
         [Compress]
         [HttpPost]
         public JsonResult SetMor(int val)
         {
-            var logger = new NLogLogger();
-            const string methodName = "public JsonResult SetMor(int mor)";
             try
             {
                 var userId = User.Identity.GetUserId();
@@ -124,16 +115,13 @@ namespace MySeenWeb.Controllers.Home
             }
             catch (Exception ex)
             {
-                logger.Error(methodName, ex);
             }
-            return new JsonResult { Data = new { success = false, error = methodName } };
+            return new JsonResult { Data = new { success = false, error = System.Reflection.MethodBase.GetCurrentMethod().Name } };
         }
         [Compress]
         [HttpPost]
         public JsonResult SetEnableAnimation(int val)
         {
-            var logger = new NLogLogger();
-            const string methodName = "public JsonResult SetEnableAnimation(int val)";
             try
             {
                 var userId = User.Identity.GetUserId();
@@ -149,9 +137,8 @@ namespace MySeenWeb.Controllers.Home
             }
             catch (Exception ex)
             {
-                logger.Error(methodName, ex);
             }
-            return new JsonResult { Data = new { success = false, error = methodName } };
+            return new JsonResult { Data = new { success = false, error = System.Reflection.MethodBase.GetCurrentMethod().Name } };
         }
 
         [Compress]
@@ -159,8 +146,6 @@ namespace MySeenWeb.Controllers.Home
         [HttpPost]
         public JsonResult SetPassword(string password, string newPassword)
         {
-            var logger = new NLogLogger();
-            const string methodName = "public JsonResult SetPassword(string password, string newPassword, string passwordConfirm)";
             try
             {
                 if (string.IsNullOrEmpty(password)) //create new
@@ -175,7 +160,6 @@ namespace MySeenWeb.Controllers.Home
                         }
                         return Json(new { success = true });
                     }
-                    logger.Info(result.Errors.First());
                     return new JsonResult { Data = new { success = false, error = result.Errors.First() } };
                 }
                 else //Change current
@@ -190,15 +174,13 @@ namespace MySeenWeb.Controllers.Home
                         }
                         return Json(new { success = true });
                     }
-                    logger.Info(result.Errors.First());
                     return new JsonResult { Data = new { success = false, error = result.Errors.First() } };
                 }
             }
             catch (Exception ex)
             {
-                logger.Error(methodName, ex);
             }
-            return new JsonResult { Data = new { success = false, error = methodName } };
+            return new JsonResult { Data = new { success = false, error = System.Reflection.MethodBase.GetCurrentMethod().Name } };
         }
 
         [Compress]
@@ -206,8 +188,6 @@ namespace MySeenWeb.Controllers.Home
         [HttpPost]
         public JsonResult GetLogins()
         {
-            var logger = new NLogLogger();
-            const string methodName = "public JsonResult GetLogins()";
             try
             {
                 var userLogins = UserManager.GetLogins(User.Identity.GetUserId());
@@ -220,9 +200,8 @@ namespace MySeenWeb.Controllers.Home
             }
             catch (Exception ex)
             {
-                logger.Error(methodName, ex);
             }
-            return new JsonResult { Data = new { success = false, error = methodName } };
+            return new JsonResult { Data = new { success = false, error = System.Reflection.MethodBase.GetCurrentMethod().Name } };
         }
 
         [Compress]
@@ -230,8 +209,6 @@ namespace MySeenWeb.Controllers.Home
         [HttpPost]
         public JsonResult RemoveLogin(string loginProvider, string providerKey)
         {
-            var logger = new NLogLogger();
-            const string methodName = "public async JsonResult RemoveLogin(string loginProvider, string providerKey)";
             try
             {
                 var result = UserManager.RemoveLogin(User.Identity.GetUserId(), new UserLoginInfo(loginProvider, providerKey));
@@ -244,14 +221,12 @@ namespace MySeenWeb.Controllers.Home
                     }
                     return Json(new { success = true });
                 }
-                logger.Info(result.Errors.First());
                 return new JsonResult { Data = new { success = false, error = result.Errors.First() } };
             }
             catch (Exception ex)
             {
-                logger.Error(methodName, ex);
             }
-            return new JsonResult { Data = new { success = false, error = methodName } };
+            return new JsonResult { Data = new { success = false, error = System.Reflection.MethodBase.GetCurrentMethod().Name } };
         }
 
         [Compress]
@@ -259,8 +234,6 @@ namespace MySeenWeb.Controllers.Home
         [HttpPost]
         public ActionResult AddLogin(string provider)
         {
-            var logger = new NLogLogger();
-            const string methodName = "public ActionResult AddLogin(string provider)";
             try
             {
                 // Request a redirect to the external login provider to link a login for the current user
@@ -268,34 +241,28 @@ namespace MySeenWeb.Controllers.Home
             }
             catch (Exception ex)
             {
-                logger.Error(methodName, ex);
             }
-            return new JsonResult { Data = new { success = false, error = methodName } };
+            return new JsonResult { Data = new { success = false, error = System.Reflection.MethodBase.GetCurrentMethod().Name } };
         }
 
         private const string XsrfKey = "XsrfId";
         public async Task<ActionResult> LinkLoginCallback()
         {
-            var logger = new NLogLogger();
-            const string methodName = "public async Task<ActionResult> LinkLoginCallback()";
             try
             {
                 var loginInfo = await AuthenticationManager.GetExternalLoginInfoAsync(XsrfKey, User.Identity.GetUserId());
                 if (loginInfo == null)
                 {
-                    logger.Info("error GetExternalLoginInfoAsync LinkLoginCallback User=" + User.Identity.GetUserName());
                     return RedirectToAction("Index", "Json");
                 }
                 var result = await UserManager.AddLoginAsync(User.Identity.GetUserId(), loginInfo.Login);
                 if (!result.Succeeded)
                 {
-                    logger.Info("error AddLoginAsync LinkLoginCallback User=" + User.Identity.GetUserName());
                     return RedirectToAction("Index", "Json");
                 }
             }
             catch (Exception ex)
             {
-                logger.Error(methodName, ex);
             }
             return RedirectToAction("Index", "Json");
         }

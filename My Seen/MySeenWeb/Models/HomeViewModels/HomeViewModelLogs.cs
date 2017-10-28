@@ -1,12 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using MySeenWeb.Add_Code.Services.Logging.NLog;
-using MySeenWeb.Models.Meta;
+using MySeenWeb.Add_Code;
 using MySeenWeb.Models.OtherViewModels;
+using MySeenWeb.Models.TablesLogic;
 using MySeenWeb.Models.TablesViews;
 using MySeenWeb.Models.Tools;
-using NLog;
 using static MySeenLib.UmtTime;
 
 namespace MySeenWeb.Models
@@ -15,9 +14,8 @@ namespace MySeenWeb.Models
     {
         public IEnumerable<LogsView> Data { get; set; }
         public Pagination Pages { get; set; }
-        public string DebugData { get; set; }
 
-        public HomeViewModelLogs(int page, int countInPage, string search, bool withBots, int period)
+        public HomeViewModelLogs(int page, int countInPage, string search, bool withBots, int period, ICacheService cache)
         {
             var ac = new ApplicationDbContext();
 
@@ -70,41 +68,12 @@ namespace MySeenWeb.Models
                     break;
             }
 
-
-
-
-            LogManager.ThrowExceptions = true;
-            DebugData = string.Empty;
-
-
-
-
-            var logger2 = new NLogLogger();
-            logger2.Info("req123");
-            DebugData += "NLogLogger" + Environment.NewLine;
-            DebugData += "logger2._logger.IsDebugEnabled=" + (logger2._logger.IsDebugEnabled ? "+" : "-") + Environment.NewLine;
-            DebugData += "logger2._logger.IsInfoEnabled=" + (logger2._logger.IsInfoEnabled ? "+" : "-") + Environment.NewLine;
-            DebugData += "logger2._logger.Name=" + (logger2._logger.Name) + Environment.NewLine;
-
-
-            var logger = LogManager.GetLogger("databaselog");
-            logger.Info("req123");
-            DebugData += "LogManager.GetLogger(\"databaselog\")" + Environment.NewLine;
-            DebugData += "logger.IsDebugEnabled=" + (logger.IsDebugEnabled ? "+" : "-") + Environment.NewLine;
-            DebugData += "logger.IsInfoEnabled=" + (logger.IsInfoEnabled ? "+" : "-") + Environment.NewLine;
-            DebugData += "logger.Name=" + (logger.Name) + Environment.NewLine;
-
-
-
-
-
-
             Pages = new Pagination(page,
                 ac.Logs.AsNoTracking().AsEnumerable().Count(
                     f =>
                         (string.IsNullOrEmpty(search) || f.UserAgent.Contains(search)) && f.DateFirst >= minDate &&
                         f.DateLast <= maxDate
-                        && (withBots || !MetaBase.IsBot(f.UserAgent))
+                        && (withBots || !BotsLogic.Contains(cache, f.UserAgent))
                     )
                 , countInPage);
             Data =
@@ -113,7 +82,7 @@ namespace MySeenWeb.Models
                         f =>
                             (string.IsNullOrEmpty(search) || f.UserAgent.Contains(search)) && f.DateFirst >= minDate &&
                             f.DateLast <= maxDate)
-                    .AsEnumerable().Where(f => withBots || !MetaBase.IsBot(f.UserAgent))
+                    .AsEnumerable().Where(f => withBots || !BotsLogic.Contains(cache, f.UserAgent))
                     .OrderByDescending(l => l.DateLast)
                     .Skip(Pages.SkipRecords)
                     .Take(countInPage)

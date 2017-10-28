@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Web;
 using MySeenLib;
+using MySeenWeb.Add_Code;
 using MySeenWeb.Models.TablesLogic.Portal;
 
 namespace MySeenWeb.Models.Meta.Portal
@@ -9,8 +10,8 @@ namespace MySeenWeb.Models.Meta.Portal
     {
         public static string Path = "/portal/memes/";
 
-        public MetaPortalMemes(HttpRequestBase request)
-            : base(request)
+        public MetaPortalMemes(HttpRequestBase request, ICacheService cache)
+            : base(request, cache)
         {
             Title = Resource.Memes;
 
