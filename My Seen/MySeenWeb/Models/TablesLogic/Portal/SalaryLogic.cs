@@ -27,9 +27,9 @@ namespace MySeenWeb.Models.TablesLogic.Portal
             _cache = cache;
         }
 
-        public bool Add(string name, string dateTime, string other)
+        public bool Add(string dateTime, string other)
         {
-            return Fill(name, dateTime, other) && Verify() && Add();
+            return Fill(dateTime, other) && Verify() && Add();
         }
 
         public static List<Salary> GetAll(ICacheService cache)
@@ -58,7 +58,7 @@ namespace MySeenWeb.Models.TablesLogic.Portal
 
             return false;
         }
-        private bool Fill(string name, string dateTime, string other)
+        private bool Fill(string dateTime, string other)
         {
             try
             {

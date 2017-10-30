@@ -24,6 +24,8 @@ App.controller("RealtController",
         //Перевод всех данных на тек. странице
         $scope.translation = {};
 
+        $scope.currentTab = 1;
+
         //Перевод таблицы и модальной
         function fillTranslation(page) {
             $scope.translation = page;
@@ -155,7 +157,9 @@ App.controller("RealtController",
         //Модальная добавления/редактирования Указываем какие поля будем видеть
         $scope.modal = {
             showWhen: true,
-            showSalary: true
+            showSalary: true,
+            showDeals: true,
+            showPrice: true
         };
         //Прячу модальную Добавить/Редактировать
         //Готовлю данные для добавления новой записи и отображаю модальную
@@ -182,12 +186,6 @@ App.controller("RealtController",
             getMainPage();
         };
 
-        //Обновим текущую страницу
-        function afterSave() {
-            $scope.addModalHide();
-            getMainPage();
-        };
-
         //Готовлю данные для отправки и вызову глобальную AddData
         $scope.modal.addButtonClick = function () {
             $rootScope.GetPage(constants.Pages.Add,
@@ -195,9 +193,9 @@ App.controller("RealtController",
                 afterAdd,
                 {
                     pageId: $rootScope.pageId,
-                    name: 'salary',
-                    datetime: $scope.modal.monthYear,
-                    other: $scope.modal.salary
+                    name: $scope.currentTab === 1 ? 'salary' : 'price',
+                    datetime: $scope.currentTab === 1 ? $scope.modal.monthYear : $scope.modal.date,
+                    other: $scope.currentTab === 1 ? $scope.modal.salary : ($scope.modal.deals + '-' + $scope.modal.price)
                 });
         };
         ////////

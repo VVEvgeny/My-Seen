@@ -23,21 +23,7 @@ namespace MySeenWeb.Models.Portal
         //mode == n - current + new calculated (+n)
         public PortalViewModelRealt(int year, int priceChange, int dealsChange, int salaryChange, ICacheService cache)
         {
-            /*
-            Data = cache.Get<List<RealtView>>(cache.GetFormatedName(CacheNames.Realt.ToString()));
-
-            if (Data == null)
-            {
-                var ac = new ApplicationDbContext();
-                Data = ac.Realt.OrderBy(r => r.Date).AsNoTracking().Select(RealtView.Map).ToList();
-                cache.Set(CacheNames.Realt.ToString(), Data, 15);
-            }
-            */
-
             Data = RealtLogic.GetAll(cache).OrderBy(r => r.Date).Select(RealtView.Map).ToList();
-
-
-
             DataSalary = SalaryView.Make(Data, SalaryLogic.GetAll(cache), salaryChange);
 
             LastUpdatedPrice = From(Data.Max(r => r.Date)).ToShortDateString();

@@ -357,9 +357,17 @@ namespace MySeenWeb.Controllers.Home
                         if (!UserRolesLogic.IsAdmin(User.Identity.GetUserId(), Cache))
                             return new JsonResult {Data = new {success = false, error = Resource.NoRights}};
 
-                        var realLogic = new SalaryLogic(Cache);
-                        return !realLogic.Add(name, datetime, other)
-                            ? new JsonResult {Data = new {success = false, error = realLogic.ErrorMessage}}
+                        if (name == "salary")
+                        {
+                            var realLogic = new SalaryLogic(Cache);
+                            return !realLogic.Add(datetime, other)
+                                ? new JsonResult {Data = new {success = false, error = realLogic.ErrorMessage}}
+                                : Json(new {success = true});
+                        }
+
+                        var realtLogic = new RealtLogic(Cache);
+                        return !realtLogic.Add(datetime, other)
+                            ? new JsonResult {Data = new {success = false, error = realtLogic.ErrorMessage}}
                             : Json(new {success = true});
                 }
                 return Json("NOT REALIZED");
