@@ -25,7 +25,7 @@ namespace MySeenWeb.Controllers.Home
             
         }
 
-        [Compress]
+        //[Compress]
         public ActionResult Index()
         {
             try

@@ -18,10 +18,10 @@ namespace MySeenWeb.Models
             ICacheService cache)
         {
             Pages =
-                cache.Get<Pagination>(cache.GetFormatedName(CacheNames.UserFilmsPages.ToString(), userId, page,
+                cache.Get<Pagination>(cache.GetFormatedName(CacheNames.UserFilmsPages, userId, page,
                     countInPage, search, shareKey));
             Data =
-                cache.Get<IEnumerable<FilmsView>>(cache.GetFormatedName(CacheNames.UserFilms.ToString(), userId, page,
+                cache.Get<IEnumerable<FilmsView>>(cache.GetFormatedName(CacheNames.UserFilms, userId, page,
                     countInPage, search, shareKey));
             
             if (Pages == null || Data == null)
@@ -38,7 +38,7 @@ namespace MySeenWeb.Models
                             && (string.IsNullOrEmpty(search) || f.Name.Contains(search))),
                         countInPage);
                     cache.Set(
-                        cache.GetFormatedName(CacheNames.UserFilmsPages.ToString(), userId, page, countInPage, search,
+                        cache.GetFormatedName(CacheNames.UserFilmsPages, userId, page, countInPage, search,
                             shareKey), Pages, 15);
                 }
                 if (Data == null)
@@ -55,7 +55,7 @@ namespace MySeenWeb.Models
                         .Take(() => countInPage)
                         .Select(FilmsView.Map).ToList();
                     cache.Set(
-                        cache.GetFormatedName(CacheNames.UserFilms.ToString(), userId, page, countInPage, search,
+                        cache.GetFormatedName(CacheNames.UserFilms, userId, page, countInPage, search,
                             shareKey), Data, 15);
                 }
             }

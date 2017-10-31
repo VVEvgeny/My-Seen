@@ -10,14 +10,12 @@ namespace MySeenWeb.Models.TablesLogic
 {
     public class BotsLogic : Films, IBaseLogic
     {
-        //private readonly ApplicationDbContext _ac;
         private readonly ICacheService _cache;
         public string ErrorMessage;
 
         public BotsLogic()
         {
             ErrorMessage = string.Empty;
-            //_ac = new ApplicationDbContext();
         }
 
         public BotsLogic(ICacheService cache) : this()
@@ -38,12 +36,12 @@ namespace MySeenWeb.Models.TablesLogic
 
         private static IEnumerable<Bots> GetAll(ICacheService cache)
         {
-            var bots = cache.Get<List<Bots>>(cache.GetFormatedName(CacheNames.Bots.ToString()));
+            var bots = cache.Get<List<Bots>>(CacheNames.Bots);
             if (bots == null)
             {
                 var ac = new ApplicationDbContext();
                 bots = ac.Bots.ToList();
-                cache.Set(cache.GetFormatedName(CacheNames.Bots.ToString()), bots, 15);
+                cache.Set(CacheNames.Bots, bots, 15);
             }
             return bots;
         }

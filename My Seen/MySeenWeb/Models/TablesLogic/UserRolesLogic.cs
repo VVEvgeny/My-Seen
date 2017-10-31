@@ -31,11 +31,11 @@ namespace MySeenWeb.Models.TablesLogic
         }
         private static IEnumerable<IdentityUserRole> GetAllRoles(ICacheService cache)
         {
-            var roles = cache.Get<List<IdentityUserRole>>(cache.GetFormatedName(CacheNames.UserRoles.ToString()));
+            var roles = cache.Get<List<IdentityUserRole>>(CacheNames.UserRoles);
             if (roles == null)
             {
                 roles = new ApplicationDbContext().UserRoles.ToList();
-                cache.Set(cache.GetFormatedName(CacheNames.UserRoles.ToString()), roles, 15);
+                cache.Set(CacheNames.UserRoles, roles, 15);
             }
             return roles;
         }

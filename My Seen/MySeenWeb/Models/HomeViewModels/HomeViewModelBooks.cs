@@ -18,10 +18,10 @@ namespace MySeenWeb.Models
             ICacheService cache)
         {
             Pages =
-                cache.Get<Pagination>(cache.GetFormatedName(CacheNames.UserBooksPages.ToString(), userId, page,
+                cache.Get<Pagination>(cache.GetFormatedName(CacheNames.UserBooksPages, userId, page,
                     countInPage, search, shareKey));
             Data =
-                cache.Get<IEnumerable<BooksView>>(cache.GetFormatedName(CacheNames.UserBooks.ToString(), userId, page,
+                cache.Get<IEnumerable<BooksView>>(cache.GetFormatedName(CacheNames.UserBooks, userId, page,
                     countInPage, search, shareKey));
 
             if (Pages == null || Data == null)
@@ -35,7 +35,7 @@ namespace MySeenWeb.Models
                          (!string.IsNullOrEmpty(shareKey) && f.User.ShareBooksKey == shareKey && f.Shared))
                         && (string.IsNullOrEmpty(search) || f.Name.Contains(search))), countInPage);
                     cache.Set(
-                        cache.GetFormatedName(CacheNames.UserBooksPages.ToString(), userId, page, countInPage, search,
+                        cache.GetFormatedName(CacheNames.UserBooksPages, userId, page, countInPage, search,
                             shareKey), Pages, 15);
                 }
                 if (Data == null)
@@ -49,7 +49,7 @@ namespace MySeenWeb.Models
                         .ThenBy(f => f.Name)
                         .Skip(() => Pages.SkipRecords).Take(() => countInPage).Select(BooksView.Map).ToList();
                     cache.Set(
-                        cache.GetFormatedName(CacheNames.UserBooks.ToString(), userId, page, countInPage, search,
+                        cache.GetFormatedName(CacheNames.UserBooks, userId, page, countInPage, search,
                             shareKey), Data, 15);
                 }
             }

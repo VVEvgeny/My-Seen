@@ -16,10 +16,10 @@ namespace MySeenWeb.Models.Portal
         public PortalViewModelMemes(string userId, int page, int countInPage, string search, int id, ICacheService cache)
         {
             Pages =
-                cache.Get<Pagination>(cache.GetFormatedName(CacheNames.MemesPages.ToString(), page, countInPage, search,
+                cache.Get<Pagination>(cache.GetFormatedName(CacheNames.MemesPages, page, countInPage, search,
                     id));
             Data =
-                cache.Get<IEnumerable<MemesView>>(cache.GetFormatedName(CacheNames.Memes.ToString(), page, countInPage,
+                cache.Get<IEnumerable<MemesView>>(cache.GetFormatedName(CacheNames.Memes, page, countInPage,
                     search, id));
 
             if (Pages == null || Data == null)
@@ -34,7 +34,7 @@ namespace MySeenWeb.Models.Portal
                     if (id != 0) Pages.SkipRecords = 0;
 
                     cache.Set(
-                        cache.GetFormatedName(CacheNames.MemesPages.ToString(), page, countInPage, search, id),
+                        cache.GetFormatedName(CacheNames.MemesPages, page, countInPage, search, id),
                         Pages, 15);
                 }
 
@@ -47,7 +47,7 @@ namespace MySeenWeb.Models.Portal
                         .Skip(() => Pages.SkipRecords).Take(() => countInPage), userId);
 
                     cache.Set(
-                        cache.GetFormatedName(CacheNames.Memes.ToString(), page, countInPage, search, id), Data,
+                        cache.GetFormatedName(CacheNames.Memes, page, countInPage, search, id), Data,
                         15);
                 }
             }
