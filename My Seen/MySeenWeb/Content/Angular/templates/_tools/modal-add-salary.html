@@ -16,10 +16,13 @@
                             <li data-ng-class="{'active': currentTab == 2}">
                                 <a data-toggle="tab" data-target="menu2" data-ng-click="$parent.currentTab = 2">{{translation.AddData || 'Add Data'}}</a>
                             </li>
+                            <li data-ng-class="{'active': currentTab == 3}">
+                                <a data-toggle="tab" data-target="menu3" data-ng-click="$parent.currentTab = 3">{{translation.AddDeals || 'Add Deals'}}</a>
+                            </li>
                         </ul>
                         <div class="tab-content">
                             <div id="menu1" class="list-group tab-pane fade" data-ng-class="{'active in': currentTab == 1}">
-                                <div class="form-group" data-ng-show="modal.showWhen">
+                                <div class="form-group">
                                     <label for="modalFieldWhen" class="col-sm-2 control-label">{{translation.When || 'When'}}</label>
                                     <div class="col-sm-10">
                                         <input type="text" class="form-control input-sm" id="modalFieldWhen" data-ng-model="modal.monthYear" placeholder=""/>
@@ -33,22 +36,36 @@
                                 </div>
                             </div>
                             <div id="menu2" class="list-group tab-pane fade" data-ng-class="{'active in': currentTab == 2}">
-                                <div class="form-group" data-ng-show="modal.showWhen">
+                                <div class="form-group">
                                     <label for="modalFieldWhenData" class="col-sm-2 control-label">{{translation.When}}</label>
                                     <div class="col-sm-10">
                                         <input type="text" class="form-control input-sm" id="modalFieldWhenData" data-ng-model="modal.date" placeholder=""/>
                                     </div>
                                 </div>
-                                <div class="form-group" data-ng-show="modal.showDeals">
-                                    <label for="modalFieldDeals" class="col-sm-2 control-label">{{translation.Deals || 'Deals'}}</label>
+                                <div class="form-group">
+                                    <label for="modalFieldProposals" class="col-sm-2 control-label">{{translation.Proposals || 'Proposals'}}</label>
                                     <div class="col-sm-10">
-                                        <input type="number" class="form-control input-sm" id="modalFieldDeals" data-ng-model="modal.deals" placeholder="0">
+                                        <input type="number" class="form-control input-sm" id="modalFieldProposals" data-ng-model="modal.proposals" placeholder="0">
                                     </div>
                                 </div>
-                                <div class="form-group" data-ng-show="modal.showPrice">
+                                <div class="form-group">
                                     <label for="modalFieldPrice" class="col-sm-2 control-label">{{translation.Price || 'Price'}}</label>
                                     <div class="col-sm-10">
                                         <input type="number" class="form-control input-sm" id="modalFieldPrice" data-ng-model="modal.price" placeholder="0">
+                                    </div>
+                                </div>
+                            </div>
+                            <div id="menu3" class="list-group tab-pane fade" data-ng-class="{'active in': currentTab == 3}">
+                                <div class="form-group">
+                                    <label for="modalFieldWhenDeals" class="col-sm-2 control-label">{{translation.When || 'When'}}</label>
+                                    <div class="col-sm-10">
+                                        <input type="text" class="form-control input-sm" id="modalFieldWhenDeals" data-ng-model="modal.monthYearDeals" placeholder="" />
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="modalFieldDeals" class="col-sm-2 control-label">{{translation.Deals || 'Deals'}}</label>
+                                    <div class="col-sm-10">
+                                        <input type="number" class="form-control input-sm" id="modalFieldDeals" data-ng-model="modal.deals" placeholder="0">
                                     </div>
                                 </div>
                             </div>
@@ -68,6 +85,11 @@
 
 <script type="text/javascript">
     $("#modalFieldWhen")
+        .datetimepicker({
+            locale: 'ru',
+            format: 'MM-YYYY'
+        });
+    $("#modalFieldWhenDeals")
         .datetimepicker({
             locale: 'ru',
             format: 'MM-YYYY'

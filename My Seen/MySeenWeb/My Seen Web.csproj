@@ -595,6 +595,10 @@
     <Compile Include="Migrations\201710270734593_46_add_bots_data.Designer.cs">
       <DependentUpon>201710270734593_46_add_bots_data.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201711011504067_47.cs" />
+    <Compile Include="Migrations\201711011504067_47.Designer.cs">
+      <DependentUpon>201711011504067_47.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\HomeViewModels\Meta\UserAgents.cs" />
     <Compile Include="Models\HomeViewModels\Style\Style.cs" />
@@ -637,6 +641,7 @@
     <Compile Include="Models\TablesLogic\Base\IBaseLogic.cs" />
     <Compile Include="Models\TablesLogic\ErrorsLogic.cs" />
     <Compile Include="Models\TablesLogic\BotsLogic.cs" />
+    <Compile Include="Models\TablesLogic\Portal\DealsLogic.cs" />
     <Compile Include="Models\TablesLogic\Portal\SalaryLogic.cs" />
     <Compile Include="Models\TablesLogic\Portal\RealtLogic.cs" />
     <Compile Include="Models\TablesLogic\Portal\MemesStatsLogic.cs" />
@@ -655,12 +660,14 @@
     <Compile Include="Models\TablesViews\NLogErrorsView.cs" />
     <Compile Include="Models\TablesViews\LayoutView.cs" />
     <Compile Include="Models\TablesViews\Portal\MemesStatsView.cs" />
+    <Compile Include="Models\TablesViews\Portal\DealsView.cs" />
     <Compile Include="Models\TablesViews\Portal\SalaryView.cs" />
     <Compile Include="Models\TablesViews\Portal\RealtView.cs" />
     <Compile Include="Models\TablesViews\Portal\MemesView.cs" />
     <Compile Include="Models\Tables\Bots.cs" />
     <Compile Include="Models\Tables\NLogErrors.cs" />
     <Compile Include="Models\Tables\Events.cs" />
+    <Compile Include="Models\Tables\Portal\Deals.cs" />
     <Compile Include="Models\Tables\Portal\Salary.cs" />
     <Compile Include="Models\Tables\Portal\Realt.cs" />
     <Compile Include="Models\Tables\Portal\MemesStats.cs" />
@@ -1050,6 +1057,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201710270734593_46_add_bots_data.resx">
       <DependentUpon>201710270734593_46_add_bots_data.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201711011504067_47.resx">
+      <DependentUpon>201711011504067_47.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

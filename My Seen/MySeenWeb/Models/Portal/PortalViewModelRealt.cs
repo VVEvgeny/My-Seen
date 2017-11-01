@@ -15,21 +15,29 @@ namespace MySeenWeb.Models.Portal
     {
         public IEnumerable<RealtView> Data { get; set; }
         public IEnumerable<SalaryView> DataSalary { get; set; }
+        public IEnumerable<DealsView> DataDeals { get; set; }
 
         public string LastUpdatedPrice { get; set; }
         public string LastUpdatedSalary { get; set; }
 
+        public string LastUpdatedDeals { get; set; }
+
         //mode == 0 - current data
         //mode == n - current + new calculated (+n)
-        public PortalViewModelRealt(int year, int priceChange, int dealsChange, int salaryChange, ICacheService cache)
+        public PortalViewModelRealt(int year, int priceChange, int proposalChange, int dealsChange, int salaryChange, ICacheService cache)
         {
             Data = RealtLogic.GetAll(cache).OrderBy(r => r.Date).Select(RealtView.Map).ToList();
             DataSalary = SalaryView.Make(Data, SalaryLogic.GetAll(cache), salaryChange);
+            DataDeals = DealsView.Make(Data, DealsLogic.GetAll(cache), dealsChange);
 
             LastUpdatedPrice = From(Data.Max(r => r.Date)).ToShortDateString();
 
             var lastSalary = SalaryLogic.GetAll(cache).OrderByDescending(f => f.Year).ThenByDescending(f => f.Month).FirstOrDefault();
             if(lastSalary != null) LastUpdatedSalary = lastSalary.Month + "/" + lastSalary.Year;
+
+            var lastDeals = DealsLogic.GetAll(cache).OrderByDescending(f => f.Year).ThenByDescending(f => f.Month).FirstOrDefault();
+            if (lastDeals != null) LastUpdatedDeals = lastDeals.Month + "/" + lastDeals.Year;
+            
 
             /*
             var enumerable = Data as IList<RealtView> ?? Data.ToList();
@@ -57,7 +65,7 @@ namespace MySeenWeb.Models.Portal
                     }
                     if (countFirst != 0)
                     {
-                        countFirst = countFirst + dealsChange;
+                        countFirst = countFirst + proposalChange;
                         if (countFirst < 0) countFirst = 0;
                     }
 

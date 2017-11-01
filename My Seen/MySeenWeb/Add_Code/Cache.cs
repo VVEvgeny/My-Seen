@@ -21,6 +21,7 @@ namespace MySeenWeb.Add_Code
         Memes,
         MemesPages,
         Salaries,
+        Deals,
         Realt,
         UserRoles,
         Bots

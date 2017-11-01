@@ -57,6 +57,7 @@ namespace MySeenWeb.Models.OtherViewModels
 
         public DbSet<Realt> Realt { get; set; }
         public DbSet<Salary> Salary { get; set; }
+        public DbSet<Deals> Deals { get; set; }
 
         public DbSet<Bots> Bots { get; set; }
 

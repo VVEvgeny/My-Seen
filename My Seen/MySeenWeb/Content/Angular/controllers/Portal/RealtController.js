@@ -53,6 +53,7 @@ App.controller("RealtController",
 
             $stateParams.year = ($scope.year !== 0 && $scope.year !== "") ? $scope.year : null;
             $stateParams.price = ($scope.price !== "") ? $scope.price : null;
+            $stateParams.proposals = ($scope.proposals !== "") ? $scope.proposals : null;
             $stateParams.deals = ($scope.deals !== "") ? $scope.deals : null;
             $stateParams.salary = ($scope.salary !== "") ? $scope.salary : null;
 
@@ -65,6 +66,7 @@ App.controller("RealtController",
                         ? $stateParams.year
                         : null),
                     price: ($stateParams && $stateParams.price !== "" ? $stateParams.price : null),
+                    proposals: ($stateParams && $stateParams.proposals !== "" ? $stateParams.proposals : null),
                     deals: ($stateParams && $stateParams.deals !== "" ? $stateParams.deals : null),
                     salary: ($stateParams && $stateParams.salary !== "" ? $stateParams.salary : null)
                 });
@@ -75,6 +77,8 @@ App.controller("RealtController",
             else $scope.year = "";
             if ($stateParams.price) $scope.price = parseInt($stateParams.price);
             else $scope.price = "";
+            if ($stateParams.proposals) $scope.proposals = parseInt($stateParams.proposals);
+            else $scope.proposals = "";
             if ($stateParams.deals) $scope.deals = parseInt($stateParams.deals);
             else $scope.deals = "";
             if ($stateParams.salary) $scope.salary = parseInt($stateParams.salary);
@@ -122,16 +126,19 @@ App.controller("RealtController",
             $location.search("year", null);
             $location.search("price", null);
             $location.search("deals", null);
+            $location.search("proposals", null);
             $location.search("salary", null);
             if ($stateParams) {
                 $stateParams.year = null;
                 $stateParams.price = null;
                 $stateParams.deals = null;
+                $stateParams.proposals = null;
                 $stateParams.salary = null;
             }
             $scope.year = "";
             $scope.price = "";
             $scope.deals = "";
+            $scope.proposals = "";
             $scope.salary = "";
 
             getMainPage();
@@ -140,12 +147,14 @@ App.controller("RealtController",
         $scope.calculate = function() {
             $location.search("year", ($scope.year !== 0 && $scope.year !== "") ? $scope.year : null);
             $location.search("price", ($scope.price !== "") ? $scope.price : null);
+            $location.search("proposals", ($scope.proposals !== "") ? $scope.proposals : null);
             $location.search("deals", ($scope.deals !== "") ? $scope.deals : null);
             $location.search("salary", ($scope.salary !== "") ? $scope.salary : null);
 
             if ($stateParams) {
                 $stateParams.year = ($scope.year !== 0 && $scope.year !== "") ? $scope.year : null;
                 $stateParams.price = ($scope.price !== "") ? $scope.price : null;
+                $stateParams.proposals = ($scope.proposals !== "") ? $scope.proposals : null;
                 $stateParams.deals = ($scope.deals !== "") ? $scope.deals : null;
                 $stateParams.salary = ($scope.salary !== "") ? $scope.salary : null;
             }
@@ -158,6 +167,7 @@ App.controller("RealtController",
         $scope.modal = {
             showWhen: true,
             showSalary: true,
+            showProposals: true,
             showDeals: true,
             showPrice: true
         };
@@ -193,9 +203,9 @@ App.controller("RealtController",
                 afterAdd,
                 {
                     pageId: $rootScope.pageId,
-                    name: $scope.currentTab === 1 ? 'salary' : 'price',
-                    datetime: $scope.currentTab === 1 ? $scope.modal.monthYear : $scope.modal.date,
-                    other: $scope.currentTab === 1 ? $scope.modal.salary : ($scope.modal.deals + '-' + $scope.modal.price)
+                    name: $scope.currentTab === 1 ? 'salary' : $scope.currentTab === 2 ? 'price' : 'deals',
+                    datetime: $scope.currentTab === 1 ? $scope.modal.monthYear : $scope.currentTab === 2 ? $scope.modal.date : $scope.modal.monthYearDeals,
+                    other: $scope.currentTab === 1 ? $scope.modal.salary : $scope.currentTab === 2 ? ($scope.modal.proposals + '-' + $scope.modal.price) : $scope.modal.deals
                 });
         };
         ////////
@@ -205,6 +215,7 @@ App.controller("RealtController",
 
             $scope.data = page.Data;
             $scope.dataSalary = page.DataSalary;
+            $scope.dataDeals = page.DataDeals;
 
             $scope.LastUpdatedPrice = page.LastUpdatedPrice;
             $scope.LastUpdatedSalary = page.LastUpdatedSalary;
@@ -218,6 +229,7 @@ App.controller("RealtController",
 
         $scope.showSalary = true;
         $scope.showDeals = true;
+        $scope.showProposals = true;
 
         function createChart() {
 
@@ -231,7 +243,8 @@ App.controller("RealtController",
                             $scope.data[i].DateText.split("/")[0]),
                         "price": $scope.data[i].Price,
                         "count": $scope.data[i].Count,
-                        "salary": $scope.dataSalary[i].Amount
+                        "salary": $scope.dataSalary[i].Amount,
+                        "deals": $scope.dataDeals[i].Amount
                     });
                 }
 
@@ -285,8 +298,15 @@ App.controller("RealtController",
                 countAxis.axisAlpha = 0; // no axis line
                 countAxis.gridAlpha = 0; // no grid
                 countAxis.position = "right";
-                if ($scope.showDeals) chart.addValueAxis(countAxis);
+                if ($scope.showProposals) chart.addValueAxis(countAxis);
 
+                var dealsAxis = new AmCharts.ValueAxis();
+                dealsAxis.axisAlpha = 0.5; // no axis line
+                dealsAxis.position = "left";
+                dealsAxis.inside = true;
+                dealsAxis.unit = " " + "USD332";
+                if ($scope.showDeals) chart.addValueAxis(dealsAxis);
+                
                 /*
                  * price graph
                  */
@@ -302,8 +322,7 @@ App.controller("RealtController",
                 priceGraph.lineThickness = 1;
                 priceGraph.valueField = "price";
                 priceGraph.balloonText = "[[value]] " + ($scope.translation.USDM2 || "USD/m2");
-                priceGraph
-                    .hideBulletsCount = 55;
+                priceGraph.hideBulletsCount = 55;
 // this makes the chart to hide bullets when there are more than 55 series in selection
                 chart.addGraph(priceGraph);
 
@@ -325,8 +344,7 @@ App.controller("RealtController",
                 salaryGraph.lineThickness = 1;
                 salaryGraph.valueField = "salary";
                 salaryGraph.balloonText = "[[value]] " + ($scope.translation.USD || "USD");
-                salaryGraph
-                    .hideBulletsCount = 55;
+                salaryGraph.hideBulletsCount = 55;
 // this makes the chart to hide bullets when there are more than 55 series in selection
                 if ($scope.showSalary) chart.addGraph(salaryGraph);
 
@@ -338,11 +356,37 @@ App.controller("RealtController",
                 countGraph.valueAxis = countAxis; // indicate which axis should be used
                 countGraph.lineColor = "#000000";
                 countGraph.valueField = "count";
-                countGraph.balloonText = "[[value]] " + ($scope.translation.Deals || "Deals");
-                countGraph.title = ($scope.translation.Deals || "Deals");
+                countGraph.balloonText = "[[value]] " + ($scope.translation.Proposals || "Proposals");
+                countGraph.title = ($scope.translation.Proposals || "Proposals");
                 countGraph.fillAlphas = 0.1;
                 countGraph.lineAlpha = 0;
-                if ($scope.showDeals) chart.addGraph(countGraph);
+                if ($scope.showProposals) chart.addGraph(countGraph);
+                /*
+                * deals graph
+                */
+                var dealsGraph = new AmCharts.AmGraph();
+                dealsGraph.type = "smoothedLine"; // this line makes the graph smoothed line.
+
+                if ($scope.showSalary) {
+                    /*
+                    if ($scope.priceToSalary) {
+                        salaryGraph.valueAxis = salaryAxis; // indicate which axis should be used
+                    } else {
+                        salaryGraph.valueAxis = priceAxis; // indicate which axis should be used
+                    }
+                    */
+                }
+                dealsGraph.lineColor = "#0000ff";
+                dealsGraph.negativeLineColor = "#637BB6"; // this line makes the graph to change color when it drops below 0
+                dealsGraph.bullet = "round";
+                dealsGraph.bulletBorderColor = "#FFFFFF";
+                dealsGraph.bulletBorderThickness = 2;
+                dealsGraph.lineThickness = 1;
+                dealsGraph.valueField = "deals";
+                dealsGraph.balloonText = "[[value]] " + ($scope.translation.Deals || "Deals");;
+                dealsGraph.hideBulletsCount = 55;
+                // this makes the chart to hide bullets when there are more than 55 series in selection
+                if ($scope.showDeals) chart.addGraph(dealsGraph);
 
                 // CURSOR
                 var chartCursor = new AmCharts.ChartCursor();
@@ -373,7 +417,9 @@ App.controller("RealtController",
                 if ($scope.showSalary)
                     legend.data.push({ title: $scope.translation.Salary || "Salary", color: "#00ff00" });
                 if ($scope.showDeals)
-                    legend.data.push({ title: $scope.translation.Deals || "Deals", color: "#666666" });
+                    legend.data.push({ title: $scope.translation.Deals || "Deals", color: "#0000ff" });
+                if ($scope.showProposals)
+                    legend.data.push({ title: $scope.translation.Proposals || "Proposals", color: "#666666" });
 
                 chart.addLegend(legend);
                 // WRITE

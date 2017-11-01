@@ -41,7 +41,7 @@ namespace MySeenWeb.Controllers.Home
         [Compress] 
         [HttpPost]
         public JsonResult GetPage(int pageId, int? page, string search, int? ended, int? year, int? complex,
-            string shareKey, int? road, int? id, string dateMan, string dateWoman, int? price, int? deals, int? salary,
+            string shareKey, int? road, int? id, string dateMan, string dateWoman, int? price, int? proposal, int? deals, int? salary,
             bool? bots, int? period)
         {
             try
@@ -114,7 +114,7 @@ namespace MySeenWeb.Controllers.Home
                     case (int) CategoryBase.IndexesMain.Childs:
                         return Json(new PortalViewModelChildCalculator(year ?? 0, dateWoman, dateMan));
                     case (int) CategoryBase.IndexesMain.Realt:
-                        return Json(new PortalViewModelRealt(year ?? 0, price ?? 0, deals ?? 0, salary ?? 0, Cache));
+                        return Json(new PortalViewModelRealt(year ?? 0, price ?? 0, proposal ?? 0, deals ?? 0, salary ?? 0, Cache));
                 }
                 return new JsonResult {Data = new {success = false, error = "NOT REALIZED"}};
             }
@@ -364,11 +364,21 @@ namespace MySeenWeb.Controllers.Home
                                 ? new JsonResult {Data = new {success = false, error = realLogic.ErrorMessage}}
                                 : Json(new {success = true});
                         }
-
-                        var realtLogic = new RealtLogic(Cache);
-                        return !realtLogic.Add(datetime, other)
-                            ? new JsonResult {Data = new {success = false, error = realtLogic.ErrorMessage}}
-                            : Json(new {success = true});
+                        else if (name == "price")
+                        {
+                            var realtLogic = new RealtLogic(Cache);
+                            return !realtLogic.Add(datetime, other)
+                                ? new JsonResult { Data = new { success = false, error = realtLogic.ErrorMessage } }
+                                : Json(new { success = true });
+                        }
+                        else if (name == "deals")
+                        {
+                            var dealsLogic = new DealsLogic(Cache);
+                            return !dealsLogic.Add(datetime, other)
+                                ? new JsonResult { Data = new { success = false, error = dealsLogic.ErrorMessage } }
+                                : Json(new { success = true });
+                        }
+                        return Json("NOT REALIZED");
                 }
                 return Json("NOT REALIZED");
             }
