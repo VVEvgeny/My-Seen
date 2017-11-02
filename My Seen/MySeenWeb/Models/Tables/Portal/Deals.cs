@@ -2,6 +2,7 @@
 
 namespace MySeenWeb.Models.Tables.Portal
 {
+    //http://pr.nca.by/
     public class Deals
     {
         [Key]

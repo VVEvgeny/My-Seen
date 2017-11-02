@@ -599,6 +599,14 @@
     <Compile Include="Migrations\201711011504067_47.Designer.cs">
       <DependentUpon>201711011504067_47.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201711020621080_47_data.cs" />
+    <Compile Include="Migrations\201711020621080_47_data.Designer.cs">
+      <DependentUpon>201711020621080_47_data.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201711020719383_47_data_part2.cs" />
+    <Compile Include="Migrations\201711020719383_47_data_part2.Designer.cs">
+      <DependentUpon>201711020719383_47_data_part2.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\HomeViewModels\Meta\UserAgents.cs" />
     <Compile Include="Models\HomeViewModels\Style\Style.cs" />
@@ -1060,6 +1068,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201711011504067_47.resx">
       <DependentUpon>201711011504067_47.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201711020621080_47_data.resx">
+      <DependentUpon>201711020621080_47_data.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201711020719383_47_data_part2.resx">
+      <DependentUpon>201711020719383_47_data_part2.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
