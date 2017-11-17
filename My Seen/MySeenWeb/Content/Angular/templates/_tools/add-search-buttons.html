@@ -3,16 +3,16 @@
         <div class="container">
             <div class="row col-sm-12">
                 <div class="form-group" data-ng-show="pageCanAdd">
-                    <label for="addButton" style="display: block;">{{translation.Add}}</label>
+                    <label for="addButton" style="display: block;">{{translation.Add || 'Add'}}</label>
                     <button type="button" class="form-control btn btn-primary" id="addButton" data-ng-click="addModalOpen()">
-                        <span class="glyphicon glyphicon-plus"></span> {{translation.Add}}
+                        <span class="glyphicon glyphicon-plus"></span> {{translation.Add || 'Add'}}
                     </button>
                 </div>
                 <div class="form-group" data-ng-show="pageCanSearch">
-                    <label for="quickSearch" style="display: block;">{{translation.QuickSearch}}:</label>
-                    <input type="text" class="form-control" id="quickSearch" style="width: 150px;" placeholder="{{translation.QuickSearch}}" data-ng-model="quickSearch.text" data-ng-keypress="($event.which === 13)?searchButtonClick():0">
+                    <label for="quickSearch" style="display: block;">{{translation.QuickSearch || 'Quick Search'}}:</label>
+                    <input type="text" class="form-control" id="quickSearch" style="width: 150px;" placeholder="{{translation.QuickSearch || 'Quick Search'}}" data-ng-model="quickSearch.text" data-ng-keypress="($event.which === 13)?searchButtonClick():0">
                     <button type="button" class="form-control btn btn-info" id="searchButton" data-ng-click="searchButtonClick()">
-                        <span class="glyphicon glyphicon-search"></span> {{translation.QuickSearch}}
+                        <span class="glyphicon glyphicon-search"></span> {{translation.QuickSearch || 'Quick Search'}}
                     </button>
                 </div>
             </div>

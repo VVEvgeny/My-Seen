@@ -19,15 +19,26 @@ App.controller("LogsController",
         $rootScope.loading = true;
         //Индекс страницы, для запросов к серверу
         $rootScope.pageId = constants.PageIds.Logs;
+        //Показать ли кнопку ДОБАВИТЬ
+        $scope.pageCanAdd = true;
         //Показать ли поле ПОИСКа
         $scope.pageCanSearch = true;
         //Перевод всех данных на тек. странице
         $scope.translation = {};
+        //Загрузка значений по умолчанию и списков
+        $scope.prepared = {};
 
         //Перевод таблицы и модальной
         function fillTranslation(page) {
             $scope.translation = page;
             $scope.translation.loaded = true;
+        }
+
+        //Для модальной готовим данные
+        function fillPrepared(page) {
+            $scope.prepared = page;
+            $scope.prepared.loaded = true;
+            if (!$scope.data || !$scope.translation.loaded) $rootScope.loading = true;
         }
 
         //Основные данные
@@ -51,6 +62,7 @@ App.controller("LogsController",
         };
 
         $rootScope.GetPage(constants.Pages.Translation, $http, fillTranslation, { pageId: $rootScope.pageId });
+        $rootScope.GetPage(constants.Pages.Prepared, $http, fillPrepared, { pageId: $rootScope.pageId });
         getMainPage();
 
         ///////////////////////////////////////////////////////////////////////
@@ -147,6 +159,64 @@ App.controller("LogsController",
                     $("#postMinus_" + id).removeClass("hidden");
                 }
             }
+        };
+        ///////////////////////////////////////////////////////////////////////
+        ///////////////////////////////////////////////////////////////////////           МОДАЛЬНАЯ ДОБАВЛЕНИЯ / РЕДАКТИРОВАНИЯ
+        ///////////////////////////////////////////////////////////////////////
+        //Модальная добавления/редактирования Указываем какие поля будем видеть
+        $scope.modal = {
+            showName: true,
+            showBotString: true,
+            showLanguageType: true
+        };
+        //Прячу модальную Добавить/Редактировать
+        //Готовлю данные для добавления новой записи и отображаю модальную
+        $scope.addModalOpen = function () {
+            $scope.modal.title = $scope.translation.TitleAdd;
+            $scope.modal.name = "";
+            $scope.modal.botString = "";
+            if ($scope.modal
+                .languageType !==
+                $scope.prepared.LanguagesList[0].Value) $scope.modal.languageType = $scope.prepared.LanguagesList[0].Value;
+
+            $scope.modal.addButton = true;
+
+            $("#AddModalWindow").modal("show");
+        };
+        $scope.$on("$destroy",
+            function () {
+                $scope.addModalHide();
+                $("body").removeClass("modal-open");
+                $(".modal-backdrop").remove();
+            });
+        $scope.addModalHide = function () {
+            $("#AddModalWindow").modal("hide");
+        };
+
+        //в случае успеха закроем модальное и перезапросим данные, с первой страницы
+        function afterAdd() {
+            $scope.addModalHide();
+            $location.search("page", null); //с первой страницы новый поиск
+            $location.search("search", null);
+            if ($stateParams) {
+                $stateParams.page = null;
+                $stateParams.search = null;
+            }
+            $scope.quickSearch.text = null;
+            getMainPage();
+        };
+
+        //Готовлю данные для отправки и вызову глобальную AddData
+        $scope.modal.addButtonClick = function () {
+            $rootScope.GetPage(constants.Pages.Add,
+                $http,
+                afterAdd,
+                {
+                    pageId: $rootScope.pageId,
+                    name: $scope.modal.name,
+                    botString: $scope.modal.botString,
+                    languageType: $scope.modal.languageType
+                });
         };
         ///////////////////////////////////////////////////////////////////////
         ///////////////////////////////////////////////////////////////////////           Settings

@@ -607,8 +607,13 @@
     <Compile Include="Migrations\201711020719383_47_data_part2.Designer.cs">
       <DependentUpon>201711020719383_47_data_part2.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201711171312376_48_bots_add.cs" />
+    <Compile Include="Migrations\201711171312376_48_bots_add.Designer.cs">
+      <DependentUpon>201711171312376_48_bots_add.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\HomeViewModels\Meta\UserAgents.cs" />
+    <Compile Include="Models\HomeViewModels\Prepared\PreparedDataLogs.cs" />
     <Compile Include="Models\HomeViewModels\Style\Style.cs" />
     <Compile Include="Models\HomeViewModels\Meta\Portal\MetaPortalMemes.cs" />
     <Compile Include="Models\HomeViewModels\Meta\MetaBase.cs" />
@@ -1074,6 +1079,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201711020719383_47_data_part2.resx">
       <DependentUpon>201711020719383_47_data_part2.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201711171312376_48_bots_add.resx">
+      <DependentUpon>201711171312376_48_bots_add.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

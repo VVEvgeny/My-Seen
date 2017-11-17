@@ -146,6 +146,8 @@ namespace MySeenWeb.Controllers.Home
                         return Json(new PreparedDataRoads());
                     case (int) CategoryBase.IndexesExt.Improvements:
                         return Json(new PreparedDataImprovements());
+                    case (int)CategoryBase.IndexesExt.Logs:
+                        return Json(new PreparedDataLogs());
                 }
                 return Json("NOT REALIZED");
             }
@@ -309,7 +311,7 @@ namespace MySeenWeb.Controllers.Home
         [HttpPost]
         public JsonResult AddData(int pageId, string name, string year, string datetime, string genre, string rating,
             string season
-            , string series, string authors, string type, string coordinates, string distance, string link, string other)
+            , string series, string authors, string type, string coordinates, string distance, string link, string other, string botString, int languageType)
         {
             try
             {
@@ -379,6 +381,15 @@ namespace MySeenWeb.Controllers.Home
                                 : Json(new { success = true });
                         }
                         return Json("NOT REALIZED");
+                    case (int)CategoryBase.IndexesExt.Logs:
+                        if (!UserRolesLogic.IsAdmin(User.Identity.GetUserId(), Cache))
+                            return new JsonResult { Data = new { success = false, error = Resource.NoRights } };
+
+                        var botsLogic = new BotsLogic(Cache);
+                        
+                        return !botsLogic.Add(name, botString, languageType)
+                            ? new JsonResult { Data = new { success = false, error = botsLogic.ErrorMessage } }
+                            : Json(new { success = true });
                 }
                 return Json("NOT REALIZED");
             }

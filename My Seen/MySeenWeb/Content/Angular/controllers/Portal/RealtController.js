@@ -304,7 +304,7 @@ App.controller("RealtController",
                 dealsAxis.axisAlpha = 0.5; // no axis line
                 dealsAxis.position = "left";
                 dealsAxis.inside = true;
-                dealsAxis.unit = " " + "USD332";
+                dealsAxis.unit = "";
                 if ($scope.showDeals) chart.addValueAxis(dealsAxis);
                 
                 /*
