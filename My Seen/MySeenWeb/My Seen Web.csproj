@@ -611,6 +611,10 @@
     <Compile Include="Migrations\201711171312376_48_bots_add.Designer.cs">
       <DependentUpon>201711171312376_48_bots_add.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201711171434519_49_events_skip.cs" />
+    <Compile Include="Migrations\201711171434519_49_events_skip.Designer.cs">
+      <DependentUpon>201711171434519_49_events_skip.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\HomeViewModels\Meta\UserAgents.cs" />
     <Compile Include="Models\HomeViewModels\Prepared\PreparedDataLogs.cs" />
@@ -678,6 +682,7 @@
     <Compile Include="Models\TablesViews\Portal\RealtView.cs" />
     <Compile Include="Models\TablesViews\Portal\MemesView.cs" />
     <Compile Include="Models\Tables\Bots.cs" />
+    <Compile Include="Models\Tables\EventsSkip.cs" />
     <Compile Include="Models\Tables\NLogErrors.cs" />
     <Compile Include="Models\Tables\Events.cs" />
     <Compile Include="Models\Tables\Portal\Deals.cs" />
@@ -1082,6 +1087,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201711171312376_48_bots_add.resx">
       <DependentUpon>201711171312376_48_bots_add.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201711171434519_49_events_skip.resx">
+      <DependentUpon>201711171434519_49_events_skip.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

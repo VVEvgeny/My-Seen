@@ -48,7 +48,11 @@ namespace MySeenWeb
                 url: "Json/AddSeries",
                 defaults: new {controller = "Json", action = "AddSeries"}
                 );
-
+            routes.MapRoute(
+                name: "Json/SkipEvent",
+                url: "Json/SkipEvent",
+                defaults: new { controller = "Json", action = "SkipEvent" }
+            );
             routes.MapRoute(
                 name: "Json/EndImprovement",
                 url: "Json/EndImprovement",

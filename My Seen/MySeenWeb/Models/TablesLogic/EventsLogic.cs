@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Data.Entity;
 using System.Linq;
 using MySeenLib;
 using MySeenWeb.Models.OtherViewModels;
@@ -138,11 +139,50 @@ namespace MySeenWeb.Models.TablesLogic
             return Fill(name, datetime, type, userId) && Verify() && Add();
         }
 
+        private bool SetSkip(string id, string userId)
+        {
+            Id = ToInt32(id);
+            var e = Get(Id, userId);
+            var skipDate = EventcCalculationLogic.CalculateTo((EventsTypesBase.Indexes) e.RepeatType, From(e.Date),
+                e.EventsSkip.Select(f => f.Date).ToList());
+
+            if (_ac.EventsSkip.Any(f => f.EventId == Id && f.Date == skipDate))
+            {
+                ErrorMessage = Resource.EventNameAlreadyExists;
+            }
+            else
+            {
+                _ac.EventsSkip.Add(new EventsSkip {Date = skipDate, EventId = Id});
+                _ac.SaveChanges();
+                return true;
+            }
+            return false;
+        }
         public bool Update(string id, string name, string datetime, string type, string userId)
         {
+            if (string.IsNullOrEmpty(name) && string.IsNullOrEmpty(datetime) && string.IsNullOrEmpty(type))
+            {
+                return SetSkip(id, userId);
+            }
             return Fill(id, name, datetime, type, userId) && Verify() && Update();
         }
 
+        private Events Get(int id, string userId)
+        {
+            try
+            {
+                //turn off cyclic link serialization
+                _ac.Configuration.ProxyCreationEnabled = false;
+
+                return _ac.Events.AsNoTracking().Where(f => f.UserId == userId && f.Id == id).Include(e => e.EventsSkip)
+                    .FirstOrDefault();
+            }
+            catch (Exception e)
+            {
+                ErrorMessage = $"{Resource.ErrorWorkWithDB} = {e.Message}";
+            }
+            return null;
+        }
         public string GetShare(string id, string userId)
         {
             try

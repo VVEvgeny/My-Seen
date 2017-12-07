@@ -1,8 +1,12 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using MySeenWeb.Models.OtherViewModels;
+using MySeenWeb.Models.Tables;
 using MySeenWeb.Models.TablesViews;
 using MySeenWeb.Models.Tools;
+using Ninject.Infrastructure.Language;
 using static MySeenLib.Defaults;
 
 namespace MySeenWeb.Models
@@ -17,13 +21,18 @@ namespace MySeenWeb.Models
         {
             var ac = new ApplicationDbContext();
 
+            //turn off cyclic link serialization
+            ac.Configuration.ProxyCreationEnabled = false;
+           
             //пока не знаю как 2 условие, причем 1 из них не по пол. таблицы а высчитываемое на основании двух других завернуть в Count
             var data =
-                ac.Events.AsNoTracking().Where(f =>
-                    ((string.IsNullOrEmpty(shareKey) && f.UserId == userId)
-                     ||
-                     (!string.IsNullOrEmpty(shareKey) && f.User.ShareEventsKey == shareKey && f.Shared))
-                    && (string.IsNullOrEmpty(search) || f.Name.Contains(search)))
+                ac.Events.AsNoTracking()
+                .Include(e=>e.EventsSkip)
+                .Where(f =>
+                        ((string.IsNullOrEmpty(shareKey) && f.UserId == userId)
+                         ||
+                         (!string.IsNullOrEmpty(shareKey) && f.User.ShareEventsKey == shareKey && f.Shared))
+                        && (string.IsNullOrEmpty(search) || f.Name.Contains(search)))
                     .Select(EventsView.Map)
                     .Where(
                         e =>
@@ -33,8 +42,8 @@ namespace MySeenWeb.Models
                                 : e.EstimatedTicks > 0 ||
                                   e.RepeatType == (int) EventsTypesBase.Indexes.OneTimeWithPast
                     )
-                    .OrderBy(e => e.EstimatedTicks);
-
+                    .OrderBy(e => e.EstimatedTicks).ToList();
+            
             Pages = new Pagination(page, data.Count(), countInPage);
             Data = data.Skip(Pages.SkipRecords).Take(countInPage);
             IsMyData = !string.IsNullOrEmpty(shareKey) && Data.Any() && Data.First().UserId == userId;

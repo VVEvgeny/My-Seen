@@ -39,9 +39,13 @@
                 <td>
                     <!--Блок управляющих кнопок-->
                     <span class="pull-left">
-                            <button class="btn btn-warning btn-xs" data-ng-click="modal.editButtonClick($index)"> <span class=" glyphicon glyphicon-pencil"></span></button>
-                            <button class="btn btn-info btn-xs" data-ng-click="modalShare.shareButtonClick($index)" data-ng-show="val.Shared"><span class="glyphicon glyphicon-share"></span></button>
-                        </span>
+                        <button class="btn btn-warning btn-xs" data-ng-click="modal.editButtonClick($index)"> <span class=" glyphicon glyphicon-pencil"></span></button>
+                        <button class="btn btn-info btn-xs" data-ng-click="modalShare.shareButtonClick($index)" data-ng-show="val.Shared"><span class="glyphicon glyphicon-share"></span></button>
+                        <button class="btn btn-success btn-xs" data-ng-click="skipThis($index)" data-ng-show="val.CanBeDelayed"><span class="glyphicon glyphicon-calendar"></span></button>
+                        <button class="btn btn-info btn-xs" data-ng-show="val.SkippedTimes.length > 0" data-toggle="tooltip" data-html="true" data-placement="right" title="{{getTooloTip($index)}}">
+                            <span class="glyphicon glyphicon-info-sign"></span>
+                        </button>
+                    </span>
                 </td>
                 <!--Одноразовая привязка-->
                 <td class="align-center">{{::val.Name}}</td>

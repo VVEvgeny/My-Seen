@@ -38,7 +38,7 @@ namespace MySeenWeb.Controllers.Home
             }
         }
 
-        [Compress] 
+        //[Compress] 
         [HttpPost]
         public JsonResult GetPage(int pageId, int? page, string search, int? ended, int? year, int? complex,
             string shareKey, int? road, int? id, string dateMan, string dateWoman, int? price, int? proposal, int? deals, int? salary,
@@ -311,7 +311,7 @@ namespace MySeenWeb.Controllers.Home
         [HttpPost]
         public JsonResult AddData(int pageId, string name, string year, string datetime, string genre, string rating,
             string season
-            , string series, string authors, string type, string coordinates, string distance, string link, string other, string botString, int languageType)
+            , string series, string authors, string type, string coordinates, string distance, string link, string other, string botString, int? languageType)
         {
             try
             {
@@ -386,10 +386,10 @@ namespace MySeenWeb.Controllers.Home
                             return new JsonResult { Data = new { success = false, error = Resource.NoRights } };
 
                         var botsLogic = new BotsLogic(Cache);
-                        
-                        return !botsLogic.Add(name, botString, languageType)
-                            ? new JsonResult { Data = new { success = false, error = botsLogic.ErrorMessage } }
-                            : Json(new { success = true });
+
+                        return !botsLogic.Add(name, botString, languageType ?? 0)
+                            ? new JsonResult {Data = new {success = false, error = botsLogic.ErrorMessage}}
+                            : Json(new {success = true});
                 }
                 return Json("NOT REALIZED");
             }
@@ -521,24 +521,6 @@ namespace MySeenWeb.Controllers.Home
                 var logic = new ErrorsLogic();
 
                 return !logic.RemoveAll()
-                    ? new JsonResult {Data = new {success = false, error = logic.ErrorMessage}}
-                    : Json(new {success = true});
-            }
-            catch (Exception ex)
-            {
-            }
-            return new JsonResult {Data = new {success = false, error = System.Reflection.MethodBase.GetCurrentMethod().Name } };
-        }
-
-        [Compress]
-        [Authorize]
-        [HttpPost]
-        public JsonResult AddSeries(string recordId)
-        {
-            try
-            {
-                var logic = new SerialsLogic(Cache);
-                return !logic.AddSeries(recordId, User.Identity.GetUserId())
                     ? new JsonResult {Data = new {success = false, error = logic.ErrorMessage}}
                     : Json(new {success = true});
             }

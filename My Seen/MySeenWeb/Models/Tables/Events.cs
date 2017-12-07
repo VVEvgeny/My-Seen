@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Web.Script.Serialization;
 using MySeenWeb.Models.OtherViewModels;
@@ -21,5 +22,7 @@ namespace MySeenWeb.Models.Tables
         [ScriptIgnore]
         public DateTime DateChange { get; set; }
         public bool Shared { get; set; }
+        [ScriptIgnore]
+        public ICollection<EventsSkip> EventsSkip { get; set; }
     }
 }

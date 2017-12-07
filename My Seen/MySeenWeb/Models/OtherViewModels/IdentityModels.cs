@@ -49,6 +49,7 @@ namespace MySeenWeb.Models.OtherViewModels
         public DbSet<Books> Books { get; set; }
         public DbSet<Tracks> Tracks { get; set; }
         public DbSet<Events> Events { get; set; }
+        public DbSet<EventsSkip> EventsSkip { get; set; }
         public DbSet<UserCredits> UserCredits { get; set; }
         public DbSet<NLogErrors> NLogErrors { get; set; }
 
