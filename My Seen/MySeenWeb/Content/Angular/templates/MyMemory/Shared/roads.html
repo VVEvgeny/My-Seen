@@ -1,6 +1,4 @@
-﻿<!--Загрузка-->
-<data-ng-include src="'Content/Angular/templates/_tools/loading.html'"></data-ng-include>
-<!--Кнопка добавить и поиск-->
+﻿<data-ng-include src="'Content/Angular/templates/_tools/loading.html'"></data-ng-include>
 <data-ng-include src="'Content/Angular/templates/_tools/add-search-buttons.html'"></data-ng-include>
 <br>
 
@@ -8,7 +6,7 @@
     <div class="panel panel-primary col-md-3">
         <div class="panel panel-default">
             <div class="panel-heading">
-                {{translation.Tracks}}
+                {{::translation.Tracks || 'Tracks'}}
                 <span class="alert-info small">
                     <select class="input-sm" data-ng-model="year" data-ng-change="selectedChange()" data-ng-disabled="data.YearsList.length < 2">
                         <option data-ng-repeat="val in data.YearsList" data-ng-selected="year == val.Value" value="{{val.Value}}">{{val.Text}}</option>
@@ -17,13 +15,13 @@
             </div>
             <ul class="nav nav-tabs">
                 <li data-ng-show="data.DataFoot.length > 0" data-ng-class="{'active': currentTab == 1}">
-                    <a data-toggle="tab" data-target="menu1" data-ng-click="currentTab = 1">{{translation.Foot}}</a>
+                    <a data-toggle="tab" data-target="menu1" data-ng-click="currentTab = 1">{{::translation.Foot || 'Foot'}}</a>
                 </li>
                 <li data-ng-show="data.DataBike.length > 0" data-ng-class="{'active': currentTab == 3}">
-                    <a data-toggle="tab" data-target="menu2" data-ng-click="currentTab = 3">{{translation.Bike}}</a>
+                    <a data-toggle="tab" data-target="menu2" data-ng-click="currentTab = 3">{{::translation.Bike || 'Bike'}}</a>
                 </li>
                 <li data-ng-show="data.DataCar.length > 0" data-ng-class="{'active': currentTab == 2}">
-                    <a data-toggle="tab" data-target="menu3" data-ng-click="currentTab = 2">{{translation.Car}}</a>
+                    <a data-toggle="tab" data-target="menu3" data-ng-click="currentTab = 2">{{::translation.Car || 'Car'}}</a>
                 </li>
             </ul>
             <div class="tab-content page-size-gmap-roads page-scrolable">
@@ -33,7 +31,7 @@
                             <span>{{::val.Name}}</span>
                             <span class="badge pull-right">{{::val.DateText}}</span>
                         </h5>
-                        <h6 class="list-group-item-text align-center">{{translation.Distance}} :<span class="badge pull-right alert-info small">{{::val.DistanceText}}</span></h6>
+                        <h6 class="list-group-item-text align-center">{{::translation.Distance || 'Distance'}} :<span class="badge pull-right alert-info small">{{::val.DistanceText}}</span></h6>
                     </a>
                 </div>
                 <div id="menu2" class="list-group tab-pane fade" data-ng-class="{'active in': currentTab == 3}">
@@ -42,7 +40,7 @@
                             <span>{{::val.Name}}</span>
                             <span class="badge pull-right">{{::val.DateText}}</span>
                         </h5>
-                        <h6 class="list-group-item-text align-center">{{translation.Distance}} :<span class="badge pull-right alert-info small">{{::val.DistanceText}}</span></h6>
+                        <h6 class="list-group-item-text align-center">{{::translation.Distance || 'Distance'}} :<span class="badge pull-right alert-info small">{{::val.DistanceText}}</span></h6>
                     </a>
                 </div>
                 <div id="menu3" class="list-group tab-pane fade" data-ng-class="{'active in': currentTab == 2}">
@@ -51,7 +49,7 @@
                             <span>{{::val.Name}}</span>
                             <span class="badge pull-right">{{::val.DateText}}</span>
                         </h5>
-                        <h6 class="list-group-item-text align-center">{{translation.Distance}} :<span class="badge pull-right alert-info small">{{::val.DistanceText}}</span></h6>
+                        <h6 class="list-group-item-text align-center">{{::translation.Distance || 'Distance'}} :<span class="badge pull-right alert-info small">{{::val.DistanceText}}</span></h6>
                     </a>
                 </div>
             </div>
@@ -59,7 +57,7 @@
     </div>
     <div class="panel panel-primary col-md-9">
         <div class="panel panel-default">
-            <div class="panel-heading">{{translation.Map}}</div>
+            <div class="panel-heading">{{::translation.Map || 'Map'}}</div>
             <div id="my_map" class="gmap page-size-gmap"></div>
         </div>
     </div>

@@ -414,6 +414,8 @@ namespace MySeenLib
 
     public static class CultureInfoTool
     {
+        public static bool NeedTranslate => First2Culture.ToLower() != English;
+
         public static string First2Culture => CurrentThread.CurrentUICulture.ToString().Substring(0, 2);
 
         public static string Culture => CurrentThread.CurrentUICulture.ToString();

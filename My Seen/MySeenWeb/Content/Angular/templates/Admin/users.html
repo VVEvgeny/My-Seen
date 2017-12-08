@@ -1,6 +1,4 @@
-﻿<!--Загрузка-->
-<data-ng-include src="'Content/Angular/templates/_tools/loading.html'"></data-ng-include>
-<!--Кнопка поиск-->
+﻿<data-ng-include src="'Content/Angular/templates/_tools/loading.html'"></data-ng-include>
 <data-ng-include src="'Content/Angular/templates/_tools/add-search-buttons.html'"></data-ng-include>
 <br>
 
@@ -10,22 +8,21 @@
         <table class="table table-striped">
             <thead>
             <tr>
-                <th class="col-sm-3">{{translation.UserName || 'User Name'}}</th>
-                <th class="col-sm-1">{{translation.Grops || 'Grops'}}</th>
-                <th class="col-sm-1">{{translation.RegisterDate || 'Register Date'}}</th>
-                <th class="col-sm-1">{{translation.LastAction || 'Last Action'}}</th>
-                <th class="col-sm-1">{{translation.CultureName || 'Culture'}}</th>
-                <th class="col-sm-1">{{translation.FilmsCount || 'Films'}}</th>
-                <th class="col-sm-1">{{translation.SerialsCount || 'Serials'}}</th>
-                <th class="col-sm-1">{{translation.BooksCount || 'Books'}}</th>
-                <th class="col-sm-1">{{translation.EventsCount || 'Events'}}</th>
-                <th class="col-sm-1">{{translation.TracksCount || 'Roads'}}</th>
-                <th class="col-sm-1">{{translation.MemesCount || 'Memes'}}</th>
+                <th class="col-sm-3">{{::translation.UserName || 'User Name'}}</th>
+                <th class="col-sm-1">{{::translation.Grops || 'Grops'}}</th>
+                <th class="col-sm-1">{{::translation.RegisterDate || 'Register Date'}}</th>
+                <th class="col-sm-1">{{::translation.LastAction || 'Last Action'}}</th>
+                <th class="col-sm-1">{{::translation.CultureName || 'Culture'}}</th>
+                <th class="col-sm-1">{{::translation.FilmsCount || 'Films'}}</th>
+                <th class="col-sm-1">{{::translation.SerialsCount || 'Serials'}}</th>
+                <th class="col-sm-1">{{::translation.BooksCount || 'Books'}}</th>
+                <th class="col-sm-1">{{::translation.EventsCount || 'Events'}}</th>
+                <th class="col-sm-1">{{::translation.TracksCount || 'Roads'}}</th>
+                <th class="col-sm-1">{{::translation.MemesCount || 'Memes'}}</th>
             </tr>
             </thead>
             <tbody>
             <tr data-ng-repeat="val in data">
-                <!--Одноразовая привязка-->
                 <td class="align-center">{{::val.Name}}</td>
                 <td class="align-center">
                     <div class="checkbox" data-ng-repeat="role in userRoles">
@@ -33,7 +30,7 @@
                     </div>
                     <button type="button" class="btn btn-success btn-xs btn-block" data-ng-click="modal.updateButtonClick($index)"
                             data-ng-show="canControl && (val.Roles.length != defaultData[$index].Roles.length || val.Roles.toString() != defaultData[$index].Roles.toString())">
-                        <span class="fa fa-pencil"></span> {{translation.Update || 'Update'}}
+                        <span class="fa fa-pencil"></span> {{::translation.Update || 'Update'}}
                     </button>
                 </td>
                 <td class="align-center">{{::val.RegisterDate}}</td>
@@ -49,6 +46,5 @@
             </tbody>
         </table>
     </div>
-    <!--Моя пагинация-->
     <data-ng-include src="'Content/Angular/templates/_tools/pagination.html'"></data-ng-include>
 </div>

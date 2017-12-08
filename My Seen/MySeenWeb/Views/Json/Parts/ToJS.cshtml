@@ -8,6 +8,7 @@
             window.GLanguage = '@CultureInfoTool.First2Culture';
             window.GAuthorized = '@Request.IsAuthenticated' === 'True';
             window.GIsAdmin = '@Model.UserRoles.Contains(((int)Defaults.RolesBase.Indexes.Admin).ToString())' === 'True';
+            window.GNeedTranslate = '@CultureInfoTool.NeedTranslate' === 'True';
         });
     })(jQuery);
 </script>

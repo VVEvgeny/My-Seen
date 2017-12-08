@@ -25,9 +25,9 @@ App.config(function($stateProvider, $urlRouterProvider, $locationProvider) {
         ///////////////////////////////////////////////////////////////////////
         ///////////////////////////////////////////////////////////////////////         VARIABLES
         ///////////////////////////////////////////////////////////////////////
-        $rootScope.$watch(function() { return window.GAuthorized; },
-            function () { $rootScope.authorized = window.GAuthorized; });
+        $rootScope.$watch(function() { return window.GAuthorized; },function () { $rootScope.authorized = window.GAuthorized; });
         $rootScope.$watch(function() { return window.GIsAdmin; }, function() { $rootScope.isAdmin = window.GIsAdmin; });
+        $rootScope.$watch(function() { return window.GNeedTranslate; },function () { $rootScope.needTranslate = window.GNeedTranslate; });
         ///////////////////////////////////////////////////////////////////////
         ///////////////////////////////////////////////////////////////////////         CACHE
         ///////////////////////////////////////////////////////////////////////
@@ -61,6 +61,12 @@ App.config(function($stateProvider, $urlRouterProvider, $locationProvider) {
         ///////////////////////////////////////////////////////////////////////           REQUESTS
         ///////////////////////////////////////////////////////////////////////
         $rootScope.GetPage = function (pageName, $http, callback, parameters, silentMode) {
+
+            //no load translations for english
+            if ($rootScope.needTranslate === false && pageName === Constants.Pages.Translation) {
+                if (callback) callback({ loaded: true});
+                return;
+            }
 
             var timeoutLoading = setTimeout(function () {
                 if (!silentMode) $rootScope.loading = true;

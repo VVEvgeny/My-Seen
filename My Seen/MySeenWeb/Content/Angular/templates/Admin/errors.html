@@ -1,6 +1,4 @@
-﻿<!--Загрузка-->
-<data-ng-include src="'Content/Angular/templates/_tools/loading.html'"></data-ng-include>
-<!--Кнопка поиск-->
+﻿<data-ng-include src="'Content/Angular/templates/_tools/loading.html'"></data-ng-include>
 <data-ng-include src="'Content/Angular/templates/_tools/add-search-buttons.html'"></data-ng-include>
 <br>
 
@@ -11,9 +9,9 @@
             <div class="container">
                 <div class="row col-sm-12">
                     <div class="form-group">
-                        <label for="removeAllButton" style="display: block;">{{translation.RemoveAll}}</label>
+                        <label for="removeAllButton" style="display: block;">{{::translation.RemoveAll || 'Remove All'}}</label>
                         <button type="button" class="form-control btn btn-danger" id="removeAllButton" data-ng-click="removeAll()">
-                            <span class="glyphicon glyphicon-trash"></span> {{translation.RemoveAll}}
+                            <span class="glyphicon glyphicon-trash"></span> {{::translation.RemoveAll || 'Remove All'}}
                         </button>
                     </div>
                 </div>
@@ -21,23 +19,21 @@
         </div>
     </div>
     <br>
-    <!--Таблица-->
     <div class="table-responsive">
         <table class="table table-striped">
             <thead>
             <tr>
-                <th class="col-sm-1">{{translation.When}}</th>
-                <th class="col-sm-1">{{translation.Host}}</th>
-                <th class="col-sm-1">{{translation.Type}}</th>
-                <th class="col-sm-1">{{translation.Message}}</th>
-                <th class="col-sm-1">{{translation.Level}}</th>
-                <th class="col-sm-3">{{translation.StackTrace}}</th>
-                <th class="col-sm-3">{{translation.Variables}}</th>
+                <th class="col-sm-1">{{::translation.When || 'When'}}</th>
+                <th class="col-sm-1">{{::translation.Host || 'Host'}}</th>
+                <th class="col-sm-1">{{::translation.Type || 'Type'}}</th>
+                <th class="col-sm-1">{{::translation.Message || 'Message'}}</th>
+                <th class="col-sm-1">{{::translation.Level || 'Level'}}</th>
+                <th class="col-sm-3">{{::translation.StackTrace || 'Stack Trace'}}</th>
+                <th class="col-sm-3">{{::translation.Variables || 'Variables'}}</th>
             </tr>
             </thead>
             <tbody>
             <tr ng-repeat="val in data">
-                <!--Одноразовая привязка-->
                 <td class="align-center">{{::val.DateTimeStampText}}</td>
                 <td class="align-center">{{::val.Host}}</td>
                 <td class="align-center">{{::val.Type}}</td>
@@ -49,6 +45,5 @@
             </tbody>
         </table>
     </div>
-    <!--Моя пагинация-->
     <data-ng-include src="'Content/Angular/templates/_tools/pagination.html'"></data-ng-include>
 </div>

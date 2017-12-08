@@ -1,5 +1,4 @@
-﻿<!--Загрузка-->
-<data-ng-include src="'Content/Angular/templates/_tools/loading.html'"></data-ng-include>
+﻿<data-ng-include src="'Content/Angular/templates/_tools/loading.html'"></data-ng-include>
 
 <div class="form-inline" data-ng-show="translation.loaded">
     <div class="form-group">
@@ -7,28 +6,28 @@
             <div class="row col-sm-12 animated bounceInLeft">
                 <div class="form-group">
                     <button type="button" class="form-control btn btn-warning" id="memes" data-ui-sref="portal/memes">
-                        <span class="glyphicon glyphicon-picture"></span> {{translation.Memes || 'Memes'}}
+                        <span class="glyphicon glyphicon-picture"></span> {{::translation.Memes || 'Memes'}}
                     </button>
                 </div>
             </div>
             <div class="row col-sm-12 animated bounceInRight">
                 <div class="form-group">
                     <button type="button" class="form-control btn btn-info" id="chld" data-ui-sref="portal/childCalculator">
-                        <span class="fa fa-users"></span> {{translation.ChildSexCalculator || 'Child Sex Calculator'}}
+                        <span class="fa fa-users"></span> {{::translation.ChildSexCalculator || 'Child Sex Calculator'}}
                     </button>
                 </div>
             </div>
             <div class="row col-sm-12 animated flip">
                 <div class="form-group">
                     <button type="button" class="form-control btn btn-primary" id="realt" data-ui-sref="portal/realt">
-                        <span class="fa fa-line-chart"></span> {{translation.HomePriceSalarityGraph || 'Home Price / Salarity Graph'}}
+                        <span class="fa fa-line-chart"></span> {{::translation.HomePriceSalarityGraph || 'Home Price / Salarity Graph'}}
                     </button>
                 </div>
             </div>
             <div class="row col-sm-12 animated rotateIn">
                 <div class="form-group">
                     <button type="button" class="form-control btn btn-info" id="imt" data-ui-sref="portal/imtCalculator">
-                        <span class="fa fa-calculator"></span> {{translation.BMICalculator || 'BMI Calculator'}}
+                        <span class="fa fa-calculator"></span> {{::translation.BMICalculator || 'BMI Calculator'}}
                     </button>
                 </div>
             </div>

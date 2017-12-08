@@ -1,57 +1,55 @@
-﻿<!--Загрузка-->
-<data-ng-include src="'Content/Angular/templates/_tools/loading.html'"></data-ng-include>
-<!--Кнопка поиск-->
+﻿<data-ng-include src="'Content/Angular/templates/_tools/loading.html'"></data-ng-include>
 <data-ng-include src="'Content/Angular/templates/_tools/add-search-buttons.html'"></data-ng-include>
 <br>
 
 <div class="form-horizontal" data-ng-show="translation.loaded">
-    <div class="form-group">
-        <div class="col-sm-3">
-            <div class="radio">
-                <label><input type="radio" name="optradio" ng-model="period" value="0" ng-disabled="period==0 || !period" ng-checked="period==0 || !period">{{translation.Today || 'Today'}}</label>
-            </div>
-            <div class="radio">
-                <label><input type="radio" name="optradio" ng-model="period" value="1" ng-disabled="period==1" ng-checked="period==1">{{translation.Yesterday || 'Yesterday'}}</label>
-            </div>
-        </div>
-        <div class="col-sm-3">
-            <div class="radio">
-                <label><input type="radio" name="optradio" ng-model="period" value="10" ng-disabled="period==10" ng-checked="period==10">{{translation.ThisWeek || 'This Week'}}</label>
-            </div>
-            <div class="radio">
-                <label><input type="radio" name="optradio" ng-model="period" value="11" ng-disabled="period==11" ng-checked="period==11">{{translation.LastWeek || 'Last Week'}}</label>
-            </div>
-        </div>
-        <div class="col-sm-3">
-            <div class="radio">
-                <label><input type="radio" name="optradio" ng-model="period" value="20" ng-disabled="period==20" ng-checked="period==20">{{translation.ThisMonth || 'This Month'}}</label>
-            </div>
-            <div class="radio">
-                <label><input type="radio" name="optradio" ng-model="period" value="21" ng-disabled="period==21" ng-checked="period==21">{{translation.LastMonth || 'Last Month'}}</label>
-            </div>
-        </div>
-        <div class="col-sm-3">
-            <div class="radio">
-                <label><input type="radio" name="optradio" ng-model="period" value="99" ng-disabled="period==99" ng-checked="period==99">{{translation.All || 'All'}}</label>
-            </div>
-        </div>
-    </div>
 
     <div class="form-group">
         <div class="col-sm-12">
             <button id="showSettings" type="button" class="btn btn-success" data-ng-click="showFilters()">
                 <span class="glyphicon glyphicon-plus" data-ng-show="!isFilters"></span>
                 <span class="glyphicon glyphicon-minus" data-ng-show="isFilters"></span>
-                &nbsp;{{translation.Filters || 'Filters'}}
+                &nbsp;{{::translation.Filters || 'Filters'}}
             </button>
         </div>
 
         <div class="col-sm-12 collapse out" id="filters">
             <div class="form-group">
-                <label class="control-label">{{translation.Filters || 'Filters'}}</label>
+                <label class="control-label">{{::translation.Filters || 'Filters'}}</label>
             </div>
             <div class="form-group">
-                <label for="showBots" class="col-sm-2 control-label">{{translation.ShowBots || 'Show Bots'}}</label>
+                <div class="col-sm-3">
+                    <div class="radio">
+                        <label><input type="radio" name="optradio" ng-model="period" value="0" ng-disabled="period==0 || !period" ng-checked="period==0 || !period">{{::translation.Today || 'Today'}}</label>
+                    </div>
+                    <div class="radio">
+                        <label><input type="radio" name="optradio" ng-model="period" value="1" ng-disabled="period==1" ng-checked="period==1">{{::translation.Yesterday || 'Yesterday'}}</label>
+                    </div>
+                </div>
+                <div class="col-sm-3">
+                    <div class="radio">
+                        <label><input type="radio" name="optradio" ng-model="period" value="10" ng-disabled="period==10" ng-checked="period==10">{{::translation.ThisWeek || 'This Week'}}</label>
+                    </div>
+                    <div class="radio">
+                        <label><input type="radio" name="optradio" ng-model="period" value="11" ng-disabled="period==11" ng-checked="period==11">{{::translation.LastWeek || 'Last Week'}}</label>
+                    </div>
+                </div>
+                <div class="col-sm-3">
+                    <div class="radio">
+                        <label><input type="radio" name="optradio" ng-model="period" value="20" ng-disabled="period==20" ng-checked="period==20">{{::translation.ThisMonth || 'This Month'}}</label>
+                    </div>
+                    <div class="radio">
+                        <label><input type="radio" name="optradio" ng-model="period" value="21" ng-disabled="period==21" ng-checked="period==21">{{::translation.LastMonth || 'Last Month'}}</label>
+                    </div>
+                </div>
+                <div class="col-sm-3">
+                    <div class="radio">
+                        <label><input type="radio" name="optradio" ng-model="period" value="99" ng-disabled="period==99" ng-checked="period==99">{{::translation.All || 'All'}}</label>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="showBots" class="col-sm-2 control-label">{{::translation.ShowBots || 'Show Bots'}}</label>
                 <div class="col-sm-10">
                     <input type="checkbox" class="form-control input-sm" id="showBots" data-ng-model="bots" data-ng-click="botsChange()">
                 </div>
@@ -62,17 +60,16 @@
 <br>
 
 <div data-ng-show="translation.loaded && data" class="animated rollIn">
-    <!--Таблица-->
     <div class="table-responsive">
         <table class="table table-striped">
             <thead>
             <tr>
-                <th class="col-sm-1">{{translation.UserName}}</th>
-                <th class="col-sm-2">{{translation.UserAgent}}</th>
-                <th class="col-sm-1">{{translation.IPAdress}}</th>
-                <th class="col-sm-1">{{translation.FirstCall}}</th>
-                <th class="col-sm-1">{{translation.DateLast}}</th>
-                <th class="col-sm-1">{{translation.Amount}}</th>
+                <th class="col-sm-1">{{::translation.UserName || 'User Name'}}</th>
+                <th class="col-sm-2">{{::translation.UserAgent || 'User Agent'}}</th>
+                <th class="col-sm-1">{{::translation.IPAdress || 'IP Adress'}}</th>
+                <th class="col-sm-1">{{::translation.FirstCall || 'First Call'}}</th>
+                <th class="col-sm-1">{{::translation.DateLast || 'Date Last'}}</th>
+                <th class="col-sm-1">{{::translation.Amount || 'Amount'}}</th>
                 <th class="col-sm-5">
                     <div data-ng-click="showPost('all')">
                         <span class="pull-left alert-info small">
@@ -82,13 +79,12 @@
                             </button>
                         </span>
                     </div>
-                    {{translation.AddData}}
+                    {{::translation.AddData || 'Add Data'}}
                 </th>
             </tr>
             </thead>
             <tbody>
             <tr data-ng-repeat="val in data">
-                <!--Одноразовая привязка-->
                 <td class="align-center">{{::val.UserName}}</td>
                 <td class="align-center">{{::val.UserAgent}}</td>
                 <td class="align-center">{{::val.IPAdress}}</td>
@@ -112,8 +108,7 @@
             </tbody>
         </table>
     </div>
-    <!--Моя пагинация-->
     <data-ng-include src="'Content/Angular/templates/_tools/pagination.html'"></data-ng-include>
 </div>
-<!--Модальная на добавление и изменение полей-->
+
 <data-ng-include src="'Content/Angular/templates/_tools/modal-add-edit.html'"></data-ng-include>

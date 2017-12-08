@@ -1,6 +1,4 @@
-﻿<!--Загрузка-->
-<data-ng-include src="'Content/Angular/templates/_tools/loading.html'"></data-ng-include>
-<!--Кнопка добавить и поиск-->
+﻿<data-ng-include src="'Content/Angular/templates/_tools/loading.html'"></data-ng-include>
 <data-ng-include src="'Content/Angular/templates/_tools/add-search-buttons.html'"></data-ng-include>
 <br>
 
@@ -8,7 +6,7 @@
     <div class="panel panel-primary col-md-2">
         <div class="panel panel-default">
             <div class="panel-heading">
-                {{translation.Coordinates}}
+                {{::translation.Coordinates || 'Coordinates'}}
                 <span class="pull-right">(<span id="mapStatisticPoints">0</span>)</span>
             </div>
             <div id="panelCoordinates" class="page-size-gmap-coordinates page-scrolable">
@@ -19,15 +17,14 @@
     <div class="panel panel-primary col-md-10">
         <div class="panel panel-default">
             <div class="panel-heading align-center">
-                <span class="pull-left">{{translation.Distance}}:<span id="mapStatisticDistance">0</span> {{translation.Km}}</span>
-                {{translation.Map}}
+                <span class="pull-left">{{::translation.Distance || 'Distance'}}:<span id="mapStatisticDistance">0</span> {{::translation.Km || 'Km'}}</span>
+                {{::translation.Map || 'Map'}}
                 <div id="my_map" class="gmap page-size-gmap"></div>
             </div>
         </div>
     </div>
 </div>
 
-<!--Модальная на добавление и изменение полей-->
 <data-ng-include src="'Content/Angular/templates/_tools/modal-add-edit.html'"></data-ng-include>
 
 <script type="text/javascript">

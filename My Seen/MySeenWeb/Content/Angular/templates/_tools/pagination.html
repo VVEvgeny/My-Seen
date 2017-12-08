@@ -3,7 +3,7 @@
         <li data-ng-class="{disabled: pages.IsFirstPage}">
             <a data-ng-click="pagination.goToPage( (pages.CurentPage-1)>0 ? pages.CurentPage-1 : 1 )">←</a>
         </li>
-        <!--Цикл по списку-->
+        <!--ngRepeat-->
         <li class="pagination-page" data-ng-repeat-start="page in pages.List"
             data-ng-class="{'active': page == pages.CurentPage, 'hidden-xs':page!=1 && page!=pages.LastPage && page != pages.CurentPage}">
             <a data-ng-click="pagination.goToPage(page)">{{::page}}</a>
@@ -12,7 +12,7 @@
             <a>...</a>
         </li>
         <li class="pagination-page" data-ng-repeat-end></li>
-        <!--конец цикла по списку-->
+        <!--end repeat-->
         <li data-ng-class="{disabled: pages.IsLastPage}">
             <a data-ng-click="pagination.goToPage( (pages.CurentPage+1)< pages.LastPage ? pages.CurentPage+1 : pages.LastPage )">→</a>
         </li>

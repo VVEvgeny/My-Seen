@@ -1,35 +1,30 @@
-﻿<!--Загрузка-->
-<data-ng-include src="'Content/Angular/templates/_tools/loading.html'"></data-ng-include>
-<!--Кнопка добавить фильм и поиск-->
+﻿<data-ng-include src="'Content/Angular/templates/_tools/loading.html'"></data-ng-include>
 <data-ng-include src="'Content/Angular/templates/_tools/add-search-buttons.html'"></data-ng-include>
 <br>
 
 <div data-ng-show="prepared.loaded && translation.loaded && data" class="animated rollIn">
-    <!--Таблица-->
     <div class="table-responsive">
         <table class="table table-striped">
             <thead>
             <tr>
                 <th class="col-sm-1"></th>
-                <th class="col-sm-3">{{translation.Name}}</th>
-                <th class="col-sm-1">{{translation.Year}}</th>
-                <th class="col-sm-1">{{translation.LastEpisode}}</th>
-                <th class="col-sm-2">{{translation.DateLast}}</th>
-                <th class="col-sm-2">{{translation.DateBegin}}</th>
-                <th class="col-sm-1">{{translation.Genre}}</th>
-                <th class="col-sm-1">{{translation.Rating}}</th>
+                <th class="col-sm-3">{{::translation.Name || 'Name'}}</th>
+                <th class="col-sm-1">{{::translation.Year || 'Year'}}</th>
+                <th class="col-sm-1">{{::translation.LastEpisode 'Last Episode'}}</th>
+                <th class="col-sm-2">{{::translation.DateLast || 'Date Last'}}</th>
+                <th class="col-sm-2">{{::translation.DateBegin || 'Date Begin'}}</th>
+                <th class="col-sm-1">{{::translation.Genre || 'Genre'}}</th>
+                <th class="col-sm-1">{{::translation.Rating || 'Rating'}}</th>
             </tr>
             </thead>
             <tbody>
             <tr ng-repeat="val in data">
                 <td>
-                    <!--Блок управляющих кнопок-->
                     <span class="pull-left">
-                            <button class="btn btn-warning btn-xs" data-ng-click="modal.editButtonClick($index)"> <span class="glyphicon glyphicon-pencil"></span></button>
-                            <button class="btn btn-info btn-xs" data-ng-click="modalShare.shareButtonClick($index)" data-ng-show="val.Shared"><span class="glyphicon glyphicon-share"></span></button>
-                        </span>
+                        <button class="btn btn-warning btn-xs" data-ng-click="modal.editButtonClick($index)"> <span class="glyphicon glyphicon-pencil"></span></button>
+                        <button class="btn btn-info btn-xs" data-ng-click="modalShare.shareButtonClick($index)" data-ng-show="val.Shared"><span class="glyphicon glyphicon-share"></span></button>
+                    </span>
                 </td>
-                <!--Одноразовая привязка-->
                 <td class="align-center">{{::val.Name}}</td>
                 <td class="align-center">{{::val.YearText}}</td>
                 <td class="align-center">{{::val.LastSeason}}-{{::val.LastSeries}}<button class="btn btn-info btn-xs pull-right" data-ng-click="addSeries($index)"><span class="glyphicon glyphicon-plus"></span></button></td>
@@ -42,13 +37,10 @@
         </table>
     </div>
 
-    <!--Моя пагинация-->
     <data-ng-include src="'Content/Angular/templates/_tools/pagination.html'"></data-ng-include>
 
 </div>
 
-<!--Модальная на добавление и изменение полей-->
 <data-ng-include src="'Content/Angular/templates/_tools/modal-add-edit.html'"></data-ng-include>
 
-<!--Модальная на добавление и изменение доступа-->
 <data-ng-include src="'Content/Angular/templates/_tools/modal-share.html'"></data-ng-include>
