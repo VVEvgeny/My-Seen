@@ -7,7 +7,7 @@
             <div class="container">
                 <div class="row col-sm-12">
                     <div class="form-group">
-                        <label for="complexSelect" style="display: block;">{{::translation.Complex || 'Complex'}}</label>
+                        <label for="complexSelect" style="display: block;">{{translation.Complex || 'Complex'}}</label>
                         <select id="complexSelect" class="form-control input-sm" data-ng-model="complexSelect" data-ng-change="selectedChange()">
                             <option data-ng-repeat="type in prepared.SelectedList" data-ng-selected="complexSelect == type.Value" value="{{type.Value}}">
                                 {{type.Text}}
@@ -15,7 +15,7 @@
                         </select>
                     </div>
                     <div class="form-group">
-                        <label for="complexSelectEnded" style="display: block;">{{::translation.State || 'State'}}</label>
+                        <label for="complexSelectEnded" style="display: block;">{{translation.State || 'State'}}</label>
                         <select id="complexSelectEnded" class="form-control input-sm" data-ng-model="typeSelect" data-ng-change="selectedTypeChange()">
                             <option data-ng-repeat="type in prepared.TypeList" data-ng-selected="typeSelect == type.Value" value="{{type.Value}}">
                                 {{type.Text}}
@@ -32,14 +32,14 @@
             <thead>
             <tr>
                 <th class="col-sm-1" data-ng-show="canControl"></th>
-                <th class="col-sm-1">{{::translation.Complex || 'Complex'}}</th>
-                <th class="col-sm-1">{{::translation.Found || 'Found'}}</th>
-                <th class="col-sm-1">{{::translation.DateFound}}</th>
-                <th class="col-sm-3" data-ng-show="canControl">{{::translation.Description || 'Description'}}</th>
-                <th class="col-sm-4" data-ng-show="!canControl">{{::translation.Description || 'Description'}}</th>
-                <th class="col-sm-1">{{::translation.DateEnd || 'Date End'}}</th>
-                <th class="col-sm-1">{{::translation.Version || 'Version'}}</th>
-                <th class="col-sm-3">{{::translation.Description || 'Description'}}</th>
+                <th class="col-sm-1">{{translation.Complex || 'Complex'}}</th>
+                <th class="col-sm-1">{{translation.Found || 'Found'}}</th>
+                <th class="col-sm-1">{{translation.DateFound}}</th>
+                <th class="col-sm-3" data-ng-show="canControl">{{translation.Description || 'Description'}}</th>
+                <th class="col-sm-4" data-ng-show="!canControl">{{translation.Description || 'Description'}}</th>
+                <th class="col-sm-1">{{translation.DateEnd || 'Date End'}}</th>
+                <th class="col-sm-1">{{translation.Version || 'Version'}}</th>
+                <th class="col-sm-3">{{translation.Description || 'Description'}}</th>
 
             </tr>
             </thead>
@@ -50,16 +50,16 @@
                         <button class="btn btn-warning btn-xs" data-ng-click="modal.editButtonClick($index)"> <span class=" glyphicon glyphicon-pencil"></span></button>
                     </span>
                 </td>
-                <td class="align-center">{{::val.ComplexText}}</td>
-                <td class="align-center">{{::val.UserName}}</td>
-                <td class="align-center">{{::val.DateFoundText}}</td>
-                <td class="align-center">{{::val.Text}}</td>
+                <td class="align-center">{{val.ComplexText}}</td>
+                <td class="align-center">{{val.UserName}}</td>
+                <td class="align-center">{{val.DateFoundText}}</td>
+                <td class="align-center">{{val.Text}}</td>
                 <td class="align-center" data-ng-show="val.Ended">{{::val.DateEndText}}</td>
                 <td class="align-center" data-ng-show="val.Ended">{{::val.VersionText}}</td>
                 <td class="align-center" data-ng-show="val.Ended">{{::val.TextEnd}}</td>
                 <td class="align-center" data-ng-show="!val.Ended" colspan="3">
                     <button type="button" class="btn btn-success btn-xs btn-block" data-ng-click="modal.editButtonClick($index,true)" data-ng-show="canControl">
-                        <span class="glyphicon glyphicon-ok"></span> {{::translation.Close || 'Close'}}
+                        <span class="glyphicon glyphicon-ok"></span> {{translation.Close || 'Close'}}
                     </button>
                 </td>
             </tr>

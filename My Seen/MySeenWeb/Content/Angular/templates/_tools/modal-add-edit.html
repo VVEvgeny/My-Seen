@@ -7,56 +7,56 @@
                 <h4 class="modal-title text-center">{{modal.title}}</h4>
                 <span class="alert-info small" data-ng-show="modal.showToEditor">
                     <button class="btn btn-xs btn-info" data-ng-click="goToEditor()">
-                        <small><span class="glyphicon glyphicon-picture"></span></small> {{::translation.ToEditor || 'To Editor'}}
+                        <small><span class="glyphicon glyphicon-picture"></span></small> {{translation.ToEditor || 'To Editor'}}
                     </button>
                 </span>
             </div>
             <div class="modal-body">
                 <div class="form-horizontal">
                     <div class="form-group" data-ng-show="modal.showName">
-                        <label for="modalFieldName" class="col-sm-2 control-label">{{::translation.Name || 'Name'}}</label>
+                        <label for="modalFieldName" class="col-sm-2 control-label">{{translation.Name || 'Name'}}</label>
                         <div class="col-sm-10">
-                            <input type="text" class="form-control input-sm" id="modalFieldName" placeholder="{{::translation.Name || 'Name'}}" data-ng-model="modal.name">
+                            <input type="text" class="form-control input-sm" id="modalFieldName" placeholder="{{translation.Name || 'Name'}}" data-ng-model="modal.name">
                         </div>
                     </div>
                     <div class="form-group" data-ng-show="modal.showBotString">
-                        <label for="modalFieldBotString" class="col-sm-2 control-label">{{::translation.botString || 'Bot String'}}</label>
+                        <label for="modalFieldBotString" class="col-sm-2 control-label">{{translation.botString || 'Bot String'}}</label>
                         <div class="col-sm-10">
-                            <input type="text" class="form-control input-sm" id="modalFieldBotString" placeholder="{{::translation.botString || 'Bot String'}}" data-ng-model="modal.botString">
+                            <input type="text" class="form-control input-sm" id="modalFieldBotString" placeholder="{{translation.botString || 'Bot String'}}" data-ng-model="modal.botString">
                         </div>
                     </div>
                     <div class="form-group" data-ng-show="modal.showYear">
-                        <label for="modalFieldYear" class="col-sm-2 control-label">{{::translation.Year || 'Year'}}</label>
+                        <label for="modalFieldYear" class="col-sm-2 control-label">{{translation.Year || 'Year'}}</label>
                         <div class="col-sm-10">
                             <input type="number" class="form-control input-sm" id="modalFieldYear" data-ng-model="modal.year" placeholder="{{prepared.Year}}">
                         </div>
                     </div>
                     <div class="form-group" data-ng-show="modal.showAuthors">
-                        <label for="modalFieldAuthors" class="col-sm-2 control-label">{{::translation.Authors || 'Authors'}}</label>
+                        <label for="modalFieldAuthors" class="col-sm-2 control-label">{{translation.Authors || 'Authors'}}</label>
                         <div class="col-sm-10">
-                            <input type="text" class="form-control input-sm" id="modalFieldAuthors" placeholder="{{::translation.Authors || 'Authors'}}" data-ng-model="modal.authors">
+                            <input type="text" class="form-control input-sm" id="modalFieldAuthors" placeholder="{{translation.Authors || 'Authors'}}" data-ng-model="modal.authors">
                         </div>
                     </div>
                     <div class="form-group" data-ng-show="modal.showSeason">
-                        <label for="modalFieldSeason" class="col-sm-2 control-label">{{::translation.Season || 'Season'}}</label>
+                        <label for="modalFieldSeason" class="col-sm-2 control-label">{{translation.Season || 'Season'}}</label>
                         <div class="col-sm-10">
-                            <input type="number" min="1" max="100" class="form-control" id="modalFieldSeason" data-ng-model="modal.season" placeholder="{{::translation.Season || 'Season'}}">
+                            <input type="number" min="1" max="100" class="form-control" id="modalFieldSeason" data-ng-model="modal.season" placeholder="{{translation.Season || 'Season'}}">
                         </div>
                     </div>
                     <div class="form-group" data-ng-show="modal.showSeries">
-                        <label for="modalFieldSeries" class="col-sm-2 control-label">{{::translation.Series || 'Series'}}</label>
+                        <label for="modalFieldSeries" class="col-sm-2 control-label">{{translation.Series || 'Series'}}</label>
                         <div class="col-sm-10">
-                            <input type="number" min="1" max="100" class="form-control" id="modalFieldSeries" data-ng-model="modal.series" placeholder="{{::translation.Series || 'Series'}}">
+                            <input type="number" min="1" max="100" class="form-control" id="modalFieldSeries" data-ng-model="modal.series" placeholder="{{translation.Series || 'Series'}}">
                         </div>
                     </div>
                     <div class="form-group" data-ng-show="modal.showWhen">
-                        <label for="modalFieldDateTime" class="col-sm-2 control-label">{{::translation.When || 'When'}}</label>
+                        <label for="modalFieldDateTime" class="col-sm-2 control-label">{{translation.When || 'When'}}</label>
                         <div class="col-sm-10">
                             <input type="text" class="form-control input-sm" id="modalFieldDateTime" data-ng-model="modal.datetimeNow" placeholder="{{prepared.DateTimeNow}}"/>
                         </div>
                     </div>
                     <div class="form-group" data-ng-show="modal.showGenre">
-                        <label class="col-sm-2 control-label">{{::translation.Genre || 'Genre'}}</label>
+                        <label class="col-sm-2 control-label">{{translation.Genre || 'Genre'}}</label>
                         <div class="col-sm-10">
                             <select class="form-control input-sm" data-ng-model="modal.genre">
                                 <option data-ng-repeat="genre in prepared.GenreList" data-ng-selected="modal.genre == genre.Value" value="{{genre.Value}}">{{genre.Text}}</option>
@@ -64,14 +64,14 @@
                         </div>
                     </div>
                     <div class="form-group" data-ng-show="modal.showRating">
-                        <label class="col-sm-2 control-label">{{::translation.Rating || 'Rating'}}</label>
+                        <label class="col-sm-2 control-label">{{translation.Rating || 'Rating'}}</label>
                         <div class="col-sm-10">
                             <uib-rating ng-model="modal.rating" max="RateMax" aria-labelledby="default-rating"></uib-rating>
                             <span class="label" ng-class="{'label-warning': modal.rating<3, 'label-info': modal.rating>=3 && modal.rating<7, 'label-success': modal.rating>=7}">{{(ToInt(modal.rating)+1)}}</span>
                         </div>
                     </div>
                     <div class="form-group" data-ng-show="modal.showEventTypes">
-                        <label class="col-sm-2 control-label">{{::translation.Type || 'Type'}}</label>
+                        <label class="col-sm-2 control-label">{{translation.Type || 'Type'}}</label>
                         <div class="col-sm-10">
                             <select class="form-control input-sm" data-ng-model="modal.eventType">
                                 <option data-ng-repeat="type in prepared.TypeList" data-ng-selected="modal.eventType == type.Value" value="{{type.Value}}">{{type.Text}}</option>
@@ -79,7 +79,7 @@
                         </div>
                     </div>
                     <div class="form-group" data-ng-show="modal.showRoadTypes">
-                        <label class="col-sm-2 control-label">{{::translation.Type || 'Type'}}</label>
+                        <label class="col-sm-2 control-label">{{translation.Type || 'Type'}}</label>
                         <div class="col-sm-10">
                             <select class="form-control input-sm" data-ng-model="modal.roadType">
                                 <option data-ng-repeat="type in prepared.TypeList" data-ng-selected="modal.roadType == type.Value" value="{{type.Value}}">{{type.Text}}</option>
@@ -87,19 +87,19 @@
                         </div>
                     </div>
                     <div class="form-group" data-ng-show="modal.showCoordinates">
-                        <label class="col-sm-2 control-label">{{::translation.Coordinates || 'Coordinates'}}</label>
+                        <label class="col-sm-2 control-label">{{translation.Coordinates || 'Coordinates'}}</label>
                         <div class="col-sm-10">
-                            <textarea class="form-control track-coords" cols="55" placeholder="{{::translation.Coordinates || 'Coordinates'}}" rows="5" data-ng-model="modal.coordinates"></textarea>
+                            <textarea class="form-control track-coords" cols="55" placeholder="{{translation.Coordinates || 'Coordinates'}}" rows="5" data-ng-model="modal.coordinates"></textarea>
                         </div>
                     </div>
                     <div class="form-group" data-ng-show="modal.showDescription">
-                        <label class="col-sm-2 control-label">{{::translation.Description || 'Description'}}</label>
+                        <label class="col-sm-2 control-label">{{translation.Description || 'Description'}}</label>
                         <div class="col-sm-10">
-                            <textarea class="form-control track-coords" cols="55" placeholder="{{::translation.Description || 'Description'}}" rows="5" data-ng-model="modal.description"></textarea>
+                            <textarea class="form-control track-coords" cols="55" placeholder="{{translation.Description || 'Description'}}" rows="5" data-ng-model="modal.description"></textarea>
                         </div>
                     </div>
                     <div class="form-group" data-ng-show="modal.showComplexTypes">
-                        <label class="col-sm-2 control-label">{{::translation.Complex || 'Complex'}}</label>
+                        <label class="col-sm-2 control-label">{{translation.Complex || 'Complex'}}</label>
                         <div class="col-sm-10">
                             <select class="form-control input-sm" data-ng-model="modal.complexType">
                                 <option data-ng-repeat="type in prepared.SelectedListForAdd" data-ng-selected="modal.complexType == type.Value" value="{{type.Value}}">{{type.Text}}</option>
@@ -107,13 +107,13 @@
                         </div>
                     </div>
                     <div class="form-group" data-ng-show="modal.showVersion">
-                        <label for="bugVersion" class="col-sm-2 control-label">{{::translation.Version || 'Version'}}</label>
+                        <label for="bugVersion" class="col-sm-2 control-label">{{translation.Version || 'Version'}}</label>
                         <div class="col-sm-10">
-                            <input type="number" class="form-control" id="bugVersion" placeholder="{{::translation.Version || 'Version'}}" data-ng-model="modal.version">
+                            <input type="number" class="form-control" id="bugVersion" placeholder="{{translation.Version || 'Version'}}" data-ng-model="modal.version">
                         </div>
                     </div>
                     <div class="form-group" data-ng-show="modal.showLanguageType">
-                        <label class="col-sm-2 control-label">{{::translation.Language || 'Language'}}</label>
+                        <label class="col-sm-2 control-label">{{translation.Language || 'Language'}}</label>
                         <div class="col-sm-10">
                             <select class="form-control input-sm" data-ng-model="modal.languageType">
                                 <option data-ng-repeat="type in prepared.LanguagesList" data-ng-selected="modal.languageType == type.Value" value="{{type.Value}}">{{type.Text}}</option>
@@ -125,20 +125,20 @@
             <div class="modal-footer">
                 <button type="button" class="btn btn-success btn-block" data-ng-click="modal.addButtonClick()" data-ng-show="modal.addButton">
                     <span class="glyphicon glyphicon-ok"></span>
-                    &nbsp;{{::translation.Add || 'Add'}}
+                    &nbsp;{{translation.Add || 'Add'}}
                 </button>
                 <div class="align-center row">
                     <button type="button" class="btn btn-info btn-share" data-ng-click="modalShare.shareButtonClick()" data-ng-show="modal.shareButton">
                         <span class="glyphicon glyphicon-plus"></span>
-                        &nbsp;{{::translation.Share || 'Share'}}
+                        &nbsp;{{translation.Share || 'Share'}}
                     </button>
                     <button type="button" class="btn btn-danger" data-ng-click="modal.deleteButtonClick()" data-ng-show="modal.deleteButton">
                         <span class="glyphicon glyphicon-trash"></span>
-                        &nbsp;{{::translation.Delete || 'Delete'}}
+                        &nbsp;{{translation.Delete || 'Delete'}}
                     </button>
                     <button type="button" class="btn btn-success" data-ng-click="modal.saveButtonClick()" data-ng-show="modal.saveButton">
                         <span class="glyphicon glyphicon-ok"></span>
-                        &nbsp;{{::translation.SaveChanges || 'Save Changes'}}
+                        &nbsp;{{translation.SaveChanges || 'Save Changes'}}
                     </button>
                 </div>
             </div>

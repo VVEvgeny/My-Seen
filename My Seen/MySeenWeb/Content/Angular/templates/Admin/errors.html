@@ -9,9 +9,9 @@
             <div class="container">
                 <div class="row col-sm-12">
                     <div class="form-group">
-                        <label for="removeAllButton" style="display: block;">{{::translation.RemoveAll || 'Remove All'}}</label>
+                        <label for="removeAllButton" style="display: block;">{{translation.RemoveAll || 'Remove All'}}</label>
                         <button type="button" class="form-control btn btn-danger" id="removeAllButton" data-ng-click="removeAll()">
-                            <span class="glyphicon glyphicon-trash"></span> {{::translation.RemoveAll || 'Remove All'}}
+                            <span class="glyphicon glyphicon-trash"></span> {{translation.RemoveAll || 'Remove All'}}
                         </button>
                     </div>
                 </div>
@@ -23,13 +23,13 @@
         <table class="table table-striped">
             <thead>
             <tr>
-                <th class="col-sm-1">{{::translation.When || 'When'}}</th>
-                <th class="col-sm-1">{{::translation.Host || 'Host'}}</th>
-                <th class="col-sm-1">{{::translation.Type || 'Type'}}</th>
-                <th class="col-sm-1">{{::translation.Message || 'Message'}}</th>
-                <th class="col-sm-1">{{::translation.Level || 'Level'}}</th>
-                <th class="col-sm-3">{{::translation.StackTrace || 'Stack Trace'}}</th>
-                <th class="col-sm-3">{{::translation.Variables || 'Variables'}}</th>
+                <th class="col-sm-1">{{translation.When || 'When'}}</th>
+                <th class="col-sm-1">{{translation.Host || 'Host'}}</th>
+                <th class="col-sm-1">{{translation.Type || 'Type'}}</th>
+                <th class="col-sm-1">{{translation.Message || 'Message'}}</th>
+                <th class="col-sm-1">{{translation.Level || 'Level'}}</th>
+                <th class="col-sm-3">{{translation.StackTrace || 'Stack Trace'}}</th>
+                <th class="col-sm-3">{{translation.Variables || 'Variables'}}</th>
             </tr>
             </thead>
             <tbody>

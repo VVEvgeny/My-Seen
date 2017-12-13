@@ -1,32 +1,32 @@
 ﻿<data-ng-include src="'Content/Angular/templates/_tools/loading.html'"></data-ng-include>
 
 <div data-ng-show="translation.loaded && data" class="animated rollIn">
-    <h2>{{::translation.Manage || 'Manage'}}</h2>
+    <h2>{{translation.Manage || 'Manage'}}</h2>
 
     <div>
-        <h4 data-ng-show="authorized">{{::translation.ChangeYourAccountSettings || 'Change Your Account Settings'}}</h4>
+        <h4 data-ng-show="authorized">{{translation.ChangeYourAccountSettings || 'Change Your Account Settings'}}</h4>
         <hr/>
         <dl class="dl-horizontal" data-ng-show="authorized">
-            <dt>{{::translation.Password || 'Password'}}:</dt>
+            <dt>{{translation.Password || 'Password'}}:</dt>
             <dd>
                 <button type="button" class="btn btn-success btn-xs" data-ng-click="setPassword()" data-ng-show="data.HasPassword == 'false'">
-                    <span class="glyphicon glyphicon-plus"></span> {{::translation.SetPassword || 'Set Password'}}
+                    <span class="glyphicon glyphicon-plus"></span> {{translation.SetPassword || 'Set Password'}}
                 </button>
                 <button type="button" class="btn btn-warning btn-xs" data-ng-click="setPassword()" data-ng-show="data.HasPassword">
-                    <span class="glyphicon glyphicon-pencil"></span> {{::translation.ChangeYourPassword || 'Change Your Password'}}
+                    <span class="glyphicon glyphicon-pencil"></span> {{translation.ChangeYourPassword || 'Change Your Password'}}
                 </button>
             </dd>
         </dl>
         <dl class="dl-horizontal" data-ng-show="authorized">
-            <dt>{{::translation.ExternalLogins || 'External Logins'}}:</dt>
+            <dt>{{translation.ExternalLogins || 'External Logins'}}:</dt>
             <dd>
                 <button type="button" class="btn btn-danger btn-xs" data-ng-click="manageExternals()">
-                    <span class="glyphicon glyphicon-random"></span> {{::translation.Manage || 'Manage'}}
+                    <span class="glyphicon glyphicon-random"></span> {{translation.Manage || 'Manage'}}
                 </button>
             </dd>
         </dl>
         <dl class="dl-horizontal">
-            <dt>{{::translation.SelectLanguage || 'Select Language'}}:</dt>
+            <dt>{{translation.SelectLanguage || 'Select Language'}}:</dt>
             <dd>
                 <select class="input-sm" data-ng-model="data.Lang" data-ng-change="languageChange()">
                     <option data-ng-repeat="type in data.LangList" data-ng-selected="data.Lang == type.Value" value="{{type.Value}}">
@@ -36,7 +36,7 @@
             </dd>
         </dl>
         <dl class="dl-horizontal">
-            <dt>{{::translation.RecordPerPage || 'Record Per Page'}}:</dt>
+            <dt>{{translation.RecordPerPage || 'Record Per Page'}}:</dt>
             <dd>
                 <select class="input-sm" data-ng-model="data.Rpp" data-ng-change="rppChange()">
                     <option data-ng-repeat="type in data.RppList" data-ng-selected="data.Rpp == type.Value" value="{{type.Value}}">
@@ -46,7 +46,7 @@
             </dd>
         </dl>
         <dl class="dl-horizontal">
-            <dt>{{::translation.MarkersOnRoads || 'Markers On Roads'}}:</dt>
+            <dt>{{translation.MarkersOnRoads || 'Markers On Roads'}}:</dt>
             <dd>
                 <select class="input-sm" data-ng-model="data.Markers" data-ng-change="markersChange()">
                     <option data-ng-repeat="type in data.MarkersOnRoadsList" data-ng-selected="data.Markers == type.Value" value="{{type.Value}}">
@@ -56,7 +56,7 @@
             </dd>
         </dl>
         <dl class="dl-horizontal">
-            <dt>{{::translation.Theme ||' Theme'}}:</dt>
+            <dt>{{translation.Theme ||' Theme'}}:</dt>
             <dd>
                 <select class="input-sm" data-ng-model="data.Theme" data-ng-change="themeChange()">
                     <option data-ng-repeat="type in data.Themes" data-ng-selected="data.Theme == type.Value" value="{{type.Value}}">
@@ -66,7 +66,7 @@
             </dd>
         </dl>
         <dl class="dl-horizontal">
-            <dt>{{::translation.Animation ||'Animation'}}:</dt>
+            <dt>{{translation.Animation ||'Animation'}}:</dt>
             <dd>
                 <select class="input-sm" data-ng-model="data.EnableAnimation" data-ng-change="enableAnimationChange()">
                     <option data-ng-repeat="type in data.EnableAnimationList" data-ng-selected="data.EnableAnimation == type.Value" value="{{type.Value}}">
@@ -79,7 +79,7 @@
 
     <footer class="row">
         <div class="text-center">
-            <p class="text-muted small">{{::translation.Version || 'Version'}} {{::translation.Web || '??'}} / {{::translation.ResourceVersion || 'Resource Version'}} {{::translation.ResourceVersionNum || '??'}}</p>
+            <p class="text-muted small">{{translation.Version || 'Version'}}:{{::data.Version}} / {{translation.ResourceVersion || 'Resource Version'}}:{{::data.ResourceVersion}}</p>
         </div>
     </footer>
 </div>
@@ -90,33 +90,33 @@
             <div class="modal-header">
                 <button type="button" class="close myseen-modal-close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span></button>
-                <h4 class="modal-title text-center">{{::translation.SetPassword || 'Set Password'}}</h4>
+                <h4 class="modal-title text-center">{{translation.SetPassword || 'Set Password'}}</h4>
             </div>
             <div class="modal-body">
                 <div class="form-horizontal">
                     <div class="form-group" data-ng-show="data.HasPassword">
-                        <label for="modalFieldPassword" class="col-sm-3 control-label">{{::translation.Password || 'Password'}}</label>
+                        <label for="modalFieldPassword" class="col-sm-3 control-label">{{translation.Password || 'Password'}}</label>
                         <div class="col-sm-9">
-                            <input type="password" class="form-control input-sm" id="modalFieldPassword" data-ng-model="modalSetPassword.password" placeholder="{{::translation.Password || 'Password'}}">
+                            <input type="password" class="form-control input-sm" id="modalFieldPassword" data-ng-model="modalSetPassword.password" placeholder="{{translation.Password || 'Password'}}">
                         </div>
                     </div>
                     <div class="form-group">
-                        <label for="modalFieldNewPassword" class="col-sm-3 control-label">{{::translation.NewPassword || 'New Password'}}</label>
+                        <label for="modalFieldNewPassword" class="col-sm-3 control-label">{{translation.NewPassword || 'New Password'}}</label>
                         <div class="col-sm-9">
-                            <input type="password" class="form-control input-sm" id="modalFieldNewPassword" data-ng-model="modalSetPassword.newPassword" placeholder="{{::translation.NewPassword || 'New Password'}}">
+                            <input type="password" class="form-control input-sm" id="modalFieldNewPassword" data-ng-model="modalSetPassword.newPassword" placeholder="{{translation.NewPassword || 'New Password'}}">
                         </div>
                     </div>
                     <div class="form-group">
-                        <label for="modalFieldPasswordConfirm" class="col-sm-3 control-label">{{::translation.RepeatPassword || 'Repeat Password'}}</label>
+                        <label for="modalFieldPasswordConfirm" class="col-sm-3 control-label">{{translation.RepeatPassword || 'Repeat Password'}}</label>
                         <div class="col-sm-9">
-                            <input type="password" class="form-control input-sm" id="modalFieldPasswordConfirm" data-ng-model="modalSetPassword.passwordConfirm" placeholder="{{::translation.RepeatPassword || 'Repeat Password'}}">
+                            <input type="password" class="form-control input-sm" id="modalFieldPasswordConfirm" data-ng-model="modalSetPassword.passwordConfirm" placeholder="{{translation.RepeatPassword || 'Repeat Password'}}">
                         </div>
                     </div>
                 </div>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-info btn-block" data-ng-click="modalSetPassword.addButtonClick()" data-ng-show="modalSetPassword.newPassword.length !=0 && modalSetPassword.newPassword == modalSetPassword.passwordConfirm">
-                    <span class="glyphicon glyphicon-plus"></span> {{::translation.SetPassword || 'Set Password'}}
+                    <span class="glyphicon glyphicon-plus"></span> {{translation.SetPassword || 'Set Password'}}
                 </button>
             </div>
         </div>

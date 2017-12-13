@@ -3,18 +3,17 @@
 <br>
 
 <div data-ng-show="prepared.loaded && translation.loaded && data" class="animated rollIn">
-    <!--Таблица-->
     <div class="table-responsive">
         <table class="table table-striped">
             <thead>
             <tr>
                 <th class="col-sm-1"></th>
-                <th class="col-sm-4">{{::translation.Name || 'Name'}}</th>
-                <th class="col-sm-1">{{::translation.Year || 'Year'}}</th>
-                <th class="col-sm-2">{{::translation.Authors || 'Authors'}}</th>
-                <th class="col-sm-2">{{::translation.DateRead || 'Date Read'}}</th>
-                <th class="col-sm-1">{{::translation.Genre || 'Genre'}}</th>
-                <th class="col-sm-1">{{::translation.Rating || 'Rating'}}</th>
+                <th class="col-sm-4">{{translation.Name || 'Name'}}</th>
+                <th class="col-sm-1">{{translation.Year || 'Year'}}</th>
+                <th class="col-sm-2">{{translation.Authors || 'Authors'}}</th>
+                <th class="col-sm-2">{{translation.DateRead || 'Date Read'}}</th>
+                <th class="col-sm-1">{{translation.Genre || 'Genre'}}</th>
+                <th class="col-sm-1">{{translation.Rating || 'Rating'}}</th>
             </tr>
             </thead>
             <tbody>

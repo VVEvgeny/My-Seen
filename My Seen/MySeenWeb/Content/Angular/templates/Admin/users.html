@@ -8,17 +8,17 @@
         <table class="table table-striped">
             <thead>
             <tr>
-                <th class="col-sm-3">{{::translation.UserName || 'User Name'}}</th>
-                <th class="col-sm-1">{{::translation.Grops || 'Grops'}}</th>
-                <th class="col-sm-1">{{::translation.RegisterDate || 'Register Date'}}</th>
-                <th class="col-sm-1">{{::translation.LastAction || 'Last Action'}}</th>
-                <th class="col-sm-1">{{::translation.CultureName || 'Culture'}}</th>
-                <th class="col-sm-1">{{::translation.FilmsCount || 'Films'}}</th>
-                <th class="col-sm-1">{{::translation.SerialsCount || 'Serials'}}</th>
-                <th class="col-sm-1">{{::translation.BooksCount || 'Books'}}</th>
-                <th class="col-sm-1">{{::translation.EventsCount || 'Events'}}</th>
-                <th class="col-sm-1">{{::translation.TracksCount || 'Roads'}}</th>
-                <th class="col-sm-1">{{::translation.MemesCount || 'Memes'}}</th>
+                <th class="col-sm-3">{{translation.UserName || 'User Name'}}</th>
+                <th class="col-sm-1">{{translation.Grops || 'Grops'}}</th>
+                <th class="col-sm-1">{{translation.RegisterDate || 'Register Date'}}</th>
+                <th class="col-sm-1">{{translation.LastAction || 'Last Action'}}</th>
+                <th class="col-sm-1">{{translation.CultureName || 'Culture'}}</th>
+                <th class="col-sm-1">{{translation.FilmsCount || 'Films'}}</th>
+                <th class="col-sm-1">{{translation.SerialsCount || 'Serials'}}</th>
+                <th class="col-sm-1">{{translation.BooksCount || 'Books'}}</th>
+                <th class="col-sm-1">{{translation.EventsCount || 'Events'}}</th>
+                <th class="col-sm-1">{{translation.TracksCount || 'Roads'}}</th>
+                <th class="col-sm-1">{{translation.MemesCount || 'Memes'}}</th>
             </tr>
             </thead>
             <tbody>
@@ -30,7 +30,7 @@
                     </div>
                     <button type="button" class="btn btn-success btn-xs btn-block" data-ng-click="modal.updateButtonClick($index)"
                             data-ng-show="canControl && (val.Roles.length != defaultData[$index].Roles.length || val.Roles.toString() != defaultData[$index].Roles.toString())">
-                        <span class="fa fa-pencil"></span> {{::translation.Update || 'Update'}}
+                        <span class="fa fa-pencil"></span> {{translation.Update || 'Update'}}
                     </button>
                 </td>
                 <td class="align-center">{{::val.RegisterDate}}</td>

@@ -24,8 +24,14 @@ namespace MySeenWeb.Models
         public string EnableAnimation { get; set; }
         public IEnumerable<SelectListItem> EnableAnimationList { get; set; }
 
+        public int Version { get; set; }
+        public string ResourceVersion { get; set; }
+
         public HomeViewModelSettings(string userId, int lang, int rpp, int theme, int markersOnRoads, int enableAnimation)
         {
+            Version = Versions.Version;
+            ResourceVersion = Resource.ResourceVersionNum;
+
             if (string.IsNullOrEmpty(userId))
             {
                 Lang = lang.ToString();
