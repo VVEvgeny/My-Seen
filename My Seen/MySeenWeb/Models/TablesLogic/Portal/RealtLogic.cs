@@ -5,7 +5,7 @@ using MySeenWeb.Models.Tables.Portal;
 using MySeenWeb.Models.TablesLogic.Base;
 using System.Collections.Generic;
 using System.Linq;
-using MySeenLib;
+using MySeenResources;
 
 namespace MySeenWeb.Models.TablesLogic.Portal
 {

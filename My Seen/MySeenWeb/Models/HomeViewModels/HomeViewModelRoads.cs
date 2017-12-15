@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
-using MySeenLib;
+using MySeenResources;
 using MySeenWeb.Add_Code;
 using MySeenWeb.Models.OtherViewModels;
 using MySeenWeb.Models.TablesViews;

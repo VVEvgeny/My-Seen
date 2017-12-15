@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 14
-VisualStudioVersion = 14.0.25123.0
+# Visual Studio 15
+VisualStudioVersion = 15.0.26430.16
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "My Seen Library", "MySeenLib\My Seen Library.csproj", "{D7761030-BBF7-467B-A41D-3D215396FD72}"
 EndProject
@@ -23,6 +23,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "My Seen Web.Tests", "My Seen WebTests\My Seen Web.Tests.csproj", "{581684EC-F174-4D0D-ABFF-E71FB46DCF79}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "My Seen Chrome Extension", "My Seen Chrome Extension\My Seen Chrome Extension.csproj", "{9D141603-1A9D-4EEC-82D8-C473EA436839}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "My Seen Resources", "MySeenResources\My Seen Resources.csproj", "{DFFE460F-E272-4D24-8CB8-FEB02559FAE2}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -46,6 +48,10 @@ Global
 		{9D141603-1A9D-4EEC-82D8-C473EA436839}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9D141603-1A9D-4EEC-82D8-C473EA436839}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9D141603-1A9D-4EEC-82D8-C473EA436839}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DFFE460F-E272-4D24-8CB8-FEB02559FAE2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DFFE460F-E272-4D24-8CB8-FEB02559FAE2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DFFE460F-E272-4D24-8CB8-FEB02559FAE2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DFFE460F-E272-4D24-8CB8-FEB02559FAE2}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

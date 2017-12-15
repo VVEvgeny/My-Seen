@@ -1,7 +1,7 @@
 ﻿using System.Web;
 using System.Web.Mvc;
-using MySeenLib;
 using Microsoft.AspNet.Identity;
+using MySeenResources;
 using MySeenWeb.Models.TablesLogic;
 
 namespace MySeenWeb.ActionFilters

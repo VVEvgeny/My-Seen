@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Linq;
-using MySeenLib;
+using MySeenResources;
 using MySeenWeb.Add_Code;
 using MySeenWeb.Models.OtherViewModels;
 using MySeenWeb.Models.Tables.Portal;

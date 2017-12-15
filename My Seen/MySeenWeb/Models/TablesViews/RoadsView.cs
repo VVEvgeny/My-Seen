@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Globalization;
-using MySeenLib;
+using MySeenResources;
 using MySeenWeb.Models.Tables;
 using static MySeenLib.CultureInfoTool;
 using static MySeenLib.UmtTime;

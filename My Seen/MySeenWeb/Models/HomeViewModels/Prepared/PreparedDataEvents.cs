@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Web.Mvc;
-using MySeenLib;
+using MySeenResources;
 using static MySeenLib.Defaults;
 
 namespace MySeenWeb.Models.Prepared

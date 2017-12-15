@@ -1,5 +1,5 @@
 ﻿using System.Web;
-using MySeenLib;
+using MySeenResources;
 using MySeenWeb.Add_Code;
 using MySeenWeb.Models.Meta.Portal;
 using MySeenWeb.Models.Meta.Shared;

@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Web;
-using MySeenLib;
+using MySeenResources;
 using MySeenWeb.Add_Code;
 using MySeenWeb.Models.TablesLogic.Portal;
 

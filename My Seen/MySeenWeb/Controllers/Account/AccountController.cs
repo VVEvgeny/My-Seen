@@ -6,7 +6,7 @@ using System.Web.Mvc;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
-using MySeenLib;
+using MySeenResources;
 using MySeenWeb.ActionFilters;
 using MySeenWeb.Add_Code;
 using MySeenWeb.Controllers.Home;
@@ -26,14 +26,14 @@ namespace MySeenWeb.Controllers.Account
         private ApplicationUserManager _userManager;
         public ApplicationSignInManager SignInManager
         {
-            get { return _signInManager ?? HttpContext.GetOwinContext().Get<ApplicationSignInManager>(); }
-            private set { _signInManager = value; }
+            get => _signInManager ?? HttpContext.GetOwinContext().Get<ApplicationSignInManager>();
+            private set => _signInManager = value;
         }
 
         public ApplicationUserManager UserManager
         {
-            get { return _userManager ?? HttpContext.GetOwinContext().GetUserManager<ApplicationUserManager>(); }
-            private set { _userManager = value; }
+            get => _userManager ?? HttpContext.GetOwinContext().GetUserManager<ApplicationUserManager>();
+            private set => _userManager = value;
         }
 
         public AccountController(ICacheService cache):base(cache)

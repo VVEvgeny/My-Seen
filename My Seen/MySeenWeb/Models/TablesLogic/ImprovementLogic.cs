@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Linq;
-using MySeenLib;
+using MySeenResources;
 using MySeenWeb.Models.OtherViewModels;
 using MySeenWeb.Models.Tables;
 using MySeenWeb.Models.TablesLogic.Base;

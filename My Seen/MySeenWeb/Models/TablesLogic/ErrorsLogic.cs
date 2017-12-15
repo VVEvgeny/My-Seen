@@ -1,5 +1,5 @@
 ﻿using System;
-using MySeenLib;
+using MySeenResources;
 using MySeenWeb.Models.OtherViewModels;
 using MySeenWeb.Models.Tables;
 

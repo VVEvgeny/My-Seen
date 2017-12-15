@@ -1097,6 +1097,10 @@
       <Project>{D7761030-BBF7-467B-A41D-3D215396FD72}</Project>
       <Name>My Seen Library</Name>
     </ProjectReference>
+    <ProjectReference Include="..\MySeenResources\My Seen Resources.csproj">
+      <Project>{dffe460f-e272-4d24-8cb8-feb02559fae2}</Project>
+      <Name>My Seen Resources</Name>
+    </ProjectReference>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

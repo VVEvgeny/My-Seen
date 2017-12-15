@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Web.Mvc;
 using Microsoft.AspNet.Identity;
-using MySeenLib;
+using MySeenResources;
 using MySeenWeb.ActionFilters;
 using MySeenWeb.Add_Code;
 using MySeenWeb.Controllers._Base;

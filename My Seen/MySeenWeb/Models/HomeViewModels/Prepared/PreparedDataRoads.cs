@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Globalization;
 using System.Web.Mvc;
-using MySeenLib;
+using MySeenResources;
 using MySeenWeb.Models.TablesViews;
 
 namespace MySeenWeb.Models.Prepared

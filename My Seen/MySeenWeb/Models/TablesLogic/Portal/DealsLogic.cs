@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Linq;
-using MySeenLib;
 using MySeenWeb.Add_Code;
 using MySeenWeb.Models.OtherViewModels;
 using MySeenWeb.Models.Tables.Portal;
 using MySeenWeb.Models.TablesLogic.Base;
 using System.Collections.Generic;
+using MySeenResources;
 
 namespace MySeenWeb.Models.TablesLogic.Portal
 {

@@ -1092,4 +1092,7 @@
   <data name="Extension" xml:space="preserve">
     <value>Extension</value>
   </data>
+  <data name="Test" xml:space="preserve">
+    <value>Test</value>
+  </data>
 </root>

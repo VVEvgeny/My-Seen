@@ -1,4 +1,5 @@
 ﻿using MySeenLib;
+using MySeenResources;
 
 namespace MySeenWeb.Models.Translations
 {
