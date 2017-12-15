@@ -8,6 +8,8 @@ namespace MySeenWeb.Models.Prepared
 {
     public class PreparedDataImprovements
     {
+        public int CurrentVersion = Versions.Version;
+
         public IEnumerable<SelectListItem> SelectedList { get; } =
             Complexes.GetAll()
                 .Select(

@@ -196,7 +196,7 @@ App.controller("ImprovementsController",
                 $scope.modal.showVersion = true;
 
                 $scope.modal.description = "";
-                $scope.modal.version = "";
+                $scope.modal.version = $scope.prepared.CurrentVersion;
             } else {
                 $scope.modal.showComplexTypes = true;
                 $scope.modal.showVersion = false;
