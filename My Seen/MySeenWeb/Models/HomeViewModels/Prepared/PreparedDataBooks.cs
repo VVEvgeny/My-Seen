@@ -10,18 +10,6 @@ namespace MySeenWeb.Models.Prepared
     public class PreparedDataBooks
     {
         public IEnumerable<SelectListItem> GenreList { get; } =
-            Ratings.GetAll()
-                .Select(
-                    sel =>
-                        new SelectListItem
-                        {
-                            Text = sel,
-                            Value = Ratings.GetId(sel).ToString(),
-                            Selected = Ratings.GetId(sel) == 0
-                        })
-                .ToList();
-
-        public IEnumerable<SelectListItem> RatingList { get; } =
             Genres.GetAll()
                 .Select(
                     sel =>
@@ -30,6 +18,18 @@ namespace MySeenWeb.Models.Prepared
                             Text = sel,
                             Value = Genres.GetId(sel).ToString(),
                             Selected = Genres.GetId(sel) == 0
+                        })
+                .ToList();
+
+        public IEnumerable<SelectListItem> RatingList { get; } =
+            Ratings.GetAll()
+                .Select(
+                    sel =>
+                        new SelectListItem
+                        {
+                            Text = sel,
+                            Value = Ratings.GetId(sel).ToString(),
+                            Selected = Ratings.GetId(sel) == 0
                         })
                 .ToList();
         public int Year { get; } = DateTime.Now.Year;

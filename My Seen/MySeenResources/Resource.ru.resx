@@ -963,8 +963,8 @@
   <data name="Deals" xml:space="preserve">
     <value>Сделок</value>
   </data>
-  <data name="LastUpdatedPrice" xml:space="preserve">
-    <value>Последнее обновление цены</value>
+  <data name="LastUpdatedPriceProposal" xml:space="preserve">
+    <value>Последнее обновление цены/предложения</value>
   </data>
   <data name="LastUpdatedSalary" xml:space="preserve">
     <value>Последнее обновление ЗП</value>
@@ -1094,5 +1094,17 @@
   </data>
   <data name="Test" xml:space="preserve">
     <value>Тест</value>
+  </data>
+  <data name="Data" xml:space="preserve">
+    <value>Данные</value>
+  </data>
+  <data name="LastUpdatedDeals" xml:space="preserve">
+    <value>Последнее обновление сделок</value>
+  </data>
+  <data name="Proposal" xml:space="preserve">
+    <value>Предложение</value>
+  </data>
+  <data name="ShowProposals" xml:space="preserve">
+    <value>Показывать предложения</value>
   </data>
 </root>

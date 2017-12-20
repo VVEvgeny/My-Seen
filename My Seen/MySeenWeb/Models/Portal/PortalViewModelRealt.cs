@@ -19,7 +19,6 @@ namespace MySeenWeb.Models.Portal
 
         public string LastUpdatedPrice { get; set; }
         public string LastUpdatedSalary { get; set; }
-
         public string LastUpdatedDeals { get; set; }
 
         //mode == 0 - current data

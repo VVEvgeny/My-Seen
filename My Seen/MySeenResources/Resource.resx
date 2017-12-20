@@ -963,8 +963,8 @@
   <data name="Deals" xml:space="preserve">
     <value>Deals</value>
   </data>
-  <data name="LastUpdatedPrice" xml:space="preserve">
-    <value>Last Updated Price</value>
+  <data name="LastUpdatedPriceProposal" xml:space="preserve">
+    <value>Last Updated Price/Proposal</value>
   </data>
   <data name="LastUpdatedSalary" xml:space="preserve">
     <value>Last Updated Salary</value>
@@ -1094,5 +1094,17 @@
   </data>
   <data name="Test" xml:space="preserve">
     <value>Test</value>
+  </data>
+  <data name="Data" xml:space="preserve">
+    <value>Data</value>
+  </data>
+  <data name="LastUpdatedDeals" xml:space="preserve">
+    <value>Last Updated Deals</value>
+  </data>
+  <data name="Proposal" xml:space="preserve">
+    <value>Proposal</value>
+  </data>
+  <data name="ShowProposals" xml:space="preserve">
+    <value>Show Proposals</value>
   </data>
 </root>

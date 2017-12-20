@@ -219,6 +219,7 @@ App.controller("RealtController",
 
             $scope.LastUpdatedPrice = page.LastUpdatedPrice;
             $scope.LastUpdatedSalary = page.LastUpdatedSalary;
+            $scope.LastUpdatedDeals = page.LastUpdatedDeals;
 
             createChart();
         };
@@ -227,9 +228,9 @@ App.controller("RealtController",
             createChart();
         };
 
-        $scope.showSalary = true;
-        $scope.showDeals = true;
-        $scope.showProposals = true;
+        $scope.showSalary = false;
+        $scope.showDeals = false;
+        $scope.showProposals = false;
 
         function createChart() {
 

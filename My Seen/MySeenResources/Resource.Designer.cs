@@ -736,6 +736,15 @@ namespace MySeenResources {
         }
         
         /// <summary>
+        ///   Ищет локализованную строку, похожую на Data.
+        /// </summary>
+        public static string Data {
+            get {
+                return ResourceManager.GetString("Data", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Ищет локализованную строку, похожую на Seen.
         /// </summary>
         public static string Date {
@@ -1637,11 +1646,20 @@ namespace MySeenResources {
         }
         
         /// <summary>
-        ///   Ищет локализованную строку, похожую на Last Updated Price.
+        ///   Ищет локализованную строку, похожую на Last Updated Deals.
         /// </summary>
-        public static string LastUpdatedPrice {
+        public static string LastUpdatedDeals {
             get {
-                return ResourceManager.GetString("LastUpdatedPrice", resourceCulture);
+                return ResourceManager.GetString("LastUpdatedDeals", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Last Updated Price/Proposal.
+        /// </summary>
+        public static string LastUpdatedPriceProposal {
+            get {
+                return ResourceManager.GetString("LastUpdatedPriceProposal", resourceCulture);
             }
         }
         
@@ -2096,6 +2114,15 @@ namespace MySeenResources {
         }
         
         /// <summary>
+        ///   Ищет локализованную строку, похожую на Proposal.
+        /// </summary>
+        public static string Proposal {
+            get {
+                return ResourceManager.GetString("Proposal", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Ищет локализованную строку, похожую на Quick Search.
         /// </summary>
         public static string QuickSearch {
@@ -2506,6 +2533,15 @@ namespace MySeenResources {
         public static string ShowDeals {
             get {
                 return ResourceManager.GetString("ShowDeals", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Show Proposals.
+        /// </summary>
+        public static string ShowProposals {
+            get {
+                return ResourceManager.GetString("ShowProposals", resourceCulture);
             }
         }
         

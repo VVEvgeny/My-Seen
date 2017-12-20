@@ -18,7 +18,7 @@ namespace MySeenWeb.Models.Translations.Portal
         public string July = Resource.July;
         public string June = Resource.June;
 
-        public string LastUpdatedPrice = Resource.LastUpdatedPrice;
+        public string LastUpdatedPriceProposal = Resource.LastUpdatedPriceProposal;
         public string LastUpdatedSalary = Resource.LastUpdatedSalary;
         public string March = Resource.March;
         public string May = Resource.May;
@@ -42,8 +42,18 @@ namespace MySeenWeb.Models.Translations.Portal
         public string Year = Resource.Year;
 
 
-        public string TitleAdd = Resource.Add + " " + Resource.Salary;
+        public string TitleAdd = Resource.Add;
         public string When = Resource.When;
         public string Add = Resource.Add;
+
+        public string ShowProposals = Resource.ShowProposals;
+
+        public string AddSalary = Resource.Add + " " + Resource.Salary;
+        public string AddData = Resource.Add + " " + Resource.Data;
+        public string AddDeals = Resource.Add + " " + Resource.Deals;
+
+        public string Proposals = Resource.Proposal;
+
+        public string LastUpdatedDeals = Resource.LastUpdatedDeals;
     }
 }

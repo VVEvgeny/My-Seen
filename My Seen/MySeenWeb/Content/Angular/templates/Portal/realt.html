@@ -1,15 +1,17 @@
 ﻿<data-ng-include src="'Content/Angular/templates/_tools/loading.html'"></data-ng-include>
 <data-ng-include src="'Content/Angular/templates/_tools/add-search-buttons.html'"></data-ng-include>
 
-<div class="form-horizontal" data-ng-show="translation.loaded && LastUpdatedPrice">
+<div id="chartdiv" class="col-sm-12" style="height: 500px;"></div>
+
+<div class="form-horizontal" data-ng-show="translation.loaded && (LastUpdatedPrice || LastUpdatedSalary || LastUpdatedDeals)">
     <div class="form-group col-sm-12">
-        <label class="control-label">{{translation.LastUpdatedPrice || 'Last Updated Price'}}:<font color="red">{{::LastUpdatedPrice}}</font></label>
+        <label class="control-label">{{translation.LastUpdatedPriceProposal || 'Last Updated Price/Proposal'}}: <font color="red">{{LastUpdatedPrice}}</font></label>
         <br>
-        <label class="control-label">{{translation.LastUpdatedSalary || 'Last Updated Salary'}}:<font color="green">{{::LastUpdatedSalary}}</font></label>
+        <label class="control-label" data-ng-show="showSalary && LastUpdatedSalary">{{translation.LastUpdatedSalary || 'Last Updated Salary'}}: <font color="green">{{LastUpdatedSalary}}</font></label>
+        <br>
+        <label class="control-label" data-ng-show="showDeals && LastUpdatedDeals">{{translation.LastUpdatedDeals || 'Last Updated Deals'}}: <font color="green">{{LastUpdatedDeals}}</font></label>
     </div>
 </div>
-
-<div id="chartdiv" class="col-sm-12" style="height: 500px;"></div>
 
 <br>
 
