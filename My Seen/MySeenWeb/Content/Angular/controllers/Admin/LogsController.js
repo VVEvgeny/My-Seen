@@ -169,6 +169,7 @@ App.controller("LogsController",
             showBotString: true,
             showLanguageType: true
         };
+        $scope.modal.title = $scope.translation.TitleAdd;
         //Прячу модальную Добавить/Редактировать
         //Готовлю данные для добавления новой записи и отображаю модальную
         $scope.addModalOpen = function () {

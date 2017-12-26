@@ -71,17 +71,20 @@ namespace MySeenWeb.Models
             Pages = new Pagination(page,
                 ac.Logs.AsNoTracking().AsEnumerable().Count(
                     f =>
-                        (string.IsNullOrEmpty(search) || f.UserAgent.Contains(search)) && f.DateFirst >= minDate &&
-                        f.DateLast <= maxDate
+                        (string.IsNullOrEmpty(search) || string.IsNullOrEmpty(f.UserAgent) ||
+                         f.UserAgent.Contains(search))
+                        && f.DateFirst >= minDate && f.DateLast <= maxDate
                         && (withBots || !BotsLogic.Contains(cache, f.UserAgent))
-                    )
+                )
                 , countInPage);
             Data =
                 ac.Logs.AsNoTracking()
                     .Where(
                         f =>
-                            (string.IsNullOrEmpty(search) || f.UserAgent.Contains(search)) && f.DateFirst >= minDate &&
-                            f.DateLast <= maxDate)
+                            (string.IsNullOrEmpty(search) || string.IsNullOrEmpty(f.UserAgent) ||
+                             f.UserAgent.Contains(search))
+                            && f.DateFirst >= minDate && f.DateLast <= maxDate
+                    )
                     .AsEnumerable().Where(f => withBots || !BotsLogic.Contains(cache, f.UserAgent))
                     .OrderByDescending(l => l.DateLast)
                     .Skip(Pages.SkipRecords)

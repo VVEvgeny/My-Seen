@@ -520,6 +520,24 @@ namespace MySeenResources {
         }
         
         /// <summary>
+        ///   Ищет локализованную строку, похожую на Bot.
+        /// </summary>
+        public static string Bot {
+            get {
+                return ResourceManager.GetString("Bot", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Bot String.
+        /// </summary>
+        public static string BotString {
+            get {
+                return ResourceManager.GetString("BotString", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Ищет локализованную строку, похожую на Boy.
         /// </summary>
         public static string Boy {
@@ -1597,6 +1615,15 @@ namespace MySeenResources {
         public static string LackOfWeight {
             get {
                 return ResourceManager.GetString("LackOfWeight", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Language.
+        /// </summary>
+        public static string Language {
+            get {
+                return ResourceManager.GetString("Language", resourceCulture);
             }
         }
         

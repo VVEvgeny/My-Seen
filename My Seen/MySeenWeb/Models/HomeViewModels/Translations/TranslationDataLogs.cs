@@ -5,6 +5,12 @@ namespace MySeenWeb.Models.Translations
 {
     public class TranslationDataLogs
     {
+        public string Add = Resource.Add;
+        public string Name = Resource.Name;
+        public string BotString = Resource.BotString;
+        public string Language = Resource.Language;
+        public string TitleAdd = Resource.Add + " " + Resource.Bot;
+
         public string AddData = Resource.AddData;
         public string All = Resource.All;
         public string Amount = Resource.Amount;

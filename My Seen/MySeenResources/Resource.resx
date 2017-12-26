@@ -1107,4 +1107,13 @@
   <data name="ShowProposals" xml:space="preserve">
     <value>Show Proposals</value>
   </data>
+  <data name="Bot" xml:space="preserve">
+    <value>Bot</value>
+  </data>
+  <data name="BotString" xml:space="preserve">
+    <value>Bot String</value>
+  </data>
+  <data name="Language" xml:space="preserve">
+    <value>Language</value>
+  </data>
 </root>

@@ -1107,4 +1107,13 @@
   <data name="ShowProposals" xml:space="preserve">
     <value>Показывать предложения</value>
   </data>
+  <data name="Bot" xml:space="preserve">
+    <value>Бот</value>
+  </data>
+  <data name="BotString" xml:space="preserve">
+    <value>Строка бота</value>
+  </data>
+  <data name="Language" xml:space="preserve">
+    <value>Язык</value>
+  </data>
 </root>
