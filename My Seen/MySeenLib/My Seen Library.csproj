@@ -36,8 +36,15 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="LibTools.cs" />
+    <Compile Include="Admin.cs" />
+    <Compile Include="CultureInfoTool.cs" />
+    <Compile Include="Defaults.cs" />
+    <Compile Include="EventcCalculationLogic.cs" />
+    <Compile Include="MySeenWebApi.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SyncJsonAnswerExtension.cs" />
+    <Compile Include="UmtTime.cs" />
+    <Compile Include="Versions.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="Newtonsoft.Json, Version=10.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
