@@ -26,7 +26,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "My Seen Chrome Extension", 
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "My Seen Resources", "MySeenResources\My Seen Resources.csproj", "{DFFE460F-E272-4D24-8CB8-FEB02559FAE2}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "My Seen LibraryTests", "My Seen LibraryTests\My Seen LibraryTests.csproj", "{0CB8BE39-850F-4BDF-AB12-77748EE843BC}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "My Seen Library.Tests", "My Seen LibraryTests\My Seen Library.Tests.csproj", "{0CB8BE39-850F-4BDF-AB12-77748EE843BC}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
