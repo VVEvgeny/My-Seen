@@ -183,10 +183,14 @@ namespace MySeenLib
                     if (d < DateTime.Now)
                         d = new DateTime(DateTime.Now.Year + 1, beginDate.Month, beginDate.Day, beginDate.Hour,
                             beginDate.Minute, beginDate.Second);
+
                     do
                     {
-                        d = new DateTime(d.Year + 1, beginDate.Month, beginDate.Day, beginDate.Hour,
-                            beginDate.Minute, beginDate.Second);
+                        if (d < DateTime.Now)
+                        {
+                            d = new DateTime(d.Year + 1, beginDate.Month, beginDate.Day, beginDate.Hour,
+                                beginDate.Minute, beginDate.Second);
+                        }
 
                     } while (skipTimes != null && skipTimes.Contains(d));
 
