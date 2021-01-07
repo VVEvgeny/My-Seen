@@ -13,7 +13,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>MySeenWeb</RootNamespace>
     <AssemblyName>MySeenWeb</AssemblyName>
-    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <MvcBuildViews>false</MvcBuildViews>
     <UseIISExpress>true</UseIISExpress>
     <IISExpressSSLPort>
@@ -26,6 +26,7 @@
     <TargetFrameworkProfile />
     <NuGetPackageImportStamp>3f94aba4</NuGetPackageImportStamp>
     <UseGlobalApplicationHostFile />
+    <Use64BitIISExpress />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -721,6 +722,151 @@
     <Compile Include="Startup.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Content\amcharts\amcharts.js" />
+    <Content Include="Content\amcharts\changeLog.txt" />
+    <Content Include="Content\amcharts\funnel.js" />
+    <Content Include="Content\amcharts\gantt.js" />
+    <Content Include="Content\amcharts\gauge.js" />
+    <Content Include="Content\amcharts\images\dragIcon.gif" />
+    <Content Include="Content\amcharts\images\dragIconBlack.gif" />
+    <Content Include="Content\amcharts\images\dragIconH.gif" />
+    <Content Include="Content\amcharts\images\dragIconHBlack.gif" />
+    <Content Include="Content\amcharts\images\dragIconRectBig.png" />
+    <Content Include="Content\amcharts\images\dragIconRectBigBlack.png" />
+    <Content Include="Content\amcharts\images\dragIconRectBigBlackH.png" />
+    <Content Include="Content\amcharts\images\dragIconRectBigH.png" />
+    <Content Include="Content\amcharts\images\dragIconRectSmall.png" />
+    <Content Include="Content\amcharts\images\dragIconRectSmallBlack.png" />
+    <Content Include="Content\amcharts\images\dragIconRectSmallBlackH.png" />
+    <Content Include="Content\amcharts\images\dragIconRectSmallH.png" />
+    <Content Include="Content\amcharts\images\dragIconRoundBig.png" />
+    <Content Include="Content\amcharts\images\dragIconRoundBigBlack.png" />
+    <Content Include="Content\amcharts\images\dragIconRoundBigBlackH.png" />
+    <Content Include="Content\amcharts\images\dragIconRoundBigH.png" />
+    <Content Include="Content\amcharts\images\dragIconRoundSmall.png" />
+    <Content Include="Content\amcharts\images\dragIconRoundSmallBlack.png" />
+    <Content Include="Content\amcharts\images\dragIconRoundSmallBlackH.png" />
+    <Content Include="Content\amcharts\images\dragIconRoundSmallH.png" />
+    <Content Include="Content\amcharts\images\export.png" />
+    <Content Include="Content\amcharts\images\exportWhite.png" />
+    <Content Include="Content\amcharts\images\lens.png" />
+    <Content Include="Content\amcharts\images\lensWhite.png" />
+    <Content Include="Content\amcharts\images\lensWhite_old.png" />
+    <Content Include="Content\amcharts\images\lens_old.png" />
+    <Content Include="Content\amcharts\lang\az.js" />
+    <Content Include="Content\amcharts\lang\bg.js" />
+    <Content Include="Content\amcharts\lang\de.js" />
+    <Content Include="Content\amcharts\lang\es.js" />
+    <Content Include="Content\amcharts\lang\fi.js" />
+    <Content Include="Content\amcharts\lang\fo.js" />
+    <Content Include="Content\amcharts\lang\fr.js" />
+    <Content Include="Content\amcharts\lang\hr.js" />
+    <Content Include="Content\amcharts\lang\hu.js" />
+    <Content Include="Content\amcharts\lang\id.js" />
+    <Content Include="Content\amcharts\lang\is.js" />
+    <Content Include="Content\amcharts\lang\it.js" />
+    <Content Include="Content\amcharts\lang\lt.js" />
+    <Content Include="Content\amcharts\lang\lv.js" />
+    <Content Include="Content\amcharts\lang\mk.js" />
+    <Content Include="Content\amcharts\lang\mn.js" />
+    <Content Include="Content\amcharts\lang\mt.js" />
+    <Content Include="Content\amcharts\lang\nl.js" />
+    <Content Include="Content\amcharts\lang\no.js" />
+    <Content Include="Content\amcharts\lang\pl.js" />
+    <Content Include="Content\amcharts\lang\pt.js" />
+    <Content Include="Content\amcharts\lang\ro.js" />
+    <Content Include="Content\amcharts\lang\ru.js" />
+    <Content Include="Content\amcharts\lang\rw.js" />
+    <Content Include="Content\amcharts\lang\sk.js" />
+    <Content Include="Content\amcharts\lang\so.js" />
+    <Content Include="Content\amcharts\lang\th.js" />
+    <Content Include="Content\amcharts\lang\tr.js" />
+    <Content Include="Content\amcharts\licence.txt" />
+    <Content Include="Content\amcharts\patterns\black\pattern1.png" />
+    <Content Include="Content\amcharts\patterns\black\pattern10.png" />
+    <Content Include="Content\amcharts\patterns\black\pattern11.png" />
+    <Content Include="Content\amcharts\patterns\black\pattern12.png" />
+    <Content Include="Content\amcharts\patterns\black\pattern13.png" />
+    <Content Include="Content\amcharts\patterns\black\pattern14.png" />
+    <Content Include="Content\amcharts\patterns\black\pattern15.png" />
+    <Content Include="Content\amcharts\patterns\black\pattern16.png" />
+    <Content Include="Content\amcharts\patterns\black\pattern17.png" />
+    <Content Include="Content\amcharts\patterns\black\pattern18.png" />
+    <Content Include="Content\amcharts\patterns\black\pattern19.png" />
+    <Content Include="Content\amcharts\patterns\black\pattern2.png" />
+    <Content Include="Content\amcharts\patterns\black\pattern20.png" />
+    <Content Include="Content\amcharts\patterns\black\pattern21.png" />
+    <Content Include="Content\amcharts\patterns\black\pattern3.png" />
+    <Content Include="Content\amcharts\patterns\black\pattern4.png" />
+    <Content Include="Content\amcharts\patterns\black\pattern5.png" />
+    <Content Include="Content\amcharts\patterns\black\pattern6.png" />
+    <Content Include="Content\amcharts\patterns\black\pattern7.png" />
+    <Content Include="Content\amcharts\patterns\black\pattern8.png" />
+    <Content Include="Content\amcharts\patterns\black\pattern9.png" />
+    <Content Include="Content\amcharts\patterns\chalk\pattern1.jpg" />
+    <Content Include="Content\amcharts\patterns\chalk\pattern1r.jpg" />
+    <Content Include="Content\amcharts\patterns\chalk\pattern2.jpg" />
+    <Content Include="Content\amcharts\patterns\chalk\pattern3.jpg" />
+    <Content Include="Content\amcharts\patterns\chalk\pattern4.jpg" />
+    <Content Include="Content\amcharts\patterns\chalk\pattern5.jpg" />
+    <Content Include="Content\amcharts\patterns\chalk\pattern6.jpg" />
+    <Content Include="Content\amcharts\patterns\white\pattern1.png" />
+    <Content Include="Content\amcharts\patterns\white\pattern10.png" />
+    <Content Include="Content\amcharts\patterns\white\pattern11.png" />
+    <Content Include="Content\amcharts\patterns\white\pattern12.png" />
+    <Content Include="Content\amcharts\patterns\white\pattern13.png" />
+    <Content Include="Content\amcharts\patterns\white\pattern14.png" />
+    <Content Include="Content\amcharts\patterns\white\pattern15.png" />
+    <Content Include="Content\amcharts\patterns\white\pattern16.png" />
+    <Content Include="Content\amcharts\patterns\white\pattern17.png" />
+    <Content Include="Content\amcharts\patterns\white\pattern18.png" />
+    <Content Include="Content\amcharts\patterns\white\pattern19.png" />
+    <Content Include="Content\amcharts\patterns\white\pattern2.png" />
+    <Content Include="Content\amcharts\patterns\white\pattern20.png" />
+    <Content Include="Content\amcharts\patterns\white\pattern21.png" />
+    <Content Include="Content\amcharts\patterns\white\pattern3.png" />
+    <Content Include="Content\amcharts\patterns\white\pattern4.png" />
+    <Content Include="Content\amcharts\patterns\white\pattern5.png" />
+    <Content Include="Content\amcharts\patterns\white\pattern6.png" />
+    <Content Include="Content\amcharts\patterns\white\pattern7.png" />
+    <Content Include="Content\amcharts\patterns\white\pattern8.png" />
+    <Content Include="Content\amcharts\patterns\white\pattern9.png" />
+    <Content Include="Content\amcharts\pie.js" />
+    <Content Include="Content\amcharts\plugins\dataloader\dataloader.js" />
+    <Content Include="Content\amcharts\plugins\dataloader\dataloader.min.js" />
+    <Content Include="Content\amcharts\plugins\dataloader\lang\en.js" />
+    <Content Include="Content\amcharts\plugins\dataloader\lang\lt.js" />
+    <Content Include="Content\amcharts\plugins\dataloader\license.txt" />
+    <Content Include="Content\amcharts\plugins\export\export.css" />
+    <Content Include="Content\amcharts\plugins\export\export.js" />
+    <Content Include="Content\amcharts\plugins\export\export.min.js" />
+    <Content Include="Content\amcharts\plugins\export\lang\de.js" />
+    <Content Include="Content\amcharts\plugins\export\lang\en.js" />
+    <Content Include="Content\amcharts\plugins\export\lang\lt.js" />
+    <Content Include="Content\amcharts\plugins\export\libs\blob.js\blob.js" />
+    <Content Include="Content\amcharts\plugins\export\libs\fabric.js\fabric.js" />
+    <Content Include="Content\amcharts\plugins\export\libs\fabric.js\fabric.min.js" />
+    <Content Include="Content\amcharts\plugins\export\libs\FileSaver.js\FileSaver.js" />
+    <Content Include="Content\amcharts\plugins\export\libs\FileSaver.js\FileSaver.min.js" />
+    <Content Include="Content\amcharts\plugins\export\libs\jszip\jszip.js" />
+    <Content Include="Content\amcharts\plugins\export\libs\jszip\jszip.min.js" />
+    <Content Include="Content\amcharts\plugins\export\libs\pdfmake\pdfmake.js" />
+    <Content Include="Content\amcharts\plugins\export\libs\pdfmake\pdfmake.min.js" />
+    <Content Include="Content\amcharts\plugins\export\libs\pdfmake\vfs_fonts.js" />
+    <Content Include="Content\amcharts\plugins\export\libs\xlsx\xlsx.js" />
+    <Content Include="Content\amcharts\plugins\export\libs\xlsx\xlsx.min.js" />
+    <Content Include="Content\amcharts\plugins\responsive\license.txt" />
+    <Content Include="Content\amcharts\plugins\responsive\responsive.js" />
+    <Content Include="Content\amcharts\plugins\responsive\responsive.min.js" />
+    <Content Include="Content\amcharts\radar.js" />
+    <Content Include="Content\amcharts\serial.js" />
+    <Content Include="Content\amcharts\themes\black.js" />
+    <Content Include="Content\amcharts\themes\chalk.js" />
+    <Content Include="Content\amcharts\themes\dark.js" />
+    <Content Include="Content\amcharts\themes\light.js" />
+    <Content Include="Content\amcharts\themes\patterns.js" />
+    <Content Include="Content\amcharts\thirdPartySoftwareList.txt" />
+    <Content Include="Content\amcharts\xy.js" />
     <Content Include="Content\Angular\controllers\Portal\ImtCalculatorController.js" />
     <Content Include="Content\Angular\controllers\Portal\ChildCalculatorController.js" />
     <Content Include="Content\Angular\controllers\Portal\RealtController.js" />
@@ -786,6 +932,7 @@
     <Content Include="Content\font-awesome.css" />
     <Content Include="Content\font-awesome.min.css" />
     <Content Include="Content\fonts\fontawesome-webfont.svg" />
+    <Content Include="Content\fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Content\Images\browser-chrome.png" />
     <Content Include="Content\Images\browser-ff.png" />
     <Content Include="Content\Images\browser-ie.png" />
@@ -836,6 +983,7 @@
     <Content Include="Content\themes\base\tooltip.css" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\fontawesome-webfont.svg" />
+    <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
     <Content Include="Content\myseen\Site.css" />
     <Content Include="Content\fonts\fontawesome-webfont.eot" />
@@ -853,6 +1001,24 @@
     <Content Include="fonts\fontawesome-webfont.woff" />
     <Content Include="fonts\fontawesome-webfont.ttf" />
     <Content Include="fonts\fontawesome-webfont.eot" />
+    <Content Include="fonts\glyphicons-halflings-regular.eot" />
+    <Content Include="fonts\glyphicons-halflings-regular.ttf" />
+    <Content Include="fonts\glyphicons-halflings-regular.woff" />
+    <Content Include="fonts\glyphicons-halflings-regular.woff2" />
+    <Content Include="Content\fonts\glyphicons-halflings-regular.eot" />
+    <Content Include="Content\fonts\glyphicons-halflings-regular.ttf" />
+    <Content Include="Content\fonts\glyphicons-halflings-regular.woff" />
+    <Content Include="Content\fonts\glyphicons-halflings-regular.woff2" />
+    <Content Include="Content\amcharts\plugins\dataloader\readme.md" />
+    <Content Include="Content\amcharts\plugins\export\libs\fabric.js\.travis.yml" />
+    <Content Include="Content\amcharts\plugins\export\libs\pdfmake\pdfmake.min.js.map" />
+    <Content Include="Content\amcharts\plugins\export\libs\pdfmake\pdfmake.min.map" />
+    <Content Include="Content\amcharts\plugins\export\libs\xlsx\LICENSE" />
+    <Content Include="Content\amcharts\plugins\export\libs\xlsx\xlsx.min.map" />
+    <Content Include="Content\amcharts\plugins\export\LICENSE" />
+    <Content Include="Content\amcharts\plugins\export\README.md" />
+    <Content Include="Content\amcharts\plugins\responsive\readme.md" />
+    <Content Include="Content\amcharts\plugins\responsive\responsive.min.js.map" />
     <None Include="Properties\PublishProfiles\myseen.pubxml" />
     <Content Include="Scripts\ai.0.22.9-build00167.js" />
     <Content Include="Scripts\ai.0.22.9-build00167.min.js" />
